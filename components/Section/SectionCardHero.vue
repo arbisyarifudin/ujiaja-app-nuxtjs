@@ -29,6 +29,13 @@
           "
         >
           <h4>{{ title }}</h4>
+          <div
+            v-if="subtitle"
+            style="font-size: 12px; color: #9490a4"
+            class="mb-2 mt-n2"
+          >
+            {{ subtitle }}
+          </div>
           <p>
             {{ description }}
           </p>
@@ -45,13 +52,21 @@
 
 <script>
 export default {
-  props: ["title", "description", "src", "href", "cta-text", "button"],
+  props: [
+    "title",
+    "subtitle",
+    "description",
+    "src",
+    "href",
+    "cta-text",
+    "button",
+  ],
   mounted() {
-    console.log(this.button);
+    // console.log(this.button);
   },
   computed: {
     isButton() {
-      if (this.button == "") {
+      if (this.button == "" || this.button) {
         return true;
       }
       return false;

@@ -1,8 +1,11 @@
 <template>
-  <header id="header" class="header">
-    <b-navbar toggleable="md" type="dark" variant="transparent">
+  <header
+    id="header"
+    :class="['header', haveVariant ? 'variant-' + this.variant : '']"
+  >
+    <b-navbar toggleable="lg" type="dark" variant="transparent">
       <b-container>
-        <b-navbar-brand href="#"><img src="/logo-ujiaja.png" /></b-navbar-brand>
+        <b-navbar-brand to="/"><img src="/logo-ujiaja.png" /></b-navbar-brand>
         <b-navbar-toggle target="navbarheader"></b-navbar-toggle>
         <b-collapse id="navbarheader" is-nav>
           <!-- Right aligned nav items -->
@@ -15,9 +18,9 @@
               <b-dropdown-item href="#">Les Privat</b-dropdown-item>
             </b-nav-item-dropdown>
             <b-nav-item href="#">Tentang UjiAja</b-nav-item>
-            <b-nav-item href="#">Untuk Tutor</b-nav-item>
-            <b-nav-item href="#">Untuk Siswa</b-nav-item>
-            <b-nav-item href="#">Untuk Orangtua</b-nav-item>
+            <b-nav-item href="/untuk-tutor">Untuk Tutor</b-nav-item>
+            <b-nav-item href="/untuk-siswa">Untuk Siswa</b-nav-item>
+            <b-nav-item href="/untuk-orangtua">Untuk Orangtua</b-nav-item>
             <b-button href="#" variant="outline-primary" class="mt-5 mt-lg-0"
               >Masuk</b-button
             >
@@ -25,6 +28,23 @@
         </b-collapse>
       </b-container>
     </b-navbar>
-    <Hero />
+    <Hero :props="heroData" />
   </header>
 </template>
+
+<script>
+export default {
+  props: ["heroData", "variant"],
+  data() {
+    return {};
+  },
+  computed: {
+    haveVariant() {
+      if (this.variant || this.variant == "") {
+        return true;
+      }
+      return false;
+    },
+  },
+};
+</script>

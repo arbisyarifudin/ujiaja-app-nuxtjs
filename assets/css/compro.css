@@ -412,14 +412,16 @@ ol {
 /* OVERWRITE */
 
 #hero {
+  position: relative;
   margin-top: 40px;
-  min-height: unset;
+  /* min-height: unset; */
   padding-top: 100px;
   padding-bottom: 100px;
 }
 #hero img.hero-image {
   width: 50%;
-  bottom: -100px;
+  /* max-height: 70%; */
+  bottom: 0;
 }
 #hero h2 {
   padding: 0;
@@ -453,25 +455,4 @@ ol {
 
 /* LAPTOP Normal */
 @media screen and (max-width: 1200px) {
-}
-
-/* tambahan arbi */
-
-.card-gradient {
-  border-radius: 28px;
-  padding: 20px;
-  height: 100%;
-}
-
-.lg-top-to-bottom {
-  background: url("/background/texture-1.png"),
-    linear-gradient(180deg, #eae6ff 0%, #f9f8ff 100%);
-}
-.lg-right-to-left {
-  background: url("/background/texture-1.png"),
-    linear-gradient(270deg, #eae6ff 0%, #f9f8ff 100%);
-}
-.lg-left-to-right {
-  background: url("/background/texture-1.png"),
-    linear-gradient(90deg, #eae6ff 0%, #f9f8ff 100%);
 }

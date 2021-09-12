@@ -1,5 +1,5 @@
 <template>
-  <div class="section testimoni">
+  <div :class="['section testimoni', bgColor]">
     <div class="container">
       <div class="row">
         <div class="col-md-12 text-center">
@@ -12,7 +12,7 @@
             v-for="(item, i) in props.item"
             :key="'ST' + i"
           >
-            <div class="testimoni-content">
+            <div :class="['testimoni-content', contentColor]">
               <div class="row">
                 <div class="col-lg-4 col-12 text-center mb-lg-4 mb-4">
                   <img :src="item.foto" class="img-fluid" />
@@ -36,5 +36,30 @@
 <script>
 export default {
   props: ["props"],
+  data() {
+    return {
+      bgColor: "",
+      contentColor: "",
+    };
+  },
+  mounted() {
+    // console.log(this.props.varian);
+    // console.log(this.bgColor);
+    // console.log(this.contentColor);
+    console.log(this.props.varian);
+    if (this.props.varian && this.props.varian == "secondary") {
+      this.bgColor = "bg-transparent";
+      this.contentColor = "bg-white";
+    } else {
+      this.bgColor = "";
+      this.contentColor = "";
+    }
+  },
 };
 </script>
+
+<style scoped>
+.bg-white {
+  background: #fdfdfd !important;
+}
+</style>

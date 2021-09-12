@@ -1,8 +1,8 @@
 <template>
-  <div class="section section-keunggulan">
+  <div class="section section-keunggulan" id="section-keunggulan">
     <div class="container">
       <div class="row">
-        <div class="col-md-12 text-center">
+        <div class="col-md-12 text-center mb-3">
           <h2>{{ props.judul }}</h2>
         </div>
       </div>

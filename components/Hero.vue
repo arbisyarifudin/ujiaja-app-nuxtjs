@@ -1,16 +1,31 @@
 <template>
-  <div class="hero" id="hero">
-    <div class="container">
+  <div class="container">
+    <div class="hero" id="hero">
       <div class="row">
-        <div class="col-lg-5 col-md-8 col-10">
-          <h4>Bersama UjiAja, mengerjakan soal terasa lebih mudah</h4>
-          <h2>Yuk Belajar Dengan UjiAja Agar Makin Siap Hadapi Ujian</h2>
-          <b-button variant="outline-primary" class="px-4"
-            >Daftar Sekarang</b-button
+        <div class="col-lg-5 col-md-8 col-12">
+          <template v-if="props.isJudulFirst">
+            <p class="subjudul">{{ props.subjudul }}</p>
+            <h2 class="judul">{{ props.judul }}</h2>
+          </template>
+          <template v-else>
+            <h2 class="judul">{{ props.judul }}</h2>
+            <p class="subjudul">{{ props.subjudul }}</p>
+          </template>
+          <b-button
+            :variant="props.ctaButtonVariant"
+            class="px-4"
+            :href="props.cataButtonUrl"
+            >{{ props.ctaButtonText }}</b-button
           >
         </div>
       </div>
-      <img src="/banner.png" class="hero-image" />
+      <img :src="props.image" class="hero-image" />
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  props: ["props"],
+};
+</script>
