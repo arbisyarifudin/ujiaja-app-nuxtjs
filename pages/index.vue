@@ -1,7 +1,107 @@
 <template>
-  <Tutorial/>
+  <div>
+    <Header />
+    <SectionKeunggulan :props="keunggulan" />
+    <SectionProduk :props="produk" />
+    <SectionFitLayanan />
+    <SectionCardHero
+      src="/fitur/layanan.png"
+      title="Nikmati kemudahan belajar
+    di UjiAja"
+      description="Uji Tes Minat Bakat, Latihan Soal Tryout, dan
+    belajar di UjiAja itu menyenangkan! Tapi, kamu dapat nikmati fitur-fitur
+    UjiAja lebih lengkap tanpa batas dengan membeli Tryout Premium."
+      href="#"
+      cta-text="Lihat Tryout"
+    />
+    <SectionTestimoni :props="testimoni" />
+    <SectionCardHero
+      src="/eneng.png"
+      title="Ribuan Pesaingmu Mulai Persiapkan Diri"
+      description="Tunggu apa lagi? Ayo bergabung dengan UjiAja dan belajar bareng bersama UjiAja!"
+      href="#"
+      cta-text="Daftar Sekarang"
+      button
+    />
+    <Footer />
+  </div>
 </template>
 
 <script>
-export default {}
+export default {
+  data() {
+    return {
+      keunggulan: {
+        judul: "Kenapa Harus Pakai UjiAja?",
+        item: [
+          {
+            gambar: "/icon/icon1.png",
+            judul: "20rb+",
+            subjudul: "Pelajar Indonesia yang sudah pakai aplikasi SSCI",
+          },
+          {
+            gambar: "/icon/icon1.png",
+            judul: "150soal+",
+            subjudul:
+              " Jumlah soal dan pembahasan Tryout terbaru sesuai kurikulum",
+          },
+          {
+            gambar: "/icon/icon1.png",
+            judul: "100siswa+",
+            subjudul: "Peserta Tryout SSCI terbukti lolos PTN impian",
+          },
+          {
+            gambar: "/icon/icon1.png",
+            judul: "99%",
+            subjudul:
+              "99% pelajar merasa terbantu dan cocok dengan guru privat SSCI",
+          },
+        ],
+      },
+      produk: {
+        judul: "Produk UjiAja",
+        deskripsi:
+          "UjiAja menyediakan semua amunisi yang kamu butuhkan untuk menuju kampus impianmu!<br /> Belajar efektif dengan rangkuman lengkap serta ratusan soal yang variatif dan menantang.",
+        item: [
+          {
+            gambar: "/produk/Produk1.png",
+            judul: "Tryout",
+            brand: "by UjiAja",
+            deskripsi:
+              "Persiapkan dirimu hadapi Tryout UTBK hingga ASPD dengan latihan Tryout yang akurat dan lengkap dengan fitur terbaik.",
+            tambahan: "Gratis Tes Minat, Bakat & Potensi",
+          },
+          {
+            gambar: "/produk/Produk2.png",
+            judul: 'Les<span class="large">Privat</span>',
+            brand: "by UjiAja",
+            deskripsi:
+              "Temukan guru privat untuk belajar eksklusif 1 murid 1 guru. Semua pelajaran, semua usia!",
+            tambahan: null,
+          },
+        ],
+      },
+      testimoni: {
+        judul: "Apa Kata Mereka Tentang UjiAja?",
+        deskripsi: "Dengarkan apa kata mereka tentang UjiAja",
+        item: [
+          {
+            nama: "Danang Setiawan",
+            titel: "Ilmu Komputer - Universitas Gajah Mada",
+            testimoni:
+              'Pertama kali ikut TO di UjiAja bulan Januari. First impression awalnya kayak, "Gila, soalnya sulit bener". Terus akhirnya jadi makin tertantang buat terus belajar dan ngejar materi-materi yang kurang. Terima kasih UjiAja, berkat ikut TO-mu, aku diterima di FIK UGM dengan skor UTBK yang menurutku lumayan memuaskan. Ayo yang belum pernah ikut TO di UjiAja, buruan gih ikutan!!',
+            foto: "danang.png",
+          },
+          {
+            nama: "Rizky Ristanto",
+            titel: "Teknik Fisika - Universitas Gajah Mada",
+            testimoni:
+              "UjiAja dari zaman UTBK 2020 sampai sekarang tryout nya menampar banget buat aku yang males. Apalagi sekarang udah kuliah, kalo les juga bakal keluar uang banyak. Akhirnya aku join tryout di UjiAja lagi. Tiap habis tryout aku analisis kesalahanku di materi apa, aku pahami pembahasannya. Hasil monitoring tiap tryout di UjiAja, nilaiku meningkat karena belajar dari kesalahan. Terima kasih.",
+            foto: "rizky.png",
+          },
+        ],
+      },
+    };
+  },
+};
 </script>

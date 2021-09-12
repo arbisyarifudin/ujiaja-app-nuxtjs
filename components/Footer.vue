@@ -1,0 +1,86 @@
+<template>
+  <footer class="section footer px-3 mx-auto" id="footer">
+    <div class="container">
+      <div class="row">
+        <div
+          class="
+            mb-5
+            col-lg-3 col-12
+            d-flex
+            align-items-center
+            justify-content-center
+            d-lg-block
+          "
+        >
+          <img src="/logo-ujiaja.png" class="mb-lg-3" />
+          <div class="ml-4 ml-lg-0">
+            <h5>Kantor Pusat</h5>
+            <p class="mb-0 pb-0">
+              Jl. Sunaryo No.14, Kotabaru, Kec. Gondokusuman, Kota Yogyakarta,
+              Daerah Istimewa Yogyakarta 55224
+            </p>
+          </div>
+        </div>
+        <div class="mb-3 col-lg-3 col-sm-4 col-6">
+          <ul class="list-unstyled">
+            <li><h4>Tentang UjiAja</h4></li>
+            <li><a class="li" href="">Tentang UjiAja</a></li>
+            <li><a class="li" href="">Karir</a></li>
+            <li><a class="li" href="">Untuk Tutor</a></li>
+            <li><a class="li" href="">Untuk Siswa</a></li>
+            <li><a class="li" href="">Untuk Oran Tua</a></li>
+          </ul>
+        </div>
+        <div class="mb-3 col-lg-3 col-sm-4 col-6">
+          <ul class="list-unstyled">
+            <li><h4>Produk UjiAja</h4></li>
+            <li><a class="li" href="">Tryout UTBK</a></li>
+            <li><a class="li" href="">Tryout Asesmen Nasional</a></li>
+            <li><a class="li" href="">Tryout ASPD</a></li>
+            <li>
+              <a class="li" href="">Ujian Kenaikan Tingkat Tentor (UKTT)</a>
+            </li>
+            <li><a class="li" href="">Les Privat</a></li>
+          </ul>
+        </div>
+        <div class="mb-3 col-lg-3 col-sm-4 col-12">
+          <ul class="list-unstyled">
+            <li><h4>Hubungi Kami</h4></li>
+            <li>
+              <ul class="list-unstyled nav mb-2 flex-wrap">
+                <li>
+                  <a href=""
+                    ><span class="sosmed"><i class="fas fa-phone"></i></span
+                  ></a>
+                </li>
+                <li>
+                  <a href=""
+                    ><span class="sosmed"><i class="fab fa-instagram"></i></span
+                  ></a>
+                </li>
+                <li>
+                  <a href=""
+                    ><span class="sosmed"><i class="fab fa-whatsapp"></i></span
+                  ></a>
+                </li>
+                <li>
+                  <a href=""
+                    ><span class="sosmed"><i class="fab fa-facebook"></i></span
+                  ></a>
+                </li>
+                <li>
+                  <a href=""
+                    ><span class="sosmed"><i class="fas fa-envelope"></i></span
+                  ></a>
+                </li>
+              </ul>
+            </li>
+            <li><a class="li" href="">FAQ / Bantuan</a></li>
+            <li><a class="li" href="">Syarat dan Ketentuan</a></li>
+            <li><a class="li" href="">Kebijakan Privasi</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </footer>
+</template>
