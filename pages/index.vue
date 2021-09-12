@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Header />
+    <Header :heroData="header.hero" />
     <SectionKeunggulan :props="keunggulan" />
     <SectionProduk :props="produk" />
     <SectionFitLayanan />
@@ -31,6 +31,17 @@
 export default {
   data() {
     return {
+      header: {
+        hero: {
+          subjudul: "Bersama UjiAja, mengerjakan soal terasa lebih mudah",
+          judul: "Yuk Belajar Dengan UjiAja Agar Makin Siap Hadapi Ujian",
+          ctaButtonText: "Daftar Sekarang",
+          ctaButtonVariant: "outline-primary",
+          cataButtonUrl: "/daftar",
+          image: "/banner.png",
+          isJudulFirst: true,
+        },
+      },
       keunggulan: {
         judul: "Kenapa Harus Pakai UjiAja?",
         item: [
@@ -40,18 +51,18 @@ export default {
             subjudul: "Pelajar Indonesia yang sudah pakai aplikasi SSCI",
           },
           {
-            gambar: "/icon/icon1.png",
+            gambar: "/icon/icon2.png",
             judul: "150soal+",
             subjudul:
               " Jumlah soal dan pembahasan Tryout terbaru sesuai kurikulum",
           },
           {
-            gambar: "/icon/icon1.png",
+            gambar: "/icon/icon3.png",
             judul: "100siswa+",
             subjudul: "Peserta Tryout SSCI terbukti lolos PTN impian",
           },
           {
-            gambar: "/icon/icon1.png",
+            gambar: "/icon/icon4.png",
             judul: "99%",
             subjudul:
               "99% pelajar merasa terbantu dan cocok dengan guru privat SSCI",
