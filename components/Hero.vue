@@ -2,7 +2,7 @@
   <div class="container">
     <div class="hero" id="hero">
       <div class="row">
-        <div class="col-lg-5 col-md-8 col-12">
+        <div class="col-lg-6 col-md-8 col-12">
           <template v-if="props.isJudulFirst">
             <p class="subjudul">{{ props.subjudul }}</p>
             <h2 class="judul">{{ props.judul }}</h2>

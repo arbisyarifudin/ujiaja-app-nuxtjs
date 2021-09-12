@@ -3,5 +3,6 @@
 </template>
 
 <style>
-  @import url('@/assets/css/compro.css');
+@import url("@/assets/ano/compro.css");
+@import url("@/assets/compro.css");
 </style>

@@ -1,9 +1,12 @@
 <template>
-  <div class="section section-keunggulan" id="section-keunggulan">
+  <div
+    :class="['section section-keunggulan', haveVariant ? this.variant : '']"
+    id="section-keunggulan"
+  >
     <div class="container">
       <div class="row">
-        <div class="col-md-12 text-center mb-3">
-          <h2>{{ props.judul }}</h2>
+        <div class="col-md-12 text-center mb-2">
+          <h2 class="judul">{{ props.judul }}</h2>
         </div>
       </div>
       <div class="row">
@@ -30,6 +33,7 @@
                       flex-column
                       justify-content-center
                       align-items-center
+                      p-2
                     "
                   >
                     <img :src="item.gambar" />
@@ -49,7 +53,15 @@
 <script>
 export default {
   name: "SectionKeunggulan",
-  props: ["props"],
+  props: ["props", "variant"],
+  computed: {
+    haveVariant() {
+      if (this.variant || this.variant == "") {
+        return true;
+      }
+      return false;
+    },
+  },
   data() {
     return {
       tinySliderOptions: {
@@ -82,3 +94,4 @@ export default {
   },
 };
 </script>
+

@@ -1,0 +1,225 @@
+body {
+    font-family: Poppins, sans-serif;
+    background-color: #f5efff;
+}
+
+/* tambahan arbi */
+
+.text-primary {
+    color: #baadff !important;
+}
+
+.bg {
+    &-soft {
+        background-color: #f5efff;
+    }
+}
+
+.flex-none {
+    flex: none;
+}
+
+.btn.btn {
+    border-radius: 25px;
+    &-light {
+        color: #a594f9;
+        &:hover {
+            background-color: transparent;
+            color: white;
+            border-color: white;
+        }
+    }
+    &-outline {
+        &-primary {
+            border: 1px solid #d5cbff;
+        }
+    }
+}
+
+/* HEADER */
+
+#header {
+    position: relative;
+    &.variant-melengkung {
+        background: url("/background/hero-overlay-2.svg"),
+            linear-gradient(249.05deg, #7370fb -0.01%, #8a83ff 48.22%, #baadff 99.99%);
+        background-size: cover;
+        background-position: center bottom;
+        background-repeat: no-repeat;
+        &::after {
+            content: "";
+            background-image: url("/background/vector-melengkung.svg");
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: -10px;
+            height: 25%;
+            width: 100%;
+            background-position: center bottom;
+            background-repeat: no-repeat;
+            background-size: 120%;
+        }
+        &.primary::after {
+            background-image: url("/background/vector-melengkung2.svg");
+        }
+    }
+}
+
+.card-gradient {
+    border-radius: 28px;
+    padding: 20px;
+    height: 100%;
+}
+
+.lg-top-to-bottom {
+    background: url("/background/texture-1.png"), linear-gradient(180deg, #eae6ff 0%, #f9f8ff 100%);
+}
+.lg-right-to-left {
+    background: url("/background/texture-1.png"), linear-gradient(270deg, #eae6ff 0%, #f9f8ff 100%);
+}
+.lg-left-to-right {
+    background: url("/background/texture-1.png"), linear-gradient(90deg, #eae6ff 0%, #f9f8ff 100%);
+}
+
+/* HERO */
+
+#hero {
+    min-height: calc(100vh - 80px);
+    .judul {
+        font-size: 36px;
+        color: #f5efff;
+    }
+    .subjudul {
+        line-height: 25px;
+        font-weight: normal;
+        font-size: 16px;
+        padding-bottom: 30px;
+        color: #f5efff;
+    }
+}
+
+/* keunggulan slider */
+
+#keunggulan-slider {
+    margin: 0;
+    padding-top: 25px;
+}
+
+#keunggulan-nav {
+    position: absolute;
+    top: 50%;
+    z-index: 10;
+    width: 100%;
+    left: 0;
+    button {
+        position: absolute;
+        background-color: #f4f1ff;
+        color: #b0a6ef;
+        border: 1px solid transparent;
+        padding: 5px 12px;
+        border-radius: 50%;
+        font-size: 17px;
+        &.nav-prev {
+            left: 0;
+        }
+        &.nav-next {
+            right: 0;
+        }
+    }
+}
+
+/* Section Produk */
+
+.section-produk {
+    .produk {
+        height: 250px;
+        .btn-outline-primary {
+            border-color: #e5dfff !important;
+        }
+        img {
+            background-color: #f4f1ff;
+        }
+    }
+}
+
+/* Section Langkah */
+
+.section-langkah {
+    .section-body {
+        padding: 100px 0 90px;
+        background-image: url("/background/dashed-path-smile.svg");
+        background-position: left top;
+        background-repeat: no-repeat;
+        background-size: 77%;
+    }
+    .langkah-item {
+        .nomor {
+            font-size: 22px;
+            color: #baadff;
+            width: 48px;
+            height: 48px;
+            border: 1px dashed #baadff;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 48px;
+            background-color: white;
+        }
+        .judul {
+            font-size: 14px;
+            color: #b0a6ef;
+        }
+        p {
+            font-size: 12px;
+            color: #9490a4;
+        }
+    }
+}
+
+/* Footer */
+
+#footer {
+    .sosmed {
+        margin-right: 0;
+        padding-right: 20px;
+        transition: 0.3s;
+    }
+    ul > li {
+        > a.li {
+            color: rgba(245, 239, 255, 0.98);
+            transition: 0.3s;
+            &:hover {
+                font-weight: normal;
+                color: rgba(255, 255, 255, 1);
+            }
+        }
+    }
+}
+
+/* CSS on MOBILE */
+
+/* HAPE */
+@media screen and (max-width: 576px) {
+}
+
+/* TABLET */
+@media screen and (max-width: 768px) {
+    .section-produk .produk img {
+        height: 300px;
+        /* width: 100%; */
+        /* object-fit: cover; */
+    }
+}
+
+/* LAPTOP Kecil */
+@media screen and (max-width: 992px) {
+    #hero {
+        padding-top: 30px;
+    }
+    .section-produk .produk {
+        height: unset;
+    }
+}
+
+/* LAPTOP Normal */
+@media screen and (max-width: 1200px) {
+}

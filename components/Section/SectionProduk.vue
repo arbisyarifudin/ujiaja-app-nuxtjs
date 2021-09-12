@@ -14,7 +14,7 @@
               <div class="row">
                 <div
                   class="
-                    col-lg-6 col-md-8
+                    col-lg-7 col-md-8
                     mb-4
                     order-md-1 order-2
                     d-flex
@@ -26,26 +26,30 @@
                   <div>
                     <h4 v-html="item.judul"></h4>
                     <h5>{{ item.brand }}</h5>
-                    <p>
+                    <p class="mb-2 p-0">
                       {{ item.deskripsi }}
                     </p>
-                    <p class="tp" v-if="item.tambahan">
+                    <p class="tp mb-2 p-0" v-if="item.tambahan">
                       {{ item.tambahan }}
                     </p>
                   </div>
-                  <button class="btn btn-outline-primary mt-4">
-                    Selengkapnya <i class="fa fa-arrow-right"></i>
-                  </button>
+                  <b-button
+                    :href="item.url"
+                    variant="outline-primary"
+                    class="mt-1"
+                  >
+                    Selengkapnya <i class="fa fa-arrow-right ml-1"></i>
+                  </b-button>
                 </div>
                 <div
                   class="
-                    col-lg-6 col-md-4
+                    col-lg-5 col-md-4
                     text-center
                     order-md-2 order-1
                     mb-4 mb-md-0
                   "
                 >
-                  <img :src="item.gambar" />
+                  <img :src="item.gambar" class="img-fluid" />
                 </div>
               </div>
             </div>
