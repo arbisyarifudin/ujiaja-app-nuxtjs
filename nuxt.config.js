@@ -30,7 +30,10 @@ export default {
   css: ["@/assets/main.css"],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [{ src: "~/plugins/vue-tiny-slider.js", mode: "client" }],
+  plugins: [
+    { src: "~/plugins/vue-tiny-slider.js", mode: "client" },
+    { src: "~/plugins/axios.js", mode: "client" }
+  ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -47,7 +50,9 @@ export default {
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
-  axios: {},
+  axios: {
+    baseURL: "http://localhost:8000" // Used as fallback if no runtime config is provided
+  },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {}
