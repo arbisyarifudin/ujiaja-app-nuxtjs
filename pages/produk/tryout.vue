@@ -73,7 +73,7 @@ export default {
             deskripsi:
               "Persiapkan dirimu hadapi ujian UTBK dengan latihan Tryout yang akurat, lengkap dengan fitur terbaik.",
             tambahan: "Gratis Tes Minat, Bakat & Potensi",
-            url: "/produk/tryout",
+            url: "/produk/tryout-utbk",
           },
           {
             gambar: "/produk/tryout2.png",

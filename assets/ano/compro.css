@@ -456,3 +456,63 @@ ol {
 /* LAPTOP Normal */
 @media screen and (max-width: 1200px) {
 }
+
+/* login user */
+
+.kiri {
+  background-color: #eae6ff;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.kiri .judul {
+  font-size: 18px;
+  color: #47415b;
+  padding-top: 20px;
+}
+.kanan {
+  background: #f9f8ff;
+  box-shadow: 0px 2px 4px 1px rgba(0, 0, 0, 0.05);
+  border-radius: 4px;
+  padding: 30px;
+}
+.kanan h3 {
+  margin-top: 0px;
+  margin-bottom: 5px;
+  color: #baadff;
+}
+.kanan .small {
+  font-size: 14px;
+}
+
+.form-user label {
+  color: #9490a4;
+}
+
+.form-user .form-control,
+.form-user .input-group-text {
+  border-left: none;
+  border-right: none;
+  border-top: none;
+  background-color: transparent;
+  border-bottom: 1px solid #9490a4;
+  border-radius: 0;
+}
+
+.form-user .input-group-text {
+  color: #e5d9f2;
+}
+
+.form-user .form-control::placeholder {
+  color: #e5d9f2;
+}
+
+.form-user .form-control:focus {
+  box-shadow: none;
+  border-bottom-color: var(--primer);
+}
+.masuk-daftar {
+  color: #baadff;
+}
+.lupa {
+  color: #cc8c84;
+}

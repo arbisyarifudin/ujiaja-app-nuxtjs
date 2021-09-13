@@ -23,14 +23,17 @@
             <b-nav-item href="/untuk-tutor">Untuk Tutor</b-nav-item>
             <b-nav-item href="/untuk-siswa">Untuk Siswa</b-nav-item>
             <b-nav-item href="/untuk-orangtua">Untuk Orangtua</b-nav-item>
-            <b-button href="#" variant="outline-primary" class="mt-5 mt-lg-0"
+            <b-button
+              href="/masuk"
+              variant="outline-primary"
+              class="mt-5 mt-lg-0"
               >Masuk</b-button
             >
           </b-navbar-nav>
         </b-collapse>
       </b-container>
     </b-navbar>
-    <Hero :props="heroData" />
+    <Hero :props="heroData" v-if="heroData" />
   </header>
 </template>
 

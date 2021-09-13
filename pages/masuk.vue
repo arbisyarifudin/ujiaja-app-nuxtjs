@@ -1,0 +1,291 @@
+<template>
+  <div>
+    <Header class="headerdua no-bg mx-lg-5" />
+
+    <b-container>
+      <div
+        class="login-box"
+        style="
+          background: #fdfdfd;
+          box-shadow: 0px 4px 10px 1px rgba(0, 0, 0, 0.08);
+          border-radius: 4px;
+        "
+      >
+        <div class="row mb-5 mt-5 jus align-items-stretch">
+          <div class="col-md-5">
+            <div class="kiri h-100 d-flex align-items-center px-5">
+              <div id="kiri-slider" class="flex-none w-100">
+                <no-ssr>
+                  <vue-tiny-slider v-bind="tinySliderOptions" class="flex-none">
+                    <div class="text-center">
+                      <img src="/login-siswa.png" />
+                      <h4 class="judul">Belajar Efektif Bersama UjiAja</h4>
+                      <p>
+                        Nikmati bebas akses dan bebas biaya untuk pembahasan
+                        soal tryout dan kunci jawaban sesuai kurikulum.
+                      </p>
+                    </div>
+                    <div class="text-center">
+                      <img src="/login-siswa.png" />
+                      <h4 class="judul">Belajar Efektif Bersama UjiAja</h4>
+                      <p>
+                        Nikmati bebas akses dan bebas biaya untuk pembahasan
+                        soal tryout dan kunci jawaban sesuai kurikulum.
+                      </p>
+                    </div>
+                  </vue-tiny-slider>
+                </no-ssr>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-7">
+            <div class="kanan mx-5 my-5">
+              <div class="d-flex align-items-center">
+                <img
+                  src="/logo1.png"
+                  class="img-fluid my-4"
+                  style="width: 12%"
+                />
+                <img src="/UjiAja.png" class="img-fluid" style="width: 7%" />
+              </div>
+              <h3 class="masuk-akun mb-4">Masuk Akun</h3>
+              <form action="" class="form-user" @submit.prevent="validateForm">
+                <div class="form-group">
+                  <label for="email">Email</label>
+                  <input
+                    type="email"
+                    class="form-control pl-0"
+                    id="email"
+                    placeholder="Email"
+                    autocomplete="false"
+                    v-model="form.email"
+                  />
+                  <div v-html="showError('email')"></div>
+                </div>
+                <div class="form-group">
+                  <label for="password">Password</label>
+                  <div class="input-group">
+                    <input
+                      type="password"
+                      class="form-control pl-0"
+                      id="password"
+                      placeholder="Password"
+                      autocomplete="new-password"
+                      v-model="form.password"
+                    />
+                    <div
+                      class="input-group-append"
+                      @click.prevent="showPassword = !showPassword"
+                      style="cursor: pointer"
+                    >
+                      <span
+                        class="input-group-text bg-transparent"
+                        style="pointer-events: none"
+                        ><i
+                          :class="[
+                            'fa',
+                            showPassword ? 'fa-eye-slash' : 'fa-eye',
+                          ]"
+                          style="pointer-events: none"
+                        ></i
+                      ></span>
+                    </div>
+                  </div>
+                  <div v-html="showError('password')"></div>
+                </div>
+                <div class="form-group d-flex justify-content-between">
+                  <label><a href="" class="lupa">Lupa Sandi</a></label>
+                  <label
+                    >Belum Punya Akun?
+                    <a href="/registrasi" class="masuk-daftar">
+                      Daftar</a
+                    ></label
+                  >
+                </div>
+                <div class="button">
+                  <button
+                    class="btn btn-outline-primary py-2 my-3 btn-block"
+                    type="submit"
+                  >
+                    <b-spinner small class="mr-2" v-if="loading"></b-spinner>
+                    Masuk
+                  </button>
+                </div>
+              </form>
+              <div class="text-center px-4 pt-2">
+                <p class="small">
+                  Dengan masuk ke UjiAja, saya menyetujui <br />
+                  <span style="color: #baadff">Ketentuan Pengguna</span> serta
+                  <span style="color: #baadff">Kebijakan Privasi</span>Kebijakan
+                  Privasi yang berlaku
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </b-container>
+
+    <Footer />
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      tinySliderOptions: {
+        mouseDrag: false,
+        autoplay: true,
+        autoplayButtonOutput: false,
+        loop: true,
+        nav: true,
+        controls: false,
+        gutter: 20,
+        swipeAngle: 45,
+        items: 1,
+      },
+      showPassword: false,
+      loading: false,
+      form: {
+        username: "",
+        email: "",
+        password: "",
+      },
+      dataError: [],
+      isValidForm: {},
+    };
+  },
+  watch: {
+    showPassword: function (value) {
+      console.log(value);
+    },
+    "form.username": function (value) {
+      var usernameRegex = /^[a-zA-Z0-9]+$/;
+      var test = value.match(usernameRegex);
+      if (test === null) {
+        this.$set(this.dataError, "username", [
+          "Username hanya boleh mengandung huruf dan angka tanpa spasi.",
+        ]);
+        this.isValidForm["username"] = false;
+      } else {
+        this.$set(this.dataError, "username", [""]);
+        this.isValidForm["username"] = true;
+      }
+    },
+    "form.password": function (value) {
+      // var passwordRegex =
+      //   /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,20}$/;
+      // var test = value.match(passwordRegex);
+      // if (value && test === null) {
+      //   this.$set(this.dataError, "password", [
+      //     "Password minimal 8 - 20 karakter. Dengan setidaknya terdapat 1 huruf kapital, 1 angka dan 1 karakter spesial.",
+      //   ]);
+      //   this.isValidForm["password"] = false;
+      // } else {
+      //   this.$set(this.dataError, "password", [""]);
+      //   this.isValidForm["password"] = true;
+      // }
+      if (value && value.length < 6) {
+        this.$set(this.dataError, "password", ["Password terlalu pendek."]);
+        this.isValidForm["password"] = false;
+      } else {
+        this.$set(this.dataError, "password", [""]);
+        this.isValidForm["password"] = true;
+      }
+    },
+
+    "form.email": function (value) {
+      var emailRegex =
+        /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      var test = value.match(emailRegex);
+      if (value && test === null) {
+        this.$set(this.dataError, "email", ["Mohon masukkan email valid."]);
+        this.isValidForm["email"] = false;
+      } else {
+        this.$set(this.dataError, "email", [""]);
+        this.isValidForm["email"] = true;
+      }
+    },
+    "form.nomor_telephone": function (value) {
+      var phoneRegex =
+        /\(?(?:\+62|62|0)(?:\d{2,3})?\)?[ .-]?\d{2,4}[ .-]?\d{2,4}[ .-]?\d{2,4}$/;
+      var test = value.match(phoneRegex);
+      if (value && test === null) {
+        this.$set(this.dataError, "nomor_telephone", [
+          "Mohon masukkan nomor HP valid.",
+        ]);
+        this.isValidForm["nomor_telephone"] = false;
+      } else {
+        this.$set(this.dataError, "nomor_telephone", [""]);
+        this.isValidForm["nomor_telephone"] = true;
+      }
+    },
+  },
+  methods: {
+    showError(field) {
+      if (
+        this.dataError[field] !== undefined &&
+        this.dataError[field].length > 0
+      ) {
+        let html = `<div class="form-error__info">
+                        ${this.dataError[field][0]}
+                        </div>`;
+        return html;
+      }
+      return "";
+    },
+    inputError(field) {
+      if (
+        this.dataError[field] !== undefined &&
+        this.dataError[field].length > 0
+      ) {
+        return "form-control form-error";
+      }
+      return "form-control pl-0";
+    },
+    validateForm() {
+
+      this.dataError = [];
+
+      if (!this.form.password || !this.form.email) {
+        this.$bvToast.toast("Mohon lengkapi form masuk!", {
+          title: "Peringatan",
+          variant: "warning",
+          solid: true,
+          autoHideDelay: 3000,
+        });
+        return;
+      }
+
+      if (Object.values(this.isValidForm).includes(false)) {
+        this.$bvToast.toast("Mohon lengkapi form masuk dengan benar!", {
+          title: "Peringatan",
+          variant: "warning",
+          solid: true,
+          autoHideDelay: 3000,
+        });
+        return;
+      }
+
+      this.onSubmit();
+    },
+    onSubmit() {
+      console.log(this.form);
+      this.loading = true;
+
+      this.$axios
+        .$post(`/api/users/login`, this.form)
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+        .finally(() => {
+          this.loading = false;
+        });
+    },
+  },
+};
+</script>
