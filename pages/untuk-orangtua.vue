@@ -1,6 +1,53 @@
 <template>
   <div>
     <Header variant="melengkung" :heroData="header.hero" />
+    <div class="section section-keunggulan">
+      <div class="container">
+        <div class="row mb-5">
+          <div class="col-md-12 text-center">
+            <h2>Pantau kemajuan belajar anak Anda</h2>
+          </div>
+        </div>
+        <div class="row mb-md-5">
+          <div class="col-md-12 text-center">
+            <div class="row">
+              <div class="col-md-6 text-left order-2 order-md-1">
+                <h3 class="h5">Lihat Hasil Belajar Anak</h3>
+                <p>
+                  Lihat langsung perkembangan belajar anak kapan saja, di mana
+                  saja.
+                </p>
+              </div>
+              <div class="col-md-6 order-1 order-md-2">
+                <img
+                  src="/Fitur/fiturortu1.png"
+                  class="img-fluid mb-3 mb-md-0"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12 text-center">
+            <div class="row">
+              <div class="col-md-6">
+                <img
+                  src="/Fitur/fiturortu2.png"
+                  class="img-fluid mb-3 mb-md-0"
+                />
+              </div>
+              <div class="col-md-6 text-left">
+                <h3 class="h5">Lihat Aktivitas Belajar anak</h3>
+                <p>
+                  Melihat akrivitas belajar anak melalui sistem yang
+                  terintegrasi
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="row">
       <div class="col-md-12 text-center">
         <h2>Salah Satu Testimoni Orang Tua</h2>
