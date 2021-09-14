@@ -2,211 +2,221 @@
   <div>
     <Header class="headerdua no-bg mx-lg-5" />
 
-    <b-container>
-      <div
-        class="login-box"
-        style="
-          background: #fdfdfd;
-          box-shadow: 0px 4px 10px 1px rgba(0, 0, 0, 0.08);
-          border-radius: 4px;
-        "
-      >
-        <div class="row mb-5 mt-5 jus align-items-stretch">
-          <div class="col-md-5">
-            <div class="kiri h-100 d-flex align-items-center px-5">
-              <div id="kiri-slider" class="flex-none w-100">
-                <no-ssr>
-                  <vue-tiny-slider v-bind="tinySliderOptions" class="flex-none">
-                    <div class="text-center">
-                      <img src="/reg-siswa.png" />
-                      <h4 class="judul">Belajar Efektif Bersama UjiAja</h4>
-                      <p>
-                        Nikmati bebas akses dan bebas biaya untuk pembahasan
-                        soal tryout dan kunci jawaban sesuai kurikulum.
-                      </p>
-                    </div>
-                    <div class="text-center">
-                      <img src="/reg-siswa.png" />
-                      <h4 class="judul">Belajar Efektif Bersama UjiAja</h4>
-                      <p>
-                        Nikmati bebas akses dan bebas biaya untuk pembahasan
-                        soal tryout dan kunci jawaban sesuai kurikulum.
-                      </p>
-                    </div>
-                  </vue-tiny-slider>
-                </no-ssr>
+    <ContentWrapper>
+      <b-container>
+        <div
+          class="login-box"
+          style="
+            background: #fdfdfd;
+            box-shadow: 0px 4px 10px 1px rgba(0, 0, 0, 0.08);
+            border-radius: 4px;
+          "
+        >
+          <div class="row mb-5 mt-5 jus align-items-stretch">
+            <div class="col-md-5">
+              <div class="kiri h-100 d-flex align-items-center px-5">
+                <div id="kiri-slider" class="flex-none w-100">
+                  <no-ssr>
+                    <vue-tiny-slider
+                      v-bind="tinySliderOptions"
+                      class="flex-none"
+                    >
+                      <div class="text-center">
+                        <img src="/reg-siswa.png" />
+                        <h4 class="judul">Belajar Efektif Bersama UjiAja</h4>
+                        <p>
+                          Nikmati bebas akses dan bebas biaya untuk pembahasan
+                          soal tryout dan kunci jawaban sesuai kurikulum.
+                        </p>
+                      </div>
+                      <div class="text-center">
+                        <img src="/reg-siswa.png" />
+                        <h4 class="judul">Belajar Efektif Bersama UjiAja</h4>
+                        <p>
+                          Nikmati bebas akses dan bebas biaya untuk pembahasan
+                          soal tryout dan kunci jawaban sesuai kurikulum.
+                        </p>
+                      </div>
+                    </vue-tiny-slider>
+                  </no-ssr>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="col-md-7">
-            <div class="kanan mx-5 my-5">
-              <div class="d-flex align-items-center mb-4">
-                <img src="/logo.png" class="img-fluid" style="width: 10%" />
-                <img
-                  src="/logo-text.png"
-                  class="img-fluid"
-                  style="width: 10%"
-                />
-              </div>
-              <h3>Daftar Akun</h3>
-              <!-- <button class="btn btn-outline-primary mr-2" type="button">
+            <div class="col-md-7">
+              <div class="kanan mx-5 my-5">
+                <div class="d-flex align-items-center mb-4">
+                  <img src="/logo.png" class="img-fluid" style="width: 10%" />
+                  <img
+                    src="/logo-text.png"
+                    class="img-fluid"
+                    style="width: 10%"
+                  />
+                </div>
+                <h3>Daftar Akun</h3>
+                <!-- <button class="btn btn-outline-primary mr-2" type="button">
                   Siswa
                 </button>
                 <button class="btn btn-outline-primary" type="button">
                   Guru
                 </button> -->
-              <form action="" class="form-user" @submit.prevent="validateForm">
-                <b-form-group class="mt-3">
-                  <b-form-radio-group
-                    id="tipe-user"
-                    :options="[
-                      { text: 'Siswa', value: 'siswa' },
-                      { text: 'Tentor', value: 'teacher' },
-                    ]"
-                    button-variant="outline-primary"
-                    name="radio-btn-outline"
-                    v-model="tipe_user"
-                    buttons
-                  ></b-form-radio-group>
-                </b-form-group>
-                <div class="form-group">
-                  <label for="name">Nama Lengkap</label>
-                  <input
-                    type="text"
-                    class="form-control pl-0"
-                    id="name"
-                    placeholder="Nama Lengkap"
-                    v-model="form.nama_lengkap"
-                  />
-                </div>
-                <div class="form-group">
-                  <label for="username">Username</label>
-                  <input
-                    type="text"
-                    class="form-control pl-0"
-                    id="Username"
-                    placeholder="Username"
-                    v-model="form.username"
-                  />
-                  <div v-html="showError('username')"></div>
-                </div>
-                <div class="form-group">
-                  <label for="password">Password</label>
-                  <div class="input-group">
+                <form
+                  action=""
+                  class="form-user"
+                  @submit.prevent="validateForm"
+                >
+                  <b-form-group class="mt-3">
+                    <b-form-radio-group
+                      id="tipe-user"
+                      :options="[
+                        { text: 'Siswa', value: 'siswa' },
+                        { text: 'Tentor', value: 'teacher' },
+                      ]"
+                      button-variant="outline-primary"
+                      name="radio-btn-outline"
+                      v-model="tipe_user"
+                      buttons
+                    ></b-form-radio-group>
+                  </b-form-group>
+                  <div class="form-group">
+                    <label for="name">Nama Lengkap</label>
                     <input
-                      :type="showPassword ? 'text' : 'password'"
+                      type="text"
                       class="form-control pl-0"
-                      id="password"
+                      id="name"
+                      placeholder="Nama Lengkap"
+                      v-model="form.nama_lengkap"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="username">Username</label>
+                    <input
+                      type="text"
+                      class="form-control pl-0"
+                      id="Username"
+                      placeholder="Username"
+                      v-model="form.username"
+                    />
+                    <div v-html="showError('username')"></div>
+                  </div>
+                  <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="input-group">
+                      <input
+                        :type="showPassword ? 'text' : 'password'"
+                        class="form-control pl-0"
+                        id="password"
+                        placeholder="Password"
+                        autocomplete="new-password"
+                        v-model="form.password"
+                      />
+                      <div
+                        class="input-group-append"
+                        @click.prevent="showPassword = !showPassword"
+                        style="cursor: pointer"
+                      >
+                        <span
+                          class="input-group-text bg-transparent"
+                          style="pointer-events: none"
+                          ><i
+                            :class="[
+                              'fa',
+                              showPassword ? 'fa-eye-slash' : 'fa-eye',
+                            ]"
+                            style="pointer-events: none"
+                          ></i
+                        ></span>
+                      </div>
+                    </div>
+                    <div v-html="showError('password')"></div>
+                  </div>
+                  <div class="form-group">
+                    <label for="repassword">Konfirmasi Password</label>
+                    <input
+                      type="password"
+                      class="form-control pl-0"
+                      id="repassword"
                       placeholder="Password"
                       autocomplete="new-password"
-                      v-model="form.password"
+                      v-model="repassword"
                     />
-                    <div
-                      class="input-group-append"
-                      @click.prevent="showPassword = !showPassword"
-                      style="cursor: pointer"
-                    >
-                      <span
-                        class="input-group-text bg-transparent"
-                        style="pointer-events: none"
-                        ><i
-                          :class="[
-                            'fa',
-                            showPassword ? 'fa-eye-slash' : 'fa-eye',
-                          ]"
-                          style="pointer-events: none"
-                        ></i
-                      ></span>
-                    </div>
+                    <div v-html="showError('repassword')"></div>
                   </div>
-                  <div v-html="showError('password')"></div>
+                  <div class="form-group">
+                    <label for="email">Email</label>
+                    <input
+                      type="text"
+                      class="form-control pl-0"
+                      id="email"
+                      placeholder="Email"
+                      autocomplete="false"
+                      v-model="form.email"
+                    />
+                    <div v-html="showError('email')"></div>
+                  </div>
+                  <div class="form-group">
+                    <label for="select">Mendapat Informasi UjiAja Dari</label>
+                    <select
+                      class="form-control pl-0"
+                      id="select"
+                      v-model="form.info"
+                    >
+                      <option value="">Pilih Sumber</option>
+                      <option value="Internet">Internet</option>
+                      <option value="Teman/Saudara">Teman/Saudara</option>
+                      <option value="Medsos (FB, IG, dll)">
+                        Medsos (FB, IG, dll)
+                      </option>
+                      <option value="Brosur/Iklan Digital">
+                        Brosur/Iklan Digital
+                      </option>
+                      <option value="Iklan Media Cetak/TV/Radio">
+                        Iklan Media Cetak/TV/Radio
+                      </option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="phone">No. HP/WA</label>
+                    <input
+                      type="text"
+                      class="form-control pl-0"
+                      id="phone"
+                      placeholder="No. HP/WA"
+                      v-model="form.nomor_telephone"
+                    />
+                    <div v-html="showError('nomor_telephone')"></div>
+                  </div>
+                  <div class="form-group">
+                    <label
+                      >Sudah Punya Akun?
+                      <a href="/masuk" class="masuk-daftar"> Masuk</a></label
+                    >
+                  </div>
+                  <div class="button">
+                    <button
+                      class="btn btn-outline-primary py-2 my-3 btn-block"
+                      type="submit"
+                      :disabled="loading"
+                    >
+                      <b-spinner small class="mr-2" v-if="loading"></b-spinner>
+                      Registrasi
+                    </button>
+                  </div>
+                </form>
+                <div class="text-center px-4 pt-2">
+                  <p class="small">
+                    Dengan masuk ke UjiAja, saya menyetujui <br />
+                    <a href="#" style="color: #baadff">Ketentuan Pengguna</a>
+                    serta
+                    <a href="#" style="color: #baadff">Kebijakan Privasi</a>
+                    yang berlaku.
+                  </p>
                 </div>
-                <div class="form-group">
-                  <label for="repassword">Konfirmasi Password</label>
-                  <input
-                    type="password"
-                    class="form-control pl-0"
-                    id="repassword"
-                    placeholder="Password"
-                    autocomplete="new-password"
-                    v-model="repassword"
-                  />
-                  <div v-html="showError('repassword')"></div>
-                </div>
-                <div class="form-group">
-                  <label for="email">Email</label>
-                  <input
-                    type="text"
-                    class="form-control pl-0"
-                    id="email"
-                    placeholder="Email"
-                    autocomplete="false"
-                    v-model="form.email"
-                  />
-                  <div v-html="showError('email')"></div>
-                </div>
-                <div class="form-group">
-                  <label for="select">Mendapat Informasi UjiAja Dari</label>
-                  <select
-                    class="form-control pl-0"
-                    id="select"
-                    v-model="form.info"
-                  >
-                    <option value="">Pilih Sumber</option>
-                    <option value="Internet">Internet</option>
-                    <option value="Teman/Saudara">Teman/Saudara</option>
-                    <option value="Medsos (FB, IG, dll)">
-                      Medsos (FB, IG, dll)
-                    </option>
-                    <option value="Brosur/Iklan Digital">
-                      Brosur/Iklan Digital
-                    </option>
-                    <option value="Iklan Media Cetak/TV/Radio">
-                      Iklan Media Cetak/TV/Radio
-                    </option>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <label for="phone">No. HP/WA</label>
-                  <input
-                    type="text"
-                    class="form-control pl-0"
-                    id="phone"
-                    placeholder="No. HP/WA"
-                    v-model="form.nomor_telephone"
-                  />
-                  <div v-html="showError('nomor_telephone')"></div>
-                </div>
-                <div class="form-group">
-                  <label
-                    >Sudah Punya Akun?
-                    <a href="/masuk" class="masuk-daftar"> Masuk</a></label
-                  >
-                </div>
-                <div class="button">
-                  <button
-                    class="btn btn-outline-primary py-2 my-3 btn-block"
-                    type="submit"
-                    :disabled="loading"
-                  >
-                    <b-spinner small class="mr-2" v-if="loading"></b-spinner>
-                    Registrasi
-                  </button>
-                </div>
-              </form>
-              <div class="text-center px-4 pt-2">
-                <p class="small">
-                  Dengan masuk ke UjiAja, saya menyetujui <br />
-                  <span style="color: #baadff">Ketentuan Pengguna</span> serta
-                  <span style="color: #baadff">Kebijakan Privasi</span>Kebijakan
-                  Privasi yang berlaku
-                </p>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </b-container>
+      </b-container>
+    </ContentWrapper>
 
     <Footer />
   </div>
@@ -398,6 +408,25 @@ export default {
         .$post(`/api/users/${this.tipe_user}`, this.form)
         .then((res) => {
           console.log(res);
+          if (res.success) {
+            this.$bvToast.toast(
+              "Registrasi berhasil! Silakan cek email Anda untuk lakukan verifikasi.",
+              {
+                title: "Sukses",
+                variant: "success",
+                solid: true,
+                autoHideDelay: 3000,
+              }
+            );
+            this.$router.replace("/masuk");
+          } else {
+            this.$bvToast.toast("Registrasi gagal!", {
+              title: "Error",
+              variant: "danger",
+              solid: true,
+              autoHideDelay: 3000,
+            });
+          }
         })
         .catch((err) => {
           // console.log(err);

@@ -1,131 +1,142 @@
 <template>
   <div>
     <Header class="headerdua no-bg mx-lg-5" />
-
-    <b-container>
-      <div
-        class="login-box"
-        style="
-          background: #fdfdfd;
-          box-shadow: 0px 4px 10px 1px rgba(0, 0, 0, 0.08);
-          border-radius: 4px;
-        "
-      >
-        <div class="row mb-5 mt-5 jus align-items-stretch">
-          <div class="col-md-5">
-            <div class="kiri h-100 d-flex align-items-center px-5">
-              <div id="kiri-slider" class="flex-none w-100">
-                <no-ssr>
-                  <vue-tiny-slider v-bind="tinySliderOptions" class="flex-none">
-                    <div class="text-center">
-                      <img src="/login-siswa.png" />
-                      <h4 class="judul">Belajar Efektif Bersama UjiAja</h4>
-                      <p>
-                        Nikmati bebas akses dan bebas biaya untuk pembahasan
-                        soal tryout dan kunci jawaban sesuai kurikulum.
-                      </p>
-                    </div>
-                    <div class="text-center">
-                      <img src="/login-siswa.png" />
-                      <h4 class="judul">Belajar Efektif Bersama UjiAja</h4>
-                      <p>
-                        Nikmati bebas akses dan bebas biaya untuk pembahasan
-                        soal tryout dan kunci jawaban sesuai kurikulum.
-                      </p>
-                    </div>
-                  </vue-tiny-slider>
-                </no-ssr>
+    <ContentWrapper>
+      <b-container>
+        <div
+          class="login-box"
+          style="
+            background: #fdfdfd;
+            box-shadow: 0px 4px 10px 1px rgba(0, 0, 0, 0.08);
+            border-radius: 4px;
+          "
+        >
+          <div class="row mb-5 mt-5 jus align-items-stretch">
+            <div class="col-md-5">
+              <div class="kiri h-100 d-flex align-items-center px-5">
+                <div id="kiri-slider" class="flex-none w-100">
+                  <no-ssr>
+                    <vue-tiny-slider
+                      v-bind="tinySliderOptions"
+                      class="flex-none"
+                    >
+                      <div class="text-center">
+                        <img src="/login-siswa.png" />
+                        <h4 class="judul">Belajar Efektif Bersama UjiAja</h4>
+                        <p>
+                          Nikmati bebas akses dan bebas biaya untuk pembahasan
+                          soal tryout dan kunci jawaban sesuai kurikulum.
+                        </p>
+                      </div>
+                      <div class="text-center">
+                        <img src="/login-siswa.png" />
+                        <h4 class="judul">Belajar Efektif Bersama UjiAja</h4>
+                        <p>
+                          Nikmati bebas akses dan bebas biaya untuk pembahasan
+                          soal tryout dan kunci jawaban sesuai kurikulum.
+                        </p>
+                      </div>
+                    </vue-tiny-slider>
+                  </no-ssr>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="col-md-7">
-            <div class="kanan mx-5 my-5">
-              <div class="d-flex align-items-center">
-                <img
-                  src="/logo1.png"
-                  class="img-fluid my-4"
-                  style="width: 12%"
-                />
-                <img src="/UjiAja.png" class="img-fluid" style="width: 7%" />
-              </div>
-              <h3 class="masuk-akun mb-4">Masuk Akun</h3>
-              <form action="" class="form-user" @submit.prevent="validateForm">
-                <div class="form-group">
-                  <label for="username">Email/Username</label>
-                  <input
-                    type="text"
-                    class="form-control pl-0"
-                    id="username"
-                    placeholder="Email/Username terdaftar"
-                    autocomplete="false"
-                    v-model="form.username"
+            <div class="col-md-7">
+              <div class="kanan mx-5 my-5">
+                <div class="d-flex align-items-center">
+                  <img
+                    src="/logo1.png"
+                    class="img-fluid my-4"
+                    style="width: 12%"
                   />
-                  <div v-html="showError('username')"></div>
+                  <img src="/UjiAja.png" class="img-fluid" style="width: 7%" />
                 </div>
-                <div class="form-group">
-                  <label for="password">Password</label>
-                  <div class="input-group">
+                <h3 class="masuk-akun mb-4">Masuk Akun</h3>
+                <form
+                  action=""
+                  class="form-user"
+                  @submit.prevent="validateForm"
+                >
+                  <div class="form-group">
+                    <label for="username">Email/Username</label>
                     <input
-                      :type="showPassword ? 'text' : 'password'"
+                      type="text"
                       class="form-control pl-0"
-                      id="password"
-                      placeholder="Password"
-                      autocomplete="new-password"
-                      v-model="form.password"
+                      id="username"
+                      placeholder="Email/Username terdaftar"
+                      autocomplete="false"
+                      v-model="form.username"
                     />
-                    <div
-                      class="input-group-append"
-                      @click.prevent="showPassword = !showPassword"
-                      style="cursor: pointer"
-                    >
-                      <span
-                        class="input-group-text bg-transparent"
-                        style="pointer-events: none"
-                        ><i
-                          :class="[
-                            'fa',
-                            showPassword ? 'fa-eye-slash' : 'fa-eye',
-                          ]"
-                          style="pointer-events: none"
-                        ></i
-                      ></span>
-                    </div>
+                    <div v-html="showError('username')"></div>
                   </div>
-                  <div v-html="showError('password')"></div>
-                </div>
-                <div class="form-group d-flex justify-content-between">
-                  <label><a href="" class="lupa">Lupa Sandi</a></label>
-                  <label
-                    >Belum Punya Akun?
-                    <a href="/registrasi" class="masuk-daftar">
-                      Daftar</a
-                    ></label
-                  >
-                </div>
-                <div class="button">
-                  <button
-                    class="btn btn-outline-primary py-2 my-3 btn-block"
-                    type="submit"
-                  >
-                    <b-spinner small class="mr-2" v-if="loading"></b-spinner>
-                    Masuk
-                  </button>
-                </div>
-              </form>
-              <div class="text-center px-4 pt-2">
-                <p class="small">
-                  Dengan masuk ke UjiAja, saya menyetujui <br />
-                  <span style="color: #baadff">Ketentuan Pengguna</span> serta
-                  <span style="color: #baadff">Kebijakan Privasi</span>Kebijakan
-                  Privasi yang berlaku
-                </p>
+                  <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="input-group">
+                      <input
+                        :type="showPassword ? 'text' : 'password'"
+                        class="form-control pl-0"
+                        id="password"
+                        placeholder="Password"
+                        autocomplete="new-password"
+                        v-model="form.password"
+                      />
+                      <div
+                        class="input-group-append"
+                        @click.prevent="showPassword = !showPassword"
+                        style="cursor: pointer"
+                      >
+                        <span
+                          class="input-group-text bg-transparent"
+                          style="pointer-events: none"
+                          ><i
+                            :class="[
+                              'fa',
+                              showPassword ? 'fa-eye-slash' : 'fa-eye',
+                            ]"
+                            style="pointer-events: none"
+                          ></i
+                        ></span>
+                      </div>
+                    </div>
+                    <div v-html="showError('password')"></div>
+                  </div>
+                  <div class="form-group d-flex justify-content-between">
+                    <label
+                      ><a href="/lupa-password" class="lupa"
+                        >Lupa Password?</a
+                      ></label
+                    >
+                    <label
+                      >Belum Punya Akun?
+                      <a href="/registrasi" class="masuk-daftar">
+                        Daftar</a
+                      ></label
+                    >
+                  </div>
+                  <div class="button">
+                    <button
+                      class="btn btn-outline-primary py-2 my-3 btn-block"
+                      type="submit"
+                    >
+                      <b-spinner small class="mr-2" v-if="loading"></b-spinner>
+                      Masuk
+                    </button>
+                  </div>
+                </form>
+                <!-- <div class="text-center px-4 pt-2">
+                  <p class="small">
+                    Dengan masuk ke UjiAja, saya menyetujui <br />
+                    <span style="color: #baadff">Ketentuan Pengguna</span> serta
+                    <span style="color: #baadff">Kebijakan Privasi</span>
+                     yang berlaku.
+                  </p>
+                </div> -->
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </b-container>
-
+      </b-container>
+    </ContentWrapper>
     <Footer />
   </div>
 </template>
@@ -291,10 +302,12 @@ export default {
             );
             if (res.data) {
               let role = res.data.user.role_user;
-              if (role == "teacher") {
+              if (role == "siswa") {
+                role = "student";
+              } else if (role == "teacher") {
                 role = "tentor";
               }
-              this.$router.push(`/app/${role}/dashboard`);
+              this.$router.replace(`/app/${role}/dashboard`);
             }
           } else {
             this.$bvToast.toast("Login gagal! Kredensial tidak valid.", {
