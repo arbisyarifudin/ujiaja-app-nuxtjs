@@ -51,22 +51,22 @@
               <h3 class="masuk-akun mb-4">Masuk Akun</h3>
               <form action="" class="form-user" @submit.prevent="validateForm">
                 <div class="form-group">
-                  <label for="email">Email</label>
+                  <label for="username">Email/Username</label>
                   <input
-                    type="email"
+                    type="text"
                     class="form-control pl-0"
-                    id="email"
-                    placeholder="Email"
+                    id="username"
+                    placeholder="Email/Username terdaftar"
                     autocomplete="false"
-                    v-model="form.email"
+                    v-model="form.username"
                   />
-                  <div v-html="showError('email')"></div>
+                  <div v-html="showError('username')"></div>
                 </div>
                 <div class="form-group">
                   <label for="password">Password</label>
                   <div class="input-group">
                     <input
-                      type="password"
+                      :type="showPassword ? 'text' : 'password'"
                       class="form-control pl-0"
                       id="password"
                       placeholder="Password"
@@ -161,6 +161,7 @@ export default {
       console.log(value);
     },
     "form.username": function (value) {
+      return;
       var usernameRegex = /^[a-zA-Z0-9]+$/;
       var test = value.match(usernameRegex);
       if (test === null) {
@@ -196,6 +197,7 @@ export default {
     },
 
     "form.email": function (value) {
+      return;
       var emailRegex =
         /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       var test = value.match(emailRegex);
@@ -245,10 +247,9 @@ export default {
       return "form-control pl-0";
     },
     validateForm() {
-
       this.dataError = [];
 
-      if (!this.form.password || !this.form.email) {
+      if (!this.form.password || !this.form.username) {
         this.$bvToast.toast("Mohon lengkapi form masuk!", {
           title: "Peringatan",
           variant: "warning",
@@ -278,13 +279,100 @@ export default {
         .$post(`/api/users/login`, this.form)
         .then((res) => {
           console.log(res);
+          if (res.success) {
+            this.$bvToast.toast(
+              "Login berhasil! Anda akan segera dialihkan ke halaman dashboard aplikasi kami.",
+              {
+                title: "Sukses",
+                variant: "success",
+                solid: true,
+                autoHideDelay: 3000,
+              }
+            );
+            if (res.data) {
+              let role = res.data.user.role_user;
+              if (role == "teacher") {
+                role = "tentor";
+              }
+              this.$router.push(`/app/${role}/dashboard`);
+            }
+          } else {
+            this.$bvToast.toast("Login gagal! Kredensial tidak valid.", {
+              title: "Error",
+              variant: "danger",
+              solid: true,
+              autoHideDelay: 3000,
+            });
+          }
         })
         .catch((err) => {
-          console.log(err);
+          // console.log(err);
+          this.catchError(err);
         })
         .finally(() => {
           this.loading = false;
         });
+    },
+    catchError(error) {
+      console.log("catchError", error.response);
+      if (
+        error.response &&
+        error.response.status == 400 &&
+        !error.response.data.success
+      ) {
+        this.$bvToast.toast("Login gagal! Email belum diverifikasi.", {
+          title: "Error",
+          variant: "danger",
+          solid: true,
+          autoHideDelay: 3000,
+        });
+        return;
+      }
+      if (error.response && error.response.status == 401) {
+        this.$bvToast.toast("Akses dilarang!", {
+          title: "Error",
+          variant: "danger",
+          solid: true,
+          autoHideDelay: 3000,
+        });
+      } else if (
+        error.response &&
+        (error.response.status == 500 || error.response.status == 400)
+      ) {
+        this.$bvToast.toast("Ups! Terjadi kesalahan di sisi server.", {
+          title: "Error",
+          variant: "danger",
+          solid: true,
+          autoHideDelay: 3000,
+        });
+      } else if (error.response && error.response.status == 504) {
+        this.$bvToast.toast("Ups! Mohon periksa koneksi Anda.", {
+          title: "Error",
+          variant: "danger",
+          solid: true,
+          autoHideDelay: 3000,
+        });
+      } else if (error.response && error.response.status == 422) {
+        for (let key in error.response.data.messages) {
+          this.$set(this.dataError, key, [error.response.data.messages[key]]);
+          // store.commit("putError", [key, [error.response.data.messages[key]]]);
+          this.$bvToast.toast(error.response.data.messages[key][0], {
+            title: "Info",
+            variant: "info",
+            solid: true,
+            autoHideDelay: 3000,
+          });
+        }
+      } else {
+        this.$bvToast.toast("Ups! Terjadi kesalahan. Mohon ulangi kembali.", {
+          title: "Error",
+          variant: "warning",
+          solid: true,
+          autoHideDelay: 3000,
+        });
+      }
+      // store.commit("set", ["loading", false]);
+      // return "error";
     },
   },
 };
