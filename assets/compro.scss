@@ -21,12 +21,29 @@ body {
 
 .btn.btn {
     border-radius: 25px;
+    padding-left: 25px;
+    padding-right: 25px;
     &:focus,
     .focus {
         box-shadow: none !important;
     }
+    &-primary {
+        background-color: #baadff;
+        border-color: #baadff;
+        &:hover {
+            background-color: #9e8df3;
+            border-color: #9e8df3;
+            color: white;
+        }
+        &:active:not(.disabled),
+        &:active:not(:disabled) {
+            background-color: #9e8df3;
+            border-color: #9e8df3;
+            color: white;
+        }
+    }
     &-light {
-        color: #a594f9;
+        color: #baadff;
         &:hover {
             background-color: transparent;
             color: white;

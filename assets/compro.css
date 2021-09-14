@@ -20,6 +20,8 @@ body {
 
 .btn.btn {
   border-radius: 25px;
+  padding-left: 25px;
+  padding-right: 25px;
 }
 
 .btn.btn:focus,
@@ -28,8 +30,25 @@ body {
           box-shadow: none !important;
 }
 
+.btn.btn-primary {
+  background-color: #baadff;
+  border-color: #baadff;
+}
+
+.btn.btn-primary:hover {
+  background-color: #9e8df3;
+  border-color: #9e8df3;
+  color: white;
+}
+
+.btn.btn-primary:active:not(.disabled), .btn.btn-primary:active:not(:disabled) {
+  background-color: #9e8df3;
+  border-color: #9e8df3;
+  color: white;
+}
+
 .btn.btn-light {
-  color: #a594f9;
+  color: #baadff;
 }
 
 .btn.btn-light:hover {

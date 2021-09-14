@@ -15,12 +15,6 @@ h2 {
   padding-top: 69px;
   padding-bottom: 30px;
 }
-h3 {
-  font-size: 24px;
-  color: #b0a6ef;
-  margin-top: 65px;
-  margin-bottom: 35px;
-}
 
 .btn-outline-primary {
   border: 1px solid #f5efff;
@@ -47,6 +41,8 @@ p {
   padding-left: 30px;
   padding-right: 30px;
   font-size: 12px;
+  border-radius: 20px;
+  transition: 0.2s;
 }
 .dropdown-toggle::after {
   content: none;
@@ -88,11 +84,6 @@ p {
   background-position-x: center;
   background-position-y: center;
 }
-
-.headerdua.no-bg {
-  background: none;
-}
-
 .cari {
   background: #fdfdfd;
   box-shadow: 0px 2px 4px 1px rgba(0, 0, 0, 0.05);
@@ -101,7 +92,7 @@ p {
   padding-right: 100px;
 }
 ol {
-  padding: 13px;
+  padding: 0px;
   font-size: 12px;
   color: var(--sekunder);
 }
@@ -150,17 +141,17 @@ ol {
   box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.09);
   border-radius: 12px;
   margin-top: 36px;
-  padding-left: 79px;
-  padding-right: 79px;
+  padding-left: 75px;
+  padding-right: 75px;
   padding-bottom: 25px;
 }
-#keunggulan-slider .owl-item img {
+#keunggulan-slider .slider-item img {
   width: 30%;
   padding-top: 25px;
   margin-left: 117px;
   margin-right: 117px;
 }
-#keunggulan-slider .owl-item h2 {
+#keunggulan-slider .slider-item h2 {
   padding-top: 17px;
   padding-bottom: 17px;
   margin: 0px;
@@ -168,7 +159,7 @@ ol {
   font-size: 18px;
   text-align: center;
 }
-#keunggulan-slider .owl-item p {
+#keunggulan-slider .slider-item p {
   font-size: 14px;
   color: #9490a4;
   text-align: center;
@@ -251,20 +242,6 @@ ol {
 .fitur-layanan .fitur img {
   max-height: 100%;
   object-fit: contain;
-}
-
-.lg-top-to-bottom {
-  background: url("/background/texture-1.png"),
-    linear-gradient(180deg, #eae6ff 0%, #f9f8ff 100%);
-}
-
-.lg-right-to-left {
-  background: url("/background/texture-1.png"),
-    linear-gradient(270deg, #eae6ff 0%, #f9f8ff 100%);
-}
-.lg-left-to-right {
-  background: url("/background/texture-1.png"),
-    linear-gradient(90deg, #eae6ff 0%, #f9f8ff 100%);
 }
 
 .fitur-layanan .fitur h4 {
@@ -350,11 +327,6 @@ ol {
   color: #9490a4;
   font-size: 12px;
 } */
-h5 {
-  font-size: 12px;
-  color: #47415b;
-  font-weight: 500;
-}
 
 .footer {
   background: linear-gradient(180deg, #7370fb 2.44%, #8a83ff 100%);
@@ -365,7 +337,7 @@ h5 {
   max-width: 95%;
 }
 .footer img {
-  margin-bottom: 23px;
+  /* margin-bottom: 23px; */
 }
 .footer h5 {
   font-size: 12px;
@@ -429,11 +401,11 @@ h5 {
   font-size: 17px;
 }
 
-#keunggulan-nav .owl-prev {
+#keunggulan-nav .nav-prev {
   left: 0;
 }
 
-#keunggulan-nav .owl-next {
+#keunggulan-nav .nav-next {
   right: 0;
 }
 
@@ -455,114 +427,34 @@ h5 {
   padding: 0;
   margin-bottom: 50px;
 }
-.hero-tryout h2 {
-  font-size: 36px;
-  color: #a594f9;
+
+/* CSS on MOBILE */
+
+/* HAPE */
+@media screen and (max-width: 576px) {
 }
-.hero-tryout p {
-  font-size: 14px;
-  color: #9490a4;
+
+/* TABLET */
+@media screen and (max-width: 768px) {
+  .section-produk .produk img {
+    height: 300px;
+    /* width: 100%; */
+    /* object-fit: cover; */
+  }
 }
-.cara-daftar h3 {
-  font-size: 22px;
-  color: #47415b;
+
+/* LAPTOP Kecil */
+@media screen and (max-width: 992px) {
+  #hero {
+    padding-top: 30px;
+  }
+  .section-produk .produk {
+    height: unset;
+  }
 }
-.cara-daftar h4 {
-  font-size: 12px;
-  color: #baadff;
-}
-[aria-expanded="false"] > .expanded,
-[aria-expanded="true"] > .collapsed {
-  display: none;
-}
-.accordion {
-  background: #fdfdfd;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.09);
-  border-radius: 12px;
-  padding-bottom: 40px;
-  padding-left: 100px;
-  padding-right: 100px;
-}
-.sub-card {
-  background: #f5efff;
-  border-radius: 12px 12px 0px 0px;
-}
-.sub-card h2 {
-  padding-top: 30px;
-  padding-bottom: 30px;
-  margin: 0px;
-}
-.card-link {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.card {
-  border: none;
-}
-.card-body {
-  font-size: 12px;
-  color: #9490a4;
-  padding-left: 0px;
-}
-.card-header {
-  padding-left: 0px;
-  padding-right: 0px;
-  padding-top: 20px;
-  padding-bottom: 20px;
-  background: transparent;
-  border-bottom: 1px solid #9490a4;
-}
-.text-card,
-.fa-plus,
-.fa-minus {
-  font-size: 12px;
-  font-weight: 500;
-  color: #47415b;
-  padding: 0px;
-}
-.visi,
-.misi {
-  background: #ffffff;
-  box-shadow: 0px 2px 4px rgba(154, 154, 73, 0.05);
-  border-radius: 20px;
-  padding: 30px;
-  margin-top: 65px;
-  margin-bottom: 65px;
-}
-.visi h3,
-.misi h3 {
-  margin-top: 40px;
-  margin-bottom: 15px;
-  color: #baadff;
-}
-.fa-bullseye,
-.fa-rocket {
-  color: #d3cef8;
-}
-.detail,
-.tujuan {
-  padding-left: 100px;
-  padding-right: 100px;
-}
-.wrap-rmap {
-  background: #fdfdfd;
-  padding-bottom: 60px;
-}
-.rmap-item .small {
-  color: #47415b;
-  font-size: 14px;
-}
-.sejarah {
-  background: #f5f3ff;
-  border-radius: 12px;
-  padding: 30px;
-}
-.sejarah-kiri {
-  background: #fdfdfd;
-  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.09);
-  border-radius: 12px;
-  padding: 30px;
+
+/* LAPTOP Normal */
+@media screen and (max-width: 1200px) {
 }
 
 /* login user */
@@ -623,43 +515,4 @@ h5 {
 }
 .lupa {
   color: #cc8c84;
-}
-.lp-password {
-  background: #f9f8ff;
-  box-shadow: 0px 4px 10px 1px rgba(0, 0, 0, 0.08);
-  border-radius: 4px;
-  margin-top: 70px;
-  margin-bottom: 70px;
-  padding-top: 30px;
-  padding-bottom: 30px;
-  padding-left: 100px;
-  padding-right: 100px;
-}
-/* CSS on MOBILE */
-
-/* HAPE */
-@media screen and (max-width: 576px) {
-}
-
-/* TABLET */
-@media screen and (max-width: 768px) {
-  .section-produk .produk img {
-    height: 300px;
-    /* width: 100%; */
-    /* object-fit: cover; */
-  }
-}
-
-/* LAPTOP Kecil */
-@media screen and (max-width: 992px) {
-  #hero {
-    padding-top: 30px;
-  }
-  .section-produk .produk {
-    height: unset;
-  }
-}
-
-/* LAPTOP Normal */
-@media screen and (max-width: 1200px) {
 }
