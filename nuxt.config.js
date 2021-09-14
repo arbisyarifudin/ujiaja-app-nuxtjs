@@ -32,7 +32,8 @@ export default {
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     { src: "~/plugins/vue-tiny-slider.js", mode: "client" },
-    { src: "~/plugins/axios.js", mode: "client" }
+    { src: "~/plugins/axios.js", mode: "client" },
+    { src: "~/plugins/custom-mixins.js", mode: "client" }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
