@@ -147,11 +147,23 @@
                 </div>
                 <div class="form-group">
                   <label for="select">Mendapat Informasi UjiAja Dari</label>
-                  <select class="form-control pl-0" id="select">
-                    <option selected="">Pilih Sosial Media</option>
-                    <option value="1">Instagram</option>
-                    <option value="2">Facebook</option>
-                    <option value="3">Whatsapp</option>
+                  <select
+                    class="form-control pl-0"
+                    id="select"
+                    v-model="form.info"
+                  >
+                    <option value="">Pilih Sumber</option>
+                    <option value="Internet">Internet</option>
+                    <option value="Teman/Saudara">Teman/Saudara</option>
+                    <option value="Medsos (FB, IG, dll)">
+                      Medsos (FB, IG, dll)
+                    </option>
+                    <option value="Brosur/Iklan Digital">
+                      Brosur/Iklan Digital
+                    </option>
+                    <option value="Iklan Media Cetak/TV/Radio">
+                      Iklan Media Cetak/TV/Radio
+                    </option>
                   </select>
                 </div>
                 <div class="form-group">
@@ -225,6 +237,7 @@ export default {
         password: "",
         email: "",
         nomor_telephone: "",
+        info: "",
       },
       isValidForm: {
         username: null,
@@ -343,7 +356,8 @@ export default {
         !this.form.username ||
         !this.form.password ||
         !this.form.email ||
-        !this.form.nomor_telephone
+        !this.form.nomor_telephone ||
+        !this.form.info
       ) {
         this.$bvToast.toast("Mohon lengkapi form pendaftaran!", {
           title: "Peringatan",
@@ -386,11 +400,67 @@ export default {
           console.log(res);
         })
         .catch((err) => {
-          console.log(err);
+          // console.log(err);
+          this.catchError(err);
         })
         .finally(() => {
           this.loading = false;
         });
+    },
+    catchError(error) {
+      console.log("catchError", error.response);
+      if (error.response && error.response.status == 401) {
+        this.$bvToast.toast("Akses dilarang!", {
+          title: "Error",
+          variant: "danger",
+          solid: true,
+          autoHideDelay: 3000,
+        });
+      } else if (
+        error.response &&
+        (error.response.status == 500 || error.response.status == 400)
+      ) {
+        this.$bvToast.toast("Ups! Terjadi kesalahan di sisi server.", {
+          title: "Error",
+          variant: "danger",
+          solid: true,
+          autoHideDelay: 3000,
+        });
+      } else if (error.response && error.response.status == 504) {
+        this.$bvToast.toast("Ups! Mohon periksa koneksi Anda.", {
+          title: "Error",
+          variant: "danger",
+          solid: true,
+          autoHideDelay: 3000,
+        });
+      } else if (error.response && error.response.status == 422) {
+        // if (error.response.data.user_message) {
+        //   this.$notify({
+        //     text: error.response.data.user_message,
+        //     position: "top-right",
+        //     type: "warning",
+        //   });
+        // }
+        for (let key in error.response.data.messages) {
+          this.$set(this.dataError, key, [error.response.data.messages[key]]);
+          // store.commit("putError", [key, [error.response.data.messages[key]]]);
+          this.$bvToast.toast(error.response.data.messages[key][0], {
+            title: "Info",
+            variant: "info",
+            solid: true,
+            autoHideDelay: 3000,
+          });
+        }
+      } else {
+        this.$bvToast.toast("Ups! Terjadi kesalahan. Mohon ulangi kembali.", {
+          title: "Error",
+          variant: "warning",
+          solid: true,
+          autoHideDelay: 3000,
+        });
+      }
+      // store.commit("set", ["loading", false]);
+      // return "error";
     },
   },
 };
