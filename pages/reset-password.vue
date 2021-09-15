@@ -98,6 +98,7 @@
 
 <script>
 export default {
+  middleware: "auth-guest",
   data() {
     return {
       form: {

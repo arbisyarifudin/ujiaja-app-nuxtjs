@@ -117,6 +117,7 @@
                     <button
                       class="btn btn-outline-primary py-2 my-3 btn-block"
                       type="submit"
+                      :disabled="loading"
                     >
                       <b-spinner small class="mr-2" v-if="loading"></b-spinner>
                       Masuk
@@ -143,6 +144,7 @@
 
 <script>
 export default {
+  middleware: "auth-guest",
   data() {
     return {
       tinySliderOptions: {
@@ -301,13 +303,20 @@ export default {
               }
             );
             if (res.data) {
-              let role = res.data.user.role_user;
-              if (role == "siswa") {
-                role = "student";
-              } else if (role == "teacher") {
-                role = "tentor";
-              }
-              this.$router.replace(`/app/${role}/dashboard`);
+              // let role = res.data.user.role_user;
+              // if (role == "siswa") {
+              //   role = "student";
+              // } else if (role == "teacher") {
+              //   role = "partner";
+              // }
+              this.$cookiz.set("_ujiaja", res.data.token, {
+                path: "/",
+                maxAge: 60 * 60 * 24 * 7,
+              });
+              this.$store.commit("SET_IS_AUTH", true);
+              this.$store.commit("set", ["dataUser", res.data.user]);
+              // this.$router.replace(`/app/${role}/dashboard`);
+              this.$router.replace("/app/dashboard");
             }
           } else {
             this.$bvToast.toast("Login gagal! Kredensial tidak valid.", {
@@ -319,7 +328,6 @@ export default {
           }
         })
         .catch((err) => {
-          // console.log(err);
           this.catchError(err);
         })
         .finally(() => {
@@ -327,18 +335,23 @@ export default {
         });
     },
     catchError(error) {
-      console.log("catchError", error.response);
-      if (
-        error.response &&
-        error.response.status == 400 &&
-        !error.response.data.success
-      ) {
-        this.$bvToast.toast("Login gagal! Email belum diverifikasi.", {
-          title: "Error",
-          variant: "danger",
-          solid: true,
-          autoHideDelay: 3000,
-        });
+      console.log("catchError", error);
+      if (error.response && !error.response.data.success) {
+        if (error.response.status == 400) {
+          this.$bvToast.toast("Login gagal! Email belum diverifikasi.", {
+            title: "Error",
+            variant: "danger",
+            solid: true,
+            autoHideDelay: 3000,
+          });
+        } else if (error.response.status == 422) {
+          this.$bvToast.toast("Login gagal! Kredensial tidak valid.", {
+            title: "Error",
+            variant: "danger",
+            solid: true,
+            autoHideDelay: 3000,
+          });
+        }
         return;
       }
       if (error.response && error.response.status == 401) {

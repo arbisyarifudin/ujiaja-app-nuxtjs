@@ -24,8 +24,15 @@ Vue.mixin({
       }
       return "form-control";
     },
+    appLogout() {
+      this.$cookiz.remove("_ujiaja");
+      this.$store.commit("SET_IS_AUTH", false);
+      this.$store.commit("set", ["dataUser", {}]);
+      // const role = this.$store.state.dataUser.user.role_user
+      this.$router.replace("/masuk");
+    },
     catchError(error) {
-      console.log("catchError", error.response);
+      console.log("catchError", error, error.response);
       if (error.response && error.response.status == 401) {
         this.$bvToast.toast("Unauthorized!", {
           title: "Error",

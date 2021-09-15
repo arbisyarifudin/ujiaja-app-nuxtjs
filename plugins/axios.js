@@ -23,9 +23,11 @@ export default function({ $axios }) {
         .shift();
   }
 
-  $axios.$get("/sanctum/csrf-cookie", {
-    withCredentials: true
-  });
+  $axios
+    .$get("/sanctum/csrf-cookie", {
+      withCredentials: true
+    })
+    .catch(err => this.catchError(err));
 
   //   $axios.defaults.xsrfHeaderName = "X-XSRF-TOKEN";
   //   $axios.defaults.xsrfCookieName = "XSRF-TOKEN";

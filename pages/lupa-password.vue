@@ -58,16 +58,21 @@
 
 <script>
 export default {
+  middleware: "auth-guest",
   data() {
     return {
       form: {
         email: "",
+        url: "",
       },
       loading: false,
       dataError: [],
       isValidForm: {},
       submited: false,
     };
+  },
+  mounted() {
+    this.form.url = `${window.origin}/reset-password`;
   },
   watch: {
     "form.email": function (value) {

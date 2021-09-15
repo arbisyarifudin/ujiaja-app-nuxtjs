@@ -224,6 +224,7 @@
 
 <script>
 export default {
+  middleware: "auth-guest",
   data() {
     return {
       showPassword: false,
