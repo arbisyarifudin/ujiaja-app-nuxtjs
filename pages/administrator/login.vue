@@ -94,7 +94,7 @@
                   btn-sm
                   px-3
                   py-2
-                  d-md-block d-none
+                  d-md-inline d-none
                 "
                 role="button"
                 >Hubungi Developer</a
