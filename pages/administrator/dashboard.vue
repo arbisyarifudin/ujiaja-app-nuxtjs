@@ -1,0 +1,47 @@
+<template>
+  <div class="container-fluid">
+    <div class="row d-flex">
+      <div class="col-md-12 dashboard">
+        <h2 class="dash-label">Dashboard</h2>
+        <p>Ringkasan</p>
+        <div class="dash-content text-center">
+          <div class="row">
+            <div class="col-md-4 d-flex">
+              <div>
+                <img src="/dashboard/dashboard1.png" class="img-fluid mr-3" />
+              </div>
+              <div class="text-left">
+                <h4 class="list-dash mt-1">Tryout</h4>
+                <p class="total m-0">Total 40</p>
+              </div>
+            </div>
+            <div class="col-md-4 d-flex">
+              <div>
+                <img src="/dashboard/dashboard2.png" class="img-fluid mr-3" />
+              </div>
+              <div class="text-left">
+                <h4 class="list-dash mt-1">Kelas</h4>
+                <p class="total m-0">Total 40</p>
+              </div>
+            </div>
+            <div class="col-md-4 d-flex">
+              <div>
+                <img src="/dashboard/dashboard3.png" class="img-fluid mr-3" />
+              </div>
+              <div class="text-left">
+                <h4 class="list-dash mt-1">Transaksi</h4>
+                <p class="total m-0">Total 40</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  layout: "admin",
+};
+</script>

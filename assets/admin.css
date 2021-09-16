@@ -7,9 +7,151 @@ h6 {
   color: #1a1a1a;
 }
 
+.text-primary {
+  color: #baadff !important;
+}
+
+.btn.btn {
+  border-radius: 25px;
+  padding-left: 25px;
+  padding-right: 25px;
+}
+
+.btn.btn:focus,
+.btn.btn .focus {
+  -webkit-box-shadow: none !important;
+          box-shadow: none !important;
+}
+
+.btn.btn-primary {
+  background-color: #baadff;
+  border-color: #baadff;
+}
+
+.btn.btn-primary:hover {
+  background-color: #9e8df3;
+  border-color: #9e8df3;
+  color: white;
+}
+
+.btn.btn-primary:active:not(.disabled), .btn.btn-primary:active:not(:disabled) {
+  background-color: #9e8df3;
+  border-color: #9e8df3;
+  color: white;
+}
+
+.btn.btn-light {
+  color: #baadff;
+}
+
+.btn.btn-light:hover {
+  background-color: transparent;
+  color: white;
+  border-color: white;
+}
+
+.btn.btn-outline-primary {
+  border: 1px solid #d5cbff;
+}
+
+.btn.btn-outline-primary:disabled, .btn.btn-outline-primary.disabled {
+  color: #a594f9;
+}
+
+.btn.btn-outline-primary:disabled:hover, .btn.btn-outline-primary.disabled:hover {
+  color: #fff;
+  border-color: #dddddd;
+  background-color: #dddddd;
+}
+
+.btn.btn-outline-warning {
+  border: 1px solid #ff8706;
+  color: #ff8706;
+}
+
+.btn.btn-outline-warning.fill {
+  border: 1px solid #ffddc7;
+  background-color: #ffddc7;
+}
+
+.btn.btn-outline-warning.fill:hover {
+  background-color: #ffc49c;
+}
+
+.btn.btn:disabled, .btn.btn.disabled {
+  cursor: not-allowed;
+}
+
+.form-control:focus {
+  -webkit-box-shadow: none !important;
+          box-shadow: none !important;
+  border-color: #9e8df3 !important;
+}
+
 .konten .card {
   border: 1px solid transparent;
   -webkit-box-shadow: 0 4px 10px rgba(199, 199, 199, 0.25);
           box-shadow: 0 4px 10px rgba(199, 199, 199, 0.25);
 }
+
+.konten .dash-label {
+  font-size: 35px;
+}
+
+.super-admin .form-login__title {
+  font-size: 26px;
+  color: #baadff;
+}
+
+.super-admin .form-login .input-group input {
+  border-right: 1px solid transparent;
+}
+
+.super-admin .form-login .input-group-text {
+  color: #e5d9f2;
+  border-left: 1px solid transparent;
+}
+
+.super-admin .form-control {
+  border: 1px solid #9490a4;
+}
+
+/* CSS on MOBILE */
+/* HAPE */
+/* TABLET */
+@media screen and (max-width: 768px) {
+  .super-admin::before {
+    display: none;
+  }
+}
+
+/* LAPTOP Kecil */
+@media screen and (max-width: 992px) {
+  .super-admin {
+    padding: 30px 0;
+  }
+  .super-admin .form-login__kanan {
+    padding-top: 30px;
+  }
+  .super-admin .form-login__kanan .logo {
+    width: 70px;
+    margin-right: 20px;
+    margin-bottom: 20px;
+  }
+  .super-admin .form-login__kanan .mess-title {
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+  .super-admin .form-login__kanan .mess-subtitle {
+    font-size: 13px;
+    margin-bottom: 10px;
+  }
+  .super-admin .form-login__kanan .btn {
+    font-size: 12px !important;
+    padding: 5px 15px !important;
+  }
+}
+
+/* LAPTOP Normal */
+/* LAPTOP besar */
 /*# sourceMappingURL=admin.css.map */
