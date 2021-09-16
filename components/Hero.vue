@@ -12,6 +12,7 @@
             <p class="subjudul">{{ props.subjudul }}</p>
           </template>
           <b-button
+            v-if="props.ctaButtonText"
             :variant="props.ctaButtonVariant"
             class="px-4"
             :href="props.cataButtonUrl"
