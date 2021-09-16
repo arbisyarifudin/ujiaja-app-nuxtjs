@@ -26,7 +26,7 @@
 
 <script>
 export default {
-  layout: "app",
+  layout: "admin",
   computed: {
     user() {
       return this.$store.state.dataUser.user;

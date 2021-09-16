@@ -1,4 +1,16 @@
 body {
   font-family: Poppins, sans-serif;
 }
+
+.dropdown-menu {
+  border-radius: 0;
+}
+
+.dropdown-item {
+  font-size: 12px;
+}
+
+.dropdown-item:active {
+  background-color: #b0a6ef;
+}
 /*# sourceMappingURL=main.css.map */

@@ -1,3 +1,15 @@
 body {
   font-family: Poppins, sans-serif;
 }
+
+.dropdown {
+  &-menu {
+    border-radius: 0;
+  }
+  &-item {
+    font-size: 12px;
+    &:active {
+      background-color: #b0a6ef;
+    }
+  }
+}

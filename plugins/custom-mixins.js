@@ -25,11 +25,36 @@ Vue.mixin({
       return "form-control";
     },
     appLogout() {
+      const role =
+        this.$store.state.dataUser &&
+        this.$store.state.dataUser.user &&
+        this.$store.state.dataUser.user.role_user;
+      let path;
+      switch (role) {
+        case "siswa":
+          path = "/masuk";
+          break;
+        case "parent":
+          path = "/masuk";
+          break;
+        case "teacher":
+          path = "/masuk";
+          break;
+        case "superAdmin":
+          path = "/administrator/login";
+          break;
+        case "admin":
+          path = "/administrator/login";
+          break;
+        default:
+          path = "/masuk";
+          break;
+      }
+      // this.$router.replace(path);
+      window.location.href = window.origin + path;
       this.$cookiz.remove("_ujiaja");
       this.$store.commit("SET_IS_AUTH", false);
       this.$store.commit("set", ["dataUser", {}]);
-      // const role = this.$store.state.dataUser.user.role_user
-      this.$router.replace("/masuk");
     },
     catchError(error) {
       console.log("catchError", error, error.response);
