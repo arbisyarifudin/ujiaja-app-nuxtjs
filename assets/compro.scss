@@ -357,6 +357,27 @@ body {
     }
 }
 
+.pertanyaan {
+    .sub-card {
+        background-color: #eae6ff;
+    }
+}
+
+.accordion {
+    padding: unset;
+    .card-header {
+        cursor: pointer;
+    }
+    .collapsed .when-open,
+    .not-collapsed .when-closed {
+        display: none;
+    }
+    .fa-plus,
+    .fa-minus {
+        font-weight: 600;
+    }
+}
+
 /* CSS on MOBILE */
 
 /* HAPE */

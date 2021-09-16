@@ -375,6 +375,28 @@ body {
   color: white;
 }
 
+.pertanyaan .sub-card {
+  background-color: #eae6ff;
+}
+
+.accordion {
+  padding: unset;
+}
+
+.accordion .card-header {
+  cursor: pointer;
+}
+
+.accordion .collapsed .when-open,
+.accordion .not-collapsed .when-closed {
+  display: none;
+}
+
+.accordion .fa-plus,
+.accordion .fa-minus {
+  font-weight: 600;
+}
+
 /* CSS on MOBILE */
 /* HAPE */
 /* TABLET */
