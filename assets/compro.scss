@@ -149,6 +149,7 @@ body {
 /* HERO */
 
 #hero {
+    position: relative;
     min-height: calc(100vh - 80px);
     .judul {
         font-size: 36px;
@@ -161,6 +162,9 @@ body {
         padding-bottom: 30px;
         color: #f5efff;
     }
+    .hero-image {
+        bottom: 0 !important;
+    }
 }
 
 /* keunggulan slider */
@@ -169,6 +173,28 @@ body {
     margin: 0;
     padding-top: 25px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    .slider-item {
+        .image {
+            width: 30%;
+            padding-top: 25px;
+            margin-left: 117px;
+            margin-right: 117px;
+        }
+        .title {
+            padding-top: 17px;
+            padding-bottom: 17px;
+            margin: 0px;
+            color: #baadff;
+            font-size: 18px;
+            text-align: center;
+        }
+        .caption {
+            font-size: 14px;
+            color: #9490a4;
+            text-align: center;
+            font-weight: 400;
+        }
+    }
 }
 
 #keunggulan-nav {

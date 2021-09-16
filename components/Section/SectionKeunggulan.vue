@@ -36,9 +36,9 @@
                       p-2
                     "
                   >
-                    <img :src="item.gambar" />
-                    <h2>{{ item.judul }}</h2>
-                    <p>{{ item.subjudul }}</p>
+                    <img :src="item.gambar" class="image" />
+                    <h2 class="title">{{ item.judul }}</h2>
+                    <p class="caption">{{ item.subjudul }}</p>
                   </div>
                 </div>
               </vue-tiny-slider>

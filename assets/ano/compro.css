@@ -440,16 +440,14 @@ h5 {
 /* OVERWRITE */
 
 #hero {
-  position: relative;
   margin-top: 40px;
-  /* min-height: unset; */
+  min-height: unset;
   padding-top: 100px;
   padding-bottom: 100px;
 }
 #hero img.hero-image {
   width: 50%;
-  /* max-height: 70%; */
-  bottom: 0;
+  bottom: -100px;
 }
 #hero h2 {
   padding: 0;
