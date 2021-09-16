@@ -222,20 +222,6 @@ export default {
         this.isValidForm["email"] = true;
       }
     },
-    "form.nomor_telephone": function (value) {
-      var phoneRegex =
-        /\(?(?:\+62|62|0)(?:\d{2,3})?\)?[ .-]?\d{2,4}[ .-]?\d{2,4}[ .-]?\d{2,4}$/;
-      var test = value.match(phoneRegex);
-      if (value && test === null) {
-        this.$set(this.dataError, "nomor_telephone", [
-          "Mohon masukkan nomor HP valid.",
-        ]);
-        this.isValidForm["nomor_telephone"] = false;
-      } else {
-        this.$set(this.dataError, "nomor_telephone", [""]);
-        this.isValidForm["nomor_telephone"] = true;
-      }
-    },
   },
   methods: {
     showError(field) {
@@ -314,7 +300,7 @@ export default {
                 maxAge: 60 * 60 * 24 * 7,
               });
               this.$store.commit("SET_IS_AUTH", true);
-              this.$store.commit("set", ["dataUser", res.data.user]);
+              this.$store.commit("set", ["dataUser", res.data]);
               // this.$router.replace(`/app/${role}/dashboard`);
               this.$router.replace("/app/dashboard");
             }

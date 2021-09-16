@@ -49,7 +49,7 @@ export const actions = {
           }
         })
         .then(async res => {
-          console.log(res.data);
+          // console.log(res.data);
           await commit("SET_IS_AUTH", true);
           await commit("set", ["dataUser", res.data]);
         })
