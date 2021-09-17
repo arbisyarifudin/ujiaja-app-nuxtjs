@@ -47,56 +47,26 @@
         </div>
         <h2 class="py-3 mb-4">Perjalanan Sejarah UjiAja</h2>
         <div class="row align-flex-star justify-content-center">
-          <div class="col-md-5 rmap pb-4 d-flex justify-content-center"></div>
+          <div
+            class="col-md-5 col rmap pb-4 d-flex justify-content-center"
+          ></div>
           <div
             class="
-              col-md-1
+              col-md-1 col-3
               rmap-item
               d-flex-important
               flex-direction-column
               align-items-center
             "
           >
-            <div
-              class="circle-rmap mx-auto"
-              style="
-                border: 11px solid #cdc1ff;
-                border-radius: 100%;
-                height: 9px;
-                width: 9px;
-              "
-            ></div>
-            <div
-              class="timeline-rmap"
-              style="
-                border: 2px solid #cdc1ff;
-                height: 35px;
-                width: 0px;
-                display: inline-block;
-              "
-            ></div>
+            <div class="circle-rmap mx-auto"></div>
+            <div class="timeline-rmap" style="height: 35px"></div>
             <h2 class="large py-0 m-0">2019</h2>
-            <div
-              class="timeline-rmap"
-              style="
-                border: 2px solid #cdc1ff;
-                height: 65px;
-                width: 0px;
-                display: inline-block;
-              "
-            ></div>
+            <div class="timeline-rmap" style="height: 65px"></div>
             <p class="small p-0">April</p>
-            <div
-              class="timeline-rmap"
-              style="
-                border: 2px solid #cdc1ff;
-                height: 230px;
-                width: 0px;
-                display: inline-block;
-              "
-            ></div>
+            <div class="timeline-rmap" style="height: 230px"></div>
           </div>
-          <div class="col-md-5 ml-n4 mb-5 align-self-end">
+          <div class="col-md-5 col-8 ml-n4 mb-5 align-self-end">
             <div class="text-left sejarah">
               <p style="color: #baadff" class="pb-2">Lorem</p>
               <p class="pb-0">
@@ -112,7 +82,7 @@
             </div>
           </div>
 
-          <div class="col-md-5 mr-n4 mb-5 align-self-end">
+          <div class="col-md-5 col-8 mr-n4 mb-5 align-self-end">
             <div class="text-left sejarah-kiri">
               <p style="color: #baadff" class="pb-2">Lorem</p>
               <p class="pb-0">
@@ -129,7 +99,7 @@
           </div>
           <div
             class="
-              col-md-1
+              col-md-1 col-3
               rmap-item
               d-flex-important
               flex-direction-column
@@ -138,31 +108,16 @@
             "
           >
             <h2 class="large py-0 m-0">2020</h2>
-            <div
-              class="timeline-rmap"
-              style="
-                border: 2px solid #cdc1ff;
-                height: 65px;
-                width: 0px;
-                display: inline-block;
-              "
-            ></div>
+            <div class="timeline-rmap" style="height: 65px"></div>
             <p class="small p-0">Agustus</p>
-            <div
-              class="timeline-rmap"
-              style="
-                border: 2px solid #cdc1ff;
-                height: 230px;
-                width: 0px;
-                display: inline-block;
-              "
-            ></div>
+            <div class="timeline-rmap" style="height: 230px"></div>
           </div>
-          <div class="col-md-5 rmap d-flex justify-content-center"></div>
-          <div class="col-md-5 rmap d-flex justify-content-center"></div>
+          <div class="col-md-5 col rmap d-flex justify-content-center"></div>
+
+          <div class="col-md-5 col rmap d-flex justify-content-center"></div>
           <div
             class="
-              col-md-1
+              col-md-1 col-3
               rmap-item
               d-flex-important
               flex-direction-column
@@ -170,36 +125,12 @@
             "
           >
             <h2 class="large py-0 m-0">2021</h2>
-            <div
-              class="timeline-rmap"
-              style="
-                border: 2px solid #cdc1ff;
-                height: 65px;
-                width: 0px;
-                display: inline-block;
-              "
-            ></div>
+            <div class="timeline-rmap" style="height: 65px"></div>
             <p class="small p-0">Januari</p>
-            <div
-              class="timeline-rmap"
-              style="
-                border: 2px solid #cdc1ff;
-                height: 200px;
-                width: 0px;
-                display: inline-block;
-              "
-            ></div>
-            <div
-              class="circle-rmap mt-n3 mx-auto"
-              style="
-                border: 11px solid #cdc1ff;
-                border-radius: 100%;
-                height: 9px;
-                width: 9px;
-              "
-            ></div>
+            <div class="timeline-rmap" style="height: 200px"></div>
+            <div class="circle-rmap mt-n3 mx-auto"></div>
           </div>
-          <div class="col-md-5 ml-n4 mb-4 align-self-end">
+          <div class="col-md-5 col-8 ml-n4 mb-4 align-self-end">
             <div class="text-left sejarah">
               <p style="color: #baadff" class="pb-2">Lorem</p>
               <p class="pb-0">
