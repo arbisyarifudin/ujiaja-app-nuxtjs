@@ -41,18 +41,6 @@ dan menjadi pemenang di Tryout Asesmen Nasional!"
 export default {
   data() {
     return {
-      header: {
-        hero: {
-          judul: "Siap Lolos Sekolah & PTN Impian Bareng UjiAja!",
-          subjudul:
-            "Gunakan Platform Tryout Terbaik Untuk Tingkatkan Kesiapanmu. Hadapi Masuk Jenjang SMP, SMA dan Perguruan Tinggi negeri!",
-          ctaButtonText: "Daftar Sekarang",
-          ctaButtonVariant: "light",
-          cataButtonUrl: "#",
-          image: "/hero-tryout.png",
-          isJudulFirst: false,
-        },
-      },
       keunggulan: {
         judul: "Kenapa kamu wajib coba Tryout Asesmen Nasional?",
         item: [
