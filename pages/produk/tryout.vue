@@ -82,7 +82,7 @@ export default {
             deskripsi:
               "Persiapkan dirimu hadapi ujian Asesmen Kompetensi Minimum (Literasi & Numerasi) dengan latihan Tryout AKM yang akurat. Tryout ini ditujukan untuk jenjang SD hingga SMA.",
             tambahan: null,
-            url: "/produk/tryout",
+            url: "/produk/tryout-asesmen-nasional",
           },
           {
             gambar: "/produk/tryout3.png",
@@ -91,7 +91,7 @@ export default {
             deskripsi:
               "Persiapkan dirimu hadapi ujian Asesmen Standar Pendidikan Daerah (Khusus DIY) dengan latihan Tryout ASPD yang akurat. Tryout ini ditujukan untuk jenjang SD hingga SMA.",
             tambahan: null,
-            url: "/produk/tryout",
+            url: "/produk/tryout-aspd",
           },
           {
             gambar: "/produk/tryout4.jpg",
@@ -100,7 +100,7 @@ export default {
             deskripsi:
               "Persiapkan kuliah, dan potensimu dengan pilihan yang tepat sesuai minat dan bakat dengan ikut MBTI. MBTI ini ditujukan untuk jenjang SD hingga SMA.",
             tambahan: null,
-            url: "/produk/tryout",
+            url: "#",
           },
         ],
       },
