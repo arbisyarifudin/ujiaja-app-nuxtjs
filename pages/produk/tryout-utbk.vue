@@ -1,8 +1,28 @@
 <template>
   <div>
     <Header variant="melengkung primary no-hero" />
+    <div class="hero-tryout bg-white">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12 text-center">
+            <h2>Tryout UTBK</h2>
+            <p>
+              Matangkan persiapanmu dengan latihan soal UTBK. Uji kemampuanmu
+              dalam menjawab soal SBMPTN lewat Try Out UTBK online terlengkap.
+              Daftar dan coba try out online gratis sekarang!
+            </p>
+            <hr
+              color="#7370FB"
+              width="50%"
+              style="height: 3px; border-radius: 10px"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
     <SectionKeunggulan :props="keunggulan" />
     <SectionLangkah :props="langkah" />
+    <SectionPertanyaan :items="pertanyaan" style="margin-top: 80px" />
     <SectionCardHero
       src="/tryoututbk.png"
       title="Siap untuk masuk kampus impian bersama UjiAja?"
@@ -32,7 +52,7 @@ export default {
         },
       },
       keunggulan: {
-        judul: "Kenapa kamu wajib coba tryout uTBK??",
+        judul: "Kenapa kamu wajib coba tryout uTBK?",
         item: [
           {
             gambar: "/icon/utbk1.png",
@@ -68,6 +88,63 @@ export default {
           },
         ],
       },
+      pertanyaan: [
+        {
+          q: "Apa itu TryOut UTBK?",
+          a: `Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry
+          richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor
+          brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon
+          tempor, sunt aliqua put a bird on it squid single-origin coffee nulla
+          assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore
+          wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher
+          vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic
+          synth nesciunt you probably haven't heard of them accusamus labore VHS.`,
+        },
+        {
+          q: "Apakah pengerjaan TryOut UTBK di UjiAja bisa melalui laptop/PC?",
+          a: `Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry
+          richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor
+          brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon
+          tempor, sunt aliqua put a bird on it squid single-origin coffee nulla
+          assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore
+          wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher
+          vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic
+          synth nesciunt you probably haven't heard of them accusamus labore VHS.`,
+        },
+        {
+          q: "Kalau saya sudah terdaftar dalam TryOut UTBK, apakah saya bisa mengerjakan TryOut di luar jadwal?",
+          a: `Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry
+          richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor
+          brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon
+          tempor, sunt aliqua put a bird on it squid single-origin coffee nulla
+          assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore
+          wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher
+          vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic
+          synth nesciunt you probably haven't heard of them accusamus labore VHS.`,
+        },
+        {
+          q: "Apakah pengerjaan TryOut UTBK di UjiAja bisa dicicil/dijeda?",
+          a: `Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry
+          richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor
+          brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon
+          tempor, sunt aliqua put a bird on it squid single-origin coffee nulla
+          assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore
+          wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher
+          vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic
+          synth nesciunt you probably haven't heard of them accusamus labore VHS.`,
+        },
+        {
+          q: "Apakah soal dan pembahasan TryOut bisa didownload?",
+          a: `Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry
+          richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor
+          brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon
+          tempor, sunt aliqua put a bird on it squid single-origin coffee nulla
+          assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore
+          wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher
+          vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic
+          synth nesciunt you probably haven't heard of them accusamus labore VHS.`,
+        },
+      ],
     };
   },
 };
