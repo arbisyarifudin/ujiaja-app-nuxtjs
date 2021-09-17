@@ -143,6 +143,49 @@ body {
     }
 }
 
+.page-content {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        margin: 0;
+        padding: 0;
+        color: #baadff;
+    }
+    .page-title {
+        margin-bottom: 30px;
+    }
+    h3 {
+        margin-bottom: 20px;
+    }
+    h4 {
+        margin-bottom: 20px;
+        font-size: 20px;
+    }
+    p {
+        padding-bottom: 0;
+        margin-bottom: 20px;
+        color: #9490a4;
+    }
+    ol,
+    ul {
+        li {
+            padding-bottom: 10px;
+            padding-left: 10px;
+        }
+    }
+}
+
+.page-text {
+    color: #9490a4;
+    h4 {
+        color: #9490a4;
+        font-weight: 400;
+    }
+}
+
 .card-gradient {
     border-radius: 28px;
     padding: 20px;

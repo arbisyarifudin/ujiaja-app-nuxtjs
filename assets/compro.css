@@ -152,6 +152,51 @@ body {
   right: -10%;
 }
 
+.page-content h1,
+.page-content h2,
+.page-content h3,
+.page-content h4,
+.page-content h5,
+.page-content h6 {
+  margin: 0;
+  padding: 0;
+  color: #baadff;
+}
+
+.page-content .page-title {
+  margin-bottom: 30px;
+}
+
+.page-content h3 {
+  margin-bottom: 20px;
+}
+
+.page-content h4 {
+  margin-bottom: 20px;
+  font-size: 20px;
+}
+
+.page-content p {
+  padding-bottom: 0;
+  margin-bottom: 20px;
+  color: #9490a4;
+}
+
+.page-content ol li,
+.page-content ul li {
+  padding-bottom: 10px;
+  padding-left: 10px;
+}
+
+.page-text {
+  color: #9490a4;
+}
+
+.page-text h4 {
+  color: #9490a4;
+  font-weight: 400;
+}
+
 .card-gradient {
   border-radius: 28px;
   padding: 20px;
