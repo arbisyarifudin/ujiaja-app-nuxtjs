@@ -6,7 +6,7 @@
       src="/enenguntuksiswa1.png"
       title="Ciptakan Impianmu dan Temukan Potensimu"
       description="Saatnya gapai kuliah impianmu dengan temukan dan pahami potensi diri."
-      href="#"
+      href="/registrasi"
       cta-text="Tes Sekarang Juga"
       button
     />
@@ -16,7 +16,7 @@
       src="/enenguntuksisw2.png"
       title="Ketahui Program Studi yang Cocok Buatmu."
       description="Lihat rekomendasi kecocokanmu diantara lebih dari 300 program studi di Indonesia."
-      href="#"
+      href="/registrasi"
       cta-text="Tes Sekarang Juga"
       button
     />
@@ -35,7 +35,7 @@ export default {
             "Persiapkan kuliah, dan potensimu dengan pilihan yang tepat sesuai minat dan bakat",
           ctaButtonText: "Tes Sekarang Juga",
           ctaButtonVariant: "light",
-          cataButtonUrl: "#",
+          cataButtonUrl: "/registrasi",
           image: "/banneruntuksiswa.png",
           isJudulFirst: false,
         },

@@ -7,7 +7,7 @@
       src="/eneng3.png"
       title="Maksimalkan Peluang Lolos Tryout Bersama UjiAja"
       description="Cobalah tryout UTBK, Asesmen Nasional, dan ASPD agar persiapanmu semakin matang sebelum ujian yang sesungguhnya dimula."
-      href="#"
+      href="/registrasi"
       cta-text="Daftar Sekarang"
       button
     />
@@ -16,7 +16,7 @@
       src="/bambang.png"
       title="Temukan keseruan latihan dan uji Tryout Pilihanmu hanya di UjiAja"
       description="Persiapkan materi ujianmu selengkap mungkin sesuai kebutuhanmu."
-      href="#"
+      href="/registrasi"
       cta-text="Daftar Sekarang"
       button
     />
@@ -35,7 +35,7 @@ export default {
             "Gunakan Platform Tryout Terbaik Untuk Tingkatkan Kesiapanmu. Hadapi Masuk Jenjang SMP, SMA dan Perguruan Tinggi negeri!",
           ctaButtonText: "Daftar Sekarang",
           ctaButtonVariant: "light",
-          cataButtonUrl: "#",
+          cataButtonUrl: "/registrasi",
           image: "/hero-tryout.png",
           isJudulFirst: false,
         },

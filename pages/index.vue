@@ -37,7 +37,7 @@ export default {
           judul: "Yuk Belajar Dengan UjiAja Agar Makin Siap Hadapi Ujian",
           ctaButtonText: "Daftar Sekarang",
           ctaButtonVariant: "outline-primary",
-          cataButtonUrl: "/daftar",
+          cataButtonUrl: "/registrasi",
           image: "/banner.png",
           isJudulFirst: true,
         },

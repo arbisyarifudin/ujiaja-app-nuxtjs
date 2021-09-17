@@ -58,7 +58,7 @@
           title="Mega ELanda"
           subtitle="Orang tua Rahardian Era - Kelas 12"
           description="“Saya sebagai orang tua merasa senang dan bangga karena anak saya menemukan solusi masalah belajarnya dan akhirnya semangat belajar anak saya semakin tinggi.”"
-          href="#"
+          href="/registrasi"
           cta-text="Masuk Sekarang"
           button
         />
@@ -79,7 +79,7 @@ export default {
             "Solusi pembelajaran digital dapat membantu orang tua memantau kemajuan belajar anak mereka kapan saja, di mana saja.",
           ctaButtonText: "Pantau Perkembangan Anak",
           ctaButtonVariant: "light",
-          cataButtonUrl: "#",
+          cataButtonUrl: "/registrasi",
           image: "/bannerortu.png",
           isJudulFirst: false,
         },

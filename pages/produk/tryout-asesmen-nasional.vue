@@ -29,7 +29,7 @@
       title="Siap Hadapi Tryout Asesmen Nasional bersama UjiAja?"
       description="Tunggu apa lagi? Mari bergabung dengan UjiAja
 dan menjadi pemenang di Tryout Asesmen Nasional!"
-      href="#"
+      href="/registrasi"
       cta-text="Daftar Sekarang"
       button
     />

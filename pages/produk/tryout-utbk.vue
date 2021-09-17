@@ -27,7 +27,7 @@
       src="/tryoututbk.png"
       title="Siap untuk masuk kampus impian bersama UjiAja?"
       description="Tunggu apa lagi? Mari bergabung dengan UjiAja dan menjadi pemenang di Tryout UTBK!"
-      href="#"
+      href="/registrasi"
       cta-text="Daftar Sekarang"
       button
     />
@@ -46,7 +46,7 @@ export default {
             "Gunakan Platform Tryout Terbaik Untuk Tingkatkan Kesiapanmu. Hadapi Masuk Jenjang SMP, SMA dan Perguruan Tinggi negeri!",
           ctaButtonText: "Daftar Sekarang",
           ctaButtonVariant: "light",
-          cataButtonUrl: "#",
+          cataButtonUrl: "/registrasi",
           image: "/hero-tryout.png",
           isJudulFirst: false,
         },

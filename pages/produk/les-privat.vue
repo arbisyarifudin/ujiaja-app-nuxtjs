@@ -7,7 +7,7 @@
       src="/lesprivat.png"
       title="Apa yang ingin kamu pelajari? Temukan guru privatmu di UjiAja."
       description="Lebih dari ratusan siswa telah memberikan rate dan ulasan yang baik dengan guru mereka."
-      href="#"
+      href="/registrasi"
       cta-text="Temukan Sekarang"
       button
     />
@@ -29,7 +29,7 @@ export default {
             "Tentukan pilihanmu, mau online ataupun tatap muka dengan ratusa guru terbaik dari UjiAja.",
           ctaButtonText: "Temukan Sekarang",
           ctaButtonVariant: "light",
-          cataButtonUrl: "#",
+          cataButtonUrl: "/registrasi",
           image: "/bannerles.png",
           isJudulFirst: false,
         },

@@ -6,7 +6,7 @@
       src="/enengtutor1.png"
       title="Bagikan keterampilan mengajar Anda dengan UjiAja"
       description="Bergabunglah dengan kami dan Anda akan memiliki semua yang Anda butuhkan untuk mengajar dengan sukses."
-      href="#"
+      href="/registrasi"
       cta-text="Daftar Sekarang"
       button
     />
@@ -16,7 +16,7 @@
       src="/enengtutor2.png"
       title="Dapatkan penghasilan dengan mengajar secara online maupun offline."
       description="Jalin erat dengan ribuan siswa di seluruh Indonesia dengan penuh semangat dan ajari mereka dengan kemampuanmu."
-      href="#"
+      href="/registrasi"
       cta-text="Daftar Sekarang"
       button
     />
@@ -35,7 +35,7 @@ export default {
             "Dapatkan penghasilan tambahan sebagai pengajar di UjiAja dan hasilkan uang sesuai lokasi dan jadwalmu!",
           ctaButtonText: "Daftar Sekarang",
           ctaButtonVariant: "light",
-          cataButtonUrl: "#",
+          cataButtonUrl: "/registrasi",
           image: "/banneruntuktutor.png",
           isJudulFirst: false,
         },
