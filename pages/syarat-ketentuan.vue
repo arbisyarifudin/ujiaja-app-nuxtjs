@@ -3,7 +3,7 @@
     <Header variant="melengkung no-hero primary" />
     <div class="page-content kebijakan-privasi bg-white">
       <div class="">
-        <h2 class="page-title">Kebijakan Privasi</h2>
+        <h2 class="page-title">Syarat dan Ketenuan</h2>
         <div class="page-text">
           <h3>A. Syarat & Ketentuan Umum</h3>
 
