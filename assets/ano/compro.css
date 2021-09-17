@@ -88,6 +88,42 @@ p {
   background-position-x: center;
   background-position-y: center;
 }
+.headerdua-karir {
+  background: linear-gradient(
+      360deg,
+      rgba(138, 131, 255, 0.68) 0%,
+      rgba(246, 244, 255, 0.3) 100%
+    ),
+    url("/karir.png");
+  background-size: cover;
+  background-position-x: center;
+  background-position-y: center;
+}
+.headerdua-karir.karir-detail {
+  background: linear-gradient(
+      360deg,
+      rgba(138, 131, 255, 0.68) 0%,
+      rgba(246, 244, 255, 0.3) 100%
+    ),
+    url("/karir-deskripsi.png");
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  background-size: cover;
+  background-position-x: center;
+  background-position-y: center;
+}
+.card-karir {
+  background-image: url("/assets/img/karircard.png");
+  background-size: contain;
+  background-position: bottom;
+  background-repeat: no-repeat;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05);
+  border-radius: 12px;
+}
+.card-karir .card-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
 
 .headerdua.no-bg {
   background: none;
@@ -481,6 +517,11 @@ h5 {
   padding-left: 100px;
   padding-right: 100px;
 }
+.bantuan {
+  border-radius: 0px 0px 12px 12px;
+  background: #fdfdfd;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.09);
+}
 .sub-card {
   background: #f5efff;
   border-radius: 12px 12px 0px 0px;
@@ -511,13 +552,33 @@ h5 {
   background: transparent;
   border-bottom: 1px solid #9490a4;
 }
+.kategori h2 {
+  padding-top: 15px;
+  padding-bottom: 15px;
+  font-size: 16px;
+}
+.bantuan ul {
+  padding-left: 15px;
+  padding-top: 15px;
+  margin: 0px;
+}
+.bantuan ul a {
+  color: #9490a4;
+}
+.bantuan ul li :hover {
+  color: #a594f9;
+}
 .text-card,
 .fa-plus,
-.fa-minus {
+.fa-minus,
+.bantuan li,
+.bantuan a {
   font-size: 12px;
   font-weight: 500;
   color: #47415b;
   padding: 0px;
+  list-style: none;
+  text-decoration: none;
 }
 .visi,
 .misi {
@@ -632,6 +693,77 @@ h5 {
   padding-bottom: 30px;
   padding-left: 100px;
   padding-right: 100px;
+}
+.form-group {
+  width: 700px;
+}
+.reg-siswa {
+  width: auto;
+}
+.form-karir {
+  width: auto;
+}
+.form-karir label:after {
+  content: "*";
+  color: red;
+}
+.form-karir label {
+  color: #b0a6ef;
+}
+.form-group .form-control-karir::placeholder {
+  color: #9490a4;
+  opacity: 50%;
+}
+.form-group .form-control-karir {
+  border-color: #e5d9f2;
+}
+.form-group .cari-bantuan {
+  background: #fdfdfd;
+  padding: 10px;
+  border-radius: 50px;
+}
+.content-bantuan {
+  padding-left: 70px;
+  padding-right: 70px;
+  padding-top: 95px;
+  padding-bottom: 95px;
+}
+.pilih-bantuan {
+  background: #eae6ff;
+  border-radius: 12px 12px 0px 0px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.09);
+}
+.hubungi-kami {
+  background: #fdfdfd;
+  padding-bottom: 70px;
+  margin-bottom: 100px;
+}
+.hubungi-kami .fa-stack,
+.hubungi-kami h4 {
+  color: #baadff;
+  margin-bottom: 15px;
+}
+.hubungi-kami h5 {
+  color: #cdc1ff;
+  font-size: 16px;
+}
+.kebijakan {
+  margin-left: 100px;
+  margin-right: 100px;
+  margin-top: 30px;
+  border-radius: 15px;
+  opacity: 50%;
+  background: #7370fb;
+}
+.kebijakan-privasi {
+  padding: 100px;
+}
+.kebijakan-privasi h2 {
+  color: #baadff;
+  font-size: 36px;
+  margin-bottom: 60px;
+  margin-top: 60px;
+  padding: 0px;
 }
 /* CSS on MOBILE */
 

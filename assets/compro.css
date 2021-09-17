@@ -140,6 +140,18 @@ body {
   border-radius: 0px 0px 12px 12px;
 }
 
+#header.header-search.variant-melengkung::after {
+  content: "";
+  height: 45%;
+}
+
+#header.header-search .hero-image {
+  max-height: 100%;
+  -o-object-fit: contain;
+     object-fit: contain;
+  right: -10%;
+}
+
 .card-gradient {
   border-radius: 28px;
   padding: 20px;
@@ -354,6 +366,24 @@ body {
   font-size: 12px;
   color: red;
   margin-top: 5px;
+}
+
+.cari-bantuan input.form-control {
+  border-color: transparent;
+}
+
+.cari-bantuan input.form-control:focus {
+  -webkit-box-shadow: none;
+          box-shadow: none;
+}
+
+.sidebar-bantuan ul > li {
+  cursor: pointer;
+  padding: 10px 5px;
+}
+
+.sidebar-bantuan ul > li a:hover {
+  color: #8a83ff !important;
 }
 
 /* Footer */

@@ -1,6 +1,6 @@
 <template>
   <div class="pertanyaan mb-5">
-    <div class="container">
+    <div :class="!full ? container : ''">
       <div class="row">
         <div class="col-lg-12 text-center sub-card">
           <h2>Pertanyaan Yang Sering Diajukan</h2>
@@ -39,6 +39,6 @@
 
 <script>
 export default {
-  props: ["items"],
+  props: ["items", "full"],
 };
 </script>
