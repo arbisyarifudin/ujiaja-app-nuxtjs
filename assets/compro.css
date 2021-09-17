@@ -71,6 +71,12 @@ body {
   background-color: #dddddd;
 }
 
+.btn.btn-outline-primary:active:not(.disabled), .btn.btn-outline-primary:active:not(:disabled) {
+  background-color: #9e8df3;
+  border-color: #9e8df3;
+  color: white;
+}
+
 .btn.btn:disabled, .btn.btn.disabled {
   cursor: not-allowed;
 }

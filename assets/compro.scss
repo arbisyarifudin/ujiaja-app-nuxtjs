@@ -62,6 +62,12 @@ body {
                     background-color: #dddddd;
                 }
             }
+            &:active:not(.disabled),
+            &:active:not(:disabled) {
+                background-color: #9e8df3;
+                border-color: #9e8df3;
+                color: white;
+            }
         }
     }
     &:disabled,
