@@ -34,5 +34,7 @@ export default function({ $axios }) {
   $axios.defaults.headers.post["X-XSRF-TOKEN"] = getCookie("XSRF-TOKEN");
   $axios.defaults.headers.put["X-XSRF-TOKEN"] = getCookie("XSRF-TOKEN");
   $axios.defaults.headers.delete["X-XSRF-TOKEN"] = getCookie("XSRF-TOKEN");
+  $axios.defaults.headers.Authorization = "Bearer " + getCookie("_ujiaja");
   $axios.defaults.withCredentials = true;
+  // console.log($axios.defaults.headers.Authorization);
 }
