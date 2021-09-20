@@ -54,17 +54,19 @@ Vue.mixin({
       window.location.href = window.origin + path;
       this.$cookiz.remove("_ujiaja");
       this.$store.commit("SET_IS_AUTH", false);
-      this.$store.commit("set", ["dataUser", {}]);
+      // this.$store.commit("set", ["dataUser", {}]);
     },
     catchError(error) {
       console.log("catchError", error, error.response);
       if (error.response && error.response.status == 401) {
-        this.$bvToast.toast("Unauthorized!", {
+        this.$bvToast.toast("Anda belum login!", {
           title: "Error",
           variant: "danger",
           solid: true,
           autoHideDelay: 3000
         });
+        // this.appLogout();
+        return;
       } else if (error.response && error.response.status == 403) {
         this.$bvToast.toast("Akses dilarang!", {
           title: "Error",
@@ -72,6 +74,8 @@ Vue.mixin({
           solid: true,
           autoHideDelay: 3000
         });
+        // this.appLogout();
+        return;
       } else if (
         error.response &&
         (error.response.status == 500 || error.response.status == 400)
@@ -91,11 +95,15 @@ Vue.mixin({
         });
       } else if (error.response && error.response.status == 422) {
         for (let key in error.response.data.messages) {
-          this.$set(this.dataError, key, [error.response.data.messages[key]]);
-          // store.commit("putError", [key, [error.response.data.messages[key]]]);
+          console.log(key, error.response.data);
+          // this.$set(this.dataError, key, [error.response.data.messages[key]]);
+          this.$store.commit("putError", [
+            key,
+            [error.response.data.messages[key]]
+          ]);
           this.$bvToast.toast(error.response.data.messages[key][0], {
-            title: "Info",
-            variant: "info",
+            title: "Peringatan",
+            variant: "warning",
             solid: true,
             autoHideDelay: 3000
           });
