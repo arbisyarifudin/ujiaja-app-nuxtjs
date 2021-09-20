@@ -2,47 +2,47 @@
   <div class="admin-wrapper">
     <div class="container-fluid">
       <div class="row">
-        <div class="col-md-3 bg-white">
+        <div class="col-lg-3 bg-white d-none d-lg-block">
           <nav class="sidebar navbar-light pt-3 pl-4" id="menu">
             <img src="/logo2.png" class="img-fluid w-25 pb-4" />
-            <ul class="nav navbar-nav pl-3 flex-column">
-              <li class="nav-item">
-                <a
-                  class="nav-link d-flex align-items-center active"
-                  href="/app/dashboard"
-                  ><i class="fas fa-chart-pie fa-2x fa-fw mr-2"></i>Dashboard</a
-                >
-              </li>
-              <li class="nav-item">
-                <a class="nav-link d-flex align-items-center" href="#"
-                  ><i class="fab fa-wpforms fa-2x fa-fw mr-2"></i> Les Privat</a
-                >
-              </li>
-              <li class="nav-item">
-                <a class="nav-link d-flex align-items-center" href="#"
-                  ><i class="far fa-edit fa-2x fa-fw mr-2"></i>Tryout</a
-                >
-              </li>
-              <li class="nav-item">
-                <a class="nav-link d-flex align-items-center" href="#"
-                  ><i class="far fa-file-alt fa-2x fa-fw mr-2"></i> Riwayat
-                  Transaksi</a
-                >
-              </li>
-            </ul>
+            <UIMenuStudent v-if="user.role_user == 'siswa'" />
+            <UIMenuPartner v-if="user.role_user == 'teacher'" />
           </nav>
         </div>
-        <div class="col-md-9 bg-light">
+        <b-sidebar
+          id="admin-sidebar"
+          class="bg-white d-block d-lg-none"
+          shadow
+          backdrop
+        >
+          <nav class="sidebar navbar-light pt-3 pl-4" id="menu">
+            <img src="/logo2.png" class="img-fluid w-25 pb-4" />
+            <UIMenuStudent v-if="user.role_user == 'siswa'" />
+            <UIMenuPartner v-if="user.role_user == 'teacher'" />
+          </nav>
+        </b-sidebar>
+        <div class="col-lg-9 bg-light">
           <div id="header">
             <nav class="navbar navbar-expand navbar-light bg-light">
-              <!-- <ul class="nav navbar-nav mr-auto align-items-center">
+              <ul
+                class="
+                  nav
+                  navbar-nav
+                  mr-auto
+                  align-items-center
+                  d-block d-lg-none
+                "
+              >
                 <li class="nav-item">
-                  <span class="small text-muted"
-                    >Selamat datang,
-                    {{ user.detail ? user.detail.nama_lengkap : "?" }} !</span
+                  <button
+                    class="nav-link btn text-primary btn-sm px-2"
+                    type="button"
+                    v-b-toggle.admin-sidebar
                   >
+                    <i class="fas fa-bars"></i>
+                  </button>
                 </li>
-              </ul> -->
+              </ul>
               <ul class="nav navbar-nav ml-auto align-items-center">
                 <b-nav-item-dropdown text="Notif" right no-caret>
                   <template #button-content>
@@ -57,7 +57,7 @@
                   <template #button-content>
                     <img src="/icon-user.png" class="img-fluid" width="24" />
                   </template>
-                  <b-dropdown-item href="/app/profile">Profil</b-dropdown-item>
+                  <b-dropdown-item to="/app/profile">Profil</b-dropdown-item>
                   <b-dropdown-item @click.prevent="appLogout"
                     >Keluar</b-dropdown-item
                   >
@@ -65,7 +65,11 @@
               </ul>
             </nav>
           </div>
-          <main id="konten" class="konten px-3">
+          <main
+            id="konten"
+            class="konten px-3"
+            style="min-height: calc(100vh - 80px)"
+          >
             <Nuxt />
           </main>
         </div>
@@ -75,15 +79,21 @@
 </template>
 
 <script>
+import ContentWrapper from "../components/Layout/ContentWrapper.vue";
 export default {
+  components: { ContentWrapper },
   middleware: "auth-user",
   computed: {
     user() {
-      return this.$store.state.dataUser;
+      return this.$store.state.dataUser.user;
+    },
+    userDetail() {
+      return this.$store.state.dataUser.detail;
     },
   },
   mounted() {
-    console.log(this.user);
+    console.log("user", this.user);
+    console.log("userDetail", this.userDetail);
   },
 };
 </script>
