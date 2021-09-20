@@ -143,8 +143,10 @@
 </template>
 
 <script>
+import ContentWrapper from "@/components/Layout/ContentWrapper";
 export default {
   middleware: "auth-guest",
+  components: { ContentWrapper },
   data() {
     return {
       tinySliderOptions: {
@@ -302,7 +304,8 @@ export default {
               this.$store.commit("SET_IS_AUTH", true);
               this.$store.commit("set", ["dataUser", res.data]);
               // this.$router.replace(`/app/${role}/dashboard`);
-              this.$router.replace("/app/dashboard");
+              // this.$router.replace("/app/dashboard");
+              window.location.href = window.origin + "/app/dashboard";
             }
           } else {
             this.$bvToast.toast("Login gagal! Kredensial tidak valid.", {
@@ -323,7 +326,10 @@ export default {
     catchError(error) {
       console.log("catchError", error);
       if (error.response && !error.response.data.success) {
-        if (error.response.status == 400) {
+        if (
+          (error.response.status == 400 || error.response.status == 422) &&
+          error.response.data.message.includes("belum di verifikasi")
+        ) {
           this.$bvToast.toast("Login gagal! Email belum diverifikasi.", {
             title: "Error",
             variant: "danger",
