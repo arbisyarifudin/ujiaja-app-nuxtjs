@@ -222,6 +222,7 @@
                       placeholder="Username"
                       autocomplete="false"
                       v-model="formSiswa.username"
+                      disabled
                     />
                   </div>
                 </div>
@@ -235,6 +236,7 @@
                       placeholder="email"
                       autocomplete="false"
                       v-model="formSiswa.email"
+                      disabled
                     />
                   </div>
                 </div>
@@ -292,7 +294,7 @@
                 </div>
                 <div
                   class="col-md-6 d-flex tambah-akun align-items-center mt-3"
-                  v-if="akun.role_user == 'siswa'"
+                  v-if="akun.role_user == 'siswa' && !profil.parent"
                   v-b-modal.modal-ortu
                 >
                   <button
@@ -306,6 +308,58 @@
                   </p>
                 </div>
               </div>
+            </b-tab>
+            <b-tab title="Data Orangtua" v-if="profil && profil.parent">
+              <b-row>
+                <b-col>
+                  <div class="form-group reg-siswa">
+                    <label for="ortu_name">Nama Lengkap</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="ortu_name"
+                      placeholder="Nama Lengkap"
+                      v-model="formOrtu.nama_lengkap"
+                    />
+                  </div>
+                  <div class="form-group reg-siswa">
+                    <label for="ortu_phone">No.Telp</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="ortu_phone"
+                      placeholder="No.Telp"
+                      v-model="formOrtu.nomor_telephone"
+                    />
+                  </div>
+                </b-col>
+                <b-col>
+                  <div class="form-group reg-siswa">
+                    <label for="ortu_email">Email</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="ortu_email"
+                      placeholder="Email"
+                      autocomplete="false"
+                      v-model="formOrtu.email"
+                      disabled
+                    />
+                  </div>
+                  <div class="form-group reg-siswa">
+                    <label for="ortu_username">Username</label>
+                    <input
+                      type="text"
+                      class="form-control form-control-karir"
+                      id="ortu_username"
+                      placeholder="Username"
+                      autocomplete="false"
+                      v-model="formOrtu.username"
+                      disabled
+                    />
+                  </div>
+                </b-col>
+              </b-row>
             </b-tab>
           </b-tabs>
         </div>
@@ -393,7 +447,7 @@
             Tambah Akun Orang Tua
           </h3>
         </div> -->
-        <form action="" class="form-user">
+        <form class="form-user" @submit.prevent="validateFormOrtu">
           <div class="form-group reg-siswa">
             <label for="ortu_name">Nama Lengkap</label>
             <input
@@ -401,6 +455,7 @@
               class="form-control"
               id="ortu_name"
               placeholder="Nama Lengkap"
+              v-model="formOrtu.nama_lengkap"
             />
           </div>
           <div class="form-group reg-siswa">
@@ -410,7 +465,9 @@
               class="form-control"
               id="ortu_phone"
               placeholder="No.Telp"
+              v-model="formOrtu.nomor_telephone"
             />
+            <div v-html="showError('nomor_telephone')"></div>
           </div>
           <div class="form-group reg-siswa">
             <label for="ortu_email">Email</label>
@@ -420,7 +477,9 @@
               id="ortu_email"
               placeholder="Email"
               autocomplete="false"
+              v-model="formOrtu.email"
             />
+            <div v-html="showError('email')"></div>
           </div>
           <div class="form-group reg-siswa">
             <label for="ortu_username">Username</label>
@@ -430,30 +489,47 @@
               id="ortu_username"
               placeholder="Username"
               autocomplete="false"
+              v-model="formOrtu.username"
             />
+            <div v-html="showError('username')"></div>
           </div>
 
           <div class="form-group reg-siswa">
             <label for="ortu_password">Password</label>
             <div class="input-group">
               <input
-                type="password"
-                class="form-control"
-                id="ortu_password"
+                :type="showPassword ? 'text' : 'password'"
+                class="form-control pl-0"
+                id="password"
                 placeholder="Password"
                 autocomplete="new-password"
+                v-model="formOrtu.password"
               />
-              <div class="input-group-append">
-                <span class="input-group-text bg-transparent"
-                  ><i class="fa fa-eye-slash"></i
+              <div
+                class="input-group-append"
+                style="cursor: pointer"
+                @click.prevent="showPassword = !showPassword"
+              >
+                <span
+                  class="input-group-text bg-transparent"
+                  style="pointer-events: none"
+                  ><i
+                    :class="['fa', showPassword ? 'fa-eye-slash' : 'fa-eye']"
+                    style="pointer-events: none"
+                  ></i
                 ></span>
               </div>
             </div>
+            <div v-html="showError('password')"></div>
+          </div>
+          <div class="modal-footer justify-content-center" style="border: 0px">
+            <button type="submit" class="btn btn-primary" :disabled="loading">
+              <b-spinner small class="mr-1" v-if="loading"></b-spinner>
+              <i class="fas fa-save fa-fw mr-1" v-else></i>
+              Simpan
+            </button>
           </div>
         </form>
-        <div class="modal-footer justify-content-center" style="border: 0px">
-          <button type="submit" class="btn btn-primary">Simpan</button>
-        </div>
       </div>
     </b-modal>
   </div>
@@ -471,7 +547,7 @@ export default {
         username: "",
         nama_lengkap: "",
         email: "",
-        nomor_telephon: "",
+        nomor_telephone: "",
         info: "",
         tempat_lahir: "",
         tgl_lahir: "",
@@ -488,7 +564,7 @@ export default {
         nama_lengkap: "",
         username: "",
         email: "",
-        nomor_telephon: "",
+        nomor_telephone: "",
         password: "",
       },
       dataMaster: {
@@ -505,7 +581,94 @@ export default {
         kota_kabupaten: [],
         kecamatan: [],
       },
+      isValidForm: {
+        username: null,
+        password: null,
+        email: null,
+        nomor_telephone: null,
+      },
+      dataError: [],
     };
+  },
+  watch: {
+    "formOrtu.username": function (value) {
+      if (!value) return;
+      var usernameRegex = /^[a-zA-Z0-9]+$/;
+      var test = value.match(usernameRegex);
+      if (test === null) {
+        this.$set(this.dataError, "username", [
+          "Username hanya boleh mengandung huruf dan angka tanpa spasi.",
+        ]);
+        this.isValidForm["username"] = false;
+      } else {
+        this.$set(this.dataError, "username", [""]);
+        this.isValidForm["username"] = true;
+      }
+    },
+    "formOrtu.password": function (value) {
+      if (!value) return;
+      var passwordRegex =
+        /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,20}$/;
+      var test = value.match(passwordRegex);
+      if (value && test === null) {
+        this.$set(this.dataError, "password", [
+          "Password minimal 8 - 20 karakter. Dengan setidaknya terdapat 1 huruf kapital, 1 angka dan 1 karakter spesial.",
+        ]);
+        this.isValidForm["password"] = false;
+      } else {
+        this.$set(this.dataError, "password", [""]);
+        this.isValidForm["password"] = true;
+      }
+      if (this.repassword && value !== this.repassword) {
+        this.$set(this.dataError, "repassword", [
+          "Password tidak sama. Mohon pelan-pelan.",
+        ]);
+        this.isValidForm["repassword"] = false;
+      } else {
+        this.$set(this.dataError, "repassword", [""]);
+        this.isValidForm["repassword"] = true;
+      }
+    },
+    "formOrtu.repassword": function (value) {
+      if (!value) return;
+      if (value && value !== this.form.password) {
+        this.$set(this.dataError, "repassword", [
+          "Password tidak sama. Mohon pelan-pelan.",
+        ]);
+        this.isValidForm["repassword"] = false;
+      } else {
+        this.$set(this.dataError, "repassword", [""]);
+        this.isValidForm["repassword"] = true;
+      }
+    },
+    "formOrtu.email": function (value) {
+      if (!value) return;
+      var emailRegex =
+        /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      var test = value.match(emailRegex);
+      if (value && test === null) {
+        this.$set(this.dataError, "email", ["Mohon masukkan email valid."]);
+        this.isValidForm["email"] = false;
+      } else {
+        this.$set(this.dataError, "email", [""]);
+        this.isValidForm["email"] = true;
+      }
+    },
+    "formOrtu.nomor_telephone": function (value) {
+      if (!value) return;
+      var phoneRegex =
+        /\(?(?:\+62|62|0)(?:\d{2,3})?\)?[ .-]?\d{2,4}[ .-]?\d{2,4}[ .-]?\d{2,4}$/;
+      var test = value.match(phoneRegex);
+      if (value && test === null) {
+        this.$set(this.dataError, "nomor_telephone", [
+          "Mohon masukkan nomor HP valid.",
+        ]);
+        this.isValidForm["nomor_telephone"] = false;
+      } else {
+        this.$set(this.dataError, "nomor_telephone", [""]);
+        this.isValidForm["nomor_telephone"] = true;
+      }
+    },
   },
   computed: {
     akun() {
@@ -520,7 +683,7 @@ export default {
       username: this.akun.username,
       nama_lengkap: this.profil.nama_lengkap,
       email: this.akun.email,
-      nomor_telephon: this.profil.nomor_telephon,
+      nomor_telephone: this.profil.nomor_telephone,
       info: this.profil.info,
       tempat_lahir: this.profil.tempat_lahir,
       tgl_lahir: this.profil.tgl_lahir,
@@ -534,6 +697,15 @@ export default {
       password: "",
       repassword: "",
     };
+    if (this.profil && this.profil.parent) {
+      this.formOrtu = {
+        nama_lengkap: this.profil.parent.nama_lengkap,
+        username:
+          this.profil.parent.username ?? this.profil.parent.nama_lengkap,
+        email: this.profil.parent.email,
+        nomor_telephone: this.profil.parent.nomor_telephone,
+      };
+    }
     this.getMaster("penjurusan");
     if (this.$cookiz.get("provinsi")) {
       this.dataOption["provinsi"] = this.$cookiz.get("provinsi");
@@ -546,6 +718,68 @@ export default {
     }
   },
   methods: {
+    resetForm() {
+      this.isValidForm = {
+        username: null,
+        password: null,
+        email: null,
+        nomor_telephone: null,
+      };
+      this.dataError = [];
+    },
+    showError(field) {
+      if (
+        this.dataError[field] !== undefined &&
+        this.dataError[field].length > 0
+      ) {
+        let html = `<div class="form-error__info">
+                        ${this.dataError[field][0]}
+                        </div>`;
+        return html;
+      }
+      return "";
+    },
+    validateFormOrtu() {
+      this.dataError = [];
+
+      if (
+        !this.formOrtu.nama_lengkap ||
+        !this.formOrtu.username ||
+        !this.formOrtu.password ||
+        !this.formOrtu.email ||
+        !this.formOrtu.nomor_telephone
+      ) {
+        this.$bvToast.toast("Mohon lengkapi formulir terlebih dahulu!", {
+          title: "Peringatan",
+          variant: "warning",
+          solid: true,
+          autoHideDelay: 3000,
+        });
+        return;
+      }
+
+      // if (
+      //   this.formOrtu.repassword &&
+      //   this.formOrtu.repassword !== this.formOrtu.password
+      // ) {
+      //   this.$set(this.dataError, "repassword", [
+      //     "Password tidak sama. Mohon pelan-pelan.",
+      //   ]);
+      //   return;
+      // }
+
+      if (Object.values(this.isValidForm).includes(false)) {
+        this.$bvToast.toast("Mohon lengkapi formulir dengan benar!", {
+          title: "Peringatan",
+          variant: "warning",
+          solid: true,
+          autoHideDelay: 3000,
+        });
+        return;
+      }
+
+      this.onSubmitOrtu();
+    },
     getMaster(type) {
       this.loading = true;
       this.$axios.defaults.headers.Authorization =
@@ -623,6 +857,89 @@ export default {
         .$put(`/api/users/siswa/update/${this.akun.id}`, this.formSiswa)
         .then((res) => {
           console.log(res);
+          if (res.success) {
+            this.$bvToast.toast("Profil berhasil diperbarui!", {
+              title: "Sukses",
+              variant: "success",
+              solid: true,
+              autoHideDelay: 3000,
+            });
+            this.$router.push(
+              {
+                path: this.$route.path,
+                force: true,
+              },
+              () => {
+                this.$router.app.refresh();
+              }
+            );
+            return true;
+          } else {
+            this.$bvToast.toast("Permintaan gagal!", {
+              title: "Error",
+              variant: "danger",
+              solid: true,
+              autoHideDelay: 3000,
+            });
+            return false;
+          }
+        })
+        .then((success) => {
+          if (
+            success &&
+            this.profil.parent &&
+            this.profil.parent.id_orang_tua
+          ) {
+            this.$axios
+              .$put(
+                `/api/users/parent/update/${this.profil.parent.id_orang_tua}`,
+                this.formOrtu
+              )
+              .then((res) => {
+                console.log("update ortu", res);
+              });
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          this.catchError(err);
+        })
+        .finally(() => (this.loading = false));
+    },
+    onSubmitOrtu() {
+      this.loading = true;
+
+      this.$axios.defaults.headers.Authorization =
+        "Bearer " + this.$cookiz.get("_ujiaja");
+      this.$axios.defaults.withCredentials = true;
+      this.$axios
+        .$post(`/api/users/parent/create`, this.formOrtu)
+        .then((res) => {
+          console.log(res);
+          if (res.success) {
+            this.$bvToast.toast("Data orangtua berhasil ditambahkan.", {
+              title: "Sukses",
+              variant: "success",
+              solid: true,
+              autoHideDelay: 3000,
+            });
+            this.$router.push(
+              {
+                path: this.$route.path,
+                force: true,
+              },
+              () => {
+                this.$router.app.refresh();
+              }
+            );
+          } else {
+            this.$bvToast.toast("Permintaan gagal!", {
+              title: "Error",
+              variant: "danger",
+              solid: true,
+              autoHideDelay: 3000,
+            });
+          }
         })
         .catch((err) => {
           console.log(err);
