@@ -3,11 +3,11 @@
     <form @submit.prevent="validateForm">
       <div class="row d-flex no-gutters">
         <div class="col-md-12 dashboard">
-          <h2 class="dash-label">Tambah Kelas</h2>
-          <p>
+          <h2 class="dash-label">Ubah Kelas</h2>
+          <!-- <p>
             Ayo, buat data master kelas sekarang juga untuk merelasikan data
             siswa.
-          </p>
+          </p> -->
         </div>
         <div class="col-md-12 crud-body">
           <div class="form-user mt-3">
