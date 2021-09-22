@@ -92,7 +92,7 @@
               <tr v-if="loading">
                 <td colspan="4" class="text-center">Memuat data...</td>
               </tr>
-              <tr v-if="totalRows == 0 && filter.keyword">
+              <tr v-if="totalRows == 0 && filter.keyword && !loading">
                 <td colspan="4" class="text-center">Data tidak ditemukan.</td>
               </tr>
             </tbody>
