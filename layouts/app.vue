@@ -68,9 +68,35 @@
           <main
             id="konten"
             class="konten px-3"
+            :class="
+              !userDetail.id_provinsi && $route.path != '/app/profile/edit'
+                ? 'konten-dashfirst'
+                : ''
+            "
             style="min-height: calc(100vh - 80px)"
           >
-            <Nuxt />
+            <div
+              class="col-md-12 text-left"
+              v-if="
+                !userDetail.id_provinsi && $route.path != '/app/profile/edit'
+              "
+            >
+              <div class="alert-konten">
+                <p class="text-alert">
+                  Sebelum kamu melangkah menikmati layanan dari kami, lengkapi
+                  dulu profilmu sekarang juga ya. Gak lama kok cuman bentar
+                  aja!!
+                </p>
+                <nuxt-link
+                  to="/app/profile/edit"
+                  class="btn btn-light btn-slengkapnya"
+                >
+                  Selengkapnya
+                </nuxt-link>
+                <a class="link-lewati" href="">Lewati</a>
+              </div>
+            </div>
+            <Nuxt v-else />
           </main>
         </div>
       </div>
