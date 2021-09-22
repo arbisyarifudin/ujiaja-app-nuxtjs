@@ -169,7 +169,7 @@
                       text-field="nama"
                       @change="
                         () => {
-                          getAPI('kota');
+                          getAPI('kota_kabupaten');
                           dataOption['kecamatan'] = [];
                         }
                       "
@@ -818,24 +818,22 @@ export default {
       let params = {};
 
       if (type == "kota_kabupaten" || type == "kota") {
-        params = { id_provinsi: this.formSiswa.id_provinsi };
+        params = "/" + this.formSiswa.id_provinsi;
       } else if ("kecamatan") {
-        params = { id_kota: this.formSiswa.id_kota };
+        params = "/" + this.formSiswa.id_kota;
       }
 
       this.$axios.defaults.headers = {};
       this.$axios.defaults.withCredentials = false;
 
       this.$axios
-        .$get(`http://dev.farizdotid.com/api/daerahindonesia/${type}`, {
-          params,
-        })
+        .$get(`/api/${type}${params}`)
         .then((res) => {
           console.log(res);
           if (type == "kota") {
             type = "kota_kabupaten";
           }
-          this.dataOption[type] = res[type];
+          this.dataOption[type] = res.data[type];
           this.$cookiz.set(type, this.dataOption[type]);
         })
         .catch((err) => {
