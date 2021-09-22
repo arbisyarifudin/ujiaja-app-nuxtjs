@@ -2,86 +2,52 @@
   <div class="admin-wrapper">
     <div class="container-fluid">
       <div class="row">
-        <div class="col-md-3 bg-white">
+        <div class="col-lg-3 bg-white d-none d-lg-block">
           <nav class="sidebar navbar-light pt-3 pl-4" id="menu">
             <img src="/logo2.png" class="img-fluid w-25 pb-4" />
-            <ul class="nav navbar-nav pl-3 flex-column">
-              <li class="nav-item">
-                <a
-                  class="nav-link d-flex align-items-center active"
-                  href="/app/dashboard"
-                  ><i class="fas fa-chart-pie fa-fw mr-2"></i> Dashboard</a
-                >
-              </li>
-              <li class="nav-item">
-                <a class="nav-link d-flex align-items-center" href="#"
-                  ><i class="fas fa-school fa-fw mr-2"></i> Sekolah</a
-                >
-              </li>
-              <li class="nav-item">
-                <a class="nav-link d-flex align-items-center" href="#"
-                  ><i class="fas fa-university fa-fw mr-2"></i> Perguruan
-                  Tinggi</a
-                >
-              </li>
-              <li class="nav-item">
-                <a class="nav-link d-flex align-items-center" href="#"
-                  ><i class="fas fa-caret-square-up fa-fw mr-2"></i> Jenjang</a
-                >
-              </li>
-              <li class="nav-item">
-                <a class="nav-link d-flex align-items-center" href="#"
-                  ><i class="fas fa-clipboard fa-fw mr-2"></i> Modul Tryout</a
-                >
-              </li>
-              <li class="nav-item">
-                <a class="nav-link d-flex align-items-center" href="#"
-                  ><i class="fas fa-laptop fa-fw mr-2"></i> Modul Belajar</a
-                >
-              </li>
-              <li class="nav-item">
-                <a class="nav-link d-flex align-items-center" href="#"
-                  ><i class="fas fa-cash-register fa-fw mr-2"></i> Transaksi
-                  User</a
-                >
-              </li>
-              <li class="nav-item">
-                <a class="nav-link d-flex align-items-center" href="#"
-                  ><i class="fas fa-id-badge fa-fw mr-2"></i> Verifikasi</a
-                >
-              </li>
-              <li class="nav-item">
-                <a class="nav-link d-flex align-items-center" href="#"
-                  ><i class="fas fa-file-alt fa-fw mr-2"></i> Laporan
-                  Transaksi</a
-                >
-              </li>
-              <li class="nav-item">
-                <a class="nav-link d-flex align-items-center" href="#"
-                  ><i class="fas fa-chart-bar fa-fw mr-2"></i> Statistik User</a
-                >
-              </li>
-            </ul>
+            <UIMenuAdmin />
           </nav>
         </div>
-        <div class="col-md-9 bg-light">
+        <b-sidebar
+          id="admin-sidebar"
+          class="bg-white d-block d-lg-none"
+          shadow
+          backdrop
+        >
+          <nav class="sidebar navbar-light pt-3 pl-4" id="menu">
+            <img src="/logo2.png" class="img-fluid w-25 pb-4" />
+            <UIMenuAdmin />
+          </nav>
+        </b-sidebar>
+        <div class="col-md-9 bg-primary--soft" id="right-sect">
           <div id="header">
-            <nav class="navbar navbar-expand navbar-light bg-light">
-              <!-- <ul class="nav navbar-nav mr-auto align-items-center">
+            <nav class="navbar navbar-expand navbar-light">
+              <ul
+                class="
+                  nav
+                  navbar-nav
+                  mr-auto
+                  align-items-center
+                  d-block d-lg-none
+                "
+              >
                 <li class="nav-item">
-                  <span class="small text-muted"
-                    >Selamat datang,
-                    {{ user.detail ? user.detail.nama_lengkap : "?" }} !</span
+                  <button
+                    class="nav-link btn text-primary btn-sm px-2"
+                    type="button"
+                    v-b-toggle.admin-sidebar
                   >
+                    <i class="fas fa-bars"></i>
+                  </button>
                 </li>
-              </ul> -->
+              </ul>
               <ul class="nav navbar-nav ml-auto align-items-center">
                 <b-nav-item-dropdown text="Notif" right no-caret>
                   <template #button-content>
                     <i class="fas fa-bell"></i>
                   </template>
-                  <b-dropdown-item href="/produk/tryout">Notif</b-dropdown-item>
-                  <b-dropdown-item href="/produk/les-pribate"
+                  <b-dropdown-item to="/produk/tryout">Notif</b-dropdown-item>
+                  <b-dropdown-item to="/produk/les-pribate"
                     >Nofif 2</b-dropdown-item
                   >
                 </b-nav-item-dropdown>
@@ -89,7 +55,7 @@
                   <template #button-content>
                     <img src="/icon-user.png" class="img-fluid" width="24" />
                   </template>
-                  <b-dropdown-item href="/administrator/profile"
+                  <b-dropdown-item to="/administrator/profile"
                     >Profil</b-dropdown-item
                   >
                   <b-dropdown-item @click.prevent="appLogout"
@@ -99,7 +65,7 @@
               </ul>
             </nav>
           </div>
-          <main id="konten" class="konten px-3">
+          <main id="konten" class="konten px-md-5 px-3">
             <Nuxt />
           </main>
         </div>
