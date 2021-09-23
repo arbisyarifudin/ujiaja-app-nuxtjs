@@ -141,7 +141,7 @@
       @hidden="resetModal"
     >
       <div>
-        <p class="modal-text">Apakah anda yakin ingin menghapus kelas ini?</p>
+        <p class="modal-text">Apakah anda yakin ingin menghapus penjurusan ini?</p>
         <div class="modal-footer justify-content-end" style="border: 0px">
           <button
             class="btn btn-outline-secondary"

@@ -97,7 +97,8 @@ input {
 }
 
 #right-sect {
-    overflow: hidden;
+    overflow-x: hidden;
+    // overflow-y: auto;
     &::after {
         content: "";
         position: absolute;
@@ -243,6 +244,7 @@ input {
     }
     .crud-body {
         &.kosong {
+            margin-left: 100px;
             min-height: 300px;
             display: flex;
             align-items: flex-start;
@@ -358,7 +360,7 @@ input {
     min-height: unset;
     height: calc(100vh - 80px);
     padding-top: 10px;
-    overflow-y: hidden;
+    overflow-y: auto;
     .card {
         border: 1px solid transparent;
         box-shadow: 0 4px 10px rgba(199, 199, 199, 0.25);
