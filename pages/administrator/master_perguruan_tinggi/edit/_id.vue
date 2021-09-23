@@ -3,7 +3,7 @@
     <form @submit.prevent="validateForm">
       <div class="row d-flex no-gutters">
         <div class="col-md-12 dashboard">
-          <h2 class="dash-label">Ubah Perguruan Tinggi</h2>
+          <h2 class="dash-label"><b-spinner type="grow" class="mr-2" v-if="loading"/> Ubah Perguruan Tinggi</h2>
           <!-- <p>
             Ayo, buat data master perguruan tinggi sekarang juga untuk merelasikan data program studi.
           </p> -->

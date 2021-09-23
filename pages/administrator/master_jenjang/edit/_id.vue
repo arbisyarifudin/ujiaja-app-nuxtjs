@@ -3,7 +3,7 @@
     <form @submit.prevent="validateForm">
       <div class="row d-flex no-gutters">
         <div class="col-md-12 dashboard">
-          <h2 class="dash-label">Ubah Jenjang</h2>
+          <h2 class="dash-label"><b-spinner type="grow" class="mr-2" v-if="loading"/> Ubah Jenjang </h2>
           <!-- <p>
             Ayo, buat data master kelas sekarang juga untuk merelasikan data
             siswa.

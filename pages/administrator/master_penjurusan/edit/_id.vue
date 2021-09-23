@@ -3,7 +3,7 @@
     <form @submit.prevent="validateForm">
       <div class="row d-flex no-gutters">
         <div class="col-md-12 dashboard">
-          <h2 class="dash-label">Ubah Penjurusan</h2>
+          <h2 class="dash-label"><b-spinner type="grow" class="mr-2" v-if="loading"/> Ubah Penjurusan</h2>
         </div>
         <div class="col-md-12 crud-body">
           <div class="form-user mt-3">

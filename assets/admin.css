@@ -15,6 +15,10 @@ h6 {
   color: #baadff !important;
 }
 
+.font-weight-normal {
+  font-weight: normal !important;
+}
+
 input {
   opacity: 1;
 }
@@ -440,6 +444,18 @@ input:disabled {
 
 .konten .dash-label {
   font-size: 35px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.konten .dash-label .spinner-border,
+.konten .dash-label .spinner-grow {
+  font-size: 20px;
+  color: #d0d0d0;
 }
 
 .konten.konten-dashfirst .btn-slengkapnya {
