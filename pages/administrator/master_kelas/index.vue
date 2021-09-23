@@ -193,6 +193,7 @@ export default {
           params: {
             q: this.filter.keyword,
             paginate: this.filter.perPage,
+            page: this.filter.page,
           },
         })
         .then((res) => {
