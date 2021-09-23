@@ -23,12 +23,17 @@
         >Penjurusan</b-dropdown-item
       >
     </b-nav-item-dropdown>
-    <li class="nav-item">
-      <nuxt-link class="nav-link d-flex align-items-center" to="#"
-        ><i class="fas fa-university fa-fw mr-2"></i> Perguruan
-        Tinggi</nuxt-link
+    <b-nav-item-dropdown text="Perguruan Tinggi" right>
+      <template #button-content>
+        <i class="fas fa-school fa-fw mr-2"></i> Perguruan Tinggi
+      </template>
+      <b-dropdown-item to="/administrator/master_prodi"
+        >Program Studi</b-dropdown-item
       >
-    </li>
+      <b-dropdown-item to="/administrator/master_perguruan_tinggi"
+        >Perguruan Tinggi</b-dropdown-item
+      >
+    </b-nav-item-dropdown>
     <li class="nav-item">
       <nuxt-link class="nav-link d-flex align-items-center" to="#"
         ><i class="fas fa-clipboard fa-fw mr-2"></i> Modul Tryout</nuxt-link
