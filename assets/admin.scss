@@ -294,6 +294,21 @@ input {
             button {
                 margin: 0 5px;
             }
+            .edit {
+                color: #55cb4a;
+                font-size: 25px;
+            }
+            .edit:hover {
+                color: #6feb63;
+            }
+            .trash {
+                color: rgb(238, 43, 43);
+                font-size: 24px;
+                padding-bottom: 3px;
+            }
+            .trash:hover {
+                color: rgb(255, 66, 66);
+            }
         }
     }
     .pagination-table {

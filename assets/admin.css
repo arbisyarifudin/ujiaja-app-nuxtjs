@@ -342,6 +342,25 @@ input:disabled {
   margin: 0 5px;
 }
 
+.crud .table .btn-table .edit {
+  color: #55cb4a;
+  font-size: 25px;
+}
+
+.crud .table .btn-table .edit:hover {
+  color: #6feb63;
+}
+
+.crud .table .btn-table .trash {
+  color: #ee2b2b;
+  font-size: 24px;
+  padding-bottom: 3px;
+}
+
+.crud .table .btn-table .trash:hover {
+  color: #ff4242;
+}
+
 .crud .pagination-table {
   padding: 0;
 }
