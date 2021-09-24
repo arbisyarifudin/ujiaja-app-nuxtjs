@@ -19,7 +19,7 @@
             <UIMenuAdmin />
           </nav>
         </b-sidebar>
-        <div class="col-md-9 bg-primary--soft" id="right-sect">
+        <div class="col-lg-9 bg-primary--soft" id="right-sect">
           <div id="header">
             <nav class="navbar navbar-expand navbar-light">
               <ul
@@ -65,7 +65,7 @@
               </ul>
             </nav>
           </div>
-          <main id="konten" class="konten px-md-5 px-3">
+          <main id="konten" class="konten px-md-5 px-0">
             <Nuxt />
           </main>
         </div>
@@ -80,11 +80,11 @@ export default {
   computed: {
     user() {
       return this.$store.state.dataUser;
-    },
+    }
   },
   mounted() {
     console.log(this.user);
-  },
+  }
 };
 </script>
 

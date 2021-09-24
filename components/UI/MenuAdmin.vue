@@ -3,7 +3,7 @@
     <li class="nav-item">
       <nuxt-link
         class="nav-link d-flex align-items-center active"
-        to="/app/dashboard"
+        to="/administrator/dashboard"
         ><i class="fas fa-chart-pie fa-fw mr-2"></i> Dashboard</nuxt-link
       >
     </li>
@@ -30,7 +30,7 @@
       <b-dropdown-item to="/administrator/master_perguruan_tinggi"
         >Perguruan Tinggi</b-dropdown-item
       >
-      <b-dropdown-item to="/administrator/master_prodi"
+      <b-dropdown-item to="/administrator/program-studi"
         >Program Studi</b-dropdown-item
       >
     </b-nav-item-dropdown>
