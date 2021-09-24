@@ -15,7 +15,8 @@
     "cookie-universal-nuxt": "^2.1.5",
     "core-js": "^3.15.1",
     "nuxt": "^2.15.7",
-    "vue-tiny-slider": "^0.1.39"
+    "vue-tiny-slider": "^0.1.39",
+    "vue2-editor": "^2.10.3"
   },
   "devDependencies": {
     "fibers": "^5.0.0",

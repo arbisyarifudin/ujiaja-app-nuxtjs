@@ -50,7 +50,10 @@ export default {
     "@nuxtjs/axios",
 
     // cookie
-    ["cookie-universal-nuxt", { alias: "cookiz" }]
+    ["cookie-universal-nuxt", { alias: "cookiz" }],
+
+    // vue2-editor
+    "vue2-editor/nuxt"
   ],
 
   bootstrapVue: {
