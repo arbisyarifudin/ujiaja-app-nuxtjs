@@ -101,8 +101,9 @@ input {
 }
 
 #right-sect {
-    overflow-x: hidden;
+    // overflow-x: hidden;
     // overflow-y: auto;
+    position: relative;
     &::after {
         content: "";
         position: absolute;
@@ -112,8 +113,10 @@ input {
         background-size: 100%;
         width: 400px;
         height: 100%;
-        bottom: -80px;
-        right: -30px;
+        // bottom: -80px;
+        // right: -30px;
+        bottom: 0;
+        right: 0;
         z-index: 1;
     }
 }
@@ -367,8 +370,9 @@ table,
 
 .konten {
     min-height: unset;
-    height: calc(100vh - 80px);
+    min-height: calc(100vh - 80px);
     padding-top: 10px;
+    padding-bottom: 50px;
     overflow-y: auto;
     .card {
         border: 1px solid transparent;
@@ -503,7 +507,8 @@ table,
 }
 
 .form-user .form-control,
-.form-user .input-group-text {
+.form-user .input-group-text,
+.form-user .custom-file-label {
     border-left: none;
     border-right: none;
     border-top: none;
@@ -521,6 +526,21 @@ table,
         &__info {
             color: rgb(255, 74, 74);
             font-size: 12px;
+        }
+    }
+    .custom-select:multiple {
+        border: 1px dashed #b0a6ef;
+    }
+    .custom-file-label {
+        color: #e5d9f2;
+        z-index: 10;
+        overflow: visible;
+        &::after {
+            color: #fff;
+            background-color: #b0a6ef;
+            border: 2px solid #b0a6ef;
+            // bottom: -1px;
+            // top: unset;
         }
     }
 }
