@@ -23,7 +23,7 @@
                   { text: 'Tampil 5', value: 5 },
                   { text: 'Tampil 10', value: 10 },
                   { text: 'Tampil 25', value: 25 },
-                  { text: 'Tampil 50', value: 50 },
+                  { text: 'Tampil 50', value: 50 }
                 ]"
                 @change="getData('kelas')"
               ></b-form-select>
@@ -64,7 +64,7 @@
               </tr>
             </thead>
             <tbody class="body-table">
-              <template v-if="totalRows > 0 && !loading">
+              <template v-if="totalRows > 0">
                 <tr v-for="(item, index) in items" :key="index">
                   <td class="text-center">{{ index + 1 }}</td>
                   <td>{{ item.jenjang ? item.jenjang.nama_jenjang : "?" }}</td>
@@ -89,8 +89,10 @@
                   </td>
                 </tr>
               </template>
-             <UITableLoading v-if="loading"/>
-            <UITableNotFound v-if="totalRows == 0 && filter.keyword && !loading"/>
+              <UITableLoading v-if="loading" />
+              <UITableNotFound
+                v-if="totalRows == 0 && filter.keyword && !loading"
+              />
             </tbody>
           </table>
 
@@ -161,24 +163,24 @@ export default {
       filter: {
         page: 1,
         perPage: 10,
-        keyword: "",
+        keyword: ""
       },
       totalRows: 0,
       items: [],
       selectedId: null,
-      selectedIndex: null,
+      selectedIndex: null
     };
   },
   created() {
     this.getData("kelas");
   },
   watch: {
-    "filter.keyword": function (value) {
+    "filter.keyword": function(value) {
       this.getData("kelas");
     },
-    "filter.page": function (value) {
+    "filter.page": function(value) {
       this.getData("kelas");
-    },
+    }
   },
   methods: {
     resetModal() {},
@@ -189,10 +191,10 @@ export default {
           params: {
             q: this.filter.keyword,
             paginate: this.filter.perPage,
-            page: this.filter.page,
-          },
+            page: this.filter.page
+          }
         })
-        .then((res) => {
+        .then(res => {
           console.log(res);
           if (res.success) {
             this.items = res.data.data;
@@ -201,7 +203,7 @@ export default {
           }
           return true;
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
           this.catchError(err);
         })
@@ -211,7 +213,7 @@ export default {
       this.loading = true;
       this.$axios
         .$delete(`/api/${type}/delete/${this.selectedId}`)
-        .then((res) => {
+        .then(res => {
           console.log(res);
           if (res.success) {
             this.items.splice(this.selectedIndex, 1);
@@ -219,18 +221,18 @@ export default {
               title: "Sukses",
               variant: "success",
               solid: true,
-              autoHideDelay: 3000,
+              autoHideDelay: 3000
             });
             this.$bvModal.hide("modal-delete");
           }
           return true;
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
           this.catchError(err);
         })
         .finally(() => (this.loading = false));
-    },
-  },
+    }
+  }
 };
 </script>
