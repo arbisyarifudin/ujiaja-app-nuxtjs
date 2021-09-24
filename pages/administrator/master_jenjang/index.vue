@@ -64,7 +64,7 @@
               </tr>
             </thead>
             <tbody class="body-table">
-              <template v-if="totalRows > 0 && !loading">
+              <template v-if="totalRows > 0">
                 <tr v-for="(item, index) in items" :key="index">
                   <td class="text-center">{{ index + 1 }}</td>
                   <td>{{ item.nama_jenjang }}</td>
@@ -88,12 +88,8 @@
                   </td>
                 </tr>
               </template>
-              <tr v-if="loading">
-                <td colspan="3" class="text-center">Memuat data...</td>
-              </tr>
-              <tr v-if="totalRows == 0 && filter.keyword && !loading">
-                <td colspan="3" class="text-center">Data tidak ditemukan.</td>
-              </tr>
+            <UITableLoading v-if="loading"/>
+            <UITableNotFound v-if="totalRows == 0 && filter.keyword && !loading"/>
             </tbody>
           </table>
 
@@ -158,7 +154,7 @@
 <script>
 export default {
   layout: "admin",
-  data() {
+  data() { 
     return {
       loading: false,
       filter: {

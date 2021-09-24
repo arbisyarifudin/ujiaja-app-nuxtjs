@@ -396,6 +396,11 @@ input:disabled {
           box-shadow: none;
 }
 
+table,
+.table {
+  position: relative;
+}
+
 .admin-modal .modal-header {
   border-bottom: none;
 }
