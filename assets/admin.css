@@ -107,7 +107,7 @@ input:disabled {
 }
 
 #right-sect {
-  overflow-x: hidden;
+  position: relative;
 }
 
 #right-sect::after {
@@ -119,8 +119,8 @@ input:disabled {
   background-size: 100%;
   width: 400px;
   height: 100%;
-  bottom: -80px;
-  right: -30px;
+  bottom: 0;
+  right: 0;
   z-index: 1;
 }
 
@@ -415,8 +415,9 @@ table,
 
 .konten {
   min-height: unset;
-  height: calc(100vh - 80px);
+  min-height: calc(100vh - 80px);
   padding-top: 10px;
+  padding-bottom: 50px;
   overflow-y: auto;
 }
 
@@ -565,7 +566,8 @@ table,
 }
 
 .form-user .form-control,
-.form-user .input-group-text {
+.form-user .input-group-text,
+.form-user .custom-file-label {
   border-left: none;
   border-right: none;
   border-top: none;
@@ -582,6 +584,22 @@ table,
 .form-user .form-error__info {
   color: #ff4a4a;
   font-size: 12px;
+}
+
+.form-user .custom-select:multiple {
+  border: 1px dashed #b0a6ef;
+}
+
+.form-user .custom-file-label {
+  color: #e5d9f2;
+  z-index: 10;
+  overflow: visible;
+}
+
+.form-user .custom-file-label::after {
+  color: #fff;
+  background-color: #b0a6ef;
+  border: 2px solid #b0a6ef;
 }
 
 .nav-pills .nav-link {
