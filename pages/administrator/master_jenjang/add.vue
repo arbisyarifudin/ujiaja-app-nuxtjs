@@ -12,7 +12,7 @@
         <div class="col-md-12 crud-body">
           <div class="form-user mt-3">
             <div class="form-group reg-siswa">
-              <label for="text">Nama Jenjang</label>
+              <label for="text">Nama Jenjang <code>*</code></label>
               <input
                 type="text"
                 class="form-control"

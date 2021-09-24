@@ -11,7 +11,7 @@
         <div class="col-md-12 crud-body">
           <div class="form-user mt-3">
             <div class="form-group reg-siswa">
-              <label for="text">Nama Perguruan Tinggi</label>
+              <label for="text">Nama Perguruan Tinggi <code>*</code></label>
               <input
                 type="text"
                 class="form-control"
@@ -23,7 +23,7 @@
           </div>
           <div class="form-user mt-3">
             <div class="form-group reg-siswa">
-              <label for="text">Akreditasi Perguruan Tinggi</label>
+              <label for="text">Akreditasi Perguruan Tinggi <code>*</code></label>
               <input
                 type="text"
                 class="form-control"

@@ -12,7 +12,7 @@
         <div class="col-md-12 crud-body">
           <div class="form-user mt-3">
             <div class="form-group reg-siswa">
-              <label for="select">Jenjang Studi</label>
+              <label for="select">Jenjang Studi <code>*</code></label>
               <b-form-select class="form-control" v-model="form.id_jenjang">
                 <b-form-select-option :value="null"
                   >-- Pilih Jenjang --</b-form-select-option
@@ -26,7 +26,7 @@
               </b-form-select>
             </div>
             <div class="form-group reg-siswa">
-              <label for="text">Nama Kelas</label>
+              <label for="text">Nama Kelas <code>*</code></label>
               <input
                 type="text"
                 class="form-control"

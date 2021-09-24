@@ -8,7 +8,7 @@
         <div class="col-md-12 crud-body">
           <div class="form-user mt-3">
             <div class="form-group reg-siswa">
-              <label for="kelas">Kelas</label>
+              <label for="kelas">Kelas <code>*</code></label>
               <b-form-select
                 class="form-control"
                 id="kelas"
@@ -25,7 +25,7 @@
               </b-form-select>
             </div>
             <div class="form-group reg-siswa">
-              <label for="text">Nama Penjurusan</label>
+              <label for="text">Nama Penjurusan <code>*</code></label>
               <input
                 type="text"
                 class="form-control"
