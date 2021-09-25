@@ -3,7 +3,9 @@
     <form @submit.prevent="validateForm">
       <div class="row d-flex no-gutters">
         <div class="col-md-12 dashboard">
-          <h2 class="dash-label"><b-spinner type="grow" class="mr-2" v-if="loading"/> Ubah Jenjang </h2>
+          <h2 class="dash-label">
+            <b-spinner type="grow" class="mr-2" v-if="loading" /> Ubah Jenjang
+          </h2>
           <!-- <p>
             Ayo, buat data master kelas sekarang juga untuk merelasikan data
             siswa.
@@ -47,12 +49,9 @@ export default {
     return {
       loading: false,
       selectedId: this.$route.params.id,
-      dataMaster: {
-        jenjang: [],
-      },
       form: {
-        nama_jenjang: "",
-      },
+        nama_jenjang: ""
+      }
     };
   },
   mounted() {
@@ -68,7 +67,7 @@ export default {
           title: "Peringatan",
           variant: "warning",
           solid: true,
-          autoHideDelay: 2000,
+          autoHideDelay: 2000
         });
         return;
       }
@@ -78,7 +77,7 @@ export default {
       this.loading = true;
       this.$axios
         .$put(`/api/${type}/update/${this.$route.params.id}`, this.form)
-        .then((res) => {
+        .then(res => {
           console.log(res);
           if (res.success) {
             this.$root.$bvToast.toast(
@@ -87,14 +86,14 @@ export default {
                 title: "Sukses",
                 variant: "success",
                 solid: true,
-                autoHideDelay: 3000,
+                autoHideDelay: 3000
               }
             );
             this.$router.replace("/administrator/master_jenjang");
           }
           return true;
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
           this.catchError(err);
         })
@@ -104,23 +103,22 @@ export default {
       this.loading = true;
       this.$axios
         .$get(`/api/${type}/find/${id}`)
-        .then((res) => {
+        .then(res => {
           console.log(res);
           if (res.success) {
             this.dataDetail = res.data;
             this.form = {
-              id_jenjang: this.dataDetail.id_jenjang,
-              nama_jenjang: this.dataDetail.nama_jenjang,
+              nama_jenjang: this.dataDetail.nama_jenjang
             };
           }
           return true;
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
           this.catchError(err);
         })
         .finally(() => (this.loading = false));
-    },
-  },
+    }
+  }
 };
 </script>

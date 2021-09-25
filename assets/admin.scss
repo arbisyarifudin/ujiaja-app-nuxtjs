@@ -125,6 +125,12 @@ input {
     .navbar-nav {
         z-index: 999;
         position: relative;
+        .nav-link {
+            &.active,
+            &.nuxt-link-active {
+                color: #47415b;
+            }
+        }
     }
     .dropdown {
         &-menu {
@@ -152,6 +158,13 @@ input {
                 border-left: 0;
                 border-right: 16px solid #fff;
                 z-index: 5;
+            }
+        }
+        &-item {
+            &.active,
+            &.nuxt-link-active {
+                background-color: rgba(176, 166, 239, 0.5);
+                color: #fff;
             }
         }
     }
@@ -515,6 +528,7 @@ table,
     background-color: transparent;
     border-bottom: 1px solid #9490a4;
     border-radius: 0;
+    overflow: hidden;
 }
 
 .form-user {

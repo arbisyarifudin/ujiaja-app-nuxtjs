@@ -46,12 +46,9 @@ export default {
   data() {
     return {
       loading: false,
-      dataMaster: {
-        jenjang: [],
-      },
       form: {
-        nama_jenjang: "",
-      },
+        nama_jenjang: ""
+      }
     };
   },
   methods: {
@@ -62,7 +59,7 @@ export default {
           title: "Peringatan",
           variant: "warning",
           solid: true,
-          autoHideDelay: 2000,
+          autoHideDelay: 2000
         });
         return;
       }
@@ -72,25 +69,25 @@ export default {
       this.loading = true;
       this.$axios
         .$post(`/api/${type}/create`, this.form)
-        .then((res) => {
+        .then(res => {
           console.log(res);
           if (res.success) {
             this.$root.$bvToast.toast("Data " + type + " berhasil ditambah.", {
               title: "Sukses",
               variant: "success",
               solid: true,
-              autoHideDelay: 3000,
+              autoHideDelay: 3000
             });
             this.$router.replace("/administrator/master_jenjang");
           }
           return true;
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
           this.catchError(err);
         })
         .finally(() => (this.loading = false));
-    },
-  },
+    }
+  }
 };
 </script>

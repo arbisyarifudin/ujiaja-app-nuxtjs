@@ -129,6 +129,10 @@ input:disabled {
   position: relative;
 }
 
+#menu.sidebar .navbar-nav .nav-link.active, #menu.sidebar .navbar-nav .nav-link.nuxt-link-active {
+  color: #47415b;
+}
+
 #menu.sidebar .dropdown-menu {
   top: -35px !important;
   left: 150px !important;
@@ -157,6 +161,11 @@ input:disabled {
   border-left: 0;
   border-right: 16px solid #fff;
   z-index: 5;
+}
+
+#menu.sidebar .dropdown-item.active, #menu.sidebar .dropdown-item.nuxt-link-active {
+  background-color: rgba(176, 166, 239, 0.5);
+  color: #fff;
 }
 
 #header .dropdown-menu {
@@ -574,6 +583,7 @@ table,
   background-color: transparent;
   border-bottom: 1px solid #9490a4;
   border-radius: 0;
+  overflow: hidden;
 }
 
 .form-user .input-group-text {
