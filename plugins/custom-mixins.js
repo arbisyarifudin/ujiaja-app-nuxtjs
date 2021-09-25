@@ -57,7 +57,7 @@ Vue.mixin({
       // this.$store.commit("set", ["dataUser", {}]);
     },
     ApiUrl(param) {
-      return "http://localhost:8000/" + param;
+      return process.env.apiUrl + "/" + param;
     },
     catchError(error) {
       console.log("catchError", error, error.response);

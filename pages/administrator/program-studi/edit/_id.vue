@@ -3,57 +3,69 @@
     <form @submit.prevent="validateForm">
       <div class="row d-flex no-gutters">
         <div class="col-md-12 dashboard">
-          <h2 class="dash-label">Tambah Program Studi</h2>
-          <p>
+          <h2 class="dash-label">
+            <b-spinner type="grow" class="mr-2" v-if="loading" /> Ubah Program
+            Studi
+          </h2>
+          <!-- <p>
             Ayo, buat data master program studi sekarang juga untuk merelasikan
             data siswa.
-          </p>
+          </p> -->
         </div>
         <div class="col-md-12 crud-body">
           <div class="row">
             <div class="col-lg-12">
               <div class="form-user mt-3">
                 <div class="row">
-                  <div class="col-md-6 form-group reg-siswa">
-                    <label for="nama_studi">Program Studi <code>*</code></label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="nama_studi"
-                      placeholder="Tulis Program Studi"
-                      v-model="form.nama_studi"
-                    />
+                  <div class="col-md-6">
+                    <div class="form-group reg-siswa">
+                      <label for="nama_studi"
+                        >Program Studi <code>*</code></label
+                      >
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="nama_studi"
+                        placeholder="Tulis Program Studi"
+                        v-model="form.nama_studi"
+                      />
+                    </div>
                   </div>
-                  <div class="col-md-6 form-group reg-siswa">
-                    <label for="icon_prodi"
-                      >Ikon Program Studi <code>*</code></label
-                    >
-                    <div class="row">
-                      <div class="col-md-3">
-                        <img
-                          src="/logo2.png"
-                          alt="icon prodi"
-                          class="img-fluid"
-                          id="icon_prodi_preview"
-                        />
-                      </div>
-                      <div class="col-md-8">
-                        <div class="custom-file mb-3">
-                          <input
-                            type="file"
-                            class="custom-file-input"
-                            id="icon_prodi"
-                            ref="icon_prodi"
-                            @change="handleUploadedFile('icon_prodi')"
-                          />
-                          <label class="custom-file-label" for="icon_prodi"
-                            >Pilih file atau drag kesini</label
-                          >
-                          <div class="small text-danger mt-1">
-                            <small
-                              >Disarankan dengan foto ukuran 469 x 625
-                              piksel</small
+                  <div class="col-md-6">
+                    <div class="form-group reg-siswa">
+                      <label for="icon_prodi"
+                        >Ikon Program Studi <code>*</code></label
+                      >
+                      <div class="row">
+                        <div class="col-md-3">
+                          <client-only>
+                            <img
+                              v-if="dataDetail && dataDetail.icon_prodi"
+                              :alt="dataDetail.nama_studi"
+                              :src="ApiUrl(dataDetail.icon_prodi)"
+                              class="img-fluid"
+                              id="icon_prodi_preview"
+                            />
+                          </client-only>
+                        </div>
+                        <div class="col-md-8">
+                          <div class="custom-file mb-3">
+                            <input
+                              type="file"
+                              class="custom-file-input"
+                              id="icon_prodi"
+                              ref="icon_prodi"
+                              @change="handleUploadedFile('icon_prodi')"
+                            />
+                            <label class="custom-file-label" for="icon_prodi"
+                              >Pilih file atau drag kesini</label
                             >
+                            <div class="small text-danger mt-1">
+                              <small
+                                >Disarankan dengan foto ukuran 469 x 625
+                                piksel</small
+                              >
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -100,115 +112,111 @@
                 </div>
               </div>
             </div>
-            <div class="col-lg-12">
-              <div class="form-user mt-3">
-                <div class="form-group reg-siswa">
-                  <label for="perguruanTinggi" class="d-md-none d-block"
-                    >Perguruan Tinggi & Akreditasi:</label
-                  >
-                  <div
-                    class="row"
-                    v-for="(item, i) in form.program_studi_dan_perguruan_tinggi"
-                    :key="i"
-                  >
-                    <div class="col-md-4 col-12">
-                      <div class="form-group reg-siswa">
-                        <label for="perguruanTinggi" class="d-md-block d-none"
-                          >Perguruan Tinggi <code>*</code></label
+            <div class="col-lg-7"></div>
+          </div>
+          <div class="form-user mt-3">
+            <div class="form-group reg-siswa">
+              <label for="perguruanTinggi" class="d-md-none d-block"
+                >Perguruan Tinggi & Akreditasi:</label
+              >
+              <div
+                class="row"
+                v-for="(item, i) in form.program_studi_dan_perguruan_tinggi"
+                :key="i"
+              >
+                <div class="col-md-4 col-12">
+                  <div class="form-group reg-siswa">
+                    <label for="perguruanTinggi" class="d-md-block d-none"
+                      >Perguruan Tinggi <code>*</code></label
+                    >
+                    <b-form-select
+                      class="form-control"
+                      id="perguruanTinggi"
+                      v-model="item.id_perguruan_tinggi"
+                      :options="dataOption['perguruanTinggi']"
+                      value-field="id"
+                      text-field="textField"
+                      required
+                    >
+                      <template #first>
+                        <b-form-select-option :value="null"
+                          >-- Pilih --</b-form-select-option
                         >
-                        <b-form-select
-                          class="form-control"
-                          id="perguruanTinggi"
-                          v-model="item.id_perguruan_tinggi"
-                          :options="dataOption['perguruanTinggi']"
-                          value-field="id"
-                          text-field="textField"
-                          required
-                        >
-                          <template #first>
-                            <b-form-select-option :value="null"
-                              >-- Pilih --</b-form-select-option
-                            >
-                          </template>
-                        </b-form-select>
-                      </div>
-                    </div>
-                    <div class="col-md-4 col-5">
-                      <div class="form-group reg-siswa">
-                        <label
-                          for="akreditasi_program_studi"
-                          class="d-md-block d-none"
-                          >Akreditasi <code>*</code></label
-                        >
-                        <select
-                          type="text"
-                          class="form-control"
-                          id="akreditasi_program_studi"
-                          v-model="item.akreditasi_program_studi"
-                          required
-                        >
-                          <option :value="null">-- Pilih --</option>
-                          <option value="A">A</option>
-                          <option value="B">B</option>
-                          <option value="C">C</option>
-                          <option value="-">-</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div class="col-md-3 col-5">
-                      <div class="form-group reg-siswa">
-                        <label for="passing_grade" class="d-md-block d-none"
-                          >Passing Grade <code>*</code></label
-                        >
-                        <input
-                          type="text"
-                          class="form-control"
-                          id="passing_grade"
-                          placeholder="Ex: 780.55"
-                          v-model="item.passing_grade_prodi"
-                          required
-                        />
-                      </div>
-                    </div>
-                    <div class="col-md-1 col-2">
-                      <button
-                        type="button"
-                        class="btn btn-sm btn-danger px-3"
-                        v-if="i != 0"
-                        @click.prevent="
-                          () => {
-                            form.program_studi_dan_perguruan_tinggi.splice(
-                              i,
-                              1
-                            );
-                          }
-                        "
-                      >
-                        -
-                      </button>
-                    </div>
+                      </template>
+                    </b-form-select>
                   </div>
+                </div>
+                <div class="col-md-4 col-5">
+                  <div class="form-group reg-siswa">
+                    <label
+                      for="akreditasi_program_studi"
+                      class="d-md-block d-none"
+                      >Akreditasi <code>*</code></label
+                    >
+                    <select
+                      type="text"
+                      class="form-control"
+                      id="akreditasi_program_studi"
+                      v-model="item.akreditasi_program_studi"
+                      required
+                    >
+                      <option :value="null">-- Pilih --</option>
+                      <option value="A">A</option>
+                      <option value="B">B</option>
+                      <option value="C">C</option>
+                      <option value="-">-</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-3 col-5">
+                  <div class="form-group reg-siswa">
+                    <label for="passing_grade" class="d-md-block d-none"
+                      >Passing Grade <code>*</code></label
+                    >
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="passing_grade"
+                      placeholder="Ex: 780.55"
+                      v-model="item.passing_grade_prodi"
+                      required
+                    />
+                  </div>
+                </div>
+                <div class="col-md-1 col-2">
                   <button
                     type="button"
-                    class="btn btn-sm btn-primary px-3"
-                    v-if="
-                      form.program_studi_dan_perguruan_tinggi.length <
-                        dataOption['perguruanTinggi'].length
-                    "
+                    class="btn btn-sm btn-danger px-3"
+                    v-if="i != 0"
                     @click.prevent="
                       () => {
-                        form.program_studi_dan_perguruan_tinggi.push({
-                          id_perguruan_tinggi: null,
-                          akreditasi_program_studi: null,
-                          passing_grade_prodi: null
-                        });
+                        form.program_studi_dan_perguruan_tinggi.splice(i, 1);
                       }
                     "
                   >
-                    +
+                    -
                   </button>
                 </div>
               </div>
+              <button
+                type="button"
+                class="btn btn-sm btn-primary px-3"
+                v-if="
+                  form.program_studi_dan_perguruan_tinggi.length <
+                    dataOption['perguruanTinggi'].length
+                "
+                @click.prevent="
+                  () => {
+                    form.program_studi_dan_perguruan_tinggi.push({
+                      id_perguruan_tinggi: null,
+                      akreditasi_program_studi: null,
+                      passing_grade_prodi: null
+                    });
+                  }
+                "
+              >
+                +
+              </button>
             </div>
           </div>
           <div class="form-user mt-3">
@@ -288,6 +296,7 @@ export default {
       },
       form: {
         nama_studi: "",
+        passing_grade: "",
         id_penjurusan: null,
         id_mapel: null,
         icon_prodi: null,
@@ -302,12 +311,17 @@ export default {
           }
         ]
       },
+      dataDetail: {},
       files: {
         icon_prodi: null
       }
     };
   },
   mounted() {
+    if (!this.$route.params.id)
+      return this.$router.push("/administrator/program-studi");
+
+    this.getDetail("programStudi", this.$route.params.id);
     this.getData("perguruanTinggi");
     this.getData("penjurusan");
     this.getData("mapel");
@@ -334,14 +348,13 @@ export default {
         !this.form.nama_studi ||
         !this.form.id_penjurusan ||
         !this.form.id_mapel ||
-        !this.form.icon_prodi ||
         !this.form.deskripsi ||
         !this.form.alasan ||
         !this.form.prospek ||
         !this.form.program_studi_dan_perguruan_tinggi[0].id_perguruan_tinggi ||
+        !this.form.program_studi_dan_perguruan_tinggi[0].passing_grade_prodi ||
         !this.form.program_studi_dan_perguruan_tinggi[0]
-          .akreditasi_program_studi ||
-        !this.form.program_studi_dan_perguruan_tinggi[0].passing_grade_prodi
+          .akreditasi_program_studi
       ) {
         this.$bvToast.toast("Mohon lengkapi form dengan benar!", {
           title: "Peringatan",
@@ -356,7 +369,7 @@ export default {
     submitData(type) {
       this.loading = true;
       this.$axios
-        .$post(`/api/${type}/create/multiple`, this.form)
+        .$put(`/api/${type}/update/multiple/${this.dataDetail.id}`, this.form)
         .then(res => {
           console.log(res);
           if (res.success) {
@@ -456,6 +469,42 @@ export default {
           })
           .finally(() => (this.loading = false));
       }
+    },
+    getDetail(type, id) {
+      this.loading = true;
+      this.$axios
+        .$get(`/api/${type}/find/${id}`)
+        .then(res => {
+          console.log(res);
+          if (res.success) {
+            this.dataDetail = res.data;
+            this.form = {
+              nama_studi: this.dataDetail.nama_studi,
+              passing_grade: this.dataDetail.passing_grade,
+              id_penjurusan: this.dataDetail.id_penjurusan,
+              id_mapel: this.dataDetail.id_mapel,
+              icon_prodi: this.dataDetail.icon_prodi,
+              deskripsi: this.dataDetail.deskripsi,
+              alasan: this.dataDetail.alasan,
+              prospek: this.dataDetail.prospek,
+              program_studi_dan_perguruan_tinggi: this.dataDetail.listperguruan.map(
+                item => {
+                  return {
+                    id_perguruan_tinggi: item.id_perguruan_tinggi,
+                    akreditasi_program_studi: item.akreditasi_program_studi,
+                    passing_grade_prodi: item.passing_grade_prodi
+                  };
+                }
+              )
+            };
+          }
+          return true;
+        })
+        .catch(err => {
+          console.log(err);
+          this.catchError(err);
+        })
+        .finally(() => (this.loading = false));
     }
   }
 };

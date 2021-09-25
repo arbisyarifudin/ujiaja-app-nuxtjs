@@ -1,4 +1,13 @@
 export default {
+
+  env: {
+    baseUrl: process.env.NODE_ENV !== 'production' ? 'http://localhost:3000' : 'https://mydomain.com',
+    apiUrl: process.env.NODE_ENV !== 'production' ? 'http://localhost:8000' : 'https://apidomain.com',
+  },
+
+  dev: process.env.NODE_ENV !== 'production',
+
+
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     title: "ujiaja-fe-bs",
@@ -62,7 +71,7 @@ export default {
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    baseURL: "http://localhost:8000" // Used as fallback if no runtime config is provided
+    baseURL: process.env.apiUrl || 'http://localhost:8000' // Used as fallback if no runtime config is provided
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
