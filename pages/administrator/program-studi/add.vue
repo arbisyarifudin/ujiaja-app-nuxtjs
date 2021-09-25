@@ -24,16 +24,18 @@
                   />
                 </div>
                 <div class="form-group reg-siswa">
-                  <label for="icon_studi"
+                  <label for="icon_prodi"
                     >Ikon Program Studi <code>*</code></label
                   >
                   <div class="custom-file mb-3">
                     <input
                       type="file"
                       class="custom-file-input"
-                      id="icon_studi"
+                      id="icon_prodi"
+                      ref="icon_prodi"
+                      @change="handleUploadedFile('icon_prodi')"
                     />
-                    <label class="custom-file-label" for="icon_studi"
+                    <label class="custom-file-label" for="icon_prodi"
                       >Pilih file atau drag kesini</label
                     >
                     <div class="small text-danger mt-1">
@@ -210,7 +212,7 @@
                 v-model="form.alasan_memilih"
               ></textarea> -->
               <client-only>
-                <VueEditor id="editor2" v-model="form.alasan_memilih" />
+                <VueEditor id="editor2" v-model="form.alasan" />
               </client-only>
             </div>
             <div class="form-group reg-siswa">
@@ -223,7 +225,7 @@
                 v-model="form.prospek_kerja"
               ></textarea> -->
               <client-only>
-                <VueEditor id="editor3" v-model="form.prospek_kerja" />
+                <VueEditor id="editor3" v-model="form.prospek" />
               </client-only>
             </div>
           </div>
@@ -266,13 +268,16 @@ export default {
         passing_grade: "",
         id_penjurusan: null,
         id_mapel: null,
-        icon_studi: null,
+        icon_prodi: null,
         deskripsi: "",
-        alasan_memilih: "",
-        prospek_kerja: "",
+        alasan: "",
+        prospek: "",
         program_studi_dan_perguruan_tinggi: [
           { id_perguruan_tinggi: null, akreditasi_program_studi: null }
         ]
+      },
+      files: {
+        icon_prodi: null
       }
     };
   },
@@ -304,9 +309,10 @@ export default {
         !this.form.passing_grade ||
         !this.form.id_penjurusan ||
         !this.form.id_mapel ||
+        !this.form.icon_prodi ||
         !this.form.deskripsi ||
-        !this.form.alasan_memilih ||
-        !this.form.prospek_kerja ||
+        !this.form.alasan ||
+        !this.form.prospek ||
         !this.form.program_studi_dan_perguruan_tinggi[0].id_perguruan_tinggi ||
         !this.form.program_studi_dan_perguruan_tinggi[0]
           .akreditasi_program_studi
@@ -328,7 +334,7 @@ export default {
         .then(res => {
           console.log(res);
           if (res.success) {
-            this.$root.$bvToast.toast("Data " + type + " berhasil ditambah.", {
+            this.$root.$bvToast.toast("Data program studi berhasil ditambah.", {
               title: "Sukses",
               variant: "success",
               solid: true,
@@ -388,6 +394,36 @@ export default {
           this.catchError(err);
         })
         .finally(() => (this.loading = false));
+    },
+    handleUploadedFile(param) {
+      this.files[param] = this.$refs[param].files[0];
+      console.log(this.files[param]);
+      this.$refs[param].closest(
+        ".custom-file"
+      ).children[1].textContent = this.files[param].name;
+
+      let formData = new FormData();
+
+      formData.append("image", this.files[param]);
+      // console.log(formData);
+
+      if (this.files[param] != null) {
+        this.loading = true;
+        this.$axios
+          .$post(`/api/upload/image`, formData)
+          .then(res => {
+            console.log(res);
+            if (res) {
+              this.form.icon_prodi = res.data.image_url;
+            }
+            return;
+          })
+          .catch(err => {
+            console.log(err);
+            this.catchError(err);
+          })
+          .finally(() => (this.loading = false));
+      }
     }
   }
 };
