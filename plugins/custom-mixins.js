@@ -56,6 +56,9 @@ Vue.mixin({
       this.$store.commit("SET_IS_AUTH", false);
       // this.$store.commit("set", ["dataUser", {}]);
     },
+    ApiUrl(param) {
+      return "http://localhost:8000/" + param;
+    },
     catchError(error) {
       console.log("catchError", error, error.response);
       if (error.response && error.response.status == 401) {
