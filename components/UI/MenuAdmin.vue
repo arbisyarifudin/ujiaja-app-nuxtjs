@@ -2,7 +2,7 @@
   <ul class="nav navbar-nav pl-3 flex-column">
     <li class="nav-item">
       <nuxt-link
-        class="nav-link d-flex align-items-center active"
+        class="nav-link d-flex align-items-center"
         to="/administrator/dashboard"
         ><i class="fas fa-chart-pie fa-fw mr-2"></i> Dashboard</nuxt-link
       >
@@ -21,6 +21,9 @@
       <b-dropdown-item to="/administrator/master_kelas">Kelas</b-dropdown-item>
       <b-dropdown-item to="/administrator/master_penjurusan"
         >Penjurusan</b-dropdown-item
+      >
+      <b-dropdown-item to="/administrator/master_mapel"
+        >Mata Pelajaran</b-dropdown-item
       >
     </b-nav-item-dropdown>
     <b-nav-item-dropdown text="Perguruan Tinggi" right>
