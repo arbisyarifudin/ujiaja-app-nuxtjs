@@ -37,11 +37,22 @@
         >Program Studi</b-dropdown-item
       >
     </b-nav-item-dropdown>
-    <li class="nav-item">
+    <!-- <li class="nav-item">
       <nuxt-link class="nav-link d-flex align-items-center" to="#"
         ><i class="fas fa-clipboard fa-fw mr-2"></i> Modul Tryout</nuxt-link
       >
-    </li>
+    </li> -->
+    <b-nav-item-dropdown text="Modul Tryout" right>
+      <template #button-content>
+        <i class="fas fa-clipboard fa-fw mr-2"></i> Modul Tryout
+      </template>
+      <b-dropdown-item to="/administrator/tryout"
+        >Data Tryout & Soal</b-dropdown-item
+      >
+      <b-dropdown-item to="/administrator/product"
+        >Data Product / Event</b-dropdown-item
+      >
+    </b-nav-item-dropdown>
     <li class="nav-item">
       <nuxt-link class="nav-link d-flex align-items-center" to="#"
         ><i class="fas fa-laptop fa-fw mr-2"></i> Modul Belajar</nuxt-link
