@@ -209,10 +209,10 @@ input {
   margin-top: 95px;
 }
 .konten.konten-dashfirst.guru {
-  background-image: url(/IconKenapa/first-guru.png);
+  background-image: url(/icon/first-guru.png);
 }
 .konten.konten-dashfirst.ortu {
-  background-image: url(/IconKenapa/dash-ortu-first-step.png);
+  background-image: url(/icon/dash-ortu-first-step.png);
 }
 
 .alert-konten {
@@ -227,7 +227,7 @@ input {
   background-size: contain;
   background-position: bottom;
   background-repeat: no-repeat;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05);
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.08);
   border-radius: 12px;
 }
 .card-karir .card-body {
@@ -242,6 +242,11 @@ input {
   font-size: 12px;
   color: #9490a4;
   padding-left: 0px;
+}
+.card-bawah {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 .konten-editprofil h2 {
   color: #47415b;
@@ -415,11 +420,12 @@ input {
 .btn-primary.tambah,
 .btn-primary.simpan {
   background: #b0a6ef;
-  border: none;
+  border-color: #b0a6ef;
   padding: 10px;
 }
 .btn-primary.tambah:hover {
   background: #847bbb;
+  border-color: #847bbb;
 }
 .btn-primary.simpan:hover {
   background: #847bbb;
@@ -474,7 +480,7 @@ input {
 }
 .card-data .btn-outline-danger.danger {
   border-radius: 20px;
-  font-size: 1px;
+  font-size: 16px;
 }
 .card-data h4 {
   font-size: 16px;
@@ -500,12 +506,39 @@ input {
 .card-data .fafile {
   color: #b0a6ef;
 }
+.card-content p {
+  color: #9490a4;
+  opacity: 80%;
+  font-size: 16px;
+}
+.card-content h5 {
+  font-size: 14px;
+}
+.card-content .beda {
+  color: #fdfdfd;
+}
+.beda {
+  background-color: #ffc490;
+  border-radius: 5px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+.card-body .label-event {
+  background-color: #55cb4a;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.08);
+  border-radius: 0px 12px;
+  color: #fdfdfd;
+}
+.card-body .label-event.draft {
+  background-color: #008ffd;
+}
 .buat-soal textarea {
   background: transparent;
   border-color: #9490a4;
   border-radius: 5px;
 }
-.buat-soal p {
+.buat-soal p,
+.soal p {
   color: #9490a4;
 }
 .buat-soal p:after {
@@ -520,6 +553,201 @@ input {
   padding-left: 25px;
   padding-right: 20px;
   justify-content: space-between;
+}
+.konten textarea {
+  border-color: #9490a4;
+  opacity: 50%;
+}
+[aria-expanded="false"] > .expanded,
+[aria-expanded="true"] > .collapsed {
+  display: none;
+}
+.accordion {
+  margin-top: 20px;
+}
+
+.accordion .card-link {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+.card-header span {
+  color: #949494;
+}
+.accordion .card {
+  border: none;
+  background: #fdfdfd;
+  box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.1);
+  border-radius: 2px;
+}
+.accordion .card-body {
+  font-size: 12px;
+  color: #9490a4;
+  padding-top: 0px;
+  padding-left: 40px;
+  padding-right: 40px;
+  padding-bottom: 40px;
+}
+.accordion .card-header {
+  background: transparent;
+  padding: 30px;
+  border-bottom: 0px;
+}
+.card-header:first-child {
+  border-radius: 0px;
+}
+.card-body-content {
+  background: #fcfaff;
+  box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.1);
+  border-radius: 2px;
+  padding: 35px;
+}
+.card-body-content .kuning {
+  background-color: #f0ca45;
+  border: none;
+}
+.card-body-content .kuning:hover {
+  background-color: #ddb831;
+}
+.card-body-content .btn-danger {
+  background-color: #ed5c4e;
+  border: none;
+}
+.card-body-content .btn-danger:hover {
+  background-color: #e24031;
+}
+.card-body-content .btn-danger.dua {
+  background-color: #c04125;
+  border: none;
+}
+.card-body-content .btn-danger.dua:hover {
+  background-color: #aa2e13;
+}
+.dashboard.soal .input-group .btn-danger {
+  background-color: #ffc490;
+  border-color: #ced4da;
+  border-radius: 1px solid rgba(148, 144, 164, 0.5);
+  box-sizing: border-box;
+  border-radius: 0px 3px 3px 0px;
+}
+.modal-body .btn-danger {
+  background-color: #ffc490;
+  border: none;
+}
+.dashboard.soal .input-group .btn-danger,
+.modal-body .btn-danger:hover {
+  background-color: #f1a664;
+}
+.card-body-content-dua {
+  background: #fcfaff;
+  box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.1);
+  border-radius: 2px;
+  padding-bottom: 30px;
+  margin-top: 30px;
+  padding-top: 10px;
+}
+.card-body-content-dua.dua {
+  margin-left: 35px;
+  margin-right: 35px;
+  margin-top: 20px;
+}
+.card-body-content-dua.dua .opsi .btn-primary,
+.btn-modal {
+  background-color: #6ec0ff;
+  border: none;
+}
+.btn-modal.table {
+  border-radius: 20px;
+}
+.card-body-content-dua.dua .opsi.dua .btn-primary {
+  background-color: #c8adf5;
+  border: none;
+}
+.card-body-content-dua.dua .opsi.dua .btn-primary:hover {
+  background-color: #b595e7;
+}
+.card-body-content-dua.dua .opsi .btn-primary:hover,
+.btn-modal:hover {
+  background-color: rgb(17, 130, 250);
+}
+.header-soal {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 10px;
+}
+.header-soal.dua {
+  justify-content: flex-end;
+}
+.dashboard.soal {
+  padding-left: 35px;
+  padding-right: 35px;
+  padding-top: 20px;
+}
+.dashboard .opsi {
+  display: flex;
+  align-items: baseline;
+}
+.soal-detail h5 {
+  color: #47415b;
+  font-weight: 400;
+}
+.soal-detail p {
+  font-size: 16px;
+  color: #9490a4;
+}
+.radioButtons {
+  list-style: none;
+  padding: 0px;
+}
+.pembungkus {
+  position: relative;
+}
+.text-jawaban {
+  position: absolute;
+  right: 55%;
+  top: 24%;
+  width: 92px;
+  height: 42px;
+  background: transparent;
+  border: none;
+  color: #0a0a0a;
+}
+.modal-body.isi h4,
+.modal-body.isi label {
+  color: #b0a6ef;
+}
+.text-jawaban.dua {
+  right: 24%;
+  top: 179px;
+  width: 84px;
+}
+.text-jawaban:focus-visible {
+  outline-style: none;
+}
+.header-detail.bg-white,
+.bg-white {
+  box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.1);
+  border-radius: 2px;
+}
+.bg-white h5 {
+  color: #47415b;
+}
+.table-transaksi thead th,
+.table th,
+.table td {
+  border: none;
+}
+.table-transaksi tbody {
+  color: #9490a4;
+}
+.table-transaksi thead,
+th {
+  color: #47415b;
+  font-weight: 500;
+}
+.modal-body-kiri p {
+  color: #9490a4;
 }
 /* table */
 .table-data-kelas {
@@ -634,7 +862,7 @@ input {
   height: 235px;
 }
 .dropzone-wrapper.tambah {
-  height: 320px;
+  height: 405px;
 }
 .dropzone-desc {
   position: absolute;

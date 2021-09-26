@@ -24,7 +24,7 @@
                   { text: 'Tampil 5', value: 5 },
                   { text: 'Tampil 10', value: 10 },
                   { text: 'Tampil 25', value: 25 },
-                  { text: 'Tampil 50', value: 50 },
+                  { text: 'Tampil 50', value: 50 }
                 ]"
                 @change="getData('jenjang')"
               ></b-form-select>
@@ -88,8 +88,10 @@
                   </td>
                 </tr>
               </template>
-            <UITableLoading v-if="loading"/>
-            <UITableNotFound v-if="totalRows == 0 && filter.keyword && !loading"/>
+              <UITableLoading v-if="loading" />
+              <UITableNotFound
+                v-if="totalRows == 0 && filter.keyword && !loading"
+              />
             </tbody>
           </table>
 
@@ -109,7 +111,7 @@
         class="crud-body kosong"
       >
         <h2 class="kosong-title">Oops!</h2>
-        <p class="kosong-subtitle">Belum ada kelas</p>
+        <p class="kosong-subtitle">Belum ada jenjang</p>
         <nuxt-link
           class="btn btn-primary tambah-kelas px-4 py-3"
           to="/administrator/master_jenjang/add"
@@ -128,7 +130,9 @@
       @hidden="resetModal"
     >
       <div>
-        <p class="modal-text">Apakah anda yakin ingin menghapus data jenjang ini?</p>
+        <p class="modal-text">
+          Apakah anda yakin ingin menghapus data jenjang ini?
+        </p>
         <div class="modal-footer justify-content-end" style="border: 0px">
           <button
             class="btn btn-outline-secondary"
@@ -154,30 +158,30 @@
 <script>
 export default {
   layout: "admin",
-  data() { 
+  data() {
     return {
       loading: false,
       filter: {
         page: 1,
         perPage: 10,
-        keyword: "",
+        keyword: ""
       },
       totalRows: 0,
       items: [],
       selectedId: null,
-      selectedIndex: null,
+      selectedIndex: null
     };
   },
   created() {
     this.getData("jenjang");
   },
   watch: {
-    "filter.keyword": function (value) {
+    "filter.keyword": function(value) {
       this.getData("jenjang");
     },
-    "filter.page": function (value) {
+    "filter.page": function(value) {
       this.getData("jenjang");
-    },
+    }
   },
   methods: {
     resetModal() {},
@@ -188,10 +192,10 @@ export default {
           params: {
             q: this.filter.keyword,
             paginate: this.filter.perPage,
-            page: this.filter.page,
-          },
+            page: this.filter.page
+          }
         })
-        .then((res) => {
+        .then(res => {
           console.log(res);
           if (res.success) {
             this.items = res.data.data;
@@ -200,7 +204,7 @@ export default {
           }
           return true;
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
           this.catchError(err);
         })
@@ -210,7 +214,7 @@ export default {
       this.loading = true;
       this.$axios
         .$delete(`/api/${type}/delete/${this.selectedId}`)
-        .then((res) => {
+        .then(res => {
           console.log(res);
           if (res.success) {
             this.items.splice(this.selectedIndex, 1);
@@ -218,18 +222,18 @@ export default {
               title: "Sukses",
               variant: "success",
               solid: true,
-              autoHideDelay: 3000,
+              autoHideDelay: 3000
             });
             this.$bvModal.hide("modal-delete");
           }
           return true;
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
           this.catchError(err);
         })
         .finally(() => (this.loading = false));
-    },
-  },
+    }
+  }
 };
 </script>

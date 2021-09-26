@@ -65,7 +65,7 @@
               </ul>
             </nav>
           </div>
-          <main id="konten" class="konten px-md-5 px-0">
+          <main id="konten" class="konten px-md-3 px-0">
             <Nuxt />
           </main>
         </div>

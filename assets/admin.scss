@@ -63,10 +63,12 @@ input {
     }
     &-outline {
         &-primary {
-            border: 1px solid #d5cbff;
+            // border: 1px solid #c6b8fb;
+            border: 1px solid #b0a6ef;
             &:disabled,
             &.disabled {
-                color: #a594f9;
+                // color: #a594f9;
+                color: #b0a6ef;
                 &:hover {
                     color: #fff;
                     border-color: #dddddd;
@@ -364,9 +366,52 @@ input {
     }
 }
 
+.data-tryout {
+    margin-top: 30px;
+    .card-data {
+        margin: 0;
+        margin-bottom: 30px;
+        padding: 30px 20px;
+        .jenis {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            .badge {
+                font-size: 16px;
+                font-weight: 400;
+                color: #fdfdfd;
+                text-align: center;
+                padding: 5px 20px;
+                margin-bottom: 10px;
+                background: #ffc490;
+                border-radius: 5px;
+            }
+        }
+        .btn {
+            display: inline-block;
+            min-width: 150px;
+        }
+    }
+}
+
+.buat-soal p:after {
+    content: "";
+}
+
+.accordion {
+    .btn {
+        border-radius: 4px;
+    }
+}
+
 table,
 .table {
     position: relative;
+}
+
+.collapsed > .when-open,
+.not-collapsed > .when-closed {
+    display: none;
 }
 
 .admin-modal {
