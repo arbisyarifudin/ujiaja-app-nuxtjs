@@ -58,7 +58,7 @@
             <thead class="thead-table">
               <tr>
                 <th class="no" width="100px">No</th>
-                <th>Jenjang</th>
+                <th>Penjurusan</th>
                 <th>Kelas</th>
                 <th>Penjurusan</th>
                 <th width="100" class="aksi">Aksi</th>
@@ -120,19 +120,19 @@
         class="crud-body kosong"
       >
         <h2 class="kosong-title">Oops!</h2>
-        <p class="kosong-subtitle">Belum ada kelas</p>
+        <p class="kosong-subtitle">Belum ada penjurusan</p>
         <nuxt-link
           class="btn btn-primary tambah-kelas px-4 py-3"
           to="/administrator/master_penjurusan/add"
         >
-          Tambah Jenjang
+          Tambah Penjurusan
         </nuxt-link>
       </div>
     </div>
 
     <b-modal
       id="modal-delete"
-      title="Konfirmasi Hapus Jenjang"
+      title="Konfirmasi Hapus Penjurusan"
       hide-footer
       centered
       modal-class="admin-modal"

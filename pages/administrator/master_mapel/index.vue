@@ -110,19 +110,19 @@
         class="crud-body kosong"
       >
         <h2 class="kosong-title">Oops!</h2>
-        <p class="kosong-subtitle">Belum ada kelas</p>
+        <p class="kosong-subtitle">Belum ada mapel</p>
         <nuxt-link
           class="btn btn-primary tambah-kelas px-4 py-3"
           to="/administrator/master_mapel/add"
         >
-          Tambah Jenjang
+          Tambah Mapel
         </nuxt-link>
       </div>
     </div>
 
     <b-modal
       id="modal-delete"
-      title="Konfirmasi Hapus Jenjang"
+      title="Konfirmasi Hapus Mapel"
       hide-footer
       centered
       modal-class="admin-modal"
