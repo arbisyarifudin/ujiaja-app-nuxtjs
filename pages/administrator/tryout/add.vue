@@ -161,7 +161,8 @@ export default {
       dataMaster: {
         penjurusan: [],
         jenjang: [],
-        kelas: []
+        kelas: [],
+        mapel: []
       },
       form: {
         judul: "",
@@ -176,6 +177,7 @@ export default {
     };
   },
   mounted() {
+    this.getData("mapel");
     this.getData("penjurusan");
   },
   methods: {
@@ -185,7 +187,6 @@ export default {
         !this.form.judul ||
         !this.form.deskripsi ||
         !this.form.kategori ||
-        !this.form.jenis_soal ||
         !this.form.template_soal
       ) {
         this.$bvToast.toast("Mohon lengkapi form dengan benar!", {
@@ -198,7 +199,10 @@ export default {
       }
 
       if (this.form.kategori == "UTBK") {
-        if (this.form.jenis_soal == "TKA" && !this.form.kelompok_soal) {
+        if (
+          (this.form.jenis_soal == "TKA" && !this.form.kelompok_soal) ||
+          !this.form.jenis_soal
+        ) {
           this.$bvToast.toast("Mohon lengkapi form dengan benar!", {
             title: "Peringatan",
             variant: "warning",
@@ -241,13 +245,91 @@ export default {
         .then(res => {
           if (res.success) {
             let dataSoal = [];
-            dataSoal = {
-              id_tryout: res.data.id,
-              jenis_soal: res.data.jenis_soal,
-              kelompok_soal: res.data.kelompok_soal
-            };
+            if ((res.data.kategori = "UTKB" && res.data.jenis_soal == "TKA")) {
+              if (res.data.kelompok_soal == "Campuran") {
+                dataSoal = [
+                  {
+                    id_tryout: res.data.id,
+                    jenis_soal: res.data.jenis_soal,
+                    kelompok_soal: "SAINTEK",
+                    id_mapel: null
+                  },
+                  {
+                    id_tryout: res.data.id,
+                    jenis_soal: res.data.jenis_soal,
+                    kelompok_soal: "SOSHUM",
+                    id_mapel: null
+                  }
+                ];
+              } else {
+                dataSoal = [
+                  {
+                    id_tryout: res.data.id,
+                    jenis_soal: res.data.jenis_soal,
+                    kelompok_soal: res.data.kelompok_soal,
+                    id_mapel: null
+                  }
+                ];
+              }
+            } else if ((res.data.kategori = "ASPD")) {
+              const mapel_bindo = this.dataMaster.mapel.find(item =>
+                item.nama_mapel.includes("Indonesia")
+              );
+              const mapel_bingg = this.dataMaster.mapel.find(item =>
+                item.nama_mapel.includes("Inggris")
+              );
+              const mapel_matematika = this.dataMaster.mapel.find(item =>
+                item.nama_mapel.includes("Matematika")
+              );
+              const mapel_ipa = this.dataMaster.mapel.find(item =>
+                item.nama_mapel.includes("IPA")
+              );
+
+              dataSoal = [
+                {
+                  id_tryout: res.data.id,
+                  jenis_soal: res.data.jenis_soal,
+                  kelompok_soal: null,
+                  id_mapel:
+                    mapel_bindo && mapel_bindo.id
+                      ? mapel_bindo.id
+                      : "Bahasa Indonesia"
+                },
+                {
+                  id_tryout: res.data.id,
+                  jenis_soal: res.data.jenis_soal,
+                  kelompok_soal: null,
+                  id_mapel:
+                    mapel_bingg && mapel_bingg.id
+                      ? mapel_bingg.id
+                      : "Bahasa Inggris"
+                },
+                {
+                  id_tryout: res.data.id,
+                  jenis_soal: res.data.jenis_soal,
+                  kelompok_soal: null,
+                  id_mapel:
+                    mapel_matematika && mapel_matematika.id
+                      ? mapel_matematika.id
+                      : "Matematika"
+                },
+                {
+                  id_tryout: res.data.id,
+                  jenis_soal: res.data.jenis_soal,
+                  kelompok_soal: null,
+                  id_mapel: mapel_ipa && mapel_ipa.id ? mapel_ipa.id : "IPA"
+                }
+              ];
+            } else {
+              dataSoal.push({
+                id_tryout: res.data.id,
+                jenis_soal: res.data.jenis_soal,
+                kelompok_soal: res.data.kelompok_soal,
+                id_mapel: null
+              });
+            }
             this.$axios
-              .$post(`/api/${res.next}/create`, dataSoal)
+              .$post(`/api/${res.next}/create/multiple`, dataSoal)
               .then(res => {
                 console.log(res);
                 if (res.success) {
@@ -284,6 +366,10 @@ export default {
         .then(res => {
           console.log(res);
           if (res.success) {
+            if (type == "mapel") {
+              this.dataMaster.mapel = res.data.data;
+              return;
+            }
             let jenjangs = [{ text: "-- Pilih --", value: null }];
             let kelass = [{ text: "-- Pilih --", value: null }];
             res.data.data.forEach(item => {
