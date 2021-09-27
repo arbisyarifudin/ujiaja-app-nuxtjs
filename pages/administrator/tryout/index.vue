@@ -106,36 +106,40 @@
                   </div>
                 </div>
                 <div class="col-md-2 align-self-center text-center">
-                  <template
-                    v-if="
-                      item.soal &&
-                        item.soal.length > 0 &&
-                        item.panduan_pengerjaan
-                    "
-                  >
+                  <template>
                     <nuxt-link
+                      v-if="
+                        item.soal &&
+                          item.soal.length > 0 &&
+                          item.panduan_pengerjaan
+                      "
                       class="btn btn-outline-success success px-3 py-1 px-4 mt-md-2"
                       :to="`/administrator/tryout/${item.id}/soal/create`"
                     >
                       Ubah Soal
                     </nuxt-link>
-                    <button
-                      class="btn btn-outline-danger danger px-3 py-1 mt-md-2"
-                    >
-                      Hapus Tryout
-                    </button>
-                  </template>
-                  <template v-else>
                     <nuxt-link
+                      v-else
                       class="btn btn-outline-primary px-3 py-1"
                       :to="`/administrator/tryout/${item.id}/soal/create`"
                     >
                       Buat Soal
                     </nuxt-link>
-                    <button
+                    <nuxt-link
                       class="btn btn-outline-primary primary px-3 py-1 px-4 mt-md-2"
+                      :to="`/administrator/tryout/${item.id}/edit`"
                     >
                       Ubah Tryout
+                    </nuxt-link>
+                    <button
+                      class="btn btn-outline-danger danger px-3 py-1 mt-md-2"
+                      @click.prevent="
+                        selectedId = item.id;
+                        selectedIndex = i;
+                        $bvModal.show('modal-delete');
+                      "
+                    >
+                      Hapus Tryout
                     </button>
                   </template>
                 </div>
@@ -175,7 +179,7 @@
 
     <b-modal
       id="modal-delete"
-      title="Konfirmasi Hapus Jenjang"
+      title="Konfirmasi Hapus Tryout"
       hide-footer
       centered
       modal-class="admin-modal"
@@ -215,7 +219,7 @@ export default {
       loading: true,
       filter: {
         page: 1,
-        perPage: 10,
+        perPage: 5,
         keyword: "",
         category: ""
       },
