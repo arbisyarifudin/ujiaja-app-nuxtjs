@@ -19,14 +19,24 @@ h6 {
   font-weight: normal !important;
 }
 
-input {
+input,
+.form-control {
   opacity: 1;
 }
 
-input:disabled {
+input:disabled,
+.form-control:disabled {
   cursor: not-allowed;
   background-color: rgba(202, 202, 202, 0.25) !important;
   color: rgba(163, 163, 163, 0.726) !important;
+}
+
+.b-form-tags-input {
+  color: #1a1a1a;
+}
+
+.b-form-tags-input small.form-text {
+  color: red !important;
 }
 
 .btn.btn {
