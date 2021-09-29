@@ -50,7 +50,7 @@
         >Data Tryout & Soal</b-dropdown-item
       >
       <b-dropdown-item to="/administrator/product"
-        >Data Product / Event</b-dropdown-item
+        >Data Produk / Event</b-dropdown-item
       >
     </b-nav-item-dropdown>
     <li class="nav-item">
