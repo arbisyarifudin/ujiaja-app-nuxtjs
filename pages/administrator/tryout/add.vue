@@ -49,6 +49,9 @@
                         form.kelompok_soal = null;
                         form.template_soal = null;
                         form.id_penjurusan = null;
+                        if (form.kategori != 'Asmenas') {
+                          form.template_soal = 'Pilihan Ganda';
+                        }
                       }
                     "
                   >
@@ -117,6 +120,7 @@
                   <b-form-select
                     class="form-control"
                     v-model="form.template_soal"
+                    :disabled="form.kategori != 'Asmenas'"
                     :options="[
                       { text: '-- Pilih --', value: null },
                       { text: 'Pilihan Ganda', value: 'Pilihan Ganda' },
@@ -172,7 +176,7 @@ export default {
         kelompok_soal: null,
         template_soal: null,
         id_penjurusan: null,
-        panduan_pengerjaan: "-"
+        panduan_pengerjaan: null
       }
     };
   },
@@ -182,7 +186,7 @@ export default {
   },
   methods: {
     validateForm() {
-      console.log(this.form);
+      // console.log(this.form);
       if (
         !this.form.judul ||
         !this.form.deskripsi ||
@@ -228,11 +232,12 @@ export default {
       this.submitData("tryout");
     },
     submitData(type) {
+      console.log(this.form);
       this.loading = true;
       this.$axios
         .$post(`/api/${type}/create`, this.form)
         .then(res => {
-          console.log(res);
+          console.log("tryout berhasil ditambah!!!", res);
           if (res.success) {
             return {
               success: true,
@@ -244,8 +249,9 @@ export default {
         })
         .then(res => {
           if (res.success) {
+            // console.log("res.data", res.data);
             let dataSoal = [];
-            if ((res.data.kategori = "UTKB" && res.data.jenis_soal == "TKA")) {
+            if (this.form.kategori == "UTKB" && this.form.jenis_soal == "TKA") {
               if (res.data.kelompok_soal == "Campuran") {
                 dataSoal = [
                   {
@@ -271,7 +277,7 @@ export default {
                   }
                 ];
               }
-            } else if ((res.data.kategori = "ASPD")) {
+            } else if (res.data.kategori == "ASPD") {
               const mapel_bindo = this.dataMaster.mapel.find(item =>
                 item.nama_mapel.includes("Indonesia")
               );
@@ -328,6 +334,9 @@ export default {
                 id_mapel: null
               });
             }
+
+            // console.log(dataSoal);
+
             this.$axios
               .$post(`/api/${res.next}/create/multiple`, dataSoal)
               .then(res => {
@@ -359,10 +368,16 @@ export default {
         })
         .finally(() => (this.loading = false));
     },
-    getData(type) {
+    getData(type, params = {}) {
       this.loading = true;
       this.$axios
-        .$get(`/api/${type}`)
+        .$get(`/api/${type}`, {
+          params: {
+            q: params.keyword ?? "",
+            paginate: params.perPage ?? 99,
+            page: params.page ?? 1
+          }
+        })
         .then(res => {
           console.log(res);
           if (res.success) {

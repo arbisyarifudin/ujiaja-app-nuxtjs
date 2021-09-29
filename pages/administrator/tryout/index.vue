@@ -44,7 +44,7 @@
                       { text: 'Semua Kategori', value: '' },
                       { text: 'UTBK', value: 'UTBK' },
                       { text: 'ASPD', value: 'ASPD' },
-                      { text: 'Asesmen Nasional', value: 'Asesmen Nasional' }
+                      { text: 'Asesmen Nasional', value: 'Asmenas' }
                     ]"
                     @change="getData('tryout')"
                   ></b-form-select>
@@ -88,16 +88,44 @@
                 </div>
                 <div class="col-md-2 col-6">
                   <div class="pl-3">
-                    <h4 class="mb-2">{{ item.kategori }}</h4>
-                    <div class="jenis">
+                    <h4 class="mb-2">
+                      {{
+                        item.kategori == "Asmenas"
+                          ? "Asesmen Nasional"
+                          : item.kategori
+                      }}
+                    </h4>
+                    <div class="jenis" v-if="item.kategori == 'UTBK'">
                       <div class="badge">{{ item.jenis_soal }}</div>
                       <div class="badge" v-if="item.kelompok_soal">
                         {{ item.kelompok_soal }}
                       </div>
                     </div>
+                    <div class="jenis" v-else>
+                      <div
+                        class="badge"
+                        v-if="
+                          item.penjurusan &&
+                            item.penjurusan.kelas &&
+                            item.penjurusan.kelas.jenjang
+                        "
+                      >
+                        {{ item.penjurusan.kelas.jenjang.nama_jenjang }}
+                      </div>
+                      <div
+                        class="badge"
+                        v-if="
+                          item.kategori == 'Asmenas' &&
+                            item.penjurusan &&
+                            item.penjurusan.kelas
+                        "
+                      >
+                        {{ item.penjurusan.kelas.nama_kelas }}
+                      </div>
+                    </div>
                   </div>
                 </div>
-                <div class="col-md-7 mt-3 mt-md-0">
+                <div class="col-md-6 mt-3 mt-md-0">
                   <div class="pb-2">
                     <h4>{{ item.judul }}</h4>
                     <p>
@@ -105,7 +133,7 @@
                     </p>
                   </div>
                 </div>
-                <div class="col-md-2 align-self-center text-center">
+                <div class="col-md-3 align-self-center text-center">
                   <template>
                     <nuxt-link
                       v-if="

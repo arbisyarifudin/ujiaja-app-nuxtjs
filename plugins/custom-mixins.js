@@ -2,6 +2,25 @@ import Vue from "vue";
 
 Vue.mixin({
   methods: {
+    arrayCompare(a1, a2) {
+      if (a1.length != a2.length) return false;
+      var length = a2.length;
+      for (var i = 0; i < length; i++) {
+        if (a1[i] !== a2[i]) return false;
+      }
+      return true;
+    },
+    inArray(needle, haystack) {
+      var length = haystack.length;
+      for (var i = 0; i < length; i++) {
+        if (typeof haystack[i] == "object") {
+          if (this.arrayCompare(haystack[i], needle)) return true;
+        } else {
+          if (haystack[i] == needle) return true;
+        }
+      }
+      return false;
+    },
     showError(field) {
       //   this.$translate.setLang("id_ID");
       if (
@@ -59,6 +78,14 @@ Vue.mixin({
     ApiUrl(param) {
       return process.env.apiUrl + "/" + param;
     },
+    showToastMessage(message = "Pesan", type = "danger") {
+      this.$root.$bvToast.toast(message, {
+        title: "Pesan",
+        variant: type,
+        solid: true,
+        autoHideDelay: 3000
+      });
+    },
     catchError(error) {
       console.log("catchError", error, error.response);
       if (error.response && error.response.status == 401) {
@@ -98,7 +125,7 @@ Vue.mixin({
         });
       } else if (error.response && error.response.status == 422) {
         for (let key in error.response.data.messages) {
-          console.log(key, error.response.data);
+          // console.log(key, error.response.data);
           // this.$set(this.dataError, key, [error.response.data.messages[key]]);
           this.$store.commit("putError", [
             key,
