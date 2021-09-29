@@ -116,6 +116,14 @@ input:disabled,
   border-color: #9e8df3 !important;
 }
 
+.card-body-content-dua.dua .opsi .btn-primary {
+  background-color: #1182fa;
+}
+
+.card-body-content-dua.dua .opsi .btn-primary:hover {
+  background-color: #076edd;
+}
+
 #right-sect {
   position: relative;
 }
@@ -176,6 +184,11 @@ input:disabled,
 #menu.sidebar .dropdown-item.active, #menu.sidebar .dropdown-item.nuxt-link-active {
   background-color: rgba(176, 166, 239, 0.5);
   color: #fff;
+}
+
+#header {
+  position: relative;
+  z-index: 99;
 }
 
 #header .dropdown-menu {
@@ -293,7 +306,7 @@ input:disabled,
 }
 
 .crud .crud-body {
-  background-color: #f9f8ff;
+  background-color: rgba(249, 248, 255, 0.7);
   z-index: 10;
 }
 
