@@ -11,21 +11,25 @@
         <div class="col-md-12 crud-body">
           <div class="form-user mt-3">
             <div class="form-group reg-siswa">
-              <label for="text">Judul Tryout <code>*</code></label>
+              <label for="judul_tryout">Judul Tryout <code>*</code></label>
               <input
                 type="text"
                 class="form-control"
-                id="text"
+                id="judul_tryout"
+                name="judul_tryout"
                 placeholder="Isi Judul Tryout"
                 v-model="form.judul"
               />
             </div>
             <div class="form-group reg-siswa">
-              <label for="text">Deskripsi Tryout <code>*</code></label>
+              <label for="deskripsi_tryout"
+                >Deskripsi Tryout <code>*</code></label
+              >
               <input
                 type="text"
                 class="form-control"
-                id="text"
+                id="deskripsi_tryout"
+                name="deskripsi_tryout"
                 placeholder="Isi Deskripsi Tryout"
                 v-model="form.deskripsi"
               />
@@ -33,8 +37,12 @@
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group reg-siswa">
-                  <label for="select">Kategori Tryout <code>*</code></label>
+                  <label for="kategori_tryout"
+                    >Kategori Tryout <code>*</code></label
+                  >
                   <b-form-select
+                    id="kategori_tryout"
+                    name="kategori_tryout"
                     class="form-control"
                     v-model="form.kategori"
                     :options="[
@@ -63,14 +71,17 @@
                 v-if="form.kategori == null || form.kategori == 'UTBK'"
               >
                 <div class="form-group reg-siswa">
-                  <label for="select">Jenis Soal <code>*</code></label>
+                  <label for="jenis_soal">Jenis Soal <code>*</code></label>
                   <b-form-select
+                    id="jenis_soal"
+                    name="jenis_soal"
                     class="form-control"
                     v-model="form.jenis_soal"
                     :options="[
                       { text: '-- Pilih --', value: null },
                       { text: 'TKA', value: 'TKA' },
-                      { text: 'TPS', value: 'TPS' }
+                      { text: 'TPS', value: 'TPS' },
+                      { text: 'Campuran', value: 'Campuran' }
                     ]"
                   >
                   </b-form-select>
@@ -78,8 +89,10 @@
               </div>
               <div class="col-md-6" v-else-if="form.kategori == 'ASPD'">
                 <div class="form-group reg-siswa">
-                  <label for="select">Jenjang <code>*</code></label>
+                  <label for="jenjang">Jenjang <code>*</code></label>
                   <b-form-select
+                    id="jenjang"
+                    name="jenjang"
                     class="form-control"
                     v-model="form.id_penjurusan"
                     :options="dataMaster.jenjang"
@@ -89,8 +102,10 @@
               </div>
               <div class="col-md-6" v-else-if="form.kategori == 'Asmenas'">
                 <div class="form-group reg-siswa">
-                  <label for="select">Kelas <code>*</code></label>
+                  <label for="kelas">Kelas <code>*</code></label>
                   <b-form-select
+                    id="kelas"
+                    name="kelas"
                     class="form-control"
                     v-model="form.id_penjurusan"
                     :options="dataMaster.kelas"
@@ -100,15 +115,18 @@
               </div>
               <div class="col-md-6" v-if="form.jenis_soal == 'TKA'">
                 <div class="form-group reg-siswa">
-                  <label for="select">Kelompok Soal <code>*</code></label>
+                  <label for="kelompok_soal"
+                    >Kelompok Soal <code>*</code></label
+                  >
                   <b-form-select
+                    id="kelompok_soal"
+                    name="kelompok_soal"
                     class="form-control"
                     v-model="form.kelompok_soal"
                     :options="[
                       { text: '-- Pilih --', value: null },
                       { text: 'SAINTEK', value: 'SAINTEK' },
-                      { text: 'SOSHUM', value: 'SOSHUM' },
-                      { text: 'Campuran', value: 'Campuran' }
+                      { text: 'SOSHUM', value: 'SOSHUM' }
                     ]"
                   >
                   </b-form-select>
@@ -116,8 +134,12 @@
               </div>
               <div class="col-md-6">
                 <div class="form-group reg-siswa">
-                  <label for="select">Template Soal <code>*</code></label>
+                  <label for="template_soal"
+                    >Template Soal <code>*</code></label
+                  >
                   <b-form-select
+                    id="template_soal"
+                    name="template_soal"
                     class="form-control"
                     v-model="form.template_soal"
                     :disabled="form.kategori != 'Asmenas'"
@@ -249,20 +271,27 @@ export default {
         })
         .then(res => {
           if (res.success) {
-            // console.log("res.data", res.data);
-            let dataSoal = [];
-            if (this.form.kategori == "UTKB" && this.form.jenis_soal == "TKA") {
-              if (res.data.kelompok_soal == "Campuran") {
+            console.log("res.data", res.data);
+            let dataSoal;
+            if (this.form.kategori === "UTBK") {
+              // if (this.form.kategori === "UTBK" && this.form.jenis_soal === "TKA") {
+              if (this.form.jenis_soal === "Campuran") {
                 dataSoal = [
                   {
                     id_tryout: res.data.id,
-                    jenis_soal: res.data.jenis_soal,
+                    jenis_soal: "TPS",
+                    kelompok_soal: null,
+                    id_mapel: null
+                  },
+                  {
+                    id_tryout: res.data.id,
+                    jenis_soal: "TKA",
                     kelompok_soal: "SAINTEK",
                     id_mapel: null
                   },
                   {
                     id_tryout: res.data.id,
-                    jenis_soal: res.data.jenis_soal,
+                    jenis_soal: "TKA",
                     kelompok_soal: "SOSHUM",
                     id_mapel: null
                   }
@@ -277,7 +306,7 @@ export default {
                   }
                 ];
               }
-            } else if (res.data.kategori == "ASPD") {
+            } else if (this.form.kategori === "ASPD") {
               const mapel_bindo = this.dataMaster.mapel.find(item =>
                 item.nama_mapel.includes("Indonesia")
               );
@@ -326,16 +355,19 @@ export default {
                   id_mapel: mapel_ipa && mapel_ipa.id ? mapel_ipa.id : "IPA"
                 }
               ];
-            } else {
-              dataSoal.push({
-                id_tryout: res.data.id,
-                jenis_soal: res.data.jenis_soal,
-                kelompok_soal: res.data.kelompok_soal,
-                id_mapel: null
-              });
+            } else if (this.form.kategori === "Asmenas") {
+              dataSoal = [
+                {
+                  id_tryout: res.data.id,
+                  jenis_soal: res.data.jenis_soal,
+                  kelompok_soal: res.data.kelompok_soal,
+                  id_mapel: null
+                }
+              ];
             }
 
-            // console.log(dataSoal);
+            console.log("dataSoal", dataSoal);
+            // return;
 
             this.$axios
               .$post(`/api/${res.next}/create/multiple`, dataSoal)

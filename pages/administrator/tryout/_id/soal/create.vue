@@ -72,6 +72,13 @@
                         <span v-else-if="dataDetail.kategori == 'ASPD'">{{
                           soal.mapel.nama_mapel
                         }}</span>
+                        <span
+                          v-if="
+                            dataDetail.jenis_soal == 'Campuran' &&
+                              soal.kelompok_soal
+                          "
+                          >- {{ soal.kelompok_soal }}</span
+                        >
                       </p>
                       <span class="collapsed"><i class="fas fa-plus"></i></span>
                       <span class="expanded"

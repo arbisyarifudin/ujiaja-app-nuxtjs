@@ -54,7 +54,7 @@
                         form.id_penjurusan = null;
                       }
                     "
-                    disabled
+                    :disabled="true"
                   >
                   </b-form-select>
                 </div>
@@ -73,7 +73,7 @@
                       { text: 'TKA', value: 'TKA' },
                       { text: 'TPS', value: 'TPS' }
                     ]"
-                    disabled
+                    :disabled="true"
                   >
                   </b-form-select>
                 </div>
@@ -85,7 +85,7 @@
                     class="form-control"
                     v-model="form.id_penjurusan"
                     :options="dataMaster.jenjang"
-                    disabled
+                    :disabled="true"
                   >
                   </b-form-select>
                 </div>
@@ -97,7 +97,7 @@
                     class="form-control"
                     v-model="form.id_penjurusan"
                     :options="dataMaster.kelas"
-                    disabled
+                    :disabled="true"
                   >
                   </b-form-select>
                 </div>
@@ -114,7 +114,7 @@
                       { text: 'SOSHUM', value: 'SOSHUM' },
                       { text: 'Campuran', value: 'Campuran' }
                     ]"
-                    disabled
+                    :disabled="true"
                   >
                   </b-form-select>
                 </div>
@@ -136,7 +136,7 @@
                       { text: 'Isian Singkat', value: 'Isian Singkat' },
                       { text: 'Menjodohkan', value: 'Menjodohkan' }
                     ]"
-                    disabled
+                    :disabled="true"
                   >
                   </b-form-select>
                 </div>
