@@ -131,6 +131,10 @@
                     <p>
                       {{ item.deskripsi }}
                     </p>
+                    <!-- <p class="small mt-4" style="font-size: 12px">
+                      <b-icon icon="calendar"></b-icon> Dibuat:
+                      {{ item.created_at }}
+                    </p> -->
                   </div>
                 </div>
                 <div class="col-md-3 align-self-center text-center">
@@ -280,7 +284,8 @@ export default {
           params: {
             q: this.filter.keyword,
             paginate: this.filter.perPage,
-            page: this.filter.page
+            page: this.filter.page,
+            filter: this.filter.category
           }
         })
         .then(res => {

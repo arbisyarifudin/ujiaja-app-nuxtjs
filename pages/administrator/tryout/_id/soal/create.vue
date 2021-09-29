@@ -2,11 +2,23 @@
   <div class="container-fluid crud">
     <form @submit.prevent="validateForm">
       <div class="row d-flex no-gutters">
-        <div class="col-md-12 dashboard">
-          <h2 class="dash-label">
-            <b-spinner type="grow" class="mr-2" v-if="loading" /> Buat Soal
-            Tryout
-          </h2>
+        <div
+          class="col-md-12 dashboard"
+          style="position: relative; z-index: 10"
+        >
+          <div class="d-flex align-items-center justify-content-between">
+            <h2 class="dash-label">
+              <b-spinner type="grow" class="mr-2" v-if="loading" /> Buat Soal
+              Tryout
+            </h2>
+            <nuxt-link
+              to="/administrator/tryout"
+              class="btn btn-outline-secondary mr-2"
+            >
+              <b-icon icon="arrow-left" class="mr-1"></b-icon>
+              Kembali
+            </nuxt-link>
+          </div>
           <p>
             <i class="far fa-file-alt fa-fw mr-1"></i>
             <span class="font-weight-bold">{{ dataDetail.judul }}</span> -
@@ -62,8 +74,13 @@
                   v-for="(soal, a) in formSoal"
                   :key="'A' + a"
                 >
-                  <b-card-header h eader-tag="header" role="tab">
-                    <a class="card-link" href="#" v-b-toggle="'accordion-' + a">
+                  <b-card-header header-tag="header" role="tab" class="p-0">
+                    <a
+                      class="card-link"
+                      href="#"
+                      v-b-toggle="'accordion-' + a"
+                      style="padding: 30px;"
+                    >
                       <p class="text-card m-0 text-h5">
                         Soal
                         <span v-if="dataDetail.kategori != 'ASPD'">{{
@@ -93,13 +110,23 @@
                     role="tabpanel"
                   >
                     <div class="card-body">
-                      <div class="card-body-content">
+                      <div
+                        :class="[
+                          dataDetail.kategori != 'ASPD'
+                            ? 'card-body-content'
+                            : 'mt-n3 px-3'
+                        ]"
+                      >
                         <div class="col-md-12 text-right p-0">
                           <button
                             type="button"
                             class="btn btn-danger py-1"
                             @click.prevent=""
-                            v-if="soal.pertanyaan.length > 0 && a != 0"
+                            v-if="
+                              soal.pertanyaan.length > 0 &&
+                                a != 0 &&
+                                dataDetail.kategori != 'ASPD'
+                            "
                           >
                             Hapus Mata Pelajaran
                           </button>
@@ -525,7 +552,10 @@
                         <button
                           type="button"
                           class="btn btn-warning tambah py-1 mt-4"
-                          v-if="soal.pertanyaan.length > 0"
+                          v-if="
+                            soal.pertanyaan.length > 0 &&
+                              dataDetail.kategori != 'ASPD'
+                          "
                           :disabled="loading"
                         >
                           <b-spinner
