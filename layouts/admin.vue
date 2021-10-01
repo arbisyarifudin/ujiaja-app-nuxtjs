@@ -2,7 +2,7 @@
   <div class="admin-wrapper">
     <div class="container-fluid">
       <div class="row">
-        <div class="col-lg-3 bg-white d-none d-lg-block">
+        <div class="col-xl-3 col-lg-4 col-sm-4 bg-white d-none d-lg-block">
           <nav class="sidebar navbar-light pt-3 pl-4" id="menu">
             <img src="/logo2.png" class="img-fluid w-25 pb-4" />
             <UIMenuAdmin />
@@ -19,7 +19,10 @@
             <UIMenuAdmin />
           </nav>
         </b-sidebar>
-        <div class="col-lg-9 bg-primary--soft" id="right-sect">
+        <div
+          class="col-xl-9 col-lg-8 col-sm-12 bg-primary--soft"
+          id="right-sect"
+        >
           <div id="header">
             <nav class="navbar navbar-expand navbar-light">
               <ul

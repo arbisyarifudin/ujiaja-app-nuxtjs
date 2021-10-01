@@ -16,7 +16,17 @@
     </li>
     <b-nav-item-dropdown text="Sekolah" right>
       <template #button-content>
-        <i class="fas fa-school fa-fw mr-2"></i> Sekolah
+        <span
+          class="nav-link mb-0 p-0"
+          :class="[
+            $route.path.includes('master_kelas') ||
+            $route.path.includes('master_penjurusan') ||
+            $route.path.includes('master_mapel')
+              ? 'nuxt-link-active'
+              : ''
+          ]"
+          ><i class="fas fa-school fa-fw mr-2"></i> Sekolah</span
+        >
       </template>
       <b-dropdown-item to="/administrator/master_kelas">Kelas</b-dropdown-item>
       <b-dropdown-item to="/administrator/master_penjurusan"
@@ -28,7 +38,16 @@
     </b-nav-item-dropdown>
     <b-nav-item-dropdown text="Perguruan Tinggi" right>
       <template #button-content>
-        <i class="fas fa-school fa-fw mr-2"></i> Perguruan Tinggi
+        <span
+          class="nav-link mb-0 p-0"
+          :class="[
+            $route.path.includes('master_perguruan_tinggi') ||
+            $route.path.includes('program-studi')
+              ? 'nuxt-link-active'
+              : ''
+          ]"
+          ><i class="fas fa-school fa-fw mr-2"></i> Perguruan Tinggi</span
+        >
       </template>
       <b-dropdown-item to="/administrator/master_perguruan_tinggi"
         >Perguruan Tinggi</b-dropdown-item
@@ -37,14 +56,18 @@
         >Program Studi</b-dropdown-item
       >
     </b-nav-item-dropdown>
-    <!-- <li class="nav-item">
-      <nuxt-link class="nav-link d-flex align-items-center" to="#"
-        ><i class="fas fa-clipboard fa-fw mr-2"></i> Modul Tryout</nuxt-link
-      >
-    </li> -->
     <b-nav-item-dropdown text="Modul Tryout" right>
       <template #button-content>
-        <i class="fas fa-clipboard fa-fw mr-2"></i> Modul Tryout
+        <span
+          class="nav-link mb-0 p-0"
+          :class="[
+            $route.path.includes('tryout') || $route.path.includes('product')
+              ? 'nuxt-link-active'
+              : ''
+          ]"
+        >
+          <i class="fas fa-clipboard fa-fw mr-2"></i> Modul Tryout</span
+        >
       </template>
       <b-dropdown-item to="/administrator/tryout"
         >Data Tryout & Soal</b-dropdown-item
