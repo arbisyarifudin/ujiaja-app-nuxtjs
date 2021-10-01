@@ -132,7 +132,7 @@
                   </b-form-select>
                 </div>
               </div>
-              <div class="col-md-6">
+              <div class="col-md-6" v-if="form.kategori != 'Asmenas'">
                 <div class="form-group reg-siswa">
                   <label for="template_soal"
                     >Template Soal <code>*</code></label
@@ -209,12 +209,17 @@ export default {
   methods: {
     validateForm() {
       // console.log(this.form);
-      if (
-        !this.form.judul ||
-        !this.form.deskripsi ||
-        !this.form.kategori ||
-        !this.form.template_soal
-      ) {
+      if (!this.form.judul || !this.form.deskripsi || !this.form.kategori) {
+        this.$bvToast.toast("Mohon lengkapi form dengan benar!", {
+          title: "Peringatan",
+          variant: "warning",
+          solid: true,
+          autoHideDelay: 2000
+        });
+        return;
+      }
+
+      if (this.form.kategori != "Asmenas" && !this.form.template_soal) {
         this.$bvToast.toast("Mohon lengkapi form dengan benar!", {
           title: "Peringatan",
           variant: "warning",

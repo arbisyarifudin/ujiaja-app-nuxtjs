@@ -22,7 +22,11 @@
           <p>
             <i class="far fa-file-alt fa-fw mr-1"></i>
             <span class="font-weight-bold">{{ dataDetail.judul }}</span> -
-            <span>{{ dataDetail.jenis_soal }}</span>
+            <span>{{
+              dataDetail.jenis_soal
+                ? dataDetail.jenis_soal
+                : dataDetail.kategori
+            }}</span>
             <span v-if="dataDetail.kelompok_soal">{{
               dataDetail.kelompok_soal
             }}</span>
@@ -89,6 +93,9 @@
                         <span v-else-if="dataDetail.kategori == 'ASPD'">{{
                           soal.mapel.nama_mapel
                         }}</span>
+                        <span v-if="dataDetail.kategori == 'Asmenas'">
+                          - Bagian {{ a + 1 }}</span
+                        >
                         <span
                           v-if="
                             dataDetail.jenis_soal == 'Campuran' &&
@@ -138,10 +145,12 @@
                             class="form-group reg-siswa"
                             v-if="dataDetail.kategori != 'ASPD'"
                           >
-                            <label for="select">Mata Pelajaran</label>
+                            <label for="id_mapel"
+                              >Mata Pelajaran <code>*</code></label
+                            >
                             <select
                               class="form-control pl-0"
-                              id="select"
+                              id="id_mapel"
                               v-model="soal.id_mapel"
                               @change="onUpdateSoal(soal)"
                             >
@@ -153,11 +162,44 @@
                                 >{{ mapel.nama_mapel }}</option
                               >
                             </select>
-                            <UISaveStatus
-                              :data="onSubmit.soal[soal.id]"
-                              v-if="onSubmit.soal[soal.id]"
+                          </div>
+                          <div class="form-group reg-siswa">
+                            <label for="alokasi_waktu"
+                              >Alokasi Waktu Per Mata Pelajaran (Menit)
+                              <code>*</code></label
+                            >
+                            <input
+                              type="text"
+                              class="form-control"
+                              id="alokasi_waktu"
+                              name="alokasi_waktu"
+                              placeholder="Misal: 80"
+                              v-model="soal.alokasi_waktu_per_mapel"
+                              @change="onUpdateSoal(soal)"
                             />
                           </div>
+                          <div class="form-group reg-siswa">
+                            <label for="jeda_waktu"
+                              >Jeda Waktu Antar Mata Pelajaran (Menit)
+                              <code>*</code></label
+                            >
+                            <input
+                              type="text"
+                              class="form-control"
+                              id="jeda_waktu"
+                              name="jeda_waktu"
+                              placeholder="Misal: 5"
+                              v-model="soal.jeda_waktu_antar_mapel"
+                              @change="onUpdateSoal(soal)"
+                            />
+                          </div>
+                          <UISaveStatus
+                            :data="onSubmit.soal[soal.id]"
+                            v-if="
+                              onSubmit.soal[soal.id] &&
+                                dataDetail.panduan_pengerjaan
+                            "
+                          />
                           <button
                             v-if="soal.pertanyaan.length == 0"
                             type="button"
@@ -277,12 +319,52 @@
                                   v-model="soalp.soal"
                                   @blur="onUpdatePertanyaan(soalp)"
                                 />
+
                                 <UISaveStatus
                                   :data="onSubmit.pertanyaan[soalp.id]"
                                   v-if="onSubmit.pertanyaan[soalp.id]"
                                 />
                               </div>
+                              <div class="form-user px-4 mt-4">
+                                <div
+                                  class="form-group reg-siswa"
+                                  v-if="dataDetail.kategori == 'Asmenas'"
+                                >
+                                  <label for="template_soal"
+                                    >Template Pertanyaan <code>*</code></label
+                                  >
+                                  <b-form-select
+                                    class="form-control pl-0"
+                                    id="template_soal"
+                                    v-model="soalp.template_pertanyaan"
+                                    @change="onUpdatePertanyaan(soalp)"
+                                    :options="[
+                                      {
+                                        text: 'Pilihan Ganda',
+                                        value: 'Pilihan Ganda'
+                                      },
+                                      { text: 'Essay', value: 'Essay' },
+                                      {
+                                        text: 'Pilihan Ganda Kompleks',
+                                        value: 'Pilihan Ganda Kompleks'
+                                      },
+                                      {
+                                        text: 'Isian Singkat',
+                                        value: 'Isian Singkat'
+                                      },
+                                      {
+                                        text: 'Menjodohkan',
+                                        value: 'Menjodohkan'
+                                      }
+                                    ]"
+                                  >
+                                  </b-form-select>
+                                </div>
+                              </div>
                               <div
+                                v-if="
+                                  soalp.template_pertanyaan == 'Pilihan Ganda'
+                                "
                                 class="opsi px-4 d-flex align-items-center py-4"
                               >
                                 <p class="mb-0">Opsi Jawaban</p>
@@ -298,46 +380,111 @@
                               <!-- OPSI JAWABAN -->
                               <div class="px-4 soal">
                                 <!-- {{ soalp.opsi_pertanyaan }} -->
+                                <!-- {{ soalp.jawaban_pertanyaan }} -->
                                 <div
-                                  class="input-group mb-3"
-                                  v-for="(opsi, c) in soalp.opsi_pertanyaan"
-                                  :key="'C' + c"
+                                  v-if="
+                                    soalp.template_pertanyaan == 'Pilihan Ganda'
+                                  "
                                 >
-                                  <div class="input-group-prepend">
-                                    <div class="input-group-text">
-                                      <input
-                                        type="radio"
-                                        :name="'opsi' + b"
-                                        :value="opsi"
-                                        v-model="soalp.jawaban_pertanyaan"
-                                        @change="
-                                          onUpdatePertanyaanOpsi(soalp, c)
-                                        "
-                                      />
+                                  <div
+                                    class="input-group mb-3"
+                                    v-for="(opsi, c) in soalp.opsi_pertanyaan"
+                                    :key="'C' + c"
+                                  >
+                                    <div class="input-group-prepend">
+                                      <div class="input-group-text">
+                                        <input
+                                          type="radio"
+                                          :id="'opsi' + b + '-' + c"
+                                          :name="'opsi' + b"
+                                          :value="opsi.uuid"
+                                          v-model="soalp.jawaban_pertanyaan"
+                                          @change="
+                                            onUpdatePertanyaanOpsi(soalp, c)
+                                          "
+                                        />
+                                      </div>
                                     </div>
+                                    <input
+                                      type="text"
+                                      class="form-control"
+                                      v-model="opsi.option"
+                                      @change="onUpdatePertanyaan(soalp)"
+                                    />
+                                    <div class="input-group-prepend">
+                                      <button
+                                        type="button"
+                                        class="btn btn-danger"
+                                        v-if="
+                                          c > 3 &&
+                                            opsi.uuid !==
+                                              soalp.jawaban_pertanyaan
+                                        "
+                                        @click.prevent="deleteOption(soalp, c)"
+                                      >
+                                        <i class="fa fa-times"></i>
+                                      </button>
+                                    </div>
+                                    <!-- {{ opsi }} -->
                                   </div>
-                                  <input
-                                    type="text"
-                                    class="form-control"
-                                    v-model="opsi.option"
-                                    @change="onUpdatePertanyaan(soalp)"
+                                  <UISaveStatus
+                                    :data="onSubmit.pertanyaan[soalp.id]"
+                                    v-if="onSubmit.pertanyaan[soalp.id]"
                                   />
-                                  <div class="input-group-prepend">
-                                    <button
-                                      type="button"
-                                      class="btn btn-danger"
-                                      v-if="c > 3 && opsi.correct === false"
-                                      @click.prevent="deleteOption(soalp, c)"
-                                    >
-                                      <i class="fa fa-times"></i>
-                                    </button>
-                                  </div>
-                                  <!-- {{ opsi }} -->
                                 </div>
-                                <UISaveStatus
-                                  :data="onSubmit.pertanyaan[soalp.id]"
-                                  v-if="onSubmit.pertanyaan[soalp.id]"
-                                />
+
+                                <div
+                                  v-if="
+                                    soalp.template_pertanyaan ==
+                                      'Pilihan Ganda Kompleks'
+                                  "
+                                >
+                                  <div
+                                    class="input-group mb-3"
+                                    v-for="(opsi, c) in soalp.opsi_pertanyaan"
+                                    :key="'C' + c"
+                                  >
+                                    <div class="input-group-prepend">
+                                      <div class="input-group-text">
+                                        <input
+                                          type="checkbox"
+                                          :id="'opsi' + b + '-' + c"
+                                          :name="'opsi' + b"
+                                          :value="opsi.uuid"
+                                          v-model="soalp.jawaban_pertanyaan"
+                                          @change="
+                                            onUpdatePertanyaanOpsi(soalp, c)
+                                          "
+                                        />
+                                      </div>
+                                    </div>
+                                    <input
+                                      type="text"
+                                      class="form-control"
+                                      v-model="opsi.option"
+                                      @change="onUpdatePertanyaan(soalp)"
+                                    />
+                                    <div class="input-group-prepend">
+                                      <button
+                                        type="button"
+                                        class="btn btn-danger"
+                                        v-if="
+                                          c > 3 &&
+                                            opsi.uuid !==
+                                              soalp.jawaban_pertanyaan
+                                        "
+                                        @click.prevent="deleteOption(soalp, c)"
+                                      >
+                                        <i class="fa fa-times"></i>
+                                      </button>
+                                    </div>
+                                    <!-- {{ opsi }} -->
+                                  </div>
+                                  <UISaveStatus
+                                    :data="onSubmit.pertanyaan[soalp.id]"
+                                    v-if="onSubmit.pertanyaan[soalp.id]"
+                                  />
+                                </div>
 
                                 <p class="mt-4">Pembahasan</p>
                                 <!-- <textarea
@@ -454,7 +601,7 @@
                                       <input
                                         type="radio"
                                         :name="'opsi' + b + '-' + d"
-                                        :value="opsi_child"
+                                        :value="opsi_child.uuid"
                                         v-model="child.jawaban_pertanyaan"
                                         @change="
                                           onUpdatePertanyaanOpsi(child, d)
@@ -473,7 +620,9 @@
                                       type="button"
                                       class="btn btn-danger"
                                       v-if="
-                                        d > 3 && opsi_child.correct === false
+                                        d > 3 &&
+                                          opsi_child.correct !==
+                                            child.jawaban_pertanyaan
                                       "
                                       @click.prevent="deleteOption(child, d)"
                                     >
@@ -593,6 +742,8 @@
 </template>
 
 <script>
+import { v4 as uuidv4 } from "uuid";
+
 export default {
   layout: "admin",
   data() {
@@ -624,44 +775,6 @@ export default {
       return this.$router.push("/administrator/tryout");
     this.getDetail("tryout", this.$route.params.id);
     this.getData("mapel");
-
-    // if (this.dataDetail.jenis_soal == "TPS") {
-    // this.formSoal = [
-    //   {
-    //     id_tryout: this.$route.params.id,
-    //     jenis_soal: "TPS",
-    //     kelompok_soal: "",
-    //     id_mapel: null,
-    //     pertanyaan: [
-    //       {
-    //         id: 1,
-    //         bab_mapel: ["Bab 1", "Bab 2"],
-    //         penjelasan_pertanyaan: "penjelasan pertanyaan ..",
-    //         template_pertanyaan: "Pilihan Ganda",
-    //         soal: "Soal 1",
-    //         gambar: null,
-    //         opsi_pertanyaan: [
-    //           {
-    //             option: "Opsi A",
-    //             correct: false
-    //           },
-    //           {
-    //             option: "Opsi B",
-    //             correct: true
-    //           },
-    //           {
-    //             option: "Opsi C",
-    //             correct: true
-    //           }
-    //         ],
-    //         pembahasan_pertanyaan: "asaasasas",
-    //         parent_soal_pertanyaan: null,
-    //         pertanyaan_child: []
-    //       }
-    //     ]
-    //   }
-    // ];
-    // }
   },
   methods: {
     getDetail(type, id) {
@@ -745,7 +858,12 @@ export default {
         .finally(() => (this.loading = false));
     },
     createBab(id_soal, ref) {
-      if (!ref.id_mapel || !this.formTryout.panduan_pengerjaan) {
+      if (
+        !ref.id_mapel ||
+        !ref.alokasi_waktu_per_mapel ||
+        !ref.jeda_waktu_antar_mapel ||
+        !this.formTryout.panduan_pengerjaan
+      ) {
         this.showToastMessage(
           "Mohon isi panduan pengerjaan dan mapel terlebih dahulu!"
         );
@@ -755,30 +873,27 @@ export default {
         id_soal_tryout: id_soal,
         bab_mapel: ["Bab Test"],
         penjelasan_pertanyaan: "Penjelasan Untuk Beberapa Pertanyaan....",
-        template_pertanyaan: this.dataDetail.template_soal,
+        template_pertanyaan: this.dataDetail.template_soal ?? "Pilihan Ganda",
         soal: "Apa arti kehidupan di dunia ini?",
         opsi_pertanyaan: [
           {
-            option: "Opsi 1",
-            correct: true
+            uuid: uuidv4(),
+            option: "Opsi 1"
           },
           {
-            option: "Opsi 2",
-            correct: false
+            uuid: uuidv4(),
+            option: "Opsi 2"
           },
           {
-            option: "Opsi 3",
-            correct: false
+            uuid: uuidv4(),
+            option: "Opsi 3"
           },
           {
-            option: "Opsi 4",
-            correct: false
+            uuid: uuidv4(),
+            option: "Opsi 4"
           }
         ],
-        // jawaban_pertanyaan: {
-        //   option: "Opsi 4",
-        //   correct: false
-        // },
+        jawaban_pertanyaan: uuidv4(),
         pembahasan_pertanyaan: "Ini Pembahasan Pertanyaan....",
         parent_soal_pertanyaan: null
       };
@@ -815,8 +930,8 @@ export default {
             this.onSubmit.pertanyaan[pertanyaan.id].success = true;
             this.onSubmit.pertanyaan[pertanyaan.id].loading = false;
             pertanyaan.opsi_pertanyaan.push({
-              option: "Opsi Baru",
-              correct: false
+              uuid: uuidv4(),
+              option: "Opsi Baru"
             });
           }
           return true;
@@ -895,27 +1010,28 @@ export default {
         id_soal_tryout: pertanyaan.id_soal_tryout,
         bab_mapel: ["Bab Test"],
         penjelasan_pertanyaan: null,
-        template_pertanyaan: this.dataDetail.template_soal,
+        template_pertanyaan: this.dataDetail.template_soal ?? "Pilihan Ganda",
         soal: "Pertanyaaaannya???",
         gambar: null,
         opsi_pertanyaan: [
           {
-            option: "Opsi 1",
-            correct: true
+            uuid: uuidv4(),
+            option: "Opsi 1"
           },
           {
-            option: "Opsi 2",
-            correct: false
+            uuid: uuidv4(),
+            option: "Opsi 2"
           },
           {
-            option: "Opsi 3",
-            correct: false
+            uuid: uuidv4(),
+            option: "Opsi 3"
           },
           {
-            option: "Opsi 4",
-            correct: false
+            uuid: uuidv4(),
+            option: "Opsi 4"
           }
         ],
+        jawaban_pertanyaan: uuidv4(),
         pembahasan_pertanyaan: "Pembahasan pertanyaan...",
         parent_soal_pertanyaan: pertanyaan.id,
         pertanyaan_child: []
@@ -976,27 +1092,28 @@ export default {
         id_soal_tryout: pertanyaan.id_soal_tryout,
         bab_mapel: ["Bab Test"],
         penjelasan_pertanyaan: "Penjelasan pertanyaan ..",
-        template_pertanyaan: this.dataDetail.template_soal,
+        template_pertanyaan: this.dataDetail.template_soal ?? "Pilihan Ganda",
         soal: "Pertanyaaaannya???",
         gambar: null,
         opsi_pertanyaan: [
           {
-            option: "Opsi 1",
-            correct: true
+            uuid: uuidv4(),
+            option: "Opsi 1"
           },
           {
-            option: "Opsi 2",
-            correct: false
+            uuid: uuidv4(),
+            option: "Opsi 2"
           },
           {
-            option: "Opsi 3",
-            correct: false
+            uuid: uuidv4(),
+            option: "Opsi 3"
           },
           {
-            option: "Opsi 4",
-            correct: false
+            uuid: uuidv4(),
+            option: "Opsi 4"
           }
         ],
+        jawaban_pertanyaan: uuidv4(),
         pembahasan_pertanyaan: "Pembahasan pertanyaan...",
         parent_soal_pertanyaan: null,
         pertanyaan_child: []
@@ -1092,6 +1209,18 @@ export default {
         });
     },
     onUpdatePertanyaan(pertanyaan) {
+      console.log(pertanyaan);
+      if (
+        pertanyaan.template_pertanyaan == "Pilihan Ganda Kompleks" &&
+        !Array.isArray(pertanyaan.jawaban_pertanyaan)
+      ) {
+        pertanyaan.jawaban_pertanyaan = [pertanyaan.jawaban_pertanyaan];
+      } else {
+        pertanyaan.jawaban_pertanyaan = pertanyaan.opsi_pertanyaan[0]
+          ? pertanyaan.opsi_pertanyaan[0].uuid
+          : pertanyaan.jawaban_pertanyaan;
+      }
+
       if (!this.onSubmit.pertanyaan[pertanyaan.id]) {
         this.onSubmit.pertanyaan[pertanyaan.id] = {};
       }
@@ -1144,16 +1273,18 @@ export default {
         this.onSubmit.pertanyaan[pertanyaan.id] = {};
       }
       // const newPertanyaan = { ...pertanyaan };
-      for (let i = 0; i < pertanyaan.opsi_pertanyaan.length; i++) {
-        pertanyaan.opsi_pertanyaan[i] = {
-          ...pertanyaan.opsi_pertanyaan[i],
-          correct: false
-        };
-      }
-      pertanyaan.opsi_pertanyaan[index] = {
-        option: pertanyaan.opsi_pertanyaan[index].option,
-        correct: true
-      };
+      // for (let i = 0; i < pertanyaan.opsi_pertanyaan.length; i++) {
+      //   pertanyaan.opsi_pertanyaan[i] = {
+      //     ...pertanyaan.opsi_pertanyaan[i],
+      //     correct: false
+      //   };
+      // }
+      // pertanyaan.opsi_pertanyaan[index] = {
+      //   option: pertanyaan.opsi_pertanyaan[index].option,
+      //   correct: true
+      // };
+      // pertanyaan.jawaban_pertanyaan = pertanyaan.opsi_pertanyaan[index];
+
       this.onSubmit.pertanyaan[pertanyaan.id].loading = true;
       this.$axios
         .$put(`/api/soal/pertanyaan/update/${pertanyaan.id}`, pertanyaan)
