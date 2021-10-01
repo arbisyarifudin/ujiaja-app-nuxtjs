@@ -38,7 +38,7 @@
                       ><i
                         :class="[
                           'fa',
-                          showPassword ? 'fa-eye-slash' : 'fa-eye',
+                          showPassword ? 'fa-eye-slash' : 'fa-eye'
                         ]"
                         style="pointer-events: none"
                       ></i
@@ -116,24 +116,24 @@ export default {
       showPassword: false,
       form: {
         username: "",
-        password: "",
+        password: ""
       },
       loading: false,
       dataError: [],
-      isValidForm: {},
+      isValidForm: {}
     };
   },
   watch: {
-    showPassword: function (value) {
+    showPassword: function(value) {
       console.log(value);
     },
-    "form.username": function (value) {
+    "form.username": function(value) {
       return;
       var usernameRegex = /^[a-zA-Z0-9]+$/;
       var test = value.match(usernameRegex);
       if (test === null) {
         this.$set(this.dataError, "username", [
-          "Username hanya boleh mengandung huruf dan angka tanpa spasi.",
+          "Username hanya boleh mengandung huruf dan angka tanpa spasi."
         ]);
         this.isValidForm["username"] = false;
       } else {
@@ -141,7 +141,7 @@ export default {
         this.isValidForm["username"] = true;
       }
     },
-    "form.password": function (value) {
+    "form.password": function(value) {
       // var passwordRegex =
       //   /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,20}$/;
       // var test = value.match(passwordRegex);
@@ -163,10 +163,9 @@ export default {
       }
     },
 
-    "form.email": function (value) {
+    "form.email": function(value) {
       return;
-      var emailRegex =
-        /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      var emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       var test = value.match(emailRegex);
       if (value && test === null) {
         this.$set(this.dataError, "email", ["Mohon masukkan email valid."]);
@@ -175,7 +174,7 @@ export default {
         this.$set(this.dataError, "email", [""]);
         this.isValidForm["email"] = true;
       }
-    },
+    }
   },
   methods: {
     showError(field) {
@@ -198,7 +197,7 @@ export default {
           title: "Peringatan",
           variant: "warning",
           solid: true,
-          autoHideDelay: 3000,
+          autoHideDelay: 3000
         });
         return;
       }
@@ -221,7 +220,7 @@ export default {
 
       this.$axios
         .$post(`/api/users/login`, this.form)
-        .then((res) => {
+        .then(res => {
           console.log(res);
           if (res.success) {
             this.$bvToast.toast(
@@ -230,7 +229,7 @@ export default {
                 title: "Sukses",
                 variant: "success",
                 solid: true,
-                autoHideDelay: 3000,
+                autoHideDelay: 3000
               }
             );
             if (res.data) {
@@ -242,7 +241,7 @@ export default {
               // }
               this.$cookiz.set("_ujiaja", res.data.token, {
                 path: "/",
-                maxAge: 60 * 60 * 24 * 7,
+                maxAge: 60 * 60 * 24 * 7
               });
               this.$store.commit("SET_IS_AUTH", true);
               this.$store.commit("set", ["dataUser", res.data]);
@@ -255,11 +254,11 @@ export default {
               title: "Error",
               variant: "danger",
               solid: true,
-              autoHideDelay: 3000,
+              autoHideDelay: 3000
             });
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.catchError(err);
         })
         .finally(() => {
@@ -274,24 +273,25 @@ export default {
             title: "Error",
             variant: "danger",
             solid: true,
-            autoHideDelay: 3000,
+            autoHideDelay: 3000
           });
+          return;
         } else if (error.response.status == 422) {
           this.$bvToast.toast("Login gagal! Kredensial tidak valid.", {
             title: "Error",
             variant: "danger",
             solid: true,
-            autoHideDelay: 3000,
+            autoHideDelay: 3000
           });
+          return;
         }
-        return;
       }
       if (error.response && error.response.status == 401) {
         this.$bvToast.toast("Akses dilarang!", {
           title: "Error",
           variant: "danger",
           solid: true,
-          autoHideDelay: 3000,
+          autoHideDelay: 3000
         });
       } else if (
         error.response &&
@@ -301,14 +301,14 @@ export default {
           title: "Error",
           variant: "danger",
           solid: true,
-          autoHideDelay: 3000,
+          autoHideDelay: 3000
         });
       } else if (error.response && error.response.status == 504) {
         this.$bvToast.toast("Ups! Mohon periksa koneksi Anda.", {
           title: "Error",
           variant: "danger",
           solid: true,
-          autoHideDelay: 3000,
+          autoHideDelay: 3000
         });
       } else if (error.response && error.response.status == 422) {
         for (let key in error.response.data.messages) {
@@ -318,7 +318,7 @@ export default {
             title: "Info",
             variant: "info",
             solid: true,
-            autoHideDelay: 3000,
+            autoHideDelay: 3000
           });
         }
       } else {
@@ -326,13 +326,13 @@ export default {
           title: "Error",
           variant: "warning",
           solid: true,
-          autoHideDelay: 3000,
+          autoHideDelay: 3000
         });
       }
       // store.commit("set", ["loading", false]);
       // return "error";
-    },
-  },
+    }
+  }
 };
 </script>
 
