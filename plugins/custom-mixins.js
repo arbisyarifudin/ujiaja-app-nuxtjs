@@ -21,6 +21,12 @@ Vue.mixin({
       }
       return false;
     },
+    formatRupiah(num) {
+      if (num) {
+        return num.toLocaleString("ID-id");
+      }
+      return 0;
+    },
     showError(field) {
       //   this.$translate.setLang("id_ID");
       if (
@@ -78,6 +84,9 @@ Vue.mixin({
     ApiUrl(param) {
       return process.env.apiUrl + "/" + param;
     },
+    noImage(event) {
+      event.target.src = `${window.origin}/logo2.png`;
+    },
     showToastMessage(message = "Pesan", type = "danger") {
       this.$root.$bvToast.toast(message, {
         title: "Pesan",
@@ -89,35 +98,35 @@ Vue.mixin({
     catchError(error) {
       console.log("catchError", error, error.response);
       if (error.response && error.response.status == 401) {
-        this.$bvToast.toast("Anda belum login!", {
+        this.$root.$bvToast.toast("Anda belum login!", {
           title: "Error",
           variant: "danger",
           solid: true,
           autoHideDelay: 3000
         });
-        // this.appLogout();
+        this.appLogout();
         return;
       } else if (error.response && error.response.status == 403) {
-        this.$bvToast.toast("Akses dilarang!", {
+        this.$root.$bvToast.toast("Akses dilarang!", {
           title: "Error",
           variant: "danger",
           solid: true,
           autoHideDelay: 3000
         });
-        // this.appLogout();
+        this.appLogout();
         return;
       } else if (
         error.response &&
         (error.response.status == 500 || error.response.status == 400)
       ) {
-        this.$bvToast.toast("Ups! Terjadi kesalahan di sisi server.", {
+        this.$root.$bvToast.toast("Ups! Terjadi kesalahan di sisi server.", {
           title: "Error",
           variant: "danger",
           solid: true,
           autoHideDelay: 3000
         });
       } else if (error.response && error.response.status == 504) {
-        this.$bvToast.toast("Ups! Mohon periksa koneksi Anda.", {
+        this.$root.$bvToast.toast("Ups! Mohon periksa koneksi Anda.", {
           title: "Error",
           variant: "danger",
           solid: true,
@@ -131,7 +140,7 @@ Vue.mixin({
             key,
             [error.response.data.messages[key]]
           ]);
-          this.$bvToast.toast(error.response.data.messages[key][0], {
+          this.$root.$bvToast.toast(error.response.data.messages[key][0], {
             title: "Peringatan",
             variant: "warning",
             solid: true,
@@ -139,12 +148,15 @@ Vue.mixin({
           });
         }
       } else {
-        this.$bvToast.toast("Ups! Terjadi kesalahan. Mohon ulangi kembali.", {
-          title: "Error",
-          variant: "warning",
-          solid: true,
-          autoHideDelay: 3000
-        });
+        this.$root.$bvToast.toast(
+          "Ups! Terjadi kesalahan. Mohon ulangi kembali.",
+          {
+            title: "Error",
+            variant: "warning",
+            solid: true,
+            autoHideDelay: 3000
+          }
+        );
       }
       // store.commit("set", ["loading", false]);
       // return "error";
