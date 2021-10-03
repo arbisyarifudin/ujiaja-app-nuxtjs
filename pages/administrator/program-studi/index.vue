@@ -74,6 +74,7 @@
                       :src="ApiUrl(item.icon_prodi)"
                       :alt="item.nama_studi"
                       class="img-fluid"
+                      @error="noImage"
                     />
                   </td>
                   <td>{{ item.nama_studi }}</td>

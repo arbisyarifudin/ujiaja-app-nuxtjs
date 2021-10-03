@@ -26,7 +26,7 @@
                   </div>
                   <div class="col-md-6 form-group reg-siswa">
                     <label for="icon_prodi"
-                      >Ikon Program Studi <code>*</code></label
+                      >Ikon Program Studi <code>[opsional]</code></label
                     >
                     <div class="row">
                       <div class="col-md-3">
@@ -290,7 +290,7 @@ export default {
         nama_studi: "",
         id_penjurusan: null,
         id_mapel: null,
-        icon_prodi: null,
+        icon_prodi: "-",
         deskripsi: "",
         alasan: "",
         prospek: "",
@@ -309,7 +309,7 @@ export default {
   },
   mounted() {
     this.getData("perguruanTinggi");
-    this.getData("penjurusan");
+    this.getData("penjurusan", { params: { paginate: 99 } });
     this.getData("mapel");
   },
   methods: {
@@ -334,7 +334,7 @@ export default {
         !this.form.nama_studi ||
         !this.form.id_penjurusan ||
         !this.form.id_mapel ||
-        !this.form.icon_prodi ||
+        // !this.form.icon_prodi ||
         !this.form.deskripsi ||
         !this.form.alasan ||
         !this.form.prospek ||
@@ -376,22 +376,28 @@ export default {
         })
         .finally(() => (this.loading = false));
     },
-    getData(type) {
+    getData(type, params) {
       this.loading = true;
       this.$axios
-        .$get(`/api/${type}`)
+        .$get(`/api/${type}`, params)
         .then(res => {
           console.log(res);
           if (res.success) {
             this.dataMaster[type] = res.data.data;
             this.dataOption[type] = [];
             if (type == "penjurusan") {
-              this.dataMaster[type].forEach(item => {
+              this.dataMaster[type].forEach((item, index) => {
                 if (item.nama_penjurusan != "-" && item.nama_penjurusan) {
-                  this.dataOption[type].push({
-                    ...item,
-                    textField: item.nama_penjurusan
-                  });
+                  if (
+                    !this.dataOption[type].find(
+                      opt => opt.nama_penjurusan == item.nama_penjurusan
+                    )
+                  ) {
+                    this.dataOption[type].push({
+                      ...item,
+                      textField: item.nama_penjurusan
+                    });
+                  }
                 }
               });
             } else if (type == "mapel") {

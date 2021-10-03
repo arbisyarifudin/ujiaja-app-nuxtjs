@@ -26,10 +26,10 @@
             <ul class="list-unstyled">
               <li><h4>Tentang UjiAja</h4></li>
               <li><a class="li" href="/tentang">Tentang UjiAja</a></li>
-              <li><a class="li" href="/karir">Karir</a></li>
               <li><a class="li" href="/untuk-tutor">Untuk Tutor</a></li>
               <li><a class="li" href="/untuk-siswa">Untuk Siswa</a></li>
               <li><a class="li" href="/untuk-orangtua">Untuk Orang Tua</a></li>
+              <li><a class="li" href="/karir">Karir</a></li>
             </ul>
           </div>
           <div class="mb-3 col-lg-3 col-sm-4 col-6">
@@ -48,6 +48,9 @@
                 >
               </li>
               <li><a class="li" href="/produk/les-privat">Les Privat</a></li>
+              <li>
+                <a class="li" href="/cari-program-studi">Cari Program Studi</a>
+              </li>
             </ul>
           </div>
           <div class="mb-3 col-lg-3 col-sm-4 col-12">

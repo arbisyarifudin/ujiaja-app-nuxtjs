@@ -470,6 +470,22 @@ body {
   border-bottom: 1px solid red;
 }
 
+.form-control::-webkit-input-placeholder {
+  color: #ded7ff;
+}
+
+.form-control:-ms-input-placeholder {
+  color: #ded7ff;
+}
+
+.form-control::-ms-input-placeholder {
+  color: #ded7ff;
+}
+
+.form-control::placeholder {
+  color: #ded7ff;
+}
+
 .form-error__info {
   font-size: 12px;
   color: red;
@@ -492,6 +508,213 @@ body {
 
 .sidebar-bantuan ul > li a:hover {
   color: #8a83ff !important;
+}
+
+.crud .crud-btn__add {
+  border-radius: 4px;
+  font-size: 14px;
+  padding-top: 14px;
+  padding-bottom: 14px;
+}
+
+.crud .crud-tools {
+  z-index: 10;
+}
+
+.crud .crud-tools .input-group {
+  font-size: 14px;
+}
+
+.crud .crud-tools .input-group .form-control,
+.crud .crud-tools .input-group .custom-select {
+  border: 1px solid #b0a6ef;
+  border-radius: 0 4px 4px 0;
+  border-left: none;
+  padding: 11px;
+  height: unset;
+}
+
+.crud .crud-tools .input-group .form-control::-webkit-input-placeholder,
+.crud .crud-tools .input-group .custom-select::-webkit-input-placeholder {
+  color: #b0a6ef;
+}
+
+.crud .crud-tools .input-group .form-control:-ms-input-placeholder,
+.crud .crud-tools .input-group .custom-select:-ms-input-placeholder {
+  color: #b0a6ef;
+}
+
+.crud .crud-tools .input-group .form-control::-ms-input-placeholder,
+.crud .crud-tools .input-group .custom-select::-ms-input-placeholder {
+  color: #b0a6ef;
+}
+
+.crud .crud-tools .input-group .form-control::placeholder,
+.crud .crud-tools .input-group .custom-select::placeholder {
+  color: #b0a6ef;
+}
+
+.crud .crud-tools .input-group select {
+  color: #b0a6ef;
+  background: #fff;
+  -moz-appearance: none;
+  /* Firefox */
+  -webkit-appearance: none;
+  /* Safari and Chrome */
+  appearance: none;
+}
+
+.crud .crud-tools .input-group select option {
+  color: #444;
+}
+
+.crud .crud-tools .input-group .input-group-text {
+  border: 1px solid #b0a6ef;
+  border-radius: 4px 0 0 4px;
+  background-color: #fff;
+  border-right: none;
+  color: #b0a6ef;
+  padding-left: 25px;
+}
+
+.crud .crud-body {
+  background-color: rgba(249, 248, 255, 0.7);
+  z-index: 10;
+}
+
+.crud .crud-body.kosong {
+  margin-left: 100px;
+  min-height: 300px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.crud .crud-body.kosong-title {
+  color: #47415b;
+  font-size: 36px;
+}
+
+.crud .crud-body.kosong-subtitle {
+  color: #9490a4;
+  font-size: 24px;
+}
+
+.crud .crud-footer {
+  width: 100%;
+  z-index: 10;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.crud .crud-footer .btn {
+  border-radius: 4px;
+  font-size: 14px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.crud .table .thead-table th {
+  padding: 1rem;
+}
+
+.crud .table .thead-table th.aksi {
+  text-align: center;
+}
+
+.crud .table .thead-table th.no {
+  text-align: center;
+}
+
+.crud .table .body-table td {
+  padding: 1rem;
+}
+
+.crud .table .btn-table {
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.crud .table .btn-table button {
+  margin: 0 5px;
+}
+
+.crud .table .btn-table .edit {
+  color: #55cb4a;
+  font-size: 25px;
+}
+
+.crud .table .btn-table .edit:hover {
+  color: #6feb63;
+}
+
+.crud .table .btn-table .trash {
+  color: #ee2b2b;
+  font-size: 24px;
+  padding-bottom: 3px;
+}
+
+.crud .table .btn-table .trash:hover {
+  color: #ff4242;
+}
+
+.crud .pagination-table {
+  padding: 0;
+}
+
+.crud .pagination-table .page-item.active .page-link {
+  background: #baadff;
+  color: #f5efff;
+  border-radius: 10px;
+}
+
+.crud .pagination-table .page-link {
+  background-color: transparent;
+  color: #9490a4;
+  padding: 8px 13px;
+  margin-left: 3px;
+  margin-right: 3px;
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+}
+
+.crud .pagination-table .page-link:hover {
+  background: transparent;
+  color: #baadff;
+}
+
+.crud .pagination-table .page-link:focus {
+  -webkit-box-shadow: none;
+          box-shadow: none;
+}
+
+.card-prodi__info {
+  font-size: 14px !important;
+}
+
+.card-prodi__info p {
+  font-size: 14px !important;
+  font-weight: normal;
+}
+
+.card-prodi__info p strong {
+  font-weight: 600;
+}
+
+.card-prodi__icon {
+  width: 80px;
 }
 
 /* Footer */

@@ -451,6 +451,9 @@ body {
     &.form-error {
         border-bottom: 1px solid red;
     }
+    &::placeholder {
+        color: #ded7ff;
+    }
 }
 .form-error__info {
     font-size: 12px;
@@ -473,6 +476,170 @@ body {
         padding: 10px 5px;
         a:hover {
             color: #8a83ff !important;
+        }
+    }
+}
+
+.crud {
+    .crud-btn {
+        &__add {
+            border-radius: 4px;
+            font-size: 14px;
+            padding-top: 14px;
+            padding-bottom: 14px;
+        }
+    }
+    .crud-tools {
+        z-index: 10;
+        .input-group {
+            font-size: 14px;
+            .form-control,
+            .custom-select {
+                border: 1px solid #b0a6ef;
+                border-radius: 0 4px 4px 0;
+                border-left: none;
+                padding: 11px;
+                height: unset;
+                &::placeholder {
+                    color: #b0a6ef;
+                }
+            }
+            select {
+                color: #b0a6ef;
+                option {
+                    color: #444;
+                }
+                background: #fff;
+                -moz-appearance: none; /* Firefox */
+                -webkit-appearance: none; /* Safari and Chrome */
+                appearance: none;
+            }
+            .input-group-text {
+                border: 1px solid #b0a6ef;
+                border-radius: 4px 0 0 4px;
+                background-color: #fff;
+                border-right: none;
+                color: #b0a6ef;
+                padding-left: 25px;
+            }
+        }
+    }
+    .crud-body {
+        &.kosong {
+            margin-left: 100px;
+            min-height: 300px;
+            display: flex;
+            align-items: flex-start;
+            justify-content: flex-end;
+            flex-direction: column;
+            &-title {
+                color: #47415b;
+                font-size: 36px;
+            }
+            &-subtitle {
+                color: #9490a4;
+                font-size: 24px;
+            }
+        }
+        background-color: rgba(249, 248, 255, 0.7);
+        z-index: 10;
+    }
+    .crud-footer {
+        width: 100%;
+        z-index: 10;
+        align-items: center;
+        .btn {
+            border-radius: 4px;
+            font-size: 14px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+    }
+    .table {
+        .thead-table {
+            th {
+                padding: 1rem;
+                // text-align: center;
+                &.aksi {
+                    text-align: center;
+                }
+                &.no {
+                    text-align: center;
+                }
+            }
+        }
+        .body-table {
+            td {
+                padding: 1rem;
+            }
+        }
+        .btn-table {
+            justify-content: center;
+            button {
+                margin: 0 5px;
+            }
+            .edit {
+                color: #55cb4a;
+                font-size: 25px;
+            }
+            .edit:hover {
+                color: #6feb63;
+            }
+            .trash {
+                color: rgb(238, 43, 43);
+                font-size: 24px;
+                padding-bottom: 3px;
+            }
+            .trash:hover {
+                color: rgb(255, 66, 66);
+            }
+        }
+    }
+    .pagination-table {
+        padding: 0;
+        .page {
+            &-item {
+                &.active {
+                    .page-link {
+                        background: #baadff;
+                        color: #f5efff;
+                        border-radius: 10px;
+                    }
+                }
+            }
+            &-link {
+                background-color: transparent;
+                color: #9490a4;
+                padding: 8px 13px;
+                margin-left: 3px;
+                margin-right: 3px;
+                transition: 0.3s;
+                &:hover {
+                    background: transparent;
+                    color: #baadff;
+                }
+                &:focus {
+                    box-shadow: none;
+                }
+            }
+        }
+    }
+}
+
+.card {
+    &-prodi {
+        &__info {
+            font-size: 14px !important;
+            p {
+                font-size: 14px !important;
+                font-weight: normal;
+                strong {
+                    font-weight: 600;
+                }
+            }
+        }
+        &__icon {
+            width: 80px;
         }
     }
 }
