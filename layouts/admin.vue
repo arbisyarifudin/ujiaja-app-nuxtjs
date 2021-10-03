@@ -56,7 +56,7 @@
                 </b-nav-item-dropdown>
                 <b-nav-item-dropdown text="Profil" right no-caret>
                   <template #button-content>
-                    <img src="/icon-user.png" class="img-fluid" width="24" />
+                    <img src="/icon-user.png" class="img-fluid" width="30" />
                   </template>
                   <b-dropdown-item to="/administrator/profile"
                     >Profil</b-dropdown-item
