@@ -45,6 +45,10 @@ input:disabled,
   padding-right: 25px;
 }
 
+.btn.btn.square {
+  border-radius: 4px;
+}
+
 .btn.btn:focus,
 .btn.btn .focus {
   -webkit-box-shadow: none !important;
@@ -191,8 +195,14 @@ input:disabled,
   z-index: 99;
 }
 
+#header .nav-link {
+  font-size: 30px;
+}
+
 #header .dropdown-menu {
   top: 18px !important;
+  z-index: 99;
+  position: relative;
 }
 
 #header .dropdown-menu::before {
@@ -465,6 +475,38 @@ input:disabled,
 .data-tryout .card-data .btn {
   display: inline-block;
   min-width: 150px;
+}
+
+.icon-footer {
+  position: relative;
+}
+
+.icon-footer .title {
+  color: #baadff;
+  position: absolute;
+  text-transform: uppercase;
+  font-weight: 600;
+  font-size: 16px;
+  -webkit-transform: rotate(-10deg);
+          transform: rotate(-10deg);
+  top: 18px;
+  left: 5px;
+}
+
+.icon-footer .subtitle {
+  color: #baadff;
+  position: absolute;
+  text-transform: uppercase;
+  font-weight: 600;
+  font-size: 12px;
+  -webkit-transform: rotate(-10deg);
+          transform: rotate(-10deg);
+  top: 33px;
+  left: 5px;
+}
+
+.icon-footer .subtitle span {
+  margin: 0 3px;
 }
 
 .buat-soal p:after {

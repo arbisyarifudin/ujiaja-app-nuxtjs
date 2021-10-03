@@ -42,6 +42,9 @@ input,
     border-radius: 25px;
     padding-left: 25px;
     padding-right: 25px;
+    &.square {
+        border-radius: 4px;
+    }
     &:focus,
     .focus {
         box-shadow: none !important;
@@ -190,9 +193,16 @@ input,
 #header {
     position: relative;
     z-index: 99;
+    .nav {
+        &-link {
+            font-size: 30px;
+        }
+    }
     .dropdown {
         &-menu {
             top: 18px !important;
+            z-index: 99;
+            position: relative;
             &::before {
                 content: "";
                 position: absolute;
@@ -407,6 +417,33 @@ input,
         .btn {
             display: inline-block;
             min-width: 150px;
+        }
+    }
+}
+
+.icon-footer {
+    position: relative;
+    .title {
+        color: #baadff;
+        position: absolute;
+        text-transform: uppercase;
+        font-weight: 600;
+        font-size: 16px;
+        transform: rotate(-10deg);
+        top: 18px;
+        left: 5px;
+    }
+    .subtitle {
+        color: #baadff;
+        position: absolute;
+        text-transform: uppercase;
+        font-weight: 600;
+        font-size: 12px;
+        transform: rotate(-10deg);
+        top: 33px;
+        left: 5px;
+        span {
+            margin: 0 3px;
         }
     }
 }
