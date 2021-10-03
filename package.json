@@ -16,6 +16,7 @@
     "core-js": "^3.15.1",
     "nuxt": "^2.15.7",
     "uuid": "^8.3.2",
+    "vue-select": "^3.13.0",
     "vue-tiny-slider": "^0.1.39",
     "vue2-editor": "^2.10.3"
   },
