@@ -1,0 +1,292 @@
+<template>
+  <div class="container-fluid">
+    <div class="row" style="position: relative; z-index: 10;">
+      <div class="col-md-12">
+        <div class="d-flex align-items-center justify-content-between">
+          <h2 class="dash-label">
+            <b-spinner type="grow" class="mr-2" v-if="loading" /> Detail Produk
+            / Event
+          </h2>
+          <nuxt-link
+            to="/administrator/product"
+            class="btn btn-outline-secondary mr-2 square"
+          >
+            <b-icon icon="arrow-left" class="mr-1"></b-icon>
+            Kembali
+          </nuxt-link>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <div
+          class="header-detail bg-white my-4 px-5 py-4"
+          style="display: flex; justify-content: space-between; align-items: center;"
+        >
+          <div>
+            <h3 class="mb-0">{{ dataDetail.nama_produk }}</h3>
+            <!-- <h6>TPS</h6> -->
+          </div>
+          <div>
+            <router-link
+              :to="`/administrator/product/${dataDetail.id}/edit`"
+              role="button"
+              z
+              class="btn btn-success square py-1 mr-2"
+            >
+              Ubah Event
+            </router-link>
+            <button
+              type="button"
+              class="btn btn-danger square py-1"
+              v-b-modal.modal-delete
+            >
+              Hapus Event
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <div class="row">
+          <div class="col-md-3">
+            <div class="bg-white pl-5 p-4">
+              <h5 class="mb-3">Total Waktu</h5>
+              <div class="d-flex justify-content-between">
+                <p>120</p>
+                <i
+                  class="fa fa-question-circle"
+                  v-b-tooltip.hover
+                  title="Total Waktu dalam Menit"
+                ></i>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="bg-white pl-5 p-4">
+              <h5 class="mb-3">Total Soal</h5>
+              <div class="d-flex justify-content-between">
+                <p>76</p>
+                <i
+                  class="fa fa-question-circle"
+                  v-b-tooltip.hover
+                  title="Total Soal dalam Tryout di produk ini"
+                ></i>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="bg-white pl-5 p-4">
+              <h5 class="mb-3">Event</h5>
+              <p>{{ dataDetail.jenis_produk }}</p>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="bg-white pl-5 p-4">
+              <h5 class="mb-3">Paket</h5>
+              <p>{{ dataDetail.tipe_paket }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-12 my-4">
+        <div class="bg-white p-5">
+          <h5>Penilaian (Berlaku Untuk Pilihan Ganda & Kompleks)</h5>
+          <p class="mb-2">
+            Nilai Benar:
+            {{ dataDetail.perhitungan ? dataDetail.perhitungan.correct : "-" }}
+          </p>
+          <p class="mb-2">
+            Nilai Salah:
+            {{ dataDetail.perhitungan ? dataDetail.perhitungan.wrong : "-" }}
+          </p>
+          <p>
+            Nilai Tidak Diisi:
+            {{ dataDetail.perhitungan ? dataDetail.perhitungan.unfilled : "-" }}
+          </p>
+        </div>
+      </div>
+
+      <div class="col-md-12">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="bg-white pl-5 p-4">
+              <h5>Biaya</h5>
+              <p>Rp {{ formatRupiah(dataDetail.harga_produk) }},-</p>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="bg-white pl-5 p-4">
+              <h5>Status</h5>
+              <p>
+                {{ dataDetail.status_produk == "Tidak" ? "Nonaktif" : "Aktif" }}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-12 my-4">
+        <div class="card card-header bg-white pt-4 pb-3">
+          <h3 class="h4 mb-0">Daftar Tryout dari Produk Ini</h3>
+        </div>
+        <div class="bg-white p-5">
+          <div
+            class="header-detail d-flex justify-content-between align-items-center"
+          >
+            <div class="">
+              <h5 class="mb-3">Test Judul Tryout 1</h5>
+              <h6 class="mb-3 text-muted">TPS - Pilihan Ganda</h6>
+            </div>
+            <div>
+              <button class="btn btn-primary py-1 square">Lihat Soal</button>
+            </div>
+          </div>
+          <ol class="pl-4">
+            <li class="mb-3">
+              Penalaran Umum - 20 Soal & Alokasi Waktu 35 Menit
+            </li>
+            <li class="mb-3">
+              Pemahaman Bacaan dan Menulis - 20 Soal & Alokasi Waktu 25 Menit
+            </li>
+            <li class="mb-3">
+              Pengetahuan dan Penalaran Umum - 20 Soal & Alokasi Waktu 25 Menit
+            </li>
+            <li class="mb-3">
+              Pengetahuan Kuantitatif - 20 Soal & Alokasi Waktu 35 Menit
+            </li>
+          </ol>
+        </div>
+        <div class="bg-white p-5">
+          <div
+            class="header-detail d-flex justify-content-between align-items-center"
+          >
+            <div class="">
+              <h5 class="mb-3">Test Judul Tryout 2</h5>
+              <h6 class="mb-3 text-muted">TKA - SAINTEK</h6>
+            </div>
+            <div>
+              <button class="btn btn-primary py-1 square">Lihat Soal</button>
+            </div>
+          </div>
+          <ol class="pl-4">
+            <li class="mb-3">
+              Penalaran Umum - 20 Soal & Alokasi Waktu 35 Menit
+            </li>
+            <li class="mb-3">
+              Pemahaman Bacaan dan Menulis - 20 Soal & Alokasi Waktu 25 Menit
+            </li>
+            <li class="mb-3">
+              Pengetahuan dan Penalaran Umum - 20 Soal & Alokasi Waktu 25 Menit
+            </li>
+            <li class="mb-3">
+              Pengetahuan Kuantitatif - 20 Soal & Alokasi Waktu 35 Menit
+            </li>
+          </ol>
+        </div>
+      </div>
+    </div>
+    <b-modal
+      id="modal-delete"
+      title="Konfirmasi Hapus Produk / Event"
+      hide-footer
+      centered
+      modal-class="admin-modal"
+      @hidden="resetModal"
+    >
+      <div>
+        <p class="modal-text">
+          Apakah anda yakin ingin menghapus produk / event ini?
+          <span class="text-danger"
+            >Data yang dihapus tidak dapat dikembalikan.</span
+          >
+        </p>
+        <div class="modal-footer justify-content-end" style="border: 0px">
+          <button
+            class="btn btnutline-secondary"
+            type="button"
+            @click="$bvModal.hide('modal-delete')"
+          >
+            Tidak
+          </button>
+          <button
+            class="btn btn-primary tambah px-4 py-2"
+            type="button"
+            :disabled="loading"
+            @click.prevent="deleteData('produk')"
+          >
+            <b-spinner small v-if="loading" class="mr-1"></b-spinner> Ya
+          </button>
+        </div>
+      </div>
+    </b-modal>
+  </div>
+</template>
+
+<script>
+export default {
+  layout: "admin",
+  data() {
+    return {
+      loading: false,
+      dataDetail: {}
+    };
+  },
+  mounted() {
+    if (!this.$route.params.id)
+      return this.$router.push("/administrator/product");
+    this.getDetail("produk", this.$route.params.id);
+  },
+  methods: {
+    resetModal() {},
+    getDetail(type, id) {
+      this.loading = true;
+      this.$axios
+        .$get(`/api/${type}/find/${id}`)
+        .then(res => {
+          console.log(res);
+          if (res.success) {
+            this.dataDetail = res.data;
+          }
+          return true;
+        })
+        .catch(err => {
+          console.log(err);
+          this.catchError(err);
+        })
+        .finally(() => (this.loading = false));
+    },
+    deleteData(type) {
+      this.loading = true;
+      this.$axios
+        .$delete(`/api/${type}/delete/${this.$route.params.id}`)
+        .then(res => {
+          console.log(res);
+          if (res.success) {
+            // this.items.splice(this.selectedIndex, 1);
+            this.$root.$bvToast.toast("Data " + type + " berhasil dihapus.", {
+              title: "Sukses",
+              variant: "success",
+              solid: true,
+              autoHideDelay: 3000
+            });
+            this.$bvModal.hide("modal-delete");
+            this.$router.replace("/administrator/product");
+          }
+          return true;
+        })
+        .catch(err => {
+          console.log(err);
+          this.catchError(err);
+        })
+        .finally(() => (this.loading = false));
+    },
+    formatRupiah(num) {
+      if (num) {
+        return num.toLocaleString("ID-id");
+      }
+      return 0;
+    }
+  }
+};
+</script>
+
+<style></style>
