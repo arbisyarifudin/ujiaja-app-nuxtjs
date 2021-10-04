@@ -11,13 +11,14 @@
               <b-spinner type="grow" class="mr-2" v-if="loading" /> Buat Soal
               Tryout
             </h2>
-            <nuxt-link
+            <!-- <nuxt-link
               to="/administrator/tryout"
               class="btn btn-outline-secondary mr-2"
             >
               <b-icon icon="arrow-left" class="mr-1"></b-icon>
               Kembali
-            </nuxt-link>
+            </nuxt-link> -->
+            <BackUrl />
           </div>
           <p>
             <i class="far fa-file-alt fa-fw mr-1"></i>
@@ -52,7 +53,7 @@
         <div class="col-md-12 crud-body">
           <div class="row">
             <div class="col-md-12 buat-soal mt-4">
-              <p>Panduan Pengerjaan</p>
+              <p>Panduan Pengerjaan <code>*</code></p>
               <!-- <textarea
                 name=""
                 id="textarea"
@@ -74,7 +75,7 @@
               <div id="accordion" role="tab-list">
                 <b-card
                   no-body
-                  class="mb-1"
+                  class="mb-4"
                   v-for="(soal, a) in formSoal"
                   :key="'A' + a"
                 >
@@ -169,7 +170,7 @@
                               <code>*</code></label
                             >
                             <input
-                              type="text"
+                              type="number"
                               class="form-control"
                               id="alokasi_waktu"
                               name="alokasi_waktu"
@@ -184,7 +185,7 @@
                               <code>*</code></label
                             >
                             <input
-                              type="text"
+                              type="number"
                               class="form-control"
                               id="jeda_waktu"
                               name="jeda_waktu"
@@ -222,7 +223,7 @@
                           <div class="card-body-content-dua" :key="'B' + b">
                             <div class="col-md-12 dashboard soal mt-2">
                               <div class="header-soal">
-                                <label>Bab Mata Pelajaran</label>
+                                <label>Bab Mata Pelajaran <code>*</code></label>
                                 <button
                                   type="button"
                                   class="btn btn-danger py-1"
@@ -264,7 +265,9 @@
                                   />
                                 </div>
                               </div>
-                              <label>Teks Untuk Beberapa Soal</label>
+                              <label
+                                >Teks Untuk Beberapa Soal <code>*</code></label
+                              >
                               <!-- <textarea
                                 name=""
                                 id="textarea"
@@ -286,7 +289,7 @@
                             <div class="card-body-content-dua dua">
                               <div class="col-md-12 px-4 py-2 soal mt-2">
                                 <div class="header-soal">
-                                  <p>Pertanyaan 1</p>
+                                  <p>Pertanyaan 1 <code>*</code></p>
                                   <button
                                     type="button"
                                     class="btn btn-danger dua py-1"
@@ -367,7 +370,7 @@
                                 "
                                 class="opsi px-4 d-flex align-items-center py-4"
                               >
-                                <p class="mb-0">Opsi Jawaban</p>
+                                <p class="mb-0">Opsi Jawaban <code>*</code></p>
                                 <button
                                   type="button"
                                   class="btn btn-primary py-1 ml-4"
@@ -486,7 +489,7 @@
                                   />
                                 </div>
 
-                                <p class="mt-4">Pembahasan</p>
+                                <p class="mt-4">Pembahasan <code>*</code></p>
                                 <!-- <textarea
                                   name=""
                                   id="textarea"
@@ -532,7 +535,9 @@
                             >
                               <div class="col-md-12 px-4 py-2 soal mt-2">
                                 <div class="header-soal">
-                                  <p>Pertanyaan {{ 3 - 1 + d }}</p>
+                                  <p>
+                                    Pertanyaan {{ 3 - 1 + d }} <code>*</code>
+                                  </p>
                                   <!-- <button
                                     type="button"
                                     class="btn btn-danger dua py-1"
@@ -579,7 +584,7 @@
                               <div
                                 class="opsi px-4 d-flex align-items-center py-4"
                               >
-                                <p class="mb-0">Opsi Jawaban</p>
+                                <p class="mb-0">Opsi Jawaban <code>*</code></p>
                                 <button
                                   type="button"
                                   class="btn btn-primary py-1 ml-4"
@@ -635,7 +640,7 @@
                                   v-if="onSubmit.perchild[child.id]"
                                 />
 
-                                <p class="mt-4">Pembahasan</p>
+                                <p class="mt-4">Pembahasan <code>*</code></p>
                                 <!-- <textarea
                                   name=""
                                   id="textarea"
@@ -702,17 +707,45 @@
                           type="button"
                           class="btn btn-warning tambah py-1 mt-4"
                           v-if="
-                            soal.pertanyaan.length > 0 &&
-                              dataDetail.kategori != 'ASPD'
+                            dataDetail.kategori != 'ASPD' &&
+                              dataDetail.jenis_soal != 'Campuran' &&
+                              a == formSoal.length - 1 &&
+                              soal.pertanyaan.length > 0
                           "
                           :disabled="loading"
+                          @click.prevent="
+                            addNewMapel = true;
+                            newMapel.jenis_soal = soal.jenis_soal;
+                            newMapel.kelompok_soal = soal.kelompok_soal;
+                          "
                         >
                           <b-spinner
                             small
                             type="grow"
                             class="mr-1"
                             v-if="loading"
-                            @click.prevent="addMapel()"
+                          ></b-spinner>
+                          Tambah Mata Pelajaran
+                        </button>
+                        <button
+                          type="button"
+                          class="btn btn-warning tambah py-1 mt-4"
+                          v-if="
+                            dataDetail.jenis_soal == 'Campuran' &&
+                              soal.pertanyaan.length > 0
+                          "
+                          :disabled="loading"
+                          @click.prevent="
+                            addNewMapel = true;
+                            newMapel.jenis_soal = soal.jenis_soal;
+                            newMapel.kelompok_soal = soal.kelompok_soal;
+                          "
+                        >
+                          <b-spinner
+                            small
+                            type="grow"
+                            class="mr-1"
+                            v-if="loading"
                           ></b-spinner>
                           Tambah Mata Pelajaran
                         </button>
@@ -720,6 +753,93 @@
                     </div>
                   </b-collapse>
                 </b-card>
+
+                <!-- Add New Mapel -->
+                <b-card class="pt-4 pb-2 mt-4" v-if="addNewMapel">
+                  <h3 class="card-title h4 py-3">Tambah Mata Pelajaran Baru</h3>
+                  <div class="card-body-content">
+                    <div class="col-md-12 form-user form-pilih-kelas p-0 mt-3">
+                      <div
+                        class="form-group reg-siswa"
+                        v-if="dataDetail.kategori != 'ASPD'"
+                      >
+                        <label for="id_mapel"
+                          >Mata Pelajaran <code>*</code></label
+                        >
+                        <select
+                          class="form-control pl-0"
+                          id="id_mapel"
+                          v-model="newMapel.id_mapel"
+                        >
+                          <option :value="null">-- Pilih --</option>
+                          <option
+                            :value="mapel.id"
+                            v-for="(mapel, m) in dataMaster['mapel']"
+                            :key="m"
+                            >{{ mapel.nama_mapel }}</option
+                          >
+                        </select>
+                      </div>
+                      <div class="form-group reg-siswa">
+                        <label for="alokasi_waktu"
+                          >Alokasi Waktu Per Mata Pelajaran (Menit)
+                          <code>*</code></label
+                        >
+                        <input
+                          type="number"
+                          class="form-control"
+                          id="alokasi_waktu"
+                          name="alokasi_waktu"
+                          placeholder="Misal: 80"
+                          v-model="newMapel.alokasi_waktu_per_mapel"
+                        />
+                      </div>
+                      <div class="form-group reg-siswa">
+                        <label for="jeda_waktu"
+                          >Jeda Waktu Antar Mata Pelajaran (Menit)
+                          <code>*</code></label
+                        >
+                        <input
+                          type="number"
+                          class="form-control"
+                          id="jeda_waktu"
+                          name="jeda_waktu"
+                          placeholder="Misal: 5"
+                          v-model="newMapel.jeda_waktu_antar_mapel"
+                        />
+                      </div>
+                      <div class="d-flex">
+                        <button
+                          type="button"
+                          class="btn btn-primary mr-2"
+                          @click.prevent="addMapel()"
+                          :disabled="loading"
+                        >
+                          <b-spinner
+                            v-if="loading"
+                            type="grow"
+                            small
+                            class="mr-1"
+                          ></b-spinner>
+                          Tambah Mata Pelajaran
+                        </button>
+                        <button
+                          type="button"
+                          class="btn btn-outline-primary"
+                          @click.prevent="
+                            addNewMapel = false;
+                            resetNewMapel;
+                          "
+                        >
+                          <b-icon icon="x" class="mr-1"></b-icon>
+                          Batal
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- {{ newMapel }} -->
+                </b-card>
+                <!-- ./ Add New Mapel -->
               </div>
             </div>
           </div>
@@ -767,6 +887,14 @@ export default {
         soal: [{ loading: false, submitted: false, success: false }],
         pertanyaan: [{ loading: false, submitted: false, success: false }],
         perchild: [{ loading: false, submitted: false, success: false }]
+      },
+      addNewMapel: false,
+      newMapel: {
+        id_mapel: null,
+        alokasi_waktu_per_mapel: null,
+        jeda_waktu_antar_mapel: null,
+        jenis_soal: null,
+        kelompok_soal: null
       }
     };
   },
@@ -857,6 +985,71 @@ export default {
         })
         .finally(() => (this.loading = false));
     },
+    resetNewMapel() {
+      this.newMapel = {
+        id_mapel: null,
+        alokasi_waktu_per_mapel: null,
+        jeda_waktu_antar_mapel: null,
+        jenis_soal: null,
+        kelompok_soal: null
+      };
+    },
+    addMapel() {
+      if (
+        !this.newMapel.id_mapel ||
+        !this.newMapel.jeda_waktu_antar_mapel ||
+        !this.newMapel.alokasi_waktu_per_mapel
+      ) {
+        this.showToastMessage(
+          "Mohon lengkapi form terlebih dahulu!",
+          "warning"
+        );
+        return;
+      }
+      let dataMapelBaru;
+      if (this.dataDetail.jenis_soal == "Campuran") {
+        dataMapelBaru = {
+          ...this.newMapel,
+          id_tryout: this.dataDetail.id
+        };
+      } else {
+        dataMapelBaru = {
+          ...this.newMapel,
+          kelompok_soal: this.dataDetail.kelompok_soal,
+          jenis_soal: this.dataDetail.jenis_soal,
+          id_tryout: this.dataDetail.id
+        };
+      }
+      // console.log(dataMapelBaru);
+      // return;
+      this.loading = true;
+      this.$axios
+        .$post(`/api/tryout/soal/create`, dataMapelBaru)
+        .then(res => {
+          console.log("added new mapel", res);
+          if (res.success) {
+            this.formSoal.push({ ...res.data, pertanyaan: [] });
+            this.showToastMessage(
+              "Mata pelajaran berhasil ditambah!",
+              "success"
+            );
+          }
+          return true;
+        })
+        .catch(err => {
+          console.log(err);
+          this.catchError(err);
+        })
+        .finally(() => {
+          this.loading = false;
+          this.addNewMapel = false;
+          this.newMapel = {
+            id_mapel: null,
+            alokasi_waktu_per_mapel: null,
+            jeda_waktu_antar_mapel: null
+          };
+        });
+    },
     createBab(id_soal, ref) {
       if (
         !ref.id_mapel ||
@@ -864,9 +1057,7 @@ export default {
         !ref.jeda_waktu_antar_mapel ||
         !this.formTryout.panduan_pengerjaan
       ) {
-        this.showToastMessage(
-          "Mohon isi panduan pengerjaan dan mapel terlebih dahulu!"
-        );
+        this.showToastMessage("Mohon lengkapi form terlebih dahulu!");
         return;
       }
       const dataSoalTryout = {
@@ -897,6 +1088,8 @@ export default {
         pembahasan_pertanyaan: "Ini Pembahasan Pertanyaan....",
         parent_soal_pertanyaan: null
       };
+      dataSoalTryout.jawaban_pertanyaan =
+        dataSoalTryout.opsi_pertanyaan[0].uuid;
       this.loading = true;
       this.$axios
         .$post(`/api/soal/pertanyaan/create`, dataSoalTryout)
@@ -1037,6 +1230,8 @@ export default {
         pertanyaan_child: []
       };
 
+      dataSave.jawaban_pertanyaan = dataSave.opsi_pertanyaan[0].uuid;
+
       this.loading = true;
       this.$axios
         .$post(`/api/soal/pertanyaan/create`, dataSave)
@@ -1118,6 +1313,8 @@ export default {
         parent_soal_pertanyaan: null,
         pertanyaan_child: []
       };
+
+      dataSave.jawaban_pertanyaan = dataSave.opsi_pertanyaan[0].uuid;
 
       this.loading = true;
       this.$axios

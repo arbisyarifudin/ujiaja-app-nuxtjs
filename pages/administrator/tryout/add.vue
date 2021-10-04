@@ -17,7 +17,7 @@
                 class="form-control"
                 id="judul_tryout"
                 name="judul_tryout"
-                placeholder="Isi Judul Tryout"
+                placeholder="Misal: Soal Tryout UTBK TPS 2022"
                 v-model="form.judul"
               />
             </div>
