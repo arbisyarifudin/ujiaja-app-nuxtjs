@@ -7,13 +7,14 @@
             <b-spinner type="grow" class="mr-2" v-if="loading" /> Detail Produk
             / Event
           </h2>
-          <nuxt-link
+          <!-- <nuxt-link
             to="/administrator/product"
             class="btn btn-outline-secondary mr-2 square"
           >
             <b-icon icon="arrow-left" class="mr-1"></b-icon>
             Kembali
-          </nuxt-link>
+          </nuxt-link> -->
+          <BackUrl />
         </div>
       </div>
       <div class="col-md-12">
@@ -22,12 +23,12 @@
           style="display: flex; justify-content: space-between; align-items: center;"
         >
           <div>
-            <h3 class="mb-0">{{ dataDetail.nama_produk }}</h3>
+            <h3 class="mb-0">{{ dataDetail.produk.nama_produk }}</h3>
             <!-- <h6>TPS</h6> -->
           </div>
           <div>
             <router-link
-              :to="`/administrator/product/${dataDetail.id}/edit`"
+              :to="`/administrator/product/${dataDetail.produk.id}/edit`"
               role="button"
               z
               class="btn btn-success square py-1 mr-2"
@@ -50,7 +51,7 @@
             <div class="bg-white pl-5 p-4">
               <h5 class="mb-3">Total Waktu</h5>
               <div class="d-flex justify-content-between">
-                <p>120</p>
+                <p>{{ dataDetail.total_waktu }}</p>
                 <i
                   class="fa fa-question-circle"
                   v-b-tooltip.hover
@@ -63,7 +64,7 @@
             <div class="bg-white pl-5 p-4">
               <h5 class="mb-3">Total Soal</h5>
               <div class="d-flex justify-content-between">
-                <p>76</p>
+                <p>{{ dataDetail.total_soal }}</p>
                 <i
                   class="fa fa-question-circle"
                   v-b-tooltip.hover
@@ -75,13 +76,13 @@
           <div class="col-md-3">
             <div class="bg-white pl-5 p-4">
               <h5 class="mb-3">Event</h5>
-              <p>{{ dataDetail.jenis_produk }}</p>
+              <p>{{ dataDetail.produk.jenis_produk }}</p>
             </div>
           </div>
           <div class="col-md-3">
             <div class="bg-white pl-5 p-4">
               <h5 class="mb-3">Paket</h5>
-              <p>{{ dataDetail.tipe_paket }}</p>
+              <p>{{ dataDetail.produk.tipe_paket }}</p>
             </div>
           </div>
         </div>
@@ -92,15 +93,27 @@
           <h5>Penilaian (Berlaku Untuk Pilihan Ganda & Kompleks)</h5>
           <p class="mb-2">
             Nilai Benar:
-            {{ dataDetail.perhitungan ? dataDetail.perhitungan.correct : "-" }}
+            {{
+              dataDetail.produk.perhitungan
+                ? dataDetail.produk.perhitungan.correct
+                : "-"
+            }}
           </p>
           <p class="mb-2">
             Nilai Salah:
-            {{ dataDetail.perhitungan ? dataDetail.perhitungan.wrong : "-" }}
+            {{
+              dataDetail.produk.perhitungan
+                ? dataDetail.produk.perhitungan.wrong
+                : "-"
+            }}
           </p>
           <p>
             Nilai Tidak Diisi:
-            {{ dataDetail.perhitungan ? dataDetail.perhitungan.unfilled : "-" }}
+            {{
+              dataDetail.produk.perhitungan
+                ? dataDetail.produk.perhitungan.unfilled
+                : "-"
+            }}
           </p>
         </div>
       </div>
@@ -110,14 +123,18 @@
           <div class="col-md-6">
             <div class="bg-white pl-5 p-4">
               <h5>Biaya</h5>
-              <p>Rp {{ formatRupiah(dataDetail.harga_produk) }},-</p>
+              <p>Rp {{ formatRupiah(dataDetail.produk.harga_produk) }},-</p>
             </div>
           </div>
           <div class="col-md-6">
             <div class="bg-white pl-5 p-4">
               <h5>Status</h5>
               <p>
-                {{ dataDetail.status_produk == "Tidak" ? "Nonaktif" : "Aktif" }}
+                {{
+                  dataDetail.produk.status_produk == "Tidak"
+                    ? "Nonaktif"
+                    : "Aktif"
+                }}
               </p>
             </div>
           </div>
@@ -128,23 +145,44 @@
         <div class="card card-header bg-white pt-4 pb-3">
           <h3 class="h4 mb-0">Daftar Tryout dari Produk Ini</h3>
         </div>
-        <div class="bg-white p-5">
+        <UILoading v-if="loading" />
+        <div
+          v-else
+          class="bg-white p-5"
+          v-for="(tryout, t) in dataDetail.tryout"
+          :key="t"
+        >
           <div
             class="header-detail d-flex justify-content-between align-items-center"
           >
             <div class="">
-              <h5 class="mb-3">Test Judul Tryout 1</h5>
-              <h6 class="mb-3 text-muted">TPS - Pilihan Ganda</h6>
+              <h5 class="mb-3">{{ tryout.judul }}</h5>
+              <h6 class="mb-3 text-muted">
+                <span>{{ tryout.jenis_soal }}</span>
+                <span>- {{ tryout.template_soal }}</span>
+              </h6>
             </div>
             <div>
-              <button class="btn btn-primary py-1 square">Lihat Soal</button>
+              <router-link
+                class="btn btn-primary py-1 square"
+                :to="`/administrator/tryout/${tryout.id}/soal/create`"
+                >Lihat Soal Tryout</router-link
+              >
             </div>
           </div>
           <ol class="pl-4">
-            <li class="mb-3">
-              Penalaran Umum - 20 Soal & Alokasi Waktu 35 Menit
+            <li class="mb-3" v-for="(soal, s) in tryout.soal" :key="s">
+              {{ soal.mapel ? soal.mapel.nama_mapel : "???" }} -
+              {{ soal.jumlah_soal ? soal.jumlah_soal : "??" }} Soal & Alokasi
+              Waktu {{ soal.alokasi ? soal.alokasi : "??" }} Menit &nbsp;
+              <strong v-if="tryout.jenis_soal == 'Campuran'">
+                (
+                <span>{{ soal.jenis_soal }}</span>
+                <span>{{ soal.kelompok_soal }}</span>
+                )
+              </strong>
             </li>
-            <li class="mb-3">
+            <!-- <li class="mb-3">
               Pemahaman Bacaan dan Menulis - 20 Soal & Alokasi Waktu 25 Menit
             </li>
             <li class="mb-3">
@@ -152,34 +190,7 @@
             </li>
             <li class="mb-3">
               Pengetahuan Kuantitatif - 20 Soal & Alokasi Waktu 35 Menit
-            </li>
-          </ol>
-        </div>
-        <div class="bg-white p-5">
-          <div
-            class="header-detail d-flex justify-content-between align-items-center"
-          >
-            <div class="">
-              <h5 class="mb-3">Test Judul Tryout 2</h5>
-              <h6 class="mb-3 text-muted">TKA - SAINTEK</h6>
-            </div>
-            <div>
-              <button class="btn btn-primary py-1 square">Lihat Soal</button>
-            </div>
-          </div>
-          <ol class="pl-4">
-            <li class="mb-3">
-              Penalaran Umum - 20 Soal & Alokasi Waktu 35 Menit
-            </li>
-            <li class="mb-3">
-              Pemahaman Bacaan dan Menulis - 20 Soal & Alokasi Waktu 25 Menit
-            </li>
-            <li class="mb-3">
-              Pengetahuan dan Penalaran Umum - 20 Soal & Alokasi Waktu 25 Menit
-            </li>
-            <li class="mb-3">
-              Pengetahuan Kuantitatif - 20 Soal & Alokasi Waktu 35 Menit
-            </li>
+            </li> -->
           </ol>
         </div>
       </div>
@@ -227,7 +238,10 @@ export default {
   data() {
     return {
       loading: false,
-      dataDetail: {}
+      dataDetail: {
+        produk: {},
+        tryout: []
+      }
     };
   },
   mounted() {
@@ -240,7 +254,7 @@ export default {
     getDetail(type, id) {
       this.loading = true;
       this.$axios
-        .$get(`/api/${type}/find/${id}`)
+        .$get(`/api/${type}/find/${id}/detail`)
         .then(res => {
           console.log(res);
           if (res.success) {

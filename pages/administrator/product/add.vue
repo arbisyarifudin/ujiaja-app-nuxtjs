@@ -17,7 +17,7 @@
                 name="nama_produk"
                 v-model="form.nama_produk"
                 type="text"
-                placeholder="Tulis nama produk"
+                placeholder="Misal: Paket/Event Tryout UTBK 2022"
               >
               </b-form-input>
             </div>
@@ -396,7 +396,7 @@ export default {
         nama_produk: null,
         kategori_produk: "UTBK",
         jenis_produk: "Perorangan",
-        tipe_paket: "Bundling",
+        tipe_paket: "Reguler",
         harga_produk: 25000,
         pakai_sertifikat: "Ya",
         pakai_perankingan: null,
@@ -439,7 +439,7 @@ export default {
   },
   methods: {
     validateForm() {
-      console.log(this.form);
+      // console.log(this.form);
       if (
         !this.form.nama_produk ||
         !this.form.kategori_produk ||
@@ -501,6 +501,12 @@ export default {
         return;
       }
 
+      if (this.form.tipe_paket == "Bundling") {
+        this.form.id_tryout = [...this.form.tryout_bundling];
+      } else {
+        this.form.id_tryout = [this.form.tryout_reguler];
+      }
+      console.log(this.form);
       this.submitData("produk");
     },
     submitData(type) {

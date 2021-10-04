@@ -100,10 +100,11 @@
                   <!-- <h5>TPS</h5> -->
                   <div class="d-flex justify-content-between mb-2">
                     <p class="mb-2">
-                      <i class="far fa-clock fa-fw"></i> 120 Menit
+                      <i class="far fa-clock fa-fw"></i> {{ item.waktu }} Menit
                     </p>
                     <p class="mb-2">
-                      <i class="far fa-file-alt fa-fw"></i> 76 Soal
+                      <i class="far fa-file-alt fa-fw"></i>
+                      {{ item.jumlah_soal }} Soal
                     </p>
                   </div>
                   <div class="d-flex justify-content-between mb-2">
@@ -220,8 +221,8 @@ export default {
           console.log(res);
           if (res.success) {
             this.items = res.data.data;
-            this.totalRows = res.data.total;
-            this.filter.perPage = res.data.per_page;
+            this.totalRows = res.data.paginate.total;
+            this.filter.perPage = res.data.paginate.per_page;
           }
           return true;
         })

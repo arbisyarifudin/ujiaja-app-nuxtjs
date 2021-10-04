@@ -35,6 +35,7 @@
                   id="kategori_produk"
                   class="form-control"
                   v-model="form.kategori_produk"
+                  disabled
                   :options="[
                     { text: '-- Pilih --', value: null },
                     { text: 'UTBK', value: 'UTBK' },
@@ -50,6 +51,7 @@
                   id="tipe_paket"
                   class="form-control"
                   v-model="form.tipe_paket"
+                  disabled
                   :options="[
                     { text: '-- Pilih --', value: null },
                     { text: 'Reguler', value: 'Reguler' },
@@ -365,7 +367,9 @@
                   Mengambil data...
                 </div>
               </div>
-              <!-- {{ form.tryout_reguler }} -->
+              <!-- {{ form.tryout }} -->
+              <!-- - -->
+              <!-- {{ form.tryout_reguler }} - -->
               <!-- {{ form.tryout_bundling }} -->
             </div>
             <div class="col-md-12">
@@ -373,7 +377,7 @@
               <h3 class="mb-3">Daftar Tryout dari Produk Ini</h3>
               <div
                 class="card card-body shadow-none mb-3 flex-row d-flex align-items-center justify-content-between"
-                v-for="(item, index) in dataTryout"
+                v-for="(item, index) in listTryout"
                 :key="index"
               >
                 <div class="px-3">
@@ -499,6 +503,7 @@ export default {
         tryout_bundling: [],
         tryout: []
       },
+      listTryout: [],
       selectedId: null,
       selectedIndex: null
     };
@@ -535,7 +540,7 @@ export default {
   },
   methods: {
     validateForm() {
-      console.log(this.form);
+      // console.log(this.form);
       if (
         !this.form.nama_produk ||
         !this.form.kategori_produk ||
@@ -597,7 +602,14 @@ export default {
       //     });
       //     return;
       //   }
-
+      if (this.form.tryout_reguler || this.form.tryout_bundling) {
+        if (this.form.tipe_paket == "Bundling") {
+          this.form.id_tryout = [...this.form.tryout_bundling];
+        } else {
+          this.form.id_tryout = [this.form.tryout_reguler];
+        }
+      }
+      console.log(this.form);
       this.submitData("produk");
     },
     submitData(type) {
@@ -653,17 +665,20 @@ export default {
         })
         .finally(() => (this.fetching = false));
     },
-    getDetail(type, id) {
+    async getDetail(type, id) {
       this.loading = true;
-      this.$axios
-        .$get(`/api/${type}/find/${id}`)
+      await this.$axios
+        .$get(`/api/${type}/find/${id}/detail`)
         .then(res => {
           console.log(res);
           if (res.success) {
-            this.dataDetail = res.data;
+            this.dataDetail = res.data.produk;
+            this.listTryout = res.data.tryout;
             this.form = {
               ...this.dataDetail,
-              tryout: []
+              tryout_reguler: "",
+              tryout_bundling: [],
+              tryout: this.listTryout.map(item => item.id)
             };
           }
           return true;
@@ -681,7 +696,7 @@ export default {
         .then(res => {
           console.log(res);
           if (res.success) {
-            this.items.splice(this.selectedIndex, 1);
+            this.listTryout.splice(this.selectedIndex, 1);
             this.$root.$bvToast.toast("Data " + type + " berhasil dihapus.", {
               title: "Sukses",
               variant: "success",
@@ -689,7 +704,7 @@ export default {
               autoHideDelay: 3000
             });
             this.$bvModal.hide("modal-delete");
-            this.$router.replace("/administrator/product");
+            // this.$router.replace("/administrator/product");
           }
           return true;
         })
