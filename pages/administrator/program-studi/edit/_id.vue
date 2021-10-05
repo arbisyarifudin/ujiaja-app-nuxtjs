@@ -323,7 +323,7 @@ export default {
 
     this.getDetail("programStudi", this.$route.params.id);
     this.getData("perguruanTinggi");
-    this.getData("penjurusan");
+    this.getData("penjurusan", { params: { paginate: 99 } });
     this.getData("mapel");
   },
   methods: {
@@ -389,22 +389,28 @@ export default {
         })
         .finally(() => (this.loading = false));
     },
-    getData(type) {
+    getData(type, params) {
       this.loading = true;
       this.$axios
-        .$get(`/api/${type}`)
+        .$get(`/api/${type}`, params)
         .then(res => {
           console.log(res);
           if (res.success) {
             this.dataMaster[type] = res.data.data;
             this.dataOption[type] = [];
             if (type == "penjurusan") {
-              this.dataMaster[type].forEach(item => {
+              this.dataMaster[type].forEach((item, index) => {
                 if (item.nama_penjurusan != "-" && item.nama_penjurusan) {
-                  this.dataOption[type].push({
-                    ...item,
-                    textField: item.nama_penjurusan
-                  });
+                  if (
+                    !this.dataOption[type].find(
+                      opt => opt.nama_penjurusan == item.nama_penjurusan
+                    )
+                  ) {
+                    this.dataOption[type].push({
+                      ...item,
+                      textField: item.nama_penjurusan
+                    });
+                  }
                 }
               });
             } else if (type == "mapel") {

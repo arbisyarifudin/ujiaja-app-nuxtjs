@@ -22,7 +22,7 @@
   }
   &::before {
     position: absolute;
-    background-color: rgba(255, 255, 255, 0.3);
+    // background-color: rgba(255, 255, 255, 0.3);
     content: "";
     top: 0;
     left: 0;

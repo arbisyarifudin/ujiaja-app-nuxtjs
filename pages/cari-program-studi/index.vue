@@ -1,13 +1,16 @@
 <template>
   <div>
     <HeaderProdi />
-    <div class="program-studi">
+    <div class="program-studi min-vh-100">
       <div class="container crud">
         <div class="row justify-content-center">
-          <div class="col-lg-8 col-md-6 mt-n2">
+          <div class="col-lg-8 col-md-8 mt-n2">
             <div class="cari pb-5 pt-3 mt-n5">
               <h3 class="mb-3 mt-3 text-center">Cari Program Studi</h3>
-              <form class=" form-cari-program" @submit.prevent="onSubmit">
+              <form
+                class=" form-cari-program"
+                @submit.prevent="getPaginate('programStudi')"
+              >
                 <!-- <input
                   class="form-control mb-4"
                   type="search"
@@ -22,9 +25,11 @@
                   debounce="1000"
                 ></b-form-input>
                 <button
-                  class="btn btn-primary btn-cari-program px-4"
+                  class="btn btn-primary btn-cari-program px-4 d-flex align-items-center"
                   type="submit"
+                  :disabled="loading"
                 >
+                  <b-spinner v-if="loading" small class="mr-2"></b-spinner>
                   Cari
                 </button>
               </form>
@@ -35,10 +40,10 @@
         <div class="konten-program col-md-12 text-center">
           <div class="row mb-4 crud-tools">
             <div class="col-md-8 text-left">
-              <h3 class="h6 text-dark">Filter by</h3>
-              <div class="row justify-content-start">
-                <div class="col-md-3">
-                  <b-input-group>
+              <!-- <h3 class="h6 text-dark">Filter by</h3> -->
+              <div class="row justify-content-start align-items-center">
+                <!-- <div class="col-md-3"> -->
+                <!-- <b-input-group>
                     <template #prepend>
                       <b-input-group-text
                         ><i class="fas fa-filter"></i
@@ -53,9 +58,10 @@
                         { text: 'Tampil 50', value: 50 }
                       ]"
                     ></b-form-select>
-                  </b-input-group>
-                </div>
+                  </b-input-group> -->
+                <!-- </div> -->
                 <div class="col-md-4">
+                  <h3 class="h6 text-dark mt-0 mb-3">Filter by</h3>
                   <b-input-group>
                     <template #prepend>
                       <b-input-group-text
@@ -63,16 +69,13 @@
                       ></b-input-group-text>
                     </template>
                     <b-form-select
-                      v-model="filter.id_mapel"
-                      :options="[
-                        { text: 'Semua Mapel', value: '' },
-                        { text: 'Matematika', value: 1 },
-                        { text: 'Bahasa Inggris', value: 2 }
-                      ]"
+                      v-model="filter.mapel"
+                      :options="dataMaster['mapel']"
                     ></b-form-select>
                   </b-input-group>
                 </div>
                 <div class="col-md-5">
+                  <h3 class="h6 text-dark mt-0 mb-lg-3 mb-0">&nbsp;</h3>
                   <b-input-group>
                     <template #prepend>
                       <b-input-group-text
@@ -80,28 +83,28 @@
                       ></b-input-group-text>
                     </template>
                     <b-form-select
-                      v-model="filter.nama_penjurusan"
-                      :options="[
-                        { text: 'Semua Penjurusan', value: '' },
-                        { text: 'IPA', value: 1 },
-                        { text: 'IPS', value: 2 }
-                      ]"
+                      v-model="filter.penjurusan"
+                      :options="dataMaster['penjurusan']"
                     ></b-form-select>
                   </b-input-group>
                 </div>
               </div>
             </div>
           </div>
-          <div class="row justify-content-center">
+          <div class="row justify-content-start pos-relative">
+            <UILoading v-if="loading" />
             <div
-              class="col-md-4 col-sm-6"
+              class="col-md-4 col-sm-6 mb-4"
               v-for="(item, index) in items"
               :key="index"
             >
               <div class="card card-karir card-prodi">
                 <div class="card-body text-left p-0">
                   <div class="card-content px-4">
-                    <h3 class="card-judul card-program mt-4 mb-4">
+                    <h3
+                      class="card-judul card-program mt-4 mb-4"
+                      style="height: 50px; overflow: hidden"
+                    >
                       {{ item.nama_studi }}
                     </h3>
                     <!-- <p class="card-text pb-3">Komputer & Teknologi</p> -->
@@ -120,7 +123,7 @@
                       </p>
                     </div>
                     <a
-                      :href="`/cari-program-studi/${item.nama_studi}`"
+                      :href="`/cari-program-studi/${item.slug}`"
                       class="karir-link"
                       >Detail <i class="fa fa-chevron-right ml-1"></i
                     ></a>
@@ -138,6 +141,13 @@
                 </div>
               </div>
             </div>
+            <div
+              v-if="!loading && items && items.length == 0"
+              class="d-flex align-items-center justify-content-center"
+              style="min-height: 150px"
+            >
+              <span class="small">Tidak ada data program studi.</span>
+            </div>
           </div>
         </div>
       </div>
@@ -153,43 +163,76 @@ export default {
   },
   data() {
     return {
+      loading: true,
       filter: {
         keyword: "",
         perPage: "",
         page: 1,
-        id_mapel: "",
-        nama_penjurusan: ""
+        mapel: null,
+        penjurusan: null
       },
       totalRows: 0,
-      items: []
+      items: [],
+      dataMaster: {
+        mapel: [],
+        penjurusan: []
+      }
     };
   },
   watch: {
-    "filter.keyword": function(value) {
+    "filter.perPage": function(value) {
       if (value) {
         this.$router.push({
           path: "cari-program-studi",
-          query: { katakunci: value }
-        });
-      } else {
-        this.$router.push({
-          path: "cari-program-studi"
+          query: { ...this.$route.query, perhalaman: value }
         });
       }
+      this.getPaginate("programStudi");
+    },
+    // "filter.keyword": function(value) {
+    //   if (value) {
+    //     this.$router.push({
+    //       path: "cari-program-studi",
+    //       query: { ...this.$route.query, katakunci: value }
+    //     });
+    //   }
+    //   // this.getPaginate("programStudi");
+    // },
+    "filter.mapel": function(value) {
+      if (value) {
+        this.$router.push({
+          path: "cari-program-studi",
+          query: { ...this.$route.query, mapel: value }
+        });
+      }
+      this.getPaginate("programStudi");
+    },
+    "filter.penjurusan": function(value) {
+      if (value) {
+        this.$router.push({
+          path: "cari-program-studi",
+          query: { ...this.$route.query, penjurusan: value }
+        });
+      }
+      this.getPaginate("programStudi");
     }
   },
   created() {
-    this.getData("programStudi");
+    this.getPaginate("programStudi");
+    this.getData("mapel");
+    this.getData("penjurusan");
   },
   methods: {
-    getData(type) {
+    getPaginate(type) {
       this.loading = true;
       this.$axios
         .$get(`/api/${type}`, {
           params: {
             q: this.filter.keyword,
             paginate: this.filter.perPage,
-            page: this.filter.page
+            page: this.filter.page,
+            mapel: this.filter.mapel,
+            penjurusan: this.filter.penjurusan
           }
         })
         .then(res => {
@@ -207,7 +250,59 @@ export default {
         })
         .finally(() => (this.loading = false));
     },
-    onSubmit() {}
+    onSubmit() {},
+    getData(type) {
+      this.loading = true;
+      this.$axios
+        .$get(`/api/${type}`, {
+          params: {
+            paginate: 999,
+            page: 1
+          }
+        })
+        .then(res => {
+          console.log(res);
+          if (res.success) {
+            if (type == "mapel") {
+              this.dataMaster[type] = res.data.data.map(item => {
+                return {
+                  value: item.id,
+                  text: item.nama_mapel
+                };
+              });
+              this.dataMaster[type].unshift({
+                text: "Semua Mapel",
+                value: null
+              });
+            } else if (type == "penjurusan") {
+              res.data.data.forEach((item, index) => {
+                if (item.nama_penjurusan != "-" && item.nama_penjurusan) {
+                  if (
+                    !this.dataMaster[type].find(
+                      opt => opt.value == item.nama_penjurusan
+                    )
+                  ) {
+                    this.dataMaster[type].push({
+                      value: item.nama_penjurusan,
+                      text: item.nama_penjurusan
+                    });
+                  }
+                }
+              });
+              this.dataMaster[type].unshift({
+                text: "Semua Penjurusan",
+                value: null
+              });
+            }
+          }
+          return true;
+        })
+        .catch(err => {
+          console.log(err);
+          this.catchError(err);
+        })
+        .finally(() => (this.loading = false));
+    }
   }
 };
 </script>

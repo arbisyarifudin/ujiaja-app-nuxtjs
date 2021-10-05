@@ -13,4 +13,8 @@ body {
 .dropdown-item:active {
   background-color: #b0a6ef;
 }
+
+.pos-relative {
+  position: relative;
+}
 /*# sourceMappingURL=main.css.map */

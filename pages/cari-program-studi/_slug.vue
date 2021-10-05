@@ -74,6 +74,34 @@
                 </ol>
               </div>
 
+              <h3 class="mb-3">
+                Perguruan Tinggi yang Memiliki Program Studi Ini:
+              </h3>
+              <div class="text-left">
+                <ol>
+                  <li>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    Tenetur, incidunt!
+                  </li>
+                  <li>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    Tenetur, incidunt!
+                  </li>
+                  <li>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    Tenetur, incidunt!
+                  </li>
+                  <li>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    Tenetur, incidunt!
+                  </li>
+                  <li>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    Tenetur, incidunt!
+                  </li>
+                </ol>
+              </div>
+
               <div
                 class="mb-5"
                 style="
