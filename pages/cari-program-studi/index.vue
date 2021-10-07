@@ -9,7 +9,7 @@
               <h3 class="mb-3 mt-3 text-center">Cari Program Studi</h3>
               <form
                 class=" form-cari-program"
-                @submit.prevent="getPaginate('programStudi')"
+                @submit.prevent="getPaginate('program/studi')"
               >
                 <!-- <input
                   class="form-control mb-4"
@@ -144,7 +144,7 @@
             <div
               v-if="!loading && items && items.length == 0"
               class="d-flex align-items-center justify-content-center"
-              style="min-height: 150px"
+              style="min-height: 150px; width: 100%;"
             >
               <span class="small">Tidak ada data program studi.</span>
             </div>
@@ -187,7 +187,7 @@ export default {
           query: { ...this.$route.query, perhalaman: value }
         });
       }
-      this.getPaginate("programStudi");
+      this.getPaginate("program/studi");
     },
     // "filter.keyword": function(value) {
     //   if (value) {
@@ -196,7 +196,7 @@ export default {
     //       query: { ...this.$route.query, katakunci: value }
     //     });
     //   }
-    //   // this.getPaginate("programStudi");
+    //   // this.getPaginate("program/studi");
     // },
     "filter.mapel": function(value) {
       if (value) {
@@ -205,7 +205,7 @@ export default {
           query: { ...this.$route.query, mapel: value }
         });
       }
-      this.getPaginate("programStudi");
+      this.getPaginate("program/studi");
     },
     "filter.penjurusan": function(value) {
       if (value) {
@@ -214,11 +214,11 @@ export default {
           query: { ...this.$route.query, penjurusan: value }
         });
       }
-      this.getPaginate("programStudi");
+      this.getPaginate("program/studi");
     }
   },
   created() {
-    this.getPaginate("programStudi");
+    this.getPaginate("program/studi");
     this.getData("mapel");
     this.getData("penjurusan");
   },
@@ -254,7 +254,7 @@ export default {
     getData(type) {
       this.loading = true;
       this.$axios
-        .$get(`/api/${type}`, {
+        .$get(`/api/${type}/list`, {
           params: {
             paginate: 999,
             page: 1

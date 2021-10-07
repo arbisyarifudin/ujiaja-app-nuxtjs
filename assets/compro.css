@@ -758,6 +758,14 @@ body {
   font-weight: 600;
 }
 
+.program-studi-detail p,
+.program-studi-detail ul,
+.program-studi-detail ol {
+  color: #777 !important;
+  font-size: 14px;
+  line-height: 28px;
+}
+
 /* CSS on MOBILE */
 /* HAPE */
 /* TABLET */
