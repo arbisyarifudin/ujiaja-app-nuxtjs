@@ -1,103 +1,31 @@
 <template>
   <div>
-    <HeaderProdiDetail />
-    <div class="program-studi mb-5 mt-n5">
+    <HeaderProdiDetail :heroData="detail" />
+    <div class="program-studi program-studi-detail mb-5 mt-n5">
       <div class="container">
         <div class="row justify-content-center">
           <div class="col-lg-9 col-md-8">
             <div class="cari text-center pt-3 pb-5 mt-n3">
-              <h3 class="mb-4">Deskripsi Perusahaan</h3>
-              <div class="text-left">
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. At ac
-                  dictum etiam consectetur suspendisse. Lobortis porttitor quam
-                  ac maecenas vitae etiam sit. Ac orci integer dignissim
-                  tincidunt faucibus. In augue quis adipiscing penatibus.
-                  Tincidunt vestibulum id morbi nascetur diam et cursus. Cursus
-                  enim, integer enim, leo in nam nulla id. Enim, morbi augue
-                  tincidunt egestas et turpis non. Nulla vel adipiscing molestie
-                  quisque nec sed in enim, volutpat. Lacus sed cursus imperdiet
-                  sociis at mollis nunc pulvinar. Pharetra suspendisse tellus ut
-                  pellentesque eu natoque libero. Iaculis risus, euismod luctus
-                  ultrices sed. In quis vestibulum, convallis arcu faucibus
-                  viverra cursus iaculis.
-                </p>
-              </div>
-              <h3 class="mb-3">Uraian Tugas</h3>
-              <div class="text-left">
-                <ol>
-                  <li>Buat konsep visual berdasarkan persyaratan</li>
-                  <li>
-                    Pelajari ringkasan desain dan tentukan ruang lingkup proyek
-                  </li>
-                  <li>Siapkan draf kasar dan sajikan ide</li>
-                  <li>
-                    Buat elemen atau aset visual seperti video, ilustrasi, &
-                    animasi untuk media sosial
-                  </li>
-                  <li>
-                    Bekerja dengan departemen yang berbeda untuk memenuhi
-                    berbagai proyek
-                  </li>
-                </ol>
-              </div>
-              <h3 class="mb-3">Kualifikasi</h3>
-              <div class="text-left">
-                <ol>
-                  <li>Pengalaman kerja minimal satu tahun di bidang terkait</li>
-                  <li>
-                    Mahasiswa sarjana, lebih disukai pada semester 7 atau 8 /
-                    lulusan baru dipersilakan untuk melamar Posisi Magang
-                  </li>
-                  <li>Kemahiran dalam Adobe Illustrator</li>
-                  <li>Pengetahuan dasar dalam Adobe After Effect</li>
-                  <li>Kreativitas dan inovasi tinggi</li>
-                  <li>
-                    Mampu menerjemahkan ringkasan desain menjadi hasil visual
-                  </li>
-                  <li>
-                    Sangat baik dalam manajemen waktu dan keterampilan
-                    organisasi
-                  </li>
-                  <li>
-                    Memiliki perhatian yang tinggi terhadap akurasi dan detail
-                  </li>
-                  <li>Pengetahuan yang baik dalam tipografi dan tata letak</li>
-                  <li>
-                    Tetap up to date dengan tren desain terutama di komersial
-                  </li>
-                  <li>Suka menantang diri sendiri</li>
-                  <li>
-                    Bersedia untuk terus mempelajari keterampilan baru yang
-                    dibutuhkan untuk pekerjaan itu
-                  </li>
-                </ol>
-              </div>
+              <h3 class="mb-4 mt-5">Apa itu {{ detail.nama_studi }}?</h3>
+              <div class="text-left" v-html="detail.deskripsi"></div>
+              <h3 class="mb-3 mt-2">Kenapa Kamu Ingin Progran Studi Ini?</h3>
+              <div class="text-left" v-html="detail.alasan"></div>
+              <h3 class="mb-3 mt-2">
+                Prospek Kerja/Karir Lulusan Program Studi Ini?
+              </h3>
+              <div class="text-left" v-html="detail.prospek"></div>
 
-              <h3 class="mb-3">
-                Perguruan Tinggi yang Memiliki Program Studi Ini:
+              <h3 class="mb-3 mt-2">
+                Perguruan Tinggi yang Memiliki Program Studi Ini?
               </h3>
               <div class="text-left">
                 <ol>
-                  <li>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Tenetur, incidunt!
-                  </li>
-                  <li>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Tenetur, incidunt!
-                  </li>
-                  <li>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Tenetur, incidunt!
-                  </li>
-                  <li>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Tenetur, incidunt!
-                  </li>
-                  <li>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Tenetur, incidunt!
+                  <li
+                    v-for="(item, index) in detail.listperguruan"
+                    :key="index"
+                    class="mb-3 pl-3"
+                  >
+                    {{ item.perguruan.nama_perguruan }}
                   </li>
                 </ol>
               </div>
@@ -129,6 +57,13 @@
                 </div> -->
               </div>
             </div>
+            <!-- <div
+              class="cari text-center pt-3 pb-5 mt-n3"
+              style="min-height: 400px; position: relative"
+              v-else
+            >
+              <UILoading />
+            </div> -->
           </div>
         </div>
       </div>
@@ -139,12 +74,61 @@
 
 <script>
 export default {
-  head() {
+  data() {
     return {
-      bodyAttrs: {
-        class: ""
-      }
+      // detail: {}
     };
+  },
+  async asyncData(context) {
+    console.log(context);
+    const slug = context.params.slug;
+    if (!slug) return context.redirect("/cari-program-studi");
+    const detail = await context.$axios
+      .$get(`/api/program/studi/find/${slug}`)
+      .then(res => {
+        console.log(res);
+        if (res.success) {
+          return res.data;
+        }
+        return {};
+      })
+      .catch(err => {
+        console.log(err);
+        if (err.response && err.response.status == 404) {
+          return context.redirect("/cari-program-studi");
+        }
+      });
+    // console.log(detail);
+    return {
+      detail
+    };
+  },
+  created() {
+    if (!this.$route.params.slug)
+      return this.$router.replace("/cari-program-studi");
+    this.getDetail("program/studi", this.$route.params.slug);
+  },
+  methods: {
+    getDetail(type, id) {
+      this.loading = true;
+      this.$axios
+        .$get(`/api/${type}/find/${id}`)
+        .then(res => {
+          console.log(res);
+          if (res.success) {
+            this.detail = res.data;
+          }
+          return true;
+        })
+        .catch(err => {
+          console.log(err);
+          if (err.response && err.response.status == 404) {
+            return this.$router.replace("/cari-program-studi");
+          }
+          this.catchError(err);
+        })
+        .finally(() => (this.loading = false));
+    }
   }
 };
 </script>
