@@ -72,6 +72,7 @@
                       class="form-control pl-0 pr-0"
                       id="tanggal_lahir"
                       placeholder="DD-MM-YYYY"
+                      max="2020-01-01"
                       v-model="formSiswa.tgl_lahir"
                     />
                   </div>
@@ -263,7 +264,7 @@
                           ><i
                             :class="[
                               'fa',
-                              showPassword ? 'fa-eye-slash' : 'fa-eye',
+                              showPassword ? 'fa-eye-slash' : 'fa-eye'
                             ]"
                             style="pointer-events: none"
                           ></i
@@ -558,46 +559,46 @@ export default {
         id_kecamatan: null,
         id_penjurusan: null,
         password: "",
-        repassword: "",
+        repassword: ""
       },
       formOrtu: {
         nama_lengkap: "",
         username: "",
         email: "",
         nomor_telephone: "",
-        password: "",
+        password: ""
       },
       dataMaster: {
-        penjurusan: [],
+        penjurusan: []
       },
       dataAPI: {
         provinsi: [],
         kota_kabupaten: [],
-        kecamatan: [],
+        kecamatan: []
       },
       dataOption: {
         penjurusan: [],
         provinsi: [],
         kota_kabupaten: [],
-        kecamatan: [],
+        kecamatan: []
       },
       isValidForm: {
         username: null,
         password: null,
         email: null,
-        nomor_telephone: null,
+        nomor_telephone: null
       },
-      dataError: [],
+      dataError: []
     };
   },
   watch: {
-    "formOrtu.username": function (value) {
+    "formOrtu.username": function(value) {
       if (!value) return;
       var usernameRegex = /^[a-zA-Z0-9]+$/;
       var test = value.match(usernameRegex);
       if (test === null) {
         this.$set(this.dataError, "username", [
-          "Username hanya boleh mengandung huruf dan angka tanpa spasi.",
+          "Username hanya boleh mengandung huruf dan angka tanpa spasi."
         ]);
         this.isValidForm["username"] = false;
       } else {
@@ -605,14 +606,13 @@ export default {
         this.isValidForm["username"] = true;
       }
     },
-    "formOrtu.password": function (value) {
+    "formOrtu.password": function(value) {
       if (!value) return;
-      var passwordRegex =
-        /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,20}$/;
+      var passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,20}$/;
       var test = value.match(passwordRegex);
       if (value && test === null) {
         this.$set(this.dataError, "password", [
-          "Password minimal 8 - 20 karakter. Dengan setidaknya terdapat 1 huruf kapital, 1 angka dan 1 karakter spesial.",
+          "Password minimal 8 - 20 karakter. Dengan setidaknya terdapat 1 huruf kapital, 1 angka dan 1 karakter spesial."
         ]);
         this.isValidForm["password"] = false;
       } else {
@@ -621,7 +621,7 @@ export default {
       }
       if (this.repassword && value !== this.repassword) {
         this.$set(this.dataError, "repassword", [
-          "Password tidak sama. Mohon pelan-pelan.",
+          "Password tidak sama. Mohon pelan-pelan."
         ]);
         this.isValidForm["repassword"] = false;
       } else {
@@ -629,11 +629,11 @@ export default {
         this.isValidForm["repassword"] = true;
       }
     },
-    "formOrtu.repassword": function (value) {
+    "formOrtu.repassword": function(value) {
       if (!value) return;
       if (value && value !== this.form.password) {
         this.$set(this.dataError, "repassword", [
-          "Password tidak sama. Mohon pelan-pelan.",
+          "Password tidak sama. Mohon pelan-pelan."
         ]);
         this.isValidForm["repassword"] = false;
       } else {
@@ -641,10 +641,9 @@ export default {
         this.isValidForm["repassword"] = true;
       }
     },
-    "formOrtu.email": function (value) {
+    "formOrtu.email": function(value) {
       if (!value) return;
-      var emailRegex =
-        /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      var emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       var test = value.match(emailRegex);
       if (value && test === null) {
         this.$set(this.dataError, "email", ["Mohon masukkan email valid."]);
@@ -654,21 +653,20 @@ export default {
         this.isValidForm["email"] = true;
       }
     },
-    "formOrtu.nomor_telephone": function (value) {
+    "formOrtu.nomor_telephone": function(value) {
       if (!value) return;
-      var phoneRegex =
-        /\(?(?:\+62|62|0)(?:\d{2,3})?\)?[ .-]?\d{2,4}[ .-]?\d{2,4}[ .-]?\d{2,4}$/;
+      var phoneRegex = /\(?(?:\+62|62|0)(?:\d{2,3})?\)?[ .-]?\d{2,4}[ .-]?\d{2,4}[ .-]?\d{2,4}$/;
       var test = value.match(phoneRegex);
       if (value && test === null) {
         this.$set(this.dataError, "nomor_telephone", [
-          "Mohon masukkan nomor HP valid.",
+          "Mohon masukkan nomor HP valid."
         ]);
         this.isValidForm["nomor_telephone"] = false;
       } else {
         this.$set(this.dataError, "nomor_telephone", [""]);
         this.isValidForm["nomor_telephone"] = true;
       }
-    },
+    }
   },
   computed: {
     akun() {
@@ -676,7 +674,7 @@ export default {
     },
     profil() {
       return this.$store.state.dataUser.detail;
-    },
+    }
   },
   created() {
     this.formSiswa = {
@@ -695,7 +693,7 @@ export default {
       id_kecamatan: this.profil.id_kecamatan,
       id_penjurusan: this.profil.id_penjurusan,
       password: "",
-      repassword: "",
+      repassword: ""
     };
     if (this.profil && this.profil.parent) {
       this.formOrtu = {
@@ -703,7 +701,7 @@ export default {
         username:
           this.profil.parent.username ?? this.profil.parent.nama_lengkap,
         email: this.profil.parent.email,
-        nomor_telephone: this.profil.parent.nomor_telephone,
+        nomor_telephone: this.profil.parent.nomor_telephone
       };
     }
     this.getMaster("penjurusan");
@@ -723,7 +721,7 @@ export default {
         username: null,
         password: null,
         email: null,
-        nomor_telephone: null,
+        nomor_telephone: null
       };
       this.dataError = [];
     },
@@ -753,7 +751,7 @@ export default {
           title: "Peringatan",
           variant: "warning",
           solid: true,
-          autoHideDelay: 3000,
+          autoHideDelay: 3000
         });
         return;
       }
@@ -773,7 +771,7 @@ export default {
           title: "Peringatan",
           variant: "warning",
           solid: true,
-          autoHideDelay: 3000,
+          autoHideDelay: 3000
         });
         return;
       }
@@ -787,11 +785,11 @@ export default {
       this.$axios.defaults.withCredentials = true;
       this.$axios
         .$get(`/api/${type}`)
-        .then((res) => {
+        .then(res => {
           console.log(res);
           this.dataMaster[type] = res.data.data;
           if (type == "penjurusan") {
-            this.dataOption[type] = this.dataMaster[type].map((item) => {
+            this.dataOption[type] = this.dataMaster[type].map(item => {
               let textField = item.kelas.jenjang.nama_jenjang;
               textField += " - " + item.kelas.nama_kelas;
               if (item.nama_penjurusan && item.nama_penjurusan != "-") {
@@ -799,14 +797,14 @@ export default {
               }
               return {
                 ...item,
-                textField,
+                textField
               };
             });
           } else if (type == "kelas") {
             //
           }
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
           this.catchError(err);
         })
@@ -815,20 +813,21 @@ export default {
     getAPI(type) {
       this.loading = true;
 
-      let params = {};
+      let params = "";
 
       if (type == "kota_kabupaten" || type == "kota") {
         params = "/" + this.formSiswa.id_provinsi;
-      } else if ("kecamatan") {
+      } else if (type == "kecamatan") {
         params = "/" + this.formSiswa.id_kota;
       }
+      // console.log(type, params);
 
       this.$axios.defaults.headers = {};
       this.$axios.defaults.withCredentials = false;
 
       this.$axios
         .$get(`/api/${type}${params}`)
-        .then((res) => {
+        .then(res => {
           console.log(res);
           if (type == "kota") {
             type = "kota_kabupaten";
@@ -836,7 +835,7 @@ export default {
           this.dataOption[type] = res.data[type];
           this.$cookiz.set(type, this.dataOption[type]);
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
           this.catchError(err);
         })
@@ -853,19 +852,19 @@ export default {
       this.$axios.defaults.withCredentials = true;
       this.$axios
         .$put(`/api/users/siswa/update/${this.akun.id}`, this.formSiswa)
-        .then((res) => {
+        .then(res => {
           console.log(res);
           if (res.success) {
             this.$bvToast.toast("Profil berhasil diperbarui!", {
               title: "Sukses",
               variant: "success",
               solid: true,
-              autoHideDelay: 3000,
+              autoHideDelay: 3000
             });
             this.$router.push(
               {
                 path: this.$route.path,
-                force: true,
+                force: true
               },
               () => {
                 this.$router.app.refresh();
@@ -877,12 +876,12 @@ export default {
               title: "Error",
               variant: "danger",
               solid: true,
-              autoHideDelay: 3000,
+              autoHideDelay: 3000
             });
             return false;
           }
         })
-        .then((success) => {
+        .then(success => {
           if (
             success &&
             this.profil.parent &&
@@ -893,12 +892,12 @@ export default {
                 `/api/users/parent/update/${this.profil.parent.id_orang_tua}`,
                 this.formOrtu
               )
-              .then((res) => {
+              .then(res => {
                 console.log("update ortu", res);
               });
           }
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
           this.catchError(err);
         })
@@ -912,19 +911,19 @@ export default {
       this.$axios.defaults.withCredentials = true;
       this.$axios
         .$post(`/api/users/parent/create`, this.formOrtu)
-        .then((res) => {
+        .then(res => {
           console.log(res);
           if (res.success) {
             this.$bvToast.toast("Data orangtua berhasil ditambahkan.", {
               title: "Sukses",
               variant: "success",
               solid: true,
-              autoHideDelay: 3000,
+              autoHideDelay: 3000
             });
             this.$router.push(
               {
                 path: this.$route.path,
-                force: true,
+                force: true
               },
               () => {
                 this.$router.app.refresh();
@@ -935,16 +934,16 @@ export default {
               title: "Error",
               variant: "danger",
               solid: true,
-              autoHideDelay: 3000,
+              autoHideDelay: 3000
             });
           }
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
           this.catchError(err);
         })
         .finally(() => (this.loading = false));
-    },
-  },
+    }
+  }
 };
 </script>

@@ -116,7 +116,7 @@
                   </div>
                 </div>
                 <div
-                  class="card-bawah pb-3 px-4 m-0"
+                  class="card-bawah pb-3 px-4 m-0 bordered"
                   style="border-bottom: 12px solid #D7D2F7; border-radius:0px 0px 12px 12px;"
                 >
                   <nuxt-link

@@ -22,10 +22,15 @@
         <div class="card card-karir m-3" style="width: 18rem">
           <div class="card-body text-left p-0">
             <div class="card-content px-4">
-              <h3 class="card-judul card-program mt-4 mb-2">Tryout UTBK</h3>
-              <p class="card-text pb-0 mb-4">
-                Temukan tryout UTBK pilihanmu disini dari SAINTEK, SOSHUM,
-                hingga CAMPURAN ada untukmu
+              <h3
+                class="card-judul card-program mt-4 mb-2"
+                style="overflow: hidden; height: 60px"
+              >
+                Tryout UTBK
+              </h3>
+              <p class="card-text pb-0" style="overflow: hidden; height: 60px">
+                Temukan tryout UTBK pilihanmu disini. Dari SAINTEK, SOSHUM,
+                hingga CAMPURAN ada untukmu.
               </p>
 
               <a href="" class="karir-link"
@@ -33,17 +38,26 @@
               ></a>
             </div>
             <div class="d-flex justify-content-end pb-4 pr-4 m-0 bordered">
-              <img src="/icon/tryoutasesmen.png" class="" />
+              <div class="icon-footer">
+                <h4 class="title">TRYOUT</h4>
+                <h5 class="subtitle single">
+                  UTBK
+                </h5>
+                <img src="/icon/icon-card-bg.png" class="img-fluid image" />
+              </div>
             </div>
           </div>
         </div>
         <div class="card card-karir m-3" style="width: 18rem">
           <div class="card-body text-left p-0">
             <div class="card-content px-4">
-              <h3 class="card-judul card-program mt-4 mb-2">
+              <h3
+                class="card-judul card-program mt-4 mb-2"
+                style="overflow: hidden; height: 60px"
+              >
                 Tryout Asesmen Nasional
               </h3>
-              <p class="card-text pb-0 mb-1">
+              <p class="card-text pb-0" style="overflow: hidden; height: 60px">
                 Temukan tryout Asesmen Kompetensi Nasional pilihanmu disini.
               </p>
 
@@ -52,15 +66,26 @@
               ></a>
             </div>
             <div class="d-flex justify-content-end pb-4 pr-4 m-0 bordered">
-              <img src="/icon/tryoutasesmen.png" class="" />
+              <div class="icon-footer">
+                <h4 class="title">TRYOUT</h4>
+                <h5 class="subtitle single small">
+                  Asesmen Nasional
+                </h5>
+                <img src="/icon/icon-card-bg.png" class="img-fluid image" />
+              </div>
             </div>
           </div>
         </div>
         <div class="card card-karir m-3" style="width: 18rem">
           <div class="card-body text-left p-0">
             <div class="card-content px-4">
-              <h3 class="card-judul card-program mt-4 mb-2">Tryout ASPD</h3>
-              <p class="card-text pb-0- mb-3">
+              <h3
+                class="card-judul card-program mt-4 mb-2"
+                style="overflow: hidden; height: 60px"
+              >
+                Tryout ASPD
+              </h3>
+              <p class="card-text pb-0" style="overflow: hidden; height: 60px">
                 Temukan tryout Asesmen Standar Pendidikan Daerah pilihanmu
                 disini.
               </p>
@@ -70,7 +95,13 @@
               ></a>
             </div>
             <div class="d-flex justify-content-end pb-4 pr-4 m-0 bordered">
-              <img src="/icon/tryoutasesmen.png" class="" />
+              <div class="icon-footer">
+                <h4 class="title">TRYOUT</h4>
+                <h5 class="subtitle single">
+                  ASPD
+                </h5>
+                <img src="/icon/icon-card-bg.png" class="img-fluid image" />
+              </div>
             </div>
           </div>
         </div>
@@ -102,7 +133,7 @@ export default {
     },
     userDetail() {
       return this.$store.state.dataUser.detail;
-    },
-  },
+    }
+  }
 };
 </script>

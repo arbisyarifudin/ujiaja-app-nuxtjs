@@ -91,9 +91,9 @@
                   to="/app/profile/edit"
                   class="btn btn-light btn-slengkapnya"
                 >
-                  Selengkapnya
+                  Lengkapi Sekarang
                 </nuxt-link>
-                <a class="link-lewati" href="">Lewati</a>
+                <!-- <a class="link-lewati" href="">Lewati</a> -->
               </div>
             </div>
             <Nuxt v-else />
@@ -115,12 +115,12 @@ export default {
     },
     userDetail() {
       return this.$store.state.dataUser.detail;
-    },
+    }
   },
   mounted() {
     console.log("user", this.user);
     console.log("userDetail", this.userDetail);
-  },
+  }
 };
 </script>
 
