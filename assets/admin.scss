@@ -429,6 +429,7 @@ input,
 
 .icon-footer {
     position: relative;
+    left: -20px;
     .title {
         color: #baadff;
         position: absolute;
@@ -448,8 +449,17 @@ input,
         transform: rotate(-10deg);
         top: 33px;
         left: 5px;
+        white-space: nowrap;
         span {
             margin: 0 3px;
+        }
+        &.single {
+            font-size: 14px;
+            left: 55%;
+            transform: translateX(-50%) rotate(-10deg);
+        }
+        &.small {
+            font-size: 12px;
         }
     }
 }

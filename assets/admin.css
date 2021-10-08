@@ -483,6 +483,7 @@ input:disabled,
 
 .icon-footer {
   position: relative;
+  left: -20px;
 }
 
 .icon-footer .title {
@@ -507,10 +508,22 @@ input:disabled,
           transform: rotate(-10deg);
   top: 33px;
   left: 5px;
+  white-space: nowrap;
 }
 
 .icon-footer .subtitle span {
   margin: 0 3px;
+}
+
+.icon-footer .subtitle.single {
+  font-size: 14px;
+  left: 55%;
+  -webkit-transform: translateX(-50%) rotate(-10deg);
+          transform: translateX(-50%) rotate(-10deg);
+}
+
+.icon-footer .subtitle.small {
+  font-size: 12px;
 }
 
 .buat-soal p:after {

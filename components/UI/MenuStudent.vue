@@ -1,23 +1,31 @@
 <template>
   <ul class="nav navbar-nav pl-3 flex-column">
     <li class="nav-item">
-      <nuxt-link
-        class="nav-link d-flex align-items-center active"
-        to="/app/dashboard"
-      >
+      <nuxt-link class="nav-link d-flex align-items-center" to="/app/dashboard">
         <i class="fas fa-chart-pie fa-2x fa-fw mr-2"></i>Dashboard</nuxt-link
       >
     </li>
-    <li class="nav-item">
-      <nuxt-link class="nav-link d-flex align-items-center" to="/app/courses"
-        ><i class="fab fa-wpforms fa-2x fa-fw mr-2"></i> Les Privat</nuxt-link
-      >
-    </li>
-    <li class="nav-item">
-      <nuxt-link class="nav-link d-flex align-items-center" to="/app/courses"
-        ><i class="far fa-edit fa-2x fa-fw mr-2"></i> Tryout</nuxt-link
-      >
-    </li>
+    <b-nav-item-dropdown text="Les Privat" right>
+      <template #button-content>
+        <span
+          class="nav-link mb-0 p-0"
+          :class="[$route.path.includes('course') ? 'nuxt-link-active' : '']"
+          ><i class="fab fa-wpforms fa-2x fa-fw mr-2"></i> Les Privat</span
+        >
+      </template>
+      <b-dropdown-item to="/app/course">Cari Guru Privat</b-dropdown-item>
+      <b-dropdown-item to="/app/course/mine">Kelas Privatku</b-dropdown-item>
+    </b-nav-item-dropdown>
+    <b-nav-item-dropdown text="Tryout" right>
+      <template #button-content>
+        <!-- :class="[$route.path.includes('tryout') ? 'nuxt-link-active' : '']" -->
+        <span class="nav-link mb-0 p-0"
+          ><i class="far fa-edit fa-2x fa-fw mr-2"></i> Tryout</span
+        >
+      </template>
+      <b-dropdown-item to="/app/tryout">Cari Tryout</b-dropdown-item>
+      <b-dropdown-item to="/app/tryout/mine">Tryoutku</b-dropdown-item>
+    </b-nav-item-dropdown>
     <li class="nav-item">
       <nuxt-link class="nav-link d-flex align-items-center" to="/app/courses"
         ><i class="fas fa-book fa-2x fa-fw mr-2"></i> Bank Soal</nuxt-link
