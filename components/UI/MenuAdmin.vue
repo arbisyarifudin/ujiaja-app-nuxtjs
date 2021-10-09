@@ -76,11 +76,31 @@
         >Data Produk / Event</b-dropdown-item
       >
     </b-nav-item-dropdown>
-    <li class="nav-item">
-      <nuxt-link class="nav-link d-flex align-items-center" to="#"
-        ><i class="fas fa-laptop fa-fw mr-2"></i> Modul Belajar</nuxt-link
+    <b-nav-item-dropdown text="Modul MBTI" right>
+      <template #button-content>
+        <span
+          class="nav-link mb-0 p-0"
+          :class="[
+            $route.path.includes('mbti') ||
+            $route.path.includes('personality') ||
+            $route.path.includes('dimention')
+              ? 'nuxt-link-active'
+              : ''
+          ]"
+        >
+          <i class="fas fa-clipboard fa-fw mr-2"></i> Modul MBTI</span
+        >
+      </template>
+      <b-dropdown-item to="/administrator/mbti/personality"
+        >Data Kepribadian</b-dropdown-item
       >
-    </li>
+      <b-dropdown-item to="/administrator/mbti/dimention"
+        >Data Dimensi Dasar</b-dropdown-item
+      >
+      <b-dropdown-item to="/administrator/mbti"
+        >Data MBTI & Soal</b-dropdown-item
+      >
+    </b-nav-item-dropdown>
     <li class="nav-item">
       <nuxt-link class="nav-link d-flex align-items-center" to="#"
         ><i class="fas fa-cash-register fa-fw mr-2"></i> Transaksi
