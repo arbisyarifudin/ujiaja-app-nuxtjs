@@ -5,7 +5,7 @@
         <div class="col-md-12 dashboard">
           <h2 class="dash-label">
             <b-spinner type="grow" class="mr-2" v-if="loading" />
-            Tambah Kepribadian
+            Ubah Kepribadian
           </h2>
           <p>
             Ayo, buat data master kepribadian sekarang juga untuk merelasikan
@@ -39,7 +39,6 @@
                 name="nama_panjang"
                 placeholder="Tulis Nama Kepanjangan"
                 v-model="form.nama_panjang"
-                disabled
               />
             </div>
           </div>

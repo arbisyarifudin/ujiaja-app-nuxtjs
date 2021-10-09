@@ -175,12 +175,12 @@ export default {
         });
         return;
       }
-      this.submitData("dimensi");
+      this.submitData("kepribadian");
     },
     submitData(type) {
       this.loading = true;
       this.$axios
-        .$put(`/api/${type}/create`, this.form)
+        .$post(`/api/${type}/create`, this.form)
         .then(res => {
           console.log(res);
           if (res.success) {

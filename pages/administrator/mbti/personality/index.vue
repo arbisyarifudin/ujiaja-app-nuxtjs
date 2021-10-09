@@ -73,10 +73,16 @@
                   <td>{{ item.partner }}</td>
                   <td class="btn-table">
                     <nuxt-link
-                      class="btn btn-light px-2"
-                      :to="`/administrator/mbti/personality/edit/${item.id}`"
+                      class="btn btn-light trash px-2"
+                      :to="`/administrator/mbti/personality/${item.id}/edit`"
                     >
                       <i class="fa fa-edit"></i>
+                    </nuxt-link>
+                    <nuxt-link
+                      class="btn btn-light detail px-2"
+                      :to="`/administrator/mbti/personality/${item.id}/detail`"
+                    >
+                      <i class="fa fa-search"></i>
                     </nuxt-link>
                     <!-- <button
                       class="btn btn-light px-2"
@@ -91,13 +97,13 @@
                   </td>
                 </tr>
               </template>
-              <UITableLoading tag="div" v-if="loading" />
-              <UITableNotFound
-                tag="div"
-                v-if="totalRows == 0 && filter.keyword && !loading"
-              />
             </tbody>
           </table>
+          <UITableLoading tag="div" v-if="loading" />
+          <UITableNotFound
+            tag="div"
+            v-if="totalRows == 0 && filter.keyword && !loading"
+          />
 
           <b-pagination
             class="pagination-table"
