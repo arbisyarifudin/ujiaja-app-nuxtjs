@@ -22,10 +22,9 @@
                   <b-form-select
                     v-model="filter.perPage"
                     :options="[
-                      { text: 'Tampil 5', value: 5 },
-                      { text: 'Tampil 10', value: 10 },
-                      { text: 'Tampil 25', value: 25 },
-                      { text: 'Tampil 50', value: 50 }
+                      { text: 'Tampil 9', value: 9 },
+                      { text: 'Tampil 30', value: 30 },
+                      { text: 'Tampil 60', value: 60 }
                     ]"
                     @change="getData('produk')"
                   ></b-form-select>
@@ -78,7 +77,7 @@
       <div class="col-md-12 crud-body">
         <div class="row mt-5" v-if="totalRows > 0">
           <div
-            class="col-xl-4 col-lg-6 col-md-6 col-sm-6"
+            class="col-xl-4 col-lg-6 col-md-6 col-sm-6 mb-3"
             v-for="(item, i) in items"
             :key="i"
           >
@@ -94,11 +93,17 @@
                   </p>
                 </div>
                 <div class="card-content px-4">
-                  <h3 class="card-judul card-program mb-4 mt-3">
+                  <h3
+                    class="card-judul card-program mb-4 mt-3"
+                    style="height: 60px"
+                  >
                     {{ item.nama_produk }}
                   </h3>
                   <!-- <h5>TPS</h5> -->
-                  <div class="d-flex justify-content-between mb-2">
+                  <div
+                    class="d-flex justify-content-between mb-2"
+                    v-if="item.tipe_paket == 'Reguler'"
+                  >
                     <p class="mb-2">
                       <i class="far fa-clock fa-fw"></i> {{ item.waktu }} Menit
                     </p>
@@ -109,11 +114,27 @@
                   </div>
                   <div class="d-flex justify-content-between mb-2">
                     <p class="">
-                      <i class="fas fa-tags fa-fw"></i> Rp
-                      {{ formatRupiah(item.harga_produk) }}
+                      <i class="fas fa-tags fa-fw"></i>
+                      {{ item.harga_label }}
                     </p>
-                    <p class="beda">{{ item.tipe_paket }}</p>
+                    <p v-if="item.tipe_paket == 'Bundling'">
+                      {{ item.tanggal_mulai_label }}
+                    </p>
+                    <p
+                      class="beda"
+                      v-if="
+                        item.kategori_produk == 'ASPD' ||
+                          item.kategori_produk == 'Asmenas'
+                      "
+                    >
+                      {{ item.penjurusan[0] }}
+                    </p>
                   </div>
+                  <div
+                    v-if="item.tipe_paket == 'Bundling'"
+                    class="package-getlist mb-3"
+                    v-html="item.deskripsi_produk"
+                  ></div>
                 </div>
                 <div
                   class="card-bawah pb-3 px-4 m-0 bordered"
@@ -124,11 +145,30 @@
                     class="karir-link"
                     >Detail <i class="fas fa-chevron-right ml-1"></i
                   ></nuxt-link>
-                  <div class="icon-footer">
+                  <div class="icon-footer center">
                     <h4 class="title">TRYOUT</h4>
                     <h5 class="subtitle">
-                      <span>{{ item.kategori_produk }}</span
-                      ><span>TPS</span>
+                      <span class="mr-0">{{ item.kategori_produk }}</span
+                      ><span class="ml-0" v-if="item.jenis_tryout[0]">
+                        - {{ item.jenis_tryout[0] }}</span
+                      ><span
+                        class="ml-0"
+                        v-if="
+                          item.kategori_produk == 'UTBK' &&
+                            item.kelompok_soal[0]
+                        "
+                      >
+                        {{ item.kelompok_soal[0] }}</span
+                      >
+                      <span
+                        class="ml-0"
+                        v-if="
+                          item.kategori_produk == 'ASPD' ||
+                            item.kategori_produk == 'Asmenas'
+                        "
+                      >
+                        - {{ item.penjurusan[0] }}</span
+                      >
                     </h5>
                     <!-- <div>2021</div> -->
                     <img src="/icon/icon-card-bg.png" class="img-fluid image" />
@@ -180,7 +220,7 @@ export default {
       loading: false,
       filter: {
         page: 1,
-        perPage: 5,
+        perPage: 9,
         keyword: "",
         category: ""
       },
@@ -214,7 +254,7 @@ export default {
             q: this.filter.keyword,
             paginate: this.filter.perPage,
             page: this.filter.page,
-            filter: this.filter.category
+            kategori_produk: this.filter.category
           }
         })
         .then(res => {
