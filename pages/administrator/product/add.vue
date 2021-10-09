@@ -22,6 +22,21 @@
               </b-form-input>
             </div>
           </div>
+          <div class="form-user" v-if="form.tipe_paket == 'Bundling'">
+            <div class="form-group reg-user">
+              <label for="nama_produk">Deskripsi Produk <code>*</code></label>
+              <client-only>
+                <VueEditor
+                  id="deskripsi_produk"
+                  v-model="form.deskripsi_produk"
+                  :editor-toolbar="customToolbar"
+                />
+              </client-only>
+            </div>
+            <div class="small text-danger">
+              *Tuliskan deskripsi paket (disarankan maksimal 3 point saja)
+            </div>
+          </div>
           <div class="row form-user mt-3">
             <div class="col-md-6">
               <div class="form-group reg-siswa">
@@ -66,6 +81,7 @@
                     { text: 'Perorangan', value: 'Perorangan' },
                     { text: 'Masal', value: 'Masal' }
                   ]"
+                  :disabled="form.tipe_paket == 'Bundling'"
                 >
                 </b-form-select>
               </div>
@@ -394,6 +410,9 @@ export default {
       dataTryout: [],
       form: {
         nama_produk: null,
+        deskripsi_produk: `
+         <p><strong style="color: rgb(71, 65, 91);">Apa yang akan kamu dapatkan?</strong></p><ul><li><span style="color: rgb(148 144 164);">Item 1</span></li><li><span style="color: rgb(148 144 164);">Item 2</span></li><li><span style="color: rgb(148 144 164);">Item 3</span></li></ul>
+        `,
         kategori_produk: "UTBK",
         jenis_produk: "Perorangan",
         tipe_paket: "Reguler",
@@ -407,7 +426,8 @@ export default {
         tryout_reguler: "",
         tryout_bundling: [],
         tryout: []
-      }
+      },
+      customToolbar: [["bold", "italic", "underline"], [{ list: "bullet" }]]
     };
   },
   mounted() {
@@ -429,6 +449,7 @@ export default {
     },
     "form.tipe_paket": function(value) {
       // this.form.tryout = [];
+      if (value == "Bundling") this.form.jenis_produk = "Perorangan";
     },
     "form.kategori_produk": function(value) {
       this.form.tryout = [];
@@ -505,6 +526,10 @@ export default {
         this.form.id_tryout = [...this.form.tryout_bundling];
       } else {
         this.form.id_tryout = [this.form.tryout_reguler];
+      }
+      if (this.form.jenis_produk == "Perorangan") {
+        this.form.tanggal_mulai = null;
+        this.form.tanggal_berakhir = null;
       }
       console.log(this.form);
       this.submitData("produk");

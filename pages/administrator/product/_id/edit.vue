@@ -25,6 +25,21 @@
               </b-form-input>
             </div>
           </div>
+          <div class="form-user" v-if="form.tipe_paket == 'Bundling'">
+            <div class="form-group reg-user">
+              <label for="nama_produk">Deskripsi Produk <code>*</code></label>
+              <client-only>
+                <VueEditor
+                  id="deskripsi_produk"
+                  v-model="form.deskripsi_produk"
+                  :editor-toolbar="customToolbar"
+                />
+              </client-only>
+            </div>
+            <div class="small text-danger">
+              *Tuliskan deskripsi paket (disarankan maksimal 3 point saja)
+            </div>
+          </div>
           <div class="row form-user mt-3">
             <div class="col-md-6">
               <div class="form-group reg-siswa">
@@ -489,6 +504,7 @@ export default {
       dataDetail: {},
       form: {
         nama_produk: null,
+        deskripsi_produk: "",
         kategori_produk: "UTBK",
         jenis_produk: "Perorangan",
         tipe_paket: "Bundling",
@@ -505,7 +521,8 @@ export default {
       },
       listTryout: [],
       selectedId: null,
-      selectedIndex: null
+      selectedIndex: null,
+      customToolbar: [["bold", "italic", "underline"], [{ list: "bullet" }]]
     };
   },
   async mounted() {
