@@ -31,6 +31,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 99;
   > span {
     z-index: 5;
     color: #000;

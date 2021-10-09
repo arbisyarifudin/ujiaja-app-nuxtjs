@@ -14,7 +14,7 @@
             <b-icon icon="arrow-left" class="mr-1"></b-icon>
             Kembali
           </nuxt-link> -->
-          <BackUrl />
+          <BackUrl url="/administrator/product" />
         </div>
       </div>
       <div class="col-md-12">
@@ -123,7 +123,7 @@
           <div class="col-md-6">
             <div class="bg-white pl-5 p-4">
               <h5>Biaya</h5>
-              <p>Rp {{ formatRupiah(dataDetail.produk.harga_produk) }},-</p>
+              <p>{{ dataDetail.produk.harga_label }}</p>
             </div>
           </div>
           <div class="col-md-6">

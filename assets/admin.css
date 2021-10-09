@@ -486,6 +486,18 @@ input:disabled,
   left: -20px;
 }
 
+.icon-footer.center .title {
+  left: 55%;
+  -webkit-transform: translateX(-50%) rotate(-10deg);
+          transform: translateX(-50%) rotate(-10deg);
+}
+
+.icon-footer.center .subtitle {
+  left: 55%;
+  -webkit-transform: translateX(-50%) rotate(-10deg);
+          transform: translateX(-50%) rotate(-10deg);
+}
+
 .icon-footer .title {
   color: #baadff;
   position: absolute;
@@ -496,6 +508,11 @@ input:disabled,
           transform: rotate(-10deg);
   top: 18px;
   left: 5px;
+  white-space: nowrap;
+}
+
+.icon-footer .title.small {
+  font-size: 13px;
 }
 
 .icon-footer .subtitle {
@@ -524,6 +541,10 @@ input:disabled,
 
 .icon-footer .subtitle.small {
   font-size: 12px;
+}
+
+.package-getlist p {
+  margin-bottom: 5px;
 }
 
 .buat-soal p:after {
@@ -572,6 +593,10 @@ table,
 
 .konten .card-body {
   padding-left: 15px;
+}
+
+.konten .card-body .label-event {
+  font-size: 14px;
 }
 
 .konten .card-karir .bordered {

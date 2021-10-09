@@ -430,6 +430,16 @@ input,
 .icon-footer {
     position: relative;
     left: -20px;
+    &.center {
+        .title {
+            left: 55%;
+            transform: translateX(-50%) rotate(-10deg);
+        }
+        .subtitle {
+            left: 55%;
+            transform: translateX(-50%) rotate(-10deg);
+        }
+    }
     .title {
         color: #baadff;
         position: absolute;
@@ -439,6 +449,13 @@ input,
         transform: rotate(-10deg);
         top: 18px;
         left: 5px;
+        white-space: nowrap;
+        &.small {
+            font-size: 13px;
+            // + .subtitle {
+            //     font-size: 15px;
+            // }
+        }
     }
     .subtitle {
         color: #baadff;
@@ -450,6 +467,7 @@ input,
         top: 33px;
         left: 5px;
         white-space: nowrap;
+
         span {
             margin: 0 3px;
         }
@@ -461,6 +479,12 @@ input,
         &.small {
             font-size: 12px;
         }
+    }
+}
+
+.package-getlist {
+    p {
+        margin-bottom: 5px;
     }
 }
 
@@ -507,6 +531,9 @@ table,
         box-shadow: 0 4px 10px rgba(199, 199, 199, 0.25);
         &-body {
             padding-left: 15px;
+            .label-event {
+                font-size: 14px;
+            }
         }
         &-karir {
             .bordered {

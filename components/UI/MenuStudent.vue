@@ -18,8 +18,9 @@
     </b-nav-item-dropdown>
     <b-nav-item-dropdown text="Tryout" right>
       <template #button-content>
-        <!-- :class="[$route.path.includes('tryout') ? 'nuxt-link-active' : '']" -->
-        <span class="nav-link mb-0 p-0"
+        <span
+          class="nav-link mb-0 p-0"
+          :class="[$route.path.includes('tryout') ? 'nuxt-link-active' : '']"
           ><i class="far fa-edit fa-2x fa-fw mr-2"></i> Tryout</span
         >
       </template>
