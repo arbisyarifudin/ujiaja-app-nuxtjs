@@ -93,13 +93,13 @@
                   </td>
                 </tr>
               </template>
-              <UITableLoading tag="div" v-if="loading" />
-              <UITableNotFound
-                tag="div"
-                v-if="totalRows == 0 && filter.keyword && !loading"
-              />
             </tbody>
           </table>
+          <UITableLoading tag="div" v-if="loading" />
+          <UITableNotFound
+            tag="div"
+            v-if="totalRows == 0 && filter.keyword && !loading"
+          />
 
           <b-pagination
             class="pagination-table"

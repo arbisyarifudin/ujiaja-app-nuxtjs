@@ -347,24 +347,34 @@ input,
             }
         }
         .btn-table {
+            display: flex;
             justify-content: center;
+            align-items: center;
             button {
                 margin: 0 5px;
             }
             .edit {
                 color: #55cb4a;
                 font-size: 25px;
-            }
-            .edit:hover {
-                color: #6feb63;
+                &:hover {
+                    color: #6feb63;
+                }
             }
             .trash {
                 color: rgb(238, 43, 43);
                 font-size: 24px;
-                padding-bottom: 3px;
+                // padding-bottom: 3px;
+                &:hover {
+                    color: rgb(255, 66, 66);
+                }
             }
-            .trash:hover {
-                color: rgb(255, 66, 66);
+            .detail {
+                color: #008ffd;
+                font-size: 25px;
+                // padding-bottom: 3px;
+                &:hover {
+                    color: #43aeff;
+                }
             }
         }
     }
