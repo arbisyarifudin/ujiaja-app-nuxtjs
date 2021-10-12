@@ -81,7 +81,7 @@
         <span
           class="nav-link mb-0 p-0"
           :class="[
-            $route.path.includes('mbti/index') ||
+            $route.path.includes('mbti') ||
             $route.path.includes('mbti/personality') ||
             $route.path.includes('mbti/dimention')
               ? 'nuxt-link-active'
@@ -97,7 +97,7 @@
       <b-dropdown-item to="/administrator/mbti/dimention"
         >Data Dimensi Dasar</b-dropdown-item
       >
-      <b-dropdown-item to="/administrator/mbti/index"
+      <b-dropdown-item to="/administrator/mbti"
         >Data MBTI & Soal</b-dropdown-item
       >
     </b-nav-item-dropdown>

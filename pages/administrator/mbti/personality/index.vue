@@ -43,12 +43,13 @@
                 debounce="1000"
               ></b-form-input>
             </b-input-group>
-            <!-- <nuxt-link
+            <nuxt-link
               class="btn btn-primary tambah crud-btn__add px-4 ml-2"
-              to="/administrator/mbti/kepribadian/add"
+              to="/administrator/mbti/personality/add"
+              v-if="totalRows < 16"
             >
               Tambah
-            </nuxt-link> -->
+            </nuxt-link>
           </div>
         </div>
       </div>
@@ -84,8 +85,9 @@
                     >
                       <i class="fa fa-search"></i>
                     </nuxt-link>
-                    <!-- <button
+                    <button
                       class="btn btn-light px-2"
+                      v-if="totalRows < 16"
                       @click.prevent="
                         selectedId = item.id;
                         selectedIndex = index;
@@ -93,7 +95,7 @@
                       "
                     >
                       <i class="fa fa-trash"></i>
-                    </button> -->
+                    </button>
                   </td>
                 </tr>
               </template>
@@ -131,7 +133,7 @@
       </div>
     </div>
 
-    <!-- <b-modal
+    <b-modal
       id="modal-delete"
       title="Konfirmasi Hapus kepribadian"
       hide-footer
@@ -161,7 +163,7 @@
           </button>
         </div>
       </div>
-    </b-modal> -->
+    </b-modal>
   </div>
 </template>
 

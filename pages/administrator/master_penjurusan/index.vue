@@ -58,8 +58,8 @@
             <thead class="thead-table">
               <tr>
                 <th class="no" width="100px">No</th>
-                <th>Penjurusan</th>
                 <th>Kelas</th>
+                <th>Jenjang</th>
                 <th>Penjurusan</th>
                 <th width="100" class="aksi">Aksi</th>
               </tr>

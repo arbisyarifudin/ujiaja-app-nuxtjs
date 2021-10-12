@@ -271,10 +271,23 @@
 </template>
 
 <script>
+// import { VueEditor, Quill } from "vue2-editor";
+
+// import { ImageDrop } from "quill-image-drop-module";
+// import ImageResize from "quill-image-resize-module";
+
+// Quill.register("modules/imageDrop", ImageDrop);
+// Quill.register("modules/imageResize", ImageResize);
 export default {
   layout: "admin",
   data() {
     return {
+      // editorSettings: {
+      //   modules: {
+      //     imageDrop: true,
+      //     imageResize: {}
+      //   }
+      // },
       loading: false,
       dataMaster: {
         perguruanTinggi: [],

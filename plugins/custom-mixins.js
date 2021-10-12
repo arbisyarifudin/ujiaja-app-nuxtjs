@@ -147,6 +147,13 @@ Vue.mixin({
             autoHideDelay: 3000
           });
         }
+      } else if (error.response && error.response.status == 404) {
+        this.$root.$bvToast.toast("Data yang diminta tidak ditemukan!", {
+          title: "Error 404",
+          variant: "danger",
+          solid: true,
+          autoHideDelay: 3000
+        });
       } else {
         this.$root.$bvToast.toast(
           "Ups! Terjadi kesalahan. Mohon ulangi kembali.",

@@ -141,6 +141,7 @@ export default {
       customToolbar: [
         ["bold", "italic", "underline"],
         [{ list: "ordered" }, { list: "bullet" }]
+        // ["formula", "clean"]
       ],
       loading: false,
       dataDetail: {},
