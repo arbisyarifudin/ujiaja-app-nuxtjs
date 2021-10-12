@@ -153,7 +153,8 @@ input,
         position: relative;
         .nav-link {
             &.active,
-            &.nuxt-link-active {
+            &.nuxt-link-active,
+            &.nuxt-link-exact-active {
                 color: #47415b;
             }
         }
@@ -188,7 +189,7 @@ input,
         }
         &-item {
             &.active,
-            &.nuxt-link-active {
+            &.nuxt-link-exact-active {
                 background-color: rgba(176, 166, 239, 0.5);
                 color: #fff;
             }
@@ -707,6 +708,27 @@ table,
             border: 2px solid #b0a6ef;
             // bottom: -1px;
             // top: unset;
+        }
+    }
+}
+
+input.form {
+    &-control {
+        &-primary {
+            border-color: #9e8df3;
+            color: #9e8df3 !important;
+        }
+        &-danger {
+            border-color: rgb(255, 74, 74);
+            color: rgb(255, 74, 74) !important;
+        }
+        &-success {
+            border-color: rgb(74, 255, 128);
+            color: rgb(74, 255, 128) !important;
+        }
+        &-info {
+            border-color: rgb(74, 152, 255);
+            color: rgb(74, 152, 255) !important;
         }
     }
 }

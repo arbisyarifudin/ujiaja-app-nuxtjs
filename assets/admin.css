@@ -155,7 +155,7 @@ input:disabled,
   position: relative;
 }
 
-#menu.sidebar .navbar-nav .nav-link.active, #menu.sidebar .navbar-nav .nav-link.nuxt-link-active {
+#menu.sidebar .navbar-nav .nav-link.active, #menu.sidebar .navbar-nav .nav-link.nuxt-link-active, #menu.sidebar .navbar-nav .nav-link.nuxt-link-exact-active {
   color: #47415b;
 }
 
@@ -189,7 +189,7 @@ input:disabled,
   z-index: 5;
 }
 
-#menu.sidebar .dropdown-item.active, #menu.sidebar .dropdown-item.nuxt-link-active {
+#menu.sidebar .dropdown-item.active, #menu.sidebar .dropdown-item.nuxt-link-exact-active {
   background-color: rgba(176, 166, 239, 0.5);
   color: #fff;
 }
@@ -783,6 +783,26 @@ table,
   color: #fff;
   background-color: #b0a6ef;
   border: 2px solid #b0a6ef;
+}
+
+input.form-control-primary {
+  border-color: #9e8df3;
+  color: #9e8df3 !important;
+}
+
+input.form-control-danger {
+  border-color: #ff4a4a;
+  color: #ff4a4a !important;
+}
+
+input.form-control-success {
+  border-color: #4aff80;
+  color: #4aff80 !important;
+}
+
+input.form-control-info {
+  border-color: #4a98ff;
+  color: #4a98ff !important;
 }
 
 .nav-pills .nav-link {
