@@ -161,7 +161,12 @@
                                 v-if="onSubmit.pertanyaan[mpertanyaan.id]"
                               />
                             </div>
-                            <div class="col-md-12 opsi px-4 py-4">
+                            <div
+                              class="col-md-12 opsi px-4 py-4"
+                              v-if="
+                                mpertanyaan.opsi && mpertanyaan.opsi.length < 2
+                              "
+                            >
                               <p class="mb-0">Opsi Jawaban <code>*</code></p>
                               <p
                                 class="small text-muted"
@@ -234,7 +239,7 @@
                             </div>
 
                             <!-- OPSI JAWABAN -->
-                            <div class="px-4 soal">
+                            <div class="px-4 soal mt-3">
                               <!-- {{ mpertanyaan.opsi }} -->
                               <!-- {{ mpertanyaan.pertanyaan }} -->
                               <div
@@ -283,7 +288,7 @@
                                   <button
                                     type="button"
                                     class="btn btn-danger"
-                                    v-if="c > 0"
+                                    v-if="c > 1"
                                     @click.prevent="
                                       deleteOption(
                                         mpertanyaan,

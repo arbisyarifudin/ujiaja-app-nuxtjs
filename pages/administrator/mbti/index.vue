@@ -98,21 +98,10 @@
                 >
                   <template>
                     <nuxt-link
-                      v-if="
-                        item.soal &&
-                          item.soal.length > 0 &&
-                          item.panduan_pengerjaan
-                      "
-                      class="btn btn-outline-success success px-3 py-1 px-4 mt-md-2"
-                      :to="`/administrator/mbti/${item.id}/soal/create`"
-                    >
-                      Ubah Soal
-                    </nuxt-link>
-                    <nuxt-link
-                      v-else
-                      class="btn btn-outline-primary px-3 py-1"
+                      class="btn btn-outline-info px-3 py-1"
                       :to="`/administrator/mbti/${item.id}/edit`"
                     >
+                      <!-- {{item.panduan === '-' ? 'Buat Soal' : 'Ubah Soal'}} -->
                       Buat Soal
                     </nuxt-link>
                     <button
