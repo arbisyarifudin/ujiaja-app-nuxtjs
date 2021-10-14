@@ -4,11 +4,32 @@
       <h2>Cari Tryout</h2>
       <p>Cari Tryout Yang Sesuai Dengan Kebutuhan Kamu!</p>
 
+      <div class="cari-tryout d-flex align-items-center p-5 my-5 row">
+        <div class="col-md-1 text-md-center p-md-0">
+          <img src="/icon/caritryouta.png" alt="image" />
+        </div>
+        <div class="col-md-8 pl-md-3 mt-3">
+          <h5>Lihat Tryout Ku</h5>
+          <p class="pcari-tryout" style="font-size: 14px;">
+            Ayo lihat daftar tryout yang kamu punya dan jangan lupa untuk
+            kerjakan Tryout-nya!
+          </p>
+        </div>
+        <div class="col-md-3 pl-md-3 pr-md-0">
+          <router-link
+            class="btn btn-primary dashboard px-4"
+            to="/app/tryout/mine"
+          >
+            Lihat Tryout Ku
+          </router-link>
+        </div>
+      </div>
+
       <section class="mb-3">
         <div class="d-flex justify-content-between align-items-center mb-3">
           <h5 class="info-kelas">Tryout UTBK Mandiri</h5>
           <router-link
-            to="/app/tryout/search?category=UTBK&package=Reguler&event=Personal"
+            to="/app/tryout/search?category=UTBK&package=Reguler&event=Perorangan"
             class="text-primary"
             >Lihat Semua</router-link
           >
@@ -56,7 +77,7 @@
                   style="border-bottom: 12px solid #D7D2F7; border-radius:0px 0px 12px 12px;"
                 >
                   <nuxt-link
-                    :to="`/administrator/product/${item.id}/detail`"
+                    :to="`/app/tryout/${item.id}/detail`"
                     class="karir-link"
                     >Detail <i class="fas fa-chevron-right ml-1"></i
                   ></nuxt-link>
@@ -98,7 +119,7 @@
         <div class="d-flex justify-content-between align-items-center mb-3">
           <h5 class="info-kelas">Tryout UTBK Akbar</h5>
           <router-link
-            to="/app/tryout/search?category=UTBK&package=Reguler&event=Mass"
+            to="/app/tryout/search?category=UTBK&package=Reguler&event=Masal"
             class="text-primary"
             >Lihat Semua</router-link
           >
@@ -150,7 +171,7 @@
                   style="border-bottom: 12px solid #D7D2F7; border-radius:0px 0px 12px 12px;"
                 >
                   <nuxt-link
-                    :to="`/administrator/product/${item.id}/detail`"
+                    :to="`/app/tryout/${item.id}/detail`"
                     class="karir-link"
                     >Detail <i class="fas fa-chevron-right ml-1"></i
                   ></nuxt-link>
@@ -175,7 +196,7 @@
         <div class="d-flex justify-content-between align-items-center mb-3">
           <h5 class="info-kelas">Tryout ASPD</h5>
           <router-link
-            to="/app/tryout/search?category=ASPD&package=Reguler&event=Personal"
+            to="/app/tryout/search?category=ASPD&package=Reguler&event=Perorangan"
             class="text-primary"
             >Lihat Semua</router-link
           >
@@ -224,7 +245,7 @@
                   style="border-bottom: 12px solid #D7D2F7; border-radius:0px 0px 12px 12px;"
                 >
                   <nuxt-link
-                    :to="`/administrator/product/${item.id}/detail`"
+                    :to="`/app/tryout/${item.id}/detail`"
                     class="karir-link"
                     >Detail <i class="fas fa-chevron-right ml-1"></i
                   ></nuxt-link>
@@ -249,7 +270,7 @@
         <div class="d-flex justify-content-between align-items-center mb-3">
           <h5 class="info-kelas">Tryout Asesmen Nasional</h5>
           <router-link
-            to="/app/tryout/search?category=Asmenas&package=Reguler&event=Personal"
+            to="/app/tryout/search?category=Asmenas&package=Reguler&event=Perorangan"
             class="text-primary"
             >Lihat Semua</router-link
           >
@@ -299,7 +320,7 @@
                   style="border-bottom: 12px solid #D7D2F7; border-radius:0px 0px 12px 12px;"
                 >
                   <nuxt-link
-                    :to="`/administrator/product/${item.id}/detail`"
+                    :to="`/app/tryout/${item.id}/detail`"
                     class="karir-link"
                     >Detail <i class="fas fa-chevron-right ml-1"></i
                   ></nuxt-link>
@@ -376,7 +397,7 @@
                   style="border-bottom: 12px solid #D7D2F7; border-radius:0px 0px 12px 12px;"
                 >
                   <nuxt-link
-                    :to="`/administrator/product/${item.id}/detail`"
+                    :to="`/app/tryout/${item.id}/detail`"
                     class="karir-link"
                     >Detail <i class="fas fa-chevron-right ml-1"></i
                   ></nuxt-link>
