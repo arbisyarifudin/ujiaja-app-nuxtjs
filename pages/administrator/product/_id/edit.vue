@@ -25,7 +25,7 @@
               </b-form-input>
             </div>
           </div>
-          <div class="form-user" v-if="form.tipe_paket == 'Bundling'">
+          <div class="form-user">
             <div class="form-group reg-user">
               <label for="nama_produk">Deskripsi Produk <code>*</code></label>
               <client-only>
@@ -619,14 +619,20 @@ export default {
       //     });
       //     return;
       //   }
-      if (this.form.tryout_reguler || this.form.tryout_bundling) {
+      if (
+        (this.form.tryout_reguler && this.form.tryout_reguler !== null) ||
+        (this.form.tryout_bundling && this.form.tryout_bundling.length > 0)
+      ) {
         if (this.form.tipe_paket == "Bundling") {
           this.form.id_tryout = [...this.form.tryout_bundling];
         } else {
           this.form.id_tryout = [this.form.tryout_reguler];
         }
+      } else {
+        this.form.id_tryout = "";
       }
       console.log(this.form);
+      // return;
       this.submitData("produk");
     },
     submitData(type) {

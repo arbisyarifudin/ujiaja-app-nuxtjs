@@ -22,7 +22,7 @@
               </b-form-input>
             </div>
           </div>
-          <div class="form-user" v-if="form.tipe_paket == 'Bundling'">
+          <div class="form-user">
             <div class="form-group reg-user">
               <label for="nama_produk">Deskripsi Produk <code>*</code></label>
               <client-only>
@@ -410,9 +410,7 @@ export default {
       dataTryout: [],
       form: {
         nama_produk: null,
-        deskripsi_produk: `
-         <p><strong style="color: rgb(71, 65, 91);">Apa yang akan kamu dapatkan?</strong></p><ul><li><span style="color: rgb(148 144 164);">Item 1</span></li><li><span style="color: rgb(148 144 164);">Item 2</span></li><li><span style="color: rgb(148 144 164);">Item 3</span></li></ul>
-        `,
+        deskripsi_produk: "",
         kategori_produk: "UTBK",
         jenis_produk: "Perorangan",
         tipe_paket: "Reguler",
@@ -427,7 +425,10 @@ export default {
         tryout_bundling: [],
         tryout: []
       },
-      customToolbar: [["bold", "italic", "underline"], [{ list: "bullet" }]]
+      customToolbar: [["bold", "italic", "underline"], [{ list: "bullet" }]],
+      templateDeskripsiPaket: `
+         <p><strong style="color: rgb(71, 65, 91);">Apa yang akan kamu dapatkan?</strong></p><ul><li><span style="color: rgb(148 144 164);">Item 1</span></li><li><span style="color: rgb(148 144 164);">Item 2</span></li><li><span style="color: rgb(148 144 164);">Item 3</span></li></ul>
+        `
     };
   },
   mounted() {
@@ -449,7 +450,12 @@ export default {
     },
     "form.tipe_paket": function(value) {
       // this.form.tryout = [];
-      if (value == "Bundling") this.form.jenis_produk = "Perorangan";
+      if (value == "Bundling") {
+        this.form.jenis_produk = "Perorangan";
+        this.form.deskripsi_produk = this.templateDeskripsiPaket;
+      } else {
+        this.form.deskripsi_produk = "";
+      }
     },
     "form.kategori_produk": function(value) {
       this.form.tryout = [];
