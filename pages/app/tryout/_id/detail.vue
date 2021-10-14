@@ -67,7 +67,8 @@
       </div>
       <router-link
         class="btn btn-primary dashboard my-4"
-        :to="`/app/tryout/${dataDetail.id}/signin`"
+        v-if="!loading"
+        :to="`/app/tryout/${dataDetail.produk.id}/enroll`"
         >Beli Tryout</router-link
       >
 
