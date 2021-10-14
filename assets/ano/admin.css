@@ -227,6 +227,7 @@ input {
   background-size: contain;
   background-position: bottom;
   background-repeat: no-repeat;
+  border: none;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.08);
   border-radius: 12px;
 }
@@ -238,7 +239,8 @@ input {
 .card-program {
   font-size: 20px;
 }
-.card-body {
+.card-body,
+.konten .pcari-tryout {
   font-size: 12px;
   color: #9490a4;
   padding-left: 0px;
@@ -293,7 +295,8 @@ input {
 .form-group {
   width: auto;
 }
-.btn-primary.tambah-akun {
+.btn-primary.tambah-akun,
+.btn-primary.unggah {
   background: #b0a6ef;
   border: none;
   border-radius: 10px;
@@ -313,11 +316,13 @@ input {
   color: #232323;
   font-weight: 400;
 }
-.karir-link {
+.karir-link,
+.readmore {
   color: #baadff;
   font-size: 16px;
 }
-.kelas {
+.kelas,
+.cari-tryout {
   background: #fdfdfd;
   padding: 70px;
   border-radius: 20px;
@@ -325,6 +330,9 @@ input {
   background-repeat: no-repeat;
   background-position-x: center;
   background-position-y: bottom;
+}
+.cari-tryout {
+  background-image: none;
 }
 .kelas-guru {
   background-image: url(/dash-guru.png);
@@ -355,6 +363,10 @@ input {
 .btn-primary.dashboard {
   background: #b0a6ef;
   border-radius: 20px;
+  border: none;
+}
+.btn-primary.dashboard:hover {
+  background: #8a81be;
   border: none;
 }
 .btn-slengkapnya {
@@ -398,7 +410,7 @@ input {
   color: #9490a4;
 }
 .form-cari-kelas {
-  background-color: #fdfdfd;
+  background-color: transparent;
   border: 1px solid #b0a6ef;
   border-radius: 4px;
   display: inline-block;
@@ -412,6 +424,7 @@ input {
 }
 .input-cari-kelas {
   border: none;
+  background-color: transparent;
 }
 .input-cari-kelas::placeholder {
   color: #b0a6ef;
@@ -749,6 +762,28 @@ th {
 .modal-body-kiri p {
   color: #9490a4;
 }
+.badge-light {
+  background-color: #f5f3ff;
+  padding-left: 10px;
+  padding-right: 10px;
+  color: #949494;
+  opacity: 50%;
+  font-size: 14px;
+  font-weight: 300;
+  border: 1px solid #949494;
+}
+.mandiri-detail p {
+  font-size: 16px;
+  color: #9490a4;
+}
+.durasi .bg-time {
+  background: #f5efff;
+  border: 1px solid #d1b8fc;
+  box-sizing: border-box;
+  border-radius: 4px;
+  padding: 10px;
+  margin: 2px;
+}
 /* table */
 .table-data-kelas {
   margin-top: 30px;
@@ -758,10 +793,10 @@ th {
   padding-left: 105px;
 }
 .thead-table.program-studi th {
-  padding-left: 25px;
+  padding-left: 18px;
 }
 .body-table td {
-  font-size: 14px;
+  font-size: 12px;
   color: #9490a4;
   padding-bottom: 40px;
   padding-left: 105px;
