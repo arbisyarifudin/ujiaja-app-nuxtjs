@@ -509,6 +509,34 @@ input,
     }
 }
 
+.accordion {
+    padding: unset;
+    .card-header {
+        cursor: pointer;
+    }
+    .collapsed .when-open,
+    .not-collapsed .when-closed {
+        display: none;
+    }
+    .fa-plus,
+    .fa-minus {
+        font-weight: 600;
+    }
+    .card-header {
+        padding-left: 0px;
+        padding-right: 0px;
+        padding-top: 20px;
+        padding-bottom: 20px;
+        background: transparent;
+        border-bottom: 1px solid #9490a4;
+    }
+    .card-body {
+        font-size: 12px;
+        color: #9490a4;
+        padding-left: 0px;
+    }
+}
+
 table,
 .table {
     position: relative;

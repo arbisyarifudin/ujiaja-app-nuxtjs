@@ -2,7 +2,7 @@
   <div class="container-fluid crud">
     <div class="col-md-12 dash-kelas p-0 text-left">
       <h2 class="pb-0">
-        <BackUrl :title="null" class="py-1 px-2 mr-3" />
+        <BackUrl :title="null" :url="`/app/tryout/`" class="py-1 px-2 mr-3" />
         <b-spinner type="grow" class="mr-2" v-if="loading" />
         {{ dataDetail.produk.nama_produk }}
       </h2>
@@ -42,7 +42,7 @@
           <div class="d-flex mt-2">
             <div class="col-md-4 text-center p-0">
               <div class="bg-time">
-                <p class="mb-0">
+                <p class="mb-0" v-if="dataDetail.total_waktu">
                   {{ Math.floor((dataDetail.total_waktu / 60).toFixed(1)) }}
                 </p>
                 <p class="mb-0">Jam</p>
@@ -50,7 +50,7 @@
             </div>
             <div class="col-md-4 text-center p-0">
               <div class="bg-time">
-                <p class="mb-0">
+                <p class="mb-0" v-if="dataDetail.total_waktu">
                   {{ Math.floor((dataDetail.total_waktu % 60).toFixed(1)) }}
                 </p>
                 <p class="mb-0">Menit</p>
@@ -72,20 +72,33 @@
         >Beli Tryout</router-link
       >
 
-      <h5 class="my-4">Detail Soal</h5>
-      <div class="row px-3 mandiri-detail pos-relative">
-        <UILoading v-if="loading" class="col-md-12" />
-        <div
-          class="col-md-6 p-0"
-          v-for="(tryout, t) in dataDetail.tryout"
-          :key="t"
-        >
-          <div class="bg-white mr-2 p-5">
-            <h5 class="mb-3">{{ tryout.judul }}</h5>
-            <p><i class="fa-fw text-primary fas fa-file-alt"></i> 16 Soal</p>
-            <p class="mb-0">
-              <i class="fa-fw text-primary far fa-clock"></i> 28 Menit
-            </p>
+      <h4 class="mb-4" style="font-size: 18px">Yang akan Kamu Dapatkan:</h4>
+      <div
+        class="card mb-4 shadow-sm"
+        v-for="(tryout, t) in dataDetail.tryout"
+        :key="t"
+      >
+        <div class="card-header bg-white">
+          <h5 class="my-0 py-2">
+            {{ tryout.judul }}
+          </h5>
+        </div>
+        <div class="row no-gutters px-3 mandiri-detail pos-relative flex-wrap">
+          <UILoading v-if="loading" class="col-md-12" />
+          <div class="col-md-4 mb-3" v-for="(soal, s) in tryout.soal" :key="s">
+            <div class="mr-2 pt-4 pb-3 px-4 shadow-none border-none">
+              <h5 class="mb-3">
+                {{ soal.mapel ? soal.mapel.nama_mapel : "" }}
+              </h5>
+              <p>
+                <i class="fa-fw text-primary fas fa-file-alt"></i>
+                {{ soal.alokasi }} Soal
+              </p>
+              <p class="mb-0">
+                <i class="fa-fw text-primary far fa-clock"></i>
+                {{ soal.jumlah_soal }} Menit
+              </p>
+            </div>
           </div>
         </div>
       </div>

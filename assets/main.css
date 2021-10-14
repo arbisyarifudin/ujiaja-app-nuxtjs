@@ -49,4 +49,28 @@ img {
 .z-99 {
   z-index: 99;
 }
+
+.shadow-none {
+  -webkit-box-shadow: none !important;
+          box-shadow: none !important;
+}
+
+.border-none {
+  border: none !important;
+}
+
+.row {
+  -ms-flex-wrap: wrap !important;
+      flex-wrap: wrap !important;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+small,
+.small {
+  font-size: 80% !important;
+  font-weight: 400;
+}
 /*# sourceMappingURL=main.css.map */
