@@ -68,7 +68,8 @@
               </ul>
             </nav>
           </div>
-          <main id="konten" class="konten px-md-3 px-0">
+          <main id="konten" class="konten px-md-3 px-0 pt-0">
+            <Breadcrumb />
             <Nuxt />
           </main>
         </div>
@@ -78,15 +79,14 @@
 </template>
 
 <script>
+import Breadcrumb from "@/components/UI/Breadcrumb.vue";
 export default {
   middleware: "auth-admin",
+  components: { Breadcrumb },
   computed: {
     user() {
       return this.$store.state.dataUser;
     }
-  },
-  mounted() {
-    console.log(this.user);
   }
 };
 </script>

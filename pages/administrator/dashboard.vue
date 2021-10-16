@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid">
-    <div class="row d-flex">
-      <div class="col-md-12 dashboard">
+    <div class="row">
+      <div class="col-md-12">
         <h2 class="dash-label">Dashboard</h2>
         <p>Ringkasan</p>
         <div class="dash-content text-center">
@@ -43,5 +43,8 @@
 <script>
 export default {
   layout: "admin",
+  mounted() {
+    this.$store.commit("setBreadcrumb", [{ text: "Dashboard", icon: "house" }]);
+  }
 };
 </script>

@@ -175,6 +175,20 @@ export default {
   created() {
     this.getData("jenjang");
   },
+  mounted() {
+    // this.$store.commit("modifyBreadcrumb", [
+    //   // { text: "Dashboard", href: "/administrator/dashboard", icon: "house" },
+    //   {
+    //     text: "Master",
+    //     href: "#"
+    //   },
+    //   {
+    //     text: "Jenjang",
+    //     href: "/administrator/jenjang",
+    //     active: true
+    //   }
+    // ]);
+  },
   watch: {
     "filter.keyword": function(value) {
       this.getData("jenjang");

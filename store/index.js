@@ -3,7 +3,8 @@ import Vue from "vue";
 export const state = () => ({
   isAuth: false,
   dataUser: {},
-  dataError: {}
+  dataError: {},
+  breadcrumbs: []
 });
 
 export const mutations = {
@@ -22,16 +23,29 @@ export const mutations = {
   set(state, [variable, value]) {
     state[variable] = value;
   },
-  setData(state, [type, value]) {
-    state.dataList[type] = value;
-  },
   setUser(state, payload) {
     state.dataUser = payload;
     console.log("setUser");
-    // this.$cookies.set("jbtvToken", payload, {
-    //   path: "/",
-    //   maxAge: 60 * 60 * 24 * 7
-    // });
+  },
+  setBreadcrumb(state, payload) {
+    state.breadcrumbs = payload;
+  },
+  addBreadcrumb(state, payload) {
+    state.breadcrumbs = [...state.breadcrumbs, ...payload];
+  },
+  modifyBreadcrumb(state, payload) {
+    if (payload && payload.length > 1) {
+      state.breadcrumbs = [
+        {
+          text: "Dashboard",
+          href: "/administrator/dashboard",
+          icon: "house"
+        },
+        ...payload
+      ];
+    } else {
+      state.breadcrumbs = payload;
+    }
   }
 };
 

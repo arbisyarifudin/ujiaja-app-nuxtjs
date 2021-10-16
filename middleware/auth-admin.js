@@ -1,6 +1,10 @@
 export default function({ store, redirect }) {
   const roleAllowed = ["admin", "superadmin", "superAdmin"];
 
+  // store.commit("setBreadcrumb", [
+  //   { text: "Dashboard", href: "/administrator/dashboard", icon: "house" }
+  // ]);
+
   // If the user is not isAuth
   if (
     !store.state.isAuth ||

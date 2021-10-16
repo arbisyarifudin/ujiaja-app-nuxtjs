@@ -23,6 +23,19 @@ h6 {
   font-weight: normal !important;
 }
 
+.breadcrumb {
+  background-color: transparent;
+}
+
+.breadcrumb-item {
+  color: #9e8df3;
+  font-size: 13px;
+}
+
+.breadcrumb-item > a {
+  color: #9e8df3;
+}
+
 input,
 .form-control {
   opacity: 1;

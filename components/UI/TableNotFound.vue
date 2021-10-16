@@ -1,15 +1,6 @@
 <template>
-  <tr v-if="!tag">
-    <td class="text-center">
-      <div>
-        <span>{{ text }}</span>
-      </div>
-    </td>
-  </tr>
-  <div v-else>
-    <div class="text-center">
-      <span>{{ text }}</span>
-    </div>
+  <div class="text-center">
+    <span>{{ text }}</span>
   </div>
 </template>
 
