@@ -367,58 +367,6 @@
         </button>
       </div>
     </b-modal>
-    <b-modal
-      id="modal-notif"
-      hide-footer
-      centered
-      size="lg"
-      modal-class="admin-modal"
-      content-class="bg-primary--soft"
-    >
-      <div class="dash-kelas p-4">
-        <div class="col-md-12 px-5 text-center">
-          <div>Konfirmasi berhasil dikirimkan!</div>
-          <h3 class="mb-2" style="font-size: 22px;">
-            Admin cek dulu ya pembayaranmu...
-          </h3>
-        </div>
-        <div class="py-4">
-          <div class="d-flex mt-4 px-5">
-            <div class="col-md-6 p-0 text-right">
-              <img src="/icon/cekpembayaran.png" alt="illustration image" />
-            </div>
-            <div class="col-md-6 p-0 text-left">
-              <img src="/icon/cekpembyran.png" alt="illustration image" />
-            </div>
-          </div>
-        </div>
-      </div>
-      <p class="text-center">
-        Admin akan konfirmasi maksimal dalam 1 x 24 jam. <br />Sambil nunggu,
-        kamu bisa cek dulu yang lainnya!
-      </p>
-
-      <div
-        class="modal-footer pt-5"
-        style="border: 0px; justify-content: center;"
-      >
-        <button
-          class="btn btn-primary tambah px-4 py-2"
-          style="border-radius: 25px; border:none;"
-          type="button"
-        >
-          Halaman Utama
-        </button>
-        <button
-          class="btn btn-outline-secondary px-4 "
-          data-dismiss="modal"
-          style="border-radius: 25px;"
-          type="button"
-        >
-          Riwayat Pembelian
-        </button>
-      </div>
-    </b-modal>
   </div>
 </template>
 
@@ -510,6 +458,11 @@ export default {
           console.log(res);
           if (res.success) {
             this.dataDetail = res.data;
+            if(this.dataDetail.is_enrolled) {
+              this.$router.replace({
+                path: `/app/payment/${this.dataDetail.transaksi.id}/detail`
+              });
+            }
             this.hargaProduk = this.dataDetail.produk.harga_produk;
             this.kodeUnik = this.getRandomInt(100, 999);
           }
@@ -551,8 +504,15 @@ export default {
         id_produk: this.dataDetail.produk.id,
         id_bank: this.bankTerpilih.id ?? null,
         tanggal_transaksi: new Date(),
-        tipe: this.paymentMethod
+        tipe: this.paymentMethod,
+        harga_produk: this.hargaProduk,
+        kode_unik: this.paymentMethod == 'Bank Transfer' ? this.kodeUnik : null,
+        biaya_adm: this.paymentMethod == 'Pihak Ketiga' ? this.biayaAdm : null,
+        total_harga: this.totalHarga,
       };
+
+      // console.log(dataSave)
+      // return;
 
       this.$axios
         .$post(`/api/transaksi/create`, dataSave)
@@ -566,11 +526,11 @@ export default {
                 response.xendit.invoice_url + "#" + this.xenditTerpilih.value,
                 "_blank"
               );
-              this.$router.push({
+              this.$router.replace({
                 path: `/app/payment/${response.transaksi.id}/detail`
               });
             } else {
-              this.$router.push({
+              this.$router.replace({
                 path: `/app/payment/${response.id}/confirm`
               });
             }

@@ -49,7 +49,6 @@
                       { text: '-- Pilih --', value: null },
                       { text: 'UTBK', value: 'UTBK' },
                       { text: 'ASPD', value: 'ASPD' },
-                      { text: 'Asesmen Nasional', value: 'Asmenas' }
                     ]"
                     @change="
                       () => {
@@ -63,6 +62,7 @@
                       }
                     "
                   >
+                      <!-- { text: 'Asesmen Nasional', value: 'Asmenas' } -->
                   </b-form-select>
                 </div>
               </div>
@@ -81,9 +81,9 @@
                       { text: '-- Pilih --', value: null },
                       { text: 'TKA', value: 'TKA' },
                       { text: 'TPS', value: 'TPS' },
-                      { text: 'Campuran', value: 'Campuran' }
                     ]"
                   >
+                      <!-- { text: 'Campuran', value: 'Campuran' } -->
                   </b-form-select>
                 </div>
               </div>
@@ -371,7 +371,7 @@ export default {
               ];
             }
 
-            console.log("dataSoal", dataSoal);
+            // console.log("dataSoal", dataSoal);
             // return;
 
             this.$axios
@@ -388,7 +388,7 @@ export default {
                       autoHideDelay: 3000
                     }
                   );
-                  this.$router.replace("/administrator/tryout");
+                  this.$router.replace(`/administrator/tryout/${dataSoal[0].id_tryout}/soal/create`);
                 }
               })
               .catch(err => {

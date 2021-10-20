@@ -2,7 +2,11 @@
   <div class="container-fluid crud">
     <div class="col-md-12 dash-kelas p-0 text-left">
       <h2 class="pb-0">
-        <BackUrl :title="null" :url="`/app/tryout/`" class="py-1 px-2 mr-3" />
+        <BackUrl
+          :title="null"
+          :url="$route.query.ref ? $route.query.ref : '/app/tryout'"
+          class="py-1 px-2 mr-3"
+        />
         <b-spinner type="grow" class="mr-2" v-if="loading" />
         {{ dataDetail.produk.nama_produk }}
       </h2>
@@ -13,7 +17,12 @@
               <p class="text-dark h5">
                 <i class="fa-fw fas fa-user"></i> Dibuat Oleh Tim Uji Aja
               </p>
-              <p><i class="fa-fw fas fa-check"></i> Belum Terdaftar</p>
+              <p :class="dataDetail.is_paid ? 'text-success' : ''">
+                <i class="fa-fw fas fa-check"></i>
+                {{
+                  dataDetail.is_paid ? "Sudah Terdaftar" : "Belum Terdaftar"
+                }}
+              </p>
             </div>
             <div
               class="col-md-6 p-0"
@@ -67,12 +76,34 @@
       </div>
       <router-link
         class="btn btn-primary dashboard my-4"
-        v-if="!loading"
+        v-if="!loading && !dataDetail.transaksi"
         :to="`/app/tryout/${dataDetail.produk.id}/enroll`"
         >Beli Tryout</router-link
       >
+      <button
+        v-else-if="!dataDetail.is_paid"
+        :disabled="true"
+        class="btn btn-primary dashboard my-4"
+      >
+        Beli Tryout
+      </button>
+      <router-link
+        class="btn btn-primary dashboard my-4 ml-2"
+        v-if="
+          !loading &&
+            isPayable(
+              dataDetail,
+              dataDetail.transaksi && dataDetail.transaksi.tipe
+            )
+        "
+        :to="
+          `/app/payment/${dataDetail.produk.transaksi_user.id}/detail?ref=${$route.path}`
+        "
+        >Detail Pembayaran</router-link
+      >
 
-      <h4 class="mb-4" style="font-size: 18px">Yang akan Kamu Dapatkan:</h4>
+      <h4 class="mb-4" style="font-size: 18px" v-if="dataDetail.is_paid">Daftar Produk:</h4>
+      <h4 class="mb-4" style="font-size: 18px" v-else>Daftar Produk yang Akan Kamu Dapatkan:</h4>
       <div
         class="card mb-4 shadow-sm"
         v-for="(tryout, t) in dataDetail.tryout"
@@ -83,7 +114,10 @@
             {{ tryout.judul }}
           </h5>
         </div>
-        <div class="row no-gutters px-3 mandiri-detail pos-relative flex-wrap">
+        <div class="card-body row no-gutters mandiri-detail pos-relative flex-wrap">
+          <div class="col-md-12">
+            <p class="alert alert-light" style="font-size: 13px"><i class="fas fa-info-circle mr-1"></i> {{tryout.deskripsi}}</p>
+          </div>
           <UILoading v-if="loading" class="col-md-12" />
           <div class="col-md-4 mb-3" v-for="(soal, s) in tryout.soal" :key="s">
             <div class="mr-2 pt-4 pb-3 px-4 shadow-none border-none">
@@ -92,22 +126,61 @@
               </h5>
               <p>
                 <i class="fa-fw text-primary fas fa-file-alt"></i>
-                {{ soal.alokasi }} Soal
+                {{ soal.jumlah_soal }} Soal
               </p>
               <p class="mb-0">
                 <i class="fa-fw text-primary far fa-clock"></i>
-                {{ soal.jumlah_soal }} Menit
+                {{ soal.alokasi }} Menit
               </p>
             </div>
           </div>
         </div>
+        <div class="card-footer">
+          <button
+            v-if="dataDetail.is_paid && !tryout.is_task_done"
+            class="btn btn-primary dashboard"
+            @click.prevent="confirmStartTest"
+          >
+            <i class="far fa-edit mr-1"></i> Kerjakan Tryout
+          </button>
+        </div>
       </div>
-      <!-- <div class="col-md-12 p-0 text-right">
-        <button class="btn btn-outline-secondary my-5 px-5 py-3">
-          Kembali
-        </button>
-      </div> -->
     </div>
+    <b-modal
+      id="modal-confirm-start"
+      title="Konfirmasi Mulai Tryout"
+      hide-footer
+      centered
+      :no-close-on-backdrop="loading"
+      :no-close-on-esc="loading"
+      modal-class="admin-modal"
+      @hidden="resetModal"
+    >
+      <div>
+        <p class="modal-text">
+          Apakah anda yakin ingin memulai tryout ini? Waktu mulai akan berjalan. Harap persiapkan diri kamu sebelum mulai ya! 
+        </p>
+        <div class="modal-footer justify-content-end" style="border: 0px">
+          <button
+            class="btn btn-outline-secondary"
+            type="button"
+            @click="$bvModal.hide('modal-confirm-start')"
+            v-if="!loading"
+          >
+            Batal
+          </button>
+          <button
+            class="btn btn-primary tambah px-4 py-2"
+            type="button"
+            :disabled="loading"
+            @click.prevent="onConfirmStartTest"
+          >
+            <b-spinner small v-if="loading" class="mr-1"></b-spinner> Ya, Saya
+            Yakin
+          </button>
+        </div>
+      </div>
+    </b-modal>
   </div>
 </template>
 
@@ -116,7 +189,7 @@ export default {
   layout: "app",
   data() {
     return {
-      loading: false,
+      loading: true,
       dataDetail: {
         produk: {},
         tryout: []
@@ -124,8 +197,7 @@ export default {
     };
   },
   mounted() {
-    if (!this.$route.params.id)
-      return this.$router.push("/administrator/product");
+    if (!this.$route.params.id) return this.$router.go(-1);
     this.getDetail("produk", this.$route.params.id);
   },
   methods: {
@@ -172,11 +244,58 @@ export default {
         })
         .finally(() => (this.loading = false));
     },
+    confirmStartTest() {
+      const hariIni = new Date().toJSON();
+      const tglMulai = new Date(this.dataDetail.produk.tanggal_mulai).toJSON();
+      const tglAkhir = new Date(
+        this.dataDetail.produk.tanggal_berakhir
+      ).toJSON();
+
+      const diffMulai = this.formatSelisih(hariIni, tglMulai, "hours");
+      const diffAkhir = this.formatSelisih(hariIni, tglAkhir, "hours");
+
+      console.log(diffMulai, diffAkhir);
+
+      if (this.dataDetail.produk.jenis_produk !== "Masal") {
+        this.$bvModal.show("modal-confirm-start");
+      }
+      // else if(this.dataDetail.produk.jenis_produk == 'Masal' && diffMulai <=)
+    },
+    onConfirmStartTest() {
+      
+    },
     formatRupiah(num) {
       if (num) {
         return num.toLocaleString("ID-id");
       }
       return 0;
+    },
+    isPayable(detail, tipe) {
+      if (detail && detail.transaksi) {
+        if (tipe == "Bank Transfer") {
+          const statusPayable = [
+            "Menunggu Pembayaran",
+            "Menunggu Verifikasi",
+            "Ditolak"
+          ];
+          console.log(statusPayable.includes(detail.transaksi.status));
+          if (statusPayable.includes(detail.transaksi.status)) {
+            return true;
+          }
+          return false;
+        } else if (tipe == "Pihak Ketiga") {
+          const statusPayable = [
+            "Menunggu Pembayaran",
+            "Menunggu Verifikasi",
+            "Ditolak"
+          ];
+          console.log(statusPayable.includes(detail.transaksi.status));
+          if (statusPayable.includes(detail.transaksi.status)) {
+            return true;
+          }
+        }
+      }
+      return false;
     }
   }
 };

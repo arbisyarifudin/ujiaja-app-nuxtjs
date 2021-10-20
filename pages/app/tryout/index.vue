@@ -114,6 +114,17 @@
             </div>
           </div>
         </div>
+        <UILoading
+          tag="div"
+          style="position: static; width: 100%;"
+          v-if="loading"
+        />
+        <UITableNotFound
+          tag="div"
+          text="Data kosong."
+          style="position: relative; width: 100%;"
+          v-if="!loading && list['bundling'] && list['bundling'].length < 1"
+        />
       </section>
       <section class="mb-3">
         <div class="d-flex justify-content-between align-items-center mb-3">
@@ -191,6 +202,17 @@
             </div>
           </div>
         </div>
+        <UILoading
+          tag="div"
+          style="position: static; width: 100%;"
+          v-if="loading"
+        />
+        <UITableNotFound
+          tag="div"
+          text="Data kosong."
+          style="position: relative; width: 100%;"
+          v-if="!loading && list['bundling'] && list['bundling'].length < 1"
+        />
       </section>
       <section class="mb-3">
         <div class="d-flex justify-content-between align-items-center mb-3">
@@ -265,6 +287,17 @@
             </div>
           </div>
         </div>
+        <UILoading
+          tag="div"
+          style="position: static; width: 100%;"
+          v-if="loading"
+        />
+        <UITableNotFound
+          tag="div"
+          text="Data kosong."
+          style="position: relative; width: 100%;"
+          v-if="!loading && list['bundling'] && list['bundling'].length < 1"
+        />
       </section>
       <section class="mb-3">
         <div class="d-flex justify-content-between align-items-center mb-3">
@@ -340,6 +373,17 @@
             </div>
           </div>
         </div>
+        <UILoading
+          tag="div"
+          style="position: static; width: 100%;"
+          v-if="loading"
+        />
+        <UITableNotFound
+          tag="div"
+          text="Data kosong."
+          style="position: relative; width: 100%;"
+          v-if="!loading && list['bundling'] && list['bundling'].length < 1"
+        />
       </section>
       <section class="mb-3">
         <div class="d-flex justify-content-between align-items-center mb-3">
@@ -415,6 +459,17 @@
             </div>
           </div>
         </div>
+        <UILoading
+          tag="div"
+          style="position: static; width: 100%;"
+          v-if="loading"
+        />
+        <UITableNotFound
+          tag="div"
+          text="Data kosong."
+          style="position: relative; width: 100%;"
+          v-if="!loading && list['bundling'] && list['bundling'].length < 1"
+        />
       </section>
     </div>
   </div>

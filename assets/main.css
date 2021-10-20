@@ -73,4 +73,9 @@ small,
   font-size: 80% !important;
   font-weight: 400;
 }
+
+.alert-light {
+  background-color: #fafafa;
+  border-color: #ddd;
+}
 /*# sourceMappingURL=main.css.map */

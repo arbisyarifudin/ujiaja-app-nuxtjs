@@ -51,9 +51,9 @@
                     { text: '-- Pilih --', value: null },
                     { text: 'UTBK', value: 'UTBK' },
                     { text: 'ASPD', value: 'ASPD' },
-                    { text: 'Asesmen Nasional', value: 'Asmenas' }
                   ]"
                 >
+                    <!-- { text: 'Asesmen Nasional', value: 'Asmenas' } -->
                 </b-form-select>
               </div>
               <div class="form-group reg-siswa">
