@@ -35,6 +35,35 @@
               />
             </div>
             <div class="row">
+              <div class="col form-group reg-siswa">
+                <label for="alokasi_waktu"
+                  >Alokasi Waktu Per Mata Pelajaran (Menit)
+                  <code>*</code></label
+                >
+                <input
+                  type="number"
+                  class="form-control"
+                  id="alokasi_waktu"
+                  name="alokasi_waktu"
+                  placeholder="Misal: 60"
+                  v-model="form.alokasi_waktu"
+                />
+              </div>
+              <div class="col form-group reg-siswa">
+                <label for="jeda_waktu"
+                  >Jeda Waktu Antar Mata Pelajaran (Menit) <code>*</code></label
+                >
+                <input
+                  type="number"
+                  class="form-control"
+                  id="jeda_waktu"
+                  name="jeda_waktu"
+                  placeholder="Misal: 5"
+                  v-model="form.jeda_waktu"
+                />
+              </div>
+            </div>
+            <div class="row">
               <div class="col-md-6">
                 <div class="form-group reg-siswa">
                   <label for="kategori_tryout"
@@ -48,7 +77,7 @@
                     :options="[
                       { text: '-- Pilih --', value: null },
                       { text: 'UTBK', value: 'UTBK' },
-                      { text: 'ASPD', value: 'ASPD' },
+                      { text: 'ASPD', value: 'ASPD' }
                     ]"
                     @change="
                       () => {
@@ -62,7 +91,7 @@
                       }
                     "
                   >
-                      <!-- { text: 'Asesmen Nasional', value: 'Asmenas' } -->
+                    <!-- { text: 'Asesmen Nasional', value: 'Asmenas' } -->
                   </b-form-select>
                 </div>
               </div>
@@ -80,10 +109,10 @@
                     :options="[
                       { text: '-- Pilih --', value: null },
                       { text: 'TKA', value: 'TKA' },
-                      { text: 'TPS', value: 'TPS' },
+                      { text: 'TPS', value: 'TPS' }
                     ]"
                   >
-                      <!-- { text: 'Campuran', value: 'Campuran' } -->
+                    <!-- { text: 'Campuran', value: 'Campuran' } -->
                   </b-form-select>
                 </div>
               </div>
@@ -198,7 +227,9 @@ export default {
         kelompok_soal: null,
         template_soal: null,
         id_penjurusan: null,
-        panduan_pengerjaan: null
+        panduan_pengerjaan: null,
+        alokasi_waktu: 0,
+        jeda_waktu: 0
       }
     };
   },
@@ -256,6 +287,22 @@ export default {
           return;
         }
       }
+
+      if (
+        !this.form.alokasi_waktu ||
+        !this.form.jeda_waktu ||
+        this.form.alokasi_waktu < 1 ||
+        this.form.jeda_waktu < 1
+      ) {
+        this.$bvToast.toast("Alokasi dan jeda waktu diperlukan!", {
+          title: "Peringatan",
+          variant: "warning",
+          solid: true,
+          autoHideDelay: 2000
+        });
+        return;
+      }
+
       this.submitData("tryout");
     },
     submitData(type) {
@@ -388,7 +435,9 @@ export default {
                       autoHideDelay: 3000
                     }
                   );
-                  this.$router.replace(`/administrator/tryout/${dataSoal[0].id_tryout}/soal/create`);
+                  this.$router.replace(
+                    `/administrator/tryout/${dataSoal[0].id_tryout}/soal/create`
+                  );
                 }
               })
               .catch(err => {

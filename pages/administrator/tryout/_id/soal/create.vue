@@ -91,9 +91,12 @@
                         <span v-if="dataDetail.kategori != 'ASPD'">{{
                           soal.jenis_soal
                         }}</span>
-                        <span v-else-if="dataDetail.kategori == 'ASPD'">{{
+                        <!-- <span v-else-if="dataDetail.kategori == 'ASPD'">{{
                           soal.mapel.nama_mapel
-                        }}</span>
+                        }}</span> -->
+                        <span v-if="soal.mapel">
+                          - {{ soal.mapel.nama_mapel }}</span
+                        >
                         <span v-if="dataDetail.kategori == 'Asmenas'">
                           - Bagian {{ a + 1 }}</span
                         >
@@ -143,7 +146,7 @@
                           class="col-md-12 form-user form-pilih-kelas p-0 mt-3"
                         >
                           <div
-                            class="form-group reg-siswa"
+                            class="form-group reg-siswa mb-0"
                             v-if="dataDetail.kategori != 'ASPD'"
                           >
                             <label for="id_mapel"
@@ -154,6 +157,7 @@
                               id="id_mapel"
                               v-model="soal.id_mapel"
                               @change="onUpdateSoal(soal)"
+                              :disabled="soal.pertanyaan.length > 0"
                             >
                               <option :value="null">-- Pilih --</option>
                               <option
@@ -164,7 +168,7 @@
                               >
                             </select>
                           </div>
-                          <div class="form-group reg-siswa">
+                          <!-- <div class="form-group reg-siswa">
                             <label for="alokasi_waktu"
                               >Alokasi Waktu Per Mata Pelajaran (Menit)
                               <code>*</code></label
@@ -178,8 +182,8 @@
                               v-model="soal.alokasi_waktu_per_mapel"
                               @change="onUpdateSoal(soal)"
                             />
-                          </div>
-                          <div class="form-group reg-siswa">
+                          </div> -->
+                          <!-- <div class="form-group reg-siswa">
                             <label for="jeda_waktu"
                               >Jeda Waktu Antar Mata Pelajaran (Menit)
                               <code>*</code></label
@@ -193,7 +197,7 @@
                               v-model="soal.jeda_waktu_antar_mapel"
                               @change="onUpdateSoal(soal)"
                             />
-                          </div>
+                          </div> -->
                           <UISaveStatus
                             :data="onSubmit.soal[soal.id]"
                             v-if="
@@ -204,7 +208,7 @@
                           <button
                             v-if="soal.pertanyaan.length == 0"
                             type="button"
-                            class="btn btn-primary"
+                            class="btn btn-primary mt-4"
                             @click.prevent="createBab(soal.id, soal)"
                             :disabled="loading"
                           >
@@ -780,7 +784,7 @@
                           >
                         </select>
                       </div>
-                      <div class="form-group reg-siswa">
+                      <!-- <div class="form-group reg-siswa">
                         <label for="alokasi_waktu"
                           >Alokasi Waktu Per Mata Pelajaran (Menit)
                           <code>*</code></label
@@ -793,8 +797,8 @@
                           placeholder="Misal: 80"
                           v-model="newMapel.alokasi_waktu_per_mapel"
                         />
-                      </div>
-                      <div class="form-group reg-siswa">
+                      </div> -->
+                      <!-- <div class="form-group reg-siswa">
                         <label for="jeda_waktu"
                           >Jeda Waktu Antar Mata Pelajaran (Menit)
                           <code>*</code></label
@@ -807,7 +811,7 @@
                           placeholder="Misal: 5"
                           v-model="newMapel.jeda_waktu_antar_mapel"
                         />
-                      </div>
+                      </div> -->
                       <div class="d-flex">
                         <button
                           type="button"
@@ -891,8 +895,8 @@ export default {
       addNewMapel: false,
       newMapel: {
         id_mapel: null,
-        alokasi_waktu_per_mapel: null,
-        jeda_waktu_antar_mapel: null,
+        // alokasi_waktu_per_mapel: null,
+        // jeda_waktu_antar_mapel: null,
         jenis_soal: null,
         kelompok_soal: null
       }
@@ -988,20 +992,21 @@ export default {
     resetNewMapel() {
       this.newMapel = {
         id_mapel: null,
-        alokasi_waktu_per_mapel: null,
-        jeda_waktu_antar_mapel: null,
+        // alokasi_waktu_per_mapel: null,
+        // jeda_waktu_antar_mapel: null,
         jenis_soal: null,
         kelompok_soal: null
       };
     },
     addMapel() {
       if (
-        !this.newMapel.id_mapel ||
-        !this.newMapel.jeda_waktu_antar_mapel ||
-        !this.newMapel.alokasi_waktu_per_mapel
+        !this.newMapel.id_mapel
+        // ||
+        // !this.newMapel.jeda_waktu_antar_mapel ||
+        // !this.newMapel.alokasi_waktu_per_mapel
       ) {
         this.showToastMessage(
-          "Mohon lengkapi form terlebih dahulu!",
+          "Mohon pilih mata pelajaran terlebih dahulu!",
           "warning"
         );
         return;
@@ -1044,20 +1049,22 @@ export default {
           this.loading = false;
           this.addNewMapel = false;
           this.newMapel = {
-            id_mapel: null,
-            alokasi_waktu_per_mapel: null,
-            jeda_waktu_antar_mapel: null
+            id_mapel: null
+            // alokasi_waktu_per_mapel: null,
+            // jeda_waktu_antar_mapel: null
           };
         });
     },
     createBab(id_soal, ref) {
       if (
         !ref.id_mapel ||
-        !ref.alokasi_waktu_per_mapel ||
-        !ref.jeda_waktu_antar_mapel ||
+        // !ref.alokasi_waktu_per_mapel ||
+        // !ref.jeda_waktu_antar_mapel ||
         !this.formTryout.panduan_pengerjaan
       ) {
-        this.showToastMessage("Mohon lengkapi form terlebih dahulu!");
+        this.showToastMessage(
+          "Mohon pilih mata pelajaran dan isi panduan pengerjaan terlebih dahulu!"
+        );
         return;
       }
       const dataSoalTryout = {

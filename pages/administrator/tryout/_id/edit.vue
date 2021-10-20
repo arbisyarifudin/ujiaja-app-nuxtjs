@@ -34,6 +34,35 @@
               />
             </div>
             <div class="row">
+              <div class="col form-group reg-siswa">
+                <label for="alokasi_waktu"
+                  >Alokasi Waktu Per Mata Pelajaran (Menit)
+                  <code>*</code></label
+                >
+                <input
+                  type="number"
+                  class="form-control"
+                  id="alokasi_waktu"
+                  name="alokasi_waktu"
+                  placeholder="Misal: 60"
+                  v-model="form.alokasi_waktu"
+                />
+              </div>
+              <div class="col form-group reg-siswa">
+                <label for="jeda_waktu"
+                  >Jeda Waktu Antar Mata Pelajaran (Menit) <code>*</code></label
+                >
+                <input
+                  type="number"
+                  class="form-control"
+                  id="jeda_waktu"
+                  name="jeda_waktu"
+                  placeholder="Misal: 5"
+                  v-model="form.jeda_waktu"
+                />
+              </div>
+            </div>
+            <div class="row">
               <div class="col-md-6">
                 <div class="form-group reg-siswa">
                   <label for="select">Kategori Tryout <code>*</code></label>
@@ -43,8 +72,7 @@
                     :options="[
                       { text: '-- Pilih --', value: null },
                       { text: 'UTBK', value: 'UTBK' },
-                      { text: 'ASPD', value: 'ASPD' },
-                      { text: 'Asesmen Nasional', value: 'Asmenas' }
+                      { text: 'ASPD', value: 'ASPD' }
                     ]"
                     @change="
                       () => {
@@ -56,6 +84,7 @@
                     "
                     :disabled="true"
                   >
+                    <!-- { text: 'Asesmen Nasional', value: 'Asmenas' } -->
                   </b-form-select>
                 </div>
               </div>
@@ -111,11 +140,11 @@
                     :options="[
                       { text: '-- Pilih --', value: null },
                       { text: 'SAINTEK', value: 'SAINTEK' },
-                      { text: 'SOSHUM', value: 'SOSHUM' },
-                      { text: 'Campuran', value: 'Campuran' }
+                      { text: 'SOSHUM', value: 'SOSHUM' }
                     ]"
                     :disabled="true"
                   >
+                    <!-- { text: 'Campuran', value: 'Campuran' } -->
                   </b-form-select>
                 </div>
               </div>
@@ -180,7 +209,9 @@ export default {
         kelompok_soal: null,
         template_soal: null,
         id_penjurusan: null,
-        panduan_pengerjaan: "-"
+        panduan_pengerjaan: "-",
+        alokasi_waktu: 0,
+        jeda_waktu: 0
       },
       dataDetail: {}
     };
