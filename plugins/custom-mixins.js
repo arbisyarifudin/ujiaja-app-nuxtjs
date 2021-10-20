@@ -21,11 +21,79 @@ Vue.mixin({
       }
       return false;
     },
-    formatRupiah(num) {
-      if (num) {
-        return num.toLocaleString("ID-id");
+    getBase64(file, callback, callbackError) {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = function() {
+        callback(reader.result);
+      };
+      reader.onerror = function(error) {
+        callbackError(error);
+      };
+    },
+
+    downloadURI(uri, name) {
+      const link = document.createElement("a");
+      link.download = name;
+      link.href = uri;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    },
+    formatRupiah(nominal) {
+      if (nominal) {
+        nominal = parseFloat(nominal);
+        return nominal.toLocaleString("id-ID");
       }
       return 0;
+    },
+    moment(param) {
+      const moment = require("moment");
+      moment.locale("id");
+      return moment(param);
+    },
+    formatTanggal(date, format) {
+      if (!date) {
+        return "?";
+      }
+      // this.moment.locale("id");
+      if (!format) {
+        format = "Do MMMM YYYY";
+      }
+      const formatted = this.moment(date).format(format);
+      return formatted;
+    },
+    formatSelisih(startDate, endDate, unit = 'days') {
+      let start = this.moment(startDate);
+      let end = this.moment(endDate);
+      return end.diff(start, unit);
+    },
+    isPayable(detail, tipe) {
+      if (detail) {
+        if (tipe == "Bank Transfer") {
+          const statusPayable = [
+            "Menunggu Pembayaran",
+            "Menunggu Verifikasi",
+            "Ditolak"
+          ];
+          console.log(statusPayable.includes(detail.status));
+          if (statusPayable.includes(detail.status)) {
+            return true;
+          }
+          return false;
+        } else if (tipe == "Pihak Ketiga") {
+          const statusPayable = [
+            "Menunggu Pembayaran",
+            "Menunggu Verifikasi",
+            "Ditolak"
+          ];
+          console.log(statusPayable.includes(detail.status));
+          if (statusPayable.includes(detail.status)) {
+            return true;
+          }
+        }
+      }
+      return false;
     },
     showError(field) {
       //   this.$translate.setLang("id_ID");
