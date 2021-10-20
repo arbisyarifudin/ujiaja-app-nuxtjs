@@ -63,7 +63,7 @@ Vue.mixin({
       const formatted = this.moment(date).format(format);
       return formatted;
     },
-    formatSelisih(startDate, endDate, unit = 'days') {
+    formatSelisih(startDate, endDate, unit = "days") {
       let start = this.moment(startDate);
       let end = this.moment(endDate);
       return end.diff(start, unit);
@@ -162,6 +162,21 @@ Vue.mixin({
         solid: true,
         autoHideDelay: 3000
       });
+    },
+    encrypt(text) {
+      if(typeof text !== 'string') {
+        text = text.toString();
+      }
+      const CryptoJS = require("crypto-js");
+      const passphrase = "123";
+      return CryptoJS.AES.encrypt(text, passphrase).toString();
+    },
+    decrypt(ciphertext) {
+      const CryptoJS = require("crypto-js");
+      const passphrase = "123";
+      const bytes = CryptoJS.AES.decrypt(ciphertext, passphrase);
+      const originalText = bytes.toString(CryptoJS.enc.Utf8);
+      return originalText;
     },
     catchError(error) {
       console.log("catchError", error, error.response);

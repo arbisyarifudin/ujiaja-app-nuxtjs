@@ -1,5 +1,22 @@
+*,
+html,
+body {
+  scroll-behavior: smooth;
+}
+
 body {
   font-family: Poppins, sans-serif;
+}
+
+.bg,
+.badge {
+  &-primary {
+    background-color: #b0a6ef;
+  }
+}
+
+.bg-ujian {
+  background-color: #f1e9fe !important;
 }
 
 .dropdown {
@@ -71,10 +88,16 @@ small,
   font-weight: 400;
 }
 
-
 .alert {
   &-light {
     background-color: #fafafa;
     border-color: #ddd;
   }
+}
+
+.b-sidebar > .b-sidebar-header {
+  font-size: 18px;
+  font-weight: 400;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  // padding-bottom: 10px;
 }
