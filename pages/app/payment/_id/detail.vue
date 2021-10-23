@@ -58,7 +58,7 @@
                 WIB
               </p>
               <p class="mb-1" style="color: #9490A4;">No.Invoice</p>
-              <p class="">LP-REG11092021-01</p>
+              <p class="">{{dataDetail.kode}}</p>
             </div>
             <div class="col-md-6 p-0" v-if="dataDetail.produk">
               <p class="mb-1" style="color: #9490A4;">Total Pembayaran</p>
