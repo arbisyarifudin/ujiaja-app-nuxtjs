@@ -1,9 +1,12 @@
 <template>
-  <div>Error</div>
+  <div></div>
 </template>
-
 <script>
 export default {
-  layout: "plain"
+  middleware: [
+    function({ redirect }) {
+      redirect("/app/tryout/mine");
+    }
+  ]
 };
 </script>

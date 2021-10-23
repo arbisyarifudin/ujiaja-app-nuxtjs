@@ -336,6 +336,7 @@ export default {
             solid: true,
             autoHideDelay: 3000,
           });
+          return;
         } else if (error.response.status == 422) {
           this.$bvToast.toast("Login gagal! Kredensial tidak valid.", {
             title: "Error",
@@ -343,8 +344,8 @@ export default {
             solid: true,
             autoHideDelay: 3000,
           });
-        }
         return;
+        }
       }
       if (error.response && error.response.status == 401) {
         this.$bvToast.toast("Akses dilarang!", {

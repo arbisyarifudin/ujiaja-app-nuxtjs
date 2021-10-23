@@ -137,7 +137,6 @@ input,
     }
 }
 
-
 #right-sect {
     // overflow-x: hidden;
     // overflow-y: auto;
@@ -787,6 +786,247 @@ input.form {
         padding-right: 30px;
         &.active {
             background-color: #9e8df3;
+        }
+    }
+}
+
+// UJIAN
+
+.ujian {
+    height: calc(100vh - 40px);
+    width: 100%;
+    max-width: 1200px;
+    &-wrapper {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        // background-color: white;
+        // border: 1px solid #ddd;
+        border-radius: 25px;
+        padding: 20px 30px;
+        box-sizing: border-box;
+        // height: calc(100vh - 40px);
+        // min-height: 80%;
+        max-height: 100%;
+        width: 100%;
+        margin-top: 20px;
+        overflow-y: hidden;
+        > .row {
+            min-height: 60vh;
+        }
+    }
+    .left-section {
+        // overflow-y: auto;
+        height: 100%;
+        max-height: calc(100vh - 150px);
+        // padding-top: 30px;
+        // position: relative;
+    }
+    .badge {
+        border-radius: 25px;
+        padding: 5px 10px;
+    }
+    .product-name {
+        font-size: 25px;
+        line-height: 35px;
+        // position: sticky;
+        background-color: white;
+        z-index: 1;
+        width: 100%;
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 10px;
+    }
+    .table-sm {
+        th,
+        td {
+            font-size: 14px;
+        }
+    }
+    .question {
+        &-list {
+            font-size: 13px;
+            height: 100%;
+            overflow-y: auto;
+        }
+        &-header-title {
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+        &-main {
+            &-text {
+                font-weight: 500;
+                font-size: 14px;
+            }
+        }
+    }
+    .option {
+        &-item {
+            font-size: 13px;
+            label {
+                padding-top: 10px;
+                padding-bottom: 10px;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+            }
+        }
+    }
+    .question {
+        &-board {
+            height: 100%;
+        }
+    }
+    .info {
+        &-board {
+            height: 100%;
+            overflow-y: hidden;
+        }
+    }
+    .board {
+        &-list {
+            width: 100%;
+        }
+        &-title {
+            font-size: 18px;
+            line-height: 25px;
+        }
+        &-guide-text {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+            font-size: 12px;
+            color: rgba(0, 0, 0, 0.5);
+            max-height: 300px;
+            box-sizing: border-box;
+            overflow-y: auto;
+            p {
+                margin-bottom: 10px;
+            }
+        }
+        &-item {
+            display: block;
+            position: relative;
+            // width: 20% !important;
+            flex: 0 0 20%;
+            max-width: 20%;
+            &-number {
+                // display: block;
+                background-color: #f1e9fe;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 50%;
+                // padding: 5px 15px;
+                padding: 0;
+                width: 40px;
+                height: 38px;
+                color: #9490a4;
+                text-decoration: none;
+                transition: cubic-bezier(0.95, 0.05, 0.795, 0.035);
+                position: relative;
+                &:hover {
+                    font-weight: 500;
+                    transform: scale(1.1);
+                }
+                &::after {
+                    position: absolute;
+                    content: "";
+                    display: block;
+                    width: 8px;
+                    height: 8px;
+                    border-radius: 50%;
+                    background-color: #ddd;
+                    right: 2px;
+                    bottom: 2px;
+                }
+                &.active {
+                   &::after {
+                        background-color: #008ffd!important;   
+                   }
+                }
+                &.filled {
+                    &::after {
+                        background-color: #55cb4a;
+                    }
+                }
+                + span {
+                    position: absolute;
+                    content: "";
+                    display: inline-block;
+                    width: 8px;
+                    height: 8px;
+                    border-radius: 50%;
+                    background-color: #d1b8fc;
+                    right: 10px;
+                    bottom: 2px;
+                }
+
+            }
+        }
+
+        &-legend {
+            font-size: 13px;
+            color: #9490A4;
+            span {
+                display: inline-block;
+                background-color: #ddd;
+                margin-right: 5px;
+                width: 8px;
+                height: 8px;
+                border-radius: 50%;
+                &.active {
+                    background-color: #008ffd; 
+                }
+                &.filled {
+                    background-color: #55cb4a;
+                }
+            }
+        }
+    }
+
+    &-guide-box {
+        min-height: 50vh;
+        max-height: calc(100vh - 100px);
+        overflow: hidden;
+        .card-body {
+            overflow-y: auto;
+            color: #636266;
+            font-size: 14px;
+            line-height: 28px;
+            // h1,h2,h3,h4,h5,h6 {
+            //     font-size: 20px;
+            // }
+            h1 {
+                font-size: 25px;
+            }
+            h2 {
+                font-size: 23px;
+            }
+            h3 {
+                font-size: 21px;
+            }
+            h4 {
+                font-size: 19px;
+            }
+            h5 {
+                font-size: 17px;
+            }
+            h6 {
+                font-size: 25px;
+            }
+        }
+    }
+
+    .card {
+        &-header, &-footer {
+            background-color: white;
+            padding-top: 25px;
+            padding-bottom: 25px;
+        }
+        &-title {
+            font-size: 25px;
+            margin-bottom: 0;
         }
     }
 }

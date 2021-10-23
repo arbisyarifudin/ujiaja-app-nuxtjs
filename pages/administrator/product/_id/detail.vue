@@ -159,7 +159,8 @@
               <h5 class="mb-3">{{ tryout.judul }}</h5>
               <h6 class="mb-3 text-muted">
                 <span>{{ tryout.jenis_soal }}</span>
-                <span>- {{ tryout.template_soal }}</span>
+                <!-- <span>- {{ tryout.template_soal }}</span> -->
+                <span>- {{ tryout.alokasi_waktu }} menit</span>
               </h6>
             </div>
             <div>
@@ -173,8 +174,7 @@
           <ol class="pl-4">
             <li class="mb-3" v-for="(soal, s) in tryout.soal" :key="s">
               {{ soal.mapel ? soal.mapel.nama_mapel : "???" }} -
-              {{ soal.jumlah_soal ? soal.jumlah_soal : "??" }} Soal & Alokasi
-              Waktu {{ soal.alokasi ? soal.alokasi : "??" }} Menit &nbsp;
+              {{ soal.jumlah_soal ? soal.jumlah_soal : "??" }} Soal &nbsp;
               <strong v-if="tryout.jenis_soal == 'Campuran'">
                 (
                 <span>{{ soal.jenis_soal }}</span>

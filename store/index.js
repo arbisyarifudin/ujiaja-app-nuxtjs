@@ -5,6 +5,9 @@ export const state = () => ({
   dataUser: {},
   dataError: {},
   breadcrumbs: []
+  // listNomorSoal: [],
+  // currentNomor: {},
+  // currentSoal: {}
 });
 
 export const mutations = {

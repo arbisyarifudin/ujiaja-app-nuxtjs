@@ -272,6 +272,13 @@
                               <label
                                 >Teks Untuk Beberapa Soal <code>*</code></label
                               >
+                              <div
+                                class="small text-danger mb-3"
+                                style="font-size: 15px"
+                              >
+                                Kosongkan jika tidak diperlukan penjelasan
+                                pertanyaan.
+                              </div>
                               <!-- <textarea
                                 name=""
                                 id="textarea"

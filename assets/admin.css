@@ -868,6 +868,262 @@ input.form-control-info {
   background-color: #9e8df3;
 }
 
+.ujian {
+  height: calc(100vh - 40px);
+  width: 100%;
+  max-width: 1200px;
+}
+
+.ujian-wrapper {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  border-radius: 25px;
+  padding: 20px 30px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  max-height: 100%;
+  width: 100%;
+  margin-top: 20px;
+  overflow-y: hidden;
+}
+
+.ujian-wrapper > .row {
+  min-height: 60vh;
+}
+
+.ujian .left-section {
+  height: 100%;
+  max-height: calc(100vh - 150px);
+}
+
+.ujian .badge {
+  border-radius: 25px;
+  padding: 5px 10px;
+}
+
+.ujian .product-name {
+  font-size: 25px;
+  line-height: 35px;
+  background-color: white;
+  z-index: 1;
+  width: 100%;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 10px;
+}
+
+.ujian .table-sm th,
+.ujian .table-sm td {
+  font-size: 14px;
+}
+
+.ujian .question-list {
+  font-size: 13px;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.ujian .question-header-title {
+  font-size: 20px;
+  margin-bottom: 15px;
+}
+
+.ujian .question-main-text {
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.ujian .option-item {
+  font-size: 13px;
+}
+
+.ujian .option-item label {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  cursor: pointer;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.ujian .question-board {
+  height: 100%;
+}
+
+.ujian .info-board {
+  height: 100%;
+  overflow-y: hidden;
+}
+
+.ujian .board-list {
+  width: 100%;
+}
+
+.ujian .board-title {
+  font-size: 18px;
+  line-height: 25px;
+}
+
+.ujian .board-guide-text {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 12px;
+  color: rgba(0, 0, 0, 0.5);
+  max-height: 300px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  overflow-y: auto;
+}
+
+.ujian .board-guide-text p {
+  margin-bottom: 10px;
+}
+
+.ujian .board-item {
+  display: block;
+  position: relative;
+  -webkit-box-flex: 0;
+      -ms-flex: 0 0 20%;
+          flex: 0 0 20%;
+  max-width: 20%;
+}
+
+.ujian .board-item-number {
+  background-color: #f1e9fe;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  border-radius: 50%;
+  padding: 0;
+  width: 40px;
+  height: 38px;
+  color: #9490a4;
+  text-decoration: none;
+  -webkit-transition: cubic-bezier(0.95, 0.05, 0.795, 0.035);
+  transition: cubic-bezier(0.95, 0.05, 0.795, 0.035);
+  position: relative;
+}
+
+.ujian .board-item-number:hover {
+  font-weight: 500;
+  -webkit-transform: scale(1.1);
+          transform: scale(1.1);
+}
+
+.ujian .board-item-number::after {
+  position: absolute;
+  content: "";
+  display: block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #ddd;
+  right: 2px;
+  bottom: 2px;
+}
+
+.ujian .board-item-number.active::after {
+  background-color: #008ffd !important;
+}
+
+.ujian .board-item-number.filled::after {
+  background-color: #55cb4a;
+}
+
+.ujian .board-item-number + span {
+  position: absolute;
+  content: "";
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #d1b8fc;
+  right: 10px;
+  bottom: 2px;
+}
+
+.ujian .board-legend {
+  font-size: 13px;
+  color: #9490A4;
+}
+
+.ujian .board-legend span {
+  display: inline-block;
+  background-color: #ddd;
+  margin-right: 5px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.ujian .board-legend span.active {
+  background-color: #008ffd;
+}
+
+.ujian .board-legend span.filled {
+  background-color: #55cb4a;
+}
+
+.ujian-guide-box {
+  min-height: 50vh;
+  max-height: calc(100vh - 100px);
+  overflow: hidden;
+}
+
+.ujian-guide-box .card-body {
+  overflow-y: auto;
+  color: #636266;
+  font-size: 14px;
+  line-height: 28px;
+}
+
+.ujian-guide-box .card-body h1 {
+  font-size: 25px;
+}
+
+.ujian-guide-box .card-body h2 {
+  font-size: 23px;
+}
+
+.ujian-guide-box .card-body h3 {
+  font-size: 21px;
+}
+
+.ujian-guide-box .card-body h4 {
+  font-size: 19px;
+}
+
+.ujian-guide-box .card-body h5 {
+  font-size: 17px;
+}
+
+.ujian-guide-box .card-body h6 {
+  font-size: 25px;
+}
+
+.ujian .card-header, .ujian .card-footer {
+  background-color: white;
+  padding-top: 25px;
+  padding-bottom: 25px;
+}
+
+.ujian .card-title {
+  font-size: 25px;
+  margin-bottom: 0;
+}
+
 /* CSS on MOBILE */
 /* HAPE */
 /* TABLET */

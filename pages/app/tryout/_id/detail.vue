@@ -92,7 +92,7 @@
             !dataDetail.is_task_start
         "
         class="btn btn-primary dashboard mb-4"
-        @click.prevent="confirmStartTest"
+        @click.prevent="startTest"
       >
         <i class="far fa-edit mr-1"></i> Kerjakan Tryout
       </button>
@@ -176,42 +176,6 @@
         </div> -->
       </div>
     </div>
-    <b-modal
-      id="modal-confirm-start"
-      title="Konfirmasi Mulai Tryout"
-      hide-footer
-      centered
-      :no-close-on-backdrop="loading"
-      :no-close-on-esc="loading"
-      modal-class="admin-modal"
-      @hidden="resetModal"
-    >
-      <div>
-        <p class="modal-text">
-          Apakah anda yakin ingin memulai tryout ini? Waktu mulai akan berjalan.
-          Harap persiapkan diri kamu sebelum mulai ya!
-        </p>
-        <div class="modal-footer justify-content-end" style="border: 0px">
-          <button
-            class="btn btn-outline-secondary"
-            type="button"
-            @click="$bvModal.hide('modal-confirm-start')"
-            v-if="!loading"
-          >
-            Batal
-          </button>
-          <button
-            class="btn btn-primary tambah px-4 py-2"
-            type="button"
-            :disabled="loading"
-            @click.prevent="onConfirmStartTest"
-          >
-            <b-spinner small v-if="loading" class="mr-1"></b-spinner> Ya, Saya
-            Yakin
-          </button>
-        </div>
-      </div>
-    </b-modal>
   </div>
 </template>
 
@@ -275,11 +239,11 @@ export default {
         })
         .finally(() => (this.loading = false));
     },
-    confirmStartTest() {
-      if (this.dataDetail.produk.jenis_produk !== "Masal") {
-        this.$bvModal.show("modal-confirm-start");
-        return;
-      }
+    startTest() {
+      // if (this.dataDetail.produk.jenis_produk !== "Masal") {
+      //   this.$bvModal.show("modal-confirm-start");
+      //   return;
+      // }
       const hariIni = new Date().toJSON();
       const tglMulai = new Date(this.dataDetail.produk.tanggal_mulai).toJSON();
       const tglAkhir = new Date(
@@ -291,9 +255,11 @@ export default {
 
       console.log(diffMulai, diffAkhir);
 
+      this.toTryoutTestPage();
+
       // else if(this.dataDetail.produk.jenis_produk == 'Masal' && diffMulai <=)
     },
-    onConfirmStartTest() {
+    toTryoutTestPage() {
       // this.axios.$post("/api/tryout/")
       const encryptedProductId = this.encrypt(this.dataDetail.produk.id);
       const encryptedProductIdSafe = encodeURIComponent(encryptedProductId);
