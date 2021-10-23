@@ -91,6 +91,7 @@ input,
     }
     &-outline {
         &-primary {
+            color: #b0a6ef;
             // border: 1px solid #c6b8fb;
             border: 1px solid #b0a6ef;
             &:disabled,
@@ -102,6 +103,11 @@ input,
                     border-color: #dddddd;
                     background-color: #dddddd;
                 }
+            }
+            &:hover {
+                background-color: #baadff;
+                border-color: #baadff;
+                color: #fff;
             }
         }
         &-warning {
@@ -941,9 +947,9 @@ input.form {
                     bottom: 2px;
                 }
                 &.active {
-                   &::after {
-                        background-color: #008ffd!important;   
-                   }
+                    &::after {
+                        background-color: #008ffd !important;
+                    }
                 }
                 &.filled {
                     &::after {
@@ -961,13 +967,12 @@ input.form {
                     right: 10px;
                     bottom: 2px;
                 }
-
             }
         }
 
         &-legend {
             font-size: 13px;
-            color: #9490A4;
+            color: #9490a4;
             span {
                 display: inline-block;
                 background-color: #ddd;
@@ -976,7 +981,7 @@ input.form {
                 height: 8px;
                 border-radius: 50%;
                 &.active {
-                    background-color: #008ffd; 
+                    background-color: #008ffd;
                 }
                 &.filled {
                     background-color: #55cb4a;
@@ -1019,7 +1024,8 @@ input.form {
     }
 
     .card {
-        &-header, &-footer {
+        &-header,
+        &-footer {
             background-color: white;
             padding-top: 25px;
             padding-bottom: 25px;

@@ -100,6 +100,7 @@ input:disabled,
 }
 
 .btn.btn-outline-primary {
+  color: #b0a6ef;
   border: 1px solid #b0a6ef;
 }
 
@@ -111,6 +112,12 @@ input:disabled,
   color: #fff;
   border-color: #dddddd;
   background-color: #dddddd;
+}
+
+.btn.btn-outline-primary:hover {
+  background-color: #baadff;
+  border-color: #baadff;
+  color: #fff;
 }
 
 .btn.btn-outline-warning {
@@ -1056,7 +1063,7 @@ input.form-control-info {
 
 .ujian .board-legend {
   font-size: 13px;
-  color: #9490A4;
+  color: #9490a4;
 }
 
 .ujian .board-legend span {

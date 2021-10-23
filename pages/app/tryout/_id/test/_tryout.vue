@@ -5,6 +5,38 @@
         <UILoading />
       </div>
     </div>
+    <div class="ujian-wrapper bg-white" v-if="!loading && isTimeout">
+      <div class="row justify-content-center align-items-center">
+        <div class="col text-center">
+          <p v-if="detailUjian.waktu_selesai">
+            Kamu sudah selesai mengerjakan Tryout ini.
+          </p>
+          <p v-else>
+            Mohon maaf! Waktu untuk mengerjakan Tryout Ini sudah habis.
+          </p>
+          <div
+            v-if="detail && detail.jenis_produk == 'Perorangan'"
+            class="mt-3"
+          >
+            <a class="btn btn-outline-primary " :href="`/app/tryout/mine`"
+              >Kembali</a
+            >
+            <a class="btn btn-primary ml-2" :href="`/app/tryout/mine`"
+              >Lihat Hasil</a
+            >
+            <!-- <button
+            class="btn btn-primary"
+            v-if="detail && detail.jenis_produk == 'Perorangan'"
+            @click.prevent="onRepeatTest"
+            :disabled="loading"
+          >
+            <b-spinner small v-if="loading" class="mr-1"></b-spinner>
+            Ulangi Tryout
+          </button> -->
+          </div>
+        </div>
+      </div>
+    </div>
     <div
       class="ujian-wrapper"
       v-else-if="!loading && detail.is_task_start && !detail.is_task_done"
@@ -161,7 +193,10 @@
         </div>
       </b-sidebar>
     </div>
-    <div class="ujian-wrapper" v-else-if="!loading && !detail.is_task_start">
+    <div
+      class="ujian-wrapper"
+      v-else-if="!loading && !detail.is_task_start && !detail.is_task_done"
+    >
       <div class="card ujian-guide-box">
         <div class="card-header">
           <h2 class="card-title">Petunjuk Pengerjaan</h2>
@@ -181,7 +216,7 @@
     </div>
     <div
       class="ujian-wrapper bg-white"
-      v-else-if="!loading && detail.is_task_done"
+      v-else-if="!loading && detail.is_task_start && detail.is_task_done"
     >
       <div class="row">
         <p>Kamus sudah menyelesaikan Tryout ini.</p>
@@ -281,19 +316,27 @@ export default {
       listNomorSoal: [],
       currentNomor: {},
       jawabanUser: {},
-      countdownTimer: null
+      countdownTimer: null,
+      isTimeout: false
     };
   },
   async mounted() {
     if (!this.$route.params.id) return this.$router.go(-1);
     await this.getDetailProduk();
-    await this.getDetailTryout();
     await this.getDetailUjian();
-    await this.getNomorSoal();
-    window.addEventListener("beforeunload", this.onCloseWindow);
-    document.addEventListener("keydown", this.onKeyDownNavigation);
+    if (this.detailUjian.id) {
+      if (this.detailUjian.waktu_selesai) {
+        return this.goToNext();
+      } else {
+        await this.getDetailTryout();
+        await this.getNomorSoal();
+        window.addEventListener("beforeunload", this.onCloseWindow);
+        document.addEventListener("keydown", this.onKeyDownNavigation);
+        this.startTimer();
+      }
+    }
+
     // this.checkLastSaved();
-    this.startTimer();
   },
   destroyed() {
     window.removeEventListener("beforeunload", this.onCloseWindow);
@@ -333,6 +376,17 @@ export default {
       const originalText = bytes.toString(CryptoJS.enc.Utf8);
       return originalText;
     },
+    goToNext() {
+      console.log("goToNext");
+      this.isTimeout = true;
+
+      const listTryout = this.detailUjian.list_tryout;
+
+      if (listTryout && listTryout.length > 1) {
+        const tryoutNotDone = listTryout.find(item=>!item.is_tryout_done);
+        console.log('tryoutNotDone',tryoutNotDone)
+      }
+    },
     checkLastSaved() {
       const lastSavedData = this.$cookiz.get("_ujiaja_temp_to_user");
       if (lastSavedData) {
@@ -346,9 +400,10 @@ export default {
       const lastSavedData = this.checkLastSaved();
 
       const waktuMulai = new Date(this.detailUjian.waktu_mulai).getTime();
-      const waktuBatas = waktuMulai + (this.tryout.alokasi_waktu * 1000 * 60);
+      const waktuBatas = waktuMulai + this.tryout.alokasi_waktu * 1000 * 60;
 
-      let diffTime = 0, waktuSisa = 0;
+      let diffTime = 0,
+        waktuSisa = 0;
       if (lastSavedData.time) {
         waktuSisa = lastSavedData.time - waktuMulai;
         diffTime = waktuBatas - waktuMulai - waktuSisa;
@@ -362,37 +417,46 @@ export default {
 
       // console.log(waktuSisa, duration.hours(), duration.minutes(), duration.seconds());
 
-      const isNotTimeout = duration.hours() >= 0 && duration.minutes() >= 0 && duration.seconds() >= 0;
+      const isNotTimeout =
+        duration.hours() >= 0 &&
+        duration.minutes() >= 0 &&
+        duration.seconds() >= 0;
 
       if (isNotTimeout) {
-        this.countdownTimer = setInterval(function() {
-          duration = moment.duration(duration - interval, "milliseconds");
-          const hours =
-            duration.hours() > 10 ? duration.hours() : "0" + duration.hours();
-          const minutes =
-            duration.minutes() > 10
-              ? duration.minutes()
-              : "0" + duration.minutes();
-          const seconds =
-            duration.seconds() > 10
-              ? duration.seconds()
-              : "0" + duration.seconds();
-          if (duration.minutes() < 1 && duration.seconds() <= 30) {
-            boardTimer.classList.add("text-danger");
-          }
-          if (
-            duration.hours() >= 0 &&
-            duration.minutes() >= 0 &&
-            duration.seconds() >= 0
-          ) {
-            console.log("time is running..");
-            countdownElement.textContent =
-              hours + ":" + minutes + ":" + seconds;
-          this.saveJawaban()
-          }
-        }.bind(this), interval);
+        this.countdownTimer = setInterval(
+          function() {
+            duration = moment.duration(duration - interval, "milliseconds");
+            const hours =
+              duration.hours() > 10 ? duration.hours() : "0" + duration.hours();
+            const minutes =
+              duration.minutes() > 10
+                ? duration.minutes()
+                : "0" + duration.minutes();
+            const seconds =
+              duration.seconds() > 10
+                ? duration.seconds()
+                : "0" + duration.seconds();
+            if (duration.minutes() < 1 && duration.seconds() <= 30) {
+              boardTimer.classList.add("text-danger");
+            }
+            if (
+              duration.hours() >= 0 &&
+              duration.minutes() >= 0 &&
+              duration.seconds() >= 0
+            ) {
+              console.log("time is running..");
+              // console.log(countdownElement)
+              countdownElement.textContent =
+                hours + ":" + minutes + ":" + seconds;
+              this.saveJawaban();
+            }
+          }.bind(this),
+          interval
+        );
       } else {
-        console.log('> Tryout sudah melewati waktu!')
+        console.log("> Tryout sudah melewati waktu!");
+        this.isTimeout = true;
+        return this.goToNext();
       }
     },
     onCloseWindow(event) {
@@ -514,7 +578,7 @@ export default {
         })
         .catch(err => {
           console.log(err);
-          this.catchError(err);
+          // this.catchError(err);
         })
         .finally(() => (this.loading = false));
     },

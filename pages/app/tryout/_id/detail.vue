@@ -96,6 +96,17 @@
       >
         <i class="far fa-edit mr-1"></i> Kerjakan Tryout
       </button>
+       <button
+        v-if="
+          dataDetail.is_paid &&
+            !dataDetail.is_task_done &&
+            dataDetail.is_task_start
+        "
+        class="btn btn-primary dashboard mb-4"
+        @click.prevent="startTest"
+      >
+        <i class="far fa-edit mr-1"></i> Lanjut Mengerjakan
+      </button>
       <router-link
         class="btn btn-primary dashboard mb-4 ml-2"
         v-if="
@@ -188,7 +199,7 @@ export default {
       dataDetail: {
         produk: {},
         tryout: []
-      }
+      },
     };
   },
   mounted() {
