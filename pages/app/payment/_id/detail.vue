@@ -13,10 +13,28 @@
     <div class="container-fluid">
       <div class="row ">
         <div class="col-md-8 dashboard">
-          <h2 class="dash-label mb-4" v-if="dataDetail.status == 'Menunggu Pembayaran'">Yuk, selesaikan pembayaranmu!</h2>
-          <h2 class="dash-label mb-4" v-if="dataDetail.status == 'Menunggu Verifikasi'">Mohon tunggu verifikasi dari kami ya!</h2>
-          <h2 class="dash-label mb-4" v-if="dataDetail.status == 'Sudah Diverifikasi'">Selamat, pembelian Tryout kamu berhasil!</h2>
-          <p v-if="dataDetail.status == 'Sudah Diverifikasi'">Terima kasih sudah mempercayakan Uji Aja untuk memenuhi kebutuhan belajarmu. Berikut detail transaksimu :</p>
+          <h2
+            class="dash-label mb-4"
+            v-if="dataDetail.status == 'Menunggu Pembayaran'"
+          >
+            Yuk, selesaikan pembayaranmu!
+          </h2>
+          <h2
+            class="dash-label mb-4"
+            v-if="dataDetail.status == 'Menunggu Verifikasi'"
+          >
+            Mohon tunggu verifikasi dari kami ya!
+          </h2>
+          <h2
+            class="dash-label mb-4"
+            v-if="dataDetail.status == 'Sudah Diverifikasi'"
+          >
+            Selamat, pembelian Tryout kamu berhasil!
+          </h2>
+          <p v-if="dataDetail.status == 'Sudah Diverifikasi'">
+            Terima kasih sudah mempercayakan Uji Aja untuk memenuhi kebutuhan
+            belajarmu. Berikut detail transaksimu :
+          </p>
           <p v-else>Berikut detail pembelian kamu :</p>
           <div
             class="row px-5 py-4 mt-5 pos-relative"
@@ -31,10 +49,13 @@
               <p class="">
                 {{
                   formatTanggal(
-                    dataDetail.batas_pembayaran ? dataDetail.batas_pembayaran : dataDetail.xendit.expiry_date,
+                    dataDetail.batas_pembayaran
+                      ? dataDetail.batas_pembayaran
+                      : dataDetail.xendit.expiry_date,
                     "dddd, DD MMMM YYYY HH:mm"
                   )
-                }} WIB
+                }}
+                WIB
               </p>
               <p class="mb-1" style="color: #9490A4;">No.Invoice</p>
               <p class="">LP-REG11092021-01</p>
@@ -52,8 +73,14 @@
               <p class="mb-1" style="color: #9490A4;">Status Pembayaran</p>
               <p class="" v-text="dataDetail.status"></p>
             </div>
-            <div class="col" v-if="loading">
-              <UILoading  style="min-height: unset"/>
+           <div class="col-12" v-if="!loading">
+             <hr>
+              <router-link :to="`/app/tryout/${dataDetail.id_produk}/detail`"
+              >Lihat Produk</router-link
+            >
+           </div>
+            <div class="col-12" v-if="loading">
+              <UILoading style="min-height: unset" />
             </div>
           </div>
         </div>
@@ -90,39 +117,82 @@
             </p>
           </div> -->
 
-          <h5 class="my-4" v-if="dataDetail.status && dataDetail.status == 'Menunggu Pembayaran' && dataDetail.tipe == 'Bank Transfer'">Sudah bayar? Klik tombol di bawah:</h5>
-          <h5 class="my-4" v-if="dataDetail.status && dataDetail.status != 'Sudah Diverifikasi' && dataDetail.tipe == 'Bank Transfer'">Ingin konfirmasi ulang? Klik tombol di bawah:</h5>
-          <h5 class="my-4" v-if="dataDetail.status && dataDetail.status != 'Sudah Diverifikasi' && dataDetail.tipe == 'Pihak Ketiga'">Yuk selesaikan pembayaran kamu! Klik tombol di bawah untuk melihat instruksi pembayarannya:</h5>
-           <div class="row align-items-center" v-if="dataDetail.status">
-               <div class="col mb-3" v-if="isPayable(dataDetail, dataDetail.tipe) && dataDetail.tipe == 'Bank Transfer'">
-                <router-link
-                  class="btn btn-primary btn-block py-2"
-                  :to="`/app/payment/${dataDetail.id}/confirm`"
-                >
-                  Konfirmasi Pembayaran
-                </router-link>
-              </div>
-               <div class="col mb-3" v-if="isPayable(dataDetail, dataDetail.tipe) && dataDetail.tipe == 'Pihak Ketiga'">
-                <a
-                target="_blank"
-                  class="btn btn-primary btn-block py-2"
-                  :href="dataDetail.xendit.invoice_url"
-                >
-                  Selesaikan Pembayaran
-                </a>
-              </div>
-              <div class="col mb-3" v-if="dataDetail.status != 'Sudah Diverifikasi'">
-                <button
-                  class="btn btn-outline-primary btn-block py-2"
-                  type="button"
-                  @click.prevent="checkStatus"
-                >
-                <b-spinner class="mr-1" small v-if="loading"></b-spinner>
-                  Cek Status Pembayaran
-                </button>
-              </div>
+          <h5
+            class="my-4"
+            v-if="
+              dataDetail.status &&
+                dataDetail.status == 'Menunggu Pembayaran' &&
+                dataDetail.tipe == 'Bank Transfer'
+            "
+          >
+            Sudah bayar? Klik tombol di bawah:
+          </h5>
+          <h5
+            class="my-4"
+            v-if="
+              dataDetail.status &&
+                dataDetail.status != 'Sudah Diverifikasi' &&
+                dataDetail.tipe == 'Bank Transfer'
+            "
+          >
+            Ingin konfirmasi ulang? Klik tombol di bawah:
+          </h5>
+          <h5
+            class="my-4"
+            v-if="
+              dataDetail.status &&
+                dataDetail.status != 'Sudah Diverifikasi' &&
+                dataDetail.tipe == 'Pihak Ketiga'
+            "
+          >
+            Yuk selesaikan pembayaran kamu! Klik tombol di bawah untuk melihat
+            instruksi pembayarannya:
+          </h5>
+          <div class="row align-items-center" v-if="dataDetail.status">
+            <div
+              class="col mb-3"
+              v-if="
+                isPayable(dataDetail, dataDetail.tipe) &&
+                  dataDetail.tipe == 'Bank Transfer'
+              "
+            >
+              <router-link
+                class="btn btn-primary btn-block py-2"
+                :to="`/app/payment/${dataDetail.id}/confirm`"
+              >
+                Konfirmasi Pembayaran
+              </router-link>
             </div>
-          <hr>
+            <div
+              class="col mb-3"
+              v-if="
+                isPayable(dataDetail, dataDetail.tipe) &&
+                  dataDetail.tipe == 'Pihak Ketiga'
+              "
+            >
+              <a
+                target="_blank"
+                class="btn btn-primary btn-block py-2"
+                :href="dataDetail.xendit.invoice_url"
+              >
+                Selesaikan Pembayaran
+              </a>
+            </div>
+            <div
+              class="col mb-3"
+              v-if="dataDetail.status != 'Sudah Diverifikasi'"
+            >
+              <button
+                class="btn btn-outline-primary btn-block py-2"
+                type="button"
+                @click.prevent="checkStatus"
+              >
+                <b-spinner class="mr-1" small v-if="loading"></b-spinner>
+                Cek Status Pembayaran
+              </button>
+            </div>
+          </div>
+          <hr />
 
           <!-- <h5 class="my-4">Ada masalah? Kami siap membantu kamu.</h5>
           <div
@@ -203,7 +273,7 @@ export default {
           if (res.success) {
             this.dataDetail = {};
             this.dataDetail = res.data;
-            this.showToastMessage('Berhasil ambil status terbaru!', 'success');
+            this.showToastMessage("Berhasil ambil status terbaru!", "success");
           }
           return true;
         })
@@ -212,7 +282,7 @@ export default {
           this.catchError(err);
         })
         .finally(() => (this.loading = false));
-    },
+    }
   }
 };
 </script>
