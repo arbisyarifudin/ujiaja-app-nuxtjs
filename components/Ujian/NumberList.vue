@@ -10,7 +10,7 @@
         class="board-item-number btn"
         :class="[
           active == nom.nomor ? 'active' : '',
-          jawaban[nom.nomor].jawaban_user ? 'filled' : ''
+          jawaban[nom.nomor] && jawaban[nom.nomor].jawaban_user ? 'filled' : ''
         ]"
         @click.prevent="updateNomor(nom)"
       >

@@ -12,7 +12,7 @@
     </div>
     <div class="container-fluid">
       <div class="row ">
-        <div class="col-md-8 dashboard">
+        <div class="col-lg-8 col-md-12 dashboard">
           <h2
             class="dash-label mb-4"
             v-if="dataDetail.status == 'Menunggu Pembayaran'"
@@ -73,17 +73,18 @@
               <p class="mb-1" style="color: #9490A4;">Status Pembayaran</p>
               <p class="" v-text="dataDetail.status"></p>
             </div>
-           <div class="col-12" v-if="!loading">
-             <hr>
+            <div class="col-12" v-if="!loading">
+              <hr />
               <router-link :to="`/app/tryout/${dataDetail.id_produk}/detail`"
-              >Lihat Produk</router-link
-            >
-           </div>
+                >Lihat Produk</router-link
+              >
+            </div>
             <div class="col-12" v-if="loading">
               <UILoading style="min-height: unset" />
             </div>
           </div>
         </div>
+
         <div class="col-md-12 dashboard my-4">
           <!-- <h5>Ikuti langkah-langkah pembayaran ini!</h5>
           <div

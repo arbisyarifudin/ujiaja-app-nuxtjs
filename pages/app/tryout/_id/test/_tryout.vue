@@ -39,7 +39,9 @@
     </div>
     <div
       class="ujian-wrapper"
-      v-else-if="!loading && detail.is_task_start && !detail.is_task_done"
+      v-else-if="
+        !loading && detailUjian.waktu_mulai && !detailUjian.waktu_selesai
+      "
     >
       <div class="row">
         <div class="col-md-8">
@@ -84,7 +86,7 @@
               <div class="question-list">
                 <div class="question-item">
                   <div
-                    class="question-header-text"
+                    class="question-header-text mb-3"
                     v-if="currentNomor.penjelasan_pertanyaan"
                     v-html="currentNomor.penjelasan_pertanyaan"
                   ></div>
@@ -167,7 +169,7 @@
               class="btn btn-danger btn-block square"
               v-b-modal.modal-confirm-end
             >
-              Selesai dan Serahkan
+              {{detailUjian.list_tryout && detailUjian.list_tryout.length > 1 ? 'Selesai dan Lanjutkan' : 'Selesai dan Serahkan'}}
             </button>
             <!-- <h3 class="board-title mb-3">Panduan Pengerjaan:</h3>
     <div class="board-guide-text" v-html="dataTryout.panduan_pengerjaan"></div> -->
@@ -195,11 +197,14 @@
     </div>
     <div
       class="ujian-wrapper"
-      v-else-if="!loading && !detail.is_task_start && !detail.is_task_done"
+      v-else-if="
+        !loading && !detailUjian.is_task_start && !detailUjian.is_task_done
+      "
     >
       <div class="card ujian-guide-box">
         <div class="card-header">
           <h2 class="card-title">Petunjuk Pengerjaan</h2>
+          <p class="mb-0">{{ tryout.judul }}</p>
         </div>
         <div class="card-body" v-html="tryout.panduan_pengerjaan"></div>
         <div class="card-footer d-flex justify-content-end">
@@ -269,7 +274,11 @@
       @hidden="resetModal"
     >
       <div>
-        <p class="modal-text">
+        <p class="modal-text" v-if="detailUjian.list_tryout && detailUjian.list_tryout.length > 1">
+          Apakah kamu yakin ingin menyelesaikan dan mengirim jawaban tryoutmu?
+          Kamu akan diarahkan ke tryout selanjutnya..
+        </p>
+         <p class="modal-text" v-else>
           Apakah kamu yakin ingin menyelesaikan dan mengirim jawaban tryoutmu?
           Sistem akan langsung mengoreksi.
         </p>
@@ -288,8 +297,9 @@
             :disabled="loading"
             @click.prevent="onConfirmEndTest"
           >
-            <b-spinner small v-if="loading" class="mr-1"></b-spinner> Ya, Saya
-            Yakin
+            <b-spinner small v-if="loading" class="mr-1"></b-spinner> 
+            <span v-if="detailUjian.list_tryout && detailUjian.list_tryout.length > 1">Ya, Kirim & Lanjutkan</span>
+            <span v-else>Ya, Kirim Sekarang</span>
           </button>
         </div>
       </div>
@@ -322,18 +332,24 @@ export default {
   },
   async mounted() {
     if (!this.$route.params.id) return this.$router.go(-1);
+    window.addEventListener("beforeunload", this.onCloseWindow);
+
     await this.getDetailProduk();
     await this.getDetailUjian();
+
+    // jika data ujian sudah pernah dibuat
     if (this.detailUjian.id) {
       if (this.detailUjian.waktu_selesai) {
         return this.goToNext();
       } else {
         await this.getDetailTryout();
         await this.getNomorSoal();
-        window.addEventListener("beforeunload", this.onCloseWindow);
         document.addEventListener("keydown", this.onKeyDownNavigation);
         this.startTimer();
       }
+    } else {
+      // jika data ujian belum pernah dibuat/start
+      await this.getDetailTryout();
     }
 
     // this.checkLastSaved();
@@ -341,6 +357,7 @@ export default {
   destroyed() {
     window.removeEventListener("beforeunload", this.onCloseWindow);
     document.removeEventListener("keydown", this.onKeyDownNavigation);
+    clearInterval(this.countdownTimer);
   },
   computed: {
     productId() {
@@ -376,16 +393,14 @@ export default {
       const originalText = bytes.toString(CryptoJS.enc.Utf8);
       return originalText;
     },
-    goToNext() {
-      console.log("goToNext");
-      this.isTimeout = true;
-
-      const listTryout = this.detailUjian.list_tryout;
-
-      if (listTryout && listTryout.length > 1) {
-        const tryoutNotDone = listTryout.find(item=>!item.is_tryout_done);
-        console.log('tryoutNotDone',tryoutNotDone)
-      }
+    toTryoutTestPage(productID, tryoutID) {
+      const encryptedProductId = this.encrypt(productID);
+      const encryptedProductIdSafe = encodeURIComponent(encryptedProductId);
+      const encryptedTryoutId = this.encrypt(tryoutID);
+      const encryptedTryoutIdSafe = encodeURIComponent(encryptedTryoutId);
+      window.location.replace(
+        `/app/tryout/${encryptedProductIdSafe}/test/${encryptedTryoutIdSafe}`
+      );
     },
     checkLastSaved() {
       const lastSavedData = this.$cookiz.get("_ujiaja_temp_to_user");
@@ -404,7 +419,7 @@ export default {
 
       let diffTime = 0,
         waktuSisa = 0;
-      if (lastSavedData.time) {
+      if (lastSavedData.id_tryout == this.tryout.id && lastSavedData.time) {
         waktuSisa = lastSavedData.time - waktuMulai;
         diffTime = waktuBatas - waktuMulai - waktuSisa;
       } else {
@@ -415,7 +430,13 @@ export default {
       const boardTimer = document.querySelector(".board-timer");
       const countdownElement = boardTimer.children[1];
 
-      // console.log(waktuSisa, duration.hours(), duration.minutes(), duration.seconds());
+      console.log(
+        waktuSisa,
+        duration.hours(),
+        duration.minutes(),
+        duration.seconds()
+      );
+      // return;
 
       const isNotTimeout =
         duration.hours() >= 0 &&
@@ -427,16 +448,16 @@ export default {
           function() {
             duration = moment.duration(duration - interval, "milliseconds");
             const hours =
-              duration.hours() > 10 ? duration.hours() : "0" + duration.hours();
+              duration.hours() >= 10 ? duration.hours() : "0" + duration.hours();
             const minutes =
-              duration.minutes() > 10
+              duration.minutes() >= 10
                 ? duration.minutes()
                 : "0" + duration.minutes();
             const seconds =
-              duration.seconds() > 10
+              duration.seconds() >= 10
                 ? duration.seconds()
                 : "0" + duration.seconds();
-            if (duration.minutes() < 1 && duration.seconds() <= 30) {
+            if (duration.minutes() < 2) {
               boardTimer.classList.add("text-danger");
             }
             if (
@@ -449,14 +470,39 @@ export default {
               countdownElement.textContent =
                 hours + ":" + minutes + ":" + seconds;
               this.saveJawaban();
+            } else if (duration.hours() < 0 && duration.minutes() < 0 && duration.seconds() < 0) {
+              this.onConfirmEndTest();
             }
           }.bind(this),
           interval
         );
       } else {
         console.log("> Tryout sudah melewati waktu!");
-        this.isTimeout = true;
-        return this.goToNext();
+        this.onConfirmEndTest();
+      }
+    },
+    goToNext() {
+      console.log("goToNext");
+      this.isTimeout = true;
+
+      const listTryout = this.detailUjian.list_tryout;
+
+      if (listTryout && listTryout.length > 1) {
+        const tryoutNotDone = listTryout.find(
+          item => !item.is_tryout_done && item.id != this.tryoutId
+        );
+        console.log("tryoutNotDone", tryoutNotDone);
+        console.log("productId", this.productId);
+        // if (tryoutNotDone && tryoutNotDone.id != this.tryoutId) {
+        if (tryoutNotDone) {
+          console.log(
+            "tryoutId",
+            this.tryoutId,
+            tryoutNotDone.id
+            // tryoutNotDone.id != this.tryoutId
+          );
+          this.toTryoutTestPage(this.detailUjian.id_produk, tryoutNotDone.id);
+        }
       }
     },
     onCloseWindow(event) {
@@ -508,21 +554,18 @@ export default {
         .finally(() => {});
     },
     onConfirmEndTest() {
+      clearInterval(this.countdownTimer);
+      if(this.detailUjian.waktu_selesai) return;
       this.loading = true;
-
-      // let jawabans = [];
-      // for(let key in this.jawabanUser)
-      // {
-      //   jawabans.push(this.jawabanUser[key]);
-      // }
+      this.isTimeout = true;
       this.$axios
         .post(`/api/tryout_user_jawaban/create/multiple`, {
           id_tryout_user: this.detailUjian.id,
           jawabans: this.jawabanUser
         })
         .then(response => {
-          console.log(response);
-          this.detail.is_start_end = true;
+          console.log('onConfirmEndTest',response);
+
         })
         .catch(error => console.log(error))
         .finally(() => {
