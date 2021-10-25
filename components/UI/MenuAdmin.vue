@@ -101,15 +101,15 @@
         >Data MBTI & Soal</b-dropdown-item
       >
     </b-nav-item-dropdown>
-    <li class="nav-item">
+    <!-- <li class="nav-item">
       <nuxt-link class="nav-link d-flex align-items-center" to="#"
         ><i class="fas fa-cash-register fa-fw mr-2"></i> Transaksi
         User</nuxt-link
       >
-    </li>
+    </li> -->
     <li class="nav-item">
-      <nuxt-link class="nav-link d-flex align-items-center" to="#"
-        ><i class="fas fa-id-badge fa-fw mr-2"></i> Verifikasi</nuxt-link
+      <nuxt-link class="nav-link d-flex align-items-center" to="/administrator/payment"
+        ><i class="fas fa-id-badge fa-fw mr-2"></i> Transaksi</nuxt-link
       >
     </li>
     <li class="nav-item">

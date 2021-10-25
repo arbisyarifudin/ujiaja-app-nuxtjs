@@ -401,6 +401,7 @@ input:disabled,
 
 .crud .table .body-table td {
   padding: 1rem;
+  font-size: 14px;
 }
 
 .crud .table .btn-table {
@@ -642,6 +643,33 @@ table,
 
 .admin-modal .btn {
   border-radius: 4px;
+}
+
+.admin-modal .modal-body-kiri table > tr > th {
+  color: #9490a4;
+  font-weight: normal;
+}
+
+.admin-modal .modal-body-kiri table > tr > td {
+  color: #47415b;
+}
+
+.admin-modal .modal-body-kanan .card-image {
+  border: 1px solid #ddd;
+  padding: 20px;
+}
+
+.admin-modal .modal-body-kanan .card-image img {
+  height: 100%;
+  width: 100%;
+  max-height: 400px;
+  -o-object-fit: contain;
+     object-fit: contain;
+}
+
+.admin-modal .modal-body-kanan p {
+  font-size: 13px;
+  color: #9490a4 !important;
 }
 
 .konten {
