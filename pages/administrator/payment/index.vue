@@ -64,7 +64,7 @@
             <tbody class="body-table">
               <template v-if="totalRows > 0">
                 <tr v-for="(item, index) in items" :key="index">
-                  <td class="text-center">{{ index + 1 }}</td>
+                  <td class="text-center">{{ (index + 1) }}</td>
                   <td class="btn-table">
                     <button
                       class="btn btn-light px-2 mt-n2"
@@ -187,7 +187,7 @@
               <tr>
                 <th width="150">Kategori Produk</th>
                 <th width="10">:</th>
-                <th></th>
+                <th>Beli {{detail.jenis_transaksi}}</th>
               </tr>
               <tr>
                 <th width="150">Nama Produk</th>
@@ -210,21 +210,39 @@
                   }}
                   <br />
                   <span :class="statusBadge(detail.status)">{{ detail.status }}</span>
-                  <hr />
-                  <button
-                    class="btn btn-primary btn-sm"
-                    type="button"
-                    @click.prevent="showBukti = true"
-                  >
-                    <i class="fas fa-file-alt mr-1"></i> Lihat Bukti Pembayaran
-                  </button>
+                  <template v-if="!showBukti && form.status == 'Menunggu Verifikasi'">
+                    <hr />
+                    <button
+                      class="btn btn-primary btn-sm"
+                      type="button"
+                      @click.prevent="showBukti = true"
+                    >
+                      <i class="fas fa-file-alt mr-1"></i> Lihat Bukti Pembayaran
+                    </button>
+                  </template>
+                </th>
+              </tr>
+              <tr>
+                <th width="150">Tujuan Pembayaran</th>
+                <th width="10">:</th>
+                <th>
+                  <template v-if="detail.bank">
+                    <span v-text="detail.bank.nama_bank"></span> - 
+                    <span v-text="detail.bank.nomor_rekening"></span>
+                     A.N
+                    <span v-text="detail.bank.nama_pemilik"></span> 
+                  </template>
+                   <template v-else-if="detail.xendit">
+                    <span v-text="detail.xendit.payment_channel"></span> -  
+                    <span v-text="'No. VA : ' + detail.xendit.payment_destination"></span>
+                  </template>
                 </th>
               </tr>
             </table>
           </div>
           <div class="col-md-12">
             <div class="modal-body-kanan">
-              <div class="card-image" v-show="showBukti">
+              <div class="card-image" v-show="showBukti || form.status != 'Menunggu Verifikasi'">
                 <a href="/reg-siswa.png" target="_blank">
                   <img
                     src="/reg-siswa.png"
@@ -243,7 +261,7 @@
                       <option value="Ditolak">Tolak</option>
                     </select>
                   </div>
-                  <div class="mb-3">
+                  <div class="mb-3" v-if="form.status == 'Ditolak'">
                     <p class="mb-2">Tulis alasan penolakan</p>
                     <textarea
                       class="form-control"
@@ -267,11 +285,11 @@
           <button
             class="btn btn-primary tambah px-4 py-2"
             type="button"
-            :disabled="loading"
-            v-if="showBukti"
+            :disabled="submitting"
+            v-if="showBukti || form.status != 'Menunggu Verifikasi'"
             @click.prevent="verifyBukti"
           >
-            <b-spinner small v-if="loading" class="mr-1"></b-spinner> Submit
+            <b-spinner small v-if="submitting" class="mr-1"></b-spinner> Submit
           </button>
         </div>
       </template>
@@ -288,6 +306,7 @@ export default {
   data() {
     return {
       loading: false,
+      submitting: false,
       filter: {
         page: 1,
         perPage: 5,
@@ -301,7 +320,7 @@ export default {
       showBukti: false,
       form: {
         status: null,
-        alasan_penolakan: ""
+        alasan_penolakan: null
       }
     };
   },
@@ -381,6 +400,8 @@ export default {
           console.log(res);
           if (res.success) {
             this.detail = res.data;
+            this.form.status = this.detail.status
+            this.form.alasan_penolakan = this.detail.alasan_penolakan
           }
           return true;
         })
@@ -391,9 +412,9 @@ export default {
         .finally(() => (this.loading = false));
     },
     verifyBukti(type) {
-      this.loading = true;
+      this.submitting = true;
       this.$axios
-        .$put(`/api/transaksi/update-status/${this.selectedId}`)
+        .$put(`/api/transaksi/update-status/${this.selectedId}`, this.form)
         .then(res => {
           console.log(res);
           if (res.success) {
@@ -403,6 +424,7 @@ export default {
               solid: true,
               autoHideDelay: 3000
             });
+            this.items[this.selectedIndex].status = this.form.status;
             this.$bvModal.hide("modal-detail");
           }
           return true;
@@ -411,7 +433,7 @@ export default {
           console.log(err);
           this.catchError(err);
         })
-        .finally(() => (this.loading = false));
+        .finally(() => (this.submitting = false));
     }
   }
 };
