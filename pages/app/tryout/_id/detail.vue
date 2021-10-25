@@ -277,9 +277,10 @@ export default {
       const encryptedTryoutId = this.encrypt(this.dataDetail.tryout[0].id);
       const encryptedTryoutIdSafe = encodeURIComponent(encryptedTryoutId);
       // this.$router.replace(`/app/tryout/${encryptedProductIdSafe}/test`);
-      window.location.replace(
-        `/app/tryout/${encryptedProductIdSafe}/test/${encryptedTryoutIdSafe}`
-      );
+      // window.location.replace(
+      //   `/app/tryout/${encryptedProductIdSafe}/test/?tryout=${encryptedTryoutIdSafe}`
+      // );
+      window.location.href = `/app/tryout/${encryptedProductIdSafe}/test/?tryout=${encryptedTryoutIdSafe}`;
     },
     formatRupiah(num) {
       if (num) {

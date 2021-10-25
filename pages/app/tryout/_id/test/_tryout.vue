@@ -110,6 +110,7 @@
                       >
                         <label :for="'opsi-' + currentNomor.nomor + '-' + o"
                           ><input
+                          v-if="jawabanUser[currentNomor.nomor]"
                             type="radio"
                             :name="'opsi_' + currentNomor.nomor"
                             :id="'opsi-' + currentNomor.nomor + '-' + o"
@@ -304,6 +305,39 @@
         </div>
       </div>
     </b-modal>
+      <b-modal
+      id="modal-success-end"
+      title="Kamu Berhasil Menyelesaikan"
+      hide-footer
+      centered
+      :no-close-on-backdrop="true"
+      :no-close-on-esc="true"
+      modal-class="admin-modal"
+      @hidden="resetModal"
+    >
+      <div>
+        <p class="modal-text">
+          Kamu dapat langsung melihat hasil ujian tryout dan lihat rekomendasi belajar yang tepat untukmu sekarang juga!
+        </p>
+        <div class="modal-footer justify-content-end" style="border: 0px">
+          <button
+            class="btn btn-secondary"
+            type="button"
+            @click="navGoTo(`/app/tryout/mine`)"
+          >
+            Halaman Utama
+          </button>
+          <button
+            class="btn btn-primary tambah px-4 py-2"
+            type="button"
+            :disabled="loading"
+            @click.prevent="navGoTo(`/app/tryout/${productId}/result`)"
+          >
+            Lihat Hasil
+          </button>
+        </div>
+      </div>
+    </b-modal>
   </div>
 </template>
 
@@ -351,8 +385,6 @@ export default {
       // jika data ujian belum pernah dibuat/start
       await this.getDetailTryout();
     }
-
-    // this.checkLastSaved();
   },
   destroyed() {
     window.removeEventListener("beforeunload", this.onCloseWindow);
@@ -412,10 +444,19 @@ export default {
     },
     startTimer() {
       const moment = require("moment");
+      const today = moment.now();
       const lastSavedData = this.checkLastSaved();
-
       const waktuMulai = new Date(this.detailUjian.waktu_mulai).getTime();
       const waktuBatas = waktuMulai + this.tryout.alokasi_waktu * 1000 * 60;
+
+       // console.log(today);
+      // cek batas waktu mulai dengan hari ini
+      if(waktuBatas < today) {
+        this.isTimeout = true;
+        window.removeEventListener("beforeunload", this.onCloseWindow);
+        return;
+      }
+
 
       let diffTime = 0,
         waktuSisa = 0;
@@ -478,12 +519,17 @@ export default {
         );
       } else {
         console.log("> Tryout sudah melewati waktu!");
-        this.onConfirmEndTest();
+        if(!this.detailUjian.waktu_selesai) {
+          this.onConfirmEndTest();
+        } else {
+          this.goToNext();
+        }
       }
     },
     goToNext() {
       console.log("goToNext");
       this.isTimeout = true;
+       window.removeEventListener("beforeunload", this.onCloseWindow);
 
       const listTryout = this.detailUjian.list_tryout;
 
@@ -542,7 +588,7 @@ export default {
       const dataSave = {
         id_user: null,
         id_produk: this.productId,
-        id_tryout: this.tryoutId
+        id_tryout: this.tryoutId,
       };
       this.$axios
         .post(`/api/tryout_user/create`, dataSave)
@@ -561,10 +607,16 @@ export default {
       this.$axios
         .post(`/api/tryout_user_jawaban/create/multiple`, {
           id_tryout_user: this.detailUjian.id,
-          jawabans: this.jawabanUser
+          jawabans: this.jawabanUser,
+          waktu_selesai_ujian: new Date(),
         })
         .then(response => {
-          console.log('onConfirmEndTest',response);
+          // console.log('onConfirmEndTest',response);
+          this.detailUjian.waktu_selesai = "ada isi";
+          window.removeEventListener('beforeunload', this.onCloseWindow);
+          this.$bvModal.hide('modal-confirm-start');
+          this.$bvModal.hide('modal-confirm-end');
+          this.$bvModal.show('modal-success-end');
 
         })
         .catch(error => console.log(error))
@@ -577,7 +629,9 @@ export default {
       this.currentNomor = dataNomor;
     },
     saveJawaban() {
-      const dataSave = { ...this.jawabanUser };
+      console.log('this jawa', this.jawabanUser)
+      const dataSave = this.jawabanUser;
+      console.log('dataSave Jawaban',dataSave)
       this.$cookiz.set("_ujiaja_temp_to_user", {
         id_user: this.user.id,
         id_produk: this.detail.id,
@@ -661,6 +715,10 @@ export default {
           this.catchError(err);
         })
         .finally(() => (this.loading = false));
+    },
+    navGoTo(to) {
+      window.removeEventListener('beforeunload', this.onCloseWindow);
+      window.location.replace(to);
     }
   },
   fetchOnServer: false
