@@ -196,7 +196,8 @@ Vue.mixin({
           solid: true,
           autoHideDelay: 3000
         });
-        this.appLogout();
+        // this.appLogout();
+        this.$router.replace("/app");
         return;
       } else if (
         error.response &&
