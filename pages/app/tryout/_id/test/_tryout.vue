@@ -360,6 +360,9 @@ export default {
     await this.getDetailProduk();
     await this.getDetailUjian();
 
+    console.log(this.detailUjian)
+    // return;
+
     // jika data ujian sudah pernah dibuat
     if (this.detailUjian.id) {
       if (this.detailUjian.waktu_selesai) {
@@ -452,6 +455,8 @@ export default {
       if (waktuBatas < today) {
         this.isTimeout = true;
         window.removeEventListener("beforeunload", this.onCloseWindow);
+        console.log('sudah melewati batas waktu')
+        this.goToNext();
         return;
       }
 
@@ -467,13 +472,14 @@ export default {
       const interval = 1000;
       const boardTimer = document.querySelector(".board-timer");
       const countdownElement = boardTimer.children[1];
+      
 
       const isNotTimeout =
         duration.hours() >= 0 &&
         duration.minutes() >= 0 &&
-        duration.seconds() > 0;
+        duration.seconds() >= 0;
 
-      console.log(duration.hours(), duration.minutes(), duration.seconds());
+      console.log(diffTime, duration.hours(), duration.minutes(), duration.seconds());
 
       if (isNotTimeout) {
         this.countdownTimer = setInterval(
@@ -497,7 +503,7 @@ export default {
             if (
               duration.hours() >= 0 &&
               duration.minutes() >= 0 &&
-              duration.seconds() > 0
+              duration.seconds() >= 0
             ) {
               console.log("time is running..");
               // console.log(countdownElement)
@@ -588,7 +594,7 @@ export default {
     },
     async submitJawabanUser() {
       const data = await this.$axios
-        .post(`/api/tryout_user_jawaban/create/multiple`, {
+        .$post(`/api/tryout_user_jawaban/create/multiple`, {
           id_tryout_user: this.detailUjian.id,
           jawabans: this.jawabanUser,
           waktu_selesai_ujian: new Date()
@@ -618,6 +624,8 @@ export default {
       this.loading = true;
       const listTryout = this.detailUjian.list_tryout;
 
+      // return;
+
       if (listTryout && listTryout.length > 1) {
         window.removeEventListener("beforeunload", this.onCloseWindow);
         clearInterval(this.countdownTimer);
@@ -639,12 +647,15 @@ export default {
             await this.getNomorSoal();
           }
           const response = await this.submitJawabanUser();
-          if (response) {
+          if (response && response.data && !response.data.is_task_done) {
             // this.toTryoutTestPage(this.detailUjian.id_produk, tryoutNotDone.id);
             this.toWaitingTestPage(
               this.detailUjian.id_produk,
               tryoutNotDone.id
             );
+          } else {
+            this.isTimeout = true;
+            this.loading = false;
           }
         } else if(!this.detailUjian.waktu_selesai) {
           this.onConfirmEndTest();

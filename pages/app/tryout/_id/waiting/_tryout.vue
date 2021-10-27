@@ -167,7 +167,8 @@ export default {
       const newUjian = await this.createTryoutUser();
       console.log(newUjian)
       if(newUjian) {
-        this.toTryoutTestPage(this.productId, newUjian.id);
+        window.removeEventListener("beforeunload", this.onCloseWindow);
+        this.toTryoutTestPage(this.productId, newUjian.id_tryout);
       }
     },
     async createTryoutUser() {
