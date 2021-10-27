@@ -127,7 +127,8 @@
                           <div class="card-body-content-dua" :key="'B' + b">
                             <div class="col-md-12 px-4 py-2 soal mt-2">
                               <div class="header-soal">
-                                <p>Pertanyaan {{ a + b + 1 }} <code>*</code></p>
+                                <!-- <p>Pertanyaan {{ a == 0 ? b + 1 : 0 }} <code>*</code></p> -->
+                                <p>Pertanyaan {{ b + 1 }} <code>*</code></p>
                                 <button
                                   type="button"
                                   class="btn btn-danger dua py-1"
@@ -213,7 +214,7 @@
                                       "
                                     ></b-form-select>
                                   </div>
-                                  <div class="form-group col-md-6">
+                                  <!-- <div class="form-group col-md-6">
                                     <label>Skor Persentase</label>
                                     <input
                                       type="text"
@@ -221,7 +222,7 @@
                                       disabled
                                       :value="newOption.skor"
                                     />
-                                  </div>
+                                  </div> -->
                                   <div class="form-group col-md-12">
                                     <label class="d-block">&nbsp;</label>
                                     <button
@@ -263,7 +264,7 @@
                                     @change="onUpdatePertanyaan(mpertanyaan)"
                                   />
                                 </div>
-                                <div class="col-md-2">
+                                <!-- <div class="col-md-2">
                                   <b-form-input
                                     type="text"
                                     v-model="opsi.skor"
@@ -275,15 +276,15 @@
                                         : 'form-control-info'
                                     ]"
                                     :disabled="true"
-                                  />
-                                  <!-- @input="
+                                  @input="
                                       onChangeSkor(
                                         opsi,
                                         mpertanyaan,
                                         mdimensi.dimensi
                                       )
-                                    " -->
-                                </div>
+                                    "
+                                  />
+                                </div> -->
                                 <div class="col-md-1">
                                   <button
                                     type="button"
@@ -311,6 +312,27 @@
                           </div>
                         </template>
                         <!-- ./SOAL PERTANYAAN -->
+
+                        <div class="mt-4">
+                           <button
+                            v-if="mdimensi.pertanyaan.length > 0"
+                            type="button"
+                            class="btn btn-primary"
+                            @click.prevent="
+                              createPertanyaan(mdimensi.id, mdimensi)
+                            "
+                            :disabled="loading"
+                          >
+                            <b-spinner
+                              v-if="loading"
+                              type="grow"
+                              small
+                              class="mr-1"
+                            ></b-spinner>
+                            Tambah Pertanyaan
+                          </button>
+                        </div>
+
                       </div>
                     </div>
                   </b-collapse>
@@ -544,7 +566,7 @@ export default {
         opsi: this.newOption.opsi,
         skor: this.newOption.skor
       });
-      this.updateSkor(pertanyaan, dimensi);
+      // this.updateSkor(pertanyaan, dimensi);
       this.onSubmit.pertanyaan[pertanyaan.id].loading = true;
       this.$axios
         .$put(`/api/mbti-pertanyaan/update/${pertanyaan.id}`, pertanyaan)
@@ -644,7 +666,7 @@ export default {
       }
       this.onSubmit.pertanyaan[pertanyaan.id].loading = true;
       const deletedOpsi = pertanyaan.opsi.splice(index, 1);
-      this.updateSkor(pertanyaan, dimensi, deletedOpsi[0]);
+      // this.updateSkor(pertanyaan, dimensi, deletedOpsi[0]);
       this.$axios
         .$put(`/api/mbti-pertanyaan/update/${pertanyaan.id}`, pertanyaan)
         .then(res => {
