@@ -121,7 +121,7 @@
         />
         <UITableNotFound
           tag="div"
-          text="Data kosong."
+          text="Belum ada data Tryout."
           style="position: relative; width: 100%;"
           v-if="!loading && list['bundling'] && list['bundling'].length < 1"
         />
@@ -209,7 +209,7 @@
         />
         <UITableNotFound
           tag="div"
-          text="Data kosong."
+          text="Belum ada data Tryout."
           style="position: relative; width: 100%;"
           v-if="!loading && list['bundling'] && list['bundling'].length < 1"
         />
@@ -294,97 +294,12 @@
         />
         <UITableNotFound
           tag="div"
-          text="Data kosong."
+          text="Belum ada data Tryout."
           style="position: relative; width: 100%;"
           v-if="!loading && list['bundling'] && list['bundling'].length < 1"
         />
       </section>
-      <section class="mb-3">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-          <h5 class="info-kelas">Tryout Asesmen Nasional</h5>
-          <router-link
-            to="/app/tryout/search?category=Asmenas&package=Reguler&event=Perorangan"
-            class="text-primary"
-            >Lihat Semua</router-link
-          >
-        </div>
-
-        <p>
-          Ayo ikuti Tryout Asesmen Nasional yang tersedia dari Uji Aja dan
-          belajar dari kumpulan soal serta pembahasan sebelumnya dengan membeli
-          tryout!
-        </p>
-
-        <div class="row">
-          <div
-            class="col-xl-4 col-lg-6 col-md-6 col-sm-6"
-            v-for="(item, i) in list['asmenas']"
-            :key="i"
-          >
-            <div class="card card-karir m-2">
-              <!-- style="width: 350px; max-width: 100%" -->
-              <div class="card-body text-left p-0">
-                <div class="card-content px-4">
-                  <h3
-                    class="card-judul card-program mb-4 mt-3"
-                    style="min-height: 50px;"
-                  >
-                    {{ item.nama_produk }}
-                  </h3>
-                  <!-- <h5>TPS</h5> -->
-                  <div class="d-flex justify-content-between mb-2">
-                    <p class="mb-2">
-                      <i class="far fa-clock fa-fw"></i> {{ item.waktu }} Menit
-                    </p>
-                    <p class="mb-2">
-                      <i class="far fa-file-alt fa-fw"></i>
-                      {{ item.jumlah_soal }} Soal
-                    </p>
-                  </div>
-                  <div class="d-flex justify-content-between mb-2">
-                    <p class="">
-                      <i class="fas fa-tags fa-fw"></i> {{ item.harga_label }}
-                    </p>
-                    <p class="beda">{{ item.penjurusan[0] }}</p>
-                  </div>
-                </div>
-                <div
-                  class="card-bawah pb-3 px-4 m-0 bordered"
-                  style="border-bottom: 12px solid #D7D2F7; border-radius:0px 0px 12px 12px;"
-                >
-                  <nuxt-link
-                    :to="`/app/tryout/${item.id}/detail`"
-                    class="karir-link"
-                    >Detail <i class="fas fa-chevron-right ml-1"></i
-                  ></nuxt-link>
-                  <div class="icon-footer center">
-                    <h4 class="title">TRYOUT</h4>
-                    <h5 class="subtitle">
-                      <span>{{ item.kategori_produk }}</span
-                      >-<span v-if="item.penjurusan">{{
-                        item.penjurusan[0]
-                      }}</span>
-                    </h5>
-                    <!-- <div>2021</div> -->
-                    <img src="/icon/icon-card-bg.png" class="img-fluid image" />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <UILoading
-          tag="div"
-          style="position: static; width: 100%;"
-          v-if="loading"
-        />
-        <UITableNotFound
-          tag="div"
-          text="Data kosong."
-          style="position: relative; width: 100%;"
-          v-if="!loading && list['bundling'] && list['bundling'].length < 1"
-        />
-      </section>
+ 
       <section class="mb-3">
         <div class="d-flex justify-content-between align-items-center mb-3">
           <h5 class="info-kelas">Paket Tryout</h5>
@@ -466,7 +381,7 @@
         />
         <UITableNotFound
           tag="div"
-          text="Data kosong."
+          text="Belum ada data Tryout."
           style="position: relative; width: 100%;"
           v-if="!loading && list['bundling'] && list['bundling'].length < 1"
         />

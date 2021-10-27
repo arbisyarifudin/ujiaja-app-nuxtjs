@@ -204,13 +204,7 @@
         class="crud-body kosong"
       >
         <h2 class="kosong-title">Oops!</h2>
-        <p class="kosong-subtitle">Belum ada produk</p>
-        <nuxt-link
-          class="btn btn-primary tambah-kelas px-4 py-3"
-          to="/administrator/product/add"
-        >
-          Tambah Produk
-        </nuxt-link>
+        <p class="kosong-subtitle">Belum ada Tryout</p>
       </div>
     </div>
   </div>
