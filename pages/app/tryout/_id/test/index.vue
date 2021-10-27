@@ -89,6 +89,10 @@ export default {
     await this.getDetailUjian();
     this.getDetailTryout();
   },
+  destroyed() {
+    window.removeEventListener("beforeunload", this.onCloseWindow);
+    clearInterval(this.countdownTimer);
+  },
   computed: {
     productId() {
       const encryptedProductIdSafe = decodeURIComponent(this.$route.params.id);
@@ -134,7 +138,7 @@ export default {
         })
         .then(res => {
           if (res.success) {
-            this.toTryoutTestPage()
+            this.toTryoutTestPage();
           }
           return true;
         })
@@ -172,6 +176,7 @@ export default {
         .post(`/api/tryout_user/create`, dataSave)
         .then(response => {
           console.log(response);
+          this.$cookiz.remove("_ujiaja_temp_to_user");
           this.toTryoutTestPage();
         })
         .catch(error => console.log(error))
@@ -185,6 +190,11 @@ export default {
       window.location.replace(
         `/app/tryout/${encryptedProductIdSafe}/test/${encryptedTryoutIdSafe}`
       );
+    },
+    onCloseWindow(event) {
+      console.log("unload", event);
+      event.preventDefault();
+      event.returnValue = "";
     }
   }
 };

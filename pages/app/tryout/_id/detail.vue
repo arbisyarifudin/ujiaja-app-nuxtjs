@@ -11,7 +11,7 @@
         {{ dataDetail.produk.nama_produk }}
       </h2>
       <div class="d-flex mandiri-detail mt-4">
-        <div class="col-md-9 p-0">
+        <div class="col-lg-9 col-md-8 col-sm-8 p-0">
           <div class="d-flex">
             <div class="col-md-6 p-0">
               <p class="text-dark h5">
@@ -44,7 +44,7 @@
             (TPS). -->
           </p>
         </div>
-        <div class="col-md-3 p-0 durasi text-center pt-5 pb-4 px-3  bg-white">
+        <div class="col-lg-3 col-md-4 col-sm-4 p-0 durasi text-center pt-5 pb-4 px-3  bg-white">
           <h5>Durasi Pengerjaan</h5>
           <div class="d-flex mt-2">
             <div class="col-md-4 text-center p-0">
@@ -69,6 +69,17 @@
                 <p class="mb-0">Detik</p>
               </div>
             </div>
+          </div>
+          <div class="h6 text-muted mt-3">
+            <span
+              ><i class="fas fa-file-alt fa-fw mr-1"></i>
+              {{ dataDetail.total_soal }} Soal</span
+            >
+            <span>/</span>
+            <span
+              ><i class="far fa-clock fa-fw mr-1"></i>
+              {{ dataDetail.total_waktu }}m</span
+            >
           </div>
         </div>
       </div>
@@ -142,12 +153,12 @@
           <div class="h6">
             <span
               ><i class="fas fa-file-alt fa-fw mr-1"></i>
-              {{ tryout.sum_soal }} Soal</span
+              {{ tryout.jumlah_soal }} Soal</span
             >
             <span>/</span>
             <span
               ><i class="far fa-clock fa-fw mr-1"></i>
-              {{ tryout.sum_waktu }} Menit</span
+              {{ tryout.alokasi_waktu }}m</span
             >
           </div>
         </div>
@@ -169,10 +180,10 @@
                 <i class="fa-fw text-primary fas fa-file-alt"></i>
                 {{ soal.jumlah_soal }} Soal
               </p>
-              <p class="mb-0">
+              <!-- <p class="mb-0">
                 <i class="fa-fw text-primary far fa-clock"></i>
-                {{ soal.alokasi }} Menit
-              </p>
+                {{ soal.alokasi }}m
+              </p> -->
             </div>
           </div>
         </div>

@@ -110,7 +110,7 @@
                       >
                         <label :for="'opsi-' + currentNomor.nomor + '-' + o"
                           ><input
-                          v-if="jawabanUser[currentNomor.nomor]"
+                            v-if="jawabanUser[currentNomor.nomor]"
                             type="radio"
                             :name="'opsi_' + currentNomor.nomor"
                             :id="'opsi-' + currentNomor.nomor + '-' + o"
@@ -170,7 +170,11 @@
               class="btn btn-danger btn-block square"
               v-b-modal.modal-confirm-end
             >
-              {{detailUjian.list_tryout && detailUjian.list_tryout.length > 1 ? 'Selesai dan Lanjutkan' : 'Selesai dan Serahkan'}}
+              {{
+                detailUjian.list_tryout && detailUjian.list_tryout.length > 1
+                  ? "Selesai dan Lanjutkan"
+                  : "Selesai dan Serahkan"
+              }}
             </button>
             <!-- <h3 class="board-title mb-3">Panduan Pengerjaan:</h3>
     <div class="board-guide-text" v-html="dataTryout.panduan_pengerjaan"></div> -->
@@ -195,30 +199,6 @@
           />
         </div>
       </b-sidebar>
-    </div>
-    <div
-      class="ujian-wrapper"
-      v-else-if="
-        !loading && !detailUjian.is_task_start && !detailUjian.is_task_done
-      "
-    >
-      <div class="card ujian-guide-box">
-        <div class="card-header">
-          <h2 class="card-title">Petunjuk Pengerjaan</h2>
-          <p class="mb-0">{{ tryout.judul }}</p>
-        </div>
-        <div class="card-body" v-html="tryout.panduan_pengerjaan"></div>
-        <div class="card-footer d-flex justify-content-end">
-          <a
-            :href="`/app/tryout/${productId}/detail`"
-            class="btn btn-outline-dark"
-            >Kembali</a
-          >
-          <button class="btn btn-primary ml-3" v-b-modal.modal-confirm-start>
-            Lanjutkan
-          </button>
-        </div>
-      </div>
     </div>
     <div
       class="ujian-wrapper bg-white"
@@ -275,11 +255,14 @@
       @hidden="resetModal"
     >
       <div>
-        <p class="modal-text" v-if="detailUjian.list_tryout && detailUjian.list_tryout.length > 1">
+        <p
+          class="modal-text"
+          v-if="detailUjian.list_tryout && detailUjian.list_tryout.length > 1"
+        >
           Apakah kamu yakin ingin menyelesaikan dan mengirim jawaban tryoutmu?
           Kamu akan diarahkan ke tryout selanjutnya..
         </p>
-         <p class="modal-text" v-else>
+        <p class="modal-text" v-else>
           Apakah kamu yakin ingin menyelesaikan dan mengirim jawaban tryoutmu?
           Sistem akan langsung mengoreksi.
         </p>
@@ -298,14 +281,19 @@
             :disabled="loading"
             @click.prevent="onConfirmEndTest"
           >
-            <b-spinner small v-if="loading" class="mr-1"></b-spinner> 
-            <span v-if="detailUjian.list_tryout && detailUjian.list_tryout.length > 1">Ya, Kirim & Lanjutkan</span>
+            <b-spinner small v-if="loading" class="mr-1"></b-spinner>
+            <span
+              v-if="
+                detailUjian.list_tryout && detailUjian.list_tryout.length > 1
+              "
+              >Ya, Kirim & Lanjutkan</span
+            >
             <span v-else>Ya, Kirim Sekarang</span>
           </button>
         </div>
       </div>
     </b-modal>
-      <b-modal
+    <b-modal
       id="modal-success-end"
       title="Kamu Berhasil Menyelesaikan"
       hide-footer
@@ -317,7 +305,8 @@
     >
       <div>
         <p class="modal-text">
-          Kamu dapat langsung melihat hasil ujian tryout dan lihat rekomendasi belajar yang tepat untukmu sekarang juga!
+          Kamu dapat langsung melihat hasil ujian tryout dan lihat rekomendasi
+          belajar yang tepat untukmu sekarang juga!
         </p>
         <div class="modal-footer justify-content-end" style="border: 0px">
           <button
@@ -434,6 +423,15 @@ export default {
         `/app/tryout/${encryptedProductIdSafe}/test/${encryptedTryoutIdSafe}`
       );
     },
+    toWaitingTestPage(productID, tryoutID) {
+      const encryptedProductId = this.encrypt(productID);
+      const encryptedProductIdSafe = encodeURIComponent(encryptedProductId);
+      const encryptedTryoutId = this.encrypt(tryoutID);
+      const encryptedTryoutIdSafe = encodeURIComponent(encryptedTryoutId);
+      window.location.replace(
+        `/app/tryout/${encryptedProductIdSafe}/waiting/${encryptedTryoutIdSafe}`
+      );
+    },
     checkLastSaved() {
       const lastSavedData = this.$cookiz.get("_ujiaja_temp_to_user");
       if (lastSavedData) {
@@ -449,14 +447,13 @@ export default {
       const waktuMulai = new Date(this.detailUjian.waktu_mulai).getTime();
       const waktuBatas = waktuMulai + this.tryout.alokasi_waktu * 1000 * 60;
 
-       // console.log(today);
+      // console.log(today);
       // cek batas waktu mulai dengan hari ini
-      if(waktuBatas < today) {
+      if (waktuBatas < today) {
         this.isTimeout = true;
         window.removeEventListener("beforeunload", this.onCloseWindow);
         return;
       }
-
 
       let diffTime = 0,
         waktuSisa = 0;
@@ -471,25 +468,21 @@ export default {
       const boardTimer = document.querySelector(".board-timer");
       const countdownElement = boardTimer.children[1];
 
-      console.log(
-        waktuSisa,
-        duration.hours(),
-        duration.minutes(),
-        duration.seconds()
-      );
-      // return;
-
       const isNotTimeout =
         duration.hours() >= 0 &&
         duration.minutes() >= 0 &&
-        duration.seconds() >= 0;
+        duration.seconds() > 0;
+
+      console.log(duration.hours(), duration.minutes(), duration.seconds());
 
       if (isNotTimeout) {
         this.countdownTimer = setInterval(
           function() {
             duration = moment.duration(duration - interval, "milliseconds");
             const hours =
-              duration.hours() >= 10 ? duration.hours() : "0" + duration.hours();
+              duration.hours() >= 10
+                ? duration.hours()
+                : "0" + duration.hours();
             const minutes =
               duration.minutes() >= 10
                 ? duration.minutes()
@@ -504,51 +497,30 @@ export default {
             if (
               duration.hours() >= 0 &&
               duration.minutes() >= 0 &&
-              duration.seconds() >= 0
+              duration.seconds() > 0
             ) {
               console.log("time is running..");
               // console.log(countdownElement)
               countdownElement.textContent =
                 hours + ":" + minutes + ":" + seconds;
               this.saveJawaban();
-            } else if (duration.hours() < 0 && duration.minutes() < 0 && duration.seconds() < 0) {
-              this.onConfirmEndTest();
+            } else {
+              console.log("> Tryout sudah melewati waktu!");
+              this.isTimeout = true;
+              this.goToNext();
             }
+            console.log(
+              duration.hours(),
+              duration.minutes(),
+              duration.seconds()
+            );
           }.bind(this),
           interval
         );
       } else {
         console.log("> Tryout sudah melewati waktu!");
-        if(!this.detailUjian.waktu_selesai) {
-          this.onConfirmEndTest();
-        } else {
-          this.goToNext();
-        }
-      }
-    },
-    goToNext() {
-      console.log("goToNext");
-      this.isTimeout = true;
-       window.removeEventListener("beforeunload", this.onCloseWindow);
-
-      const listTryout = this.detailUjian.list_tryout;
-
-      if (listTryout && listTryout.length > 1) {
-        const tryoutNotDone = listTryout.find(
-          item => !item.is_tryout_done && item.id != this.tryoutId
-        );
-        console.log("tryoutNotDone", tryoutNotDone);
-        console.log("productId", this.productId);
-        // if (tryoutNotDone && tryoutNotDone.id != this.tryoutId) {
-        if (tryoutNotDone) {
-          console.log(
-            "tryoutId",
-            this.tryoutId,
-            tryoutNotDone.id
-            // tryoutNotDone.id != this.tryoutId
-          );
-          this.toTryoutTestPage(this.detailUjian.id_produk, tryoutNotDone.id);
-        }
+        this.isTimeout = true;
+        this.goToNext();
       }
     },
     onCloseWindow(event) {
@@ -588,7 +560,7 @@ export default {
       const dataSave = {
         id_user: null,
         id_produk: this.productId,
-        id_tryout: this.tryoutId,
+        id_tryout: this.tryoutId
       };
       this.$axios
         .post(`/api/tryout_user/create`, dataSave)
@@ -599,39 +571,40 @@ export default {
         .catch(error => console.log(error))
         .finally(() => {});
     },
-    onConfirmEndTest() {
+    async onConfirmEndTest() {
       clearInterval(this.countdownTimer);
-      if(this.detailUjian.waktu_selesai) return;
+      if (this.detailUjian.waktu_selesai) return;
       this.loading = true;
       this.isTimeout = true;
-      this.$axios
+      const response = await this.submitJawabanUser();
+      if (response) {
+        this.detailUjian.waktu_selesai = "ada isi";
+        window.removeEventListener("beforeunload", this.onCloseWindow);
+        this.$bvModal.hide("modal-confirm-start");
+        this.$bvModal.hide("modal-confirm-end");
+        this.$bvModal.show("modal-success-end");
+        this.loading = false;
+      }
+    },
+    async submitJawabanUser() {
+      const data = await this.$axios
         .post(`/api/tryout_user_jawaban/create/multiple`, {
           id_tryout_user: this.detailUjian.id,
           jawabans: this.jawabanUser,
-          waktu_selesai_ujian: new Date(),
+          waktu_selesai_ujian: new Date()
         })
         .then(response => {
-          // console.log('onConfirmEndTest',response);
-          this.detailUjian.waktu_selesai = "ada isi";
-          window.removeEventListener('beforeunload', this.onCloseWindow);
-          this.$bvModal.hide('modal-confirm-start');
-          this.$bvModal.hide('modal-confirm-end');
-          this.$bvModal.show('modal-success-end');
-
+          return response;
         })
-        .catch(error => console.log(error))
-        .finally(() => {
-          this.loading = false;
-        });
+        .catch(error => console.log(error));
+      return data;
     },
     updateNomor(dataNomor) {
       // this.$store.commit("set", ["currentNomor", dataNomor]);
       this.currentNomor = dataNomor;
     },
     saveJawaban() {
-      console.log('this jawa', this.jawabanUser)
       const dataSave = this.jawabanUser;
-      console.log('dataSave Jawaban',dataSave)
       this.$cookiz.set("_ujiaja_temp_to_user", {
         id_user: this.user.id,
         id_produk: this.detail.id,
@@ -639,6 +612,49 @@ export default {
         data: dataSave,
         time: new Date().getTime()
       });
+    },
+    async goToNext() {
+      console.log("goToNext");
+      this.loading = true;
+      const listTryout = this.detailUjian.list_tryout;
+
+      if (listTryout && listTryout.length > 1) {
+        window.removeEventListener("beforeunload", this.onCloseWindow);
+        clearInterval(this.countdownTimer);
+
+        const tryoutNotDone = listTryout.find(
+          item => !item.is_tryout_done && item.id != this.tryoutId
+        );
+        console.log("tryoutNotDone", tryoutNotDone);
+        console.log("productId", this.productId);
+        // if (tryoutNotDone && tryoutNotDone.id != this.tryoutId) {
+        if (tryoutNotDone) {
+          console.log(
+            "tryoutId",
+            this.tryoutId,
+            tryoutNotDone.id
+            // tryoutNotDone.id != this.tryoutId
+          );
+          if(!this.jawabanUser['1']) {
+            await this.getNomorSoal();
+          }
+          const response = await this.submitJawabanUser();
+          if (response) {
+            // this.toTryoutTestPage(this.detailUjian.id_produk, tryoutNotDone.id);
+            this.toWaitingTestPage(
+              this.detailUjian.id_produk,
+              tryoutNotDone.id
+            );
+          }
+        } else if(!this.detailUjian.waktu_selesai) {
+          this.onConfirmEndTest();
+        } else {
+          console.log("all DONE");
+        }
+      } else {
+        console.log("single DONE");
+        this.onConfirmEndTest();
+      }
     },
     async getDetailProduk() {
       this.loading = true;
@@ -675,6 +691,9 @@ export default {
         })
         .catch(err => {
           console.log(err);
+          if (err.response && err.response.status == 404) {
+            this.backtoPanduanPage();
+          }
           // this.catchError(err);
         })
         .finally(() => (this.loading = false));
@@ -717,8 +736,17 @@ export default {
         .finally(() => (this.loading = false));
     },
     navGoTo(to) {
-      window.removeEventListener('beforeunload', this.onCloseWindow);
+      window.removeEventListener("beforeunload", this.onCloseWindow);
       window.location.replace(to);
+    },
+    backtoPanduanPage() {
+      const encryptedProductId = this.encrypt(this.productId);
+      const encryptedProductIdSafe = encodeURIComponent(encryptedProductId);
+      const encryptedTryoutId = this.encrypt(this.tryoutId);
+      const encryptedTryoutIdSafe = encodeURIComponent(encryptedTryoutId);
+      window.location.replace(
+        `/app/tryout/${encryptedProductIdSafe}/test/?tryout=${encryptedTryoutIdSafe}`
+      );
     }
   },
   fetchOnServer: false

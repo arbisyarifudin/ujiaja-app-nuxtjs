@@ -6,12 +6,28 @@
         <b-spinner type="grow" class="mr-2" v-if="loading" /> Konfirmasi
         Pembayaran
       </h2>
-      <div class="alert alert-info" v-if="isPayable(dataDetail,'Bank Transfer')">
-        Anda sudah melakukan konfirmasi pembayaran sebelumnya. Jika bukti yang diunggah salah, silakan lakukan proses unggah bukti pembayaran ulang.
-        <hr>
-        <div>Status Pembayaran : <b>{{dataDetail.status}}</b></div>
-        <div v-if="dataDetail.status == 'Ditolak'">Alasan Penolakan : {{dataDetail.alasan_penolakan ? dataDetail.alasan_penolakan : '-'}}</div>
-        <div v-if="dataDetail.status == 'Dibatalkan'">Alasan Pembatalan : {{dataDetail.alasan_pembatalan ? dataDetail.alasan_pembatalan : '-'}}</div>
+      <div
+        class="alert alert-info"
+        v-if="isPayable(dataDetail, 'Bank Transfer')"
+      >
+        <div v-if="dataDetail.status != 'Menunggu Pembayaran'">
+          Anda sudah melakukan konfirmasi pembayaran sebelumnya. Jika bukti yang
+          diunggah salah, silakan lakukan proses unggah bukti pembayaran ulang.
+          <hr />
+        </div>
+        <div>
+          Status Pembayaran : <b>{{ dataDetail.status }}</b>
+        </div>
+        <div v-if="dataDetail.status == 'Ditolak'">
+          Alasan Penolakan :
+          {{ dataDetail.alasan_penolakan ? dataDetail.alasan_penolakan : "-" }}
+        </div>
+        <div v-if="dataDetail.status == 'Dibatalkan'">
+          Alasan Pembatalan :
+          {{
+            dataDetail.alasan_pembatalan ? dataDetail.alasan_pembatalan : "-"
+          }}
+        </div>
       </div>
       <form @submit.prevent="onSubmit">
         <div class="row flex-wrap">
@@ -307,7 +323,7 @@ export default {
             "Menunggu Verifikasi",
             "Ditolak"
           ];
-         if (statusPayable.includes(detail.status)) {
+          if (statusPayable.includes(detail.status)) {
             return true;
           }
         }

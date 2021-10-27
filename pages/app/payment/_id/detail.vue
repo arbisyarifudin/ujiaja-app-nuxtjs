@@ -58,7 +58,7 @@
                 WIB
               </p>
               <p class="mb-1" style="color: #9490A4;">No.Invoice</p>
-              <p class="">{{dataDetail.kode}}</p>
+              <p class="">{{ dataDetail.kode }}</p>
             </div>
             <div class="col-md-6 p-0" v-if="dataDetail.produk">
               <p class="mb-1" style="color: #9490A4;">Total Pembayaran</p>
@@ -72,6 +72,19 @@
               </p>
               <p class="mb-1" style="color: #9490A4;">Status Pembayaran</p>
               <p class="" v-text="dataDetail.status"></p>
+            </div>
+            <div class="col-12" v-if="dataDetail.status == 'Ditolak' || dataDetail.status == 'Dibatalkan'" style="font-size: 13px">
+              <hr />
+              <div class=" alert alert-danger mb-0" v-if="dataDetail.status == 'Ditolak'">
+                <h6 style="font-size: 15px" class="m-0">Alasan Penolakan</h6>
+                <hr />
+                {{ dataDetail.alasan_penolakan }}
+              </div>
+              <div class=" alert alert-danger mb-0" v-if="dataDetail.status == 'Dibatalkan'">
+                <h6 style="font-size: 15px" class="m-0">Alasan Pembatalan</h6>
+                <hr />
+                {{ dataDetail.alasan_pembatalan }}
+              </div>
             </div>
             <div class="col-12" v-if="!loading">
               <hr />
