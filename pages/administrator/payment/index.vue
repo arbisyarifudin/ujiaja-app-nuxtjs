@@ -240,7 +240,7 @@
               </tr>
             </table>
           </div>
-          <div class="col-md-12">
+          <div class="col-md-12" v-if="!detail.xendit">
             <div class="modal-body-kanan">
               <div class="card-image" v-show="showBukti || form.status != 'Menunggu Verifikasi'">
                 <a href="/reg-siswa.png" target="_blank">
@@ -276,17 +276,17 @@
         </div>
         <div class="modal-footer justify-content-end" style="border: 0px">
           <button
-            class="btn btn-outline-secondary"
+            class="btn btn-sm btn-outline-secondary"
             type="button"
             @click="$bvModal.hide('modal-detail')"
           >
             Tutup
           </button>
           <button
-            class="btn btn-primary tambah px-4 py-2"
+            class="btn btn-sm btn-primary tambah px-4 py-1"
             type="button"
             :disabled="submitting"
-            v-if="showBukti || form.status != 'Menunggu Verifikasi'"
+            v-if="(showBukti || form.status != 'Menunggu Verifikasi') && !detail.xendit"
             @click.prevent="verifyBukti"
           >
             <b-spinner small v-if="submitting" class="mr-1"></b-spinner> Submit
@@ -411,7 +411,15 @@ export default {
         })
         .finally(() => (this.loading = false));
     },
-    verifyBukti(type) {
+    verifyBukti() {
+      if(!this.form.status) {
+        this.showToastMessage('Status perlu diisi', 'warning');
+        return;
+      } 
+      if(this.form.status == 'Ditolak' && !this.form.alasan_penolakan) {
+        this.showToastMessage('Alasan penolakan wajib diisi', 'warning');
+        return;
+      }
       this.submitting = true;
       this.$axios
         .$put(`/api/transaksi/update-status/${this.selectedId}`, this.form)
