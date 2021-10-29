@@ -44,9 +44,9 @@
       >
     </li>
     <li class="nav-item">
-      <nuxt-link class="nav-link d-flex align-items-center" to="/app/courses"
+      <a class="nav-link d-flex align-items-center" href="/cari-program-studi" target="_blank"
         ><i class="far fa-hdd fa-2x fa-fw mr-2"></i> Cari Jurusan
-        Kuliah</nuxt-link
+        Kuliah</a
       >
     </li>
     <li class="nav-item">

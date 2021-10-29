@@ -22,12 +22,11 @@
                   type="search"
                   v-model="filter.keyword"
                   placeholder="Tulis nama program studi..."
-                  debounce="1000"
                 ></b-form-input>
                 <button
                   class="btn btn-primary btn-cari-program px-4 d-flex align-items-center"
                   type="submit"
-                  :disabled="loading"
+                  :disabled="loading || !filter.keyword"
                 >
                   <b-spinner v-if="loading" small class="mr-2"></b-spinner>
                   Cari
