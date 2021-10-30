@@ -75,8 +75,8 @@ export default {
         };
       });
 
-      console.log(this.$route);
-      console.log(newBreadcrumbs);
+      // console.log(this.$route);
+      // console.log(newBreadcrumbs);
       this.$store.commit("setBreadcrumb", newBreadcrumbs);
     }
   }

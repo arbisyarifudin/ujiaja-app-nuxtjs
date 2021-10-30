@@ -181,6 +181,20 @@ export default {
   created() {
     this.getData("dimensi");
   },
+  mounted () {
+    this.$store.commit("setBreadcrumb", [
+        { text: "Dashboard", href: "/administrator/dashboard", icon: "house" },
+        {
+          text: "MBTI",
+          href: "/administrator/mbti/personality"
+        },
+        {
+          text: "Dimention",
+          href: "#",
+          active: true
+        }
+      ]);
+  },
   watch: {
     "filter.keyword": function(value) {
       this.getData("dimensi");

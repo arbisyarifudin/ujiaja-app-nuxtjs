@@ -156,6 +156,25 @@ export default {
       }
     };
   },
+  mounted () {
+    this.$store.commit("setBreadcrumb", [
+        { text: "Dashboard", href: "/administrator/dashboard", icon: "house" },
+        {
+          text: "MBTI",
+          href: "/administrator/mbti/personality"
+        },
+        {
+          text: "Personality",
+          href: "#",
+          active: true
+        },
+        {
+          text: "Add",
+          href: "#",
+          active: true
+        },
+      ]);
+  },
   methods: {
     validateForm() {
       console.log(this.form);

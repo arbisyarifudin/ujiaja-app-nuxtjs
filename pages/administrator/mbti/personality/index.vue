@@ -187,6 +187,20 @@ export default {
   created() {
     this.getData("kepribadian");
   },
+  mounted () {
+     this.$store.commit("setBreadcrumb", [
+        { text: "Dashboard", href: "/administrator/dashboard", icon: "house" },
+        {
+          text: "MBTI",
+          href: "/administrator/mbti"
+        },
+        {
+          text: "Personality",
+          href: "#",
+          active: true
+        },
+      ]);
+  },
   watch: {
     "filter.keyword": function(value) {
       this.getData("kepribadian");

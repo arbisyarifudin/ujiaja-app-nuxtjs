@@ -100,6 +100,23 @@ export default {
     if (!this.$route.params.id)
       return this.$router.push("/administrator/mbti/dimention");
     this.getDetail("dimensi", this.$route.params.id);
+    this.$store.commit("setBreadcrumb", [
+        { text: "Dashboard", href: "/administrator/dashboard", icon: "house" },
+        {
+          text: "MBTI",
+          href: "/administrator/mbti/personality"
+        },
+        {
+          text: "Dimention",
+          href: "#",
+          active: true
+        },
+        {
+          text: "Edit",
+          href: "#",
+          active: true
+        },
+      ]);
   },
   methods: {
     validateForm() {

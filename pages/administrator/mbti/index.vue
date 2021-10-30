@@ -31,25 +31,6 @@
                   ></b-form-select>
                 </b-input-group>
               </div>
-              <!-- <div class="col-md-6">
-                <b-input-group>
-                  <template #prepend>
-                    <b-input-group-text
-                      ><i class="fas fa-filter"></i
-                    ></b-input-group-text>
-                  </template>
-                  <b-form-select
-                    v-model="filter.category"
-                    :options="[
-                      { text: 'Semua Kategori', value: '' },
-                      { text: 'UTBK', value: 'UTBK' },
-                      { text: 'ASPD', value: 'ASPD' },
-                      { text: 'Asesmen Nasional', value: 'Asmenas' }
-                    ]"
-                    @change="getData('mbti')"
-                  ></b-form-select>
-                </b-input-group>
-              </div> -->
             </div>
           </div>
 
@@ -66,12 +47,12 @@
                 debounce="1000"
               ></b-form-input>
             </b-input-group>
-            <nuxt-link
+            <!-- <nuxt-link
               class="btn btn-primary tambah crud-btn__add px-4 ml-2"
               to="/administrator/mbti/add"
             >
               Tambah
-            </nuxt-link>
+            </nuxt-link> -->
           </div>
         </div>
       </div>
@@ -203,6 +184,18 @@ export default {
     };
   },
   mounted() {
+  this.$store.commit("setBreadcrumb", [
+      { text: "Dashboard", href: "/administrator/dashboard", icon: "house" },
+      {
+        text: "MBTI",
+        href: "#"
+      },
+      {
+        text: "Soal",
+        href: "/administrator/mbti",
+        active: true
+      }
+    ]);
     this.getData("mbti");
   },
   watch: {

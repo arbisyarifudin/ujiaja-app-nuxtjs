@@ -20,14 +20,20 @@
             </nuxt-link> -->
             <BackUrl url="/administrator/mbti" />
           </div>
-          <p>
+          <!-- <p>
             <i class="far fa-file-alt fa-fw mr-1"></i>
             <span class="font-weight-bold">{{ dataDetail.judul }}</span>
-          </p>
+          </p> -->
+          <div class="d-flex align-items-center mb-3">
+            <i class="far fa-file-alt fa-fw mr-1"></i>
+            <b-form-input @change="onBlurPanduan" debounce="300" v-model="formMBTI.judul"></b-form-input>
+          </div>
           <div class="alert small alert-light border-1">
             <h3 class="h6 small">Tentang:</h3>
-            {{ dataDetail.deskripsi }}
+            <!-- {{ dataDetail.deskripsi }} -->
+            <b-form-textarea @change="onBlurPanduan" debounce="300" v-model="formMBTI.deskripsi" style="border: none;" class="p-0"></b-form-textarea>
           </div>
+          <UISaveStatus :data="onSubmit.panduan" />
         </div>
         <div class="col-md-12 crud-body">
           <div class="row">
@@ -396,7 +402,24 @@ export default {
     if (!this.$route.params.id) return this.$router.push("/administrator/mbti");
     await this.getDetail("mbti", this.$route.params.id);
     // this.getData("mapel");
-    console.log(this.formMBTI);
+    // console.log(this.formMBTI);
+    this.$store.commit("setBreadcrumb", [
+      { text: "Dashboard", href: "/administrator/dashboard", icon: "house" },
+      {
+        text: "MBTI",
+        href: "/administrator/mbti"
+      },
+      {
+        text: "Soal",
+        href: "#",
+        active: true
+      },
+      {
+        text: "Edit",
+        href: "#",
+        active: true
+      },
+    ]);
   },
   methods: {
     async getDetail(type, id) {

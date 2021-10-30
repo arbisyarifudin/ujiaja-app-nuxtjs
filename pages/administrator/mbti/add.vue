@@ -66,6 +66,19 @@ export default {
       }
     };
   },
+  mounted () {
+    this.$store.commit("setBreadcrumb", [
+      { text: "Dashboard", href: "/administrator/dashboard", icon: "house" },
+      {
+        text: "MBTI",
+        href: "/administrator/mbti"
+      },
+      {
+        text: "Add",
+        active: true
+      },
+    ]);
+  },
   methods: {
     validateForm() {
       console.log(this.form);
