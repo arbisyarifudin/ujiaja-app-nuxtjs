@@ -35,7 +35,7 @@
             <h5>Tata Cara Pembayaran</h5>
             <div class="bg-white p-4 mr-2 mt-3">
               <div class="d-flex">
-                <div class="col-md-7 p-0"><h5>Sisa Waktu Pembayaran</h5></div>
+                <div class="col-md-7 p-0"><h5>Batas Waktu</h5></div>
                 <div class="col-md-5 p-0 text-right">
                   <b-badge
                     variant="warning"
@@ -91,10 +91,13 @@
                   bayar dan tekan <b>Kirim</b>.
                 </p>
               </div>
+              <hr>
+              <h5 v-if="tempImage || dataDetail.bukti_pembayaran" class="mb-3">Bukti Pembayaran</h5>
               <img
-                :src="tempImage"
+                :src="
+                  tempImage ? tempImage : ApiUrl(dataDetail.bukti_pembayaran)
+                "
                 alt="bukti bayar"
-                v-if="tempImage"
                 class="img-fluid w-100"
               />
             </div>
@@ -104,11 +107,34 @@
             <div class="bg-white p-4 mt-3">
               <div class="d-flex" v-if="dataDetail.produk">
                 <div class="col-md-8 p-0">
+                  <p class="mb-3">Kode Transaksi</p>
                   <p class="mb-3" v-text="dataDetail.produk.nama_produk"></p>
                   <p class="mb-3">Kode Unik</p>
                   <p class="m-0" style="color: #b0aeef;">Subtotal</p>
                 </div>
                 <div class="col-md-4 p-0 text-right" v-if="dataDetail.produk">
+                  <p class="mb-3" v-text="dataDetail.kode"></p>
+                  <p
+                    class="mb-3"
+                    v-text="'Rp ' + formatRupiah(dataDetail.harga_produk)"
+                  ></p>
+                  <p v-text="'Rp ' + formatRupiah(dataDetail.kode_unik)"></p>
+                  <p
+                    class="m-0"
+                    style="color: #b0aeef; font-size: 20px"
+                    v-text="'Rp ' + formatRupiah(dataDetail.total_harga)"
+                  ></p>
+                </div>
+              </div>
+              <div class="d-flex" v-else-if="dataDetail.mbti">
+                <div class="col-md-8 p-0">
+                  <p class="mb-3">Kode Transaksi</p>
+                  <p class="mb-3" v-text="dataDetail.mbti.judul"></p>
+                  <p class="mb-3">Kode Unik</p>
+                  <p class="m-0" style="color: #b0aeef;">Subtotal</p>
+                </div>
+                <div class="col-md-4 p-0 text-right" v-if="dataDetail.mbti">
+                  <p class="mb-3" v-text="dataDetail.kode"></p>
                   <p
                     class="mb-3"
                     v-text="'Rp ' + formatRupiah(dataDetail.harga_produk)"
@@ -187,7 +213,7 @@
           data-dismiss="modal"
           style="border-radius: 25px;"
           role="button"
-          to="/app/payment"
+          :to="`/app/payment`"
         >
           Riwayat Pembelian
         </router-link>
@@ -206,7 +232,8 @@ export default {
       tempFile: null,
       tempImage: "",
       tempFileName: "",
-      onSubmitSuccess: false
+      onSubmitSuccess: false,
+      dataDetail: {}
     };
   },
   mounted() {
@@ -214,6 +241,9 @@ export default {
     this.getDetail("transaksi", this.$route.params.id);
   },
   methods: {
+    ApiUrl(param) {
+      return process.env.apiUrl + "/" + param;
+    },
     getDetail(type, id) {
       this.loading = true;
       this.$axios
@@ -278,6 +308,7 @@ export default {
           bukti_pembayaran: this.tempFileName
         })
         .then(response => {
+          this.dataDetail = response.data;
           this.onSubmitSuccess = true;
           this.$bvModal.show("modal-notif");
         })

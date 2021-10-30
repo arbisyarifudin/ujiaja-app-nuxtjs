@@ -429,7 +429,7 @@ export default {
       }
     });
     if (!this.$route.params.id)
-      return this.$router.push("/administrator/product");
+      return this.$router.push("/app/tryout/mine");
     this.getDetail("produk", this.$route.params.id);
     this.getBank("bank");
   },
