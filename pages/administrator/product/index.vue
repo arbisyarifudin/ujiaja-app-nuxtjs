@@ -41,9 +41,10 @@
                     v-model="filter.category"
                     :options="[
                       { text: 'Semua Kategori', value: '' },
-                      { text: 'UTBK', value: 'UTBK' },
+                      { text: 'UTBK Mandiri', value: 'UTBK Mandiri' },
+                      { text: 'UTBK Akbar', value: 'UTBK Akbar' },
                       { text: 'ASPD', value: 'ASPD' },
-                      { text: 'Asesmen Nasional', value: 'Asmenas' }
+                      { text: 'Paket / Bundling', value: 'Paket' },
                     ]"
                     @change="getData('produk')"
                   ></b-form-select>
@@ -117,7 +118,7 @@
                       <i class="fas fa-tags fa-fw"></i>
                       {{ item.harga_label }}
                     </p>
-                    <p v-if="item.tipe_paket == 'Bundling'">
+                    <p v-if="item.jenis_produk == 'Masal'">
                       {{ item.tanggal_mulai_label }}
                     </p>
                     <p
@@ -128,6 +129,15 @@
                       "
                     >
                       {{ item.penjurusan[0] }}
+                    </p>
+                     <p
+                      class="beda"
+                      v-if="
+                        item.kategori_produk == 'UTBK' &&
+                        item.tipe_paket == 'Bundling'
+                      "
+                    >
+                      Bundling
                     </p>
                   </div>
                   <div
@@ -222,7 +232,7 @@ export default {
         page: 1,
         perPage: 9,
         keyword: "",
-        category: ""
+        category: "UTBK Mandiri"
       },
       totalRows: 0,
       items: [],
@@ -247,6 +257,37 @@ export default {
   methods: {
     resetModal() {},
     getData(type) {
+
+      let filterKategori, filterPaket, filterEvent;
+      
+      switch (this.filter.category) {
+        case 'UTBK Mandiri':
+          filterKategori = 'UTBK'
+          filterPaket = 'Reguler'
+          filterEvent = 'Perorangan'
+          break;
+        case 'UTBK Akbar':
+          filterKategori = 'UTBK'
+          filterPaket = 'Reguler'
+          filterEvent = 'Masal'
+          break;
+         case 'ASPD':
+          filterKategori = 'ASPD'
+          filterPaket = 'Reguler'
+          filterEvent = 'Perorangan'
+          break;
+         case 'Paket':
+          filterKategori = ''
+          filterPaket = 'Bundling'
+          filterEvent = ''
+          break;
+        default:
+          filterKategori = ''
+          filterPaket = ''
+          filterEvent = ''
+          break;
+      }
+
       this.loading = true;
       this.$axios
         .$get(`/api/${type}`, {
@@ -254,7 +295,9 @@ export default {
             q: this.filter.keyword,
             paginate: this.filter.perPage,
             page: this.filter.page,
-            kategori_produk: this.filter.category
+            kategori_produk: filterKategori,
+            jenis_produk: filterEvent,
+            tipe_paket: filterPaket
           }
         })
         .then(res => {
