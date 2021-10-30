@@ -41,12 +41,12 @@
                       ><i class="fas fa-filter"></i
                     ></b-input-group-text>
                   </template>
+                      <!-- { text: 'Asesmen Nasional', value: 'Asmenas' } -->
                   <b-form-select
                     v-model="$route.query.category"
                     :options="[
                       { text: 'UTBK', value: 'UTBK' },
                       { text: 'ASPD', value: 'ASPD' },
-                      { text: 'Asesmen Nasional', value: 'Asmenas' }
                     ]"
                     @change="getData('produk')"
                   ></b-form-select>
