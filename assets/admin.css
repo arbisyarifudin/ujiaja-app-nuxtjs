@@ -120,6 +120,12 @@ input:disabled,
   color: #fff;
 }
 
+.btn.btn-outline-primary:active {
+  background-color: #baadff !important;
+  border-color: #baadff !important;
+  color: #fff;
+}
+
 .btn.btn-outline-warning {
   border: 1px solid #ff8706;
   color: #ff8706;
@@ -138,6 +144,13 @@ input:disabled,
   cursor: not-allowed;
 }
 
+.btn-radio-toggle label.btn {
+  min-width: 60px;
+  padding-left: 15px;
+  padding-right: 15px;
+  border-radius: 0;
+}
+
 .form-control:focus {
   -webkit-box-shadow: none !important;
           box-shadow: none !important;
@@ -150,6 +163,10 @@ input:disabled,
 
 .card-body-content-dua.dua .opsi .btn-primary:hover {
   background-color: #076edd;
+}
+
+#admin-sidebar > .b-sidebar-body {
+  overflow-y: visible;
 }
 
 #right-sect {
@@ -511,7 +528,8 @@ input:disabled,
   border-radius: 5px;
 }
 
-.data-tryout .card-data .btn {
+.data-tryout .card-data .btn button,
+.data-tryout .card-data .btn a {
   display: inline-block;
   min-width: 150px;
 }

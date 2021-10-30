@@ -47,12 +47,12 @@
                 debounce="1000"
               ></b-form-input>
             </b-input-group>
-            <!-- <nuxt-link
+            <nuxt-link
               class="btn btn-primary tambah crud-btn__add px-4 ml-2"
               to="/administrator/mbti/add"
             >
               Tambah
-            </nuxt-link> -->
+            </nuxt-link>
           </div>
         </div>
       </div>
@@ -63,15 +63,43 @@
               <div class="row no-gutters d-flex align-items-start">
                 <div class="col-md-2 col-3 align-self-center">
                   <div class="text-center">
-                    ICON
+                    <img
+                      src="/icon/icon-mbti.png"
+                      alt="icon"
+                      class="img-fluid"
+                      style="width: 80px"
+                    />
                   </div>
                 </div>
                 <div class="col-md-7 col-9 mt-3 mt-md-0 mb-3 mb-md-0">
                   <div class="pb-2">
-                    <h4>{{ item.judul }}</h4>
-                    <p>
-                      {{ item.deskripsi }}
-                    </p>
+                    <div
+                      class="d-flex justify-content-between align-items-center"
+                    >
+                      <div>
+                        <h4>{{ item.judul }}</h4>
+                        <p>
+                          {{ item.deskripsi }}
+                        </p>
+                      </div>
+                      <div class="badge badge-primary" style="font-size: 13px; font-weight: 500">{{ item.jumlah_soal }} Soal</div>
+                    </div>
+                    <br />
+                    <p class="mb-2">Jadikan Utama?</p>
+                    <b-form-radio-group
+                      class="btn-radio-toggle"
+                      :id="'btn-radio-' + i"
+                      v-model="item.status"
+                      :options="[
+                        { text: 'Ya', value: 'Aktif' },
+                        { text: 'Tidak', value: 'Tidak Aktif' }
+                      ]"
+                      button-variant="outline-primary"
+                      size="sm"
+                      :name="'status-' + i"
+                      buttons
+                      @change="updateStatus(item.id, item.status, i)"
+                    ></b-form-radio-group>
                   </div>
                 </div>
                 <div
@@ -82,11 +110,12 @@
                       class="btn btn-outline-info px-3 py-1"
                       :to="`/administrator/mbti/${item.id}/edit`"
                     >
-                      <!-- {{item.panduan === '-' ? 'Buat Soal' : 'Ubah Soal'}} -->
-                      Buat Soal
+                      {{item.panduan === '-' ? 'Buat Soal' : 'Ubah Soal'}}
+                      <!-- Buat Soal -->
                     </nuxt-link>
                     <button
                       class="btn btn-outline-danger danger px-3 py-1 mt-md-2"
+                      v-if="items && items.length > 1"
                       @click.prevent="
                         selectedId = item.id;
                         selectedIndex = i;
@@ -184,7 +213,7 @@ export default {
     };
   },
   mounted() {
-  this.$store.commit("setBreadcrumb", [
+    this.$store.commit("setBreadcrumb", [
       { text: "Dashboard", href: "/administrator/dashboard", icon: "house" },
       {
         text: "MBTI",
@@ -223,7 +252,6 @@ export default {
           }
         })
         .then(res => {
-          console.log(res);
           if (res.success) {
             this.items = res.data.data;
             this.totalRows = res.data.total;
@@ -232,7 +260,6 @@ export default {
           return true;
         })
         .catch(err => {
-          console.log(err);
           this.catchError(err);
         })
         .finally(() => (this.loading = false));
@@ -242,7 +269,6 @@ export default {
       this.$axios
         .$delete(`/api/${type}/delete/${this.selectedId}`)
         .then(res => {
-          console.log(res);
           if (res.success) {
             this.items.splice(this.selectedIndex, 1);
             this.$bvToast.toast("Data " + type + " berhasil dihapus.", {
@@ -256,10 +282,29 @@ export default {
           return true;
         })
         .catch(err => {
-          console.log(err);
           this.catchError(err);
         })
         .finally(() => (this.loading = false));
+    },
+    updateStatus(id, status, index) {
+      this.$axios
+        .$put(`/api/mbti/update/${id}/status`, { status })
+        .then(res => {
+          if (res.success) {
+            this.$bvToast.toast("Status berhasil diperbarui!", {
+              title: "Sukses",
+              variant: "success",
+              solid: true,
+              autoHideDelay: 1000
+            });
+            this.getData("mbti");
+          }
+        })
+        .catch(err => {
+          this.items[index].status =
+            status == "Aktif" ? "Tidak Aktif" : "Aktif";
+          this.catchError(err);
+        });
     }
   }
 };
