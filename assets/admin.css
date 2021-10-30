@@ -1159,6 +1159,109 @@ input.form-control-info {
   margin-bottom: 0;
 }
 
+.personality-card {
+  text-align: center;
+  border-radius: 10px;
+  -webkit-box-shadow: 2px 5px 5px 0px rgba(134, 134, 134, 0.25) !important;
+          box-shadow: 2px 5px 5px 0px rgba(134, 134, 134, 0.25) !important;
+  border: none !important;
+}
+
+.personality-card .card-footer {
+  display: none;
+}
+
+.personality-card:hover > .card-footer {
+  display: inline-block;
+}
+
+.personality-card .card-body {
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+  min-height: 200px;
+  border-radius: 10px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  border-bottom: none;
+}
+
+.personality-card .card-footer {
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+  border-top: none;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+.personality-card .card-footer p {
+  font-size: 12px;
+  margin-bottom: 0;
+}
+
+.personality-type {
+  font-size: 20px;
+  color: white;
+  margin-bottom: 15px;
+}
+
+.personality-circle {
+  width: 80px;
+  height: 80px;
+  background-color: rgba(255, 255, 255, 0.25);
+  border-radius: 50%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  font-size: 28px;
+  font-weight: 500;
+  margin-bottom: 15px;
+}
+
+.personality-circle .percent {
+  font-size: 18px;
+  display: inline-block;
+  margin-left: 2px;
+}
+
+.personality-trait {
+  font-size: 15px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 500;
+}
+
+.personality .table tr > th {
+  font-size: 15px;
+}
+
+.personality .table tr > td {
+  font-size: 14px;
+  color: #777;
+}
+
+.personality .list > li {
+  margin-bottom: 10px;
+  font-size: 14px;
+  color: #777;
+}
+
 /* CSS on MOBILE */
 /* HAPE */
 /* TABLET */

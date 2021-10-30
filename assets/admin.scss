@@ -602,7 +602,7 @@ table,
         }
         p {
             font-size: 13px;
-            color: #9490a4!important;
+            color: #9490a4 !important;
         }
     }
 }
@@ -1064,6 +1064,94 @@ input.form {
         &-title {
             font-size: 25px;
             margin-bottom: 0;
+        }
+    }
+}
+
+// PERSONALITY
+
+.personality {
+    &-card {
+        text-align: center;
+        border-radius: 10px;
+        box-shadow: 2px 5px 5px 0px rgba(134, 134, 134, 0.25)!important;
+        border: none!important;
+        .card-footer {
+            display: none;
+        }
+        &:hover {
+            > .card-body {
+                // transform: scale(1.02);
+            }
+            > .card-footer {
+                display: inline-block;
+            }
+        }
+        .card-body {
+            transition: 0.3s;
+            min-height: 200px;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border-bottom: none;
+        }
+        .card-footer {
+            transition: 0.5s;
+            border-top: none;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            p {
+                font-size: 12px;
+                margin-bottom: 0;
+            }
+        }
+    }
+    &-type {
+        font-size: 20px;
+        color: white;
+        margin-bottom: 15px;
+    }
+    &-circle {
+        width: 80px;
+        height: 80px;
+        background-color: rgba(255, 255, 255, 0.25);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 28px;
+        font-weight: 500;
+        margin-bottom: 15px;
+        .percent {
+            font-size: 18px;
+            display: inline-block;
+            margin-left: 2px;
+        }
+    }
+    &-trait {
+        font-size: 15px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-weight: 500;
+    }
+    .table {
+        tr {
+            > th {
+                font-size: 15px;
+            }
+            > td {
+                font-size: 14px;
+                color: #777;
+            }
+        }
+    }
+    .list {
+        > li {
+            margin-bottom: 10px;
+            font-size: 14px;
+            color: #777;
         }
     }
 }
