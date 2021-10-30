@@ -3,7 +3,7 @@
     <form @submit.prevent="validateForm">
       <div class="row d-flex no-gutters">
         <div class="col-md-12 dashboard">
-          <h2 class="dash-label">Tambah Soal MBTI</h2>
+          <h2 class="dash-label">Tambah Tes MBTI</h2>
           <!-- <p>
             Ayo, buat data master soal & jawaban sekarang juga untuk merelasikan
             data MBTI.
@@ -34,6 +34,54 @@
               />
             </div>
           </div>
+          <div class="row">
+            <div class="col-md-4">
+              <div class="form-user mt-3">
+                <div class="form-group reg-siswa">
+                  <label for="harga_mbti">Biaya (Rp) <code>*</code></label>
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="harga_mbti"
+                    placeholder="Masukkan Biaya"
+                    v-model="form.harga"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-user mt-3">
+                <div class="form-group reg-siswa">
+                  <label for="sertifikat_mbti">Sertifikat <code>*</code></label>
+                  <b-form-select
+                    class="form-control"
+                    id="sertifikat_mbti"
+                    v-model="form.sertifikat"
+                    :options="[
+                    {text:'Pakai', value:'Pakai'},
+                    {text:'Tidak Pakai', value:'Tidak Pakai'},
+                    ]"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-user mt-3">
+                <div class="form-group reg-siswa">
+                  <label for="sertifikat_mbti">Jadikan Utama? <code>*</code></label>
+                  <b-form-select
+                    class="form-control"
+                    id="sertifikat_mbti"
+                    v-model="form.status"
+                    :options="[
+                    {text:'Ya', value:'Aktif'},
+                    {text:'Tidak', value:'Tidak Aktif'},
+                    ]"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
         <div class="crud-footer d-flex justify-content-end mt-4">
           <nuxt-link
@@ -62,11 +110,14 @@ export default {
         judul: "",
         deskripsi: "",
         panduan: "-",
+        harga: 10000,
+        sertifikat: 'Pakai',
+        status: 'Tidak Aktif',
         id_dimensi: [1, 2, 3, 4]
       }
     };
   },
-  mounted () {
+  mounted() {
     this.$store.commit("setBreadcrumb", [
       { text: "Dashboard", href: "/administrator/dashboard", icon: "house" },
       {
@@ -76,7 +127,7 @@ export default {
       {
         text: "Add",
         active: true
-      },
+      }
     ]);
   },
   methods: {

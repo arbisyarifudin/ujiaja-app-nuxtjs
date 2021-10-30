@@ -108,10 +108,15 @@
                   <template>
                     <nuxt-link
                       class="btn btn-outline-info px-3 py-1"
-                      :to="`/administrator/mbti/${item.id}/edit`"
+                      :to="`/administrator/mbti/${item.id}/soal`"
                     >
                       {{item.panduan === '-' ? 'Buat Soal' : 'Ubah Soal'}}
-                      <!-- Buat Soal -->
+                    </nuxt-link>
+                    <nuxt-link
+                      class="btn btn-outline-primary px-3 py-1 mt-md-2"
+                      :to="`/administrator/mbti/${item.id}/edit`"
+                    >
+                      Ubah MBTI
                     </nuxt-link>
                     <button
                       class="btn btn-outline-danger danger px-3 py-1 mt-md-2"
