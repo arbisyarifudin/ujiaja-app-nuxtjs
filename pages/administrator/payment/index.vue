@@ -192,7 +192,14 @@
               <tr>
                 <th width="150">Nama Produk</th>
                 <th width="10">:</th>
-                <th>{{ detail.produk.nama_produk }}</th>
+                <th>
+                  <template v-if="detail.produk">
+                    {{ detail.produk.nama_produk }}
+                  </template>
+                  <template v-else-if="detail.mbti">
+                    {{ detail.mbti.judul }}
+                  </template>
+                </th>
               </tr>
               <tr>
                 <th width="150">Total Transaksi</th>
@@ -320,7 +327,8 @@ export default {
       showBukti: false,
       form: {
         status: null,
-        alasan_penolakan: null
+        alasan_penolakan: null,
+        jenis_transaksi: "",
       }
     };
   },
@@ -400,8 +408,9 @@ export default {
           console.log(res);
           if (res.success) {
             this.detail = res.data;
-            this.form.status = this.detail.status
+            this.form.status = this.detail.status == 'Menunggu Verifikasi' ? null : this.detail.status
             this.form.alasan_penolakan = this.detail.alasan_penolakan
+            this.form.jenis_transaksi = this.detail.jenis_transaksi
           }
           return true;
         })

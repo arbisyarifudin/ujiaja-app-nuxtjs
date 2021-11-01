@@ -19,6 +19,13 @@
           <th width="20" class="px-0 text-center">:</th>
           <td>{{ user.email }}</td>
         </tr>
+        <tr>
+          <th width="200">Kepribadian</th>
+          <th width="20" class="px-0 text-center">:</th>
+          <td>
+            <nuxt-link to="/app/mbti" class="btn btn-sm btn-light square">Lihat Hasil Tes Kepribadian</nuxt-link>
+          </td>
+        </tr>
       </tbody>
     </table>
     <nuxt-link to="/app/profile/edit" class="btn btn-info btn-sm"

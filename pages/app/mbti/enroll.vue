@@ -476,7 +476,7 @@ export default {
         })
         .finally(() => (this.loading = false));
     },
-    onSubmit() {
+    onSubmit () {
       this.loading = true;
       let dataSave;
 

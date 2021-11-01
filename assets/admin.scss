@@ -85,8 +85,9 @@ input,
         color: #baadff;
         &:hover {
             background-color: transparent;
-            color: white;
-            border-color: white;
+            color: #baadff;
+            // border-color: white;
+            border: 1px solid #f5f5f5;
         }
     }
     &-outline {

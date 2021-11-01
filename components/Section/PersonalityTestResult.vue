@@ -10,13 +10,13 @@
             Berikut adalah hasil test MBTI yang pernah kamu kerjakan.
           </p>
         </div>
-        <button class="btn btn-primary square">
-          <i class="fas fa-reply fa-fw mr-1"></i> Lakukan Test Ulang
+        <button class="btn btn-primary square" v-if="result">
+          <i class="fas fa-reply fa-fw mr-1"></i> Tes Ulang
         </button>
       </div>
       <hr />
     </div>
-    <div class="col-md-12 personality">
+    <div class="col-md-12 personality" v-if="result">
       <div class="row">
         <div class="col-md-4">
           <h3>Kepribadianmu</h3>
@@ -137,3 +137,22 @@
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  props: ['data', 'result'],
+  data () {
+    return {
+      detail: {},
+    }
+  },
+  mounted () {
+    this.detail = this.data;
+  },
+  watch: {
+    data(value) {
+      this.detail = value
+    }
+  }
+}
+</script>

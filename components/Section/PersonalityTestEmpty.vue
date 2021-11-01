@@ -22,13 +22,44 @@
           <h4 class="m-0 mb-3">Oops!</h4>
           <p>
             Kamu belum pernah melakukan tes kepribadian. <br />
-            Yuk beli tes MBTI sekarang..
+            <span v-if="detail && detail.transaksi && detail.transaksi.status != 'Sudah Diverifikasi'">Tapi pembayaran kamu sedang diproses ya..</span>
+            <span v-else-if="detail && !detail.transaksi">Yuk beli tes MBTI sekarang!</span>
           </p>
-          <nuxt-link class="btn btn-primary dashboard px-4" to="/app/mbti/enroll">
+          <nuxt-link class="btn btn-primary dashboard px-4" to="/app/mbti/enroll" v-if="(detail && !detail.transaksi) || !detail">
             Beli Tes MBTI
           </nuxt-link>
+          <nuxt-link class="btn btn-primary dashboard px-4" :to="`/app/payment/${detail.transaksi.id}/detail`" v-if="detail && detail.transaksi && detail.transaksi.status != 'Sudah Diverifikasi'">
+            Cek Detail Pembayaran
+          </nuxt-link>
+          <button class="btn btn-primary dashboard px-4" v-if="detail && detail.transaksi && detail.transaksi.status == 'Sudah Diverifikasi' && !dataHasil" type="button" @click="toTesPage">
+            Mulai Tes Kepribadian
+          </button>
         </div>
       </div>
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  props: ['data'],
+  data () {
+    return {
+      detail: {},
+    }
+  },
+  mounted () {
+    this.detail = this.data;
+  },
+  watch: {
+    data(value) {
+      this.detail = value
+    }
+  },
+  methods: {
+    toTesPage () {
+      window.location.href = process.env.baseUrl + "/app/mbti/test"
+    }
+  }
+}
+</script>

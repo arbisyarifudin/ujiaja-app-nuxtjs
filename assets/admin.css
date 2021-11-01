@@ -95,8 +95,8 @@ input:disabled,
 
 .btn.btn-light:hover {
   background-color: transparent;
-  color: white;
-  border-color: white;
+  color: #baadff;
+  border: 1px solid #f5f5f5;
 }
 
 .btn.btn-outline-primary {

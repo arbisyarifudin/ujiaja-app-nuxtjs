@@ -42,9 +42,10 @@
               `background: #FDFDFD; box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.5); border-radius: 4px;`
             "
           >
-            <div class="col-md-6 p-0" v-if="dataDetail.produk">
+            <div class="col-md-6 p-0" v-if="dataDetail.produk || dataDetail.mbti">
               <p class="mb-1" style="color: #9490A4;">Produk</p>
-              <p class="" v-text="dataDetail.produk.nama_produk"></p>
+              <p class="" v-if="dataDetail.produk" v-text="dataDetail.produk.nama_produk"></p>
+              <p class="" v-if="dataDetail.mbti" v-text="dataDetail.mbti.judul"></p>
               <p class="mb-1" style="color: #9490A4;">Batas Waktu Pembayaran</p>
               <p class="">
                 {{
@@ -60,7 +61,7 @@
               <p class="mb-1" style="color: #9490A4;">No.Invoice</p>
               <p class="">{{ dataDetail.kode }}</p>
             </div>
-            <div class="col-md-6 p-0" v-if="dataDetail.produk">
+            <div class="col-md-6 p-0" v-if="dataDetail.produk || dataDetail.mbti">
               <p class="mb-1" style="color: #9490A4;">Total Pembayaran</p>
               <p class="">Rp {{ formatRupiah(dataDetail.total_harga) }}</p>
               <p class="mb-1" style="color: #9490A4;">Metode Pembayaran</p>
@@ -86,11 +87,12 @@
                 {{ dataDetail.alasan_pembatalan }}
               </div>
             </div>
-            <div class="col-12" v-if="!loading">
+            <div class="col-12 px-0" v-if="!loading">
               <hr />
-              <router-link :to="`/app/tryout/${dataDetail.id_produk}/detail`"
-                >Lihat Produk</router-link
-              >
+              <router-link :to="`/app/tryout/${dataDetail.id_produk}/detail`" v-if="dataDetail.produk"
+                >Lihat Produk</router-link>
+              <router-link :to="`/app/mbti/`" v-if="dataDetail.mbti"
+                >Lihat Produk</router-link>
             </div>
             <div class="col-12" v-if="loading">
               <UILoading style="min-height: unset" />
