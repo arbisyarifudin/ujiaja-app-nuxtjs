@@ -418,7 +418,7 @@ export default {
       // console.log(this.jawaban_user_array);
       this.loading = true;
       this.$axios
-        .$post(`/api/mbti_jawaban_detail/create/multiple`, {
+        .$post(`/api/mbti-jawaban-detail/create/multiple`, {
           jawabans: this.jawabanUser,
         })
         .then(response => {
