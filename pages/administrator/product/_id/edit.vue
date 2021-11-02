@@ -183,7 +183,7 @@
                 <b-col class="col-md-6">
                   <div class="form-group reg-siswa">
                     <label for="bonus"
-                      >Bonus Tes Kepribadian <code>*</code></label
+                      >Bonus Tes MBTI <code>*</code></label
                     >
                     <b-form-radio-group
                       id="bonus"

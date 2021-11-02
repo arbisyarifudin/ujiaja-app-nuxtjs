@@ -7,13 +7,6 @@
             <b-spinner type="grow" class="mr-2" v-if="loading" /> Detail Produk
             / Event
           </h2>
-          <!-- <nuxt-link
-            to="/administrator/product"
-            class="btn btn-outline-secondary mr-2 square"
-          >
-            <b-icon icon="arrow-left" class="mr-1"></b-icon>
-            Kembali
-          </nuxt-link> -->
           <BackUrl url="/administrator/product" />
         </div>
       </div>
@@ -22,9 +15,13 @@
           class="header-detail bg-white my-4 px-5 py-4"
           style="display: flex; justify-content: space-between; align-items: center;"
         >
-          <div>
+          <div v-if="dataDetail.produk && !loading">
             <h3 class="mb-0">{{ dataDetail.produk.nama_produk }}</h3>
-            <!-- <h6>TPS</h6> -->
+            <h4 class="mt-3" style="font-size: 12px; color: #555" v-if="dataDetail.produk.jenis_produk == 'Masal'"><i class="fas fa-calendar fa-fw"></i> {{dataDetail.produk.tanggal_mulai_label}} s/d {{dataDetail.produk.tanggal_berakhir_label}}</h4>
+            <div class="small" style="color: #555">
+              <i class="fas fa-fw fa-tag"></i>
+                Bonus Tes MBTI : <i class="fas fa-fw" :class="[dataDetail.produk.bonus && dataDetail.produk.bonus.mbti ? 'fa-check text-success' : 'fa-times text-danger']"></i>
+              </div>
           </div>
           <div v-if="!loading">
             <router-link
