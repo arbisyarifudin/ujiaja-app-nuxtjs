@@ -1,5 +1,5 @@
 <template>
-  <div class="container-fluid crud">
+  <div class="container-fluid crud px-md-4 px-0">
     <div class="col-md-12 dash-kelas p-0 text-left">
       <h2 class="pb-0">
         <BackUrl
@@ -10,9 +10,9 @@
         <b-spinner type="grow" class="mr-2" v-if="loading" />
         {{ dataDetail.produk.nama_produk }}
       </h2>
-      <div class="d-flex mandiri-detail mt-4">
-        <div class="col-lg-9 col-md-8 col-sm-8 p-0">
-          <div class="d-flex">
+      <div class="row mandiri-detail mt-4 px-4">
+        <div class="col-lg-9 col-md-8 col-sm-12 p-0 mb-3">
+          <div class="row">
             <div class="col-md-6 p-0">
               <p class="text-dark h5">
                 <i class="fa-fw fas fa-user"></i> Dibuat Oleh Tim Uji Aja
@@ -22,18 +22,30 @@
                 {{ dataDetail.is_paid ? "Sudah Terdaftar" : "Belum Terdaftar" }}
               </p>
             </div>
-            <div
-              class="col-md-6 p-0"
-              v-if="dataDetail.produk.jenis_produk == 'Masal'"
-            >
-              <p class="text-dark h5">
+            <div class="col-md-6 p-0">
+              <p class="text-dark h5"
+                v-if="dataDetail.produk.jenis_produk == 'Masal'">
                 <i class="fas fa-fw fa-calendar"></i>
-                <!-- <span>Tidak Ada Batasan Waktu Pengerjaan</span> -->
                 <span
                   v-text="
                     'Dimulai pada ' + dataDetail.produk.tanggal_mulai_label
                   "
                 ></span>
+              </p>
+              <p
+                class="text-dark h5"
+                v-if="dataDetail.produk.jenis_produk == 'Masal'"
+              >
+                <i class="fas fa-fw fa-calendar"></i>
+                <span
+                  v-text="
+                    'Berakhir pada ' + dataDetail.produk.tanggal_berakhir_label
+                  "
+                ></span>
+              </p>
+              <p class="text-dark h5" v-else>
+                <i class="fas fa-fw fa-calendar"></i>
+                <span>Tidak Ada Batasan Waktu Pengerjaan</span>
               </p>
             </div>
           </div>
@@ -44,7 +56,9 @@
             (TPS). -->
           </p>
         </div>
-        <div class="col-lg-3 col-md-4 col-sm-4 p-0 durasi text-center pt-5 pb-4 px-3  bg-white">
+        <div
+          class="col-lg-3 col-md-4 col-sm-12 p-0 durasi text-center pt-5 pb-4 px-3 bg-white mb-3"
+        >
           <h5>Durasi Pengerjaan</h5>
           <div class="d-flex mt-2">
             <div class="col-md-4 text-center p-0">
@@ -93,7 +107,8 @@
         v-else-if="!dataDetail.is_paid"
         :disabled="true"
         class="btn btn-primary dashboard mb-4"
-      ><i class="fas fa-fw fa-shopping-cart"></i>
+      >
+        <i class="fas fa-fw fa-shopping-cart"></i>
         Beli Tryout
       </button>
       <button
@@ -103,18 +118,18 @@
             !dataDetail.is_task_start
         "
         class="btn btn-primary dashboard mb-4"
-        @click.prevent="startTest"
+        @click.prevent="startTest(false)"
       >
         <i class="far fa-edit mr-1"></i> Kerjakan Tryout
       </button>
-       <button
+      <button
         v-if="
           dataDetail.is_paid &&
             !dataDetail.is_task_done &&
             dataDetail.is_task_start
         "
         class="btn btn-primary dashboard mb-4"
-        @click.prevent="startTest"
+        @click.prevent="startTest(true)"
       >
         <i class="far fa-edit mr-1"></i> Lanjut Mengerjakan
       </button>
@@ -216,12 +231,19 @@ export default {
       dataDetail: {
         produk: {},
         tryout: []
-      },
+      }
     };
   },
   mounted() {
     if (!this.$route.params.id) return this.$router.go(-1);
     this.getDetail("produk", this.$route.params.id);
+  },
+  computed: {
+    isAlreadyStartEvent() {
+      if (this.dataDetail.produk.jenis_produk != "Masal") {
+        return true;
+      }
+    }
   },
   methods: {
     resetModal() {},
@@ -267,23 +289,64 @@ export default {
         })
         .finally(() => (this.loading = false));
     },
-    startTest() {
+    startTest(isContinue = false) {
       // if (this.dataDetail.produk.jenis_produk !== "Masal") {
       //   this.$bvModal.show("modal-confirm-start");
       //   return;
       // }
-      const hariIni = new Date().toJSON();
-      const tglMulai = new Date(this.dataDetail.produk.tanggal_mulai).toJSON();
-      const tglAkhir = new Date(
-        this.dataDetail.produk.tanggal_berakhir
-      ).toJSON();
 
-      const diffMulai = this.formatSelisih(hariIni, tglMulai, "hours");
-      const diffAkhir = this.formatSelisih(hariIni, tglAkhir, "hours");
+      if (this.dataDetail.produk.jenis_produk == "Masal" && !isContinue) {
+        const hariIni = new Date().toJSON();
+        const tglMulai = new Date(
+          this.dataDetail.produk.tanggal_mulai
+        ).toJSON();
+        const tglAkhir = new Date(
+          this.dataDetail.produk.tanggal_berakhir
+        ).toJSON();
 
-      console.log(diffMulai, diffAkhir);
+        const diffMulaiJam = this.formatSelisih(hariIni, tglMulai, "hours");
+        const diffMulaiMenit = this.formatSelisih(hariIni, tglMulai, "minutes");
+        const diffMulaiDetik = this.formatSelisih(hariIni, tglMulai, "seconds");
 
-      this.toTryoutTestPage();
+        const diffAkhirJam = this.formatSelisih(hariIni, tglAkhir, "hours");
+        const diffAkhirMenit = this.formatSelisih(hariIni, tglAkhir, "minutes");
+        const diffAkhirDetik = this.formatSelisih(hariIni, tglAkhir, "seconds");
+
+        console.log(diffAkhirJam, diffAkhirMenit, diffAkhirDetik);
+
+        let sudahLewatMulai, belumLewatAkhir, sudahLewatAkhir;
+
+        if (diffMulaiJam <= 0 && diffMulaiMenit <= 0 && diffMulaiDetik <= 0) {
+          console.log("Sudah melewati jam mulai.");
+          sudahLewatMulai = true;
+        }
+
+        if (diffAkhirJam > 0 && diffAkhirMenit > 0 && diffAkhirDetik > 0) {
+          console.log("Masih dibawah jam berakhir.");
+          belumLewatAkhir = true;
+        }
+
+        if (
+          diffMulaiJam <= 0 &&
+          diffMulaiMenit <= 0 &&
+          diffMulaiDetik <= 0 &&
+          diffAkhirJam <= 0 &&
+          diffAkhirMenit <= 0 &&
+          diffAkhirDetik <= 0
+        ) {
+          sudahLewatAkhir = true;
+        }
+
+        if (sudahLewatMulai && belumLewatAkhir) {
+          this.toTryoutTestPage();
+        } else if (!sudahLewatMulai) {
+          window.alert("Mohon maaf. Event belum dimulai ya!");
+        } else if (sudahLewatMulai && sudahLewatAkhir) {
+          window.alert("Mohon maaf. Event sudah berlalu!");
+        }
+      } else {
+        this.toTryoutTestPage();
+      }
 
       // else if(this.dataDetail.produk.jenis_produk == 'Masal' && diffMulai <=)
     },
