@@ -26,7 +26,7 @@
             <h3 class="mb-0">{{ dataDetail.produk.nama_produk }}</h3>
             <!-- <h6>TPS</h6> -->
           </div>
-          <div>
+          <div v-if="!loading">
             <router-link
               :to="`/administrator/product/${dataDetail.produk.id}/edit`"
               role="button"
@@ -237,7 +237,7 @@ export default {
   layout: "admin",
   data() {
     return {
-      loading: false,
+      loading: true,
       dataDetail: {
         produk: {},
         tryout: []

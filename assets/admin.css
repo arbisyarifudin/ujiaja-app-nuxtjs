@@ -528,9 +528,9 @@ input:disabled,
   border-radius: 5px;
 }
 
-.data-tryout .card-data .btn button,
-.data-tryout .card-data .btn a {
-  display: inline-block;
+.data-tryout .card-data button.btn,
+.data-tryout .card-data a.btn {
+  display: inline-block !important;
   min-width: 150px;
 }
 

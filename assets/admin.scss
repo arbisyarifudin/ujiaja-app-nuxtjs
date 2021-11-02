@@ -468,13 +468,11 @@ input,
                 border-radius: 5px;
             }
         }
-        .btn {
-            button,
-            a {
-                display: inline-block;
+        button.btn,
+        a.btn {
+                display: inline-block!important;
                 min-width: 150px;
             }
-        }
     }
 }
 

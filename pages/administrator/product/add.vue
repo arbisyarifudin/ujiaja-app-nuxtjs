@@ -176,6 +176,22 @@
                     ></b-form-radio-group>
                   </div>
                 </b-col>
+                <b-col class="col-md-6">
+                  <div class="form-group reg-siswa">
+                    <label for="bonus"
+                      >Bonus Tes Kepribadian <code>*</code></label
+                    >
+                    <b-form-radio-group
+                      id="bonus"
+                      name="bonus"
+                      v-model="form.bonus_mbti"
+                      :options="[
+                        { text: 'Ya', value: 'Ya' },
+                        { text: 'Tidak', value: 'Tidak' }
+                      ]"
+                    ></b-form-radio-group>
+                  </div>
+                </b-col>
               </b-row>
 
               <div class="form-group reg-siswa">
@@ -374,12 +390,9 @@
               <!-- {{ form.tryout_reguler }} -->
               <!-- {{ form.tryout_bundling }} -->
             </div>
-            <div class="col-md-12">
-              <!-- <div class="card"></div> -->
-            </div>
           </div>
         </div>
-        <div class="crud-footer d-flex justify-content-end" style="z-index: 5">
+        <div class="crud-footer d-flex justify-content-end mt-5" style="z-index: 5">
           <nuxt-link
             to="/administrator/product"
             class="btn btn-outline-secondary mr-2"
@@ -423,7 +436,9 @@ export default {
         perhitungan: { correct: 2, wrong: -1, unfilled: 0 },
         tryout_reguler: "",
         tryout_bundling: [],
-        tryout: []
+        tryout: [],
+        bonus_mbti: "Tidak",
+        bonus: null
       },
       customToolbar: [["bold", "italic", "underline"], [{ list: "bullet" }]],
       templateDeskripsiPaket: `
@@ -537,6 +552,13 @@ export default {
         this.form.tanggal_mulai = null;
         this.form.tanggal_berakhir = null;
       }
+
+      if(this.form.bonus_mbti == 'Ya') {
+        this.form.bonus = {mbti: true}
+      } else {
+        this.form.bonus = null
+      }
+
       console.log(this.form);
       this.submitData("produk");
     },

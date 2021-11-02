@@ -180,6 +180,22 @@
                     ></b-form-radio-group>
                   </div>
                 </b-col>
+                <b-col class="col-md-6">
+                  <div class="form-group reg-siswa">
+                    <label for="bonus"
+                      >Bonus Tes Kepribadian <code>*</code></label
+                    >
+                    <b-form-radio-group
+                      id="bonus"
+                      name="bonus"
+                      v-model="form.bonus_mbti"
+                      :options="[
+                        { text: 'Ya', value: 'Ya' },
+                        { text: 'Tidak', value: 'Tidak' }
+                      ]"
+                    ></b-form-radio-group>
+                  </div>
+                </b-col>
               </b-row>
 
               <div class="form-group reg-siswa">
@@ -517,7 +533,9 @@ export default {
         perhitungan: { correct: 2, wrong: -1, unfilled: 0 },
         tryout_reguler: "",
         tryout_bundling: [],
-        tryout: []
+        tryout: [],
+        bonus_mbti: "Tidak",
+        bonus: null
       },
       listTryout: [],
       selectedId: null,
@@ -596,29 +614,6 @@ export default {
         return;
       }
 
-      //   if (
-      //     this.form.tipe_paket == "Bundling" &&
-      //     this.form.tryout_bundling.length < 2
-      //   ) {
-      //     this.$bvToast.toast("Untuk paket bundling setidaknya pilih 2 produk.", {
-      //       title: "Peringatan",
-      //       variant: "warning",
-      //       solid: true,
-      //       autoHideDelay: 2000
-      //     });
-      //     return;
-      //   } else if (
-      //     this.form.tipe_paket == "Reguler" &&
-      //     !this.form.tryout_reguler
-      //   ) {
-      //     this.$bvToast.toast("Mohon pilih soal tryout terlebih dahulu.", {
-      //       title: "Peringatan",
-      //       variant: "warning",
-      //       solid: true,
-      //       autoHideDelay: 2000
-      //     });
-      //     return;
-      //   }
       if (
         (this.form.tryout_reguler && this.form.tryout_reguler !== null) ||
         (this.form.tryout_bundling && this.form.tryout_bundling.length > 0)
@@ -631,6 +626,13 @@ export default {
       } else {
         this.form.id_tryout = "";
       }
+
+      if(this.form.bonus_mbti == 'Ya') {
+        this.form.bonus = {mbti: true}
+      } else {
+        this.form.bonus = null
+      }
+
       console.log(this.form);
       // return;
       this.submitData("produk");
@@ -651,7 +653,7 @@ export default {
                 autoHideDelay: 3000
               }
             );
-            this.$router.replace("/administrator/product");
+            this.$router.replace(`/administrator/product/${this.$route.params.id}/detail`);
           }
           return true;
         })
@@ -703,6 +705,11 @@ export default {
               tryout_bundling: [],
               tryout: this.listTryout.map(item => item.id)
             };
+            if(this.dataDetail.bonus && this.dataDetail.bonus.mbti == 1) {
+              this.form.bonus_mbti = "Ya";
+            } else {
+              this.form.bonus_mbti = "Tidak";
+            }
           }
           return true;
         })
