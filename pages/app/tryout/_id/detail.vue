@@ -93,7 +93,7 @@
         v-else-if="!dataDetail.is_paid"
         :disabled="true"
         class="btn btn-primary dashboard mb-4"
-      >
+      ><i class="fas fa-fw fa-shopping-cart"></i>
         Beli Tryout
       </button>
       <button
@@ -131,6 +131,12 @@
           `/app/payment/${dataDetail.produk.transaksi_user.id}/detail?ref=${$route.path}`
         "
         >Detail Pembayaran</router-link
+      >
+      <router-link
+        class="btn btn-primary dashboard mb-4 square"
+        v-if="!loading && dataDetail.is_task_done"
+        :to="`/app/tryout/${dataDetail.produk.id}/result`"
+        ><i class="fas fa-fw fa-award"></i> Lihat Hasil</router-link
       >
 
       <h4 class="mb-4" style="font-size: 18px" v-if="dataDetail.is_paid">
