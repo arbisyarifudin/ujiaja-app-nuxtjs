@@ -155,9 +155,9 @@
             <div class="">
               <h5 class="mb-3">{{ tryout.judul }}</h5>
               <h6 class="mb-3 text-muted">
-                <span>{{ tryout.jenis_soal }}</span>
+                <span v-if="tryout.jenis_soal">{{ tryout.jenis_soal }}</span>
                 <!-- <span>- {{ tryout.template_soal }}</span> -->
-                <span>- {{ tryout.alokasi_waktu }} menit</span>
+                <span v-if="tryout.alokasi_waktu">- {{ tryout.alokasi_waktu }} menit</span>
               </h6>
             </div>
             <div>

@@ -33,7 +33,7 @@
                 />
               </client-only>
             </div>
-            <div class="small text-danger">
+            <div class="small text-danger" v-if="form.tipe_paket == 'Bundling'">
               *Tuliskan deskripsi paket (disarankan maksimal 3 point saja)
             </div>
           </div>
