@@ -11,7 +11,7 @@
         {{ dataDetail.produk.nama_produk }}
       </h2>
       <div class="row mandiri-detail mt-4 px-4">
-        <div class="col-lg-9 col-md-8 col-sm-12 p-0 mb-3">
+        <div class="col-lg-9 col-md-7 col-sm-12 p-0 mb-3">
           <div class="row">
             <div class="col-md-6 p-0">
               <p class="text-dark h5">
@@ -57,10 +57,10 @@
           </p>
         </div>
         <div
-          class="col-lg-3 col-md-4 col-sm-12 p-0 durasi text-center pt-5 pb-4 px-3 bg-white mb-3"
+          class="col-lg-3 col-md-5 col-sm-12 p-0 durasi text-center pt-5 pb-4 px-3 bg-white mb-3"
         >
           <h5>Durasi Pengerjaan</h5>
-          <div class="d-flex mt-2">
+          <div class="row mt-2 px-2">
             <div class="col-md-4 text-center p-0">
               <div class="bg-time">
                 <p class="mb-0" v-if="dataDetail.total_waktu">
@@ -94,6 +94,10 @@
               ><i class="far fa-clock fa-fw mr-1"></i>
               {{ dataDetail.total_waktu }}m</span
             >
+          </div>
+           <div class="small" style="color: #555" v-if="dataDetail.produk.bonus">
+            <i class="fas fa-fw fa-tag"></i>
+            Bonus Tes MBTI : <i class="fas fa-fw" :class="[dataDetail.produk.bonus && dataDetail.produk.bonus.mbti ? 'fa-check text-success' : 'fa-times text-danger']"></i>
           </div>
         </div>
       </div>

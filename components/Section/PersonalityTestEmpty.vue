@@ -7,7 +7,7 @@
             Halo, Arbi Syarifudin!
           </h2>
           <p style="color: #777">
-           Berikut adalah hasil test MBTI yang pernah kamu kerjakan.
+            Berikut adalah hasil test MBTI yang pernah kamu kerjakan.
           </p>
         </div>
         <!-- <button class="btn btn-primary square">
@@ -22,16 +22,49 @@
           <h4 class="m-0 mb-3">Oops!</h4>
           <p>
             Kamu belum pernah melakukan tes kepribadian. <br />
-            <span v-if="detail && detail.transaksi && detail.transaksi.status != 'Sudah Diverifikasi'">Tapi pembayaran kamu sedang diproses ya..</span>
-            <span v-else-if="detail && !detail.transaksi">Yuk beli tes MBTI sekarang!</span>
+            <span
+              v-if="
+                detail &&
+                  detail.transaksi &&
+                  detail.transaksi.status != 'Sudah Diverifikasi'
+              "
+              >Tapi pembayaran kamu sedang diproses ya..</span
+            >
+            <span v-else-if="detail && !detail.transaksi"
+              >Yuk beli tes MBTI sekarang!</span
+            >
           </p>
-          <nuxt-link class="btn btn-primary dashboard px-4" to="/app/mbti/enroll" v-if="(detail && !detail.transaksi) || !detail">
+          <nuxt-link
+            class="btn btn-primary dashboard px-4"
+            to="/app/mbti/enroll"
+            v-if="
+              (detail && !detail.transaksi) && !userDetail.bonus_mbti
+            "
+          >
             Beli Tes MBTI
           </nuxt-link>
-          <nuxt-link class="btn btn-primary dashboard px-4" :to="`/app/payment/${detail.transaksi.id}/detail`" v-if="detail && detail.transaksi && detail.transaksi.status != 'Sudah Diverifikasi'">
+          <nuxt-link
+            class="btn btn-primary dashboard px-4"
+            :to="`/app/payment/${detail.transaksi.id}/detail`"
+            v-if="
+              detail &&
+                detail.transaksi &&
+                detail.transaksi.status != 'Sudah Diverifikasi'
+            "
+          >
             Cek Detail Pembayaran
           </nuxt-link>
-          <button class="btn btn-primary dashboard px-4" v-if="detail && detail.transaksi && detail.transaksi.status == 'Sudah Diverifikasi' && !dataHasil" type="button" @click="toTesPage">
+          <button
+            class="btn btn-primary dashboard px-4"
+            v-if="
+              (detail &&
+                detail.transaksi &&
+                detail.transaksi.status == 'Sudah Diverifikasi') ||
+                userDetail.bonus_mbti > 0
+            "
+            type="button"
+            @click="toTesPage"
+          >
             Mulai Tes Kepribadian
           </button>
         </div>
@@ -42,24 +75,29 @@
 
 <script>
 export default {
-  props: ['data'],
-  data () {
+  props: ["data"],
+  data() {
     return {
-      detail: {},
-    }
+      detail: {}
+    };
   },
-  mounted () {
+  mounted() {
     this.detail = this.data;
   },
   watch: {
     data(value) {
-      this.detail = value
+      this.detail = value;
+    }
+  },
+  computed: {
+    userDetail() {
+      return this.$store.state.dataUser.detail;
     }
   },
   methods: {
-    toTesPage () {
-      window.location.href = process.env.baseUrl + "/app/mbti/test"
+    toTesPage() {
+      window.location.href = process.env.baseUrl + "/app/mbti/test";
     }
   }
-}
+};
 </script>

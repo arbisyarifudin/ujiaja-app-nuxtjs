@@ -423,6 +423,8 @@ export default {
         })
         .then(response => {
           if (response) {
+          this.$cookiz.remove("_ujiaja_temp_mbti_user");
+
             window.removeEventListener("beforeunload", this.onCloseWindow);
             this.$bvModal.hide("modal-confirm-start");
             this.$bvModal.hide("modal-confirm-end");
@@ -477,7 +479,7 @@ export default {
         })
         .catch(err => {
           console.log(err);
-          this.catchError(err);
+          // this.catchError(err);
         })
         .finally(() => (this.loading = false));
     },

@@ -421,11 +421,11 @@ export default {
       jenis_produk: "Perorangan",
       tipe_paket: "Reguler"
     });
-    this.getProduk("asmenas", {
-      kategori_produk: "Asmenas",
-      jenis_produk: "Perorangan",
-      tipe_paket: "Reguler"
-    });
+    // this.getProduk("asmenas", {
+    //   kategori_produk: "Asmenas",
+    //   jenis_produk: "Perorangan",
+    //   tipe_paket: "Reguler"
+    // });
     this.getProduk("bundling", {
       kategori_produk: "",
       jenis_produk: "",

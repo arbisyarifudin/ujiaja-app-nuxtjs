@@ -10,8 +10,9 @@
             Berikut adalah hasil test MBTI yang pernah kamu kerjakan.
           </p>
         </div>
-        <button class="btn btn-primary square" v-if="data">
-          <i class="fas fa-reply fa-fw mr-1"></i> Tes Ulang
+        <button class="btn btn-primary square" v-if="data" v-b-modal.modal-retake>
+          <i class="fas fa-reply fa-fw mr-1"></i> 
+          Tes Ulang
         </button>
       </div>
       <hr />
@@ -51,12 +52,12 @@
             <div class="card-body text-light" :class="[hitungan.bgClass]">
               <h4 class="personality-type">{{hitungan.label}}</h4>
               <div class="personality-circle">
-                {{hitungan.persentase[0]}} <span class="percent">%</span>
+                {{hitungan.persentase[0] > hitungan.persentase[1] ? hitungan.persentase[0] : hitungan.persentase[1]}} <span class="percent">%</span>
               </div>
               <div class="separator"></div>
-              <div class="personality-trait small">{{hitungan.dimensi[1]}}</div>
+              <div class="personality-trait">{{hitungan.persentase[0] > hitungan.persentase[1] ? hitungan.psikologi[0] : hitungan.psikologi[1]}}</div>
               <div class="personality-trait small"><small>vs</small></div>
-              <div class="personality-trait">{{hitungan.dimensi[0]}}</div>
+              <div class="personality-trait small">{{hitungan.persentase[0] < hitungan.persentase[1] ? hitungan.psikologi[0] : hitungan.psikologi[1]}}</div>
             </div>
           </div>
         </div>
@@ -146,6 +147,16 @@
         </li>
       </ul> -->
     </div>
+    <b-modal id="modal-retake" size="md" title="Konfirmasi Tes Ulang" hide-footer centered>
+      <p>Apakah kamu yakin ingin melakukan Tes MBTI ulang?</p>
+      <p>Data hasil tes MBTI kamu sebelumnya akan dihapus/direset. Setelah itu kamu perlu melakukan pembelian ulang untuk melaksanakan tes MBTI berikutnya.</p>
+      <p class="text-danger"><b>Mohon perhatian! </b> Setelah ini tindakan tidak dapat dibatalkan.</p>
+      <div class="modal-footer">
+        <b-button variant="outline-primary" @click="$bvModal.hide('modal-retake')">Batal</b-button>
+        <b-button variant="primary" @click="retakeTest" :disabled="loading">
+           <b-spinner small class="mr-1" v-if="loading"></b-spinner> Ya, Saya Yakin</b-button>
+      </div>
+    </b-modal>
   </div>
 </template>
 
@@ -154,6 +165,7 @@ export default {
   props: ['data'],
   data () {
     return {
+      loading: false,
       detail: {
         kepribadian: {}
       },
@@ -166,6 +178,18 @@ export default {
     data(value) {
       console.log(value)
       this.detail = value
+    }
+  },
+  methods: {
+    retakeTest () {
+      this.loading = true;
+      this.$axios.delete(`/api/mbti-jawaban/delete/${this.detail.id}`)
+      .then(response => {
+        console.log(response)
+        this.$router.push('/app/mbti/enroll');
+      }).catch(error => {
+        console.log(error)
+      }).finally(() => { this.loading = false })
     }
   }
 }

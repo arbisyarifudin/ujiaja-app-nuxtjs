@@ -101,26 +101,42 @@
         >Data MBTI & Soal</b-dropdown-item
       >
     </b-nav-item-dropdown>
-    <!-- <li class="nav-item">
-      <nuxt-link class="nav-link d-flex align-items-center" to="#"
-        ><i class="fas fa-cash-register fa-fw mr-2"></i> Transaksi
-        User</nuxt-link
-      >
-    </li> -->
     <li class="nav-item">
       <nuxt-link class="nav-link d-flex align-items-center" to="/administrator/payment"
         ><i class="fas fa-id-badge fa-fw mr-2"></i> Transaksi</nuxt-link
       >
     </li>
-    <li class="nav-item">
+     <b-nav-item-dropdown text="Pengguna" right>
+      <template #button-content>
+        <span
+          class="nav-link mb-0 p-0"
+          :class="[
+            $route.path.includes('user') ||
+            $route.path.includes('user/student') ||
+            $route.path.includes('user/tentor')
+              ? 'nuxt-link-active'
+              : ''
+          ]"
+        >
+          <i class="fas fa-clipboard fa-fw mr-2"></i> Pengguna</span
+        >
+      </template>
+      <b-dropdown-item to="/administrator/user/student"
+        >Data Siswa</b-dropdown-item
+      >
+      <b-dropdown-item to="/administrator/user/tentor"
+        >Data Tentor</b-dropdown-item
+      >
+    </b-nav-item-dropdown>
+    <!-- <li class="nav-item">
       <nuxt-link class="nav-link d-flex align-items-center" to="#"
         ><i class="fas fa-file-alt fa-fw mr-2"></i> Laporan Transaksi</nuxt-link
       >
-    </li>
-    <li class="nav-item">
+    </li> -->
+    <!-- <li class="nav-item">
       <nuxt-link class="nav-link d-flex align-items-center" to="#"
         ><i class="fas fa-chart-bar fa-fw mr-2"></i> Statistik User</nuxt-link
       >
-    </li>
+    </li> -->
   </ul>
 </template>

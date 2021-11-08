@@ -22,8 +22,22 @@
         <tr>
           <th width="200">Kepribadian</th>
           <th width="20" class="px-0 text-center">:</th>
-          <td>
-            <nuxt-link to="/app/mbti" class="btn btn-sm btn-light square">Lihat Hasil Tes Kepribadian</nuxt-link>
+          <td v-if="user_detail.nama_kepribadian">
+            <div class="">
+              <h5
+                v-text="user_detail.nama_kepribadian"
+                class="mb-2 mr-2"
+                style="border: 1px dashed #aaa; border-radius: 10px; padding: 10px 20px; display: inline-block"
+              ></h5>
+              <nuxt-link to="/app/mbti" class="btn btn-sm btn-light square"
+                >Lihat Hasil Tes Kepribadian</nuxt-link
+              >
+            </div>
+          </td>
+          <td v-else>
+            <nuxt-link to="/app/mbti" class="btn btn-sm btn-light square"
+              >Ikuti Tes Kepribadian</nuxt-link
+            >
           </td>
         </tr>
       </tbody>
@@ -43,7 +57,7 @@ export default {
     },
     user_detail() {
       return this.$store.state.dataUser.detail;
-    },
-  },
+    }
+  }
 };
 </script>

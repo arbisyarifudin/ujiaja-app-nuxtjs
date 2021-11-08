@@ -513,7 +513,7 @@ export default {
               });
             } else {
               this.$router.replace({
-                path: `/app/payment/${response.id}/confirm`
+                path: `/app/payment/${response.id}/confirm?ref=${this.$route.path}`
               });
             }
           }

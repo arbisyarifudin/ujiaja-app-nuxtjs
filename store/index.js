@@ -72,6 +72,7 @@ export const actions = {
         })
         .catch(async error => {
           console.log("nuxtInitError", error);
+          console.log("nuxtInitError", error.response);
           await commit("SET_IS_AUTH", false);
           await commit("set", ["dataUser", {}]);
           app.$cookiz.remove("_ujiaja");

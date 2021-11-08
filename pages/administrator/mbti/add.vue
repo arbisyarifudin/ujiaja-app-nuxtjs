@@ -157,7 +157,7 @@ export default {
               solid: true,
               autoHideDelay: 3000
             });
-            this.$router.push("/administrator/mbti/" + res.data.id + "/edit");
+            this.$router.push("/administrator/mbti/" + res.data.id + "/soal");
           }
           return true;
         })
