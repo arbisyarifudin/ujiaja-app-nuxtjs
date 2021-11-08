@@ -89,9 +89,9 @@
             </div>
             <div class="col-12 px-0" v-if="!loading">
               <hr />
-              <router-link :to="`/app/tryout/${dataDetail.id_produk}/detail`" v-if="dataDetail.produk"
-                >Lihat Produk</router-link>
               <router-link :to="`/app/mbti/`" v-if="dataDetail.mbti"
+                >Lihat Produk</router-link>
+              <router-link :to="`/app/tryout/${dataDetail.id_produk}/detail`" v-else
                 >Lihat Produk</router-link>
             </div>
             <div class="col-12" v-if="loading">

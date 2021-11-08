@@ -5,7 +5,7 @@
         <UILoading />
       </div>
     </div>
-    <div class="ujian-wrapper" v-else-if="!detail.tes">
+    <div class="ujian-wrapper" v-else-if="!listNomorSoal.length">
       <div class="card ujian-guide-box">
         <div class="card-header">
           <h2 class="card-title">Petunjuk Pengerjaan</h2>
@@ -20,7 +20,7 @@
         </div>
       </div>
     </div>
-    <div class="ujian-wrapper" v-if="!loading && detail.tes">
+    <div class="ujian-wrapper" v-if="!loading && listNomorSoal.length">
       <div class="row">
         <div class="col-md-8">
           <div class="question-board bg-white p-4">
