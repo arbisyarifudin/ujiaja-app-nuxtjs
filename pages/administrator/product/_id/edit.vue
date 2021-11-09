@@ -196,6 +196,22 @@
                     ></b-form-radio-group>
                   </div>
                 </b-col>
+                <b-col class="col-md-6" v-if="form.jenis_produk == 'Masal'">
+                  <div class="form-group reg-siswa">
+                    <label for="pakai_perankingan"
+                      >Maksimal Peserta <code>*</code></label
+                    >
+                    <b-input-group append="Orang">
+                      <b-form-input
+                      type="number"
+                        id="maksimal_peserta"
+                        name="maksimal_peserta"
+                        v-model="form.maksimal_peserta"
+                        min="2"
+                        />
+                    </b-input-group>
+                  </div>
+                </b-col>
               </b-row>
 
               <div class="form-group reg-siswa">
@@ -535,7 +551,8 @@ export default {
         tryout_bundling: [],
         tryout: [],
         bonus_mbti: "Tidak",
-        bonus: null
+        bonus: null,
+        maksimal_peserta: 100
       },
       listTryout: [],
       selectedId: null,

@@ -192,6 +192,22 @@
                     ></b-form-radio-group>
                   </div>
                 </b-col>
+                 <b-col class="col-md-6" v-if="form.jenis_produk == 'Masal'">
+                  <div class="form-group reg-siswa">
+                    <label for="pakai_perankingan"
+                      >Maksimal Peserta <code>*</code></label
+                    >
+                    <b-input-group append="Orang">
+                      <b-form-input
+                      type="number"
+                        id="maksimal_peserta"
+                        name="maksimal_peserta"
+                        v-model="form.maksimal_peserta"
+                        min="2"
+                        />
+                    </b-input-group>
+                  </div>
+                </b-col>
               </b-row>
 
               <div class="form-group reg-siswa">
@@ -438,7 +454,8 @@ export default {
         tryout_bundling: [],
         tryout: [],
         bonus_mbti: "Tidak",
-        bonus: null
+        bonus: null,
+        maksimal_peserta: 100
       },
       customToolbar: [["bold", "italic", "underline"], [{ list: "bullet" }]],
       templateDeskripsiPaket: `
@@ -458,10 +475,11 @@ export default {
   },
   watch: {
     "form.jenis_produk": function(value) {
-      // if (value == "Perorangan") {
-      //   this.form.tanggal_mulai = null;
-      //   this.form.tanggal_berakhir = null;
-      // }
+      if (value == "Perorangan") {
+        this.form.pakai_perankingan = null
+      } else {
+        this.form.pakai_perankingan = "Ya"
+      }
     },
     "form.tipe_paket": function(value) {
       // this.form.tryout = [];
@@ -505,7 +523,8 @@ export default {
         this.form.jenis_produk == "Masal" &&
         (!this.form.pakai_perankingan ||
           !this.form.tanggal_mulai ||
-          !this.form.tanggal_berakhir)
+          !this.form.tanggal_berakhir
+          )
       ) {
         this.$bvToast.toast(
           "Untuk event masal diperlukan tanggal mulai dan selesai.",
