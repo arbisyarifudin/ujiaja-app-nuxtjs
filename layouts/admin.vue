@@ -5,7 +5,8 @@
         <div class="col-xl-3 col-lg-4 col-sm-4 bg-white d-none d-lg-block">
           <nav class="sidebar navbar-light pt-3 pl-4" id="menu">
             <img src="/logo2.png" class="img-fluid w-25 pb-4" />
-            <UIMenuAdmin />
+            <UIMenuSuperAdmin v-if="user.role_user == 'superAdmin'" />
+            <UIMenuAdmin v-else-if="user.role_user == 'admin'"/>
           </nav>
         </div>
         <b-sidebar
@@ -85,8 +86,15 @@ export default {
   components: { Breadcrumb },
   computed: {
     user() {
-      return this.$store.state.dataUser;
+      return this.$store.state.dataUser.user;
+    },
+    userDetail() {
+      return this.$store.state.dataUser.detail;
     }
+  },
+  mounted() {
+    console.log("user", this.user);
+    console.log("userDetail", this.userDetail);
   }
 };
 </script>

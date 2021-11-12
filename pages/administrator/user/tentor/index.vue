@@ -24,7 +24,7 @@
                   { text: 'Tampil 25', value: 25 },
                   { text: 'Tampil 50', value: 50 }
                 ]"
-                @change="getData('transaksi')"
+                 @change="getData('users/teacher')"
               ></b-form-select>
             </b-input-group>
           </div>
@@ -38,7 +38,7 @@
               </template>
               <b-form-input
                 v-model="filter.keyword"
-                placeholder="Cari transaksi"
+                placeholder="Cari tentor"
                 debounce="1000"
               ></b-form-input>
             </b-input-group>
@@ -91,7 +91,7 @@
                   <td>{{ item.email }}</td>
                   <td>{{ item.nomor_telephone }}</td>
                   <td>{{ item.pendidikan_terakhir }}</td>
-                  <td>{{ formatSelisih(item.tanggal_lahir, new Date(), 'years') }} tahun</td>
+                  <td>{{ formatSelisih(item.tanggal_lahir ? item.tanggal_lahir : '1980-01-01', new Date(), 'years') }} tahun</td>
                 </tr>
               </template>
               <UITableLoading v-if="loading" />
@@ -173,12 +173,12 @@
               <tr>
                 <th width="150">Tanggal Lahir</th>
                 <th width="10">:</th>
-                <th>{{detail.tempat_lahir}}, {{formatTanggal(detail.tanggal_lahir)}}</th>
+                <th>{{detail.tempat_lahir}}, {{formatTanggal(detail.tanggal_lahir ? detail.tanggal_lahir : '1980-01-01')}}</th>
               </tr>
               <tr>
                 <th width="150">Umur</th>
                 <th width="10">:</th>
-                <th>{{ formatSelisih(detail.tanggal_lahir, new Date(), 'years') }} tahun</th>
+                <th>{{ formatSelisih(detail.tanggal_lahir ? detail.tanggal_lahir : '1980-01-01', new Date(), 'years') }} tahun</th>
               </tr>
               <tr>
                 <th width="150">Pendidikan Terakhir</th>
@@ -208,10 +208,46 @@
             </table>
           </div>
           <div class="col-md-6 modal-body-kanan">
-
+            <h4>KTP</h4>
+            <div class="card">
+              <img src="/logoujiaja2.png" alt="gambar" class="card-img-top" style="height: 250px; object-fit: contain">
+            </div>
+            <h4 class="mt-2">NPWP</h4>
+            <div class="card">
+              <img src="/logoujiaja2.png" alt="gambar" class="card-img-top" style="height: 250px; object-fit: contain">
+            </div>
+            <div class="mt-4" v-if="detail.verifikasi != 2">
+                <div class="mb-3">
+                  <p class="mb-2">
+                    Apakah dokumen ini dapat diterima?
+                  </p>
+                  <!-- <select class="form-control" v-model="form.verifikasi">
+                    <option :value="null">-- Pilih --</option>
+                    <option :value="1">Terima</option>
+                    <option :value="0">Tolak</option>
+                  </select> -->
+                </div>
+                <!-- <div class="mb-3" v-if="form.verifikasi == '3'">
+                  <p class="mb-2">Tulis alasan penolakan</p>
+                  <textarea
+                    class="form-control"
+                    rows="4"
+                    v-model="form.alasan_penolakan"
+                  ></textarea>
+                </div> -->
+              </div>
           </div>
         </div>
         <div class="modal-footer justify-content-end" style="border: 0px">
+          <button
+            class="btn btn-sm btn-primary tambah px-4 py-1"
+            type="button"
+            :disabled="submitting"
+            v-if="detail.verifikasi != 2"
+            @click.prevent="verifyBukti"
+          >
+            <b-spinner small v-if="submitting" class="mr-1"></b-spinner> Terima Dokumen
+          </button>
           <button
             class="btn btn-sm btn-outline-secondary"
             type="button"
@@ -247,9 +283,7 @@ export default {
       detail: {},
       showBukti: false,
       form: {
-        status: null,
-        alasan_penolakan: null,
-        jenis_transaksi: "",
+        verifikasi: null,
       }
     };
   },
@@ -262,6 +296,11 @@ export default {
     },
     "filter.page": function(value) {
       this.getData('users/teacher');
+    }
+  },
+  computed: {
+    user() {
+      return this.$store.state.dataUser.user
     }
   },
   methods: {
@@ -330,27 +369,23 @@ export default {
         .finally(() => (this.loading = false));
     },
     verifyBukti() {
-      if(!this.form.status) {
-        this.showToastMessage('Status perlu diisi', 'warning');
-        return;
-      } 
-      if(this.form.status == 'Ditolak' && !this.form.alasan_penolakan) {
-        this.showToastMessage('Alasan penolakan wajib diisi', 'warning');
+      var conf = confirm('Apakah anda yakin?')
+      if(!conf) {
         return;
       }
       this.submitting = true;
       this.$axios
-        .$put(`/api/transaksi/update-status/${this.selectedId}`, this.form)
+        .$get(`/api/verifikasi/patner/${this.selectedId}`)
         .then(res => {
           console.log(res);
           if (res.success) {
-            this.$bvToast.toast("Pembayaran berhasil diverifikasi!", {
+            this.$bvToast.toast("Dokumen berhasil diverifikasi!", {
               title: "Sukses",
               variant: "success",
               solid: true,
               autoHideDelay: 3000
             });
-            this.items[this.selectedIndex].status = this.form.status;
+            this.items[this.selectedIndex].verifikasi = this.form.verifikasi;
             this.$bvModal.hide("modal-detail");
           }
           return true;
