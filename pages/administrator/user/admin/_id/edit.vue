@@ -139,6 +139,11 @@ export default {
         this.form.password = null;
         this.form.ulangi_password = null;
       }
+    },
+    "form.username": function (value) {
+      if(value) {
+        this.form.username = value.replace(/ /g,'').toLowerCase();
+      }
     }
   },
   methods: {

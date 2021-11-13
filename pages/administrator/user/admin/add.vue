@@ -124,7 +124,12 @@ export default {
       }
     };
   },
-  mounted() {
+  watch: {
+    "form.username": function (value) {
+      if(value) {
+        this.form.username = value.replace(/ /g,'').toLowerCase();
+      }
+    }
   },
   methods: {
     validateForm() {
