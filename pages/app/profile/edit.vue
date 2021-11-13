@@ -223,6 +223,7 @@
                 </b-row>
               </b-tab>
               <b-tab title="Akun">
+                <div class="mb-3 alert alert-danger"><i class="fas fa-exclamation fa-fw mr-1"></i> Kosongkan form jika tidak diubah.</div>
                 <div class="row">
                   <div class="col-md-6">
                     <div class="form-group reg-siswa">
@@ -282,6 +283,7 @@
                           ></span>
                         </div>
                       </div>
+                      <div v-html="showError('password')"></div>
                     </div>
                   </div>
                   <div class="col-md-6">
@@ -302,6 +304,7 @@
                         ></span>
                       </div> -->
                       </div>
+                      <div v-html="showError('nomor_telephone')"></div>
                     </div>
                   </div>
                   <div
@@ -456,7 +459,7 @@
       </div>
     </div>
 
-    <b-modal id="modal-ortu" title="Tambah Orang Tua" hide-footer>
+    <b-modal id="modal-ortu" title="Tambah Orang Tua" hide-footer @hidden="resetForm">
       <div class="p-3">
         <!-- <div class="text-center">
           <h3 class="modal-title mt-1 mb-3" id="exampleModalLongTitle">
@@ -693,7 +696,34 @@ export default {
         this.$set(this.dataError, "nomor_telephone", [""]);
         this.isValidForm["nomor_telephone"] = true;
       }
-    }
+    },
+    "formSiswa.password": function(value) {
+      if (!value) {
+        this.$set(this.dataError, "password", [""]);
+        this.$set(this.dataError, "repassword", [""]);
+        return;
+      }
+      var passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,20}$/;
+      var test = value.match(passwordRegex);
+      if (value && test === null) {
+        this.$set(this.dataError, "password", [
+          "Password minimal 8 - 20 karakter. Dengan setidaknya terdapat 1 huruf kapital, 1 angka dan 1 karakter spesial."
+        ]);
+        this.isValidForm["password"] = false;
+      } else {
+        this.$set(this.dataError, "password", [""]);
+        this.isValidForm["password"] = true;
+      }
+      if (this.formSiswa.repassword && value !== this.formSiswa.repassword) {
+        this.$set(this.dataError, "repassword", [
+          "Password tidak sama. Mohon pelan-pelan."
+        ]);
+        this.isValidForm["repassword"] = false;
+      } else {
+        this.$set(this.dataError, "repassword", [""]);
+        this.isValidForm["repassword"] = true;
+      }
+    },
   },
   computed: {
     akun() {
@@ -891,7 +921,22 @@ export default {
         .finally(() => (this.loading = false));
     },
     onSubmit() {
-      this.loading = true;
+
+      if(this.formSiswa.password && !this.formSiswa.repassword) {
+        return this.showToastMessage('Mohon ulangi password untuk konfirmasi dari kesalahan pengetikan!');
+      } else if(this.formSiswa.password !== this.formSiswa.repassword) {
+        return this.showToastMessage('Password tidak sama!');
+      }
+
+      if (Object.values(this.isValidForm).includes(false)) {
+        this.$bvToast.toast("Mohon lengkapi formulir dengan benar!", {
+          title: "Peringatan",
+          variant: "warning",
+          solid: true,
+          autoHideDelay: 3000
+        });
+        return this.showToastMessage('Mohon lengkapi formulir yang belum valid!'); 
+      }
 
       let dataSave = {
         ...this.formSiswa
@@ -902,6 +947,7 @@ export default {
       }
 
       if(this.akun.role_user == 'teacher') {
+
         let userDocs = [];
      
         for (let i = 0; i < this.userDocs.length; i++) {
@@ -922,6 +968,8 @@ export default {
         "Bearer " + this.$cookiz.get("_ujiaja");
       this.$axios.defaults.withCredentials = true;
       const role_type = this.akun.role_user;
+
+      this.loading = true;
       this.$axios
         .$put(`/api/users/${role_type}/update/${this.akun.id}`, dataSave)
         .then(res => {
