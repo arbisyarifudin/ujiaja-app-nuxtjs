@@ -69,7 +69,7 @@
             id="konten"
             class="konten px-3"
             :class="
-              !userDetail.id_provinsi && $route.path != '/app/profile/edit'
+              !profileLengkap && $route.path != '/app/profile/edit'
                 ? 'konten-dashfirst'
                 : ''
             "
@@ -78,7 +78,7 @@
             <div
               class="col-md-12 text-left"
               v-if="
-                !userDetail.id_provinsi && $route.path != '/app/profile/edit'
+                !profileLengkap && $route.path != '/app/profile/edit'
               "
             >
               <div class="alert-konten">
@@ -109,12 +109,32 @@ import ContentWrapper from "../components/Layout/ContentWrapper.vue";
 export default {
   components: { ContentWrapper },
   middleware: "auth-user",
+  data () {
+    return {
+      profileLengkap: true
+    }
+  },
   computed: {
     user() {
       return this.$store.state.dataUser.user;
     },
     userDetail() {
       return this.$store.state.dataUser.detail;
+    }
+  },
+  created() {
+    if(this.user && this.user.role_user)
+    {
+      this.$axios
+        .$get(`/api/users/${this.user.role_user}/cek`)
+        .then(res => {
+          console.log(res);
+          this.profileLengkap = res.success;
+        })
+        .catch(err => {
+          console.log(err);
+        })
+          // .finally(() => (this.loading = false));
     }
   },
   mounted() {

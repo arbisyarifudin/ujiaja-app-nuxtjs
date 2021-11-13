@@ -3,43 +3,44 @@
     <div class="p-0 text-left">
       <h2 class="pb-0">Edit Profil</h2>
       <h5 class="mt-4">Lengkapi profilmu sekarang juga!</h5>
-      <form action="" class="form-user" @submit.prevent="onSubmit">
-        <div class="mt-4 mb-5">
-          <b-tabs pills nav-wrapper-class="mb-4">
-            <b-tab title="Identitas Diri" active>
-              <b-row>
-                <b-col>
-                  <div class="form-group reg-siswa">
-                    <label for="nama_lengkap">Nama Lengkap</label>
-                    <input
-                      type="text"
-                      class="form-control pl-0"
-                      id="nama_lengkap"
-                      placeholder="Nama Lengkap"
-                      v-model="formSiswa.nama_lengkap"
-                    />
-                  </div>
-                  <div class="form-group reg-siswa">
-                    <label for="tempat_lahir">Tempat Lahir</label>
-                    <input
-                      type="text"
-                      class="form-control pl-0"
-                      id="tempat_lahir"
-                      placeholder="Tempat Lahir"
-                      v-model="formSiswa.tempat_lahir"
-                    />
-                  </div>
-                  <div class="form-group reg-siswa">
-                    <label for="nomor_handphone">No. Telp/WA</label>
-                    <input
-                      type="text"
-                      class="form-control pl-0"
-                      id="nomor_handphone"
-                      placeholder="No. Telp/WA"
-                      v-model="formSiswa.nomor_telephone"
-                    />
-                  </div>
-                  <div class="form-group reg-siswa">
+      <no-ssr>
+        <form action="" class="form-user" @submit.prevent="onSubmit">
+          <div class="mt-4 mb-5">
+            <b-tabs pills nav-wrapper-class="mb-4">
+              <b-tab title="Identitas Diri" active>
+                <b-row>
+                  <b-col>
+                    <div class="form-group reg-siswa">
+                      <label for="nama_lengkap">Nama Lengkap</label>
+                      <input
+                        type="text"
+                        class="form-control pl-0"
+                        id="nama_lengkap"
+                        placeholder="Nama Lengkap"
+                        v-model="formSiswa.nama_lengkap"
+                      />
+                    </div>
+                    <div class="form-group reg-siswa">
+                      <label for="tempat_lahir">Tempat Lahir</label>
+                      <input
+                        type="text"
+                        class="form-control pl-0"
+                        id="tempat_lahir"
+                        placeholder="Tempat Lahir"
+                        v-model="formSiswa.tempat_lahir"
+                      />
+                    </div>
+                    <div class="form-group reg-siswa">
+                      <label for="nomor_handphone">No. Telp/WA</label>
+                      <input
+                        type="text"
+                        class="form-control pl-0"
+                        id="nomor_handphone"
+                        placeholder="No. Telp/WA"
+                        v-model="formSiswa.nomor_telephone"
+                      />
+                    </div>
+                    <!-- <div class="form-group reg-siswa" v-if="akun.role_user == 'siswa'">
                     <label for="penjurusan">Saya Belajar di Kelas</label>
                     <b-form-select
                       class="form-control"
@@ -50,328 +51,342 @@
                       text-field="textField"
                     >
                     </b-form-select>
-                  </div>
-                </b-col>
-                <b-col>
-                  <div class="form-group reg-siswa">
-                    <label for="jenis_kelamin">Jenis Kelamin</label>
-                    <select
-                      class="form-control"
-                      id="jenis_kelamin"
-                      v-model="formSiswa.jenis_kelamin"
-                    >
-                      <option value="">Pilih Jenis Kelamin</option>
-                      <option value="Laki-laki">Laki-Laki</option>
-                      <option value="Perempuan">Perempuan</option>
-                    </select>
-                  </div>
-                  <div class="form-group reg-siswa">
-                    <label for="tanggal_lahir">Tanggal Lahir</label>
-                    <input
-                      type="date"
-                      class="form-control pl-0 pr-0"
-                      id="tanggal_lahir"
-                      placeholder="DD-MM-YYYY"
-                      max="2020-01-01"
-                      v-model="formSiswa.tgl_lahir"
-                    />
-                  </div>
-                  <!-- <div class="form-group reg-siswa">
-                    <label for="seorang">Saya Seorang</label>
-                    <input
-                      type="text"
-                      class="form-control pl-0"
-                      id="seorang"
-                      placeholder="Saya Seorang..."
-                    />
                   </div> -->
-                  <div class="row">
-                    <div class="form-group col-md-3">
-                      <img
-                        src="/chance.png"
-                        alt="foto"
-                        class="img-fluid"
-                        style="width: 100%; object-fit: contain"
-                      />
-                    </div>
-                    <div class="col-md-8 form-group reg-siswa">
-                      <label>Unggah Foto</label>
-                      <input type="file" class="form-control" />
-                    </div>
-                  </div>
-                  <!-- <div class="container unggah">
-                    <div class="row">
-                      <div class="form-group">
-                        <label class="control-label">Foto</label>
-                        <div>
-                          <button
-                            type="submit"
-                            class="btn btn-outline-primary pull-right"
-                            style="border-radius: 10px"
-                          >
-                            Unggah
-                          </button>
-                        </div>
-                        <div class="d-flex">
-                          <input
-                            type="text"
-                            class="form-control pl-0"
-                            id="text"
-                            placeholder="Nama File"
-                          />
-                        </div>
-                        <div class="preview-zone hidden">
-                          <div class="box box-solid">
-                            <div class="box-body mt-4"></div>
-                          </div>
-                        </div>
-                        <div class="dropzone-wrapper">
-                          <div class="dropzone-desc">
-                            <img src="/icon/unggah.png" alt="" />
-                            <p class="mt-2 p-0" style="font-size: 22px">
-                              Seret dan lepas file
-                            </p>
-                            <p class="p-0 mb-1">
-                              atau <a href="">telusuri</a> untuk memilih file
-                            </p>
-                            <p style="color: red">
-                              Disarankan dengan foto 469 x 625 pixel
-                            </p>
-                          </div>
-                          <input type="file" name="img_logo" class="dropzone" />
-                        </div>
-                      </div>
-                    </div>
-                  </div> -->
-                </b-col>
-              </b-row>
-            </b-tab>
-            <b-tab title="Alamat">
-              <b-row>
-                <b-col>
-                  <div class="form-group reg-siswa">
-                    <label for="alamat">Alamat</label>
-                    <input
-                      type="text"
-                      class="form-control pl-0"
-                      id="alamat"
-                      placeholder="Klik Untuk Isi Alamat"
-                      v-model="formSiswa.alamat"
-                    />
-                  </div>
-                  <div class="form-group reg-siswa">
-                    <label for="provinsi">Provinsi</label>
-                    <b-form-select
-                      class="form-control"
-                      id="provinsi"
-                      v-model="formSiswa.id_provinsi"
-                      :options="dataOption['provinsi']"
-                      value-field="id"
-                      text-field="nama"
-                      @change="
-                        () => {
-                          getAPI('kota_kabupaten');
-                          dataOption['kecamatan'] = [];
-                        }
-                      "
+                    <div
+                      class="form-group reg-siswa"
+                      v-if="akun.role_user == 'teacher'"
                     >
-                    </b-form-select>
-                  </div>
-                </b-col>
-                <b-col>
-                  <div class="form-group reg-siswa">
-                    <label for="kota">Kota</label>
-                    <b-form-select
-                      class="form-control"
-                      id="kota"
-                      v-model="formSiswa.id_kota"
-                      :options="dataOption['kota_kabupaten']"
-                      value-field="id"
-                      text-field="nama"
-                      @change="
-                        () => {
-                          getAPI('kecamatan');
-                        }
-                      "
-                    >
-                    </b-form-select>
-                  </div>
-                  <div class="form-group reg-siswa">
-                    <label for="kecamatan">Kecamatan</label>
-                    <b-form-select
-                      class="form-control"
-                      id="kecamatan"
-                      v-model="formSiswa.id_kecamatan"
-                      :options="dataOption['kecamatan']"
-                      value-field="id"
-                      text-field="nama"
-                    >
-                    </b-form-select>
-                  </div>
-                </b-col>
-              </b-row>
-            </b-tab>
-            <b-tab title="Akun">
-              <div class="row">
-                <div class="col-md-6">
-                  <div class="form-group reg-siswa">
-                    <label for="Username">Username</label>
-                    <input
-                      type="text"
-                      class="form-control pl-0"
-                      id="Username"
-                      placeholder="Username"
-                      autocomplete="false"
-                      v-model="formSiswa.username"
-                      disabled
-                    />
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="form-group reg-siswa">
-                    <label for="email">Email</label>
-                    <input
-                      type="text"
-                      class="form-control pl-0"
-                      id="email"
-                      placeholder="email"
-                      autocomplete="false"
-                      v-model="formSiswa.email"
-                      disabled
-                    />
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="form-group reg-siswa">
-                    <label for="password">Password</label>
-                    <div class="input-group">
-                      <input
-                        :type="showPassword ? 'text' : 'password'"
-                        class="form-control pl-0"
-                        id="password"
-                        placeholder="Password"
-                        autocomplete="new-password"
-                        v-model="formSiswa.password"
-                      />
-                      <div
-                        class="input-group-append"
-                        style="cursor: pointer"
-                        @click.prevent="showPassword = !showPassword"
+                      <label for="pendidikan_terakhir"
+                        >Pendidikan Terakhir</label
                       >
-                        <span
-                          class="input-group-text bg-transparent"
-                          style="pointer-events: none"
-                          ><i
-                            :class="[
-                              'fa',
-                              showPassword ? 'fa-eye-slash' : 'fa-eye'
-                            ]"
+                      <input
+                        type="text"
+                        class="form-control pl-0 pr-0"
+                        id="pendidikan_terakhir"
+                        placeholder="Misal: S1 Teknik Informatika - UGM"
+                        max="2020-01-01"
+                        v-model="formSiswa.pendidikan_terakhir"
+                      />
+                    </div>
+                  </b-col>
+                  <b-col>
+                    <div class="form-group reg-siswa">
+                      <label for="jenis_kelamin">Jenis Kelamin</label>
+                      <select
+                        class="form-control"
+                        id="jenis_kelamin"
+                        v-model="formSiswa.jenis_kelamin"
+                      >
+                        <option value="">Pilih Jenis Kelamin</option>
+                        <option value="Laki-laki">Laki-Laki</option>
+                        <option value="Perempuan">Perempuan</option>
+                      </select>
+                    </div>
+                    <div class="form-group reg-siswa">
+                      <label for="tanggal_lahir">Tanggal Lahir</label>
+                      <input
+                        type="date"
+                        class="form-control pl-0 pr-0"
+                        id="tanggal_lahir"
+                        placeholder="DD-MM-YYYY"
+                        max="2020-01-01"
+                        v-model="formSiswa.tgl_lahir"
+                      />
+                    </div>
+                    <div class="row">
+                      <div class="form-group col-md-3">
+                        <img
+                          v-if="apiUrl"
+                          :src="apiUrl(profil.foto)"
+                          @error="noImage"
+                          alt="foto"
+                          class="img-fluid"
+                          id="fotoprofil_preview"
+                          style="width: 100%; height: 80px; object-fit: contain"
+                        />
+                      </div>
+                      <div class="col-md-8 form-group reg-siswa">
+                        <label>Unggah Foto</label>
+                        <input
+                          type="file"
+                          id="fotoprofil"
+                          ref="fotoprofil"
+                          @change="handleUploadedFile('fotoprofil')"
+                        />
+                      </div>
+                    </div>
+                    <div class="form-group reg-siswa">
+                      <label for="info"
+                        >Dapat informasi tentang UjiaAja melalui?</label
+                      >
+                      <select
+                        class="form-control"
+                        id="info"
+                        v-model="formSiswa.info"
+                      >
+                        <option :value="null">--Pilih--</option>
+                        <option value="Sosial Media">Sosial Media</option>
+                        <option value="Mesin Pencari">Mesin Pencari</option>
+                        <option value="Teman / Kenalan">Teman / Kenalan</option>
+                      </select>
+                    </div>
+                  </b-col>
+                </b-row>
+              </b-tab>
+              <b-tab
+                title="Dokumen Pendukung"
+                v-if="akun.role_user == 'teacher'"
+              >
+                <b-row>
+                  <b-col md="6">
+                    <div class="form-group reg-siswa" v-for="(doc, index) in userDocs" :key="'docIn'+index">
+                      <label :for="doc.doc_type">{{doc.doc_label}}</label>
+                      <input :disabled="doc.doc_type == 'Approved'" type="file" class="form-control pl-0" :id="doc.doc_type" :ref="doc.doc_type" :name="doc.doc_type" @change="handleUploadedFile(doc.doc_type)" />
+                    </div>
+                  </b-col>
+                  <b-col md="6">
+                    <b-row v-if="apiUrl && userDocs.length > 0">
+                      <b-col md="4" v-for="(doc, index) in userDocs" :key="'docIm'+index">
+                        <b-img fluid :id="doc.doc_type + '_preview'" :src="apiUrl(doc.doc_file)"></b-img>
+                        <div class="text-center" v-if="doc.doc_file || (dataFiles[doc.doc_type] && dataFiles[doc.doc_type].file)">
+                          Status Approval : 
+                          <span :class="badgeStatus(doc.doc_status)" v-text="doc.doc_status"></span>
+                        </div>
+                      </b-col>
+                    </b-row>
+                  </b-col>
+                </b-row>
+              </b-tab>
+              <b-tab title="Alamat">
+                <b-row>
+                  <b-col>
+                    <div class="form-group reg-siswa">
+                      <label for="alamat">Alamat</label>
+                      <input
+                        type="text"
+                        class="form-control pl-0"
+                        id="alamat"
+                        placeholder="Klik Untuk Isi Alamat"
+                        v-model="formSiswa.alamat"
+                      />
+                    </div>
+                    <div class="form-group reg-siswa">
+                      <label for="provinsi">Provinsi</label>
+                      <b-form-select
+                        class="form-control"
+                        id="provinsi"
+                        v-model="formSiswa.id_provinsi"
+                        :options="dataOption['provinsi']"
+                        value-field="id"
+                        text-field="nama"
+                        @change="
+                          () => {
+                            getAPI('kota_kabupaten');
+                            dataOption['kecamatan'] = [];
+                          }
+                        "
+                      >
+                      </b-form-select>
+                    </div>
+                  </b-col>
+                  <b-col>
+                    <div class="form-group reg-siswa">
+                      <label for="kota">Kota</label>
+                      <b-form-select
+                        class="form-control"
+                        id="kota"
+                        v-model="formSiswa.id_kota"
+                        :options="dataOption['kota_kabupaten']"
+                        value-field="id"
+                        text-field="nama"
+                        @change="
+                          () => {
+                            getAPI('kecamatan');
+                          }
+                        "
+                      >
+                      </b-form-select>
+                    </div>
+                    <div class="form-group reg-siswa">
+                      <label for="kecamatan">Kecamatan</label>
+                      <b-form-select
+                        class="form-control"
+                        id="kecamatan"
+                        v-model="formSiswa.id_kecamatan"
+                        :options="dataOption['kecamatan']"
+                        value-field="id"
+                        text-field="nama"
+                      >
+                      </b-form-select>
+                    </div>
+                  </b-col>
+                </b-row>
+              </b-tab>
+              <b-tab title="Akun">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group reg-siswa">
+                      <label for="Username">Username</label>
+                      <input
+                        type="text"
+                        class="form-control pl-0"
+                        id="Username"
+                        placeholder="Username"
+                        autocomplete="false"
+                        v-model="formSiswa.username"
+                        disabled
+                      />
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group reg-siswa">
+                      <label for="email">Email</label>
+                      <input
+                        type="text"
+                        class="form-control pl-0"
+                        id="email"
+                        placeholder="email"
+                        autocomplete="false"
+                        v-model="formSiswa.email"
+                        disabled
+                      />
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group reg-siswa">
+                      <label for="password">Password</label>
+                      <div class="input-group">
+                        <input
+                          :type="showPassword ? 'text' : 'password'"
+                          class="form-control pl-0"
+                          id="password"
+                          placeholder="Password"
+                          autocomplete="new-password"
+                          v-model="formSiswa.password"
+                        />
+                        <div
+                          class="input-group-append"
+                          style="cursor: pointer"
+                          @click.prevent="showPassword = !showPassword"
+                        >
+                          <span
+                            class="input-group-text bg-transparent"
                             style="pointer-events: none"
-                          ></i
-                        ></span>
+                            ><i
+                              :class="[
+                                'fa',
+                                showPassword ? 'fa-eye-slash' : 'fa-eye'
+                              ]"
+                              style="pointer-events: none"
+                            ></i
+                          ></span>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="form-group reg-siswa">
-                    <label for="repassword">Konfirmasi Password</label>
-                    <div class="input-group">
-                      <input
-                        type="password"
-                        class="form-control pl-0"
-                        id="repassword"
-                        placeholder="Ulangi Password"
-                        autocomplete="new-password"
-                        v-model="formSiswa.repassword"
-                      />
-                      <!-- <div class="input-group-append">
+                  <div class="col-md-6">
+                    <div class="form-group reg-siswa">
+                      <label for="repassword">Konfirmasi Password</label>
+                      <div class="input-group">
+                        <input
+                          type="password"
+                          class="form-control pl-0"
+                          id="repassword"
+                          placeholder="Ulangi Password"
+                          autocomplete="new-password"
+                          v-model="formSiswa.repassword"
+                        />
+                        <!-- <div class="input-group-append">
                         <span class="input-group-text bg-transparent"
                           ><i class="fa fa-eye-slash"></i
                         ></span>
                       </div> -->
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div
-                  class="col-md-6 d-flex tambah-akun align-items-center mt-3"
-                  v-if="akun.role_user == 'siswa' && !profil.parent"
-                  v-b-modal.modal-ortu
-                >
-                  <button
-                    class="btn btn-primary tambah-akun px-3"
-                    type="button"
+                  <div
+                    class="col-md-6 d-flex tambah-akun align-items-center mt-3"
+                    v-if="akun.role_user == 'siswa' && !profil.parent"
+                    v-b-modal.modal-ortu
                   >
-                    <i class="fa fa-plus"></i>
-                  </button>
-                  <p class="pb-0 pl-3 mb-0" style="font-size: 14px">
-                    Tambah Akun Untuk Orangtuamu
-                  </p>
+                    <button
+                      class="btn btn-primary tambah-akun px-3"
+                      type="button"
+                    >
+                      <i class="fa fa-plus"></i>
+                    </button>
+                    <p class="pb-0 pl-3 mb-0" style="font-size: 14px">
+                      Tambah Akun Untuk Orangtuamu
+                    </p>
+                  </div>
                 </div>
-              </div>
-            </b-tab>
-            <b-tab title="Data Orangtua" v-if="profil && profil.parent">
-              <b-row>
-                <b-col>
-                  <div class="form-group reg-siswa">
-                    <label for="ortu_name">Nama Lengkap</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="ortu_name"
-                      placeholder="Nama Lengkap"
-                      v-model="formOrtu.nama_lengkap"
-                    />
-                  </div>
-                  <div class="form-group reg-siswa">
-                    <label for="ortu_phone">No.Telp</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="ortu_phone"
-                      placeholder="No.Telp"
-                      v-model="formOrtu.nomor_telephone"
-                    />
-                  </div>
-                </b-col>
-                <b-col>
-                  <div class="form-group reg-siswa">
-                    <label for="ortu_email">Email</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="ortu_email"
-                      placeholder="Email"
-                      autocomplete="false"
-                      v-model="formOrtu.email"
-                      disabled
-                    />
-                  </div>
-                  <div class="form-group reg-siswa">
-                    <label for="ortu_username">Username</label>
-                    <input
-                      type="text"
-                      class="form-control form-control-karir"
-                      id="ortu_username"
-                      placeholder="Username"
-                      autocomplete="false"
-                      v-model="formOrtu.username"
-                      disabled
-                    />
-                  </div>
-                </b-col>
-              </b-row>
-            </b-tab>
-          </b-tabs>
-        </div>
-        <div class="d-flex">
-          <b-button type="submit" variant="primary" :disabled="loading">
-            <b-spinner small class="mr-1" v-if="loading"></b-spinner>
-            <i class="fas fa-save fa-fw mr-1" v-else></i>
-            Simpan Perubahan</b-button
-          >
-        </div>
-      </form>
+              </b-tab>
+              <b-tab
+                title="Data Orangtua"
+                v-if="profil && profil.parent && akun.role_user == 'siswa'"
+              >
+                <b-row>
+                  <b-col>
+                    <div class="form-group reg-siswa">
+                      <label for="ortu_name">Nama Lengkap</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="ortu_name"
+                        placeholder="Nama Lengkap"
+                        v-model="formOrtu.nama_lengkap"
+                      />
+                    </div>
+                    <div class="form-group reg-siswa">
+                      <label for="ortu_phone">No.Telp</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="ortu_phone"
+                        placeholder="No.Telp"
+                        v-model="formOrtu.nomor_telephone"
+                      />
+                    </div>
+                  </b-col>
+                  <b-col>
+                    <div class="form-group reg-siswa">
+                      <label for="ortu_email">Email</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="ortu_email"
+                        placeholder="Email"
+                        autocomplete="false"
+                        v-model="formOrtu.email"
+                        disabled
+                      />
+                    </div>
+                    <div class="form-group reg-siswa">
+                      <label for="ortu_username">Username</label>
+                      <input
+                        type="text"
+                        class="form-control form-control-karir"
+                        id="ortu_username"
+                        placeholder="Username"
+                        autocomplete="false"
+                        v-model="formOrtu.username"
+                        disabled
+                      />
+                    </div>
+                  </b-col>
+                </b-row>
+              </b-tab>
+            </b-tabs>
+          </div>
+          <div class="d-flex">
+            <b-button type="submit" variant="primary" :disabled="loading">
+              <b-spinner small class="mr-1" v-if="loading"></b-spinner>
+              <i class="fas fa-save fa-fw mr-1" v-else></i>
+              Simpan Perubahan</b-button
+            >
+          </div>
+        </form>
+      </no-ssr>
     </div>
 
     <div
@@ -538,6 +553,14 @@
 
 <script>
 export default {
+  //  middleware: [
+  //   function(context) {
+  //     const dataUser = context.store.state.dataUser
+  //     if(dataUser.user && dataUser.user.role_user == 'teacher') {
+  //       context.redirect("/app/profile/partner-edit");
+  //     }
+  //   }
+  // ],
   layout: "app",
   data() {
     return {
@@ -559,7 +582,8 @@ export default {
         id_kecamatan: null,
         id_penjurusan: null,
         password: "",
-        repassword: ""
+        repassword: "",
+        pendidikan_terakhir: ""
       },
       formOrtu: {
         nama_lengkap: "",
@@ -588,7 +612,10 @@ export default {
         email: null,
         nomor_telephone: null
       },
-      dataError: []
+      dataError: [],
+      files: [],
+      userDocs: [],
+      dataFiles: {},
     };
   },
   watch: {
@@ -679,14 +706,16 @@ export default {
   created() {
     this.formSiswa = {
       username: this.akun.username,
-      nama_lengkap: this.profil.nama_lengkap,
       email: this.akun.email,
+      foto: this.profil.foto,
+      nama_lengkap: this.profil.nama_lengkap,
       nomor_telephone: this.profil.nomor_telephone,
-      info: this.profil.info,
+      info: this.profil.info ?? null,
       tempat_lahir: this.profil.tempat_lahir,
-      tgl_lahir: this.profil.tgl_lahir,
+      pendidikan_terakhir: this.profil.pendidikan_terakhir,
+      tgl_lahir: this.profil.tgl_lahir ?? this.profil.tanggal_lahir,
       jenis_kelamin: this.profil.jenis_kelamin ?? "Laki-laki",
-      alamat: this.profil.alamat,
+      alamat: this.profil.alamat ?? this.profil.alamat_lengkap,
       nomor_telephone: this.profil.nomor_telephone,
       id_provinsi: this.profil.id_provinsi,
       id_kota: this.profil.id_kota,
@@ -704,7 +733,31 @@ export default {
         nomor_telephone: this.profil.parent.nomor_telephone
       };
     }
-    this.getMaster("penjurusan");
+    if(this.profil && this.profil.user_doc && this.profil.user_doc.length) {
+      this.userDocs = this.profil.user_doc
+    } else {
+      this.userDocs = [
+        {
+          doc_label: 'KTP/Passport/SIM',
+          doc_type: 'idcard',
+          doc_file: null,
+          doc_status: 'Pending',
+        },
+        {
+          doc_label: 'NPWP',
+          doc_type: 'npwp',
+          doc_file: null,
+          doc_status: 'Pending',
+        },
+        {
+          doc_label: 'Ijazah Terakhir',
+          doc_type: 'ijazah',
+          doc_file: null,
+          doc_status: 'Pending',
+        }
+      ]
+    }
+    // this.getMaster("penjurusan");
     if (this.$cookiz.get("provinsi")) {
       this.dataOption["provinsi"] = this.$cookiz.get("provinsi");
       if (this.$cookiz.get("kota_kabupaten"))
@@ -716,6 +769,12 @@ export default {
     }
   },
   methods: {
+    apiUrl(param) {
+      return process.env.apiUrl + "/" + param;
+    },
+    noImage(event) {
+      event.target.src = `${window.origin}/logo2.png`;
+    },
     resetForm() {
       this.isValidForm = {
         username: null,
@@ -755,16 +814,6 @@ export default {
         });
         return;
       }
-
-      // if (
-      //   this.formOrtu.repassword &&
-      //   this.formOrtu.repassword !== this.formOrtu.password
-      // ) {
-      //   this.$set(this.dataError, "repassword", [
-      //     "Password tidak sama. Mohon pelan-pelan.",
-      //   ]);
-      //   return;
-      // }
 
       if (Object.values(this.isValidForm).includes(false)) {
         this.$bvToast.toast("Mohon lengkapi formulir dengan benar!", {
@@ -844,14 +893,37 @@ export default {
     onSubmit() {
       this.loading = true;
 
-      // const dataSave = {
-      //   ...this.formSiswa
-      // }
+      let dataSave = {
+        ...this.formSiswa
+      };
+
+      if (this.dataFiles["fotoprofil"] && this.dataFiles["fotoprofil"].file) {
+        dataSave.foto = this.dataFiles["fotoprofil"].file;
+      }
+
+      if(this.akun.role_user == 'teacher') {
+        let userDocs = [];
+     
+        for (let i = 0; i < this.userDocs.length; i++) {
+          const doc = this.userDocs[i];
+          if(this.dataFiles[doc.doc_type]) {
+            userDocs.push({
+              ...doc,
+              doc_type: this.dataFiles[doc.doc_type].type,
+              doc_file: this.dataFiles[doc.doc_type].file,
+            })
+          }
+        }
+        
+        dataSave.user_docs = userDocs;
+      }
+
       this.$axios.defaults.headers.Authorization =
         "Bearer " + this.$cookiz.get("_ujiaja");
       this.$axios.defaults.withCredentials = true;
+      const role_type = this.akun.role_user;
       this.$axios
-        .$put(`/api/users/siswa/update/${this.akun.id}`, this.formSiswa)
+        .$put(`/api/users/${role_type}/update/${this.akun.id}`, dataSave)
         .then(res => {
           console.log(res);
           if (res.success) {
@@ -943,6 +1015,64 @@ export default {
           this.catchError(err);
         })
         .finally(() => (this.loading = false));
+    },
+    badgeStatus(status) {
+      let badgeClass;
+      switch (status) {
+        case 'Approved':
+          badgeClass = 'badge badge-success'
+          break;
+        case 'Approved':
+          badgeClass = 'badge badge-success'
+          break;
+        default:
+          badgeClass = 'badge badge-secondary'
+          break;
+      }
+      return badgeClass
+    },
+    handleUploadedFile(param) {
+      this.files[param] = this.$refs[param] && this.$refs[param].files ? this.$refs[param].files[0] : this.$refs[param][0].files[0];
+      console.log(this.files[param]);
+      // this.$refs[param].closest(
+      //   ".custom-file"
+      // ).children[1].textContent = this.files[param].name;
+
+      let reader = new FileReader();
+      reader.onload = function(e) {
+        document.getElementById(param + "_preview").src = e.target.result;
+      };
+      reader.readAsDataURL(this.files[param]); // convert to base64 string
+
+      let formData = new FormData();
+
+      formData.append("image", this.files[param]);
+      // console.log(formData);
+
+      if (this.files[param] != null) {
+        this.loading = true;
+        this.$axios
+          .$post(`/api/upload/image`, formData)
+          .then(res => {
+            console.log(res);
+            if (res) {
+              if (!this.dataFiles[param]) {
+                this.dataFiles[param] = {
+                  type: param,
+                  file: res.data.image_url
+                };
+                // this.dataFiles[param].file = res.data.image_url;
+                console.log(this.dataFiles[param]);
+              }
+            }
+            return;
+          })
+          .catch(err => {
+            console.log(err);
+            this.catchError(err);
+          })
+          .finally(() => (this.loading = false));
+      }
     }
   }
 };
