@@ -24,7 +24,7 @@
                   { text: 'Tampil 25', value: 25 },
                   { text: 'Tampil 50', value: 50 }
                 ]"
-                 @change="getData('users/teacher')"
+                @change="getData('users/teacher')"
               ></b-form-select>
             </b-input-group>
           </div>
@@ -64,7 +64,7 @@
             <tbody class="body-table">
               <template v-if="totalRows > 0">
                 <tr v-for="(item, index) in items" :key="index">
-                  <td class="text-center">{{ (index + 1) }}</td>
+                  <td class="text-center">{{ index + 1 }}</td>
                   <td class="btn-table">
                     <button
                       class="btn btn-light px-2 mt-n2"
@@ -91,7 +91,16 @@
                   <td>{{ item.email }}</td>
                   <td>{{ item.nomor_telephone }}</td>
                   <td>{{ item.pendidikan_terakhir }}</td>
-                  <td>{{ formatSelisih(item.tanggal_lahir ? item.tanggal_lahir : '1980-01-01', new Date(), 'years') }} tahun</td>
+                  <td>
+                    {{
+                      formatSelisih(
+                        item.tanggal_lahir ? item.tanggal_lahir : "1980-01-01",
+                        new Date(),
+                        "years"
+                      )
+                    }}
+                    tahun
+                  </td>
                 </tr>
               </template>
               <UITableLoading v-if="loading" />
@@ -135,50 +144,89 @@
           Konfirmasi terlebih dahulu informasi di bawah ini dengan teliti
           sebelum melakukan verifikasi!
         </p> -->
-        <div class="row">
-          <div class="col-md-6 modal-body-kiri">
+        <div class="row justify-content-center">
+          <div class="col-md-8 modal-body-kiri">
+            <h5>Identitas Diri</h5>
+            <hr />
             <table class="table table-borderless">
               <tr>
                 <th width="150">Nama Lengkap</th>
                 <th width="10">:</th>
                 <th>{{ detail.nama_lengkap }}</th>
               </tr>
-              <tr>
+              <tr v-if="detail.user">
                 <th width="150">Status Akun</th>
                 <th width="10">:</th>
-                <th><span :class="statusBadge(detail.verifikasi)">{{detail.verifikasi == 1 ? 'Belum Diverifikasi' : 'Sudah Diverifikasi'}}</span></th>
+                <th>
+                  <span :class="statusBadge(detail.user.verifikasi)">{{
+                    detail.user.verifikasi == 1
+                      ? "Belum Diverifikasi"
+                      : "Sudah Diverifikasi"
+                  }}</span>
+                  <button
+                    type="button"
+                    v-if="detail.user.verifikasi != 2"
+                    class="btn btn-sm btn-success px-2 py-0"
+                    title="Verifikasi"
+                    @click="verifyUser(2)"
+                  >
+                    <i class="fas fa-check"></i>
+                  </button>
+                  <button
+                    type="button"
+                    v-if="detail.user.verifikasi == 2"
+                    class="btn btn-sm btn-danger px-2 py-0"
+                    title="Verifikasi"
+                    @click="verifyUser(1)"
+                  >
+                    <i class="fas fa-times"></i>
+                  </button>
+                </th>
               </tr>
               <tr>
                 <th width="150">Tgl. Bergabung</th>
                 <th width="10">:</th>
                 <th>
-                  {{
-                    formatTanggal(
-                      detail.created_at,
-                      "Do MMMM YYYY"
-                    )
-                  }}
+                  {{ formatTanggal(detail.created_at, "Do MMMM YYYY") }}
                 </th>
               </tr>
               <tr>
                 <th width="150">Email</th>
                 <th width="10">:</th>
-                <th>{{detail.email}}</th>
+                <th>{{ detail.email }}</th>
               </tr>
               <tr>
                 <th width="150">No. Telp/HP</th>
                 <th width="10">:</th>
-                <th>{{detail.nomor_telephone}}</th>
+                <th>{{ detail.nomor_telephone }}</th>
               </tr>
               <tr>
                 <th width="150">Tanggal Lahir</th>
                 <th width="10">:</th>
-                <th>{{detail.tempat_lahir}}, {{formatTanggal(detail.tanggal_lahir ? detail.tanggal_lahir : '1980-01-01')}}</th>
+                <th>
+                  {{ detail.tempat_lahir }},
+                  {{
+                    formatTanggal(
+                      detail.tanggal_lahir ? detail.tanggal_lahir : "1980-01-01"
+                    )
+                  }}
+                </th>
               </tr>
               <tr>
                 <th width="150">Umur</th>
                 <th width="10">:</th>
-                <th>{{ formatSelisih(detail.tanggal_lahir ? detail.tanggal_lahir : '1980-01-01', new Date(), 'years') }} tahun</th>
+                <th>
+                  {{
+                    formatSelisih(
+                      detail.tanggal_lahir
+                        ? detail.tanggal_lahir
+                        : "1980-01-01",
+                      new Date(),
+                      "years"
+                    )
+                  }}
+                  tahun
+                </th>
               </tr>
               <tr>
                 <th width="150">Pendidikan Terakhir</th>
@@ -188,7 +236,9 @@
               <tr>
                 <th width="150">Alamat Lengkap</th>
                 <th width="10">:</th>
-                <th>{{ detail.alamat_lengkap ? detail.alamat_lengkap : '-' }}</th>
+                <th>
+                  {{ detail.alamat_lengkap ? detail.alamat_lengkap : "-" }}
+                </th>
               </tr>
               <tr>
                 <th width="150">Agama</th>
@@ -207,27 +257,46 @@
               </tr>
             </table>
           </div>
-          <div class="col-md-6 modal-body-kanan">
-            <h4>KTP</h4>
-            <div class="card">
-              <img src="/logoujiaja2.png" alt="gambar" class="card-img-top" style="height: 250px; object-fit: contain">
+          <div class="col-md-8 modal-body-kanan">
+            <h5>Dokumen Pendukung</h5>
+            <div v-if="detail.user">
+              Status Approval :
+              <span :class="statusBadge(detail.verifikasi)">{{
+                detail.verifikasi == 1
+                  ? "Belum Diverifikasi"
+                  : "Sudah Diverifikasi"
+              }}</span>
             </div>
-            <h4 class="mt-2">NPWP</h4>
-            <div class="card">
-              <img src="/logoujiaja2.png" alt="gambar" class="card-img-top" style="height: 250px; object-fit: contain">
-            </div>
+            <hr />
+            <template v-if="detail.user_doc">
+              <div
+                v-for="(doc, index) in detail.user_doc"
+                :key="'ud' + index"
+                class="mb-3"
+              >
+                <h6 v-text="doc.doc_label"></h6>
+                <div class="card">
+                  <img
+                    :src="ApiUrl(doc.doc_file)"
+                    :alt="doc.doc_type"
+                    class="card-img-top"
+                    style="height: 250px; object-fit: contain"
+                  />
+                </div>
+              </div>
+            </template>
             <div class="mt-4" v-if="detail.verifikasi != 2">
-                <div class="mb-3">
-                  <p class="mb-2">
-                    Apakah dokumen ini dapat diterima?
-                  </p>
-                  <!-- <select class="form-control" v-model="form.verifikasi">
+              <div class="mb-3">
+                <p class="mb-2">
+                  Apakah dokumen ini dapat diterima?
+                </p>
+                <!-- <select class="form-control" v-model="form.verifikasi">
                     <option :value="null">-- Pilih --</option>
                     <option :value="1">Terima</option>
                     <option :value="0">Tolak</option>
                   </select> -->
-                </div>
-                <!-- <div class="mb-3" v-if="form.verifikasi == '3'">
+              </div>
+              <!-- <div class="mb-3" v-if="form.verifikasi == '3'">
                   <p class="mb-2">Tulis alasan penolakan</p>
                   <textarea
                     class="form-control"
@@ -235,7 +304,7 @@
                     v-model="form.alasan_penolakan"
                   ></textarea>
                 </div> -->
-              </div>
+            </div>
           </div>
         </div>
         <div class="modal-footer justify-content-end" style="border: 0px">
@@ -246,7 +315,8 @@
             v-if="detail.verifikasi != 2"
             @click.prevent="verifyBukti"
           >
-            <b-spinner small v-if="submitting" class="mr-1"></b-spinner> Terima Dokumen
+            <b-spinner small v-if="submitting" class="mr-1"></b-spinner> Terima
+            Dokumen
           </button>
           <button
             class="btn btn-sm btn-outline-secondary"
@@ -283,41 +353,41 @@ export default {
       detail: {},
       showBukti: false,
       form: {
-        verifikasi: null,
+        verifikasi: null
       }
     };
   },
   created() {
-    this.getData('users/teacher');
+    this.getData("users/teacher");
   },
   watch: {
     "filter.keyword": function(value) {
-      this.getData('users/teacher');
+      this.getData("users/teacher");
     },
     "filter.page": function(value) {
-      this.getData('users/teacher');
+      this.getData("users/teacher");
     }
   },
   computed: {
     user() {
-      return this.$store.state.dataUser.user
+      return this.$store.state.dataUser.user;
     }
   },
   methods: {
     resetModal() {
       this.detail = {};
     },
-    statusBadge (status) {
-      let statusClass = 'badge badge-';
+    statusBadge(status) {
+      let statusClass = "badge badge-";
       switch (status) {
         case 1:
-          statusClass += 'danger'
+          statusClass += "danger";
           break;
         case 2:
-          statusClass += 'success'
+          statusClass += "success";
           break;
         default:
-          statusClass += 'secondary'
+          statusClass += "secondary";
           break;
       }
       return statusClass;
@@ -356,9 +426,12 @@ export default {
           console.log(res);
           if (res.success) {
             this.detail = res.data;
-            this.form.status = this.detail.status == 'Menunggu Verifikasi' ? null : this.detail.status
-            this.form.alasan_penolakan = this.detail.alasan_penolakan
-            this.form.jenis_transaksi = this.detail.jenis_transaksi
+            this.form.status =
+              this.detail.status == "Menunggu Verifikasi"
+                ? null
+                : this.detail.status;
+            this.form.alasan_penolakan = this.detail.alasan_penolakan;
+            this.form.jenis_transaksi = this.detail.jenis_transaksi;
           }
           return true;
         })
@@ -368,9 +441,56 @@ export default {
         })
         .finally(() => (this.loading = false));
     },
+    verifyUser(status) {
+      var conf = confirm(
+        `Apakah anda yakin menjadikan User ${
+          status !== 2
+            ? "sebagai belum di verifikasi / nonaktif"
+            : "sebagai telah di verifikasi"
+        }?`
+      );
+      if (!conf) {
+        return;
+      }
+      this.submitting = true;
+      this.$axios
+        .$put(`/api/users/teacher/update/${this.selectedId}`, {
+          ...this.detail,
+          tgl_lahir: this.detail.tanggal_lahir,
+          alamat: this.detail.alamat_lengkap,
+          username: this.detail.user.username,
+          verifikasi: status
+        })
+        .then(res => {
+          if (res.success) {
+            this.$bvToast.toast(
+              `User berhasil ${
+                status !== 2 ? "dinonaktifkan" : "diverifikasi"
+              }!`,
+              {
+                title: "Sukses",
+                variant: "success",
+                solid: true,
+                autoHideDelay: 3000
+              }
+            );
+            this.items[
+              this.selectedIndex
+            ].user.verifikasi = status;
+            this.detail.user.verifikasi = status
+            // this.$bvModal.hide("modal-detail");
+          }
+          return true;
+        })
+        .catch(err => {
+          console.log(err);
+          this.catchError(err);
+        })
+        .finally(() => (this.submitting = false));
+    },
     verifyBukti() {
-      var conf = confirm('Apakah anda yakin?')
-      if(!conf) {
+      var conf = confirm("Apakah anda yakin?");
+      if (!conf) {
         return;
       }
       this.submitting = true;
@@ -386,7 +506,8 @@ export default {
               autoHideDelay: 3000
             });
             this.items[this.selectedIndex].verifikasi = this.form.verifikasi;
-            this.$bvModal.hide("modal-detail");
+            this.detail.verifikasi = this.form.verifikasi
+            // this.$bvModal.hide("modal-detail");
           }
           return true;
         })

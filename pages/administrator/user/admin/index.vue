@@ -42,7 +42,7 @@
                 debounce="1000"
               ></b-form-input>
             </b-input-group>
-             <nuxt-link
+            <nuxt-link
               class="btn btn-primary tambah crud-btn__add px-4 ml-2"
               to="/administrator/user/admin/add"
             >
@@ -59,19 +59,20 @@
                 <th class="no" width="50">No</th>
                 <th width="50" class="aksi">Aksi</th>
                 <th width="100">Status</th>
+                <th>Username</th>
                 <th>Nama Lengkap</th>
                 <th>Email</th>
-                <th>No. Telp/HP</th>
+                <!-- <th>No. Telp/HP</th> -->
                 <th>Tanggal Dibuat</th>
               </tr>
             </thead>
             <tbody class="body-table">
               <template v-if="totalRows > 0">
                 <tr v-for="(item, index) in items" :key="index">
-                  <td class="text-center">{{ (index + 1) }}</td>
+                  <td class="text-center">{{ index + 1 }}</td>
                   <td class="btn-table">
                     <button
-                    title="Detail"
+                      title="Detail"
                       class="btn btn-light px-2 mt-n2"
                       @click.prevent="
                         selectedId = item.id_admin;
@@ -82,7 +83,15 @@
                       <i class="fa fa-search fa-fw"></i>
                     </button>
                     <!-- <router-link title="Permissions" class="btn btn-light px-2 mt-n2" :to="`/administrator/user/admin/${item.id_admin}/permission`"><i class="fas fa-fw fa-key"></i></router-link> -->
-                    <router-link title="Edit" class="btn btn-light px-2 mt-n2" :to="`/administrator/user/admin/${item.id_admin}/edit`"><i class="fas fa-fw fa-edit" style="font-size: 17px; color: #baadff;"></i></router-link>
+                    <router-link
+                      title="Edit"
+                      class="btn btn-light px-2 mt-n2"
+                      :to="`/administrator/user/admin/${item.id_admin}/edit`"
+                      ><i
+                        class="fas fa-fw fa-edit"
+                        style="font-size: 17px; color: #baadff;"
+                      ></i
+                    ></router-link>
                     <button
                       class="btn btn-light trash px-2 mt-n3"
                       @click.prevent="
@@ -91,20 +100,25 @@
                         $bvModal.show('modal-delete');
                       "
                     >
-                      <i class="fas fa-trash-alt" style="font-size: 16px; color: #baadff;"></i>
+                      <i
+                        class="fas fa-trash-alt"
+                        style="font-size: 16px; color: #baadff;"
+                      ></i>
                     </button>
                   </td>
-                  <td><span :class="statusBadge(item.user.verifikasi)">{{item.user.verifikasi == 2 ? 'Sudah Verifikasi' : 'Belum Verifikasi'}}</span></td>
+                  <td>
+                    <span :class="statusBadge(item.user.verifikasi)">{{
+                      item.user.verifikasi == 2
+                        ? "Sudah Verifikasi"
+                        : "Belum Verifikasi"
+                    }}</span>
+                  </td>
+                  <td>{{ item.user ? item.user.username : '-' }}</td>
                   <td>{{ item.nama_lengkap }}</td>
                   <td>{{ item.email }}</td>
-                  <td>{{ item.nomor_telephone }}</td>
+                  <!-- <td>{{ item.nomor_telephone }}</td> -->
                   <td>
-                    {{
-                      formatTanggal(
-                        item.created_at,
-                        "Do MMMM YYYY HH:mm"
-                      )
-                    }}
+                    {{ formatTanggal(item.created_at, "Do MMMM YYYY HH:mm") }}
                     WIB
                   </td>
                 </tr>
@@ -157,35 +171,52 @@
               <tr v-if="detail.user">
                 <th width="150">Status Akun</th>
                 <th width="10">:</th>
-                <th><span :class="statusBadge(detail.user.verifikasi)">{{ detail.user.verifikasi == 2 ? 'Sudah Verifikasi' : 'Belum Verifikasi' }}</span>
-                  <button type="button" v-if="detail.user.verifikasi != 2" class="btn btn-sm btn-success px-2 py-0" title="Verifikasi" @click="verifyUser"><i class="fas fa-check"></i></button>
+                <th>
+                  <span :class="statusBadge(detail.user.verifikasi)">{{
+                    detail.user.verifikasi == 2
+                      ? "Sudah Verifikasi"
+                      : "Belum Verifikasi"
+                  }}</span>
+                  <button
+                    type="button"
+                    v-if="detail.user.verifikasi != 2"
+                    class="btn btn-sm btn-success px-2 py-0"
+                    title="Verifikasi"
+                    @click="verifyUser(2)"
+                  >
+                    <i class="fas fa-check"></i>
+                  </button>
+                  <button
+                    type="button"
+                    v-if="detail.user.verifikasi == 2"
+                    class="btn btn-sm btn-danger px-2 py-0"
+                    title="Verifikasi"
+                    @click="verifyUser(1)"
+                  >
+                    <i class="fas fa-times"></i>
+                  </button>
                 </th>
               </tr>
               <tr>
                 <th width="150">Username</th>
                 <th width="10">:</th>
-                <th>{{detail.username}}</th>
+                <th>{{ detail.username }}</th>
               </tr>
               <tr>
                 <th width="150">Email</th>
                 <th width="10">:</th>
-                <th>{{detail.email}}</th>
+                <th>{{ detail.email }}</th>
               </tr>
               <tr>
                 <th width="150">No. Telp/HP</th>
                 <th width="10">:</th>
-                <th>{{detail.nomor_telephone}}</th>
+                <th>{{ detail.nomor_telephone }}</th>
               </tr>
               <tr>
                 <th width="150">Tgl. Dibuat</th>
                 <th width="10">:</th>
                 <th>
-                  {{
-                    formatTanggal(
-                      detail.created_at,
-                      "Do MMMM YYYY"
-                    )
-                  }}
+                  {{ formatTanggal(detail.created_at, "Do MMMM YYYY") }}
                 </th>
               </tr>
             </table>
@@ -206,7 +237,7 @@
       </div>
     </b-modal>
 
-      <b-modal
+    <b-modal
       id="modal-delete"
       title="Konfirmasi Hapus Admin"
       hide-footer
@@ -237,7 +268,6 @@
         </div>
       </div>
     </b-modal>
-
   </div>
 </template>
 
@@ -260,41 +290,41 @@ export default {
       detail: {},
       showBukti: false,
       form: {
-        verifikasi: null,
+        verifikasi: null
       }
     };
   },
   created() {
-    this.getData('users/admin');
+    this.getData("users/admin");
   },
   watch: {
     "filter.keyword": function(value) {
-      this.getData('users/admin');
+      this.getData("users/admin");
     },
     "filter.page": function(value) {
-      this.getData('users/admin');
+      this.getData("users/admin");
     }
   },
   computed: {
     user() {
-      return this.$store.state.dataUser.user
+      return this.$store.state.dataUser.user;
     }
   },
   methods: {
     resetModal() {
       this.detail = {};
     },
-    statusBadge (status) {
-      let statusClass = 'badge badge-';
+    statusBadge(status) {
+      let statusClass = "badge badge-";
       switch (status) {
         case 1:
-          statusClass += 'danger'
+          statusClass += "danger";
           break;
         case 2:
-          statusClass += 'success'
+          statusClass += "success";
           break;
         default:
-          statusClass += 'secondary'
+          statusClass += "secondary";
           break;
       }
       return statusClass;
@@ -342,27 +372,41 @@ export default {
         })
         .finally(() => (this.loading = false));
     },
-    verifyUser() {
-      var conf = confirm('Apakah anda yakin menjadikan User sebagai telah di verifikasi?')
-      if(!conf) {
+    verifyUser(status) {
+      var conf = confirm(
+        `Apakah anda yakin menjadikan User ${
+          status !== 2
+            ? "sebagai belum di verifikasi / nonaktif"
+            : "sebagai telah di verifikasi"
+        }?`
+      );
+      if (!conf) {
         return;
       }
       this.submitting = true;
       this.$axios
         .$put(`/api/users/admin/update/${this.selectedId}`, {
           ...this.detail,
-          verifikasi: 2
+          verifikasi: status
         })
         .then(res => {
           if (res.success) {
-            this.$bvToast.toast("User berhasil diverifikasi!", {
-              title: "Sukses",
-              variant: "success",
-              solid: true,
-              autoHideDelay: 3000
-            });
-            this.items[this.selectedIndex].user.verifikasi = this.form.verifikasi;
-            this.$bvModal.hide("modal-detail");
+            this.$bvToast.toast(
+              `User berhasil ${
+                status !== 2 ? "dinonaktifkan" : "diverifikasi"
+              }!`,
+              {
+                title: "Sukses",
+                variant: "success",
+                solid: true,
+                autoHideDelay: 3000
+              }
+            );
+            this.items[
+              this.selectedIndex
+            ].user.verifikasi = status;
+            this.detail.user.verifikasi = status
+            // this.$bvModal.hide("modal-detail");
           }
           return true;
         })
@@ -396,7 +440,6 @@ export default {
         })
         .finally(() => (this.loading = false));
     }
-
   }
 };
 </script>

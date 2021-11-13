@@ -148,10 +148,10 @@
                     <b-row v-if="apiUrl && userDocs.length > 0">
                       <b-col md="4" v-for="(doc, index) in userDocs" :key="'docIm'+index">
                         <b-img fluid :id="doc.doc_type + '_preview'" :src="apiUrl(doc.doc_file)"></b-img>
-                        <div class="text-center" v-if="doc.doc_file || (dataFiles[doc.doc_type] && dataFiles[doc.doc_type].file)">
+                        <!-- <div class="text-center" v-if="doc.doc_file || (dataFiles[doc.doc_type] && dataFiles[doc.doc_type].file)">
                           Status Approval : 
                           <span :class="badgeStatus(doc.doc_status)" v-text="doc.doc_status"></span>
-                        </div>
+                        </div> -->
                       </b-col>
                     </b-row>
                   </b-col>
