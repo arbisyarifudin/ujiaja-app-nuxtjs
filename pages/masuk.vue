@@ -190,25 +190,13 @@ export default {
       }
     },
     "form.password": function (value) {
-      // var passwordRegex =
-      //   /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,20}$/;
-      // var test = value.match(passwordRegex);
-      // if (value && test === null) {
-      //   this.$set(this.dataError, "password", [
-      //     "Password minimal 8 - 20 karakter. Dengan setidaknya terdapat 1 huruf kapital, 1 angka dan 1 karakter spesial.",
-      //   ]);
+      // if (value && value.length < 6) {
+      //   this.$set(this.dataError, "password", ["Password terlalu pendek."]);
       //   this.isValidForm["password"] = false;
       // } else {
       //   this.$set(this.dataError, "password", [""]);
       //   this.isValidForm["password"] = true;
       // }
-      if (value && value.length < 6) {
-        this.$set(this.dataError, "password", ["Password terlalu pendek."]);
-        this.isValidForm["password"] = false;
-      } else {
-        this.$set(this.dataError, "password", [""]);
-        this.isValidForm["password"] = true;
-      }
     },
 
     "form.email": function (value) {
