@@ -357,7 +357,6 @@ input:disabled,
 }
 
 .crud .crud-body {
-  background-color: rgba(249, 248, 255, 0.7);
   z-index: 10;
 }
 
@@ -1278,6 +1277,32 @@ input.form-control-info {
   margin-bottom: 10px;
   font-size: 14px;
   color: #777;
+}
+
+.media-box {
+  height: 300px;
+  width: 100%;
+  border: 2px dashed rgba(176, 166, 239, 0.7);
+  border-radius: 5px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.media-box--youtube iframe {
+  width: 100%;
+  height: 100%;
+}
+
+.media-box__icon {
+  font-size: 80px;
+  color: rgba(176, 166, 239, 0.5);
 }
 
 /* CSS on MOBILE */
