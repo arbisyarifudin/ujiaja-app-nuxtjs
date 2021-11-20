@@ -5,8 +5,8 @@
       <h5 class="mt-4">
         Halo {{ userDetail.nama_lengkap }}, selamat datang!<i class=""></i>
       </h5>
-      <h5 class="info-kelas mt-5 mb-5">Kelas Les Privat Hari Ini</h5>
-      <div class="kelas shadow-sm">
+      <!-- <h5 class="info-kelas mt-5 mb-5">Kelas Les Privat</h5> -->
+      <div class="kelas shadow-sm mt-5">
         <div class="col-md-8">
           <h4 class="m-0">Ikut Les Yuk!</h4>
           <p>Belajar asik, gurunya asik-asik.</p>
@@ -16,7 +16,7 @@
         </div>
       </div>
       <h5 class="info-kelas mt-5 mb-5">
-        Coba Deh, Kamu Pilih Salah Satu Tryout Dibawah Ini!
+        Atau coba deh, kamu pilih salah satu Tryout di bawah ini!
       </h5>
       <div class="row">
         <div class="col-md-6">
@@ -121,7 +121,6 @@
           </div>
         </div>
       </div>
-
       <h5 class="info-kelas mt-5 mb-5">
         Kamu Perlu Ketahui Minat dan Bakatmu Dengan Ikut Tes MBTI!
       </h5>
