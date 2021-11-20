@@ -57,7 +57,9 @@
                   </b-form-select>
                 </div>
                 <div class="form-group reg-siswa">
-                  <label for="penjurusan">Penjurusan Sekolah <code>[opsional]</code></label>
+                  <label for="penjurusan"
+                    >Penjurusan Sekolah <code>[opsional]</code></label
+                  >
                   <b-form-select
                     class="form-control"
                     id="penjurusan"
@@ -93,18 +95,18 @@
             <div class="col-lg-6">
               <div class="form-user mt-3">
                 <div class="form-group reg-siswa">
-                  <label for="file_kelas"
+                  <label for="file_kursus"
                     >File Kelas <code>[opsional]</code></label
                   >
                   <div class="custom-file mb-3">
                     <input
                       type="file"
                       class="custom-file-input"
-                      id="file_kelas"
-                      ref="file_kelas"
-                      @change="handleUploadedFile('file_kelas')"
+                      id="file_kursus"
+                      ref="file_kursus"
+                      @change="handleUploadedFile('file_kursus')"
                     />
-                    <label class="custom-file-label" for="file_kelas"
+                    <label class="custom-file-label" for="file_kursus"
                       >Pilih file atau drag kesini</label
                     >
                     <div class="small text-info mt-1">
@@ -116,7 +118,7 @@
                   </div>
                 </div>
                 <div class="form-group reg-siswa">
-                  <label for="file_kelas"
+                  <label for="file_kursus"
                     >ID Video Youtube <code>*</code></label
                   >
                   <div class="input-group mb-3">
@@ -134,15 +136,25 @@
                       :disabled="appliedVideo"
                     />
                     <div class="input-group-append">
-                      <button class="btn btn-primary btn-sm square" type="button" :disabled="!youtubeVideoId" @click.prevent="applyVideo">
-                        {{appliedVideo ? 'Ganti' : 'Pasang'}}
+                      <button
+                        class="btn btn-primary btn-sm square"
+                        type="button"
+                        :disabled="!youtubeVideoId"
+                        @click.prevent="applyVideo"
+                      >
+                        {{ appliedVideo ? "Ganti" : "Pasang" }}
                       </button>
                     </div>
                   </div>
                   <div class="media-box media-box--youtube">
-                    <div class="media-box__icon" v-if="!appliedVideo"><i class="fab fa-youtube"></i></div>
-                    <iframe v-else
-                      :src="`https://www.youtube.com/embed/${youtubeVideoId}?controls=0`"
+                    <div class="media-box__icon" v-if="!appliedVideo">
+                      <i class="fab fa-youtube"></i>
+                    </div>
+                    <iframe
+                      v-else
+                      :src="
+                        `https://www.youtube.com/embed/${youtubeVideoId}?controls=0`
+                      "
                       title="YouTube video player"
                       frameborder="0"
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -195,7 +207,7 @@
                       class="form-control"
                       id="hari"
                       :readonly="true"
-                      v-model="item.hari"
+                      v-model="item.hari_jadwal"
                       required
                     />
                   </div>
@@ -210,7 +222,7 @@
                       class="form-control"
                       id="jadwal_jam_mulai"
                       :disabled="item.is_tutup == 1"
-                      v-model="item.jam_mulai"
+                      v-model="item.jam_mulai_jadwal"
                       required
                     />
                   </div>
@@ -225,7 +237,7 @@
                       class="form-control"
                       id="jadwal_jam_akhir"
                       :disabled="item.is_tutup == 1"
-                      v-model="item.jam_akhir"
+                      v-model="item.jam_akhir_jadwal"
                       required
                     />
                   </div>
@@ -258,7 +270,7 @@ export default {
     return {
       loading: false,
       appliedVideo: false,
-      youtubeVideoId: '',
+      youtubeVideoId: "",
       dataMaster: {
         mapel: [],
         jenjang: [],
@@ -295,60 +307,60 @@ export default {
       form: {
         nama_kursus: "",
         harga_kursus: 50000,
-        deskripsi_kelas: "",
+        deskripsi_kursus: "",
         id_penjurusan: null,
         id_jenjang: null,
         id_mapel: null,
-        file_kelas: "",
+        file_kursus: "",
         video_kursus: "",
         sampul_kelas: "",
         jadwals: [
           {
-            hari: "Senin",
-            jam_mulai: "09:00",
-            jam_akhir: "15:00",
+            hari_jadwal: "Senin",
+            jam_mulai_jadwal: "09:00",
+            jam_akhir_jadwal: "15:00",
             is_tutup: 0
           },
           {
-            hari: "Selasa",
-            jam_mulai: "09:00",
-            jam_akhir: "15:00",
+            hari_jadwal: "Selasa",
+            jam_mulai_jadwal: "09:00",
+            jam_akhir_jadwal: "15:00",
             is_tutup: 0
           },
           {
-            hari: "Rabu",
-            jam_mulai: "09:00",
-            jam_akhir: "15:00",
+            hari_jadwal: "Rabu",
+            jam_mulai_jadwal: "09:00",
+            jam_akhir_jadwal: "15:00",
             is_tutup: 0
           },
           {
-            hari: "Kamis",
-            jam_mulai: "09:00",
-            jam_akhir: "15:00",
+            hari_jadwal: "Kamis",
+            jam_mulai_jadwal: "09:00",
+            jam_akhir_jadwal: "15:00",
             is_tutup: 0
           },
           {
-            hari: "Jum'at",
-            jam_mulai: "09:00",
-            jam_akhir: "15:00",
+            hari_jadwal: "Jum'at",
+            jam_mulai_jadwal: "09:00",
+            jam_akhir_jadwal: "15:00",
             is_tutup: 0
           },
           {
-            hari: "Sabtu",
-            jam_mulai: "09:00",
-            jam_akhir: "15:00",
+            hari_jadwal: "Sabtu",
+            jam_mulai_jadwal: "09:00",
+            jam_akhir_jadwal: "15:00",
             is_tutup: 0
           },
           {
-            hari: "Minggu",
-            jam_mulai: null,
-            jam_akhir: null,
+            hari_jadwal: "Minggu",
+            jam_mulai_jadwal: null,
+            jam_akhir_jadwal: null,
             is_tutup: 1
           }
         ]
       },
       files: {
-        file_kelas: null
+        file_kursus: null
       }
     };
   },
@@ -366,7 +378,7 @@ export default {
         !this.form.deskripsi_kursus ||
         !this.form.video_kursus ||
         !this.form.id_mapel ||
-        !this.form.id_jenjang 
+        !this.form.id_jenjang
       ) {
         this.$bvToast.toast("Mohon lengkapi form dengan benar!", {
           title: "Peringatan",
@@ -383,7 +395,7 @@ export default {
       const dataCreate = {
         ...this.form,
         id_tentor: this.$store.state.dataUser.user.id
-      }
+      };
       this.$axios
         .$post(`/api/kursus/create`, dataCreate)
         .then(res => {
@@ -462,25 +474,18 @@ export default {
         ".custom-file"
       ).children[1].textContent = this.files[param].name;
 
-      let reader = new FileReader();
-      reader.onload = function(e) {
-        document.getElementById(param + "_preview").src = e.target.result;
-      };
-      reader.readAsDataURL(this.files[param]); // convert to base64 string
-
       let formData = new FormData();
 
-      formData.append("image", this.files[param]);
-      // console.log(formData);
+      formData.append("file", this.files[param]);
 
       if (this.files[param] != null) {
         this.loading = true;
         this.$axios
-          .$post(`/api/upload/image`, formData)
+          .$post(`/api/upload/file`, formData)
           .then(res => {
             console.log(res);
             if (res) {
-              this.form.icon_prodi = res.data.image_url;
+              this.form[param] = res.data.file_url;
             }
             return;
           })
@@ -492,12 +497,12 @@ export default {
       }
     },
     applyVideo() {
-      if(this.youtubeVideoId && !this.appliedVideo) {
+      if (this.youtubeVideoId && !this.appliedVideo) {
         this.form.video_kursus = this.youtubeVideoId;
-        this.appliedVideo = true
+        this.appliedVideo = true;
       } else {
-        this.form.video_kursus = '';
-        this.appliedVideo = false
+        this.form.video_kursus = "";
+        this.appliedVideo = false;
       }
     }
   }

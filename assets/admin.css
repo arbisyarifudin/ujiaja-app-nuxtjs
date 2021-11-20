@@ -19,6 +19,16 @@ h6 {
   color: #baadff !important;
 }
 
+.text-description {
+  font-size: 13px;
+  color: #626262;
+  line-height: 25px;
+}
+
+.text-star {
+  color: #ffc814;
+}
+
 .font-weight-normal {
   font-weight: normal !important;
 }
@@ -1303,6 +1313,64 @@ input.form-control-info {
 .media-box__icon {
   font-size: 80px;
   color: rgba(176, 166, 239, 0.5);
+}
+
+.courses-review .review-item {
+  border-bottom: 1px solid #ddd;
+  padding-top: 30px;
+  padding-bottom: 30px;
+}
+
+.courses-review .review-avatar {
+  width: 70px;
+  height: 70px;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border-radius: 50%;
+}
+
+.courses-review .review-data__author {
+  font-weight: 500;
+}
+
+.courses-review .review-data__rating {
+  font-size: 13px;
+}
+
+.courses-review .review-data__rating .star {
+  color: #ffc814;
+}
+
+.courses-review .review-data__rating .time {
+  color: #777777;
+}
+
+.courses-review .review-data__comment {
+  font-size: 14px;
+}
+
+.courses-review .review-reply .form-label {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.courses-review .review-list--child .review-item {
+  border-color: transparent;
+  padding-bottom: 5px;
+  margin-bottom: 0;
+}
+
+.courses-review .review-list--child .review-avatar {
+  width: 50px;
+  height: 50px;
+}
+
+.courses-review .review-list--child .review-data__author {
+  font-size: smaller;
+}
+
+.courses-review .review-list--child .review-data__comment {
+  font-size: 13px;
 }
 
 /* CSS on MOBILE */

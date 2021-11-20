@@ -21,6 +21,14 @@ h6 {
     &-primary {
         color: #baadff !important;
     }
+    &-description {
+        font-size: 13px;
+        color: #626262;
+        line-height: 25px;
+    }
+    &-star {
+        color: #ffc814;
+    }
 }
 
 .font-weight-normal {
@@ -1196,6 +1204,78 @@ input.form {
             color: rgba(176, 166, 239, 0.5);
         }
     }
+}
+
+// COURSES
+
+.courses {
+
+    &-review {
+
+        .review {
+            &-item {
+                border-bottom: 1px solid #ddd;
+                padding-top: 30px;
+                padding-bottom: 30px;
+            }
+            &-avatar {
+                width: 70px;
+                height: 70px;
+                object-fit: cover;
+                border-radius: 50%;
+            }
+            &-data {
+                &__author {
+                    font-weight: 500;
+                }
+                &__rating {
+                    font-size: 13px;
+                    .star {
+                        color: #ffc814;
+                    }
+                    .time {
+                        color: #777777;
+                    }
+                }
+                &__comment {
+                    font-size: 14px;
+                }
+            }
+
+            &-reply {
+                .form-label {
+                    font-size: 13px;
+                    font-weight: 500;
+                }
+            }
+
+            &-list--child {
+                .review {
+                    &-item {
+                        border-color: transparent;
+                        padding-bottom: 5px;
+                        margin-bottom: 0;
+                    }
+                    &-avatar {
+                        width: 50px;
+                        height: 50px;
+                    }
+                    &-data {
+                        &__author {
+                            font-size: smaller;
+                        }
+                        &__comment {
+                            font-size: 13px;
+                        }
+                    }
+                }
+    
+            }
+        }
+
+
+    }
+
 }
 
 /* CSS on MOBILE */

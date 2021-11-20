@@ -71,9 +71,9 @@
                 <div class="" style="display: flex; justify-content: flex-end;">
                   <p
                     class="label-event mb-2 px-4 py-1"
-                    :class="[item.menerima_peserta == 'Aktif' ? '' : 'draft']"
+                    :class="[item.menerima_peserta == 1 ? '' : 'draft']"
                   >
-                    {{ item.menerima_peserta == "Aktif" ? "Aktif" : "Nonaktif" }}
+                    {{ item.menerima_peserta == 1 ? "Aktif" : "Nonaktif" }}
                   </p>
                 </div>
                 <div class="card-content px-4 mt-1">
