@@ -14,10 +14,10 @@
           class="header-detail bg-white my-4 px-5 py-4"
           style="display: flex; justify-content: space-between; align-items: center;"
         >
-           <h3 class="mb-0">Kursus Belajar Bahasa Indonesia</h3>
+           <h3 class="mb-0">{{dataDetail.nama_kursus}}</h3>
           <div v-if="!loading">
             <router-link
-              :to="`/app/partner/courses/${dataDetail.id}/edit`"
+              :to="`/app/partner/courses/${dataDetail.id}/edit?ref=${$route.path}`"
               role="button"
               z
               class="btn btn-success square py-1 mr-2"
@@ -44,62 +44,67 @@
                 <tr>
                   <th width="150">Tentor</th>
                   <td width="10">:</td>
-                  <td>Budi Karyadi</td>
+                  <td>{{dataDetail.tentor.nama_lengkap}}</td>
                 </tr>
                 <tr>
                   <th width="150">Level</th>
                   <td width="10">:</td>
-                  <td>Tentor baru</td>
+                  <td>{{dataDetail.tentor.level ? dataDetail.tentor.level.nama_level : '-'}}</td>
                 </tr>
                 <tr>
                   <th width="150">Rating</th>
                   <td width="10">:</td>
                   <td>
-                    <div style="font-size: 13px" class="text-star">
+                    <span style="font-size: 13px" class="text-star">
                       <i class="fas fa-star"></i>
                       <i class="far fa-star"></i>
                       <i class="far fa-star"></i>
                       <i class="far fa-star"></i>
                       <i class="far fa-star"></i>
-                    </div>
+                    </span>
+                    <span class="small">1/5</span>
                   </td>
                 </tr>
                 <tr>
                   <th width="150">Mata Pelajaran</th>
                   <td width="10">:</td>
-                  <td>Matematika</td>
+                  <td>{{dataDetail.mapel.nama_mapel}}</td>
                 </tr>
                 <tr>
                   <th width="150">Jenjang</th>
                   <td width="10">:</td>
-                  <td>SMA</td>
+                  <td>{{dataDetail.jenjang.nama_jenjang}}</td>
                 </tr>
                 <tr>
                   <th width="150">Total</th>
                   <td width="10">:</td>
-                  <td>100 siswa</td>
+                  <td>{{dataDetail.total_siswa}} siswa</td>
                 </tr>
                 <tr>
                   <th width="150">Tarif per Sesi</th>
                   <td width="10">:</td>
-                  <td>Rp 50.000</td>
+                  <td>Rp {{dataDetail.harga_kursus_label}}</td>
                 </tr>
               </table>
               <!-- <hr> -->
               <h4 class="mt-3">Jadwal</h4>
               <hr>
               <table class="table table-borderless">
-                <tr>
-                  <th width="150">Senin</th>
-                  <td>10:00 - 15:00 WIB</td>
+                <tr v-for="(jadwal, index) in dataDetail.jadwals" :key="'j'+index">
+                  <th width="150">{{jadwal.hari_jadwal}}</th>
+                  <td v-if="jadwal.is_tutup == 0">{{formatJam(jadwal.jam_mulai_jadwal)}} - {{formatJam(jadwal.jam_akhir_jadwal)}} WIB</td>
+                  <td v-else><span class="badge badge-info">Libur</span></td>
                 </tr>
               </table>
             </div>
             <div class="col-md-7">
               <div class="media-box media-box--youtube">
-                <iframe
+                <div class="media-box__icon" v-if="!youtubeVideoId">
+                  <i class="fab fa-youtube"></i>
+                </div>
+                <iframe v-else
                   :src="
-                    `https://www.youtube.com/embed/rbe66YL5LgQ?controls=0`
+                    `https://www.youtube.com/embed/${youtubeVideoId}?controls=0`
                   "
                   title="YouTube video player"
                   frameborder="0"
@@ -107,8 +112,7 @@
                   allowfullscreen
                 ></iframe>
               </div>
-              <div class="text-description mt-3">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi officia perferendis quas harum sit totam itaque hic dolorem magni aliquam, quod repellendus explicabo illo ducimus modi, eaque iure nam at?
+              <div class="text-description mt-3" v-html="dataDetail.deskripsi_kursus">
               </div>
             </div>
           </div>
@@ -235,7 +239,14 @@ export default {
   data() {
     return {
       loading: true,
-      dataDetail: {}
+      dataDetail: {
+        mapel: {},
+        tentor: {},
+        jenjang: {},
+        penjurusan: {},
+        jadwals: []
+      },
+      youtubeVideoId: '',
     };
   },
   created() {
@@ -253,32 +264,8 @@ export default {
           console.log(res);
           if (res.success) {
             this.dataDetail = res.data;
+            this.youtubeVideoId = this.generateYoutubeVideoId(this.dataDetail.video_kursus)
           }
-        })
-        .catch(err => {
-          console.log(err);
-          this.catchError(err);
-        })
-        .finally(() => (this.loading = false));
-    },
-    deleteData(type) {
-      this.loading = true;
-      this.$axios
-        .$delete(`/api/${type}/delete/${this.$route.params.id}`)
-        .then(res => {
-          console.log(res);
-          if (res.success) {
-            // this.items.splice(this.selectedIndex, 1);
-            this.$root.$bvToast.toast("Data " + type + " berhasil dihapus.", {
-              title: "Sukses",
-              variant: "success",
-              solid: true,
-              autoHideDelay: 3000
-            });
-            this.$bvModal.hide("modal-delete");
-            this.$router.replace("/administrator/product");
-          }
-          return true;
         })
         .catch(err => {
           console.log(err);
@@ -291,6 +278,19 @@ export default {
         return num.toLocaleString("ID-id");
       }
       return 0;
+    },
+    generateYoutubeVideoId(url) {
+      if(!url) return;
+      const youtubeUrlSplit = url.split("?v=");
+      if(youtubeUrlSplit[1]) {
+        return youtubeUrlSplit[1];
+      }
+      return;
+    },
+    formatJam(jam) {
+      const tanggal = '2021-01-01 ' + jam;
+      console.log(tanggal)
+      return this.moment(tanggal).format('HH:mm');
     }
   }
 };

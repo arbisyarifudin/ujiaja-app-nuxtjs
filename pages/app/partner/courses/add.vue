@@ -2,12 +2,13 @@
   <div class="container-fluid crud">
     <form @submit.prevent="validateForm">
       <div class="row d-flex no-gutters">
-        <div class="col-md-12 dashboard">
+        <div class="col-md-12 dashboard d-flex justify-content-between align-items-center">
           <h2 class="dash-label">Tambah Kelas</h2>
-          <p>
-            Yuk, buat kelas les privat mu sendiri!
-          </p>
+          <BackUrl/>
         </div>
+        <p>
+          Yuk, buat kelas les privat-mu sendiri!
+        </p>
         <div class="col-md-12 crud-body">
           <div class="row">
             <div class="col-lg-6">
@@ -94,7 +95,7 @@
             </div>
             <div class="col-lg-6">
               <div class="form-user mt-3">
-                <div class="form-group reg-siswa">
+                <!-- <div class="form-group reg-siswa">
                   <label for="file_kursus"
                     >File Kelas <code>[opsional]</code></label
                   >
@@ -116,30 +117,26 @@
                       >
                     </div>
                   </div>
-                </div>
+                </div> -->
                 <div class="form-group reg-siswa">
                   <label for="file_kursus"
-                    >ID Video Youtube <code>*</code></label
+                    >Link Youtube Video <code>*</code></label
                   >
                   <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text text-dark"
-                        >https://www.youtube.com/watch?v=</span
-                      >
-                    </div>
                     <input
                       type="text"
                       class="form-control mr-3"
-                      placeholder="G7QRSjeIIH8"
-                      id="youtube_id"
-                      v-model="youtubeVideoId"
+                      placeholder="www.youtube.com/watch?v=G7QRSjeIIH8"
+                      name="youtube_video_url"
+                      id="youtube_video_url"
+                      v-model="youtubeVideoUrl"
                       :disabled="appliedVideo"
                     />
                     <div class="input-group-append">
                       <button
                         class="btn btn-primary btn-sm square"
                         type="button"
-                        :disabled="!youtubeVideoId"
+                        :disabled="!youtubeVideoUrl"
                         @click.prevent="applyVideo"
                       >
                         {{ appliedVideo ? "Ganti" : "Pasang" }}
@@ -270,6 +267,7 @@ export default {
     return {
       loading: false,
       appliedVideo: false,
+      youtubeVideoUrl: "",
       youtubeVideoId: "",
       dataMaster: {
         mapel: [],
@@ -497,13 +495,22 @@ export default {
       }
     },
     applyVideo() {
-      if (this.youtubeVideoId && !this.appliedVideo) {
-        this.form.video_kursus = this.youtubeVideoId;
+      if (this.youtubeVideoUrl && !this.appliedVideo) {
+        this.form.video_kursus = this.youtubeVideoUrl;
+        this.youtubeVideoId = this.generateYoutubeVideoId(this.youtubeVideoUrl)
         this.appliedVideo = true;
       } else {
         this.form.video_kursus = "";
         this.appliedVideo = false;
       }
+    },
+    generateYoutubeVideoId(url) {
+      if(!url) return;
+      const youtubeUrlSplit = url.split("?v=");
+      if(youtubeUrlSplit[1]) {
+        return youtubeUrlSplit[1];
+      }
+      return;
     }
   }
 };
