@@ -2,9 +2,11 @@
   <div class="container-fluid crud">
     <form @submit.prevent="validateForm">
       <div class="row d-flex no-gutters">
-        <div class="col-md-12 dashboard d-flex justify-content-between align-items-center">
+        <div
+          class="col-md-12 dashboard d-flex justify-content-between align-items-center"
+        >
           <h2 class="dash-label">Tambah Kelas</h2>
-          <BackUrl/>
+          <BackUrl />
         </div>
         <p>
           Yuk, buat kelas les privat-mu sendiri!
@@ -283,22 +285,6 @@ export default {
           {
             text: "Rp 50.000 / 90 mnt",
             value: 50000
-          },
-          {
-            text: "Rp 75.000 / 90 mnt",
-            value: 75000
-          },
-          {
-            text: "Rp 125.000 / 90 mnt",
-            value: 125000
-          },
-          {
-            text: "Rp 200.000 / 90 mnt",
-            value: 200000
-          },
-          {
-            text: "Rp 350.000 / 90 mnt",
-            value: 350000
           }
         ]
       },
@@ -366,6 +352,7 @@ export default {
     this.getData("penjurusan", { params: { paginate: 99 } });
     this.getData("mapel");
     this.getData("jenjang");
+    this.getPriceOption();
   },
   methods: {
     validateForm() {
@@ -454,10 +441,28 @@ export default {
                   textField
                 };
               });
+            } else {
+              this.dataOption[type] = res.data.data;
             }
             // console.log(this.dataOption[type]);
           }
           return true;
+        })
+        .catch(err => {
+          console.log(err);
+          this.catchError(err);
+        })
+        .finally(() => (this.loading = false));
+    },
+    getPriceOption() {
+      this.loading = true;
+      this.$axios
+        .$get('/api/kursus/price-option')
+        .then(res => {
+          console.log(res);
+          if (res.success) {
+            this.dataOption['harga_kursus'] = res.data;
+          }
         })
         .catch(err => {
           console.log(err);
@@ -497,7 +502,7 @@ export default {
     applyVideo() {
       if (this.youtubeVideoUrl && !this.appliedVideo) {
         this.form.video_kursus = this.youtubeVideoUrl;
-        this.youtubeVideoId = this.generateYoutubeVideoId(this.youtubeVideoUrl)
+        this.youtubeVideoId = this.generateYoutubeVideoId(this.youtubeVideoUrl);
         this.appliedVideo = true;
       } else {
         this.form.video_kursus = "";
@@ -505,9 +510,9 @@ export default {
       }
     },
     generateYoutubeVideoId(url) {
-      if(!url) return;
+      if (!url) return;
       const youtubeUrlSplit = url.split("?v=");
-      if(youtubeUrlSplit[1]) {
+      if (youtubeUrlSplit[1]) {
         return youtubeUrlSplit[1];
       }
       return;

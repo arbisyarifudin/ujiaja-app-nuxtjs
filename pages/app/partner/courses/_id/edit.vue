@@ -294,22 +294,6 @@ export default {
           {
             text: "Rp 50.000 / 90 mnt",
             value: 50000
-          },
-          {
-            text: "Rp 75.000 / 90 mnt",
-            value: 75000
-          },
-          {
-            text: "Rp 125.000 / 90 mnt",
-            value: 125000
-          },
-          {
-            text: "Rp 200.000 / 90 mnt",
-            value: 200000
-          },
-          {
-            text: "Rp 350.000 / 90 mnt",
-            value: 350000
           }
         ]
       },
@@ -380,6 +364,7 @@ export default {
     this.getData("penjurusan", { params: { paginate: 99 } });
     this.getData("mapel");
     this.getData("jenjang");
+    this.getPriceOption();
   },
   methods: {
     validateForm() {
@@ -502,6 +487,22 @@ export default {
         })
         .finally(() => (this.loading = false));
     },
+    getPriceOption() {
+    this.loading = true;
+    this.$axios
+      .$get('/api/kursus/price-option')
+      .then(res => {
+        console.log(res);
+        if (res.success) {
+          this.dataOption['harga_kursus'] = res.data;
+        }
+      })
+      .catch(err => {
+        console.log(err);
+        this.catchError(err);
+      })
+      .finally(() => (this.loading = false));
+  },
     handleUploadedFile(param) {
       this.files[param] = this.$refs[param].files[0];
       console.log(this.files[param]);
