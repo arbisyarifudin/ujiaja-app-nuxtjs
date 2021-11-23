@@ -109,6 +109,24 @@ input:disabled,
   border: 1px solid #f5f5f5;
 }
 
+.btn.btn-danger {
+  border-color: #ff1d1d;
+  color: #fff;
+}
+
+.btn.btn-danger.fill {
+  border: 1px solid #ffb1b1;
+  background-color: #ffddc7;
+}
+
+.btn.btn-danger.fill:hover {
+  background-color: #ffb1b1;
+}
+
+.btn.btn-danger:hover {
+  background-color: #bd1313 !important;
+}
+
 .btn.btn-outline-primary {
   color: #b0a6ef;
   border: 1px solid #b0a6ef;
@@ -697,6 +715,11 @@ table,
 .admin-modal .modal-body-kanan p {
   font-size: 13px;
   color: #9490a4 !important;
+}
+
+.admin-modal .modal-body .btn-danger {
+  border: 1px solid #df2424;
+  background-color: #df2424;
 }
 
 .konten {
