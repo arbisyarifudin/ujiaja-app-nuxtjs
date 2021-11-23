@@ -4,7 +4,8 @@ export const state = () => ({
   isAuth: false,
   dataUser: {},
   dataError: {},
-  breadcrumbs: []
+  breadcrumbs: [],
+  isProfilLengkap: false,
   // listNomorSoal: [],
   // currentNomor: {},
   // currentSoal: {}

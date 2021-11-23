@@ -69,7 +69,7 @@
             id="konten"
             class="konten px-3"
             :class="
-              !profileLengkap && $route.path != '/app/profile/edit'
+              !isProfilLengkap && $route.path != '/app/profile/edit'
                 ? 'konten-dashfirst'
                 : ''
             "
@@ -78,7 +78,7 @@
             <div
               class="col-md-12 text-left"
               v-if="
-                !profileLengkap && $route.path != '/app/profile/edit'
+                !isProfilLengkap && $route.path != '/app/profile/edit'
               "
             >
               <div class="alert-konten">
@@ -111,7 +111,7 @@ export default {
   middleware: "auth-user",
   data () {
     return {
-      profileLengkap: true
+      // profileLengkap: true
     }
   },
   computed: {
@@ -120,6 +120,9 @@ export default {
     },
     userDetail() {
       return this.$store.state.dataUser.detail;
+    },
+    isProfilLengkap() {
+      return this.$store.state.isProfilLengkap;
     }
   },
   created() {
@@ -129,7 +132,7 @@ export default {
         .$get(`/api/users/${this.user.role_user}/cek`)
         .then(res => {
           console.log(res);
-          this.profileLengkap = res.success;
+          this.$store.commit('set', ['isProfilLengkap', res.success]);
         })
         .catch(err => {
           console.log(err);
