@@ -1,0 +1,493 @@
+<template>
+  <div class="container-fluid">
+    <div class="row" style="position: relative; z-index: 10;">
+      <div class="col-md-12">
+        <div class="d-flex align-items-center justify-content-between">
+          <h2 class="dash-label">
+            <b-spinner type="grow" class="mr-2" v-if="loading" /> Siswa Kelas
+          </h2>
+          <BackUrl />
+        </div>
+      </div>
+      <div class="col-md-12">
+        <div
+          class="header-detail bg-white my-4 px-5 py-4"
+          style="display: flex; justify-content: space-between; align-items: center;"
+        >
+          <h3 class="mb-0">
+            {{ dataDetail.nama_kursus }}
+            <span
+              v-if="dataDetail"
+              :class="[
+                dataDetail.menerima_peserta
+                  ? 'badge badge-success'
+                  : 'badge badge-danger'
+              ]"
+              >{{ dataDetail.menerima_peserta ? "Aktif" : "Nonaktif" }}</span
+            >
+          </h3>
+          <div v-if="!loading">
+            <router-link
+              :to="
+                `/app/partner/courses/${dataDetail.id}/edit?ref=${$route.path}`
+              "
+              role="button"
+              class="btn btn-success square py-1 mr-2"
+              title="Ubah Kelas"
+            >
+              Ubah Kelas
+            </router-link>
+            <router-link
+              :to="
+                `/app/partner/courses/${dataDetail.id}/students?ref=${$route.path}`
+              "
+              role="button"
+              class="btn btn-info square py-1 px-2 mr-2"
+              title="Lihat Siswa"
+            >
+              <i class="fas fa-users fa-fw"></i>
+            </router-link>
+            <router-link
+              :to="
+                `/app/partner/courses/${dataDetail.id}/materials?ref=${$route.path}`
+              "
+              role="button"
+              class="btn btn-primary square py-1 px-2 mr-2"
+              title="Lihat Materi"
+            >
+              <i class="fas fa-book fa-fw"></i>
+            </router-link>
+            <button
+              type="button"
+              class="btn btn-danger square py-1"
+              title="Opsi Lain"
+              v-b-modal.modal-option
+            >
+              <i class="fas fa-ellipsis-h"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12 my-3">
+        <div class="bg-white px-4 py-4">
+          <div class="row">
+            <div class="col-md-12 crud">
+              <h4>Daftar Siswa di Kelas</h4>
+              <hr />
+              <b-tabs content-class="mt-3" v-model="tabs" lazy>
+                <b-tab title="Bergabung">
+                  <table class="table table-borderless">
+                    <thead class="thead-light">
+                      <tr>
+                        <th>No</th>
+                        <th>Nama Lengkap</th>
+                        <th>Email</th>
+                        <th>No. Telp/HP</th>
+                        <th>Jenis Kelamin</th>
+                        <th>Alamat</th>
+                        <th>Tgl. Bergabung</th>
+                        <th>Aksi</th>
+                      </tr>
+                    </thead>
+                    <tbody class="body-table">
+                      <tr
+                        v-for="(joined, index) in dataStudent['0']"
+                        :key="'j' + index"
+                      >
+                        <td>{{ index + 1 }}</td>
+                        <td>{{ joined.siswa.nama_lengkap }}</td>
+                        <td>{{ joined.siswa.email }}</td>
+                        <td>{{ joined.siswa.nomor_telephone }}</td>
+                        <td>{{ joined.siswa.jenis_kelamin }}</td>
+                        <td>{{ joined.siswa.alamat }}</td>
+                        <td>
+                          {{
+                            formatTanggal(
+                              joined.tanggal_gabung,
+                              "Do MMMM YYYY HH:mm"
+                            )
+                          }}
+                          WIB
+                        </td>
+                        <td>
+                          <button
+                            class="btn btn-light px-2"
+                            @click.prevent="
+                              selectedId = joined.id;
+                              selectedIndex = index;
+                              $bvModal.show('modal-finish');
+                            "
+                            title="Selesaikan Sesi"
+                          >
+                            <i class="fas fa-fw fa-clock-check text-success"></i>
+                          </button>
+                        </td>
+                      </tr>
+                      <UITableLoading v-if="loadingTable" />
+                      <UITableNotFound
+                        v-if="dataStudent['0'] && dataStudent['0'].length == 0 && filterKeyword && !loadingTable"
+                      />
+                    </tbody>
+                  </table>
+                </b-tab>
+                <b-tab title="Menunggu Persetujuan">
+                  <table class="table table-borderless">
+                    <thead class="thead-light">
+                      <tr>
+                        <th>No</th>
+                        <th>Nama Lengkap</th>
+                        <th>Jenis Kelamin</th>
+                        <th>Alamat</th>
+                        <th>Tgl. Pengajuan</th>
+                        <th>Aksi</th>
+                      </tr>
+                    </thead>
+                    <tbody class="body-table">
+                      <tr
+                        v-for="(waiting, index) in dataStudent['1']"
+                        :key="'j' + index"
+                      >
+                        <td>{{ index + 1 }}</td>
+                        <td>{{ waiting.siswa.nama_lengkap }}</td>
+                        <td>{{ waiting.siswa.jenis_kelamin }}</td>
+                        <td>{{ waiting.siswa.alamat }}</td>
+                        <td>
+                          {{
+                            formatTanggal(
+                              waiting.created_at,
+                              "Do MMMM YYYY HH:mm"
+                            )
+                          }}
+                          WIB
+                        </td>
+                        <td>
+                          <button
+                            class="btn btn-light px-2"
+                            @click.prevent="
+                              selectedId = waiting.id;
+                              selectedIndex = index;
+                              $bvModal.show('modal-approve');
+                            "
+                            title="Terima Siswa"
+                          >
+                            <i class="fas fa-fw fa-check text-success"></i>
+                          </button>
+                          <button
+                            class="btn btn-light px-2"
+                            @click.prevent="
+                              selectedId = waiting.id;
+                              selectedIndex = index;
+                              $bvModal.show('modal-reject');
+                            "
+                            title="Tolak Siswa"
+                          >
+                            <i class="fas fa-times fa-fw text-danger"></i>
+                          </button>
+                        </td>
+                      </tr>
+                      <UITableLoading v-if="loadingTable" />
+                      <UITableNotFound
+                        v-if="dataStudent['1'] && dataStudent['1'].length == 0 && filterKeyword && !loadingTable"
+                      />
+                    </tbody>
+                  </table>
+                </b-tab>
+              </b-tabs>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <b-modal
+      id="modal-option"
+      title="Nonakifkan Kelas"
+      hide-footer
+      centered
+      modal-class="admin-modal"
+      @hidden="resetModal"
+    >
+      <div>
+        <p class="modal-text">
+          <b>Nonaktifkan Kelas</b>, maka kelas tidak akan ditampilkan dalam
+          pencarian dan siswa tidak bisa mengakses Kelas Les Privat ini. Atau
+          <b>Hapus Kelas secara Permanen</b>, maka semua data dalam kelas akan
+          dihapus dari Sistem.
+        </p>
+        <div class="modal-footer justify-content-center" style="border: 0px">
+          <button
+            class="btn btn-sm btn-primary tambah px-4 py-2"
+            type="button"
+            :disabled="loading"
+            @click.prevent="updateStatus(dataDetail.menerima_peserta)"
+          >
+            <b-spinner small v-if="loading" class="mr-1"></b-spinner>
+            {{ dataDetail.menerima_peserta ? "Nonaktifkan" : "Aktifkan" }}
+          </button>
+          <button
+            class="btn btn-sm btn-secondary tambah px-4 py-2"
+            type="button"
+            :disabled="loading"
+            @click.prevent="deleteData()"
+          >
+            <b-spinner small v-if="loading" class="mr-1"></b-spinner> Hapus
+            Permanen
+          </button>
+          <button
+            class="btn btn-sm btn-outline-secondary tambah px-4 py-2"
+            type="button"
+            @click="$bvModal.hide('modal-option')"
+          >
+            Batal
+          </button>
+        </div>
+      </div>
+    </b-modal>
+
+    <b-modal
+      id="modal-approve"
+      title="Terima Siswa"
+      hide-footer
+      centered
+      modal-class="admin-modal"
+      @hidden="resetModal"
+    >
+      <div>
+        <p class="modal-text">
+         Apakah Anda yakin ingin menerima Siswa Ini?
+        </p>
+        <div class="modal-footer justify-content-end" style="border: 0px">
+          <button
+            class="btn btn-sm btn-success tambah px-4 py-2"
+            type="button"
+            :disabled="loadingTable"
+            @click.prevent="approvalStudent('Bergabung')"
+          >
+            <b-spinner small v-if="loadingTable" class="mr-1"></b-spinner> Terima Siswa
+          </button>
+          <button
+            class="btn btn-sm btn-outline-secondary tambah px-4 py-2"
+            type="button"
+            @click="$bvModal.hide('modal-approve')"
+          >
+            Batal
+          </button>
+        </div>
+      </div>
+    </b-modal>
+    <b-modal
+      id="modal-reject"
+      title="Tolak Siswa"
+      hide-footer
+      centered
+      modal-class="admin-modal"
+      @hidden="resetModal"
+    >
+      <div>
+        <p class="modal-text">
+         Apakah Anda yakin ingin menolak Siswa Ini?
+        </p>
+        <div class="modal-footer justify-content-end" style="border: 0px">
+          <button
+            class="btn btn-sm btn-danger tambah px-4 py-2"
+            type="button"
+            :disabled="loadingTable"
+            @click.prevent="approvalStudent('Ditolak')"
+          >
+            <b-spinner small v-if="loadingTable" class="mr-1"></b-spinner> Tolak Siswa
+          </button>
+          <button
+            class="btn btn-sm btn-outline-secondary tambah px-4 py-2"
+            type="button"
+            @click="$bvModal.hide('modal-reject')"
+          >
+            Batal
+          </button>
+        </div>
+      </div>
+    </b-modal>
+  </div>
+</template>
+
+<script>
+export default {
+  layout: "app",
+  data() {
+    return {
+      loading: true,
+      loadingTable: false,
+      filterKeyword: '',
+      dataDetail: {
+        mapel: {},
+        tentor: {},
+        jenjang: {},
+        penjurusan: {},
+        jadwals: []
+      },
+      tabs: 0,
+      dataStudent: {
+        0: {},
+        1: {}
+      },
+      selectedId: null,
+      selectedIndex: null,
+    };
+  },
+  created() {
+    if (!this.$route.params.id)
+      return this.$router.push("/app/partner/courses");
+    this.getDetail("kursus", this.$route.params.id);
+    this.getStudent(0);
+  },
+  watch: {
+    tabs(value) {
+      if (value > -1) {
+        this.getStudent(value);
+      }
+    }
+  },
+  methods: {
+    resetModal() {},
+    getDetail(type, id) {
+      this.loading = true;
+      this.$axios
+        .$get(`/api/${type}/find/${id}`)
+        .then(res => {
+          console.log(res);
+          if (res.success) {
+            this.dataDetail = res.data;
+          }
+        })
+        .catch(err => {
+          console.log(err);
+          this.catchError(err);
+        })
+        .finally(() => (this.loading = false));
+    },
+    deleteData() {
+      const conf = confirm(
+        "Apakah Anda Yakin? Data yang dihapus tidak dapat dikembalikan!"
+      );
+      if (!conf) {
+        return;
+      }
+
+      this.loading = true;
+      this.$axios
+        .$delete(`/api/kursus/delete/${this.$route.params.id}`)
+        .then(res => {
+          console.log(res);
+          if (res.success) {
+            this.$root.$bvToast.toast("Data kursus berhasil dihapus!", {
+              title: "Sukses",
+              variant: "danger",
+              solid: true,
+              autoHideDelay: 3000
+            });
+            this.$bvModal.hide("modal-option");
+            this.$router.replace("/app/partner/courses");
+          }
+          return true;
+        })
+        .catch(err => {
+          console.log(err);
+          this.catchError(err);
+        })
+        .finally(() => (this.loading = false));
+    },
+    updateStatus(status) {
+      const conf = confirm(
+        "Apakah Anda Yakin ingin menonaktifkan Kelas? Siswa tidak dapat mengakses kelas ini lagi."
+      );
+      if (!conf) {
+        return;
+      }
+
+      this.loading = true;
+      const newStatus = status == 0 ? 1 : 0;
+      this.$axios
+        .$put(`/api/kursus/update/${this.$route.params.id}/status`, {
+          status: newStatus
+        })
+        .then(res => {
+          console.log(res);
+          if (res.success) {
+            this.dataDetail.menerima_peserta = newStatus;
+            const messageStatus =
+              newStatus == 1 ? "diaktifkan" : "dinonaktifkan";
+            this.$root.$bvToast.toast(
+              "Data kursus berhasil " + messageStatus + "!",
+              {
+                title: "Sukses",
+                variant: newStatus == 1 ? "success" : "danger",
+                solid: true,
+                autoHideDelay: 3000
+              }
+            );
+            this.$bvModal.hide("modal-option");
+          }
+          return true;
+        })
+        .catch(err => {
+          console.log(err);
+          this.catchError(err);
+        })
+        .finally(() => (this.loading = false));
+    },
+    async getStudent(tabIndex = 0) {
+      const statusDikelas = ["Bergabung", "Pending"];
+      this.loadingTable = true;
+      await this.$axios
+        .$get("/api/kursus-siswa/", {
+          params: {
+            id_kursus: this.$route.params.id,
+            status_dikelas: statusDikelas[tabIndex]
+          }
+        })
+        .then(res => {
+          console.log(res);
+          if (res.success) {
+            this.dataStudent[tabIndex] = res.data;
+          }
+        })
+        .catch(err => {
+          console.log(err);
+          this.catchError(err);
+        })
+        .finally(() => (this.loadingTable = false));
+    },
+    approvalStudent(status) {
+      this.loadingTable = true;
+      this.$axios
+        .$put(`/api/kursus-siswa/update/${this.selectedId}/status`, {
+          status_dikelas: status
+        })
+        .then(res => {
+          console.log(res);
+          if (res.success) {
+            const messageStatus =
+              status == 'Bergabung' ? "diterima" : "ditolak";
+            this.$root.$bvToast.toast(
+              "Siswa " + messageStatus + "!",
+              {
+                title: "Sukses",
+                variant: status == 'Bergabung' ? "success" : "danger",
+                solid: true,
+                autoHideDelay: 3000
+              }
+            );
+            this.getStudent(1)
+            this.$bvModal.hide("modal-approve");
+            this.$bvModal.hide("modal-reject");
+          }
+        })
+        .catch(err => {
+          console.log(err);
+          this.catchError(err);
+        })
+        .finally(() => (this.loadingTable = false));
+    },
+  }
+};
+</script>
+
+<style></style>
