@@ -5,7 +5,7 @@ export const state = () => ({
   dataUser: {},
   dataError: {},
   breadcrumbs: [],
-  isProfilLengkap: false,
+  isProfilLengkap: true,
   // listNomorSoal: [],
   // currentNomor: {},
   // currentSoal: {}
