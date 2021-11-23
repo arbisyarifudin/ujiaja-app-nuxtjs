@@ -10,7 +10,7 @@
         </div>
       </div>
       <div class="col-md-12">
-        <UIMenuCourseDetail :data="dataDetail" />
+        <UIMenuCourseDetail :data="dataDetail" :loading="loading"/>
       </div>
       <div class="col-md-12 my-3">
         <div class="bg-white px-4 py-4">

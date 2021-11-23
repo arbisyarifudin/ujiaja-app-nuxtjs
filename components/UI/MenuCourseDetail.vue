@@ -1,10 +1,10 @@
 <template>
-  <div class="header-detail bg-white my-4 px-5 py-4">
+  <div class="header-detail bg-white my-4 px-5 py-4" v-if="!loading">
     <div class="d-flex align-items-center justify-content-between">
       <h3 class="mb-0">
         {{ detail.nama_kursus }}
       </h3>
-      <div v-if="!loading">
+      <div >
         <router-link
           :to="`/app/partner/courses/${detail.id}/edit?ref=${$route.path}`"
           role="button"
@@ -75,7 +75,7 @@
 
 <script>
 export default {
-  props: ["data"],
+  props: ["data", "loading"],
   data() {
     return {
       detail: {}
