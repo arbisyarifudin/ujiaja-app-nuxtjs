@@ -38,7 +38,7 @@
               </template>
               <b-form-input
                 v-model="filter.keyword"
-                placeholder="Cari transaksi"
+                placeholder="Cari kelas kursus"
                 debounce="1000"
               ></b-form-input>
             </b-input-group>
@@ -127,7 +127,7 @@
         class="crud-body kosong"
       >
         <h2 class="kosong-title">Oops!</h2>
-        <p class="kosong-subtitle">Belum ada transaksi</p>
+        <p class="kosong-subtitle">Belum ada data Kelas Kursus</p>
       </div>
     </div>
 
