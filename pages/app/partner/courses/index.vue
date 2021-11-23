@@ -142,11 +142,11 @@
         <div class="col-md-8">
           <h4 class="m-0 mb-3">Oops!</h4>
           <p>
-            Kamu belum memiliki Tryout. <br />
-            Yuk beli tryout sekarang..
+            Kamu belum memiliki Kelas Privat. <br />
+            Yuk buat kelas privat sekarang..
           </p>
-          <nuxt-link class="btn btn-primary dashboard px-4" to="/app/tryout">
-            Beli Tryout
+          <nuxt-link class="btn btn-primary dashboard px-4" to="/app/partner/courses/add">
+            Buat Kelas
           </nuxt-link>
         </div>
       </div>

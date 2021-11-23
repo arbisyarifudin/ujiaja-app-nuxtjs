@@ -10,63 +10,7 @@
         </div>
       </div>
       <div class="col-md-12">
-        <div
-          class="header-detail bg-white my-4 px-5 py-4"
-          style="display: flex; justify-content: space-between; align-items: center;"
-        >
-          <h3 class="mb-0">
-            {{ dataDetail.nama_kursus }}
-            <span
-              v-if="dataDetail"
-              :class="[
-                dataDetail.menerima_peserta
-                  ? 'badge badge-success'
-                  : 'badge badge-danger'
-              ]"
-              >{{ dataDetail.menerima_peserta ? "Aktif" : "Nonaktif" }}</span
-            >
-          </h3>
-          <div v-if="!loading">
-            <router-link
-              :to="
-                `/app/partner/courses/${dataDetail.id}/edit?ref=${$route.path}`
-              "
-              role="button"
-              class="btn btn-success square py-1 mr-2"
-              title="Ubah Kelas"
-            >
-              Ubah Kelas
-            </router-link>
-            <router-link
-              :to="
-                `/app/partner/courses/${dataDetail.id}/students?ref=${$route.path}`
-              "
-              role="button"
-              class="btn btn-info square py-1 px-2 mr-2"
-              title="Lihat Siswa"
-            >
-              <i class="fas fa-users fa-fw"></i>
-            </router-link>
-            <router-link
-              :to="
-                `/app/partner/courses/${dataDetail.id}/materials?ref=${$route.path}`
-              "
-              role="button"
-              class="btn btn-primary square py-1 px-2 mr-2"
-              title="Lihat Materi"
-            >
-              <i class="fas fa-book fa-fw"></i>
-            </router-link>
-            <button
-              type="button"
-              class="btn btn-danger square py-1"
-              title="Opsi Lain"
-              v-b-modal.modal-option
-            >
-              <i class="fas fa-ellipsis-h"></i>
-            </button>
-          </div>
-        </div>
+        <UIMenuCourseDetail :data="dataDetail" />
       </div>
       <div class="col-md-12 my-3">
         <div class="bg-white px-4 py-4">

@@ -10,63 +10,7 @@
         </div>
       </div>
       <div class="col-md-12">
-        <div
-          class="header-detail bg-white my-4 px-5 py-4"
-          style="display: flex; justify-content: space-between; align-items: center;"
-        >
-          <h3 class="mb-0">
-            {{ dataDetail.nama_kursus }}
-            <span
-              v-if="dataDetail"
-              :class="[
-                dataDetail.menerima_peserta
-                  ? 'badge badge-success'
-                  : 'badge badge-danger'
-              ]"
-              >{{ dataDetail.menerima_peserta ? "Aktif" : "Nonaktif" }}</span
-            >
-          </h3>
-          <div v-if="!loading">
-            <router-link
-              :to="
-                `/app/partner/courses/${dataDetail.id}/edit?ref=${$route.path}`
-              "
-              role="button"
-              class="btn btn-success square py-1 mr-2"
-              title="Ubah Kelas"
-            >
-              Ubah Kelas
-            </router-link>
-            <router-link
-              :to="
-                `/app/partner/courses/${dataDetail.id}/students?ref=${$route.path}`
-              "
-              role="button"
-              class="btn btn-info square py-1 px-2 mr-2"
-              title="Lihat Siswa"
-            >
-              <i class="fas fa-users fa-fw"></i>
-            </router-link>
-             <router-link
-              :to="
-                `/app/partner/courses/${dataDetail.id}/materials?ref=${$route.path}`
-              "
-              role="button"
-              class="btn btn-primary square py-1 px-2 mr-2"
-              title="Lihat Materi"
-            >
-              <i class="fas fa-book fa-fw"></i>
-            </router-link>
-            <button
-              type="button"
-              class="btn btn-danger square py-1"
-              title="Opsi Lain"
-              v-b-modal.modal-option
-            >
-              <i class="fas fa-ellipsis-h"></i>
-            </button>
-          </div>
-        </div>
+        <UIMenuCourseDetail :data="dataDetail" />
       </div>
       <div class="col-md-12 my-3">
         <div class="bg-white px-4 py-4">
@@ -281,9 +225,10 @@
     >
       <div>
         <p class="modal-text">
-          <b>Nonaktifkan Kelas</b>, maka kelas tidak akan ditampilkan dalam pencarian dan siswa tidak bisa
-          mengakses Kelas Les Privat ini. Atau <b>Hapus Kelas secara Permanen</b>, maka
-          semua data dalam kelas akan dihapus dari Sistem.
+          <b>Nonaktifkan Kelas</b>, maka kelas tidak akan ditampilkan dalam
+          pencarian dan siswa tidak bisa mengakses Kelas Les Privat ini. Atau
+          <b>Hapus Kelas secara Permanen</b>, maka semua data dalam kelas akan
+          dihapus dari Sistem.
         </p>
         <div class="modal-footer justify-content-center" style="border: 0px">
           <button
@@ -293,7 +238,7 @@
             @click.prevent="updateStatus(dataDetail.menerima_peserta)"
           >
             <b-spinner small v-if="loading" class="mr-1"></b-spinner>
-            {{dataDetail.menerima_peserta ? 'Nonaktifkan' : 'Aktifkan'}}
+            {{ dataDetail.menerima_peserta ? "Nonaktifkan" : "Aktifkan" }}
           </button>
           <button
             class="btn btn-sm btn-secondary tambah px-4 py-2"
@@ -399,7 +344,7 @@ export default {
       }
 
       this.loading = true;
-      const newStatus = status == 0 ? 1 : 0
+      const newStatus = status == 0 ? 1 : 0;
       this.$axios
         .$put(`/api/kursus/update/${this.$route.params.id}/status`, {
           status: newStatus
@@ -407,14 +352,18 @@ export default {
         .then(res => {
           console.log(res);
           if (res.success) {
-            this.dataDetail.menerima_peserta = newStatus
-            const messageStatus = newStatus == 1 ? 'diaktifkan' : 'dinonaktifkan'
-            this.$root.$bvToast.toast('Data kursus berhasil ' + messageStatus + '!', {
-              title: "Sukses",
-              variant: newStatus == 1 ? 'success' : 'danger',
-              solid: true,
-              autoHideDelay: 3000
-            });
+            this.dataDetail.menerima_peserta = newStatus;
+            const messageStatus =
+              newStatus == 1 ? "diaktifkan" : "dinonaktifkan";
+            this.$root.$bvToast.toast(
+              "Data kursus berhasil " + messageStatus + "!",
+              {
+                title: "Sukses",
+                variant: newStatus == 1 ? "success" : "danger",
+                solid: true,
+                autoHideDelay: 3000
+              }
+            );
             this.$bvModal.hide("modal-option");
           }
           return true;
