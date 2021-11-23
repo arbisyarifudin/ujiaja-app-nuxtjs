@@ -10,28 +10,79 @@
         </div>
       </div>
       <div class="col-md-12">
-         <UIMenuCourseDetail :data="dataDetail" />
+        <UIMenuCourseDetail :data="dataDetail" :loading="loading" />
       </div>
       <div class="col-md-12 my-3">
         <div class="bg-white px-4 py-4">
           <div class="row">
             <div class="col-md-12 crud">
-              <h4>Daftar Materi Kelas</h4>
-              <hr class="mb-5"/>
-              <ul class="list-unstyled material-list">
-                <li class="material-item">
-                  <div class="card shadow-sm">
+              <div class="material-head row align-items-center">
+                <div class="col-md-8">
+                  <h4 class="mb-0">Daftar Materi Kelas</h4>
+                </div>
+                <div class="col-md-4 d-flex align-items-center crud-tools">
+                  <b-input-group>
+                    <template #prepend>
+                      <b-input-group-text class="pl-3"
+                        ><i class="fas fa-search"></i
+                      ></b-input-group-text>
+                    </template>
+                    <b-form-input
+                      class="py-1 small"
+                      placeholder="Cari materi"
+                      debounce="500"
+                      v-model="filter.keyword"
+                    ></b-form-input>
+                  </b-input-group>
+                </div>
+              </div>
+              <hr class="mb-3" />
+              <ul class="list-unstyled material-list relative">
+                <li
+                  class="material-item mb-4"
+                  v-for="(materi, index) in dataMaterial"
+                  :key="'m' + index"
+                >
+                  <div class="card shadow-none">
                     <div class="card-body">
-                      <h5 class="card-title">Judul Materi</h5>
-                      <div><i class="fas fa-clock fa-fw mr-1"></i> 20 November 2021</div>
-                      <hr>
-                      <div >
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla fugiat aspernatur sint, quidem pariatur nostrum earum laboriosam veniam natus illum.</p>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde maiores inventore beatae omnis ex? Repudiandae cumque nihil illo sapiente quasi.</p>
+                      <h5 class="card-title">{{ materi.judul_materi }}</h5>
+                      <div>
+                        <i class="fas fa-clock fa-fw mr-1"></i>
+                        {{ formatTanggal(materi.created_at, 'Do MMMM YYYY, HH:mm') }} WIB
+                      </div>
+                      <hr />
+                      <div class="material-content row align-items-center">
+                        <div
+                          class="material-description col-md-8"
+                          v-html="materi.deskripsi_materi"
+                        ></div>
+                        <div class="material-media col-md-4">
+                          <ul class="list-unstyled">
+                            <li
+                              class="media-item media-item--file d-flex align-items-center"
+                              @click="openUrl(materi.link_file_materi)"
+                            >
+                              <i
+                                class="fas fa-file fa-fw mr-2 fa-3x media-icon"
+                              ></i>
+                              <div>
+                                <div class="media-name">Materi</div>
+                                <div class="media-link" target="_blank">
+                                  {{ materi.link_file_materi }}
+                                </div>
+                              </div>
+                            </li>
+                          </ul>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </li>
+                <UILoading tag="div" v-if="loadingTable" />
+                <UINotFound
+                  tag="div"
+                  v-if="totalRows == 0 && filter.keyword && !loadingTable"
+                />
               </ul>
             </div>
           </div>
@@ -84,38 +135,6 @@
     </b-modal>
 
     <b-modal
-      id="modal-approve"
-      title="Terima Siswa"
-      hide-footer
-      centered
-      modal-class="admin-modal"
-      @hidden="resetModal"
-    >
-      <div>
-        <p class="modal-text">
-          Apakah Anda yakin ingin menerima Siswa Ini?
-        </p>
-        <div class="modal-footer justify-content-end" style="border: 0px">
-          <button
-            class="btn btn-sm btn-success tambah px-4 py-2"
-            type="button"
-            :disabled="loadingTable"
-            @click.prevent="approvalStudent('Bergabung')"
-          >
-            <b-spinner small v-if="loadingTable" class="mr-1"></b-spinner>
-            Terima Siswa
-          </button>
-          <button
-            class="btn btn-sm btn-outline-secondary tambah px-4 py-2"
-            type="button"
-            @click="$bvModal.hide('modal-approve')"
-          >
-            Batal
-          </button>
-        </div>
-      </div>
-    </b-modal>
-    <b-modal
       id="modal-reject"
       title="Tolak Siswa"
       hide-footer
@@ -157,7 +176,6 @@ export default {
     return {
       loading: true,
       loadingTable: false,
-      filterKeyword: "",
       dataDetail: {
         mapel: {},
         tentor: {},
@@ -165,7 +183,12 @@ export default {
         penjurusan: {},
         jadwals: []
       },
-      tabs: 0,
+      totalRows: 100,
+      filter: {
+        page: 1,
+        perPage: 6,
+        keyword: ""
+      },
       dataMaterial: [],
       selectedId: null,
       selectedIndex: null
@@ -175,8 +198,13 @@ export default {
     if (!this.$route.params.id)
       return this.$router.push("/app/partner/courses");
     this.getDetail("kursus", this.$route.params.id);
+    this.getMaterial();
   },
-
+  watch: {
+    "filter.keyword"(value) {
+      this.getMaterial();
+    }
+  },
   methods: {
     resetModal() {},
     getDetail(type, id) {
@@ -229,15 +257,19 @@ export default {
     async getMaterial() {
       this.loadingTable = true;
       await this.$axios
-        .$get("/api/kursus-materi/", {
+        .$get("/api/kursus-materi/pagination", {
           params: {
             id_kursus: this.$route.params.id,
+            q: this.filter.keyword,
+            paginate: this.filter.perPage
           }
         })
         .then(res => {
           console.log(res);
           if (res.success) {
-            this.dataMaterial = res.data;
+            this.dataMaterial = res.data.data;
+            this.totalRows = res.data.total;
+            this.filter.perPage = res.data.per_page;
           }
         })
         .catch(err => {
@@ -245,6 +277,16 @@ export default {
           this.catchError(err);
         })
         .finally(() => (this.loadingTable = false));
+    },
+    openUrl(link) {
+      const destination = this.ApiUrl(link);
+      var anchor = document.createElement("a");
+      anchor.setAttribute("target", "_blank");
+      anchor.setAttribute("class", "d-none");
+      anchor.setAttribute("href", destination);
+      document.body.appendChild(anchor);
+      anchor.click();
+      anchor.remove();
     }
   }
 };

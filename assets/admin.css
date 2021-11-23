@@ -1396,6 +1396,55 @@ input.form-control-info {
   font-size: 13px;
 }
 
+.material-description p {
+  font-size: 13px;
+  margin-bottom: 10px;
+}
+
+.material-item .card {
+  border: 1px solid #ddd;
+}
+
+.material-item .card-body {
+  padding-right: 30px;
+}
+
+.material-media .media-item {
+  overflow: hidden;
+  border: 1px solid #9e8df3;
+  border-radius: 5px;
+  padding: 20px 20px;
+  cursor: pointer;
+  -webkit-box-shadow: 0 3px 5px 1px rgba(157, 140, 243, 0.25);
+          box-shadow: 0 3px 5px 1px rgba(157, 140, 243, 0.25);
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+}
+
+.material-media .media-item:hover {
+  -webkit-box-shadow: 0 3px 5px 1px rgba(157, 140, 243, 0.5);
+          box-shadow: 0 3px 5px 1px rgba(157, 140, 243, 0.5);
+}
+
+.material-media .media-icon {
+  color: #47415b;
+}
+
+.material-media .media-name {
+  font-weight: 500;
+  color: #47415b;
+  white-space: nowrap;
+}
+
+.material-media .media-link {
+  color: #9490a4;
+  white-space: nowrap;
+}
+
+.material-media .media-link:hover {
+  text-decoration: none;
+}
+
 /* CSS on MOBILE */
 /* HAPE */
 /* TABLET */

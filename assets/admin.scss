@@ -110,7 +110,7 @@ input,
             }
         }
         &:hover {
-            background-color: rgb(189, 19, 19)!important;
+            background-color: rgb(189, 19, 19) !important;
         }
     }
     &-outline {
@@ -134,8 +134,8 @@ input,
                 color: #fff;
             }
             &:active {
-                background-color: #baadff!important;
-                border-color: #baadff!important;
+                background-color: #baadff !important;
+                border-color: #baadff !important;
                 color: #fff;
             }
         }
@@ -493,9 +493,9 @@ input,
         }
         button.btn,
         a.btn {
-                display: inline-block!important;
-                min-width: 150px;
-            }
+            display: inline-block !important;
+            min-width: 150px;
+        }
     }
 }
 
@@ -1230,9 +1230,7 @@ input.form {
 // COURSES
 
 .courses {
-
     &-review {
-
         .review {
             &-item {
                 border-bottom: 1px solid #ddd;
@@ -1290,13 +1288,59 @@ input.form {
                         }
                     }
                 }
-    
             }
         }
-
-
     }
+}
 
+// MATERIAL
+
+.material {
+    &-description {
+        p {
+            font-size: 13px;
+            margin-bottom: 10px;
+        }
+    }
+    &-item {
+        .card {
+            border: 1px solid #ddd;
+        }
+        .card-body {
+            padding-right: 30px;
+        }
+    }
+    &-media {
+        .media {
+            &-item {
+                overflow: hidden;
+                border: 1px solid #9e8df3;
+                border-radius: 5px;
+                padding: 20px 20px;
+                cursor: pointer;
+                box-shadow: 0 3px 5px 1px rgba(157, 140, 243, 0.25);
+                transition: 0.5s;
+                &:hover {
+                    box-shadow: 0 3px 5px 1px rgba(157, 140, 243, 0.5);
+                }
+            }
+            &-icon {
+                color: #47415b;
+            }
+            &-name {
+                font-weight: 500;
+                color: #47415b;
+                white-space: nowrap;
+            }
+            &-link {
+                color: #9490a4;
+                white-space: nowrap;
+                &:hover {
+                    text-decoration: none;
+                }
+            }
+        }
+    }
 }
 
 /* CSS on MOBILE */
