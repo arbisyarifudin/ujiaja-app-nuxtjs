@@ -1,6 +1,6 @@
 <template>
   <div class="container-fluid">
-    <div class="row" style="position: relative; z-index: 10;">
+    <div class="row" style="position: relative; z-index: 10">
       <div class="col-md-12">
         <div class="d-flex align-items-center justify-content-between">
           <h2 class="dash-label">
@@ -33,6 +33,25 @@
                       debounce="500"
                       v-model="filter.keyword"
                     ></b-form-input>
+                    <button
+                      class="
+                        btn btn-primary
+                        tambah
+                        crud-btn__add
+                        px-2
+                        py-1
+                        ml-2
+                        small
+                        align-items-center
+                        d-flex
+                      "
+                      to="/app/partner/courses/add"
+                      title="Tambah Materi"
+                      type="button"
+                      v-b-modal.modal-edit
+                    >
+                      <i class="fas fa-plus fa-fw"></i>
+                    </button>
                   </b-input-group>
                 </div>
               </div>
@@ -45,10 +64,44 @@
                 >
                   <div class="card shadow-none">
                     <div class="card-body">
-                      <h5 class="card-title">{{ materi.judul_materi }}</h5>
-                      <div>
-                        <i class="fas fa-clock fa-fw mr-1"></i>
-                        {{ formatTanggal(materi.created_at, 'Do MMMM YYYY, HH:mm') }} WIB
+                      <div class="d-flex justify-content-between">
+                        <div>
+                          <h5 class="card-title">{{ materi.judul_materi }}</h5>
+                          <div>
+                            <i class="fas fa-clock fa-fw mr-1"></i>
+                            {{
+                              formatTanggal(
+                                materi.created_at,
+                                'Do MMMM YYYY, HH:mm'
+                              )
+                            }}
+                            WIB
+                          </div>
+                        </div>
+                        <div>
+                          <b-button
+                            variant="light"
+                            class="square px-2 text-info"
+                            @click.prevent="
+                              selectedId = materi.id;
+                              selectedIndex = index;
+                              getDetailMateri(materi.id);
+                            "
+                            title="Ubah Materi"
+                            ><i class="fas fa-fw fa-edit"></i
+                          ></b-button>
+                          <b-button
+                            variant="light"
+                            class="square px-2 text-danger"
+                            @click.prevent="
+                              selectedId = materi.id;
+                              selectedIndex = i;
+                              $bvModal.show('modal-delete');
+                            "
+                            title="Hapus Materi"
+                            ><i class="fas fa-fw fa-trash"></i
+                          ></b-button>
+                        </div>
                       </div>
                       <hr />
                       <div class="material-content row align-items-center">
@@ -59,7 +112,11 @@
                         <div class="material-media col-md-4">
                           <ul class="list-unstyled">
                             <li
-                              class="media-item media-item--file d-flex align-items-center"
+                              class="
+                                media-item media-item--file
+                                d-flex
+                                align-items-center
+                              "
                               @click="openUrl(materi.link_file_materi)"
                             >
                               <i
@@ -84,6 +141,22 @@
                   v-if="totalRows == 0 && filter.keyword && !loadingTable"
                 />
               </ul>
+              <b-pagination
+                class="pagination-table"
+                v-if="
+                  totalRows > 0 && totalRows > filter.perPage && !loadingTable
+                "
+                v-model="filter.page"
+                :total-rows="totalRows"
+                :per-page="filter.perPage"
+              >
+              </b-pagination>
+              <div
+                v-if="totalRows == 0 && !loading && !filter.keyword"
+                class="small text-center"
+              >
+                Belum ada materi. Silakan buat terlebih dahulu.
+              </div>
             </div>
           </div>
         </div>
@@ -112,7 +185,7 @@
             @click.prevent="updateStatus(dataDetail.menerima_peserta)"
           >
             <b-spinner small v-if="loading" class="mr-1"></b-spinner>
-            {{ dataDetail.menerima_peserta ? "Nonaktifkan" : "Aktifkan" }}
+            {{ dataDetail.menerima_peserta ? 'Nonaktifkan' : 'Aktifkan' }}
           </button>
           <button
             class="btn btn-sm btn-secondary tambah px-4 py-2"
@@ -135,35 +208,107 @@
     </b-modal>
 
     <b-modal
-      id="modal-reject"
-      title="Tolak Siswa"
+      id="modal-delete"
+      title="Hapus Materi"
       hide-footer
       centered
       modal-class="admin-modal"
       @hidden="resetModal"
     >
       <div>
-        <p class="modal-text">
-          Apakah Anda yakin ingin menolak Siswa Ini?
-        </p>
+        <p class="modal-text">Apakah Anda yakin ingin menghapus Materi Ini?</p>
         <div class="modal-footer justify-content-end" style="border: 0px">
           <button
             class="btn btn-sm btn-danger tambah px-4 py-2"
             type="button"
             :disabled="loadingTable"
-            @click.prevent="approvalStudent('Ditolak')"
+            @click.prevent="deleteData()"
           >
-            <b-spinner small v-if="loadingTable" class="mr-1"></b-spinner> Tolak
-            Siswa
+            <b-spinner small v-if="loadingTable" class="mr-1"></b-spinner> Hapus
           </button>
           <button
             class="btn btn-sm btn-outline-secondary tambah px-4 py-2"
             type="button"
-            @click="$bvModal.hide('modal-reject')"
+            @click="$bvModal.hide('modal-delete')"
           >
             Batal
           </button>
         </div>
+      </div>
+    </b-modal>
+
+    <b-modal
+      id="modal-edit"
+      :title="editMode ? 'Ubah Materi' : 'Tambah Materi'"
+      hide-footer
+      centered
+      modal-class="admin-modal"
+      @hidden="resetModal"
+    >
+      <div class="crud">
+        <form class="form-user" @submit.prevent="validateFormOrtu">
+          <div class="form-group reg-siswa">
+            <label for="judul_materi">Nama Lengkap</label>
+            <input
+              type="text"
+              class="form-control"
+              id="judul_materi"
+              placeholder="Tulis Judul Materi"
+              v-model="form.judul_materi"
+            />
+            <div v-html="showError('judul_materi')"></div>
+          </div>
+          <div class="form-group reg-siswa">
+            <label for="deskripsi_materi">Deskripsi Materi</label>
+            <textarea
+              class="form-control"
+              id="deskripsi_materi"
+              placeholder="Tulis Deskripsi Materi"
+              v-model="form.deskripsi_materi"
+            ></textarea>
+            <div v-html="showError('deskripsi_materi')"></div>
+          </div>
+          <div class="form-group reg-siswa">
+            <label for="file_materi">File Materi</label>
+            <div class="custom-file mb-3">
+              <input
+                type="file"
+                class="custom-file-input"
+                id="file_materi"
+                ref="link_file_materi"
+                @change="handleUploadedFile('link_file_materi')"
+              />
+              <label class="custom-file-label" for="file_materi"
+                >Pilih file atau drag kesini</label
+              >
+              <div class="small text-info mt-1">
+                <small
+                  >File yang diizinkan .pdf, .doc, .docx, .zip, .xls, .xlsx,
+                  .ppt</small
+                >
+              </div>
+            </div>
+            <div v-html="showError('file_materi')"></div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer justify-content-end" style="border: 0px">
+        <button
+          class="btn btn-sm btn-outline-secondary tambah px-4 py-2"
+          type="button"
+          @click="$bvModal.hide('modal-edit')"
+        >
+          Batal
+        </button>
+        <button
+          class="btn btn-sm btn-primary tambah px-4 py-2"
+          type="button"
+          :disabled="loadingTable"
+          @click.prevent="submitData()"
+        >
+          <b-spinner small class="mr-1" v-if="loadingTable"></b-spinner>
+          <i class="fas fa-save fa-fw mr-1" v-else></i> Submit
+        </button>
       </div>
     </b-modal>
   </div>
@@ -171,7 +316,7 @@
 
 <script>
 export default {
-  layout: "app",
+  layout: 'app',
   data() {
     return {
       loading: true,
@@ -181,90 +326,138 @@ export default {
         tentor: {},
         jenjang: {},
         penjurusan: {},
-        jadwals: []
+        jadwals: [],
       },
       totalRows: 100,
       filter: {
         page: 1,
         perPage: 6,
-        keyword: ""
+        keyword: '',
       },
       dataMaterial: [],
+      detailMateri: {},
+      editMode: false,
       selectedId: null,
-      selectedIndex: null
+      selectedIndex: null,
+      form: {
+        judul_materi: '',
+        deskripsi_materi: '',
+        link_file_materi: '',
+        link_video_materi: '',
+      },
+      dataError: {},
+      files: {
+        link_file_materi: null,
+      },
     };
   },
   created() {
     if (!this.$route.params.id)
-      return this.$router.push("/app/partner/courses");
-    this.getDetail("kursus", this.$route.params.id);
+      return this.$router.push('/app/partner/courses');
+    this.getDetail('kursus', this.$route.params.id);
     this.getMaterial();
   },
   watch: {
-    "filter.keyword"(value) {
+    'filter.keyword'(value) {
       this.getMaterial();
-    }
+    },
   },
   methods: {
-    resetModal() {},
+    resetModal() {
+      this.editMode = false;
+      this.detailMateri = {};
+    },
+    resetForm() {
+      // this.isValidForm = {
+      //   judul: '',
+      //   deskripsi: '',
+      //   link_file: '',
+      //   link_video: '',
+      // };
+      this.dataError = [];
+    },
+    showError(field) {
+      if (
+        this.dataError[field] !== undefined &&
+        this.dataError[field].length > 0
+      ) {
+        let html = `<div class="form-error__info">
+                        ${this.dataError[field][0]}
+                        </div>`;
+        return html;
+      }
+      return '';
+    },
     getDetail(type, id) {
       this.loading = true;
       this.$axios
         .$get(`/api/${type}/find/${id}`)
-        .then(res => {
+        .then((res) => {
           console.log(res);
           if (res.success) {
             this.dataDetail = res.data;
           }
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
           this.catchError(err);
         })
         .finally(() => (this.loading = false));
     },
-    deleteData() {
-      const conf = confirm(
-        "Apakah Anda Yakin? Data yang dihapus tidak dapat dikembalikan!"
-      );
-      if (!conf) {
-        return;
-      }
-
-      this.loading = true;
+    getDetailMateri(id) {
+      this.editMode = true;
+      this.$bvModal.show('modal-edit');
+      this.loadingTable = true;
       this.$axios
-        .$delete(`/api/kursus/delete/${this.$route.params.id}`)
-        .then(res => {
+        .$get(`/api/kursus-materi/find/${id}`)
+        .then((res) => {
           console.log(res);
           if (res.success) {
-            this.$root.$bvToast.toast("Data kursus berhasil dihapus!", {
-              title: "Sukses",
-              variant: "danger",
-              solid: true,
-              autoHideDelay: 3000
-            });
-            this.$bvModal.hide("modal-option");
-            this.$router.replace("/app/partner/courses");
+            this.detailMateri = res.data;
+            this.form = res.data;
           }
-          return true;
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
           this.catchError(err);
         })
-        .finally(() => (this.loading = false));
+        .finally(() => (this.loadingTable = false));
+    },
+    deleteData() {
+      this.loadingTable = true;
+      this.$axios
+        .$delete(`/api/kursus-materi/delete/${this.selectedId}`)
+        .then((res) => {
+          console.log(res);
+          if (res.success) {
+            this.$root.$bvToast.toast('Data materi berhasil dihapus!', {
+              title: 'Sukses',
+              variant: 'danger',
+              solid: true,
+              autoHideDelay: 3000,
+            });
+            this.dataMaterial.splice(this.selectedIndex, 1);
+            this.$bvModal.hide('modal-delete');
+          }
+          return true;
+        })
+        .catch((err) => {
+          console.log(err);
+          this.catchError(err);
+        })
+        .finally(() => (this.loadingTable = false));
     },
     async getMaterial() {
       this.loadingTable = true;
       await this.$axios
-        .$get("/api/kursus-materi/pagination", {
+        .$get('/api/kursus-materi/pagination', {
           params: {
             id_kursus: this.$route.params.id,
             q: this.filter.keyword,
-            paginate: this.filter.perPage
-          }
+            paginate: this.filter.perPage,
+          },
         })
-        .then(res => {
+        .then((res) => {
           console.log(res);
           if (res.success) {
             this.dataMaterial = res.data.data;
@@ -272,7 +465,7 @@ export default {
             this.filter.perPage = res.data.per_page;
           }
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
           this.catchError(err);
         })
@@ -280,15 +473,91 @@ export default {
     },
     openUrl(link) {
       const destination = this.ApiUrl(link);
-      var anchor = document.createElement("a");
-      anchor.setAttribute("target", "_blank");
-      anchor.setAttribute("class", "d-none");
-      anchor.setAttribute("href", destination);
+      var anchor = document.createElement('a');
+      anchor.setAttribute('target', '_blank');
+      anchor.setAttribute('class', 'd-none');
+      anchor.setAttribute('href', destination);
       document.body.appendChild(anchor);
       anchor.click();
       anchor.remove();
-    }
-  }
+    },
+    handleUploadedFile(param) {
+      this.files[param] = this.$refs[param].files[0];
+      console.log(this.files[param]);
+      this.$refs[param].closest('.custom-file').children[1].textContent =
+        this.files[param].name;
+
+      let formData = new FormData();
+      formData.append('file', this.files[param]);
+
+      if (this.files[param] != null) {
+        this.loadingTable = true;
+        this.$axios
+          .$post(`/api/upload/file`, formData)
+          .then((res) => {
+            console.log(res);
+            if (res) {
+              this.form[param] = res.data.file_url;
+            }
+            return;
+          })
+          .catch((err) => {
+            console.log(err);
+            this.catchError(err);
+          })
+          .finally(() => (this.loadingTable = false));
+      }
+    },
+    submitData() {
+      this.loadingTable = true;
+      if (this.editMode) {
+        this.$axios
+          .$put(`/api/kursus-materi/update/${this.selectedId}`, this.form)
+          .then((res) => {
+            console.log(res);
+            if (res.success) {
+              this.$root.$bvToast.toast('Materi berhasil diperbarui.', {
+                title: 'Sukses',
+                variant: 'success',
+                solid: true,
+                autoHideDelay: 3000,
+              });
+              this.dataMaterial[this.selectedIndex] = res.data;
+              this.$bvModal.hide('modal-edit');
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+            this.catchError(err);
+          })
+          .finally(() => (this.loadingTable = false));
+      } else {
+        const dataCreate = {
+          ...this.form,
+          id_kursus: this.$route.params.id,
+        };
+        this.$axios
+          .$post(`/api/kursus-materi/create`, dataCreate)
+          .then((res) => {
+            console.log(res);
+            if (res.success) {
+              this.$root.$bvToast.toast('Materi berhasil dibuat.', {
+                title: 'Sukses',
+                variant: 'success',
+                solid: true,
+                autoHideDelay: 3000,
+              });
+              this.$bvModal.hide('modal-edit');
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+            this.catchError(err);
+          })
+          .finally(() => (this.loadingTable = false));
+      }
+    },
+  },
 };
 </script>
 
