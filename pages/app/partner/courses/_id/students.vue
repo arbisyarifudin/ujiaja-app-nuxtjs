@@ -1,6 +1,6 @@
 <template>
   <div class="container-fluid">
-    <div class="row" style="position: relative; z-index: 10;">
+    <div class="row" style="position: relative; z-index: 10">
       <div class="col-md-12">
         <div class="d-flex align-items-center justify-content-between">
           <h2 class="dash-label">
@@ -10,7 +10,7 @@
         </div>
       </div>
       <div class="col-md-12">
-        <UIMenuCourseDetail :data="dataDetail" :loading="loading"/>
+        <UIMenuCourseDetail :data="dataDetail" :loading="loading" />
       </div>
       <div class="col-md-12 my-3">
         <div class="bg-white px-4 py-4">
@@ -48,7 +48,7 @@
                           {{
                             formatTanggal(
                               joined.tanggal_gabung,
-                              "Do MMMM YYYY HH:mm"
+                              'Do MMMM YYYY HH:mm'
                             )
                           }}
                           WIB
@@ -63,16 +63,29 @@
                             "
                             title="Selesaikan Sesi"
                           >
-                            <i class="fas fa-fw fa-clock-check text-success"></i>
+                            <i
+                              class="fas fa-fw fa-clock-check text-success"
+                            ></i>
                           </button>
                         </td>
                       </tr>
                       <UITableLoading v-if="loadingTable" />
                       <UITableNotFound
-                        v-if="dataStudent['0'] && dataStudent['0'].length == 0 && filterKeyword && !loadingTable"
+                        v-if="
+                          dataStudent['0'] &&
+                          dataStudent['0'].length == 0 &&
+                          filterKeyword &&
+                          !loadingTable
+                        "
                       />
                     </tbody>
                   </table>
+                  <div
+                    v-if="dataStudent['0'].length == 0 && !loadingTable"
+                    class="py-5 small text-center"
+                  >
+                    Belum ada Siswa yang bergabung dalam Kelas.
+                  </div>
                 </b-tab>
                 <b-tab title="Menunggu Persetujuan">
                   <table class="table table-borderless">
@@ -99,7 +112,7 @@
                           {{
                             formatTanggal(
                               waiting.created_at,
-                              "Do MMMM YYYY HH:mm"
+                              'Do MMMM YYYY HH:mm'
                             )
                           }}
                           WIB
@@ -131,10 +144,21 @@
                       </tr>
                       <UITableLoading v-if="loadingTable" />
                       <UITableNotFound
-                        v-if="dataStudent['1'] && dataStudent['1'].length == 0 && filterKeyword && !loadingTable"
+                        v-if="
+                          dataStudent['1'] &&
+                          dataStudent['1'].length == 0 &&
+                          filterKeyword &&
+                          !loadingTable
+                        "
                       />
                     </tbody>
                   </table>
+                  <div
+                    v-if="dataStudent['1'].length == 0 && !loadingTable"
+                    class="py-5 small text-center"
+                  >
+                    Belum ada permintaan bergabung dari Siswa.
+                  </div>
                 </b-tab>
               </b-tabs>
             </div>
@@ -165,7 +189,7 @@
             @click.prevent="updateStatus(dataDetail.menerima_peserta)"
           >
             <b-spinner small v-if="loading" class="mr-1"></b-spinner>
-            {{ dataDetail.menerima_peserta ? "Nonaktifkan" : "Aktifkan" }}
+            {{ dataDetail.menerima_peserta ? 'Nonaktifkan' : 'Aktifkan' }}
           </button>
           <button
             class="btn btn-sm btn-secondary tambah px-4 py-2"
@@ -196,9 +220,7 @@
       @hidden="resetModal"
     >
       <div>
-        <p class="modal-text">
-         Apakah Anda yakin ingin menerima Siswa Ini?
-        </p>
+        <p class="modal-text">Apakah Anda yakin ingin menerima Siswa Ini?</p>
         <div class="modal-footer justify-content-end" style="border: 0px">
           <button
             class="btn btn-sm btn-success tambah px-4 py-2"
@@ -206,7 +228,8 @@
             :disabled="loadingTable"
             @click.prevent="approvalStudent('Bergabung')"
           >
-            <b-spinner small v-if="loadingTable" class="mr-1"></b-spinner> Terima Siswa
+            <b-spinner small v-if="loadingTable" class="mr-1"></b-spinner>
+            Terima Siswa
           </button>
           <button
             class="btn btn-sm btn-outline-secondary tambah px-4 py-2"
@@ -227,9 +250,7 @@
       @hidden="resetModal"
     >
       <div>
-        <p class="modal-text">
-         Apakah Anda yakin ingin menolak Siswa Ini?
-        </p>
+        <p class="modal-text">Apakah Anda yakin ingin menolak Siswa Ini?</p>
         <div class="modal-footer justify-content-end" style="border: 0px">
           <button
             class="btn btn-sm btn-danger tambah px-4 py-2"
@@ -237,7 +258,8 @@
             :disabled="loadingTable"
             @click.prevent="approvalStudent('Ditolak')"
           >
-            <b-spinner small v-if="loadingTable" class="mr-1"></b-spinner> Tolak Siswa
+            <b-spinner small v-if="loadingTable" class="mr-1"></b-spinner> Tolak
+            Siswa
           </button>
           <button
             class="btn btn-sm btn-outline-secondary tambah px-4 py-2"
@@ -254,7 +276,7 @@
 
 <script>
 export default {
-  layout: "app",
+  layout: 'app',
   data() {
     return {
       loading: true,
@@ -265,12 +287,12 @@ export default {
         tentor: {},
         jenjang: {},
         penjurusan: {},
-        jadwals: []
+        jadwals: [],
       },
       tabs: 0,
       dataStudent: {
         0: {},
-        1: {}
+        1: {},
       },
       selectedId: null,
       selectedIndex: null,
@@ -278,8 +300,8 @@ export default {
   },
   created() {
     if (!this.$route.params.id)
-      return this.$router.push("/app/partner/courses");
-    this.getDetail("kursus", this.$route.params.id);
+      return this.$router.push('/app/partner/courses');
+    this.getDetail('kursus', this.$route.params.id);
     this.getStudent(0);
   },
   watch: {
@@ -287,7 +309,7 @@ export default {
       if (value > -1) {
         this.getStudent(value);
       }
-    }
+    },
   },
   methods: {
     resetModal() {},
@@ -295,13 +317,13 @@ export default {
       this.loading = true;
       this.$axios
         .$get(`/api/${type}/find/${id}`)
-        .then(res => {
+        .then((res) => {
           console.log(res);
           if (res.success) {
             this.dataDetail = res.data;
           }
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
           this.catchError(err);
         })
@@ -309,7 +331,7 @@ export default {
     },
     deleteData() {
       const conf = confirm(
-        "Apakah Anda Yakin? Data yang dihapus tidak dapat dikembalikan!"
+        'Apakah Anda Yakin? Data yang dihapus tidak dapat dikembalikan!'
       );
       if (!conf) {
         return;
@@ -318,21 +340,21 @@ export default {
       this.loading = true;
       this.$axios
         .$delete(`/api/kursus/delete/${this.$route.params.id}`)
-        .then(res => {
+        .then((res) => {
           console.log(res);
           if (res.success) {
-            this.$root.$bvToast.toast("Data kursus berhasil dihapus!", {
-              title: "Sukses",
-              variant: "danger",
+            this.$root.$bvToast.toast('Data kursus berhasil dihapus!', {
+              title: 'Sukses',
+              variant: 'danger',
               solid: true,
-              autoHideDelay: 3000
+              autoHideDelay: 3000,
             });
-            this.$bvModal.hide("modal-option");
-            this.$router.replace("/app/partner/courses");
+            this.$bvModal.hide('modal-option');
+            this.$router.replace('/app/partner/courses');
           }
           return true;
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
           this.catchError(err);
         })
@@ -340,7 +362,7 @@ export default {
     },
     updateStatus(status) {
       const conf = confirm(
-        "Apakah Anda Yakin ingin menonaktifkan Kelas? Siswa tidak dapat mengakses kelas ini lagi."
+        'Apakah Anda Yakin ingin menonaktifkan Kelas? Siswa tidak dapat mengakses kelas ini lagi.'
       );
       if (!conf) {
         return;
@@ -350,50 +372,50 @@ export default {
       const newStatus = status == 0 ? 1 : 0;
       this.$axios
         .$put(`/api/kursus/update/${this.$route.params.id}/status`, {
-          status: newStatus
+          status: newStatus,
         })
-        .then(res => {
+        .then((res) => {
           console.log(res);
           if (res.success) {
             this.dataDetail.menerima_peserta = newStatus;
             const messageStatus =
-              newStatus == 1 ? "diaktifkan" : "dinonaktifkan";
+              newStatus == 1 ? 'diaktifkan' : 'dinonaktifkan';
             this.$root.$bvToast.toast(
-              "Data kursus berhasil " + messageStatus + "!",
+              'Data kursus berhasil ' + messageStatus + '!',
               {
-                title: "Sukses",
-                variant: newStatus == 1 ? "success" : "danger",
+                title: 'Sukses',
+                variant: newStatus == 1 ? 'success' : 'danger',
                 solid: true,
-                autoHideDelay: 3000
+                autoHideDelay: 3000,
               }
             );
-            this.$bvModal.hide("modal-option");
+            this.$bvModal.hide('modal-option');
           }
           return true;
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
           this.catchError(err);
         })
         .finally(() => (this.loading = false));
     },
     async getStudent(tabIndex = 0) {
-      const statusDikelas = ["Bergabung", "Pending"];
+      const statusDikelas = ['Bergabung', 'Pending'];
       this.loadingTable = true;
       await this.$axios
-        .$get("/api/kursus-siswa/", {
+        .$get('/api/kursus-siswa/', {
           params: {
             id_kursus: this.$route.params.id,
-            status_dikelas: statusDikelas[tabIndex]
-          }
+            status_dikelas: statusDikelas[tabIndex],
+          },
         })
-        .then(res => {
+        .then((res) => {
           console.log(res);
           if (res.success) {
             this.dataStudent[tabIndex] = res.data;
           }
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
           this.catchError(err);
         })
@@ -403,34 +425,31 @@ export default {
       this.loadingTable = true;
       this.$axios
         .$put(`/api/kursus-siswa/update/${this.selectedId}/status`, {
-          status_dikelas: status
+          status_dikelas: status,
         })
-        .then(res => {
+        .then((res) => {
           console.log(res);
           if (res.success) {
             const messageStatus =
-              status == 'Bergabung' ? "diterima" : "ditolak";
-            this.$root.$bvToast.toast(
-              "Siswa " + messageStatus + "!",
-              {
-                title: "Sukses",
-                variant: status == 'Bergabung' ? "success" : "danger",
-                solid: true,
-                autoHideDelay: 3000
-              }
-            );
-            this.getStudent(1)
-            this.$bvModal.hide("modal-approve");
-            this.$bvModal.hide("modal-reject");
+              status == 'Bergabung' ? 'diterima' : 'ditolak';
+            this.$root.$bvToast.toast('Siswa ' + messageStatus + '!', {
+              title: 'Sukses',
+              variant: status == 'Bergabung' ? 'success' : 'danger',
+              solid: true,
+              autoHideDelay: 3000,
+            });
+            this.getStudent(1);
+            this.$bvModal.hide('modal-approve');
+            this.$bvModal.hide('modal-reject');
           }
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
           this.catchError(err);
         })
         .finally(() => (this.loadingTable = false));
     },
-  }
+  },
 };
 </script>
 
