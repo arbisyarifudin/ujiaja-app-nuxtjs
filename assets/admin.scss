@@ -1240,10 +1240,12 @@ input.form {
             &-avatar {
                 width: 70px;
                 height: 70px;
-                object-fit: cover;
+                object-fit: contain;
                 border-radius: 50%;
+                border: 1px solid #9e8df3;
             }
             &-data {
+                width: 100%;
                 &__author {
                     font-weight: 500;
                 }

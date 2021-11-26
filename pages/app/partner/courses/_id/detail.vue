@@ -1,6 +1,6 @@
 <template>
   <div class="container-fluid">
-    <div class="row" style="position: relative; z-index: 10;">
+    <div class="row" style="position: relative; z-index: 10">
       <div class="col-md-12">
         <div class="d-flex align-items-center justify-content-between">
           <h2 class="dash-label">
@@ -10,7 +10,7 @@
         </div>
       </div>
       <div class="col-md-12">
-        <UIMenuCourseDetail :data="dataDetail" :loading="loading"/>
+        <UIMenuCourseDetail :data="dataDetail" :loading="loading" />
       </div>
       <div class="col-md-12 my-3">
         <div class="bg-white px-4 py-4">
@@ -36,17 +36,16 @@
                   </td>
                 </tr>
                 <tr>
-                  <th width="150">Rating</th>
+                  <th width="150">Rating Kelas</th>
                   <td width="10">:</td>
                   <td>
-                    <span style="font-size: 13px" class="text-star">
-                      <i class="fas fa-star"></i>
-                      <i class="far fa-star"></i>
-                      <i class="far fa-star"></i>
-                      <i class="far fa-star"></i>
-                      <i class="far fa-star"></i>
+                    <span
+                      style="font-size: 13px"
+                      class="text-star"
+                      v-html="rerataUlasan(dataDetail.rerata_ulasan)"
+                    >
                     </span>
-                    <span class="small">1/5</span>
+                    <span class="small">{{ dataDetail.rerata_ulasan }}/5</span>
                   </td>
                 </tr>
                 <tr>
@@ -119,7 +118,7 @@
           <hr class="mb-0" />
           <div class="courses-review review">
             <ul class="review-list list-unstyled">
-              <li class="d-flex review-item">
+              <!-- <li class="d-flex review-item">
                 <img
                   src="/wilson.png"
                   alt="profile pic"
@@ -209,6 +208,112 @@
                     </li>
                   </ul>
                 </div>
+              </li> -->
+              <li
+                class="d-flex review-item"
+                v-for="(item, index) in ulasan.list"
+                :key="'uls' + index"
+              >
+                <img
+                  :src="item.privasi == 'Publik' ? ApiUrl(item.foto) : noImage"
+                  @error="noImage"
+                  alt="profile pic"
+                  class="review-avatar"
+                />
+                <div class="review-data ml-md-4">
+                  <div class="review-data__author">{{ item.pengulas }}</div>
+                  <div class="d-flex review-data__rating">
+                    <div class="star mr-2">
+                      <i
+                        class="fas fa-star fa-fw"
+                        v-for="i in item.nilai"
+                        :key="'fas' + i"
+                      ></i>
+                      <i
+                        class="far fa-star fa-fw"
+                        v-for="x in 5 - item.nilai"
+                        :key="'far' + x"
+                      ></i>
+                    </div>
+                    <div class="time">{{ formatTanggal(item.tanggal) }}</div>
+                  </div>
+                  <div class="review-data__comment mt-2">
+                    {{ item.ulasan }}
+                  </div>
+                  <div class="review-action d-flex justify-content-end mt-2" v-if="!item.tanggal_balasan">
+                    <button class="btn btn-primary btn-sm square" :ref="'openBalasan-'+index" @click.prevent="openBalasan(index)">Balas</button>
+                  </div>
+                  <ul class="review-list review-list--child list-unstyled">
+                    <li class="d-flex review-item" v-if="item.tanggal_balasan">
+                      <img
+                        src="/randy.png"
+                        alt="profile pic"
+                        class="review-avatar"
+                      />
+                      <div class="review-data ml-md-4">
+                        <div class="review-data__author">
+                          {{ dataDetail.tentor.nama_lengkap }}
+                          <span class="ml-1 badge badge-primary">Tentor</span>
+                        </div>
+                        <div class="d-flex review-data__rating">
+                          <div class="time">
+                            {{ formatTanggal(item.tanggal_balasan) }}
+                          </div>
+                        </div>
+                        <div class="review-data__comment mt-2">
+                          {{ item.balasan }}
+                        </div>
+                        <div
+                          class="review-action d-flex justify-content-end mt-2"
+                        >
+                          <div>
+                            <button class="btn btn-light btn-sm square" :ref="'openBalasan-'+index" @click.prevent="openBalasan(index)">
+                              Ubah
+                            </button>
+                          </div>
+                        </div>
+                        <div class="review-reply" :ref="'formBalasan-'+index" :id="'formBalasan-'+index" style="display: none">
+                          <label class="form-label">Ubah Ulasan:</label>
+                          <textarea
+                            rows="3"
+                            class="form-control"
+                            v-model="item.balasan"
+                          ></textarea>
+                          <div class="d-flex justify-content-end mt-3">
+                            <button
+                              class="btn btn-primary square"
+                              @click.prevent="balasUlasan(item, index, true)"
+                            :disabled="submitting"
+                          >
+                            <b-spinner small v-if="submitting"></b-spinner>
+                            Balas
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+                    <li class="review-item" v-else>
+                      <div class="review-reply" :ref="'formBalasan-'+index" :id="'formBalasan-'+index"  style="display: none">
+                        <label class="form-label">Balas Ulasan:</label>
+                        <textarea
+                          rows="3"
+                          class="form-control"
+                          v-model="item.balasan"
+                        ></textarea>
+                        <div class="d-flex justify-content-end mt-3">
+                          <button
+                            class="btn btn-primary square"
+                            @click.prevent="balasUlasan(item, index)"
+                            :disabled="submitting"
+                          >
+                            <b-spinner small v-if="submitting"></b-spinner>
+                            Balas
+                          </button>
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
               </li>
             </ul>
           </div>
@@ -275,13 +380,21 @@ export default {
         penjurusan: {},
         jadwals: []
       },
-      youtubeVideoId: ""
+      youtubeVideoId: "",
+      dataUlasan: [],
+      ulasan: {
+        list: [],
+        totalRows: 10,
+        perPage: 10
+      },
+      submitting: false
     };
   },
   created() {
     if (!this.$route.params.id)
       return this.$router.push("/app/partner/courses");
     this.getDetail("kursus", this.$route.params.id);
+    this.getUlasan();
   },
   methods: {
     resetModal() {},
@@ -290,7 +403,6 @@ export default {
       this.$axios
         .$get(`/api/${type}/find/${id}`)
         .then(res => {
-          console.log(res);
           if (res.success) {
             this.dataDetail = res.data;
             this.youtubeVideoId = this.generateYoutubeVideoId(
@@ -390,8 +502,75 @@ export default {
     },
     formatJam(jam) {
       const tanggal = "2021-01-01 " + jam;
-      console.log(tanggal);
       return this.moment(tanggal).format("HH:mm");
+    },
+    getUlasan() {
+      this.loading = true;
+      this.$axios
+        .$get("api/kursus-ulasan", {
+          params: {
+            q: "",
+            paginate: 10
+          }
+        })
+        .then(res => {
+          if (res.success) {
+            this.ulasan.list = res.data.data;
+            this.ulasan.totalRows = res.data.total;
+            this.ulasan.perPage = res.data.per_page;
+          }
+        })
+        .catch(err => {
+          console.log(err);
+          this.catchError(err);
+        })
+        .finally(() => (this.loading = false));
+    },
+    rerataUlasan(rerata) {
+      const rataRata = Math.floor(rerata);
+      let element = "";
+      for (let i = 0; i < rataRata; i++) {
+        element += '<i class="fas fa-star fa-fw"></i>';
+      }
+      for (let x = 0; x < 5 - rataRata; x++) {
+        element += '<i class="far fa-star fa-fw"></i>';
+      }
+
+      return element;
+    },
+    openBalasan(index) {
+      const refs1 = this.$refs['openBalasan-'+index];
+      const refs2 = this.$refs['formBalasan-'+index];
+      if(refs2 && refs2[0]) {
+        refs1[0].style = 'display: none'
+        refs2[0].style = 'display: block'
+      }
+    },
+    balasUlasan(ulasan, index, isEdit = false) {
+      this.submitting = true;
+      this.$axios
+        .$put("api/kursus-ulasan/reply/" + ulasan.id, {
+          balasan: ulasan.balasan
+        })
+        .then(res => {
+          this.showToastMessage("Balasan berhasil di-submit!", "success");
+          ulasan.tanggal_balasan = res.data.tanggal_balasan
+          const refs = this.$refs['formBalasan-'+index];
+          if(refs && refs[0]) {
+            refs[0].style = 'display: none'
+            if(isEdit) {
+              const refs2 = this.$refs['openBalasan-'+index];
+               if(refs2 && refs2[0]) {
+                 refs2[0].style = 'display: block'
+                }
+            }
+          }
+        })
+        .catch(err => {
+          console.log(err);
+          this.catchError(err);
+        })
+        .finally(() => (this.submitting = false));
     }
   }
 };

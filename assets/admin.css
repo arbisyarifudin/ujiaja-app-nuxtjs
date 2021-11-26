@@ -1347,9 +1347,14 @@ input.form-control-info {
 .courses-review .review-avatar {
   width: 70px;
   height: 70px;
-  -o-object-fit: cover;
-     object-fit: cover;
+  -o-object-fit: contain;
+     object-fit: contain;
   border-radius: 50%;
+  border: 1px solid #9e8df3;
+}
+
+.courses-review .review-data {
+  width: 100%;
 }
 
 .courses-review .review-data__author {
