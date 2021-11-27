@@ -199,6 +199,9 @@
                   <template v-else-if="detail.mbti">
                     {{ detail.mbti.judul }}
                   </template>
+                   <template v-else-if="detail.kursus">
+                    {{ detail.kursus.nama_kursus }}
+                  </template>
                 </th>
               </tr>
               <tr>
