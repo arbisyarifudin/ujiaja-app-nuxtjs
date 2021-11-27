@@ -61,7 +61,25 @@
               <p class="mb-1" style="color: #9490A4;">No.Invoice</p>
               <p class="">{{ dataDetail.kode }}</p>
             </div>
-            <div class="col-md-6 p-0" v-if="dataDetail.produk || dataDetail.mbti">
+            <div class="col-md-6 p-0" v-else-if="dataDetail.kursus">
+              <p class="mb-1" style="color: #9490A4;">Produk</p>
+              <p class="" v-text="dataDetail.kursus.nama_kursus"></p>
+              <p class="mb-1" style="color: #9490A4;">Batas Waktu Pembayaran</p>
+              <p class="">
+                {{
+                  formatTanggal(
+                    dataDetail.batas_pembayaran
+                      ? dataDetail.batas_pembayaran
+                      : dataDetail.xendit.expiry_date,
+                    "dddd, DD MMMM YYYY HH:mm"
+                  )
+                }}
+                WIB
+              </p>
+              <p class="mb-1" style="color: #9490A4;">No.Invoice</p>
+              <p class="">{{ dataDetail.kode }}</p>
+            </div>
+            <div class="col-md-6 p-0" v-if="dataDetail.produk || dataDetail.mbti || dataDetail.kursus">
               <p class="mb-1" style="color: #9490A4;">Total Pembayaran</p>
               <p class="">Rp {{ formatRupiah(dataDetail.total_harga) }}</p>
               <p class="mb-1" style="color: #9490A4;">Metode Pembayaran</p>
@@ -89,9 +107,11 @@
             </div>
             <div class="col-12 px-0" v-if="!loading">
               <hr />
-              <router-link :to="`/app/mbti/`" v-if="dataDetail.mbti"
+              <router-link :to="`/app/tryout/${dataDetail.id_produk}/detail`" v-if="dataDetail.produk"
                 >Lihat Produk</router-link>
-              <router-link :to="`/app/tryout/${dataDetail.id_produk}/detail`" v-else
+              <router-link :to="`/app/mbti/`" v-else-if="dataDetail.mbti"
+                >Lihat Produk</router-link>
+              <router-link :to="`/app/student/courses/${dataDetail.id_produk}/detail`" v-else-if="dataDetail.kursus"
                 >Lihat Produk</router-link>
             </div>
             <div class="col-12" v-if="loading">

@@ -15,12 +15,31 @@
           <i class="fas fa-users fa-fw"></i>
         </router-link> -->
         <router-link
+        v-if="!detail.transaksi"
           :to="`/app/student/courses/${detail.id}/enroll?ref=${$route.path}`"
           role="button"
           class="btn btn-primary square py-1 px-2 mr-2"
           title="Beli">
           <i class="fas fa-shopping-cart fa-fw"></i> Beli Kelas Kursus
         </router-link>
+        <div v-else>
+          <router-link
+          v-if="detail.transaksi"
+            :to="`/app/payment/${detail.transaksi.id}/detail?ref=${$route.path}`"
+            role="button"
+            class="btn btn-secondary square py-1 px-2 mr-2"
+            title="Detail Pembayaran">
+            <i class="fas fa-file-alt fa-fw"></i> Detail Pembayaran
+          </router-link>
+          <router-link
+          v-if="detail.transaksi && detail.transaksi.status == 'Sudah Diverifikasi'"
+            :to="`/app/student/courses/${detail.transaksi.id}/materials?ref=${$route.path}`"
+            role="button"
+            class="btn btn-primary square py-1 px-2 mr-2"
+            title="Lihat Materi Kelas">
+            <i class="fas fa-book fa-fw"></i> Materi Kelas
+          </router-link>
+        </div>
       </div>
     </div>
     <hr />

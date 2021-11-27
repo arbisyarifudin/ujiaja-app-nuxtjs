@@ -124,53 +124,53 @@
         <div class="bg-white px-4 py-4">
           <h4>Ulasan</h4>
           <hr class="mb-0" />
-           <div
-              class="review-reply mt-4"
-              :ref="'formTambah'"
-              :id="'formTambah'"
-              v-if="!myUlasan"
-            >
-              <!-- <label class="form-label">Tulis Ulasan:</label> -->
-              <textarea
-                placeholder="Tulis ulasan Anda..."
-                rows="3"
-                class="form-control"
-                v-model="form.ulasan"
-              ></textarea>
-              <div class="d-flex justify-content-end mt-3">
-                <span>Penilaian :</span>
-                <b-select
-                  v-model="form.nilai"
-                  style="width: auto"
-                  class="mx-2"
-                  :options="[
-                    { text: 'Sangat Bagus', value: 5 },
-                    { text: 'Bagus', value: 4 },
-                    { text: 'Cukup', value: 3 },
-                    { text: 'Buruk', value: 2 },
-                    { text: 'Sangat Buruk', value: 1 }
-                  ]"
-                ></b-select>
-                <span>Ulas sebagai :</span>
-                <b-select
-                  v-model="form.privasi"
-                  style="width: auto"
-                  class="mx-2"
-                  :options="[
-                    { text: 'Publik', value: 'Publik' },
-                    { text: 'Anonim', value: 'Anonim' }
-                  ]"
-                ></b-select>
-                <button
-                  class="btn btn-primary square"
-                  @click.prevent="buatUlasan"
-                  :disabled="submitting"
-                >
-                  <b-spinner small v-if="submitting"></b-spinner>
-                  Kirim Ulasan
-                </button>
-              </div>
+          <div
+            class="review-reply mt-4"
+            :ref="'formTambah'"
+            :id="'formTambah'"
+            v-if="!myUlasan && dataDetail.transaksi && dataDetail.transaksi.status == 'Sudah Diverifikasi'"
+          >
+            <!-- <label class="form-label">Tulis Ulasan:</label> -->
+            <textarea
+              placeholder="Tulis ulasan Anda..."
+              rows="3"
+              class="form-control"
+              v-model="form.ulasan"
+            ></textarea>
+            <div class="d-flex justify-content-end mt-3">
+              <span>Penilaian :</span>
+              <b-select
+                v-model="form.nilai"
+                style="width: auto"
+                class="mx-2"
+                :options="[
+                  { text: 'Sangat Bagus', value: 5 },
+                  { text: 'Bagus', value: 4 },
+                  { text: 'Cukup', value: 3 },
+                  { text: 'Buruk', value: 2 },
+                  { text: 'Sangat Buruk', value: 1 }
+                ]"
+              ></b-select>
+              <span>Ulas sebagai :</span>
+              <b-select
+                v-model="form.privasi"
+                style="width: auto"
+                class="mx-2"
+                :options="[
+                  { text: 'Publik', value: 'Publik' },
+                  { text: 'Anonim', value: 'Anonim' }
+                ]"
+              ></b-select>
+              <button
+                class="btn btn-primary square"
+                @click.prevent="buatUlasan"
+                :disabled="submitting"
+              >
+                <b-spinner small v-if="submitting"></b-spinner>
+                Kirim Ulasan
+              </button>
             </div>
+          </div>
           <div class="courses-review review">
             <ul class="review-list list-unstyled">
               <li
@@ -296,6 +296,7 @@
                 </div>
               </li>
             </ul>
+           <UITableNotFound text="Belum ada ulasan untuk kelas kursus ini." v-if="ulasan.list && ulasan.list.length < 1"/>
           </div>
         </div>
       </div>
