@@ -225,7 +225,26 @@
           class="btn btn-primary tambah px-4 py-2"
           style="border-radius: 25px; border:none;"
           role="button"
+          v-if="dataDetail.transaksi && dataDetail.transaksi.produk"
           to="/app/tryout/mine"
+        >
+          Halaman Utama
+        </router-link>
+         <router-link
+          class="btn btn-primary tambah px-4 py-2"
+          style="border-radius: 25px; border:none;"
+          role="button"
+          v-if="dataDetail.transaksi && dataDetail.transaksi.mbti"
+          to="/app/mbti"
+        >
+          Halaman Utama
+        </router-link>
+         <router-link
+          class="btn btn-primary tambah px-4 py-2"
+          style="border-radius: 25px; border:none;"
+          role="button"
+          v-if="dataDetail.transaksi && dataDetail.transaksi.kursus"
+          to="/app/student/courses/mine"
         >
           Halaman Utama
         </router-link>

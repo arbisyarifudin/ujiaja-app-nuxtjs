@@ -316,6 +316,9 @@
                 </div>
               </li>
             </ul>
+             <div class="pos-relative" v-if="ulasan.list && ulasan.list.length < 1">
+              <UITableNotFound text="Belum ada ulasan untuk kelas kursus ini."/>
+            </div>
           </div>
         </div>
       </div>
