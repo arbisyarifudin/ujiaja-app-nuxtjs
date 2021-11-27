@@ -526,14 +526,19 @@ export default {
         })
         .finally(() => (this.loading = false));
     },
-    rerataUlasan(rerata) {
-      const rataRata = Math.floor(rerata);
+    rerataUlasan(rataRata) {
+      const rataRataFloor = Math.floor(rataRata);
+      const sisaDesimal = Math.round(rataRata - rataRataFloor);
+
       let element = "";
-      for (let i = 0; i < rataRata; i++) {
-        element += '<i class="fas fa-star fa-fw"></i>';
+      for (let i = 0; i < rataRataFloor; i++) {
+        element += '<i class="fas fa-star fa-fw text-star"></i>';
       }
-      for (let x = 0; x < 5 - rataRata; x++) {
-        element += '<i class="far fa-star fa-fw"></i>';
+      for (let x = 0; x < sisaDesimal; x++) {
+        element += '<i class="fas fa-star-half-alt fa-fw text-star"></i>';
+      }
+      for (let x = 0; x < (5 - rataRataFloor - sisaDesimal); x++) {
+        element += '<i class="far fa-star fa-fw text-star"></i>';
       }
 
       return element;
