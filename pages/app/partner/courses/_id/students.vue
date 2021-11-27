@@ -20,144 +20,158 @@
               <hr />
               <b-tabs content-class="mt-3" v-model="tabs" lazy>
                 <b-tab title="Bergabung">
-                  <table class="table table-borderless">
-                    <thead class="thead-light">
-                      <tr>
-                        <th>No</th>
-                        <th>Nama Lengkap</th>
-                        <th>Email</th>
-                        <th>No. Telp/HP</th>
-                        <th>Jenis Kelamin</th>
-                        <th>Alamat</th>
-                        <th>Tgl. Bergabung</th>
-                        <th>Aksi</th>
-                      </tr>
-                    </thead>
-                    <tbody class="body-table">
-                      <tr
-                        v-for="(joined, index) in dataStudent['0']"
-                        :key="'j' + index"
-                      >
-                        <td>{{ index + 1 }}</td>
-                        <td>{{ joined.siswa.nama_lengkap }}</td>
-                        <td>{{ joined.siswa.email }}</td>
-                        <td>{{ joined.siswa.nomor_telephone }}</td>
-                        <td>{{ joined.siswa.jenis_kelamin }}</td>
-                        <td>{{ joined.siswa.alamat }}</td>
-                        <td>
-                          {{
-                            formatTanggal(
-                              joined.tanggal_gabung,
-                              'Do MMMM YYYY HH:mm'
-                            )
-                          }}
-                          WIB
-                        </td>
-                        <td>
-                          <button
-                            class="btn btn-light px-2"
-                            @click.prevent="
-                              selectedId = joined.id;
-                              selectedIndex = index;
-                              $bvModal.show('modal-finish');
-                            "
-                            title="Selesaikan Sesi"
-                          >
-                            <i
-                              class="fas fa-fw fa-clock-check text-success"
-                            ></i>
-                          </button>
-                        </td>
-                      </tr>
-                      <UITableLoading v-if="loadingTable" />
-                      <UITableNotFound
-                        v-if="
-                          dataStudent['0'] &&
-                          dataStudent['0'].length == 0 &&
-                          filterKeyword &&
-                          !loadingTable
-                        "
-                      />
-                    </tbody>
-                  </table>
-                  <div
-                    v-if="dataStudent['0'].length == 0 && !loadingTable"
-                    class="py-5 small text-center"
-                  >
-                    Belum ada Siswa yang bergabung dalam Kelas.
+                  <div class="table-responsive">
+                    <table class="table table-borderless">
+                      <thead class="thead-light">
+                        <tr>
+                          <th>No</th>
+                          <th>Nama Lengkap</th>
+                          <th>Email</th>
+                          <th>No. Telp/HP</th>
+                          <th>Jenis Kelamin</th>
+                          <th>Alamat</th>
+                          <th>Tgl. Bergabung</th>
+                          <th>Status</th>
+                          <th>Aksi</th>
+                        </tr>
+                      </thead>
+                      <tbody class="body-table">
+                        <tr
+                          v-for="(joined, index) in dataStudent['99']"
+                          :key="'j' + index"
+                        >
+                          <td>{{ index + 1 }}</td>
+                          <td>{{ joined.siswa.nama_lengkap }}</td>
+                          <td>{{ joined.siswa.email }}</td>
+                          <td>
+                            <a :href="`tel:${joined.siswa.nomor_telephone}`">{{
+                              joined.siswa.nomor_telephone
+                            }}</a>
+                          </td>
+                          <td>{{ joined.siswa.jenis_kelamin }}</td>
+                          <td>{{ joined.siswa.alamat }}</td>
+                          <td>
+                            {{
+                              formatTanggal(
+                                joined.tanggal_gabung,
+                                "Do MMMM YYYY HH:mm"
+                              )
+                            }}
+                            WIB
+                          </td>
+                          <td>
+                            <span :class="statusBadge(joined.status_dikelas)">{{
+                              joined.status_dikelas
+                            }}</span>
+                          </td>
+                          <td>
+                            <button
+                            v-if="joined.status_dikelas == 'Bergabung'"
+                              class="btn btn-light px-2"
+                              @click.prevent="
+                                selectedId = joined.id;
+                                selectedIndex = index;
+                                $bvModal.show('modal-finish');
+                              "
+                              title="Selesaikan Sesi"
+                            >
+                              <i class="fas fa-fw fa-check text-success"></i>
+                            </button>
+                            <span v-else>-</span>
+                          </td>
+                        </tr>
+                        <UITableLoading v-if="loadingTable" />
+                        <UITableNotFound
+                          v-if="
+                            dataStudent['99'] &&
+                              dataStudent['99'].length == 0 &&
+                              filterKeyword &&
+                              !loadingTable
+                          "
+                        />
+                      </tbody>
+                    </table>
+                    <div
+                      v-if="dataStudent['99'].length == 0 && !loadingTable"
+                      class="py-5 small text-center"
+                    >
+                      Belum ada Siswa yang bergabung dalam Kelas.
+                    </div>
                   </div>
                 </b-tab>
                 <b-tab title="Menunggu Persetujuan">
-                  <table class="table table-borderless">
-                    <thead class="thead-light">
-                      <tr>
-                        <th>No</th>
-                        <th>Nama Lengkap</th>
-                        <th>Jenis Kelamin</th>
-                        <th>Alamat</th>
-                        <th>Tgl. Pengajuan</th>
-                        <th>Aksi</th>
-                      </tr>
-                    </thead>
-                    <tbody class="body-table">
-                      <tr
-                        v-for="(waiting, index) in dataStudent['1']"
-                        :key="'j' + index"
-                      >
-                        <td>{{ index + 1 }}</td>
-                        <td>{{ waiting.siswa.nama_lengkap }}</td>
-                        <td>{{ waiting.siswa.jenis_kelamin }}</td>
-                        <td>{{ waiting.siswa.alamat }}</td>
-                        <td>
-                          {{
-                            formatTanggal(
-                              waiting.created_at,
-                              'Do MMMM YYYY HH:mm'
-                            )
-                          }}
-                          WIB
-                        </td>
-                        <td>
-                          <button
-                            class="btn btn-light px-2"
-                            @click.prevent="
-                              selectedId = waiting.id;
-                              selectedIndex = index;
-                              $bvModal.show('modal-approve');
-                            "
-                            title="Terima Siswa"
-                          >
-                            <i class="fas fa-fw fa-check text-success"></i>
-                          </button>
-                          <button
-                            class="btn btn-light px-2"
-                            @click.prevent="
-                              selectedId = waiting.id;
-                              selectedIndex = index;
-                              $bvModal.show('modal-reject');
-                            "
-                            title="Tolak Siswa"
-                          >
-                            <i class="fas fa-times fa-fw text-danger"></i>
-                          </button>
-                        </td>
-                      </tr>
-                      <UITableLoading v-if="loadingTable" />
-                      <UITableNotFound
-                        v-if="
-                          dataStudent['1'] &&
-                          dataStudent['1'].length == 0 &&
-                          filterKeyword &&
-                          !loadingTable
-                        "
-                      />
-                    </tbody>
-                  </table>
-                  <div
-                    v-if="dataStudent['1'].length == 0 && !loadingTable"
-                    class="py-5 small text-center"
-                  >
-                    Belum ada permintaan bergabung dari Siswa.
+                  <div class="table-responsive">
+                    <table class="table table-borderless">
+                      <thead class="thead-light">
+                        <tr>
+                          <th>No</th>
+                          <th>Nama Lengkap</th>
+                          <th>Jenis Kelamin</th>
+                          <th>Alamat</th>
+                          <th>Tgl. Pengajuan</th>
+                          <th>Aksi</th>
+                        </tr>
+                      </thead>
+                      <tbody class="body-table">
+                        <tr
+                          v-for="(waiting, index) in dataStudent['1']"
+                          :key="'j' + index"
+                        >
+                          <td>{{ index + 1 }}</td>
+                          <td>{{ waiting.siswa.nama_lengkap }}</td>
+                          <td>{{ waiting.siswa.jenis_kelamin }}</td>
+                          <td>{{ waiting.siswa.alamat }}</td>
+                          <td>
+                            {{
+                              formatTanggal(
+                                waiting.created_at,
+                                "Do MMMM YYYY HH:mm"
+                              )
+                            }}
+                            WIB
+                          </td>
+                          <td>
+                            <button
+                              class="btn btn-light px-2"
+                              @click.prevent="
+                                selectedId = waiting.id;
+                                selectedIndex = index;
+                                $bvModal.show('modal-approve');
+                              "
+                              title="Terima Siswa"
+                            >
+                              <i class="fas fa-fw fa-check text-success"></i>
+                            </button>
+                            <button
+                              class="btn btn-light px-2"
+                              @click.prevent="
+                                selectedId = waiting.id;
+                                selectedIndex = index;
+                                $bvModal.show('modal-reject');
+                              "
+                              title="Tolak Siswa"
+                            >
+                              <i class="fas fa-times fa-fw text-danger"></i>
+                            </button>
+                          </td>
+                        </tr>
+                        <UITableLoading v-if="loadingTable" />
+                        <UITableNotFound
+                          v-if="
+                            dataStudent['1'] &&
+                              dataStudent['1'].length == 0 &&
+                              filterKeyword &&
+                              !loadingTable
+                          "
+                        />
+                      </tbody>
+                    </table>
+                    <div
+                      v-if="dataStudent['1'].length == 0 && !loadingTable"
+                      class="py-5 small text-center"
+                    >
+                      Belum ada permintaan bergabung dari Siswa.
+                    </div>
                   </div>
                 </b-tab>
               </b-tabs>
@@ -189,7 +203,7 @@
             @click.prevent="updateStatus(dataDetail.menerima_peserta)"
           >
             <b-spinner small v-if="loading" class="mr-1"></b-spinner>
-            {{ dataDetail.menerima_peserta ? 'Nonaktifkan' : 'Aktifkan' }}
+            {{ dataDetail.menerima_peserta ? "Nonaktifkan" : "Aktifkan" }}
           </button>
           <button
             class="btn btn-sm btn-secondary tambah px-4 py-2"
@@ -271,45 +285,80 @@
         </div>
       </div>
     </b-modal>
+
+    <b-modal
+      id="modal-finish"
+      title="Selesaikan Sesi"
+      hide-footer
+      centered
+      modal-class="admin-modal"
+      @hidden="resetModal"
+    >
+      <div>
+        <p class="modal-text">Apakah Anda yakin ingin Selesaikan Sesi?</p>
+        <div class="modal-footer justify-content-end" style="border: 0px">
+          <button
+            class="btn btn-sm btn-success tambah px-4 py-2"
+            type="button"
+            :disabled="loadingTable"
+            @click.prevent="selesaikanSesi"
+          >
+            <b-spinner small v-if="loadingTable" class="mr-1"></b-spinner>
+            Ya
+          </button>
+          <button
+            class="btn btn-sm btn-outline-secondary tambah px-4 py-2"
+            type="button"
+            @click="$bvModal.hide('modal-finish')"
+          >
+            Batal
+          </button>
+        </div>
+      </div>
+    </b-modal>
   </div>
 </template>
 
 <script>
 export default {
-  layout: 'app',
+  layout: "app",
   data() {
     return {
       loading: true,
       loadingTable: false,
-      filterKeyword: '',
+      filterKeyword: "",
       dataDetail: {
         mapel: {},
         tentor: {},
         jenjang: {},
         penjurusan: {},
-        jadwals: [],
+        jadwals: []
       },
       tabs: 0,
       dataStudent: {
-        0: {},
-        1: {},
+        99: {},
+        1: {}
       },
       selectedId: null,
-      selectedIndex: null,
+      selectedIndex: null
     };
   },
   created() {
     if (!this.$route.params.id)
-      return this.$router.push('/app/partner/courses');
-    this.getDetail('kursus', this.$route.params.id);
-    this.getStudent(0);
+      return this.$router.push("/app/partner/courses");
+    this.getDetail("kursus", this.$route.params.id);
+    this.getStudent(99);
   },
   watch: {
     tabs(value) {
       if (value > -1) {
-        this.getStudent(value);
+        if (value == 0) {
+          this.getStudent(99);
+        } else {
+          this.getStudent(value);
+        }
       }
-    },
+    }
   },
   methods: {
     resetModal() {},
@@ -317,13 +366,13 @@ export default {
       this.loading = true;
       this.$axios
         .$get(`/api/${type}/find/${id}`)
-        .then((res) => {
+        .then(res => {
           console.log(res);
           if (res.success) {
             this.dataDetail = res.data;
           }
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
           this.catchError(err);
         })
@@ -331,7 +380,7 @@ export default {
     },
     deleteData() {
       const conf = confirm(
-        'Apakah Anda Yakin? Data yang dihapus tidak dapat dikembalikan!'
+        "Apakah Anda Yakin? Data yang dihapus tidak dapat dikembalikan!"
       );
       if (!conf) {
         return;
@@ -340,21 +389,21 @@ export default {
       this.loading = true;
       this.$axios
         .$delete(`/api/kursus/delete/${this.$route.params.id}`)
-        .then((res) => {
+        .then(res => {
           console.log(res);
           if (res.success) {
-            this.$root.$bvToast.toast('Data kursus berhasil dihapus!', {
-              title: 'Sukses',
-              variant: 'danger',
+            this.$root.$bvToast.toast("Data kursus berhasil dihapus!", {
+              title: "Sukses",
+              variant: "danger",
               solid: true,
-              autoHideDelay: 3000,
+              autoHideDelay: 3000
             });
-            this.$bvModal.hide('modal-option');
-            this.$router.replace('/app/partner/courses');
+            this.$bvModal.hide("modal-option");
+            this.$router.replace("/app/partner/courses");
           }
           return true;
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
           this.catchError(err);
         })
@@ -362,7 +411,7 @@ export default {
     },
     updateStatus(status) {
       const conf = confirm(
-        'Apakah Anda Yakin ingin menonaktifkan Kelas? Siswa tidak dapat mengakses kelas ini lagi.'
+        "Apakah Anda Yakin ingin menonaktifkan Kelas? Siswa tidak dapat mengakses kelas ini lagi."
       );
       if (!conf) {
         return;
@@ -372,50 +421,64 @@ export default {
       const newStatus = status == 0 ? 1 : 0;
       this.$axios
         .$put(`/api/kursus/update/${this.$route.params.id}/status`, {
-          status: newStatus,
+          status: newStatus
         })
-        .then((res) => {
+        .then(res => {
           console.log(res);
           if (res.success) {
             this.dataDetail.menerima_peserta = newStatus;
             const messageStatus =
-              newStatus == 1 ? 'diaktifkan' : 'dinonaktifkan';
+              newStatus == 1 ? "diaktifkan" : "dinonaktifkan";
             this.$root.$bvToast.toast(
-              'Data kursus berhasil ' + messageStatus + '!',
+              "Data kursus berhasil " + messageStatus + "!",
               {
-                title: 'Sukses',
-                variant: newStatus == 1 ? 'success' : 'danger',
+                title: "Sukses",
+                variant: newStatus == 1 ? "success" : "danger",
                 solid: true,
-                autoHideDelay: 3000,
+                autoHideDelay: 3000
               }
             );
-            this.$bvModal.hide('modal-option');
+            this.$bvModal.hide("modal-option");
           }
           return true;
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
           this.catchError(err);
         })
         .finally(() => (this.loading = false));
     },
     async getStudent(tabIndex = 0) {
-      const statusDikelas = ['Bergabung', 'Pending'];
+      const allStatus = [
+        "Bergabung",
+        "Pending",
+        "Ditolak",
+        "Ditolak & Sudah Bergabung Lagi",
+        "Menunggu Konfirmasi Selesai",
+        "Sesi Selesai"
+      ];
+      let status = [];
+      if (tabIndex == 99) {
+        status = ["Bergabung", "Menunggu Konfirmasi Selesai", "Sesi Selesai"];
+      } else {
+        status = allStatus[tabIndex];
+      }
+
       this.loadingTable = true;
       await this.$axios
-        .$get('/api/kursus-siswa/', {
+        .$get("/api/kursus-siswa/", {
           params: {
             id_kursus: this.$route.params.id,
-            status_dikelas: statusDikelas[tabIndex],
-          },
+            status_dikelas: status
+          }
         })
-        .then((res) => {
+        .then(res => {
           console.log(res);
           if (res.success) {
             this.dataStudent[tabIndex] = res.data;
           }
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
           this.catchError(err);
         })
@@ -425,31 +488,77 @@ export default {
       this.loadingTable = true;
       this.$axios
         .$put(`/api/kursus-siswa/update/${this.selectedId}/status`, {
-          status_dikelas: status,
+          status_dikelas: status
         })
-        .then((res) => {
+        .then(res => {
           console.log(res);
           if (res.success) {
             const messageStatus =
-              status == 'Bergabung' ? 'diterima' : 'ditolak';
-            this.$root.$bvToast.toast('Siswa ' + messageStatus + '!', {
-              title: 'Sukses',
-              variant: status == 'Bergabung' ? 'success' : 'danger',
+              status == "Bergabung" ? "diterima" : "ditolak";
+            this.$root.$bvToast.toast("Siswa " + messageStatus + "!", {
+              title: "Sukses",
+              variant: status == "Bergabung" ? "success" : "danger",
               solid: true,
-              autoHideDelay: 3000,
+              autoHideDelay: 3000
             });
             this.getStudent(1);
-            this.$bvModal.hide('modal-approve');
-            this.$bvModal.hide('modal-reject');
+            this.$bvModal.hide("modal-approve");
+            this.$bvModal.hide("modal-reject");
           }
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
           this.catchError(err);
         })
         .finally(() => (this.loadingTable = false));
     },
-  },
+    selesaikanSesi() {
+      this.loadingTable = true;
+      this.$axios
+        .$put(`/api/kursus-siswa/update/${this.selectedId}/status`, {
+          status_dikelas: "Menunggu Konfirmasi Selesai"
+        })
+        .then(res => {
+          console.log(res);
+          if (res.success) {
+            this.$root.$bvToast.toast(
+              "Sesi berhasil dikonfirmasi Anda sebagai selesai dan tinggal menunggu konfirmasi dari Siswa!",
+              {
+                title: "Sukses",
+                variant: "success",
+                solid: true,
+                autoHideDelay: 3000
+              }
+            );
+            this.getStudent(99);
+            this.$bvModal.hide("modal-finish");
+          }
+        })
+        .catch(err => {
+          console.log(err);
+          this.catchError(err);
+        })
+        .finally(() => (this.loadingTable = false));
+    },
+    statusBadge(status) {
+      let statusClass = "badge badge-";
+      switch (status) {
+        case "Bergabung":
+          statusClass += "primary";
+          break;
+        case "Menunggu Verifikasi Selesai":
+          statusClass += "warning";
+          break;
+        case "Sesi Selesai":
+          statusClass += "success";
+          break;
+        default:
+          statusClass += "secondary";
+          break;
+      }
+      return statusClass;
+    }
+  }
 };
 </script>
 

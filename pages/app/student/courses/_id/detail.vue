@@ -10,7 +10,11 @@
         </div>
       </div>
       <div class="col-md-12">
-        <UIMenuCourseDetailStudent :data="dataDetail" :loading="loading" />
+        <UIMenuCourseDetailStudent
+          :data="dataDetail"
+          :data2="dataDetailByStudent"
+          :loading="loading"
+        />
       </div>
       <div class="col-md-12 my-3">
         <div class="bg-white px-4 py-4">
@@ -128,7 +132,11 @@
             class="review-reply mt-4"
             :ref="'formTambah'"
             :id="'formTambah'"
-            v-if="!myUlasan && dataDetail.transaksi && dataDetail.transaksi.status == 'Sudah Diverifikasi'"
+            v-if="
+              !myUlasan &&
+                dataDetailByStudent &&
+                dataDetailByStudent.status_dikelas == 'Sesi Selesai'
+            "
           >
             <!-- <label class="form-label">Tulis Ulasan:</label> -->
             <textarea
@@ -137,43 +145,49 @@
               class="form-control"
               v-model="form.ulasan"
             ></textarea>
-            <div class="d-flex justify-content-end mt-3">
-              <span>Penilaian :</span>
-              <b-select
-                v-model="form.nilai"
-                style="width: auto"
-                class="mx-2"
-                :options="[
-                  { text: 'Sangat Bagus', value: 5 },
-                  { text: 'Bagus', value: 4 },
-                  { text: 'Cukup', value: 3 },
-                  { text: 'Buruk', value: 2 },
-                  { text: 'Sangat Buruk', value: 1 }
-                ]"
-              ></b-select>
-              <span>Ulas sebagai :</span>
-              <b-select
-                v-model="form.privasi"
-                style="width: auto"
-                class="mx-2"
-                :options="[
-                  { text: 'Publik', value: 'Publik' },
-                  { text: 'Anonim', value: 'Anonim' }
-                ]"
-              ></b-select>
-              <button
-                class="btn btn-primary square"
-                @click.prevent="buatUlasan"
-                :disabled="submitting"
-              >
-                <b-spinner small v-if="submitting"></b-spinner>
-                Kirim Ulasan
-              </button>
+            <div class="d-flex justify-content-between align-items-center mt-3">
+              <div>
+                <span>Penilaian :</span>
+                <star-rating :star-size="30" :show-rating="false" v-model="form.nilai"></star-rating>
+                <!-- <b-select
+                  v-model="form.nilai"
+                  style="width: auto"
+                  class="mx-2"
+                  :options="[
+                    { text: 'Sangat Bagus', value: 5 },
+                    { text: 'Bagus', value: 4 },
+                    { text: 'Cukup', value: 3 },
+                    { text: 'Buruk', value: 2 },
+                    { text: 'Sangat Buruk', value: 1 }
+                  ]"
+                ></b-select> -->
+               
+              </div>
+              <div>
+                <span>Ulas sebagai :</span>
+                <b-select
+                  v-model="form.privasi"
+                  style="width: auto"
+                  class="mx-2"
+                  :options="[
+                    { text: 'Publik', value: 'Publik' },
+                    { text: 'Anonim', value: 'Anonim' }
+                  ]"
+                ></b-select>
+                <button
+                  class="btn btn-primary square"
+                  @click.prevent="buatUlasan"
+                  :disabled="submitting"
+                >
+                  <b-spinner small v-if="submitting"></b-spinner>
+                  Kirim Ulasan
+                </button>
+              </div>
             </div>
-            <hr>
+            <hr />
           </div>
           <div class="courses-review review">
-            <ul class="review-list list-unstyled">
+            <ul class="review-list list-unstyled" v-if="ulasan.list && ulasan.list.length > 0">
               <li
                 class="d-flex review-item"
                 v-for="(item, index) in ulasan.list"
@@ -236,38 +250,45 @@
                       class="form-control"
                       v-model="item.ulasan"
                     ></textarea>
-                    <div class="d-flex justify-content-end mt-3">
-                      <span>Penilaian :</span>
-                      <b-select
-                        v-model="item.nilai"
-                        style="width: auto"
-                        class="mx-2"
-                        :options="[
-                          { text: 'Sangat Bagus', value: 5 },
-                          { text: 'Bagus', value: 4 },
-                          { text: 'Cukup', value: 3 },
-                          { text: 'Buruk', value: 2 },
-                          { text: 'Sangat Buruk', value: 1 }
-                        ]"
-                      ></b-select>
-                      <span>Ulas sebagai :</span>
-                      <b-select
-                        v-model="item.privasi"
-                        style="width: auto"
-                        class="mx-2"
-                        :options="[
-                          { text: 'Publik', value: 'Publik' },
-                          { text: 'Anonim', value: 'Anonim' }
-                        ]"
-                      ></b-select>
-                      <button
-                        class="btn btn-primary square"
-                        @click.prevent="simpanUlasan(item, index)"
-                        :disabled="submitting"
-                      >
-                        <b-spinner small v-if="submitting"></b-spinner>
-                        Simpan Ulasan
-                      </button>
+                    <div
+                      class="d-flex justify-content-between align-items-center mt-3"
+                    >
+                      <div>
+                        <span>Penilaian :</span>
+                        <!-- <b-select
+                          v-model="item.nilai"
+                          style="width: auto"
+                          class="mx-2"
+                          :options="[
+                            { text: 'Sangat Bagus', value: 5 },
+                            { text: 'Bagus', value: 4 },
+                            { text: 'Cukup', value: 3 },
+                            { text: 'Buruk', value: 2 },
+                            { text: 'Sangat Buruk', value: 1 }
+                          ]"
+                        ></b-select> -->
+                        <star-rating :star-size="30" :show-rating="false" v-model="item.nilai"></star-rating>
+                      </div>
+                      <div>
+                        <span>Ulas sebagai :</span>
+                        <b-select
+                          v-model="item.privasi"
+                          style="width: auto"
+                          class="mx-2"
+                          :options="[
+                            { text: 'Publik', value: 'Publik' },
+                            { text: 'Anonim', value: 'Anonim' }
+                          ]"
+                        ></b-select>
+                        <button
+                          class="btn btn-primary square"
+                          @click.prevent="simpanUlasan(item, index)"
+                          :disabled="submitting"
+                        >
+                          <b-spinner small v-if="submitting"></b-spinner>
+                          Simpan Ulasan
+                        </button>
+                      </div>
                     </div>
                   </div>
                   <ul class="review-list review-list--child list-unstyled">
@@ -298,16 +319,56 @@
               </li>
             </ul>
           </div>
-          <div class="pos-relative" v-if="ulasan.list && ulasan.list.length < 1">
-            <UITableNotFound text="Belum ada ulasan untuk kelas kursus ini."/>
+          <div class="pos-relative" v-if="loading">
+            <UILoading />
+          </div>
+          <div
+            class="pos-relative"
+            v-if="ulasan.list && ulasan.list.length < 1 && !loading"
+          >
+            <UITableNotFound text="Belum ada ulasan untuk kelas kursus ini." />
           </div>
         </div>
       </div>
     </div>
+    <b-modal
+      id="modal-finish"
+      title="Konfirmasi Selesaikan Sesi"
+      hide-footer
+      centered
+      modal-class="admin-modal"
+      @hidden="resetModal"
+    >
+      <div>
+        <p class="modal-text">
+          Apakah kamu yakin ingin konfirmasi selesaikan sesi? Harap konfirmasi
+          jika memang sesi dengan Tentor ini sudah selesai.
+        </p>
+        <div class="modal-footer justify-content-end" style="border: 0px">
+          <button
+            class="btn btn-sm btn-success tambah px-4 py-2"
+            type="button"
+            :disabled="submitting"
+            @click.prevent="selesaikanSesi"
+          >
+            <b-spinner small v-if="submitting" class="mr-1"></b-spinner>
+            Ya
+          </button>
+          <button
+            class="btn btn-sm btn-outline-secondary tambah px-4 py-2"
+            type="button"
+            @click="$bvModal.hide('modal-finish')"
+          >
+            Batal
+          </button>
+        </div>
+      </div>
+    </b-modal>
   </div>
 </template>
 
 <script>
+
 export default {
   layout: "app",
   data() {
@@ -328,10 +389,11 @@ export default {
       },
       submitting: false,
       form: {
-        nilai: 5,
-        ulasan: '',
-        privasi: 'Publik'
-      }
+        nilai: 3,
+        ulasan: "",
+        privasi: "Publik"
+      },
+      dataDetailByStudent: {}
     };
   },
   computed: {
@@ -349,6 +411,7 @@ export default {
     if (!this.$route.params.id)
       return this.$router.push("/app/partner/courses");
     this.getDetail("kursus", this.$route.params.id);
+    this.getDetailByStudent();
     this.getUlasan();
   },
   methods: {
@@ -368,6 +431,20 @@ export default {
         .catch(err => {
           console.log(err);
           this.catchError(err);
+        })
+        .finally(() => (this.loading = false));
+    },
+    getDetailByStudent() {
+      this.loading = true;
+      this.$axios
+        .$get(`/api/kursus-siswa/find/${this.$route.params.id}/student`)
+        .then(res => {
+          if (res.success) {
+            this.dataDetailByStudent = res.data;
+          }
+        })
+        .catch(err => {
+          console.log(err);
         })
         .finally(() => (this.loading = false));
     },
@@ -488,34 +565,80 @@ export default {
         .finally(() => (this.submitting = false));
     },
     buatUlasan() {
-    this.submitting = true;
-    const dataCreate = {
-      ...this.form,
-      id_siswa: this.user.id,
-      id_kursus: this.$route.params.id
-    }
-    this.$axios
-      .$post("api/kursus-ulasan/create/", dataCreate)
-      .then(res => {
-        this.showToastMessage("Balasan berhasil dikirimkan!", "success");
-        const refs = this.$refs.formTambah
-        if (refs) {
-          refs.style = "display: none";
-        }
-        this.ulasan.list.unshift({
-          ...dataCreate,
-          pengulas: this.userDetail.nama_lengkap,
-          foto_pengulas: this.userDetail.foto,
-          tanggal: res.data.created_at,
-          id: res.data.id,
+      this.submitting = true;
+      const dataCreate = {
+        ...this.form,
+        id_siswa: this.user.id,
+        id_kursus: this.$route.params.id
+      };
+      this.$axios
+        .$post("api/kursus-ulasan/create/", dataCreate)
+        .then(res => {
+          this.showToastMessage("Balasan berhasil dikirimkan!", "success");
+          const refs = this.$refs.formTambah;
+          if (refs) {
+            refs.style = "display: none";
+          }
+
+          window.location.href = ''
+          // if(this.ulasan.list && this.ulasan.list.length < 1) {
+          //   this.ulasan.list.push({
+          //     ...dataCreate,
+          //     pengulas: this.userDetail.nama_lengkap,
+          //     foto_pengulas: this.userDetail.foto,
+          //     tanggal: res.data.created_at,
+          //     id: res.data.id
+          //   });
+          // } else {
+          //    this.ulasan.list.unshift({
+          //     ...dataCreate,
+          //     pengulas: this.userDetail.nama_lengkap,
+          //     foto_pengulas: this.userDetail.foto,
+          //     tanggal: res.data.created_at,
+          //     id: res.data.id
+          //   });
+          // }
+          // console.log(this.ulasan.list)
+          // this.getUlasan()
+
         })
-      })
-      .catch(err => {
-        console.log(err);
-        this.catchError(err);
-      })
-      .finally(() => (this.submitting = false));
-  }
+        .catch(err => {
+          console.log(err);
+          this.catchError(err);
+        })
+        .finally(() => (this.submitting = false));
+    },
+    selesaikanSesi() {
+      this.submitting = true;
+      this.$axios
+        .$put(
+          `/api/kursus-siswa/update/${this.dataDetailByStudent.id}/status`,
+          {
+            status_dikelas: "Sesi Selesai"
+          }
+        )
+        .then(res => {
+          console.log(res);
+          if (res.success) {
+            this.$root.$bvToast.toast(
+              "Sesi berhasil dikonfirmasi! Terima kasih sudah bersama kami. Jangan lupa tinggalkan ulasanmu yah.",
+              {
+                title: "Sukses",
+                variant: "success",
+                solid: true,
+                autoHideDelay: 3000
+              }
+            );
+            this.dataDetailByStudent = res.data;
+            this.$bvModal.hide("modal-finish");
+          }
+        })
+        .catch(err => {
+          console.log(err);
+          this.catchError(err);
+        })
+        .finally(() => (this.submitting = false));
+    }
   }
 };
 </script>

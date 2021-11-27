@@ -179,7 +179,7 @@ export default {
     getData() {
       this.loading = true;
       this.$axios
-        .$get('api/kursus', {
+        .$get('api/kursus/mine', {
           params: {
             q: this.filter.keyword,
             paginate: this.filter.perPage,

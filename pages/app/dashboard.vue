@@ -10,9 +10,9 @@
         <div class="col-md-8">
           <h4 class="m-0">Ikut Les Yuk!</h4>
           <p>Belajar asik, gurunya asik-asik.</p>
-          <button class="btn btn-primary dashboard px-4">
+          <a href="/app/student/courses" class="btn btn-primary dashboard px-4">
             Temukan Guru Pilihanmu
-          </button>
+          </a>
         </div>
       </div>
       <h5 class="info-kelas mt-5 mb-5">
@@ -37,7 +37,7 @@
                   hingga CAMPURAN ada untukmu.
                 </p>
 
-                <a href="" class="karir-link"
+                <a href="/app/tryout" class="karir-link"
                   >Detail <i class="fa fa-chevron-right ml-1"></i
                 ></a>
               </div>
@@ -104,7 +104,7 @@
                   disini.
                 </p>
 
-                <a href="" class="karir-link"
+                <a href="/app/tryout" class="karir-link"
                   >Detail <i class="fa fa-chevron-right ml-1"></i
                 ></a>
               </div>
@@ -131,7 +131,7 @@
             Siapa tau aku minat di<br />
             kampus itu...
           </p>
-          <button class="btn btn-primary dashboard px-4">Ikuti Tes MBTI</button>
+          <a class="btn btn-primary dashboard px-4" href="/app/mbti">Ikuti Tes MBTI</a>
         </div>
       </div>
     </div>

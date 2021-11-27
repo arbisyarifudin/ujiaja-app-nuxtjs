@@ -5,15 +5,6 @@
         {{ detail.nama_kursus }}
       </h3>
       <div >
-        <!-- <router-link
-          v-if="detail.status_verifikasi"
-          :to="`/app/partner/courses/${detail.id}/students?ref=${$route.path}`"
-          role="button"
-          class="btn btn-info square py-1 px-2 mr-2"
-          title="Lihat Siswa"
-        >
-          <i class="fas fa-users fa-fw"></i>
-        </router-link> -->
         <router-link
         v-if="!detail.transaksi"
           :to="`/app/student/courses/${detail.id}/enroll?ref=${$route.path}`"
@@ -23,6 +14,15 @@
           <i class="fas fa-shopping-cart fa-fw"></i> Beli Kelas Kursus
         </router-link>
         <div v-else>
+           <button
+            v-if="detailStudent && detailStudent.status_dikelas == 'Menunggu Konfirmasi Selesai'"
+            role="button"
+            class="btn btn-info square py-1 px-2 mr-2"
+            title="Konfirmasi Selesai Sesi"
+            v-b-modal.modal-finish
+          >
+            <i class="fas fa-check fa-fw"></i> Konfirmasi Selesai
+          </button>
           <router-link
           v-if="detail.transaksi"
             :to="`/app/payment/${detail.transaksi.id}/detail?ref=${$route.path}`"
@@ -53,7 +53,7 @@
     <hr />
     <div class="d-flex align-items-center">
       <span class=""
-        >Status Kelas:
+        >Status Kelas Kursus:
         <span
           :class="[
             detail.menerima_peserta
@@ -63,26 +63,73 @@
           >{{ detail.menerima_peserta ? "Aktif" : "Nonaktif" }}</span
         ></span
       >
+      <i class="fas fa-fw fa-circle mx-3" style="font-size: 5px" v-if="detailStudent && detailStudent.status_dikelas"></i>
+      <span  v-if="detailStudent && detailStudent.status_dikelas">Status Anda di Kelas:
+        <span :class="statusBadge(detailStudent.status_dikelas)" v-text="labelBadge(detailStudent.status_dikelas)"></span
+        ></span
+      >
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  props: ["data", "loading"],
+  props: ["data", "data2", "loading"],
   data() {
     return {
-      detail: {}
+      detail: {},
+      detailStudent: {}
     };
   },
   mounted() {
     this.detail = this.data;
+    this.detailStudent = this.data2;
   },
   watch: {
     data(value) {
       if (value) {
         this.detail = value;
       }
+    },
+    data2(value) {
+      if (value) {
+        this.detailStudent = value;
+      }
+    }
+  },
+  methods: {
+    statusBadge(status) {
+      let statusClass = "badge badge-";
+      switch (status) {
+        case "Bergabung":
+          statusClass += "info";
+          break;
+        case "Menunggu Verifikasi Selesai":
+          statusClass += "warning";
+          break;
+        case "Sesi Selesai":
+          statusClass += "success";
+          break;
+        default:
+          statusClass += "secondary";
+          break;
+      }
+      return statusClass;
+    },
+    labelBadge(status) {
+      let label = "";
+      switch (status) {
+        case "Ditolak & Sudah Bergabung Lagi":
+          label = "Ditolak";
+          break;
+        case "Menunggu Konfirmasi Selesai":
+          label = "Tentor Menunggu Konfirmasi Anda";
+          break;
+        default:
+          label = status;
+          break;
+      }
+      return label;
     }
   }
 };

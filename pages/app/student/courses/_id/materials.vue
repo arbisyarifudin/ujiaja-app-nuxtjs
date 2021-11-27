@@ -6,11 +6,11 @@
           <h2 class="dash-label">
             <b-spinner type="grow" class="mr-2" v-if="loading" /> Materi Kelas
           </h2>
-          <BackUrl :url="`/app/student/courses/${$route.params.id}/detail`"/>
+          <BackUrl :url="`/app/student/courses/${$route.params.id}/detail`" />
         </div>
       </div>
       <div class="col-md-12">
-        <UIMenuCourseDetailStudent :data="dataDetail" :loading="loading" />
+        <UIMenuCourseDetailStudent :data="dataDetail" :data2="dataDetailByStudent" :loading="loading" />
       </div>
       <div class="col-md-12 my-3">
         <div class="bg-white px-4 py-4">
@@ -53,7 +53,7 @@
                             {{
                               formatTanggal(
                                 materi.created_at,
-                                'Do MMMM YYYY, HH:mm'
+                                "Do MMMM YYYY, HH:mm"
                               )
                             }}
                             WIB
@@ -124,7 +124,7 @@
 
 <script>
 export default {
-  layout: 'app',
+  layout: "app",
   data() {
     return {
       loading: true,
@@ -134,13 +134,13 @@ export default {
         tentor: {},
         jenjang: {},
         penjurusan: {},
-        jadwals: [],
+        jadwals: []
       },
       totalRows: 100,
       filter: {
         page: 1,
         perPage: 6,
-        keyword: '',
+        keyword: ""
       },
       dataMaterial: [],
       detailMateri: {},
@@ -148,27 +148,29 @@ export default {
       selectedId: null,
       selectedIndex: null,
       form: {
-        judul_materi: '',
-        deskripsi_materi: '',
-        link_file_materi: '',
-        link_video_materi: '',
+        judul_materi: "",
+        deskripsi_materi: "",
+        link_file_materi: "",
+        link_video_materi: ""
       },
       dataError: {},
       files: {
-        link_file_materi: null,
+        link_file_materi: null
       },
+      dataDetailByStudent: {}
     };
   },
   created() {
     if (!this.$route.params.id)
-      return this.$router.push('/app/partner/courses');
-    this.getDetail('kursus', this.$route.params.id);
+      return this.$router.push("/app/partner/courses");
+    this.getDetail("kursus", this.$route.params.id);
+    this.getDetailByStudent();
     this.getMaterial();
   },
   watch: {
-    'filter.keyword'(value) {
+    "filter.keyword"(value) {
       this.getMaterial();
-    },
+    }
   },
   methods: {
     resetModal() {
@@ -194,38 +196,52 @@ export default {
                         </div>`;
         return html;
       }
-      return '';
+      return "";
     },
     getDetail(type, id) {
       this.loading = true;
       this.$axios
         .$get(`/api/${type}/find/${id}`)
-        .then((res) => {
+        .then(res => {
           console.log(res);
           if (res.success) {
             this.dataDetail = res.data;
           }
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
           this.catchError(err);
         })
         .finally(() => (this.loading = false));
     },
+    getDetailByStudent() {
+      this.loading = true;
+      this.$axios
+        .$get(`/api/kursus-siswa/find/${this.$route.params.id}/student`)
+        .then(res => {
+          if (res.success) {
+            this.dataDetailByStudent = res.data;
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        })
+        .finally(() => (this.loading = false));
+    },
     getDetailMateri(id) {
       this.editMode = true;
-      this.$bvModal.show('modal-edit');
+      this.$bvModal.show("modal-edit");
       this.loadingTable = true;
       this.$axios
         .$get(`/api/kursus-materi/find/${id}`)
-        .then((res) => {
+        .then(res => {
           console.log(res);
           if (res.success) {
             this.detailMateri = res.data;
             this.form = res.data;
           }
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
           this.catchError(err);
         })
@@ -235,21 +251,21 @@ export default {
       this.loadingTable = true;
       this.$axios
         .$delete(`/api/kursus-materi/delete/${this.selectedId}`)
-        .then((res) => {
+        .then(res => {
           console.log(res);
           if (res.success) {
-            this.$root.$bvToast.toast('Data materi berhasil dihapus!', {
-              title: 'Sukses',
-              variant: 'danger',
+            this.$root.$bvToast.toast("Data materi berhasil dihapus!", {
+              title: "Sukses",
+              variant: "danger",
               solid: true,
-              autoHideDelay: 3000,
+              autoHideDelay: 3000
             });
             this.dataMaterial.splice(this.selectedIndex, 1);
-            this.$bvModal.hide('modal-delete');
+            this.$bvModal.hide("modal-delete");
           }
           return true;
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
           this.catchError(err);
         })
@@ -258,14 +274,14 @@ export default {
     async getMaterial() {
       this.loadingTable = true;
       await this.$axios
-        .$get('/api/kursus-materi/pagination', {
+        .$get("/api/kursus-materi/pagination", {
           params: {
             id_kursus: this.$route.params.id,
             q: this.filter.keyword,
-            paginate: this.filter.perPage,
-          },
+            paginate: this.filter.perPage
+          }
         })
-        .then((res) => {
+        .then(res => {
           console.log(res);
           if (res.success) {
             this.dataMaterial = res.data.data;
@@ -273,7 +289,7 @@ export default {
             this.filter.perPage = res.data.per_page;
           }
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
           this.catchError(err);
         })
@@ -281,10 +297,10 @@ export default {
     },
     openUrl(link) {
       const destination = this.ApiUrl(link);
-      var anchor = document.createElement('a');
-      anchor.setAttribute('target', '_blank');
-      anchor.setAttribute('class', 'd-none');
-      anchor.setAttribute('href', destination);
+      var anchor = document.createElement("a");
+      anchor.setAttribute("target", "_blank");
+      anchor.setAttribute("class", "d-none");
+      anchor.setAttribute("href", destination);
       document.body.appendChild(anchor);
       anchor.click();
       anchor.remove();
@@ -292,24 +308,25 @@ export default {
     handleUploadedFile(param) {
       this.files[param] = this.$refs[param].files[0];
       console.log(this.files[param]);
-      this.$refs[param].closest('.custom-file').children[1].textContent =
-        this.files[param].name;
+      this.$refs[param].closest(
+        ".custom-file"
+      ).children[1].textContent = this.files[param].name;
 
       let formData = new FormData();
-      formData.append('file', this.files[param]);
+      formData.append("file", this.files[param]);
 
       if (this.files[param] != null) {
         this.loadingTable = true;
         this.$axios
           .$post(`/api/upload/file`, formData)
-          .then((res) => {
+          .then(res => {
             console.log(res);
             if (res) {
               this.form[param] = res.data.file_url;
             }
             return;
           })
-          .catch((err) => {
+          .catch(err => {
             console.log(err);
             this.catchError(err);
           })
@@ -321,20 +338,20 @@ export default {
       if (this.editMode) {
         this.$axios
           .$put(`/api/kursus-materi/update/${this.selectedId}`, this.form)
-          .then((res) => {
+          .then(res => {
             console.log(res);
             if (res.success) {
-              this.$root.$bvToast.toast('Materi berhasil diperbarui.', {
-                title: 'Sukses',
-                variant: 'success',
+              this.$root.$bvToast.toast("Materi berhasil diperbarui.", {
+                title: "Sukses",
+                variant: "success",
                 solid: true,
-                autoHideDelay: 3000,
+                autoHideDelay: 3000
               });
               this.dataMaterial[this.selectedIndex] = res.data;
-              this.$bvModal.hide('modal-edit');
+              this.$bvModal.hide("modal-edit");
             }
           })
-          .catch((err) => {
+          .catch(err => {
             console.log(err);
             this.catchError(err);
           })
@@ -342,30 +359,30 @@ export default {
       } else {
         const dataCreate = {
           ...this.form,
-          id_kursus: this.$route.params.id,
+          id_kursus: this.$route.params.id
         };
         this.$axios
           .$post(`/api/kursus-materi/create`, dataCreate)
-          .then((res) => {
+          .then(res => {
             console.log(res);
             if (res.success) {
-              this.$root.$bvToast.toast('Materi berhasil dibuat.', {
-                title: 'Sukses',
-                variant: 'success',
+              this.$root.$bvToast.toast("Materi berhasil dibuat.", {
+                title: "Sukses",
+                variant: "success",
                 solid: true,
-                autoHideDelay: 3000,
+                autoHideDelay: 3000
               });
-              this.$bvModal.hide('modal-edit');
+              this.$bvModal.hide("modal-edit");
             }
           })
-          .catch((err) => {
+          .catch(err => {
             console.log(err);
             this.catchError(err);
           })
           .finally(() => (this.loadingTable = false));
       }
-    },
-  },
+    }
+  }
 };
 </script>
 
