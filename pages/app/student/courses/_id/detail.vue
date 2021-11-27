@@ -170,6 +170,7 @@
                 Kirim Ulasan
               </button>
             </div>
+            <hr>
           </div>
           <div class="courses-review review">
             <ul class="review-list list-unstyled">
@@ -296,7 +297,9 @@
                 </div>
               </li>
             </ul>
-           <UITableNotFound text="Belum ada ulasan untuk kelas kursus ini." v-if="ulasan.list && ulasan.list.length < 1"/>
+          </div>
+          <div class="pos-relative" v-if="ulasan.list && ulasan.list.length < 1">
+            <UITableNotFound text="Belum ada ulasan untuk kelas kursus ini."/>
           </div>
         </div>
       </div>

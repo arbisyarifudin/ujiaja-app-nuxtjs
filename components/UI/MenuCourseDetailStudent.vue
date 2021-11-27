@@ -33,7 +33,7 @@
           </router-link>
           <router-link
           v-if="detail.transaksi && detail.transaksi.status == 'Sudah Diverifikasi'"
-            :to="`/app/student/courses/${detail.transaksi.id}/materials?ref=${$route.path}`"
+            :to="`/app/student/courses/${detail.id}/materials?ref=${$route.path}`"
             role="button"
             class="btn btn-primary square py-1 px-2 mr-2"
             title="Lihat Materi Kelas">
