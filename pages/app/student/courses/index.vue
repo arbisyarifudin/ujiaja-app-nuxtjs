@@ -62,14 +62,14 @@
             <div class="card card-karir m-2">
               <!-- style="width: 350px; max-width: 100%" -->
               <div class="card-body text-left p-0">
-                <!-- <div class="" style="display: flex; justify-content: flex-end;">
+                <div class="" style="display: flex; justify-content: flex-end;">
                   <p
                     class="label-event mb-2 px-4 py-1"
-                    :class="[item.menerima_peserta == 1 ? '' : 'draft']"
+                    :class="[item.transaksi ? '' : 'draft']"
                   >
-                    {{ item.menerima_peserta == 1 ? "Aktif" : "Nonaktif" }}
+                    {{ item.transaksi ? "Dibeli" : "&nbsp;" }}
                   </p>
-                </div> -->
+                </div>
                 <div class="card-content px-4 mt-4">
                    <p class="mb-2" style="font-size: 14px" v-html="rerataUlasan(item.rerata_ulasan)"></p>
                   <h3
