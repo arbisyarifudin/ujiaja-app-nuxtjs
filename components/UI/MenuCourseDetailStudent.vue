@@ -32,13 +32,21 @@
             <i class="fas fa-file-alt fa-fw"></i> Detail Pembayaran
           </router-link>
           <router-link
-          v-if="detail.transaksi && detail.transaksi.status == 'Sudah Diverifikasi'"
+            v-if="detail.transaksi && detail.transaksi.status == 'Sudah Diverifikasi'"
             :to="`/app/student/courses/${detail.id}/materials?ref=${$route.path}`"
             role="button"
             class="btn btn-primary square py-1 px-2 mr-2"
             title="Lihat Materi Kelas">
             <i class="fas fa-book fa-fw"></i> Materi Kelas
           </router-link>
+          <a
+            v-if="detail.transaksi && detail.transaksi.status == 'Sudah Diverifikasi'"
+            :href="`tel:${detail.tentor.nomor_telephone}`"
+            role="button"
+            class="btn btn-success square py-1 px-2 mr-2"
+            title="Hubungi Tentor">
+            <i class="fab fa-whatsapp fa-fw"></i>
+          </a>
         </div>
       </div>
     </div>
