@@ -7,7 +7,7 @@
           Kelas Privat Saya
         </h2>
         <p>
-          Semua kelas privat buatanmu ada disini. Ayo terus buat kelasmu dan raih pendapatan lebih dengan mengajar para siswa-siswa.
+          Ini adalah daftar kelas privat yang sudah kamu beli.
         </p>
       </div>
       <div class="col-md-12 text-right mt-4 crud-tools">
@@ -49,12 +49,6 @@
                 debounce="1000"
               ></b-form-input>
             </b-input-group>
-             <nuxt-link
-              class="btn btn-primary tambah crud-btn__add px-4 ml-2"
-              to="/app/partner/courses/add"
-            >
-              Tambah
-            </nuxt-link>
           </div>
         </div>
       </div>
@@ -76,21 +70,14 @@
                     {{ item.menerima_peserta == 1 ? "Aktif" : "Nonaktif" }}
                   </p>
                 </div>
-                <div class="card-content px-4 mt-1">
-                   <p class="mb-2" style="font-size: 14px">
-                    <i class="far fa-star fa-fw"></i>
-                    <i class="far fa-star fa-fw"></i>
-                    <i class="far fa-star fa-fw"></i>
-                    <i class="far fa-star fa-fw"></i>
-                    <i class="far fa-star fa-fw"></i>
-                  </p>
+                <div class="card-content px-4 mt-4">
+                   <p class="mb-2" style="font-size: 14px" v-html="rerataUlasan(item.rerata_ulasan)"></p>
                   <h3
                     class="card-judul card-program mb-4 mt-3"
                     style="height: 60px"
                   >
                     {{ item.nama_kursus }}
                   </h3>
-                  <!-- <h5>TPS</h5> -->
                   <p class="mb-2">
                     <i class="fas fa-award fa-fw"></i> {{item.mapel ? item.mapel.nama_mapel : '-'}}
                   </p>
@@ -109,7 +96,8 @@
                   style="border-bottom: 12px solid #D7D2F7; border-radius:0px 0px 12px 12px;"
                 >
                   <nuxt-link
-                    :to="`/app/partner/courses/${item.id}/detail?ref=${$route.path}`"
+                  v-if="item.menerima_peserta"
+                    :to="`/app/student/courses/${item.id}/detail?ref=${$route.path}`"
                     class="karir-link"
                     >Detail <i class="fas fa-chevron-right ml-1"></i
                   ></nuxt-link>
@@ -142,11 +130,10 @@
         <div class="col-md-8">
           <h4 class="m-0 mb-3">Oops!</h4>
           <p>
-            Kamu belum memiliki Kelas Privat. <br />
-            Yuk buat kelas privat sekarang..
+           Kamu belum pernah membeli Kelas Kursus. <br>Yuk beli sekarang! 
           </p>
-          <nuxt-link class="btn btn-primary dashboard px-4" to="/app/partner/courses/add">
-            Buat Kelas
+          <nuxt-link class="btn btn-primary dashboard px-4" to="/app/student/courses">
+            Beli dan Bergabung di Kelas
           </nuxt-link>
         </div>
       </div>
@@ -192,10 +179,11 @@ export default {
     getData() {
       this.loading = true;
       this.$axios
-        .$get('api/kursus', {
+        .$get('api/kursus/mine', {
           params: {
             q: this.filter.keyword,
             paginate: this.filter.perPage,
+            verifikasi: 1
           }
         })
         .then(res => {
@@ -211,7 +199,24 @@ export default {
           this.catchError(err);
         })
         .finally(() => (this.loading = false));
-    }
+    },
+    rerataUlasan(rataRata) {
+      const rataRataFloor = Math.floor(rataRata);
+      const sisaDesimal = Math.round(rataRata - rataRataFloor);
+
+      let element = "";
+      for (let i = 0; i < rataRataFloor; i++) {
+        element += '<i class="fas fa-star fa-fw text-star"></i>';
+      }
+      for (let x = 0; x < sisaDesimal; x++) {
+        element += '<i class="fas fa-star-half-alt fa-fw text-star"></i>';
+      }
+      for (let x = 0; x < (5 - rataRataFloor - sisaDesimal); x++) {
+        element += '<i class="far fa-star fa-fw text-star"></i>';
+      }
+
+      return `${element} <span>${rataRata}/5</span>`;
+    },
   }
 };
 </script>

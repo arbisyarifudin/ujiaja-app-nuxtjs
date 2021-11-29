@@ -4,10 +4,10 @@
     <div class="row d-flex no-gutters">
       <div class="col-md-12 dashboard px-0">
         <h2 class="dash-label">
-          Kelas Privat Saya
+          Kelas Privat
         </h2>
         <p>
-          Semua kelas privat buatanmu ada disini. Ayo terus buat kelasmu dan raih pendapatan lebih dengan mengajar para siswa-siswa.
+          Semua kelas privat ada disini. Ayo mulai cari kelas private idamanmu!
         </p>
       </div>
       <div class="col-md-12 text-right mt-4 crud-tools">
@@ -49,12 +49,6 @@
                 debounce="1000"
               ></b-form-input>
             </b-input-group>
-             <nuxt-link
-              class="btn btn-primary tambah crud-btn__add px-4 ml-2"
-              to="/app/partner/courses/add"
-            >
-              Tambah
-            </nuxt-link>
           </div>
         </div>
       </div>
@@ -71,26 +65,22 @@
                 <div class="" style="display: flex; justify-content: flex-end;">
                   <p
                     class="label-event mb-2 px-4 py-1"
-                    :class="[item.menerima_peserta == 1 ? '' : 'draft']"
+                    :class="[item.transaksi ? '' : 'draft']"
                   >
-                    {{ item.menerima_peserta == 1 ? "Aktif" : "Nonaktif" }}
+                    {{ item.transaksi ? "Dibeli" : "&nbsp;" }}
                   </p>
                 </div>
-                <div class="card-content px-4 mt-1">
-                   <p class="mb-2" style="font-size: 14px">
-                    <i class="far fa-star fa-fw"></i>
-                    <i class="far fa-star fa-fw"></i>
-                    <i class="far fa-star fa-fw"></i>
-                    <i class="far fa-star fa-fw"></i>
-                    <i class="far fa-star fa-fw"></i>
-                  </p>
+                <div class="card-content px-4 mt-4">
+                   <p class="mb-2" style="font-size: 14px" v-html="rerataUlasan(item.rerata_ulasan)"></p>
                   <h3
                     class="card-judul card-program mb-4 mt-3"
                     style="height: 60px"
                   >
                     {{ item.nama_kursus }}
                   </h3>
-                  <!-- <h5>TPS</h5> -->
+                  <p class="mb-2">
+                    <i class="fas fa-user-check fa-fw"></i> {{item.tentor ? item.tentor.nama_lengkap : '-'}}
+                  </p>
                   <p class="mb-2">
                     <i class="fas fa-award fa-fw"></i> {{item.mapel ? item.mapel.nama_mapel : '-'}}
                   </p>
@@ -109,7 +99,7 @@
                   style="border-bottom: 12px solid #D7D2F7; border-radius:0px 0px 12px 12px;"
                 >
                   <nuxt-link
-                    :to="`/app/partner/courses/${item.id}/detail?ref=${$route.path}`"
+                    :to="`/app/student/courses/${item.id}/detail?ref=${$route.path}`"
                     class="karir-link"
                     >Detail <i class="fas fa-chevron-right ml-1"></i
                   ></nuxt-link>
@@ -142,12 +132,8 @@
         <div class="col-md-8">
           <h4 class="m-0 mb-3">Oops!</h4>
           <p>
-            Kamu belum memiliki Kelas Privat. <br />
-            Yuk buat kelas privat sekarang..
+           Kelas Privat masih kosong. 
           </p>
-          <nuxt-link class="btn btn-primary dashboard px-4" to="/app/partner/courses/add">
-            Buat Kelas
-          </nuxt-link>
         </div>
       </div>
     </div>
@@ -196,6 +182,8 @@ export default {
           params: {
             q: this.filter.keyword,
             paginate: this.filter.perPage,
+            status: 1,
+            verifikasi: 1
           }
         })
         .then(res => {
@@ -211,7 +199,24 @@ export default {
           this.catchError(err);
         })
         .finally(() => (this.loading = false));
-    }
+    },
+    rerataUlasan(rataRata) {
+      const rataRataFloor = Math.floor(rataRata);
+      const sisaDesimal = Math.round(rataRata - rataRataFloor);
+
+      let element = "";
+      for (let i = 0; i < rataRataFloor; i++) {
+        element += '<i class="fas fa-star fa-fw text-star"></i>';
+      }
+      for (let x = 0; x < sisaDesimal; x++) {
+        element += '<i class="fas fa-star-half-alt fa-fw text-star"></i>';
+      }
+      for (let x = 0; x < (5 - rataRataFloor - sisaDesimal); x++) {
+        element += '<i class="far fa-star fa-fw text-star"></i>';
+      }
+
+      return `${element} <span>${rataRata}/5</span>`;
+    },
   }
 };
 </script>

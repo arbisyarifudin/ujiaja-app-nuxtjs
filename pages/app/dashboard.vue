@@ -5,18 +5,18 @@
       <h5 class="mt-4">
         Halo {{ userDetail.nama_lengkap }}, selamat datang!<i class=""></i>
       </h5>
-      <h5 class="info-kelas mt-5 mb-5">Kelas Les Privat Hari Ini</h5>
-      <div class="kelas shadow-sm">
+      <!-- <h5 class="info-kelas mt-5 mb-5">Kelas Les Privat</h5> -->
+      <div class="kelas shadow-sm mt-5">
         <div class="col-md-8">
           <h4 class="m-0">Ikut Les Yuk!</h4>
           <p>Belajar asik, gurunya asik-asik.</p>
-          <button class="btn btn-primary dashboard px-4">
+          <a href="/app/student/courses" class="btn btn-primary dashboard px-4">
             Temukan Guru Pilihanmu
-          </button>
+          </a>
         </div>
       </div>
       <h5 class="info-kelas mt-5 mb-5">
-        Coba Deh, Kamu Pilih Salah Satu Tryout Dibawah Ini!
+        Atau coba deh, kamu pilih salah satu Tryout di bawah ini!
       </h5>
       <div class="row">
         <div class="col-md-6">
@@ -37,7 +37,7 @@
                   hingga CAMPURAN ada untukmu.
                 </p>
 
-                <a href="" class="karir-link"
+                <a href="/app/tryout" class="karir-link"
                   >Detail <i class="fa fa-chevron-right ml-1"></i
                 ></a>
               </div>
@@ -104,7 +104,7 @@
                   disini.
                 </p>
 
-                <a href="" class="karir-link"
+                <a href="/app/tryout" class="karir-link"
                   >Detail <i class="fa fa-chevron-right ml-1"></i
                 ></a>
               </div>
@@ -121,7 +121,6 @@
           </div>
         </div>
       </div>
-
       <h5 class="info-kelas mt-5 mb-5">
         Kamu Perlu Ketahui Minat dan Bakatmu Dengan Ikut Tes MBTI!
       </h5>
@@ -132,7 +131,7 @@
             Siapa tau aku minat di<br />
             kampus itu...
           </p>
-          <button class="btn btn-primary dashboard px-4">Ikuti Tes MBTI</button>
+          <a class="btn btn-primary dashboard px-4" href="/app/mbti">Ikuti Tes MBTI</a>
         </div>
       </div>
     </div>

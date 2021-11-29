@@ -1,16 +1,20 @@
 export default {
-
-  env: {
-    baseUrl: process.env.NODE_ENV !== 'production' ? 'http://localhost:3000' : 'https://mydomain.com',
-    apiUrl: process.env.NODE_ENV !== 'production' ? 'http://54.251.180.39' : 'http://54.251.180.39',
+ env: {
+    baseUrl:
+      process.env.NODE_ENV !== "production"
+        ? "http://localhost:3000"
+        : "http://54.254.180.229",
+    apiUrl:
+      process.env.NODE_ENV !== "production"
+        ? "http://localhost:8000"
+        : "http://54.251.180.39"
   },
 
-  dev: process.env.NODE_ENV !== 'production',
-
+  dev: process.env.NODE_ENV !== "production",
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: "ujiaja-fe-bs",
+    title: "UjiAja NuxtJs",
     htmlAttrs: {
       lang: "en"
     },
@@ -42,7 +46,8 @@ export default {
   plugins: [
     { src: "~/plugins/vue-tiny-slider.js", mode: "client" },
     { src: "~/plugins/axios.js", mode: "client" },
-    { src: "~/plugins/custom-mixins.js", mode: "client" }
+    { src: "~/plugins/custom-mixins.js", mode: "client" },
+    { src: '~/plugins/star-rating.js', mode: 'client' }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -69,9 +74,8 @@ export default {
     icons: true
   },
 
-  // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    baseURL: process.env.apiUrl || 'http://54.251.180.39' // Used as fallback if no runtime config is provided
+    baseURL: process.env.apiUrl || "http://localhost:8000" // Used as fallback if no runtime config is provided
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build

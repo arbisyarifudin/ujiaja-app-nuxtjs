@@ -9,12 +9,12 @@
       <template #button-content>
         <span
           class="nav-link mb-0 p-0"
-          :class="[$route.path.includes('course') ? 'nuxt-link-active' : '']"
+          :class="[$route.path.includes('courses') ? 'nuxt-link-active' : '']"
           ><i class="fab fa-wpforms fa-2x fa-fw mr-2"></i> Les Privat</span
         >
       </template>
-      <b-dropdown-item to="/app/course">Cari Guru Privat</b-dropdown-item>
-      <b-dropdown-item to="/app/course/mine">Kelas Privatku</b-dropdown-item>
+      <b-dropdown-item to="/app/student/courses">Cari Guru Privat</b-dropdown-item>
+      <b-dropdown-item to="/app/student/courses/mine">Kelas Privatku</b-dropdown-item>
     </b-nav-item-dropdown>
     <b-nav-item-dropdown text="Tryout" right>
       <template #button-content>

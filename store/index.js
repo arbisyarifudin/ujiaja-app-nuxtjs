@@ -2,9 +2,17 @@ import Vue from "vue";
 
 export const state = () => ({
   isAuth: false,
-  dataUser: {},
+  dataUser: {
+    user: {
+
+    },
+    detail: {
+      
+    }
+  },
   dataError: {},
-  breadcrumbs: []
+  breadcrumbs: [],
+  isProfilLengkap: true,
   // listNomorSoal: [],
   // currentNomor: {},
   // currentSoal: {}
