@@ -78,6 +78,9 @@
                   >
                     {{ item.nama_kursus }}
                   </h3>
+                   <p class="mb-2">
+                    <i class="fas fa-user-check fa-fw"></i> {{item.tentor ? item.tentor.nama_lengkap : '-'}}
+                  </p>
                   <p class="mb-2">
                     <i class="fas fa-award fa-fw"></i> {{item.mapel ? item.mapel.nama_mapel : '-'}}
                   </p>

@@ -1345,6 +1345,27 @@ input.form {
     }
 }
 
+.level {
+    .title {
+        font-weight: 600;
+    }
+    &-circle {
+        width: 80px;
+        height: 80px;
+        max-width: 100%;
+        border: 1px solid #ddd;
+        // border: 1px solid #ffc814;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    &-name {
+        font-size: 17px;
+        font-weight: 600;
+    }
+}
+
 /* CSS on MOBILE */
 /* HAPE */
 /* TABLET */

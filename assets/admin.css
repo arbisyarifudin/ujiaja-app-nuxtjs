@@ -1450,6 +1450,32 @@ input.form-control-info {
   text-decoration: none;
 }
 
+.level .title {
+  font-weight: 600;
+}
+
+.level-circle {
+  width: 80px;
+  height: 80px;
+  max-width: 100%;
+  border: 1px solid #ddd;
+  border-radius: 50%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.level-name {
+  font-size: 17px;
+  font-weight: 600;
+}
+
 /* CSS on MOBILE */
 /* HAPE */
 /* TABLET */
