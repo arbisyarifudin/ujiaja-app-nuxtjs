@@ -27,7 +27,20 @@
                   <tr>
                     <th width="150">Tentor</th>
                     <td width="10">:</td>
-                    <td>{{ dataDetail.tentor.nama_lengkap }}</td>
+                    <td>
+                      <div class="d-flex align-items-center">
+                        {{ dataDetail.tentor.nama_lengkap }}
+                        <button
+                          v-if="dataDetail.tentor"
+                          class="btn btn-light px-2 ml-2"
+                          @click.prevent="
+                            getDetailTeacher(dataDetail.tentor.id_teacher)
+                          "
+                        >
+                          <i class="fa fa-search"></i>
+                        </button>
+                      </div>
+                    </td>
                   </tr>
                   <tr>
                     <th width="150">Level</th>
@@ -148,7 +161,11 @@
             <div class="d-flex justify-content-between align-items-center mt-3">
               <div>
                 <span>Penilaian :</span>
-                <star-rating :star-size="30" :show-rating="false" v-model="form.nilai"></star-rating>
+                <star-rating
+                  :star-size="30"
+                  :show-rating="false"
+                  v-model="form.nilai"
+                ></star-rating>
                 <!-- <b-select
                   v-model="form.nilai"
                   style="width: auto"
@@ -161,7 +178,6 @@
                     { text: 'Sangat Buruk', value: 1 }
                   ]"
                 ></b-select> -->
-               
               </div>
               <div>
                 <span>Ulas sebagai :</span>
@@ -187,7 +203,10 @@
             <hr />
           </div>
           <div class="courses-review review">
-            <ul class="review-list list-unstyled" v-if="ulasan.list && ulasan.list.length > 0">
+            <ul
+              class="review-list list-unstyled"
+              v-if="ulasan.list && ulasan.list.length > 0"
+            >
               <li
                 class="d-flex review-item"
                 v-for="(item, index) in ulasan.list"
@@ -267,7 +286,11 @@
                             { text: 'Sangat Buruk', value: 1 }
                           ]"
                         ></b-select> -->
-                        <star-rating :star-size="30" :show-rating="false" v-model="item.nilai"></star-rating>
+                        <star-rating
+                          :star-size="30"
+                          :show-rating="false"
+                          v-model="item.nilai"
+                        ></star-rating>
                       </div>
                       <div>
                         <span>Ulas sebagai :</span>
@@ -364,11 +387,88 @@
         </div>
       </div>
     </b-modal>
+
+     <b-modal
+      id="modal-detail-teacher"
+      title="Detail Tentor"
+      hide-footer
+      centered
+      size="lg"
+      modal-class="admin-modal"
+      @hidden="resetModalTeacher"
+    >
+      <template v-if="detailTeacher && !loading">
+        <div class="row">
+          <div class="col-md-12 modal-body-kiri">
+           <table class="table table-borderless">
+              <tr>
+                <th width="150">Nama Lengkap</th>
+                <th width="10">:</th>
+                <th>{{ detailTeacher.nama_lengkap }}</th>
+              </tr>
+              <tr v-if="detailTeacher.user">
+                <th width="150">Status Akun</th>
+                <th width="10">:</th>
+                <th>
+                  <span :class="statusBadge(detailTeacher.user.verifikasi)">{{
+                    detailTeacher.user.verifikasi == 1
+                      ? "Belum Terverifikasi"
+                      : "Terverifikasi"
+                  }}</span>
+                </th>
+              </tr>
+              <tr v-if="dataDetailByStudent && dataDetailByStudent.status_dikelas">
+                <th width="150">No. Telp/HP</th>
+                <th width="10">:</th>
+                <th>{{ detailTeacher.nomor_telephone }}</th>
+              </tr>
+              <tr>
+                <th width="150">Umur</th>
+                <th width="10">:</th>
+                <th>
+                  {{
+                    formatSelisih(
+                      detailTeacher.tanggal_lahir
+                        ? detailTeacher.tanggal_lahir
+                        : "1980-01-01",
+                      new Date(),
+                      "years"
+                    )
+                  }}
+                  tahun
+                </th>
+              </tr>
+              <tr>
+                <th width="150">Pendidikan Terakhir</th>
+                <th width="10">:</th>
+                <th>{{ detailTeacher.pendidikan_terakhir }}</th>
+              </tr>
+              <tr>
+                <th width="150">Jenis Kelamin</th>
+                <th width="10">:</th>
+                <th>{{ detailTeacher.jenis_kelamin }}</th>
+              </tr>
+            </table>
+          </div>
+        </div>
+        <div class="modal-footer justify-content-center" style="border: 0px">
+          <button
+            class="btn btn-sm btn-outline-secondary"
+            type="button"
+            @click="$bvModal.hide('modal-detail-teacher')"
+          >
+            Tutup
+          </button>
+        </div>
+      </template>
+      <div style="min-height: 200px; position: relative" v-else>
+        <UILoading />
+      </div>
+    </b-modal>
   </div>
 </template>
 
 <script>
-
 export default {
   layout: "app",
   data() {
@@ -393,7 +493,8 @@ export default {
         ulasan: "",
         privasi: "Publik"
       },
-      dataDetailByStudent: {}
+      dataDetailByStudent: {},
+      detailTeacher: {},
     };
   },
   computed: {
@@ -416,6 +517,9 @@ export default {
   },
   methods: {
     resetModal() {},
+    resetModalTeacher() {
+      this.detailTeacher = {};
+    },
     getDetail(type, id) {
       this.loading = true;
       this.$axios
@@ -580,7 +684,7 @@ export default {
             refs.style = "display: none";
           }
 
-          window.location.href = ''
+          window.location.href = "";
           // if(this.ulasan.list && this.ulasan.list.length < 1) {
           //   this.ulasan.list.push({
           //     ...dataCreate,
@@ -600,7 +704,6 @@ export default {
           // }
           // console.log(this.ulasan.list)
           // this.getUlasan()
-
         })
         .catch(err => {
           console.log(err);
@@ -638,7 +741,43 @@ export default {
           this.catchError(err);
         })
         .finally(() => (this.submitting = false));
-    }
+    },
+    getDetailTeacher(id) {
+      this.$bvModal.show('modal-detail-teacher');
+      this.loading = true;
+      this.$axios
+        .$get(`/api/users/teacher/find/${id}`)
+        .then(res => {
+          console.log(res);
+          if (res.success) {
+            this.detailTeacher = res.data;
+          }
+          return true;
+        })
+        .catch(err => {
+          console.log(err);
+          this.catchError(err);
+        })
+        .finally(() => (this.loading = false));
+    },
+    statusBadge(status) {
+      let statusClass = "badge badge-";
+      switch (status) {
+        case 0:
+          statusClass += "secondary";
+          break;
+        case 1:
+          statusClass += "info";
+          break;
+        case 2:
+          statusClass += "success";
+          break;
+        default:
+          statusClass += "warning";
+          break;
+      }
+      return statusClass;
+    },
   }
 };
 </script>
