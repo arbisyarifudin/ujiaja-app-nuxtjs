@@ -3,11 +3,11 @@ export default {
     baseUrl:
       process.env.NODE_ENV !== "production"
         ? "http://localhost:3000"
-        : "https://mydomain.com",
+        : "http://54.254.180.229/",
     apiUrl:
       process.env.NODE_ENV !== "production"
         ? "http://localhost:8000"
-        : "https://apidomain.com"
+        : "http://54.251.180.39"
   },
 
   dev: process.env.NODE_ENV !== "production",
