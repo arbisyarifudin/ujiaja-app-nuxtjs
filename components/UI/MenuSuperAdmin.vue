@@ -131,6 +131,11 @@
         >Data Tentor</b-dropdown-item
       >
     </b-nav-item-dropdown>
+    <li class="nav-item">
+      <nuxt-link class="nav-link d-flex align-items-center" to="/administrator/courses"
+        ><i class="fas fa-boxes fa-fw mr-2"></i> Kelas Kursus</nuxt-link
+      >
+    </li>
     <!-- <li class="nav-item">
       <nuxt-link class="nav-link d-flex align-items-center" to="#"
         ><i class="fas fa-file-alt fa-fw mr-2"></i> Laporan Transaksi</nuxt-link

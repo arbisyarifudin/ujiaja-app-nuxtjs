@@ -2,9 +2,9 @@
   <div class="container-fluid crud">
     <div class="row d-flex no-gutters">
       <div class="col-md-12 dashboard px-0">
-        <h2 class="dash-label">Daftar Tentor Les</h2>
+        <h2 class="dash-label">Kelas Privat</h2>
         <p>
-          Data ini berisi data dari para Tentor atau Guru Les.
+          Data ini berisi Kelas Privat yang dibuat oleh Tentor.
         </p>
       </div>
       <div class="col-md-12 text-right mt-4 crud-tools">
@@ -24,7 +24,7 @@
                   { text: 'Tampil 25', value: 25 },
                   { text: 'Tampil 50', value: 50 }
                 ]"
-                @change="getData('users/teacher')"
+                @change="getData('kursus')"
               ></b-form-select>
             </b-input-group>
           </div>
@@ -38,7 +38,7 @@
               </template>
               <b-form-input
                 v-model="filter.keyword"
-                placeholder="Cari tentor"
+                placeholder="Cari kelas kursus"
                 debounce="1000"
               ></b-form-input>
             </b-input-group>
@@ -52,13 +52,13 @@
               <tr>
                 <th class="no" width="50">No</th>
                 <th width="50" class="aksi">Aksi</th>
-                <!-- <th width="100">Status</th> -->
-                <!-- <th>Tanggal</th> -->
-                <th>Nama Lengkap</th>
-                <th>Email</th>
-                <th>No. Telp/HP</th>
-                <th>Pend. Terakhir</th>
-                <th>Umur</th>
+                <th width="150">Status Verifikasi</th>
+                <th>Nama Kursus</th>
+                <th>Harga</th>
+                <th>Mata Pelajaran</th>
+                <th>Jenjang Sekolah</th>
+                <th>Nama Tentor</th>
+                <th width="150">Status Kelas</th>
               </tr>
             </thead>
             <tbody class="body-table">
@@ -69,37 +69,38 @@
                     <button
                       class="btn btn-light px-2 mt-n2"
                       @click.prevent="
-                        selectedId = item.id_teacher;
+                        selectedId = item.id;
                         selectedIndex = index;
-                        getDetail('users/teacher');
+                        getDetail('kursus');
                       "
                     >
                       <i class="fa fa-search"></i>
                     </button>
                   </td>
-                  <!-- <td><span :class="statusBadge(item.status)">{{item.status}}</span></td> -->
-                  <!-- <td>
-                    {{
-                      formatTanggal(
-                        item.tanggal_transaksi,
-                        "Do MMMM YYYY HH:mm"
-                      )
-                    }}
-                    WIB
-                  </td> -->
-                  <td>{{ item.nama_lengkap }}</td>
-                  <td>{{ item.email }}</td>
-                  <td>{{ item.nomor_telephone }}</td>
-                  <td>{{ item.pendidikan_terakhir }}</td>
                   <td>
-                    {{
-                      formatSelisih(
-                        item.tanggal_lahir ? item.tanggal_lahir : "1980-01-01",
-                        new Date(),
-                        "years"
-                      )
-                    }}
-                    tahun
+                    <span :class="statusBadge(item.status_verifikasi)">{{
+                      item.status_verifikasi
+                        ? "Sudah Diverifikasi"
+                        : "Menunggu Verifikasi"
+                    }}</span>
+                  </td>
+                  <td>{{ item.nama_kursus }}</td>
+                  <td>
+                    <div class="d-flex justify-content-between">
+                      <span>Rp</span>
+                      <strong>{{ formatRupiah(item.harga_kursus) }}</strong>
+                    </div>
+                  </td>
+                  <td>{{ item.mapel ? item.mapel.nama_mapel : "-" }}</td>
+                  <td>{{ item.jenjang ? item.jenjang.nama_jenjang : "-" }}</td>
+                  <td>
+                    <i class="fas fa-user"></i>
+                    {{ item.tentor ? item.tentor.nama_lengkap : "" }}
+                  </td>
+                  <td>
+                    <span :class="statusBadge(item.menerima_peserta)">{{
+                      item.menerima_peserta ? "Aktif" : "Tidak Aktif"
+                    }}</span>
                   </td>
                 </tr>
               </template>
@@ -126,13 +127,13 @@
         class="crud-body kosong"
       >
         <h2 class="kosong-title">Oops!</h2>
-        <p class="kosong-subtitle">Belum ada data Tentor</p>
+        <p class="kosong-subtitle">Belum ada data Kelas Kursus</p>
       </div>
     </div>
 
     <b-modal
       id="modal-detail"
-      title="Detail Tentor"
+      title="Detail Kelas Kursus"
       hide-footer
       centered
       size="lg"
@@ -140,74 +141,180 @@
       @hidden="resetModal"
     >
       <template v-if="detail && !loading">
-        <!-- <p style="">
+        <p style="">
           Konfirmasi terlebih dahulu informasi di bawah ini dengan teliti
           sebelum melakukan verifikasi!
-        </p> -->
-        <div class="row justify-content-center">
-          <div class="col-md-8 modal-body-kiri">
-            <h5>Identitas Diri</h5>
-            <hr />
+        </p>
+        <div class="row">
+          <div class="col-md-12 modal-body-kiri">
+            <!-- <h5>Data Kelas Kursus</h5>
+            <hr /> -->
             <table class="table table-borderless">
+              <tr>
+                <th width="150">Nama Kelas Kursus</th>
+                <th width="10">:</th>
+                <th>
+                  {{ detail.nama_kursus }}
+                </th>
+              </tr>
+              <tr>
+                <th width="150">Status Verifikasi</th>
+                <th width="10">:</th>
+                <th>
+                  <span
+                    :class="statusBadge(detail.status_verifikasi)"
+                    v-text="
+                      detail.status_verifikasi
+                        ? 'Sudah Diverifikasi'
+                        : 'Menunggu Verifikasi'
+                    "
+                  ></span>
+                </th>
+              </tr>
+              <tr>
+                <th width="150">Harga Kursus</th>
+                <th width="10">:</th>
+                <th>Rp {{ formatRupiah(detail.harga_kursus) }}</th>
+              </tr>
+              <tr>
+                <th width="150">Deskripsi Kelas</th>
+                <th width="10">:</th>
+                <th v-html="detail.deskripsi_kursus"></th>
+              </tr>
+              <tr>
+                <th width="150">Tentor</th>
+                <th width="10">:</th>
+                <th>
+                  {{ detail.tentor ? detail.tentor.nama_lengkap : "-" }}
+                  <button
+                    v-if="detail.tentor"
+                    class="btn btn-light px-2 mt-n2"
+                    @click.prevent="getDetailTeacher(detail.tentor.id_teacher)"
+                  >
+                    <i class="fa fa-search"></i>
+                  </button>
+                </th>
+              </tr>
+              <tr>
+                <th width="150">Mata Pelajaran</th>
+                <th width="10">:</th>
+                <th>
+                  {{ detail.mapel ? detail.mapel.nama_mapel : "-" }}
+                </th>
+              </tr>
+              <tr>
+                <th width="150">Jenjang Sekolah</th>
+                <th width="10">:</th>
+                <th>
+                  {{ detail.jenjang ? detail.jenjang.nama_jenjang : "-" }}
+                </th>
+              </tr>
+              <tr>
+                <th width="150">Status Kelas</th>
+                <th width="10">:</th>
+                <th>
+                  <span
+                    :class="statusBadge(detail.menerima_peserta)"
+                    v-text="detail.menerima_peserta ? 'Aktif' : 'Tidak Aktif'"
+                  ></span>
+                </th>
+              </tr>
+            </table>
+          </div>
+        </div>
+        <div class="mt-4">
+          <p class="mb-2 text-center">
+            Apa yang ingin Anda lakukan terhadap kelas kursus ini?
+          </p>
+        </div>
+        <div class="modal-footer justify-content-center" style="border: 0px">
+          <button
+            class="btn btn-sm btn-outline-secondary"
+            type="button"
+            @click="$bvModal.hide('modal-detail')"
+          >
+            Tutup
+          </button>
+          <button
+            class="btn btn-sm btn-primary tambah px-4 py-1"
+            type="button"
+            :disabled="submitting"
+            v-if="form.status_verifikasi != 1"
+            @click.prevent="verifyCourse(1)"
+          >
+            <b-spinner small v-if="submitting" class="mr-1"></b-spinner>
+            Verifikasi Kelas
+          </button>
+          <button
+            class="btn btn-sm btn-danger tambah px-4 py-1"
+            type="button"
+            :disabled="submitting"
+            v-if="form.status_verifikasi == 1"
+            @click.prevent="verifyCourse(0)"
+          >
+            <b-spinner small v-if="submitting" class="mr-1"></b-spinner> Matikan
+            Kelas
+          </button>
+        </div>
+      </template>
+      <div style="min-height: 200px; position: relative" v-else>
+        <UILoading />
+      </div>
+    </b-modal>
+     <b-modal
+      id="modal-detail-teacher"
+      title="Detail Tentor"
+      hide-footer
+      centered
+      size="lg"
+      modal-class="admin-modal"
+      @hidden="resetModalTeacher"
+    >
+      <template v-if="detailTeacher && !loading">
+        <div class="row">
+          <div class="col-md-6 modal-body-kiri">
+           <table class="table table-borderless">
               <tr>
                 <th width="150">Nama Lengkap</th>
                 <th width="10">:</th>
-                <th>{{ detail.nama_lengkap }}</th>
+                <th>{{ detailTeacher.nama_lengkap }}</th>
               </tr>
-              <tr v-if="detail.user">
+              <tr v-if="detailTeacher.user">
                 <th width="150">Status Akun</th>
                 <th width="10">:</th>
                 <th>
-                  <span :class="statusBadge(detail.user.verifikasi)">{{
-                    detail.user.verifikasi == 1
+                  <span :class="statusBadge(detailTeacher.user.verifikasi)">{{
+                    detailTeacher.user.verifikasi == 1
                       ? "Belum Diverifikasi"
                       : "Sudah Diverifikasi"
                   }}</span>
-                  <button
-                    type="button"
-                    v-if="detail.user.verifikasi != 2"
-                    class="btn btn-sm btn-success px-2 py-0"
-                    title="Verifikasi"
-                    @click="verifyUser(2)"
-                  >
-                    <i class="fas fa-check"></i>
-                  </button>
-                  <button
-                    type="button"
-                    v-if="detail.user.verifikasi == 2"
-                    class="btn btn-sm btn-danger px-2 py-0"
-                    title="Verifikasi"
-                    @click="verifyUser(1)"
-                  >
-                    <i class="fas fa-times"></i>
-                  </button>
                 </th>
               </tr>
               <tr>
                 <th width="150">Tgl. Bergabung</th>
                 <th width="10">:</th>
                 <th>
-                  {{ formatTanggal(detail.created_at, "Do MMMM YYYY") }}
+                  {{ formatTanggal(detailTeacher.created_at, "Do MMMM YYYY") }}
                 </th>
               </tr>
               <tr>
                 <th width="150">Email</th>
                 <th width="10">:</th>
-                <th>{{ detail.email }}</th>
+                <th>{{ detailTeacher.email }}</th>
               </tr>
               <tr>
                 <th width="150">No. Telp/HP</th>
                 <th width="10">:</th>
-                <th>{{ detail.nomor_telephone }}</th>
+                <th>{{ detailTeacher.nomor_telephone }}</th>
               </tr>
               <tr>
                 <th width="150">Tanggal Lahir</th>
                 <th width="10">:</th>
                 <th>
-                  {{ detail.tempat_lahir }},
+                  {{ detailTeacher.tempat_lahir }},
                   {{
                     formatTanggal(
-                      detail.tanggal_lahir ? detail.tanggal_lahir : "1980-01-01"
+                      detailTeacher.tanggal_lahir ? detailTeacher.tanggal_lahir : "1980-01-01"
                     )
                   }}
                 </th>
@@ -218,8 +325,8 @@
                 <th>
                   {{
                     formatSelisih(
-                      detail.tanggal_lahir
-                        ? detail.tanggal_lahir
+                      detailTeacher.tanggal_lahir
+                        ? detailTeacher.tanggal_lahir
                         : "1980-01-01",
                       new Date(),
                       "years"
@@ -231,46 +338,46 @@
               <tr>
                 <th width="150">Pendidikan Terakhir</th>
                 <th width="10">:</th>
-                <th>{{ detail.pendidikan_terakhir }}</th>
+                <th>{{ detailTeacher.pendidikan_terakhir }}</th>
               </tr>
               <tr>
                 <th width="150">Alamat Lengkap</th>
                 <th width="10">:</th>
                 <th>
-                  {{ detail.alamat_lengkap ? detail.alamat_lengkap : "-" }}
+                  {{ detailTeacher.alamat_lengkap ? detailTeacher.alamat_lengkap : "-" }}
                 </th>
               </tr>
               <tr>
                 <th width="150">Agama</th>
                 <th width="10">:</th>
-                <th>{{ detail.agama }}</th>
+                <th>{{ detailTeacher.agama }}</th>
               </tr>
               <tr>
                 <th width="150">Jenis Kelamin</th>
                 <th width="10">:</th>
-                <th>{{ detail.jenis_kelamin }}</th>
+                <th>{{ detailTeacher.jenis_kelamin }}</th>
               </tr>
               <tr>
                 <th width="150">Sumber Info</th>
                 <th width="10">:</th>
-                <th>{{ detail.info }}</th>
+                <th>{{ detailTeacher.info }}</th>
               </tr>
             </table>
           </div>
-          <div class="col-md-8 modal-body-kanan">
-            <h5>Dokumen Pendukung</h5>
-            <div v-if="detail.user">
+          <div class="col-md-6modal-body-kanan">
+            <h5>Dokumen Tentor</h5>
+            <div v-if="detailTeacher.user">
               Status Approval :
-              <span :class="statusBadge(detail.verifikasi)">{{
-                detail.verifikasi == 1
+              <span :class="statusBadge(detailTeacher.verifikasi)">{{
+                detailTeacher.verifikasi == 1
                   ? "Belum Diverifikasi"
                   : "Sudah Diverifikasi"
               }}</span>
             </div>
             <hr />
-            <template v-if="detail.user_doc">
+            <template v-if="detailTeacher.user_doc">
               <div
-                v-for="(doc, index) in detail.user_doc"
+                v-for="(doc, index) in detailTeacher.user_doc"
                 :key="'ud' + index"
                 class="mb-3"
               >
@@ -285,43 +392,13 @@
                 </div>
               </div>
             </template>
-            <div class="mt-4" v-if="detail.verifikasi != 2">
-              <div class="mb-3">
-                <p class="mb-2">
-                  Apakah dokumen ini dapat diterima?
-                </p>
-                <!-- <select class="form-control" v-model="form.verifikasi">
-                    <option :value="null">-- Pilih --</option>
-                    <option :value="1">Terima</option>
-                    <option :value="0">Tolak</option>
-                  </select> -->
-              </div>
-              <!-- <div class="mb-3" v-if="form.verifikasi == '3'">
-                  <p class="mb-2">Tulis alasan penolakan</p>
-                  <textarea
-                    class="form-control"
-                    rows="4"
-                    v-model="form.alasan_penolakan"
-                  ></textarea>
-                </div> -->
-            </div>
           </div>
         </div>
-        <div class="modal-footer justify-content-end" style="border: 0px">
-          <button
-            class="btn btn-sm btn-primary tambah px-4 py-1"
-            type="button"
-            :disabled="submitting"
-            v-if="detail.verifikasi != 2"
-            @click.prevent="verifyBukti"
-          >
-            <b-spinner small v-if="submitting" class="mr-1"></b-spinner> Terima
-            Dokumen
-          </button>
+        <div class="modal-footer justify-content-center" style="border: 0px">
           <button
             class="btn btn-sm btn-outline-secondary"
             type="button"
-            @click="$bvModal.hide('modal-detail')"
+            @click="$bvModal.hide('modal-detail-teacher')"
           >
             Tutup
           </button>
@@ -351,43 +428,47 @@ export default {
       selectedId: null,
       selectedIndex: null,
       detail: {},
+      detailTeacher: {},
       showBukti: false,
       form: {
-        verifikasi: null
+        status_verifikasi: null,
+        alasan_penolakan: null
       }
     };
   },
   created() {
-    this.getData("users/teacher");
+    this.getData("kursus");
   },
   watch: {
     "filter.keyword": function(value) {
-      this.getData("users/teacher");
+      this.getData("kursus");
     },
     "filter.page": function(value) {
-      this.getData("users/teacher");
-    }
-  },
-  computed: {
-    user() {
-      return this.$store.state.dataUser.user;
+      this.getData("kursus");
     }
   },
   methods: {
     resetModal() {
       this.detail = {};
+      this.$bvModal.hide('modal-detail-teacher')
+    },
+    resetModalTeacher() {
+      this.detailTeacher = {};
     },
     statusBadge(status) {
       let statusClass = "badge badge-";
       switch (status) {
-        case 1:
-          statusClass += "danger";
+        case 0:
+          statusClass += "secondary";
           break;
-        case 2:
+        case 1:
           statusClass += "success";
           break;
+        case 2:
+          statusClass += "info";
+          break;
         default:
-          statusClass += "secondary";
+          statusClass += "warning";
           break;
       }
       return statusClass;
@@ -426,12 +507,10 @@ export default {
           console.log(res);
           if (res.success) {
             this.detail = res.data;
-            this.form.status =
-              this.detail.status == "Menunggu Verifikasi"
+            this.form.status_verifikasi =
+              this.detail.status_verifikasi == "Menunggu Verifikasi"
                 ? null
-                : this.detail.status;
-            this.form.alasan_penolakan = this.detail.alasan_penolakan;
-            this.form.jenis_transaksi = this.detail.jenis_transaksi;
+                : this.detail.status_verifikasi;
           }
           return true;
         })
@@ -441,44 +520,15 @@ export default {
         })
         .finally(() => (this.loading = false));
     },
-    verifyUser(status) {
-      var conf = confirm(
-        `Apakah anda yakin menjadikan User ${
-          status !== 2
-            ? "sebagai belum di verifikasi / nonaktif"
-            : "sebagai telah di verifikasi"
-        }?`
-      );
-      if (!conf) {
-        return;
-      }
-      this.submitting = true;
+    getDetailTeacher(id) {
+      this.$bvModal.show('modal-detail-teacher');
+      this.loading = true;
       this.$axios
-        .$put(`/api/users/teacher/update/${this.selectedId}`, {
-          ...this.detail,
-          tgl_lahir: this.detail.tanggal_lahir,
-          alamat: this.detail.alamat_lengkap,
-          username: this.detail.user.username,
-          verifikasi: status
-        })
+        .$get(`/api/users/teacher/find/${id}`)
         .then(res => {
+          console.log(res);
           if (res.success) {
-            this.$bvToast.toast(
-              `User berhasil ${
-                status !== 2 ? "dinonaktifkan" : "diverifikasi"
-              }!`,
-              {
-                title: "Sukses",
-                variant: "success",
-                solid: true,
-                autoHideDelay: 3000
-              }
-            );
-            this.items[
-              this.selectedIndex
-            ].user.verifikasi = status;
-            this.detail.user.verifikasi = status
-            // this.$bvModal.hide("modal-detail");
+            this.detailTeacher = res.data;
           }
           return true;
         })
@@ -486,28 +536,32 @@ export default {
           console.log(err);
           this.catchError(err);
         })
-        .finally(() => (this.submitting = false));
+        .finally(() => (this.loading = false));
     },
-    verifyBukti() {
-      var conf = confirm("Apakah anda yakin?");
-      if (!conf) {
-        return;
-      }
+    verifyCourse(status) {
+      // if (!this.form.status_verifikasi) {
+      //   this.showToastMessage("Status perlu dipilih", "warning");
+      //   return;
+      // }
+      const conf = confirm("Apakah Anda yakin?");
+      if (!conf) return false;
+
       this.submitting = true;
       this.$axios
-        .$get(`/api/verifikasi/patner/${this.selectedId}`)
+        .$put(`/api/kursus/update/${this.selectedId}/verification`, {
+          status: status
+        })
         .then(res => {
           console.log(res);
           if (res.success) {
-            this.$bvToast.toast("Dokumen berhasil diverifikasi!", {
+            this.$bvToast.toast("Status kelas kursus berhasil diperbarui!", {
               title: "Sukses",
               variant: "success",
               solid: true,
               autoHideDelay: 3000
             });
-            this.items[this.selectedIndex].verifikasi = this.form.verifikasi;
-            this.detail.verifikasi = this.form.verifikasi
-            // this.$bvModal.hide("modal-detail");
+            this.items[this.selectedIndex].status_verifikasi = status;
+            this.$bvModal.hide("modal-detail");
           }
           return true;
         })

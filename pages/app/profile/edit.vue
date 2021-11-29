@@ -731,6 +731,9 @@ export default {
     },
     profil() {
       return this.$store.state.dataUser.detail;
+    },
+    isProfileLengkap() {
+      return this.$store.state.isProfileLengkap;
     }
   },
   created() {
@@ -981,16 +984,27 @@ export default {
               solid: true,
               autoHideDelay: 3000
             });
-            this.$router.push(
-              {
-                path: this.$route.path,
-                force: true
-              },
-              () => {
-                this.$router.app.refresh();
-              }
-            );
-            return true;
+            // this.$router.push(
+            //   {
+            //     path: this.$route.path,
+            //     force: true
+            //   },
+            //   () => {
+            //     this.$router.app.refresh();
+            //   }
+            // );
+            if(this.isProfilLengkap === false) {
+              this.$axios
+                .$get(`/api/users/${this.akun.role_user}/cek`)
+                .then(res => {
+                  console.log(res);
+                  this.$store.commit('set', ['isProfilLengkap', res.success]);
+                })
+                .catch(err => {
+                  console.log(err);
+                })  
+            }
+            
           } else {
             this.$bvToast.toast("Permintaan gagal!", {
               title: "Error",

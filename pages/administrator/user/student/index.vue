@@ -117,7 +117,7 @@
         class="crud-body kosong"
       >
         <h2 class="kosong-title">Oops!</h2>
-        <p class="kosong-subtitle">Belum ada transaksi</p>
+        <p class="kosong-subtitle">Belum ada data Siswa</p>
       </div>
     </div>
 

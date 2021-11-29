@@ -2,7 +2,7 @@
   <ul class="nav navbar-nav pl-3 flex-column">
     <li class="nav-item">
       <nuxt-link
-        class="nav-link d-flex align-items-center active"
+        class="nav-link d-flex align-items-center"
         to="/app/dashboard"
       >
         <i class="fas fa-chart-pie fa-2x fa-fw mr-2"></i>Dashboard</nuxt-link
