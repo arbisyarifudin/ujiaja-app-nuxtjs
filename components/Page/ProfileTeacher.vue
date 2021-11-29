@@ -101,7 +101,6 @@
 
 <script>
 export default {
-  layout: "app",
   computed: {
     user() {
       return this.$store.state.dataUser.user;
