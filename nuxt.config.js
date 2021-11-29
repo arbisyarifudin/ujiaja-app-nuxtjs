@@ -2,7 +2,7 @@ export default {
 
   env: {
     baseUrl: process.env.NODE_ENV !== 'production' ? 'http://localhost:3000' : 'https://mydomain.com',
-    apiUrl: process.env.NODE_ENV !== 'production' ? 'http://localhost:8000' : 'https://apidomain.com',
+    apiUrl: process.env.NODE_ENV !== 'production' ? 'http://54.251.180.39' : 'http://54.251.180.39',
   },
 
   dev: process.env.NODE_ENV !== 'production',
@@ -71,13 +71,16 @@ export default {
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    baseURL: process.env.apiUrl || 'http://localhost:8000' // Used as fallback if no runtime config is provided
+    baseURL: process.env.apiUrl || 'http://54.251.180.39' // Used as fallback if no runtime config is provided
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
     splitChunks: {
       layouts: true
-    }
+    },
+    babel: {
+      compact: true,
+     }
   }
 };
