@@ -90,7 +90,7 @@
             </div>
             <div class="level-job text-left mb-2">
               <div class="title">Total Mengajar:</div>
-              <div>0 sesi</div>
+              <div>{{user_detail.total_mengajar}} sesi</div>
             </div>
           </div>
         </div>
