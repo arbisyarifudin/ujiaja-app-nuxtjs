@@ -64,11 +64,13 @@
               <div class="card-body text-left p-0">
                 <div class="" style="display: flex; justify-content: flex-end;">
                   <p
+                  v-if="item.transaksi"
                     class="label-event mb-2 px-4 py-1"
                     :class="[item.transaksi ? '' : 'draft']"
                   >
                     {{ item.transaksi ? "Dibeli" : "&nbsp;" }}
                   </p>
+                  <p v-else >&nbsp;</p>
                 </div>
                 <div class="card-content px-4 mt-4">
                    <p class="mb-2" style="font-size: 14px" v-html="rerataUlasan(item.rerata_ulasan)"></p>
