@@ -77,12 +77,12 @@
                   </p>
                 </div>
                 <div class="card-content px-4 mt-1">
-                   <p class="mb-2" style="font-size: 14px">
+                   <p class="mb-2" style="font-size: 14px" v-html="rerataUlasan(item.rerata_ulasan)">
+                    <!-- <i class="far fa-star fa-fw"></i>
                     <i class="far fa-star fa-fw"></i>
                     <i class="far fa-star fa-fw"></i>
                     <i class="far fa-star fa-fw"></i>
-                    <i class="far fa-star fa-fw"></i>
-                    <i class="far fa-star fa-fw"></i>
+                    <i class="far fa-star fa-fw"></i> -->
                   </p>
                   <h3
                     class="card-judul card-program mb-4 mt-3"
@@ -211,7 +211,24 @@ export default {
           this.catchError(err);
         })
         .finally(() => (this.loading = false));
-    }
+    },
+    rerataUlasan(rataRata) {
+      const rataRataFloor = Math.floor(rataRata);
+      const sisaDesimal = Math.round(rataRata - rataRataFloor);
+
+      let element = "";
+      for (let i = 0; i < rataRataFloor; i++) {
+        element += '<i class="fas fa-star fa-fw text-star"></i>';
+      }
+      for (let x = 0; x < sisaDesimal; x++) {
+        element += '<i class="fas fa-star-half-alt fa-fw text-star"></i>';
+      }
+      for (let x = 0; x < (5 - rataRataFloor - sisaDesimal); x++) {
+        element += '<i class="far fa-star fa-fw text-star"></i>';
+      }
+
+      return element;
+    },
   }
 };
 </script>
