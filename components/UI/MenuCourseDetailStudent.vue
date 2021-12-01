@@ -123,7 +123,7 @@ export default {
           label = "Ditolak";
           break;
         case "Menunggu Konfirmasi Selesai":
-          label = "Tentor Menunggu Konfirmasi Anda";
+          label = "Tentor telah menyelesaikan Kelas";
           break;
         default:
           label = status;
