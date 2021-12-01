@@ -600,8 +600,9 @@ export default {
       this.$axios
         .$get("api/kursus-ulasan", {
           params: {
+            id_kursus: this.$route.params.id,
             q: "",
-            paginate: 10
+            paginate: 10,
           }
         })
         .then(res => {
