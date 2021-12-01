@@ -1,5 +1,5 @@
 export default {
- env: {
+  env: {
     baseUrl:
       process.env.NODE_ENV !== "production"
         ? "http://localhost:3000"
@@ -47,7 +47,7 @@ export default {
     { src: "~/plugins/vue-tiny-slider.js", mode: "client" },
     { src: "~/plugins/axios.js", mode: "client" },
     { src: "~/plugins/custom-mixins.js", mode: "client" },
-    { src: '~/plugins/star-rating.js', mode: 'client' }
+    { src: "~/plugins/star-rating.js", mode: "client" }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -75,9 +75,16 @@ export default {
   },
 
   axios: {
-    baseURL: process.env.NODE_ENV !== "production"
-    ? "http://localhost:8000"
-    : "http://54.251.180.39" // Used as fallback if no runtime config is provided
+    baseURL:
+      process.env.NODE_ENV !== "production"
+        ? "http://localhost:8000"
+        : "http://54.251.180.39" // Used as fallback if no runtime config is provided
+  },
+
+  // server
+  server: {
+    port: 7000, // default : 3000
+    host: "0.0.0.0"
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
@@ -85,8 +92,8 @@ export default {
     splitChunks: {
       layouts: true
     },
-    babel: {
-      compact: true,
-     }
+    // babel: {
+    //   compact: true
+    // }
   }
 };
