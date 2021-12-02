@@ -119,6 +119,39 @@
         </div>
       </div>
     </div>
+    <b-modal
+      id="modal-finish"
+      title="Konfirmasi Selesaikan Sesi"
+      hide-footer
+      centered
+      modal-class="admin-modal"
+      @hidden="resetModal"
+    >
+      <div>
+        <p class="modal-text">
+          Apakah kamu yakin ingin konfirmasi selesaikan sesi? Harap konfirmasi
+          jika memang sesi dengan Tentor ini sudah selesai.
+        </p>
+        <div class="modal-footer justify-content-end" style="border: 0px">
+          <button
+            class="btn btn-sm btn-success tambah px-4 py-2"
+            type="button"
+            :disabled="submitting"
+            @click.prevent="selesaikanSesi"
+          >
+            <b-spinner small v-if="submitting" class="mr-1"></b-spinner>
+            Ya
+          </button>
+          <button
+            class="btn btn-sm btn-outline-secondary tambah px-4 py-2"
+            type="button"
+            @click="$bvModal.hide('modal-finish')"
+          >
+            Batal
+          </button>
+        </div>
+      </div>
+    </b-modal>
   </div>
 </template>
 
@@ -129,6 +162,7 @@ export default {
     return {
       loading: true,
       loadingTable: false,
+      submitting: false,
       dataDetail: {
         mapel: {},
         tentor: {},
@@ -247,30 +281,6 @@ export default {
         })
         .finally(() => (this.loadingTable = false));
     },
-    deleteData() {
-      this.loadingTable = true;
-      this.$axios
-        .$delete(`/api/kursus-materi/delete/${this.selectedId}`)
-        .then(res => {
-          console.log(res);
-          if (res.success) {
-            this.$root.$bvToast.toast("Data materi berhasil dihapus!", {
-              title: "Sukses",
-              variant: "danger",
-              solid: true,
-              autoHideDelay: 3000
-            });
-            this.dataMaterial.splice(this.selectedIndex, 1);
-            this.$bvModal.hide("modal-delete");
-          }
-          return true;
-        })
-        .catch(err => {
-          console.log(err);
-          this.catchError(err);
-        })
-        .finally(() => (this.loadingTable = false));
-    },
     async getMaterial() {
       this.loadingTable = true;
       await this.$axios
@@ -305,83 +315,37 @@ export default {
       anchor.click();
       anchor.remove();
     },
-    handleUploadedFile(param) {
-      this.files[param] = this.$refs[param].files[0];
-      console.log(this.files[param]);
-      this.$refs[param].closest(
-        ".custom-file"
-      ).children[1].textContent = this.files[param].name;
-
-      let formData = new FormData();
-      formData.append("file", this.files[param]);
-
-      if (this.files[param] != null) {
-        this.loadingTable = true;
-        this.$axios
-          .$post(`/api/upload/file`, formData)
-          .then(res => {
-            console.log(res);
-            if (res) {
-              this.form[param] = res.data.file_url;
-            }
-            return;
-          })
-          .catch(err => {
-            console.log(err);
-            this.catchError(err);
-          })
-          .finally(() => (this.loadingTable = false));
-      }
+    selesaikanSesi() {
+      this.submitting = true;
+      this.$axios
+        .$put(
+          `/api/kursus-siswa/update/${this.dataDetailByStudent.id}/status`,
+          {
+            status_dikelas: "Sesi Selesai"
+          }
+        )
+        .then(res => {
+          console.log(res);
+          if (res.success) {
+            this.$root.$bvToast.toast(
+              "Sesi berhasil dikonfirmasi! Terima kasih sudah bersama kami. Jangan lupa tinggalkan ulasanmu yah.",
+              {
+                title: "Sukses",
+                variant: "success",
+                solid: true,
+                autoHideDelay: 3000
+              }
+            );
+            this.dataDetailByStudent = res.data;
+            this.$bvModal.hide("modal-finish");
+          }
+        })
+        .catch(err => {
+          console.log(err);
+          this.catchError(err);
+        })
+        .finally(() => (this.submitting = false));
     },
-    submitData() {
-      this.loadingTable = true;
-      if (this.editMode) {
-        this.$axios
-          .$put(`/api/kursus-materi/update/${this.selectedId}`, this.form)
-          .then(res => {
-            console.log(res);
-            if (res.success) {
-              this.$root.$bvToast.toast("Materi berhasil diperbarui.", {
-                title: "Sukses",
-                variant: "success",
-                solid: true,
-                autoHideDelay: 3000
-              });
-              this.dataMaterial[this.selectedIndex] = res.data;
-              this.$bvModal.hide("modal-edit");
-            }
-          })
-          .catch(err => {
-            console.log(err);
-            this.catchError(err);
-          })
-          .finally(() => (this.loadingTable = false));
-      } else {
-        const dataCreate = {
-          ...this.form,
-          id_kursus: this.$route.params.id
-        };
-        this.$axios
-          .$post(`/api/kursus-materi/create`, dataCreate)
-          .then(res => {
-            console.log(res);
-            if (res.success) {
-              this.$root.$bvToast.toast("Materi berhasil dibuat.", {
-                title: "Sukses",
-                variant: "success",
-                solid: true,
-                autoHideDelay: 3000
-              });
-              this.$bvModal.hide("modal-edit");
-            }
-          })
-          .catch(err => {
-            console.log(err);
-            this.catchError(err);
-          })
-          .finally(() => (this.loadingTable = false));
-      }
-    }
   }
 };
 </script>
