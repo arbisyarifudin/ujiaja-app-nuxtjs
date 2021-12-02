@@ -58,6 +58,7 @@
                     <img src="/icon-user.png" class="img-fluid" width="24" />
                   </template>
                   <b-dropdown-item to="/app/profile">Profil</b-dropdown-item>
+                  <b-dropdown-item v-if="user.role_user == 'teacher'" to="/app/partner/earnings">Pendapatan</b-dropdown-item>
                   <b-dropdown-item @click.prevent="appLogout"
                     >Keluar</b-dropdown-item
                   >

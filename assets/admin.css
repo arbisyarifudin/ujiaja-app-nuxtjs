@@ -1514,4 +1514,13 @@ input.form-control-info {
 
 /* LAPTOP Normal */
 /* LAPTOP besar */
+.normal.table.table-bordered th,
+.normal.table.table-bordered td {
+  border: 1px solid #dee2e6;
+}
+
+.normal.table.table th,
+.normal.table.table td {
+  border-top: 1px solid #dee2e6;
+}
 /*# sourceMappingURL=admin.css.map */
