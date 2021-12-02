@@ -26,10 +26,14 @@
             Mohon tunggu verifikasi dari kami ya!
           </h2>
           <h2
-            class="dash-label mb-4"
+            class="dash-label mb-4 d-block"
             v-if="dataDetail.status == 'Sudah Diverifikasi'"
           >
-            Selamat, pembelian Tryout kamu berhasil!
+            Selamat, pembelian 
+            <span v-if="dataDetail.mbti">Tes MBTI</span>
+            <span v-else-if="dataDetail.kursus">Kelas Kursus</span>
+            <span v-else>Tryout</span>
+             kamu berhasil!
           </h2>
           <p v-if="dataDetail.status == 'Sudah Diverifikasi'">
             Terima kasih sudah mempercayakan Uji Aja untuk memenuhi kebutuhan
