@@ -1,8 +1,12 @@
 <template>
   <b-card class="shadow-none bg-transparent">
     <div class="d-flex justify-content-between align-items-center">
-      <h3 class="card-title d-flex align-items-center"><b-spinner small type="grow" class="mr-2" v-if="loading" /> Pendapatan</h3>
-      <button class="btn btn-sm btn-primary square px-3"><i class="fas fa-wallet mr-2"></i> Tarik Dana</button>
+      <h3 class="card-title d-flex align-items-center">
+        <b-spinner small type="grow" class="mr-2" v-if="loading" /> Pendapatan
+      </h3>
+      <button class="btn btn-sm btn-primary square px-3">
+        <i class="fas fa-wallet mr-2"></i> Tarik Dana
+      </button>
     </div>
     <hr />
     <div class="row">
@@ -18,7 +22,9 @@
         <div class="card">
           <div class="card-body">
             <h4 class="mb-3">Total Pendapatan</h4>
-            <div class="text-success">Rp {{dataPendapatan.totalPendapatan}}</div>
+            <div class="text-success">
+              Rp {{ dataPendapatan.totalPendapatan }}
+            </div>
           </div>
         </div>
       </div>
@@ -26,7 +32,9 @@
         <div class="card">
           <div class="card-body">
             <h4 class="mb-3">Total Penarikan</h4>
-            <div class="text-danger">Rp {{dataPendapatan.totalPenarikan}}</div>
+            <div class="text-danger">
+              Rp {{ dataPendapatan.totalPenarikan }}
+            </div>
           </div>
         </div>
       </div>
@@ -34,7 +42,9 @@
         <div class="card">
           <div class="card-body">
             <h4 class="mb-3">Total Saldo</h4>
-            <div class="font-weight-bold">Rp {{dataPendapatan.totalSaldo}}</div>
+            <div class="font-weight-bold">
+              Rp {{ dataPendapatan.totalSaldo }}
+            </div>
           </div>
         </div>
       </div>
@@ -43,7 +53,10 @@
       <div class="col-12">
         <div class="card">
           <div class="card-body">
-            <h4 class="mb-3 d-flex align-items-center"><b-spinner small type="grow" class="mr-2" v-if="loading" /> Daftar Pendapatan Kelas</h4>
+            <h4 class="mb-3 d-flex align-items-center">
+              <b-spinner small type="grow" class="mr-2" v-if="loading" /> Daftar
+              Pendapatan Kelas
+            </h4>
             <div class="table-responsive">
               <table class="table table-bordered normal">
                 <thead class="thead-light">
@@ -53,40 +66,36 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
+                  <tr
+                    v-for="(kursus, index) in dataPendapatanPerKursus"
+                    :key="'k' + index"
+                  >
                     <td>
-                      Kurus Matematika
-                      <a
+                      {{ kursus.nama_kursus }}
+                      <router-link
                         class="btn btn-sm btn-light px-2 ml-2"
-                        href="#"
+                        :to="`/app/partner/earnings/${kursus.id_kursus}`"
                         title="Detail Pendapatan Kelas"
                         ><i class="fas fa-search"></i
-                      ></a>
+                      ></router-link>
                     </td>
                     <td>
                       <div class="d-flex justify-content-between">
                         <span>Rp</span>
-                        <span>1.500.000</span>
+                        <span>{{ kursus.netto_pendapatan }}</span>
                       </div>
                     </td>
                   </tr>
-                  <tr>
-                    <td>
-                      Kurus Pemrograman Website
-                      <a
-                        class="btn btn-sm btn-light px-2 ml-2"
-                        href="#"
-                        title="Detail Pendapatan Kelas"
-                        ><i class="fas fa-search"></i
-                      ></a>
-                    </td>
-                    <td>
-                      <div class="d-flex justify-content-between">
-                        <span>Rp</span>
-                        <span>5.000.000</span>
-                      </div>
-                    </td>
-                  </tr>
+                  <UITableLoading v-if="loading" />
+                  <UITableNotFound
+                  text="Belum ada data."
+                    v-if="
+                      dataPendapatanPerKursus &&
+                        dataPendapatanPerKursus.lenght == 0 &&
+                        filter.keyword &&
+                        !loading
+                    "
+                  />
                 </tbody>
               </table>
             </div>
@@ -104,24 +113,26 @@ export default {
     return {
       loading: true,
       dataPendapatan: {
-        totalPendapatan: "2.000.000",
-        totalPenarikan: "500.000",
-        totalSaldo: "1.500.000"
-      }
+        totalPendapatan: 0,
+        totalPenarikan: 0,
+        totalSaldo: 0
+      },
+      dataPendapatanPerKursus: []
     };
   },
   created() {
-    this.getPendapatanTotal()
+    this.getPendapatanTotal();
+    this.getPendapatanPerKursus();
   },
   methods: {
-    getPendapatanTotal () {
+    getPendapatanTotal() {
       this.loading = true;
       this.$axios
         .$get("/api/pendapatan/tentor/total-data")
         .then(response => {
           console.log(response);
-          if(response.success) {
-            this.dataPendapatan = response.data
+          if (response.success) {
+            this.dataPendapatan = response.data;
           }
         })
         .catch(error => {
@@ -130,6 +141,30 @@ export default {
         .finally(() => {
           this.loading = false;
         });
+    },
+    getPendapatanPerKursus() {
+      this.loading = true;
+      this.$axios
+        .$get("/api/pendapatan/tentor/perkursus")
+        .then(response => {
+          console.log(response);
+          if (response.success) {
+            this.dataPendapatanPerKursus = response.data;
+          }
+        })
+        .catch(error => {
+          this.catchError(error);
+        })
+        .finally(() => {
+          this.loading = false;
+        });
+    },
+    formatRupiah(nominal) {
+      if (nominal) {
+        nominal = parseFloat(nominal);
+        return nominal.toLocaleString("id-ID");
+      }
+      return 0;
     }
   }
 };
