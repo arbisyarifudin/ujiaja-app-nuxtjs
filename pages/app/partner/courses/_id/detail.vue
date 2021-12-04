@@ -118,97 +118,6 @@
           <hr class="mb-0" />
           <div class="courses-review review">
             <ul class="review-list list-unstyled">
-              <!-- <li class="d-flex review-item">
-                <img
-                  src="/wilson.png"
-                  alt="profile pic"
-                  class="review-avatar"
-                />
-                <div class="review-data ml-md-4">
-                  <div class="review-data__author">Wilson</div>
-                  <div class="d-flex review-data__rating">
-                    <div class="star mr-2">
-                      <i class="fas fa-star fa-fw"></i>
-                      <i class="fas fa-star fa-fw"></i>
-                      <i class="fas fa-star fa-fw"></i>
-                      <i class="fas fa-star fa-fw"></i>
-                      <i class="fas fa-star fa-fw"></i>
-                      <i class="fas fa-star fa-fw"></i>
-                    </div>
-                    <div class="time">3 hari lalu</div>
-                  </div>
-                  <div class="review-data__comment mt-2">
-                    Excellent teaching style and reaches all of the most used
-                    Javascript frameworks. Only a few areas need to be updated
-                    due to time but still applicable.
-                  </div>
-                  <ul class="review-list review-list--child list-unstyled">
-                    <li class="d-flex review-item">
-                      <img
-                        src="/randy.png"
-                        alt="profile pic"
-                        class="review-avatar"
-                      />
-                      <div class="review-data ml-md-4">
-                        <div class="review-data__author">
-                          Randy
-                          <span class="ml-1 badge badge-primary">Tentor</span>
-                        </div>
-                        <div class="d-flex review-data__rating">
-                          <div class="time">3 hari lalu</div>
-                        </div>
-                        <div class="review-data__comment mt-2">
-                          Excellent teaching style and reaches all of the most
-                          used Javascript frameworks. Only a few areas need to
-                          be updated due to time but still applicable.
-                        </div>
-                        <div
-                          class="review-action d-flex justify-content-end mt-2"
-                        >
-                          <div>
-                            <button class="btn btn-light btn-sm square">
-                              Ubah
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-              </li>
-              <li class="d-flex review-item">
-                <img src="/rizky.png" alt="profile pic" class="review-avatar" />
-                <div class="review-data ml-md-4">
-                  <div class="review-data__author">Rizky</div>
-                  <div class="d-flex review-data__rating">
-                    <div class="star mr-2">
-                      <i class="fas fa-star fa-fw"></i>
-                      <i class="fas fa-star fa-fw"></i>
-                      <i class="fas fa-star fa-fw"></i>
-                      <i class="fas fa-star fa-fw"></i>
-                      <i class="fas fa-star fa-fw"></i>
-                      <i class="far fa-star fa-fw"></i>
-                    </div>
-                    <div class="time">3 hari lalu</div>
-                  </div>
-                  <div class="review-data__comment mt-2">
-                    Excellent teaching style and reaches all of the most used
-                    Javascript frameworks. Only a few areas need to be updated
-                    due to time but still applicable.
-                  </div>
-                  <ul class="review-list review-list--child list-unstyled">
-                    <li class="review-item">
-                      <div class="review-reply">
-                        <label class="form-label">Balas Ulasan:</label>
-                        <textarea rows="3" class="form-control"></textarea>
-                        <div class="d-flex justify-content-end mt-3">
-                          <button class="btn btn-primary square">Balas</button>
-                        </div>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-              </li> -->
               <li
                 class="d-flex review-item"
                 v-for="(item, index) in ulasan.list"
@@ -246,7 +155,9 @@
                   <ul class="review-list review-list--child list-unstyled">
                     <li class="d-flex review-item" v-if="item.tanggal_balasan">
                       <img
-                        src="/randy.png"
+                        v-if="ApiUrl"
+                      :src="ApiUrl(item.foto_balasan)"
+                        @error="noImage"
                         alt="profile pic"
                         class="review-avatar"
                       />
