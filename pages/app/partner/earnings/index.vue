@@ -123,6 +123,20 @@
 </template>
 
 <script>
+const dataBulan = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "Mei",
+  "Jun",
+  "Jul",
+  "Ags",
+  "Sep",
+  "Okt",
+  "Nov",
+  "Des"
+];
 export default {
   layout: "app",
   data() {
@@ -159,6 +173,7 @@ export default {
           accessibility: {
             rangeDescription: "Rentang: Januari s.d Desember"
           },
+          categories: dataBulan,
           title: {
             text: "Bulan"
           }
@@ -180,7 +195,7 @@ export default {
         },
 
         tooltip: {
-          headerFormat: "<b>{series.name} Bulan ke-{point.x}</b><br />",
+          headerFormat: "<b>{series.name} Bln. {point.x}</b><br />",
           // pointFormat: 'Rp {point.y}'
           pointFormatter: function() {
             return "Rp " + this.y.toLocaleString("id");
@@ -190,12 +205,19 @@ export default {
         series: [
           {
             name: "Pendapatan",
-            data: [43934, 52503, 57177, 69658, 97031, 119931, 137133, 154175]
+            data: [200000, 500000, 300000, 450000, 400000, 200000, 100000, 250000, 100000, 150000, 200000]
           },
           {
             name: "Penarikan",
-            data: [24916, 24064, 29742, 29851, 32490, 30282, 38121, 40434]
+            data: [100000, 200000, 400000, 800000, 1000000, 0, 100000, 200000, 0, 100000, 0]
           }
+          // {
+          //   data: [
+          //     ["Jan", 29.9],
+          //     ["Feb", 71.5],
+          //     ["Mar", 106.4]
+          //   ]
+          // }
         ],
 
         responsive: {
@@ -219,6 +241,7 @@ export default {
   },
   created() {
     this.getPendapatanTotal();
+    this.getPendapatanGrafikBulan();
     this.getPendapatanPerKursus();
   },
   methods: {
@@ -230,6 +253,31 @@ export default {
           console.log(response);
           if (response.success) {
             this.dataPendapatan = response.data;
+          }
+        })
+        .catch(error => {
+          this.catchError(error);
+        })
+        .finally(() => {
+          this.loading = false;
+        });
+    },
+    getPendapatanGrafikBulan() {
+      this.loading = true;
+      this.$axios
+        .$get("/api/pendapatan/tentor/grafik-bulanan")
+        .then(response => {
+          if (response.success) {
+            this.chartOptions.series = [
+              {
+                name: "Pendapatan",
+                data: response.data.pendapatan
+              },
+              {
+                name: "Penarikan",
+                data: response.data.penarikan
+              }
+            ];
           }
         })
         .catch(error => {
