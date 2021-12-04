@@ -87,7 +87,7 @@
               <p class="mess-subtitle d-md-block d-none">Butuh bantuan?</p>
               <a
                 target="_blank"
-                href="https://wa.me/6285773716731"
+                href="https://wa.me/6281329756856?text=Halo%2C+saya+dari+ujiaja.com+memiliki+masalah+pada+bagian+login+Administrator."
                 class="
                   btn btn-outline-warning
                   fill
