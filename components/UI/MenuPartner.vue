@@ -45,15 +45,15 @@
       >
     </li>
     <li class="nav-item">
-      <nuxt-link class="nav-link d-flex align-items-center" to="/app/courses"
+      <nuxt-link class="nav-link d-flex align-items-center" to="/app/partner/testimonial"
         ><i class="far fa-comment fa-2x fa-fw mr-2"></i> Testimoni
         Siswa</nuxt-link
       >
     </li>
     <li class="nav-item">
-      <nuxt-link class="nav-link d-flex align-items-center" to="/app/courses"
+      <nuxt-link class="nav-link d-flex align-items-center" to="/app/ticket"
         ><i class="far fa-question-circle fa-2x fa-fw mr-2"></i>
-        Bantaun</nuxt-link
+        Bantuan</nuxt-link
       >
     </li>
   </ul>
