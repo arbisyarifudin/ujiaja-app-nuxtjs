@@ -17,7 +17,7 @@
     <b-nav-item-dropdown text="Sekolah" right>
       <template #button-content>
         <span
-          class="nav-link mb-0 p-0"
+          class="nav-link mb-0 p-0 has-child-icon"
           :class="[
             $route.path.includes('master_kelas') ||
             $route.path.includes('master_penjurusan') ||
@@ -39,7 +39,7 @@
     <b-nav-item-dropdown text="Perguruan Tinggi" right>
       <template #button-content>
         <span
-          class="nav-link mb-0 p-0"
+          class="nav-link mb-0 p-0 has-child-icon"
           :class="[
             $route.path.includes('master_perguruan_tinggi') ||
             $route.path.includes('program-studi')
