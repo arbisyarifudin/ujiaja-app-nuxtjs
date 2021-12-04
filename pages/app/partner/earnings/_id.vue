@@ -11,7 +11,7 @@
     <b-card class="mb-4">
       <div class="row">
         <div class="col-md-7">
-          <h4>Pendapatan</h4>
+          <h4>Total Pendapatan</h4>
           <h5 class="mb-0">{{ dataPendapatanPerKursusDetail.nama_kursus }}</h5>
         </div>
         <div class="col-md-5">

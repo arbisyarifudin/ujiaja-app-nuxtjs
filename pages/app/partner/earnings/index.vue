@@ -5,7 +5,7 @@
         <b-spinner small type="grow" class="mr-2" v-if="loading" /> Pendapatan
       </h3>
       <router-link to="/app/partner/earnings/withdraw" class="btn btn-sm btn-primary square px-3">
-        <i class="fas fa-wallet mr-2"></i> Tarik Dana
+        <i class="fas fa-wallet mr-2"></i> Penarikan Dana
       </router-link>
     </div>
     <hr />
@@ -91,13 +91,21 @@
                   text="Belum ada data."
                     v-if="
                       dataPendapatanPerKursus &&
-                        dataPendapatanPerKursus.lenght == 0 &&
+                        dataPendapatanPerKursus.length == 0 &&
                         filter.keyword &&
                         !loading
                     "
                   />
                 </tbody>
               </table>
+              <b-pagination
+                class="pagination-table"
+                v-if="totalRows > 0 && totalRows > filter.perPage && !loading"
+                v-model="filter.page"
+                :total-rows="totalRows"
+                :per-page="filter.perPage"
+              >
+              </b-pagination>
             </div>
           </div>
         </div>
@@ -117,7 +125,13 @@ export default {
         totalPenarikan: 0,
         totalSaldo: 0
       },
-      dataPendapatanPerKursus: []
+      dataPendapatanPerKursus: [],
+      filter: {
+        page: 1,
+        perPage: 10,
+        keyword: ""
+      },
+      totalRows: 1,
     };
   },
   created() {
@@ -145,7 +159,10 @@ export default {
     getPendapatanPerKursus() {
       this.loading = true;
       this.$axios
-        .$get("/api/pendapatan/tentor/perkursus")
+        .$get("/api/pendapatan/tentor/perkursus", {
+          q: this.filter.keyword,
+          paginate: this.filter.perPage
+        })
         .then(response => {
           console.log(response);
           if (response.success) {
