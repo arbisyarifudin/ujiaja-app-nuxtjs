@@ -67,8 +67,14 @@ export default {
     ["cookie-universal-nuxt", { alias: "cookiz" }],
 
     // vue2-editor
-    "vue2-editor/nuxt"
+    "vue2-editor/nuxt",
+
+    "nuxt-highcharts"
   ],
+
+  highcharts: {
+    /* module options */
+  },
 
   bootstrapVue: {
     icons: true
@@ -91,7 +97,7 @@ export default {
   build: {
     splitChunks: {
       layouts: true
-    },
+    }
     // babel: {
     //   compact: true
     // }

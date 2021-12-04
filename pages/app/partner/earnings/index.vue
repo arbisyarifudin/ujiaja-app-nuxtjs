@@ -4,7 +4,10 @@
       <h3 class="card-title d-flex align-items-center">
         <b-spinner small type="grow" class="mr-2" v-if="loading" /> Pendapatan
       </h3>
-      <router-link to="/app/partner/earnings/withdraw" class="btn btn-sm btn-primary square px-3">
+      <router-link
+        to="/app/partner/earnings/withdraw"
+        class="btn btn-sm btn-primary square px-3"
+      >
         <i class="fas fa-wallet mr-2"></i> Penarikan Dana
       </router-link>
     </div>
@@ -14,7 +17,12 @@
         <div class="card">
           <div class="card-body">
             <h4 class="mb-3">Grafik Pendapatan</h4>
-            <div style="height: 300px"></div>
+            <!-- <div style="height: 300px"></div> -->
+            <highchart
+              :options="chartOptions"
+              :update="['options.title', 'options.series']"
+              :exporting="true"
+            />
           </div>
         </div>
       </div>
@@ -88,7 +96,7 @@
                   </tr>
                   <UITableLoading v-if="loading" />
                   <UITableNotFound
-                  text="Belum ada data."
+                    text="Belum ada data."
                     v-if="
                       dataPendapatanPerKursus &&
                         dataPendapatanPerKursus.length == 0 &&
@@ -132,6 +140,81 @@ export default {
         keyword: ""
       },
       totalRows: 1,
+      chartOptions: {
+        title: {
+          text: "Data per Januari - Desember 2021"
+        },
+
+        subtitle: {
+          text: "Tentor: Arbi Syarifudin"
+        },
+
+        yAxis: {
+          title: {
+            text: "Rupiah"
+          }
+        },
+
+        xAxis: {
+          accessibility: {
+            rangeDescription: "Rentang: Januari s.d Desember"
+          },
+          title: {
+            text: "Bulan"
+          }
+        },
+
+        legend: {
+          layout: "vertical",
+          align: "right",
+          verticalAlign: "middle"
+        },
+
+        plotOptions: {
+          series: {
+            label: {
+              connectorAllowed: false
+            },
+            pointStart: 1
+          }
+        },
+
+        tooltip: {
+          headerFormat: "<b>{series.name} Bulan ke-{point.x}</b><br />",
+          // pointFormat: 'Rp {point.y}'
+          pointFormatter: function() {
+            return "Rp " + this.y.toLocaleString("id");
+          }
+        },
+
+        series: [
+          {
+            name: "Pendapatan",
+            data: [43934, 52503, 57177, 69658, 97031, 119931, 137133, 154175]
+          },
+          {
+            name: "Penarikan",
+            data: [24916, 24064, 29742, 29851, 32490, 30282, 38121, 40434]
+          }
+        ],
+
+        responsive: {
+          rules: [
+            {
+              condition: {
+                maxWidth: 500
+              },
+              chartOptions: {
+                legend: {
+                  layout: "horizontal",
+                  align: "center",
+                  verticalAlign: "bottom"
+                }
+              }
+            }
+          ]
+        }
+      }
     };
   },
   created() {
