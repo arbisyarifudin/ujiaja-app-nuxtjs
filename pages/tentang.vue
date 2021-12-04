@@ -43,7 +43,7 @@
           "
         >
           <img src="/logo1.png" class="img-fluid" style="width: 50px" />
-          <img src="/UjiAja.png" class="img-fluid" style="width: 50px" />
+          <img src="/ujiAja.png" class="img-fluid" style="width: 50px" />
         </div>
         <h2 class="py-3 mb-4">Perjalanan Sejarah UjiAja</h2>
         <div class="row align-flex-star justify-content-center">

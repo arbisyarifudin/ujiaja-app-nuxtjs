@@ -49,7 +49,7 @@
                     class="img-fluid my-4"
                     style="width: 12%"
                   />
-                  <img src="/UjiAja.png" class="img-fluid" style="width: 7%" />
+                  <img src="/ujiAja.png" class="img-fluid" style="width: 7%" />
                 </div>
                 <h3 class="masuk-akun mb-4">Masuk Akun</h3>
                 <form

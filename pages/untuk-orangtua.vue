@@ -20,7 +20,7 @@
               </div>
               <div class="col-md-6 order-1 order-md-2">
                 <img
-                  src="/Fitur/fiturortu1.png"
+                  src="/fitur/fiturortu1.png"
                   class="img-fluid mb-3 mb-md-0"
                 />
               </div>
@@ -32,7 +32,7 @@
             <div class="row">
               <div class="col-md-6">
                 <img
-                  src="/Fitur/fiturortu2.png"
+                  src="/fitur/fiturortu2.png"
                   class="img-fluid mb-3 mb-md-0"
                 />
               </div>
