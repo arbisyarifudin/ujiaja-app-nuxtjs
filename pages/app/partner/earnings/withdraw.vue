@@ -27,8 +27,8 @@
           <h4>Input Jumlah Penarikan</h4>
         </div>
         <div class="col-md-5">
-          <div class="text-info small">
-            Minimal penarikan: Rp. {{ minNominalPenarikan }}
+          <div class="text-info small mb-1">
+            Minimal penarikan: Rp. {{ formatRupiah(minNominalPenarikan) }}
           </div>
           <b-input-group prepend="Rp">
             <money
@@ -52,6 +52,7 @@
             class="small py-3"
             v-model="namaRekening"
             placeholder="Masukkan nama pemilik rekening"
+            name="nama_rekening"
           />
         </div>
         <div class="col-md-4">
@@ -60,26 +61,117 @@
             v-model="bankRekening"
             placeholder="Masukkan nama bank"
           /> -->
-          <b-select :options="bankListOption" v-model="bankRekening"></b-select>
+          <b-select :options="bankListOption" v-model="bankRekening" name="bank_rekening"></b-select>
         </div>
         <div class="col-md-4">
           <b-input
             class="small py-3"
             v-model="nomorRekening"
             placeholder="Masukkan nomor rekening"
+            name="nomor_rekening"
           />
         </div>
       </div>
       <div v-html="showError('rekening')" class="text-danger mt-2"></div>
     </b-card>
-    <div class="text-right">
-      <b-button variant="primary" class="square" :disabled="loading || submitting || !isValidNominal" @click.prevent="submitRequest"
-        >
-        <b-spinner small v-if="submitting"></b-spinner> 
-        <i class="fas fa-paper-plane mr-1" v-else></i> 
-        Kirim Permintaan
-        Penarikan</b-button
-      >
+    <div class="row justify-content-end align-items-center">
+      <div class="col-md-7">
+        <div class="row align-items-center justify-content-end">
+          <div class="col-md-5">
+            <b-input-group>
+              <template #prepend>
+                <b-input-group-text class="text-secondary"><i class="fas fa-lock"></i></b-input-group-text>
+              </template>
+              <b-input type="password" v-model="password" class="small py-3" placeholder="Masukkan password Anda"/>
+            </b-input-group>
+            <div v-html="showError('password')" class="text-danger mt-2"></div>
+          </div>
+          <div class="col-md-7">
+            <b-button
+              variant="primary"
+              class="square"
+              :disabled="loading || submitting || !isValidNominal"
+              @click.prevent="submitRequest"
+            >
+              <b-spinner small v-if="submitting"></b-spinner>
+              <i class="fas fa-paper-plane mr-1" v-else></i>
+              Kirim Permintaan Penarikan</b-button
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mt-4">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="mb-3 d-flex align-items-center">
+              <b-spinner small type="grow" class="mr-2" v-if="loading" />
+              Riwayat Penarikan
+            </h4>
+            <div class="table-responsive">
+              <table class="table table-bordered normal">
+                <thead class="thead-light">
+                  <tr>
+                    <th>Tanggal</th>
+                    <th>Bank</th>
+                    <th>Nominal</th>
+                    <th style="width: 100px;">Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    v-for="(item, index) in dataPenarikanList"
+                    :key="'k' + index"
+                  >
+                    <td width="200">
+                      {{
+                        formatTanggal(item.created_at, "Do MMMM YYYY HH:mm")
+                      }}
+                      WIB
+                    </td>
+                    <td>
+                      {{ item.bank_rekening }}
+                    </td>
+                    <td>
+                      <div class="d-flex justify-content-between">
+                        <span>Rp</span>
+                        <span class="font-weight-bold">{{
+                          formatRupiah(item.nominal_penarikan)
+                        }}</span>
+                      </div>
+                    </td>
+                    <td>
+                      <span :class="statusBadge(item.status_penarikan)">{{
+                        item.status_penarikan
+                      }}</span>
+                    </td>
+                  </tr>
+                  <UITableLoading v-if="loading" />
+                  <UITableNotFound
+                    text="Belum ada data."
+                    v-if="
+                      dataPenarikanList &&
+                        dataPenarikanList.length == 0 &&
+                        filter.keyword &&
+                        !loading
+                    "
+                  />
+                </tbody>
+              </table>
+              <b-pagination
+                class="pagination-table"
+                v-if="totalRows > 0 && totalRows > filter.perPage && !loading"
+                v-model="filter.page"
+                :total-rows="totalRows"
+                :per-page="filter.perPage"
+              >
+              </b-pagination>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </b-card>
 </template>
@@ -105,7 +197,7 @@ export default {
       dataPenarikanList: [],
       filter: {
         page: 1,
-        perPage: 6,
+        perPage: 10,
         keyword: ""
       },
       totalRows: 1,
@@ -119,25 +211,26 @@ export default {
         masked: false
       },
       bankListOption: [
-        {text: 'Bank BCA', value: 'bca'},
-        {text: 'Bank BNI', value: 'bni'},
-        {text: 'Bank Mandiri', value: 'mandiri'},
-        {text: 'Bank BRI', value: 'bri'},
-        {text: 'CIMB Niaga', value: 'cimb'},
-        {text: 'Bank Muamalat', value: 'muamalat'},
-        {text: 'BTPN / Jenius', value: 'tabungan_pensiunan_nasional'},
-        {text: 'Bank BCA Syariah', value: 'bca'},
-        {text: 'Bank BNI Syariah', value: 'bni'},
-        {text: 'Bank Syariah Mandiri', value: 'bsm'},
-        {text: 'Bank Permata', value: 'permata'},
-        {text: 'Bank Permata Syariah', value: 'permata'},
+        { text: "BCA", value: "BCA" },
+        { text: "BNI", value: "BNI" },
+        { text: "Mandiri", value: "Mandiri" },
+        { text: "BRI", value: "BRI" },
+        { text: "CIMB Niaga", value: "CIMB Niaga" },
+        { text: "Muamalat", value: "Muamalat" },
+        { text: "BTPN / Jenius", value: "BTPN / Jenius" },
+        { text: "BCA Syariah", value: "BCA Syariah" },
+        { text: "BNI Syariah", value: "BNI Syariah" },
+        { text: "Bank Syariah Mandiri", value: "Bank Syariah Mandiri" },
+        { text: "Permata", value: "Permata" },
+        { text: "Permata Syariah", value: "Permata Syariah" }
       ],
       // form
       minNominalPenarikan: 0,
       nominalPenarikan: 0,
       namaRekening: "",
-      bankRekening: "bca",
+      bankRekening: "BCA",
       nomorRekening: "",
+      password: '',
       // error
       dataError: {},
       isValidNominal: false
@@ -145,7 +238,7 @@ export default {
   },
   created() {
     this.getPendapatanTotal();
-    // this.getDataList();
+    this.getPenarikanList();
   },
   watch: {
     nominalPenarikan(newValue) {
@@ -160,37 +253,49 @@ export default {
         this.$set(this.dataError, "nominalPenarikan", [
           "Jumlah penarikan tidak valid!"
         ]);
-      // } else if (newNominal < this.minNominalPenarikan) {
-      //   this.isValidNominal = false;
-      //   // this.$set(this.dataError, "nominalPenarikan", [
-      //   //   "Jumlah penarikan kurang dari minimal jumlah yang diizinkan!"
-      //   // ]);
-      } 
-      else {
+        // } else if (newNominal < this.minNominalPenarikan) {
+        //   this.isValidNominal = false;
+        //   // this.$set(this.dataError, "nominalPenarikan", [
+        //   //   "Jumlah penarikan kurang dari minimal jumlah yang diizinkan!"
+        //   // ]);
+      } else {
         this.isValidNominal = true;
         this.$set(this.dataError, "nominalPenarikan", [""]);
       }
     },
     namaRekening(newValue) {
-      if(newValue) {
-        this.isValidNominal = true
+      if (newValue) {
+        this.isValidNominal = true;
         this.$set(this.dataError, "rekening", [""]);
       }
     },
     bankRekening(newValue) {
-      if(newValue) {
-        this.isValidNominal = true
+      if (newValue) {
+        this.isValidNominal = true;
         this.$set(this.dataError, "rekening", [""]);
       }
     },
     nomorRekening(newValue) {
-      if(newValue) {
-        this.isValidNominal = true
+      if (newValue) {
+        this.isValidNominal = true;
         this.$set(this.dataError, "rekening", [""]);
+      }
+    },
+    password(newValue) {
+      if (newValue) {
+        this.isValidNominal = true;
+        this.$set(this.dataError, "password", [""]);
       }
     }
   },
-  methods: {
+  methods: { 
+    formatRupiah(nominal) {
+      if (nominal) {
+        nominal = parseFloat(nominal);
+        return nominal.toLocaleString("id-ID");
+      }
+      return 0;
+    },
     showError(field) {
       if (
         this.dataError[field] !== undefined &&
@@ -204,29 +309,71 @@ export default {
       return "";
     },
     submitRequest() {
-      this.$set(this.dataError, "nominalPenarikan", ['']);
-      if(!this.namaRekening || !this.bankRekening || !this.nomorRekening) {
+      this.$set(this.dataError, "nominalPenarikan", [""]);
+      if (!this.namaRekening || !this.bankRekening || !this.nomorRekening) {
         this.isValidNominal = false;
         this.$set(this.dataError, "rekening", [
           "Mohon lengkapi rekening penerima dana pencairan terlebih dahulu!"
         ]);
       }
-      if(this.nominalPenarikan < +this.minNominalPenarikan) {
+      if (!this.password) {
+        this.isValidNominal = false;
+        this.$set(this.dataError, "password", [
+          "Mohon masukkan password!"
+        ]);
+      }
+      if (this.nominalPenarikan < +this.minNominalPenarikan) {
         this.isValidNominal = false;
         this.$set(this.dataError, "nominalPenarikan", [
           "Jumlah penarikan kurang dari minimal jumlah yang diizinkan!"
         ]);
       }
-      if(this.isValidNominal == false) {
-        return
+      if (this.isValidNominal == false) {
+        return;
       }
+
+      const dataSubmit = {
+        nominal_penarikan: this.nominalPenarikan,
+        nama_rekening: this.namaRekening,
+        bank_rekening: this.bankRekening,
+        nomor_rekening: this.nomorRekening,
+        password: this.password,
+      }
+
+      this.submitting = true
+      this.$axios
+        .$post("/api/penarikan/tentor", dataSubmit)
+        .then(response => {
+          if (response.success) {
+            this.showToastMessage('Penarikan berhasil dikirimkan! Mohon tunggu verifikasi dari kami.', 'success');
+            this.nominalPenarikan = 0;
+            this.namaRekening = '';
+            this.bankRekening = '';
+            this.nomorRekening = '';
+            this.password = '';
+            this.getPendapatanTotal()
+            this.getPenarikanList()
+          }
+        })
+        .catch(error => {
+          this.catchError(error);
+          if (error.response && error.response.status == 422) {
+            for (let key in error.response.data.messages) {
+              // console.log(key, error.response.data);
+              this.$set(this.dataError, key, [error.response.data.messages[key]]);
+            }
+          }
+        })
+        .finally(() => {
+          this.submitting = false;
+        });
+
     },
     getPendapatanTotal() {
       this.loading = true;
       this.$axios
         .$get("/api/pendapatan/tentor/total-data")
         .then(response => {
-          console.log(response);
           if (response.success) {
             this.dataPendapatan = response.data;
             this.minNominalPenarikan = this.getSetting("min_penarikan");
@@ -239,16 +386,16 @@ export default {
           this.loading = false;
         });
     },
-    getDataList() {
+    getPenarikanList() {
       this.loading = true;
       this.$axios
-        .$get(
-          "/api/pendapatan/tentor/perkursus/" + this.$route.params.id + "/list"
-        )
+        .$get("/api/penarikan/tentor", {
+          q: this.filter.keyword,
+          paginate: this.filter.perPage
+        })
         .then(response => {
-          console.log(response);
           if (response.success) {
-            this.dataPendapatanPerKursusDetailList = response.data.data;
+            this.dataPenarikanList = response.data.data;
           }
         })
         .catch(error => {
@@ -257,6 +404,24 @@ export default {
         .finally(() => {
           this.loading = false;
         });
+    },
+    statusBadge(status) {
+      let statusClass = "badge badge-";
+      switch (status) {
+        case "Pending":
+          statusClass += "warning";
+          break;
+        case "Proses":
+          statusClass += "info";
+          break;
+        case "Selesai":
+          statusClass += "success";
+          break;
+        default:
+          statusClass += "secondary";
+          break;
+      }
+      return statusClass;
     }
   }
 };
