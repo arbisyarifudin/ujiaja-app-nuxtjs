@@ -2,7 +2,7 @@ export default {
   env: {
     baseUrl:
       process.env.NODE_ENV !== "production"
-        ? "http://localhost:3000"
+        ? "http://localhost:7000"
         : "http://54.254.180.229",
     apiUrl:
       process.env.NODE_ENV !== "production"
