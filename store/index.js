@@ -3,16 +3,13 @@ import Vue from "vue";
 export const state = () => ({
   isAuth: false,
   dataUser: {
-    user: {
-
-    },
-    detail: {
-      
-    }
+    user: {},
+    detail: {}
   },
   dataError: {},
   breadcrumbs: [],
   isProfilLengkap: true,
+  dataSetting: []
   // listNomorSoal: [],
   // currentNomor: {},
   // currentSoal: {}
@@ -77,6 +74,7 @@ export const actions = {
           // console.log(res.data);
           await commit("SET_IS_AUTH", true);
           await commit("set", ["dataUser", res.data]);
+          return;
         })
         .catch(async error => {
           console.log("nuxtInitError", error);
@@ -84,7 +82,26 @@ export const actions = {
           await commit("SET_IS_AUTH", false);
           await commit("set", ["dataUser", {}]);
           app.$cookiz.remove("_ujiaja");
+          return;
         });
     }
+
+    await app.$axios
+      .$get("api/pengaturan", {
+        headers: {
+          Authorization: "Bearer " + app.$cookiz.get("_ujiaja")
+        }
+      })
+      .then(async response => {
+        // console.log('pengaturan', response.data)
+        if (response.success) {
+          await commit("set", ["dataSetting", response.data]);
+        }
+        return;
+      })
+      .catch(error => {
+        // console.log('pengaturan err',error.response)
+        return;
+      });
   }
 };

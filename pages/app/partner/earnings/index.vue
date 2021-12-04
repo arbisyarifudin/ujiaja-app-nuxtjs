@@ -4,9 +4,9 @@
       <h3 class="card-title d-flex align-items-center">
         <b-spinner small type="grow" class="mr-2" v-if="loading" /> Pendapatan
       </h3>
-      <button class="btn btn-sm btn-primary square px-3">
+      <router-link to="/app/partner/earnings/withdraw" class="btn btn-sm btn-primary square px-3">
         <i class="fas fa-wallet mr-2"></i> Tarik Dana
-      </button>
+      </router-link>
     </div>
     <hr />
     <div class="row">

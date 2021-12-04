@@ -1,6 +1,18 @@
 import Vue from "vue";
 
 Vue.mixin({
+  data () {
+    return {
+      money: {
+        decimal: ',',
+        thousands: '.',
+        prefix: '',
+        suffix: '',
+        precision: 0,
+        masked: true
+      },
+    }
+  },
   methods: {
     arrayCompare(a1, a2) {
       if (a1.length != a2.length) return false;
@@ -116,6 +128,14 @@ Vue.mixin({
         return "form-control form-error";
       }
       return "form-control";
+    },
+    getSetting(key) {
+      const settings = this.$store.state.dataSetting;
+      const foundSetting = settings.find(item => item.key == key);
+      if(foundSetting) {
+        return foundSetting.isi;
+      }
+      return '';
     },
     appLogout() {
       const role =
