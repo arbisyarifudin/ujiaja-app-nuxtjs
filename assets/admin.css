@@ -411,6 +411,7 @@ input:disabled,
 
 .crud .crud-body {
   z-index: 10;
+  position: relative;
 }
 
 .crud .crud-body.kosong {

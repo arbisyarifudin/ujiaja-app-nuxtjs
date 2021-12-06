@@ -138,5 +138,10 @@
         ><i class="fas fa-chart-bar fa-fw mr-2"></i> Statistik User</nuxt-link
       >
     </li> -->
+     <li class="nav-item">
+      <nuxt-link class="nav-link d-flex align-items-center" to="/administrator/ticket"
+        ><i class="fas fa-question-circle fa-fw mr-2"></i> Pengaduan</nuxt-link
+      >
+    </li>
   </ul>
 </template>

@@ -102,11 +102,20 @@
       >
     </b-nav-item-dropdown>
     <li class="nav-item">
-      <nuxt-link class="nav-link d-flex align-items-center" to="/administrator/payment"
+      <nuxt-link
+        class="nav-link d-flex align-items-center"
+        to="/administrator/courses"
+        ><i class="fas fa-boxes fa-fw mr-2"></i> Kelas Kursus</nuxt-link
+      >
+    </li>
+    <li class="nav-item">
+      <nuxt-link
+        class="nav-link d-flex align-items-center"
+        to="/administrator/payment"
         ><i class="fas fa-id-badge fa-fw mr-2"></i> Transaksi</nuxt-link
       >
     </li>
-     <b-nav-item-dropdown text="Pengguna" right>
+    <b-nav-item-dropdown text="Pengguna" right>
       <template #button-content>
         <span
           class="nav-link mb-0 p-0"
@@ -131,11 +140,6 @@
         >Data Tentor</b-dropdown-item
       >
     </b-nav-item-dropdown>
-    <li class="nav-item">
-      <nuxt-link class="nav-link d-flex align-items-center" to="/administrator/courses"
-        ><i class="fas fa-boxes fa-fw mr-2"></i> Kelas Kursus</nuxt-link
-      >
-    </li>
     <!-- <li class="nav-item">
       <nuxt-link class="nav-link d-flex align-items-center" to="#"
         ><i class="fas fa-file-alt fa-fw mr-2"></i> Laporan Transaksi</nuxt-link
@@ -146,5 +150,12 @@
         ><i class="fas fa-chart-bar fa-fw mr-2"></i> Statistik User</nuxt-link
       >
     </li> -->
+    <li class="nav-item">
+      <nuxt-link
+        class="nav-link d-flex align-items-center"
+        to="/administrator/ticket"
+        ><i class="fas fa-question-circle fa-fw mr-2"></i> Pengaduan</nuxt-link
+      >
+    </li>
   </ul>
 </template>
