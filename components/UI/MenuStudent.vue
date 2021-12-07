@@ -49,10 +49,10 @@
         Kuliah</a
       >
     </li>
-    <li class="nav-item">
-      <nuxt-link class="nav-link d-flex align-items-center" to="/app/courses"
+   <li class="nav-item">
+      <nuxt-link class="nav-link d-flex align-items-center" to="/app/ticket"
         ><i class="far fa-question-circle fa-2x fa-fw mr-2"></i>
-        Bantaun</nuxt-link
+        Pengaduan</nuxt-link
       >
     </li>
   </ul>
