@@ -3,13 +3,14 @@
     <div class="col-md-12">
       <h3>Pengaduan Saya</h3>
       <p>
-        Ini adalah daftar pengaduan yang pernah Kamu buat. Cek balasan kami melalui email kamu ya!
+        Ini adalah daftar pengaduan dan permintaan bantuan yang pernah Kamu buat. Cek balasan kami
+        melalui email kamu ya!
       </p>
     </div>
     <div class="col-md-12 my-3 crud">
       <div class="bg-white px-4 py-4 crud-body">
         <div class="row justify-content-between crud-tools">
-          <div class="col-md-4">
+          <div class="col-lg-4 col-md-12 col-12 mb-3 mb-lg-0">
             <b-input-group>
               <template #prepend>
                 <b-input-group-text class="pl-3"
@@ -24,9 +25,9 @@
               ></b-form-input>
             </b-input-group>
           </div>
-          <div class="col-md-6">
-            <div class="row justify-content-end">
-              <div class="col-md-4">
+          <div class="col-lg-6 col-md-12 col-12">
+            <div class="row justify-content-end align-items-center">
+              <div class="col-lg-4 col-md-4 col-6 mb-3 mb-md-0">
                 <b-input-group>
                   <template #prepend>
                     <b-input-group-text
@@ -45,7 +46,7 @@
                   ></b-form-select>
                 </b-input-group>
               </div>
-              <div class="col-md-4">
+              <div class="col-lg-4 col-md-4 col-6 mb-3 mb-md-0">
                 <b-input-group>
                   <template #prepend>
                     <b-input-group-text
@@ -64,6 +65,15 @@
                   ></b-form-select>
                 </b-input-group>
               </div>
+              <div class="col-lg-4 col-md-4 col-12 text-right">
+                <button
+                  class="btn btn-primary tambah crud-btn__add px-4"
+                  style="padding-top: 10px; padding-bottom: 10px;"
+                  v-b-modal.modal-add
+                >
+                  Buat Pengaduan
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -75,25 +85,23 @@
               v-for="(item, index) in list"
               :key="'uls' + index"
             >
-              <!-- <img
-                :src="ApiUrl(item.siswa ? item.siswa.foto : item.tentor.foto)"
-                @error="noImage"
-                alt="profile pic"
-                class="review-avatar"
-              /> -->
               <div class="review-data ml-md-4">
                 <div class="d-flex justify-content-between">
                   <div class="review-data__author">
                     <b>#{{ item.kode }}</b> - {{ item.subjek }}
                   </div>
                   <div>
+                    Status: 
                     <span :class="statusBadge(item.status)">{{
                       item.status
                     }}</span>
                   </div>
                 </div>
                 <div class="d-flex review-data__rating">
-                  <div class="time">{{ formatTanggal(item.created_at, 'DD MMMM YYYY - HH:mm') }} WIB</div>
+                  <div class="time">
+                    {{ formatTanggal(item.created_at, "DD MMMM YYYY - HH:mm") }}
+                    WIB
+                  </div>
                 </div>
                 <div class="review-data__comment mt-2">
                   {{ item.permasalahan }}
@@ -117,70 +125,52 @@
       </div>
     </div>
     <b-modal
-      id="modal-status"
-      title="Ubah Status"
+      id="modal-add"
+      title="Buat Pengaduan"
       centered
       hide-footer
       class="admin-modal"
     >
       <div>
-        <!-- <p class="modal-text">
-          Apakah anda yakin ingin menghapus data tryout ini?
-        </p> -->
-        <b-form-select
-          :options="[
-            { text: 'Buka', value: 'Buka' },
-            { text: 'Tutup/Selesai', value: 'Ditutup' }
-          ]"
-          @change="updateStatus"
-          v-model="selectedData.status"
-        >
-        </b-form-select>
+        <p class="modal-text">
+          Jika ada sesuatu yang membutuhkan bantuan atau ingin diadukan terkait hal teknis maupun non-teknis, silakan isi formulir
+          dibawah. Kami akan tindak lanjutin pengaduan bantuanmu melalui email.
+        </p>
+        <div class="form-group">
+          <label>Subjek</label>
+          <b-form-input
+            name="subjek"
+            class="small py-3"
+            placeholder="Tuliskan subjek dari pemasalahanmu"
+            v-model="form.subjek"
+          ></b-form-input>
+        </div>
+        <div class="form-group">
+          <label>Permasalahan</label>
+          <b-form-textarea
+            name="permasalahan"
+            class="small py-3"
+            rows="4"
+            placeholder="Tuliskan detail permasalahanmu"
+            v-model="form.permasalahan"
+          ></b-form-textarea>
+        </div>
         <div class="modal-footer justify-content-end" style="border: 0px">
-          <!-- <button
-            class="btn btn-outline-secondary"
+          <button
+            class="btn btn-outline-secondary square"
             type="button"
             @click="$bvModal.hide('modal-status')"
           >
             Tutup
-          </button> -->
-          <!-- <button
-            class="btn btn-primary tambah px-4 py-2"
+          </button>
+          <button
+            class="btn btn-primary tambah px-4 py-2 square"
             type="button"
-            :disabled="loading"
-            @click.prevent="updateStatus()"
+            :disabled="submitting"
+            @click.prevent="submitData"
           >
-            <b-spinner small v-if="loading" class="mr-1"></b-spinner> Simpan
-          </button> -->
-        </div>
-      </div>
-    </b-modal>
-    <b-modal
-      id="modal-prioritas"
-      title="Ubah Prioritas"
-      centered
-      hide-footer
-      class="admin-modal"
-    >
-      <div>
-        <b-form-select
-          :options="[
-            { text: 'Rendah', value: 'Rendah' },
-            { text: 'Sedang', value: 'Sedang' },
-            { text: 'Tinggi', value: 'Tinggi' }
-          ]"
-          @change="updatePrioritas"
-          v-model="selectedData.prioritas"
-        >
-        </b-form-select>
-        <div class="modal-footer justify-content-end" style="border: 0px">
-          <!-- <button
-            class="btn btn-outline-secondary"
-            type="button"
-            @click="$bvModal.hide('modal-prioritas')"
-          >
-            Tutup
-          </button> -->
+            <b-spinner small v-if="loading" class="mr-1"></b-spinner> Kirim
+          </button>
         </div>
       </div>
     </b-modal>
@@ -208,7 +198,11 @@ export default {
       sorting: "latest",
       selectedId: null,
       selectedIndex: null,
-      selectedData: {}
+      selectedData: {},
+      form: {
+        subjek: '',
+        permasalahan: ''
+      }
     };
   },
   created() {
@@ -310,7 +304,6 @@ export default {
             }
           })
           .catch(error => {
-            // console.log(error)
             this.catchError(error);
           });
       }
@@ -327,10 +320,26 @@ export default {
             }
           })
           .catch(error => {
-            // console.log(error)
             this.catchError(error);
           });
       }
+    },
+    submitData() {
+      this.submitting = true;
+      this.$axios
+        .$post(`api/pengaduan`, this.form)
+        .then(response => {
+          if (response.success) {
+            this.showToastMessage('Pengaduan berhasil dikirim!', "success");
+            this.list.unshift(response.data)
+          }
+        })
+        .catch(error => {
+          this.catchError(error);
+        })
+        .finally(() => {
+          this.submitting = false;
+        });
     }
   }
 };
