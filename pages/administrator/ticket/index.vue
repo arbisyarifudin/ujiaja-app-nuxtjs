@@ -104,9 +104,10 @@
               />
               <div class="review-data ml-md-4">
                 <div>
+                  <span class="small"><b-icon icon="person"></b-icon> {{item.siswa ? item.siswa.nama_lengkap : item.tentor.nama_lengkap}}</span>
                   <span
                     class="badge badge-info"
-                    style="font-weight: normal; font-size: 11px"
+                    style="font-weight: normal; font-size: 10px"
                     >{{ item.siswa ? "Siswa" : "Tentor" }}</span
                   >
                 </div>
