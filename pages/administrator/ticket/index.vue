@@ -91,6 +91,11 @@
                 class="review-avatar"
               />
               <div class="review-data ml-md-4">
+                <div>
+                  <span class="badge badge-info" style="font-weight: normal; font-size: 11px">{{
+                    item.siswa ? "Siswa" : "Tentor"
+                  }}</span>
+                </div>
                 <div class="d-flex justify-content-between">
                   <div class="review-data__author">
                     <b>#{{ item.kode }}</b> - {{ item.subjek }}
@@ -174,13 +179,13 @@
         >
         </b-form-select>
         <div class="modal-footer justify-content-end" style="border: 0px">
-          <button
+          <!-- <button
             class="btn btn-outline-secondary"
             type="button"
             @click="$bvModal.hide('modal-status')"
           >
             Tutup
-          </button>
+          </button> -->
           <!-- <button
             class="btn btn-primary tambah px-4 py-2"
             type="button"
@@ -192,7 +197,38 @@
         </div>
       </div>
     </b-modal>
-    <b-modal id="modal-prioritas"></b-modal>
+    <b-modal
+      id="modal-prioritas"
+      title="Ubah Prioritas"
+      centered
+      hide-footer
+      class="admin-modal"
+    >
+      <div>
+        <!-- <p class="modal-text">
+          Apakah anda yakin ingin menghapus data tryout ini?
+        </p> -->
+        <b-form-select
+          :options="[
+            { text: 'Rendah', value: 'Rendah' },
+            { text: 'Sedang', value: 'Sedang' },
+            { text: 'Tinggi', value: 'Tinggi' }
+          ]"
+          @change="updatePrioritas"
+          v-model="selectedData.prioritas"
+        >
+        </b-form-select>
+        <div class="modal-footer justify-content-end" style="border: 0px">
+          <!-- <button
+            class="btn btn-outline-secondary"
+            type="button"
+            @click="$bvModal.hide('modal-prioritas')"
+          >
+            Tutup
+          </button> -->
+        </div>
+      </div>
+    </b-modal>
   </div>
 </template>
 
@@ -305,19 +341,37 @@ export default {
       return prioritasClass;
     },
     updateStatus() {
-      if(this.selectedData && this.selectedData.status) {
-        this.$axios.$put(`api/pengaduan/update-status/${this.selectedData.id}`, {
-          status: this.selectedData.status
-        })
-        .then(response => {
-          if(response.success) {
-            this.showToastMessage(response.message, 'success')
-          }
-        })
-        .catch(error => {
-          // console.log(error)
-          this.catchError(error)
-        })
+      if (this.selectedData && this.selectedData.status) {
+        this.$axios
+          .$put(`api/pengaduan/update-status/${this.selectedData.id}`, {
+            status: this.selectedData.status
+          })
+          .then(response => {
+            if (response.success) {
+              this.showToastMessage(response.message, "success");
+            }
+          })
+          .catch(error => {
+            // console.log(error)
+            this.catchError(error);
+          });
+      }
+    },
+    updatePrioritas() {
+      if (this.selectedData && this.selectedData.prioritas) {
+        this.$axios
+          .$put(`api/pengaduan/update-prioritas/${this.selectedData.id}`, {
+            prioritas: this.selectedData.prioritas
+          })
+          .then(response => {
+            if (response.success) {
+              this.showToastMessage(response.message, "success");
+            }
+          })
+          .catch(error => {
+            // console.log(error)
+            this.catchError(error);
+          });
       }
     }
   }
