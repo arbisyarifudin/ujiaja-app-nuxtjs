@@ -3,7 +3,7 @@
     <div class="col-md-12">
       <h3>Pengaduan Saya</h3>
       <p>
-        Ini adalah daftar pengaduan yang pernah Kamu buat.
+        Ini adalah daftar pengaduan yang pernah Kamu buat. Cek balasan kami melalui email kamu ya!
       </p>
     </div>
     <div class="col-md-12 my-3 crud">
@@ -75,12 +75,12 @@
               v-for="(item, index) in list"
               :key="'uls' + index"
             >
-              <img
+              <!-- <img
                 :src="ApiUrl(item.siswa ? item.siswa.foto : item.tentor.foto)"
                 @error="noImage"
                 alt="profile pic"
                 class="review-avatar"
-              />
+              /> -->
               <div class="review-data ml-md-4">
                 <div class="d-flex justify-content-between">
                   <div class="review-data__author">

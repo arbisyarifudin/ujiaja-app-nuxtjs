@@ -11,7 +11,19 @@
       <div class="bg-white px-4 py-4 crud-body">
         <div class="row crud-tools">
           <div class="col-md-6">
-            <h4>Daftar Pengaduan</h4>
+            <b-input-group>
+              <template #prepend>
+                <b-input-group-text class="pl-3"
+                  ><i class="fas fa-search"></i
+                ></b-input-group-text>
+              </template>
+              <b-form-input
+                class="small px-2"
+                v-model="filter.keyword"
+                placeholder="Cari pengaduan"
+                debounce="300"
+              ></b-form-input>
+            </b-input-group>
           </div>
           <div class="col-md-6">
             <div class="row">
@@ -92,9 +104,11 @@
               />
               <div class="review-data ml-md-4">
                 <div>
-                  <span class="badge badge-info" style="font-weight: normal; font-size: 11px">{{
-                    item.siswa ? "Siswa" : "Tentor"
-                  }}</span>
+                  <span
+                    class="badge badge-info"
+                    style="font-weight: normal; font-size: 11px"
+                    >{{ item.siswa ? "Siswa" : "Tentor" }}</span
+                  >
                 </div>
                 <div class="d-flex justify-content-between">
                   <div class="review-data__author">
@@ -135,7 +149,7 @@
                   </div>
                 </div>
                 <div class="d-flex review-data__rating">
-                  <div class="time">{{ formatTanggal(item.created_at) }}</div>
+                  <div class="time">{{ formatTanggal(item.created_at, 'DD MMMM YYYY - HH:mm') }} WIB</div>
                 </div>
                 <div class="review-data__comment mt-2">
                   {{ item.permasalahan }}
@@ -205,9 +219,6 @@
       class="admin-modal"
     >
       <div>
-        <!-- <p class="modal-text">
-          Apakah anda yakin ingin menghapus data tryout ini?
-        </p> -->
         <b-form-select
           :options="[
             { text: 'Rendah', value: 'Rendah' },
@@ -269,6 +280,9 @@ export default {
       if (value) {
         this.getData();
       }
+    },
+    "filter.keyword": function(value) {
+      this.getData();
     }
   },
   methods: {
@@ -276,7 +290,7 @@ export default {
       if (this.sorting == "latest") {
         this.filter.sortBy = "created_at";
         this.filter.sortDir = "desc";
-      } else if (sorting == "oldest") {
+      } else if (this.sorting == "oldest") {
         this.filter.sortBy = "created_at";
         this.filter.sortDir = "asc";
       }
@@ -285,7 +299,7 @@ export default {
       this.$axios
         .$get("api/pengaduan", {
           params: {
-            q: "",
+            q: this.filter.keyword,
             page: this.filter.page,
             paginate: this.filter.perPage,
             sortBy: this.filter.sortBy,
