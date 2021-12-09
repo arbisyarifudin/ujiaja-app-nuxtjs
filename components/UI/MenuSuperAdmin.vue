@@ -61,7 +61,7 @@
         <span
           class="nav-link mb-0 p-0"
           :class="[
-            $route.path.includes('tryout') || $route.path.includes('product')
+            $route.path.includes('tryout') || $route.path.includes('product') && !$route.path.includes('uktt')
               ? 'nuxt-link-active'
               : ''
           ]"
@@ -74,6 +74,26 @@
       >
       <b-dropdown-item to="/administrator/product"
         >Data Produk / Event</b-dropdown-item
+      >
+    </b-nav-item-dropdown>
+    <b-nav-item-dropdown text="Modul UKTT" right>
+      <template #button-content>
+        <span
+          class="nav-link mb-0 p-0"
+          :class="[
+            $route.path.includes('uktt')
+              ? 'nuxt-link-active'
+              : ''
+          ]"
+        >
+          <i class="fas fa-clipboard fa-fw mr-2"></i> Modul UKTT</span
+        >
+      </template>
+      <b-dropdown-item to="/administrator/uktt"
+        >Data Soal UKTT</b-dropdown-item
+      >
+      <b-dropdown-item to="/administrator/uktt/product"
+        >Data Produk UKTT</b-dropdown-item
       >
     </b-nav-item-dropdown>
     <b-nav-item-dropdown text="Modul MBTI" right>
