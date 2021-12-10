@@ -513,9 +513,6 @@ export default {
                   value: item.id
                 };
               });
-              if (this.dataMaster.level[0]) {
-                this.form.uktt_id_level = this.dataMaster.level[0].value;
-              }
             } else {
               this.dataMaster[type] = res.data.data;
             }
