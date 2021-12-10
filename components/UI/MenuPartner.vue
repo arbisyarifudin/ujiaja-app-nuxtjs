@@ -34,7 +34,7 @@
       >
     </li> -->
     <li class="nav-item">
-      <nuxt-link class="nav-link d-flex align-items-center" to="/app/courses"
+      <nuxt-link class="nav-link d-flex align-items-center" to="/app/partner/uktt"
         ><i class="far fa-edit fa-2x fa-fw mr-2"></i> Ujian UKTT</nuxt-link
       >
     </li>
