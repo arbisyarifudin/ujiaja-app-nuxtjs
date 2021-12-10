@@ -21,8 +21,8 @@
                 <i class="fa-fw fas fa-check"></i>
                 {{
                   dataDetail.is_task_start
-                    ? "Sudah Terdaftar"
-                    : "Belum Terdaftar"
+                    ? "Sudah Mengikuti Ujian"
+                    : "Belum Ikut Ujian"
                 }}
               </p>
             </div>
@@ -75,13 +75,20 @@
         </div>
       </div>
 
-      <button
+      <!-- <button
           class="btn btn-primary dashboard mb-4"
           @click.prevent="startTest(false)"
         >
           <i class="far fa-edit mr-1"></i> Kerjakan Tryout
-        </button>
-      <div v-if="!dataDetail.is_task_done && dataDetail.produk.prasyarat && dataDetail.produk.prasyarat.level_tentor_terpenuhi && dataDetail.produk.prasyarat.uktt_sebelumnya_lulus">
+        </button> -->
+      <div
+        v-if="
+          !dataDetail.is_task_done &&
+            dataDetail.produk.prasyarat &&
+            dataDetail.produk.prasyarat.level_tentor_terpenuhi &&
+            dataDetail.produk.prasyarat.uktt_sebelumnya_lulus
+        "
+      >
         <button
           v-if="!dataDetail.is_task_start"
           class="btn btn-primary dashboard mb-4"
@@ -98,12 +105,19 @@
         </button>
       </div>
       <button
-          v-else
-          class="btn btn-primary dashboard mb-4"
-          :disabled="true"
-        >
-          <i class="far fa-edit mr-1"></i> Kerjakan Tryout
-        </button>
+        v-else-if="!dataDetail.is_task_done"
+        class="btn btn-primary dashboard mb-4"
+        :disabled="true"
+      >
+        <i class="far fa-edit mr-1"></i> Kerjakan Tryout
+      </button>
+
+      <button
+        v-if="dataDetail.is_task_done"
+        class="btn btn-primary dashboard mb-4 ml-2"
+      >
+        <i class="fas fa-award mr-1"></i> Lihat Hasil
+      </button>
 
       <div class="row mt-3">
         <div class="col-md-12">
