@@ -128,13 +128,34 @@
         ><i class="fas fa-boxes fa-fw mr-2"></i> Kelas Kursus</nuxt-link
       >
     </li>
-    <li class="nav-item">
+    <!-- <li class="nav-item">
       <nuxt-link
         class="nav-link d-flex align-items-center"
         to="/administrator/payment"
         ><i class="fas fa-id-badge fa-fw mr-2"></i> Transaksi</nuxt-link
       >
-    </li>
+    </li> -->
+    <b-nav-item-dropdown text="Transaksi" right>
+      <template #button-content>
+        <span
+          class="nav-link mb-0 p-0"
+          :class="[
+            $route.path.includes('payment') ||
+            $route.path.includes('withdrawal')
+              ? 'nuxt-link-active'
+              : ''
+          ]"
+        >
+          <i class="fas fa-id-badge fa-fw mr-2"></i> Transaksi</span
+        >
+      </template>
+      <b-dropdown-item to="/administrator/payment"
+        >Pembayaran</b-dropdown-item
+      >
+      <b-dropdown-item to="/administrator/withdrawal"
+        >Penarikan</b-dropdown-item
+      >
+    </b-nav-item-dropdown>
     <b-nav-item-dropdown text="Pengguna" right>
       <template #button-content>
         <span

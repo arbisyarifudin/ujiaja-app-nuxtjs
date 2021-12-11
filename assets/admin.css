@@ -46,6 +46,10 @@ h6 {
   color: #9e8df3;
 }
 
+.border-dashed {
+  border: 1px dashed #afafaf;
+}
+
 input,
 .form-control {
   opacity: 1;
