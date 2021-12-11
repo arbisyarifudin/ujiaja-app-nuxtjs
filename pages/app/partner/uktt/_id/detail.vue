@@ -79,7 +79,7 @@
           class="btn btn-primary dashboard mb-4"
           @click.prevent="startTest(false)"
         >
-          <i class="far fa-edit mr-1"></i> Kerjakan Tryout
+          <i class="far fa-edit mr-1"></i> Kerjakan Ujian
         </button> -->
       <div
         v-if="
@@ -94,7 +94,7 @@
           class="btn btn-primary dashboard mb-4"
           @click.prevent="startTest(false)"
         >
-          <i class="far fa-edit mr-1"></i> Kerjakan Tryout
+          <i class="far fa-edit mr-1"></i> Kerjakan Ujian
         </button>
         <button
           v-if="dataDetail.is_task_start"
@@ -109,7 +109,7 @@
         class="btn btn-primary dashboard mb-4"
         :disabled="true"
       >
-        <i class="far fa-edit mr-1"></i> Kerjakan Tryout
+        <i class="far fa-edit mr-1"></i> Kerjakan Ujian
       </button>
 
       <button
@@ -256,7 +256,7 @@
                 class="btn btn-primary dashboard"
                 @click.prevent="confirmStartTest"
               >
-                <i class="far fa-edit mr-1"></i> Kerjakan Tryout
+                <i class="far fa-edit mr-1"></i> Kerjakan Ujian
               </button>
             </div> -->
           </div>

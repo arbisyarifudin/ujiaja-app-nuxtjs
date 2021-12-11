@@ -47,7 +47,7 @@
                   >
                     {{ item.nama_produk }}
                   </h3>
-                  <div class="d-flex justify-content-between">
+                  <div class="d-flex justify-content-between mt-1">
                     <p>{{
                         item.mapel && item.mapel[0]
                           ? item.mapel[0]
