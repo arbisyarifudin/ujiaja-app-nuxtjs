@@ -22,9 +22,7 @@
               />
             </div>
             <div class="form-group reg-siswa">
-              <label for="deskripsi_uktt"
-                >Deskripsi <code>*</code></label
-              >
+              <label for="deskripsi_uktt">Deskripsi <code>*</code></label>
               <input
                 type="text"
                 class="form-control"
@@ -50,7 +48,7 @@
                   </b-form-select>
                 </div>
               </div>
-               <div class="col-md-6">
+              <div class="col-md-6">
                 <div class="form-group reg-siswa">
                   <label for="mapel">Mata Pelajaran <code>*</code></label>
                   <b-form-select
@@ -65,6 +63,34 @@
                   </b-form-select>
                 </div>
               </div>
+            </div>
+            <div class="row">
+              <div class="col form-group reg-siswa">
+                <label for="alokasi_waktu"
+                  >Alokasi Waktu Pengerjaan (Menit) <code>*</code></label
+                >
+                <input
+                  type="number"
+                  class="form-control"
+                  id="alokasi_waktu"
+                  name="alokasi_waktu"
+                  placeholder="Misal: 60"
+                  v-model="form.alokasi_waktu"
+                />
+              </div>
+              <!-- <div class="col form-group reg-siswa">
+                <label for="jeda_waktu"
+                  >Jeda Waktu Antar Mata Pelajaran (Menit) <code>*</code></label
+                >
+                <input
+                  type="number"
+                  class="form-control"
+                  id="jeda_waktu"
+                  name="jeda_waktu"
+                  placeholder="Misal: 5"
+                  v-model="form.jeda_waktu"
+                />
+              </div> -->
             </div>
           </div>
         </div>
@@ -93,7 +119,7 @@ export default {
       loading: false,
       dataMaster: {
         jenjang: [],
-        mapel: [],
+        mapel: []
       },
       form: {
         judul: "",
@@ -101,7 +127,8 @@ export default {
         id_jenjang: 1,
         id_mapel: null,
         panduan_pengerjaan: null,
-        kategori: 'UKTT'
+        kategori: "UKTT",
+        alokasi_waktu: 0
       }
     };
   },
@@ -112,7 +139,13 @@ export default {
   methods: {
     validateForm() {
       // console.log(this.form);
-      if (!this.form.judul || !this.form.deskripsi || !this.form.id_jenjang || !this.form.id_mapel) {
+      if (
+        !this.form.judul ||
+        !this.form.deskripsi ||
+        !this.form.id_jenjang ||
+        !this.form.alokasi_waktu ||
+        !this.form.id_mapel
+      ) {
         this.$bvToast.toast("Mohon lengkapi form dengan benar!", {
           title: "Peringatan",
           variant: "warning",
@@ -129,7 +162,7 @@ export default {
       this.$axios
         .$post(`/api/${type}/create`, this.form)
         .then(res => {
-          console.log("UKTT berhasil ditambah!!!", res);
+          console.log("UKTT berhasil ditambah!", res);
           if (res.success) {
             return {
               success: true,
@@ -143,26 +176,23 @@ export default {
           if (res.success) {
             console.log("res.data", res.data);
             let dataSoal = [
-                {
-                  id_tryout: res.data.id,
-                  id_mapel: this.form.id_mapel
-                }
-              ];
+              {
+                id_tryout: res.data.id,
+                id_mapel: this.form.id_mapel
+              }
+            ];
 
             this.$axios
               .$post(`/api/${res.next}/create/multiple`, dataSoal)
               .then(res => {
                 console.log(res);
                 if (res.success) {
-                  this.$root.$bvToast.toast(
-                    "Data UKTT berhasil ditambah.",
-                    {
-                      title: "Sukses",
-                      variant: "success",
-                      solid: true,
-                      autoHideDelay: 3000
-                    }
-                  );
+                  this.$root.$bvToast.toast("Data UKTT berhasil ditambah.", {
+                    title: "Sukses",
+                    variant: "success",
+                    solid: true,
+                    autoHideDelay: 3000
+                  });
                   this.$router.replace(
                     `/administrator/uktt/${dataSoal[0].id_tryout}/soal/create`
                   );
@@ -195,7 +225,7 @@ export default {
         .then(res => {
           console.log(res);
           if (res.success) {
-             this.dataMaster[type] = res.data.data;
+            this.dataMaster[type] = res.data.data;
           }
           return true;
         })

@@ -4,8 +4,7 @@
       <div class="row d-flex no-gutters">
         <div class="col-md-12 dashboard">
           <h2 class="dash-label">
-            <b-spinner type="grow" class="mr-2" v-if="loading" /> Ubah Data
-            UKTT
+            <b-spinner type="grow" class="mr-2" v-if="loading" /> Ubah Data UKTT
           </h2>
         </div>
         <div class="col-md-12 crud-body">
@@ -47,6 +46,34 @@
                 </div>
               </div>
             </div>
+            <div class="row">
+              <div class="col form-group reg-siswa">
+                <label for="alokasi_waktu"
+                  >Alokasi Waktu Pengerjaan (Menit) <code>*</code></label
+                >
+                <input
+                  type="number"
+                  class="form-control"
+                  id="alokasi_waktu"
+                  name="alokasi_waktu"
+                  placeholder="Misal: 60"
+                  v-model="form.alokasi_waktu"
+                />
+              </div>
+              <!-- <div class="col form-group reg-siswa">
+                <label for="jeda_waktu"
+                  >Jeda Waktu Antar Mata Pelajaran (Menit) <code>*</code></label
+                >
+                <input
+                  type="number"
+                  class="form-control"
+                  id="jeda_waktu"
+                  name="jeda_waktu"
+                  placeholder="Misal: 5"
+                  v-model="form.jeda_waktu"
+                />
+              </div> -->
+            </div>
           </div>
         </div>
         <div class="crud-footer d-flex justify-content-end mt-4">
@@ -73,22 +100,22 @@ export default {
     return {
       loading: false,
       dataMaster: {
-        jenjang: [],
+        jenjang: []
       },
       form: {
         judul: "",
         deskripsi: "",
         id_jenjang: 1,
         panduan_pengerjaan: null,
-        kategori: 'UKTT'
+        kategori: "UKTT",
+        alokasi_waktu: 0
       },
       dataDetail: {}
     };
   },
   mounted() {
     this.getData("jenjang");
-    if (!this.$route.params.id)
-      return this.$router.push("/administrator/uktt");
+    if (!this.$route.params.id) return this.$router.push("/administrator/uktt");
     this.getDetail("tryout", this.$route.params.id);
   },
   methods: {
@@ -97,7 +124,8 @@ export default {
       if (
         !this.form.judul ||
         !this.form.deskripsi ||
-        !this.form.id_jenjang
+        !this.form.id_jenjang ||
+        !this.form.alokasi_waktu
       ) {
         this.$bvToast.toast("Mohon lengkapi form dengan benar!", {
           title: "Peringatan",
@@ -116,15 +144,12 @@ export default {
         .then(res => {
           console.log(res);
           if (res.success) {
-            this.$root.$bvToast.toast(
-              "Data UKTT berhasil diperbarui.",
-              {
-                title: "Sukses",
-                variant: "success",
-                solid: true,
-                autoHideDelay: 3000
-              }
-            );
+            this.$root.$bvToast.toast("Data UKTT berhasil diperbarui.", {
+              title: "Sukses",
+              variant: "success",
+              solid: true,
+              autoHideDelay: 3000
+            });
             this.$router.replace("/administrator/uktt");
           }
           false;
@@ -148,7 +173,7 @@ export default {
         .then(res => {
           console.log(res);
           if (res.success) {
-             this.dataMaster[type] = res.data.data;
+            this.dataMaster[type] = res.data.data;
           }
           return true;
         })
