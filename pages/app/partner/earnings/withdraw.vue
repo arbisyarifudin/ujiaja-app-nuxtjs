@@ -21,86 +21,106 @@
         </div>
       </div>
     </b-card>
-    <b-card class="mb-4">
-      <div class="row">
-        <div class="col-md-7">
-          <h4>Input Jumlah Penarikan</h4>
-        </div>
-        <div class="col-md-5">
-          <div class="text-info small mb-1">
-            Minimal penarikan: Rp. {{ formatRupiah(minNominalPenarikan) }}
+    <form method="POST" @submit="submitRequest">
+      <b-card class="mb-4">
+        <div class="row">
+          <div class="col-md-7">
+            <h4>Input Jumlah Penarikan</h4>
           </div>
-          <b-input-group prepend="Rp">
-            <money
-              v-model="nominalPenarikan"
-              v-bind="money"
-              class="form-control text-right"
-            ></money>
-            <!-- <b-input type="text" v-model.lazy="nominalPenarikan" v-money="money" class="text-right"/> -->
-          </b-input-group>
-          <div v-html="showError('nominalPenarikan')" class="text-danger"></div>
+          <div class="col-md-5">
+            <div class="text-info small mb-1">
+              Minimal penarikan: Rp. {{ formatRupiah(minNominalPenarikan) }}
+            </div>
+            <b-input-group prepend="Rp">
+              <money
+                v-model="nominalPenarikan"
+                v-bind="money"
+                class="form-control text-right"
+              ></money>
+              <!-- <b-input type="text" v-model.lazy="nominalPenarikan" v-money="money" class="text-right"/> -->
+            </b-input-group>
+            <div
+              v-html="showError('nominalPenarikan')"
+              class="text-danger"
+            ></div>
+          </div>
         </div>
-      </div>
-    </b-card>
-    <b-card class="mb-4">
-      <div class="row">
-        <div class="col-md-12">
-          <h4>Rekening Pencairan</h4>
-        </div>
-        <div class="col-md-4">
-          <b-input
-            class="small py-3"
-            v-model="namaRekening"
-            placeholder="Masukkan nama pemilik rekening"
-            name="nama_rekening"
-          />
-        </div>
-        <div class="col-md-4">
-          <!-- <b-input
+      </b-card>
+      <b-card class="mb-4">
+        <div class="row">
+          <div class="col-md-12">
+            <h4>Rekening Pencairan</h4>
+          </div>
+          <div class="col-md-4">
+            <b-input
+              class="small py-3"
+              v-model="namaRekening"
+              placeholder="Masukkan nama pemilik rekening"
+              name="nama_rekening"
+            />
+          </div>
+          <div class="col-md-4">
+            <!-- <b-input
             class="small py-3"
             v-model="bankRekening"
             placeholder="Masukkan nama bank"
           /> -->
-          <b-select :options="bankListOption" v-model="bankRekening" name="bank_rekening"></b-select>
-        </div>
-        <div class="col-md-4">
-          <b-input
-            class="small py-3"
-            v-model="nomorRekening"
-            placeholder="Masukkan nomor rekening"
-            name="nomor_rekening"
-          />
-        </div>
-      </div>
-      <div v-html="showError('rekening')" class="text-danger mt-2"></div>
-    </b-card>
-    <div class="row justify-content-end align-items-center">
-      <div class="col-md-7">
-        <div class="row align-items-center justify-content-end">
-          <div class="col-md-5">
-            <b-input-group>
-              <template #prepend>
-                <b-input-group-text class="text-secondary"><i class="fas fa-lock"></i></b-input-group-text>
-              </template>
-              <b-input type="password" v-model="password" class="small py-3" placeholder="Masukkan password Anda"/>
-            </b-input-group>
-            <div v-html="showError('password')" class="text-danger mt-2"></div>
+            <b-select
+              :options="bankListOption"
+              v-model="bankRekening"
+              name="bank_rekening"
+            ></b-select>
           </div>
-          <div class="col-md-7">
-            <b-button
-              variant="primary"
-              class="square"
-              :disabled="loading || submitting || !isValidNominal"
-              @click.prevent="submitRequest"
-            >
-              <b-spinner small v-if="submitting"></b-spinner>
-              <i class="fas fa-paper-plane mr-1" v-else></i>
-              Kirim Permintaan Penarikan</b-button
-            >
+          <div class="col-md-4">
+            <b-input
+              class="small py-3"
+              v-model="nomorRekening"
+              placeholder="Masukkan nomor rekening"
+              name="nomor_rekening"
+            />
           </div>
         </div>
+        <div v-html="showError('rekening')" class="text-danger mt-2"></div>
+      </b-card>
+      <div class="row justify-content-end align-items-center">
+        <div class="col-md-7">
+          <div class="row align-items-center justify-content-end">
+            <div class="col-md-5">
+              <b-input-group>
+                <template #prepend>
+                  <b-input-group-text class="text-secondary"
+                    ><i class="fas fa-lock"></i
+                  ></b-input-group-text>
+                </template>
+                <b-input
+                  type="password"
+                  v-model="password"
+                  class="small py-3"
+                  placeholder="Masukkan password Anda"
+                />
+              </b-input-group>
+              <div
+                v-html="showError('password')"
+                class="text-danger mt-2"
+              ></div>
+            </div>
+            <div class="col-md-7">
+              <b-button
+                variant="primary"
+                type="submit"
+                class="square"
+                :disabled="loading || submitting || !isValidNominal"
+                @click.prevent="submitRequest"
+              >
+                <b-spinner small v-if="submitting"></b-spinner>
+                <i class="fas fa-paper-plane mr-1" v-else></i>
+                Kirim Permintaan Penarikan</b-button
+              >
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
+    </form>
 
     <div class="row mt-4">
       <div class="col-12">
@@ -115,6 +135,7 @@
                 <thead class="thead-light">
                   <tr>
                     <th>Tanggal</th>
+                    <th>Kode</th>
                     <th>Bank</th>
                     <th>Nominal</th>
                     <th style="width: 100px;">Status</th>
@@ -126,13 +147,16 @@
                     :key="'k' + index"
                   >
                     <td width="200">
-                      {{
-                        formatTanggal(item.created_at, "Do MMMM YYYY HH:mm")
-                      }}
+                      {{ formatTanggal(item.created_at, "Do MMMM YYYY HH:mm") }}
                       WIB
                     </td>
+                     <td>
+                      {{ item.kode }}
+                    </td>
                     <td>
-                      {{ item.bank_rekening }}
+                      <span>{{ item.nama_rekening }} <br>
+                      {{ item.bank_rekening }} - No. {{ item.nomor_rekening }}</span>
+                      <b-button v-if="item.status_penarikan == 'Selesai'" @click="selectedData = item; $bvModal.show('modal-image')" variant="primary" size="sm" class="ml-2 px-1 py-0"><i class="fas fa-fw fa-search"></i></b-button>
                     </td>
                     <td>
                       <div class="d-flex justify-content-between">
@@ -173,6 +197,15 @@
         </div>
       </div>
     </div>
+    <b-modal id="modal-image" title="Bukti Pencairan Dana" hide-footer>
+      <div v-if="selectedData.bukti_transfer">
+        <!-- <h6>Penarikan #{{selectedData.kode}}</h6> -->
+        <!-- <hr> -->
+        <img :src="ApiUrl(selectedData.bukti_transfer)" alt="bukti transfer dana" class="img-fluid" style="width: 100%">
+        <hr>
+        <b-button variant="outline-primary" size="sm" @click="$bvModal.hide('modal-image')">Tutup</b-button>
+      </div>
+    </b-modal>
   </b-card>
 </template>
 
@@ -230,10 +263,12 @@ export default {
       namaRekening: "",
       bankRekening: "BCA",
       nomorRekening: "",
-      password: '',
+      password: "",
       // error
       dataError: {},
-      isValidNominal: false
+      isValidNominal: false,
+      // detail
+      selectedData: {}
     };
   },
   created() {
@@ -288,7 +323,7 @@ export default {
       }
     }
   },
-  methods: { 
+  methods: {
     formatRupiah(nominal) {
       if (nominal) {
         nominal = parseFloat(nominal);
@@ -318,9 +353,7 @@ export default {
       }
       if (!this.password) {
         this.isValidNominal = false;
-        this.$set(this.dataError, "password", [
-          "Mohon masukkan password!"
-        ]);
+        this.$set(this.dataError, "password", ["Mohon masukkan password!"]);
       }
       if (this.nominalPenarikan < +this.minNominalPenarikan) {
         this.isValidNominal = false;
@@ -337,22 +370,25 @@ export default {
         nama_rekening: this.namaRekening,
         bank_rekening: this.bankRekening,
         nomor_rekening: this.nomorRekening,
-        password: this.password,
-      }
+        password: this.password
+      };
 
-      this.submitting = true
+      this.submitting = true;
       this.$axios
         .$post("/api/penarikan/tentor", dataSubmit)
         .then(response => {
           if (response.success) {
-            this.showToastMessage('Penarikan berhasil dikirimkan! Mohon tunggu verifikasi dari kami.', 'success');
+            this.showToastMessage(
+              "Penarikan berhasil dikirimkan! Mohon tunggu verifikasi dari kami.",
+              "success"
+            );
             this.nominalPenarikan = 0;
-            this.namaRekening = '';
-            this.bankRekening = '';
-            this.nomorRekening = '';
-            this.password = '';
-            this.getPendapatanTotal()
-            this.getPenarikanList()
+            this.namaRekening = "";
+            this.bankRekening = "";
+            this.nomorRekening = "";
+            this.password = "";
+            this.getPendapatanTotal();
+            this.getPenarikanList();
           }
         })
         .catch(error => {
@@ -360,14 +396,15 @@ export default {
           if (error.response && error.response.status == 422) {
             for (let key in error.response.data.messages) {
               // console.log(key, error.response.data);
-              this.$set(this.dataError, key, [error.response.data.messages[key]]);
+              this.$set(this.dataError, key, [
+                error.response.data.messages[key]
+              ]);
             }
           }
         })
         .finally(() => {
           this.submitting = false;
         });
-
     },
     getPendapatanTotal() {
       this.loading = true;
