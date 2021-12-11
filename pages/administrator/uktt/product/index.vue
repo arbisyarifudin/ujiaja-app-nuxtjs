@@ -96,9 +96,11 @@
                     </p>
                   </div>
                   <p style="font-size: 13px" class="mb-2">Hadiah:</p>
-                  <p class="mb-2">
-                      <i class="fas fa-award fa-fw"></i> Lv. {{item.level ? item.level.nama_level : '-'}}
-                    </p>
+                  <p class="mb-2" v-if="item.level">
+                    <i class="fas fa-award fa-fw"></i> Lv.
+                    <!-- {{ item.level ? item.level.nama_level : "-" }} -->
+                    {{getLevelName(item.level.id)}}
+                  </p>
                 </div>
                 <div
                   class="card-bawah pb-3 px-4 m-0 bordered"
@@ -155,6 +157,7 @@
 <script>
 export default {
   layout: "admin",
+  fetchOnServer: false,
   data() {
     return {
       loading: false,

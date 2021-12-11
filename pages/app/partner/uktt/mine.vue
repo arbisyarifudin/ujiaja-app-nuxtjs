@@ -107,9 +107,10 @@
                     </p>
                   </div>
                   <p style="font-size: 13px" class="mb-2">Hadiah:</p>
-                  <p class="mb-2">
+                  <p class="mb-2" v-if="item.level">
                     <i class="fas fa-award fa-fw"></i> Lv.
-                    {{ item.level ? item.level.nama_level : "-" }}
+                    <!-- {{ item.level ? item.level.nama_level : "-" }} -->
+                    {{getLevelName(item.level.id)}}
                   </p>
                 </div>
                 <div
@@ -172,6 +173,7 @@
 <script>
 export default {
   layout: "app",
+  fetchOnServer: false,
   data() {
     return {
       loading: false,

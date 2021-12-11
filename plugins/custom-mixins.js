@@ -129,6 +129,11 @@ Vue.mixin({
       }
       return "form-control";
     },
+    getLevelName(id) {
+      console.log(id)
+      const levels = ['BASE', 'SUPER', 'ELITE', 'MASTER', 'LEGEND'];
+      return levels[id-1];
+    },
     getSetting(key) {
       const settings = this.$store.state.dataSetting;
       const foundSetting = settings.find(item => item.key == key);
