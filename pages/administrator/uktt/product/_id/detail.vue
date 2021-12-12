@@ -128,7 +128,7 @@
             <div>
               <router-link
                 class="btn btn-primary py-1 square"
-                :to="`/administrator/tryout/${tryout.id}/soal/create`"
+                :to="`/administrator/uktt/${tryout.id}/soal/create`"
                 >Lihat Soal Tryout</router-link
               >
             </div>

@@ -47,7 +47,8 @@
         <div class="col-md-8">
           <div class="question-board bg-white p-4">
             <div class="left-section">
-              <h2 class="product-name">{{ tryout.judul }}</h2>
+              <!-- <h2 class="product-name">{{ tryout.judul }}</h2> -->
+              <h2 class="product-name">{{ detail.nama_produk }}</h2>
               <!-- <hr /> -->
               <div class="row no-gutters">
                 <table class="col-sm-6 table table-borderless table-sm mb-1">
