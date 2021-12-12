@@ -16,6 +16,7 @@
                         type="text"
                         class="form-control pl-0"
                         id="nama_lengkap"
+                        name="nama_lengkap"
                         placeholder="Nama Lengkap"
                         v-model="formSiswa.nama_lengkap"
                       />
@@ -26,6 +27,7 @@
                         type="text"
                         class="form-control pl-0"
                         id="tempat_lahir"
+                        name="tempat_lahir"
                         placeholder="Tempat Lahir"
                         v-model="formSiswa.tempat_lahir"
                       />
@@ -35,23 +37,26 @@
                       <input
                         type="text"
                         class="form-control pl-0"
+                        name="nomor_handphone"
                         id="nomor_handphone"
                         placeholder="No. Telp/WA"
                         v-model="formSiswa.nomor_telephone"
                       />
                     </div>
-                    <!-- <div class="form-group reg-siswa" v-if="akun.role_user == 'siswa'">
-                    <label for="penjurusan">Saya Belajar di Kelas</label>
-                    <b-form-select
-                      class="form-control"
-                      id="penjurusan"
-                      v-model="formSiswa.id_penjurusan"
-                      :options="dataOption['penjurusan']"
-                      value-field="id"
-                      text-field="textField"
+                    <div
+                      class="form-group reg-siswa"
+                      v-if="akun.role_user == 'siswa'"
                     >
-                    </b-form-select>
-                  </div> -->
+                      <label for="nama_sekolah">Nama Sekolah</label>
+                      <input
+                        type="text"
+                        class="form-control pl-0"
+                        id="nama_sekolah"
+                        name="nama_sekolah"
+                        placeholder="Tulis nama sekolah kamu sekarang"
+                        v-model="formSiswa.nama_sekolah"
+                      />
+                    </div>
                     <div
                       class="form-group reg-siswa"
                       v-if="akun.role_user == 'teacher'"
@@ -63,6 +68,7 @@
                         type="text"
                         class="form-control pl-0 pr-0"
                         id="pendidikan_terakhir"
+                        name="pendidikan_terakhir"
                         placeholder="Misal: S1 Teknik Informatika - UGM"
                         max="2020-01-01"
                         v-model="formSiswa.pendidikan_terakhir"
@@ -132,6 +138,94 @@
                     </div>
                   </b-col>
                 </b-row>
+                <hr />
+                <!-- <h4>Pilihan Program Studi</h4> -->
+                <b-row v-if="akun.role_user == 'siswa'">
+                  <b-col md="2">
+                    <label
+                      ><i class="fas fa-fw fa-graduation-cap"></i> Pilihan Prodi
+                      1</label
+                    >
+                  </b-col>
+                  <b-col md="5">
+                    <div class="form-group reg-siswa">
+                      <label for="id_program_studi">Program Studi</label>
+                      <b-form-select
+                        class="form-control"
+                        id="id_program_studi"
+                        v-model="id_program_studi"
+                        :options="dataOption['programStudi']"
+                        @change="
+                          optionProdiBindPerguruanDisabled = false;
+                          formSiswa.id_prodi_bind_perguruan = null;
+                          getProdiBindPerguruan(id_program_studi);
+                        "
+                        value-field="id"
+                        text-field="nama_studi"
+                      >
+                      </b-form-select>
+                    </div>
+                  </b-col>
+                  <b-col md="5">
+                    <div class="form-group reg-siswa">
+                      <label for="prodi_bind_perguruan">Perguruan Tinggi</label>
+                      <b-form-select
+                        class="form-control"
+                        id="prodi_bind_perguruan"
+                        v-model="formSiswa.id_prodi_bind_perguruan"
+                        :options="dataOptionProdiBindPerguruan"
+                        value-field="id"
+                        text-field="textField"
+                        :disabled="optionProdiBindPerguruanDisabled"
+                      >
+                      </b-form-select>
+                    </div>
+                  </b-col>
+                </b-row>
+                <b-row v-if="akun.role_user == 'siswa'">
+                  <b-col md="2">
+                    <label
+                      ><i class="fas fa-fw fa-graduation-cap"></i> Pilihan Prodi
+                      2</label
+                    >
+                  </b-col>
+                  <b-col md="5">
+                    <div class="form-group reg-siswa">
+                      <label for="id_program_studi_2">Program Studi</label>
+                      <b-form-select
+                        class="form-control"
+                        id="id_program_studi_2"
+                        v-model="id_program_studi_2"
+                        :options="dataOption['programStudi']"
+                        @change="
+                          optionProdiBindPerguruanDisabled_2 = false;
+                          formSiswa.id_prodi_bind_perguruan_2 = false;
+                          getProdiBindPerguruan(id_program_studi_2, 2);
+                        "
+                        value-field="id"
+                        text-field="nama_studi"
+                      >
+                      </b-form-select>
+                    </div>
+                  </b-col>
+                  <b-col md="5">
+                    <div class="form-group reg-siswa">
+                      <label for="prodi_bind_perguruan_2"
+                        >Perguruan Tinggi</label
+                      >
+                      <b-form-select
+                        class="form-control"
+                        id="prodi_bind_perguruan_2"
+                        v-model="formSiswa.id_prodi_bind_perguruan_2"
+                        :options="dataOptionProdiBindPerguruan_2"
+                        value-field="id"
+                        text-field="textField"
+                        :disabled="optionProdiBindPerguruanDisabled_2"
+                      >
+                      </b-form-select>
+                    </div>
+                  </b-col>
+                </b-row>
               </b-tab>
               <b-tab
                 title="Dokumen Pendukung"
@@ -139,15 +233,35 @@
               >
                 <b-row>
                   <b-col md="6">
-                    <div class="form-group reg-siswa" v-for="(doc, index) in userDocs" :key="'docIn'+index">
-                      <label :for="doc.doc_type">{{doc.doc_label}}</label>
-                      <input :disabled="doc.doc_type == 'Approved'" type="file" class="form-control pl-0" :id="doc.doc_type" :ref="doc.doc_type" :name="doc.doc_type" @change="handleUploadedFile(doc.doc_type)" />
+                    <div
+                      class="form-group reg-siswa"
+                      v-for="(doc, index) in userDocs"
+                      :key="'docIn' + index"
+                    >
+                      <label :for="doc.doc_type">{{ doc.doc_label }}</label>
+                      <input
+                        :disabled="doc.doc_type == 'Approved'"
+                        type="file"
+                        class="form-control pl-0"
+                        :id="doc.doc_type"
+                        :ref="doc.doc_type"
+                        :name="doc.doc_type"
+                        @change="handleUploadedFile(doc.doc_type)"
+                      />
                     </div>
                   </b-col>
                   <b-col md="6">
                     <b-row v-if="apiUrl && userDocs.length > 0">
-                      <b-col md="4" v-for="(doc, index) in userDocs" :key="'docIm'+index">
-                        <b-img fluid :id="doc.doc_type + '_preview'" :src="apiUrl(doc.doc_file)"></b-img>
+                      <b-col
+                        md="4"
+                        v-for="(doc, index) in userDocs"
+                        :key="'docIm' + index"
+                      >
+                        <b-img
+                          fluid
+                          :id="doc.doc_type + '_preview'"
+                          :src="apiUrl(doc.doc_file)"
+                        ></b-img>
                         <!-- <div class="text-center" v-if="doc.doc_file || (dataFiles[doc.doc_type] && dataFiles[doc.doc_type].file)">
                           Status Approval : 
                           <span :class="badgeStatus(doc.doc_status)" v-text="doc.doc_status"></span>
@@ -223,7 +337,10 @@
                 </b-row>
               </b-tab>
               <b-tab title="Akun">
-                <div class="mb-3 alert alert-danger"><i class="fas fa-exclamation fa-fw mr-1"></i> Kosongkan form jika tidak diubah.</div>
+                <div class="mb-3 alert alert-danger">
+                  <i class="fas fa-exclamation fa-fw mr-1"></i> Kosongkan form
+                  jika tidak diubah.
+                </div>
                 <div class="row">
                   <div class="col-md-6">
                     <div class="form-group reg-siswa">
@@ -392,74 +509,12 @@
       </no-ssr>
     </div>
 
-    <div
-      class="modal fade"
-      id="tambahakun"
-      tabindex="-1"
-      role="dialog"
-      aria-labelledby="exampleModalLongTitle"
-      aria-hidden="true"
+    <b-modal
+      id="modal-ortu"
+      title="Tambah Orang Tua"
+      hide-footer
+      @hidden="resetForm"
     >
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="text-right">
-            <button
-              type="button"
-              class="close mt-2 mr-2"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-
-          <div class="modal-body p-5">
-            <div class="text-center">
-              <h3 class="modal-title mt-1 mb-3" id="exampleModalLongTitle">
-                Masuka Alamat
-              </h3>
-            </div>
-            <div class="form-group reg-siswa">
-              <label for="select">Kecamatan/Kelurahan</label>
-              <select class="form-control pl-0" id="select">
-                <option selected="">Klik Untuk Isi Kecamatan/Kelurahan</option>
-                <option value="1">Kecamatan A</option>
-                <option value="2">Kecamatan B</option>
-                <option value="3">Kecamatan C</option>
-              </select>
-            </div>
-            <div class="form-group reg-siswa">
-              <label for="select">Kabupaten/Kota</label>
-              <select class="form-control pl-0" id="select">
-                <option selected="">Klik Untuk Isi Kabupaten/Kota</option>
-                <option value="1">Kota A</option>
-                <option value="2">Kota B</option>
-                <option value="3">Kota C</option>
-              </select>
-            </div>
-            <div class="form-group reg-siswa">
-              <label for="select">Provinsi</label>
-              <select class="form-control pl-0" id="select">
-                <option selected="">Klik Untuk Isi Provinsi</option>
-                <option value="1">Provinsi A</option>
-                <option value="2">Provinsi B</option>
-                <option value="3">Provinsi C</option>
-              </select>
-            </div>
-            <div
-              class="modal-footer justify-content-center"
-              style="border: 0px"
-            >
-              <button type="button" class="btn btn-outline-primary">
-                Simpan
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <b-modal id="modal-ortu" title="Tambah Orang Tua" hide-footer @hidden="resetForm">
       <div class="p-3">
         <!-- <div class="text-center">
           <h3 class="modal-title mt-1 mb-3" id="exampleModalLongTitle">
@@ -581,13 +636,23 @@ export default {
         jenis_kelamin: "",
         alamat: "",
         id_provinsi: null,
+        nama_provinsi: "",
         id_kota: null,
+        nama_kota: "",
         id_kecamatan: null,
+        nama_kecamatan: "",
         id_penjurusan: null,
+        nama_penjurusan: "",
+        id_prodi_bind_perguruan: "",
+        id_prodi_bind_perguruan_2: "",
         password: "",
         repassword: "",
-        pendidikan_terakhir: ""
+        pendidikan_terakhir: "", // tentor
+        nama_sekolah: "" // siswa
       },
+      provinsi: {},
+      kota: {},
+      kecamatan: {},
       formOrtu: {
         nama_lengkap: "",
         username: "",
@@ -607,8 +672,15 @@ export default {
         penjurusan: [],
         provinsi: [],
         kota_kabupaten: [],
-        kecamatan: []
+        kecamatan: [],
+        programStudi: []
       },
+      id_program_studi: null,
+      id_program_studi_2: null,
+      dataOptionProdiBindPerguruan: [],
+      dataOptionProdiBindPerguruan_2: [],
+      optionProdiBindPerguruanDisabled: true,
+      optionProdiBindPerguruanDisabled_2: true,
       isValidForm: {
         username: null,
         password: null,
@@ -618,7 +690,7 @@ export default {
       dataError: [],
       files: [],
       userDocs: [],
-      dataFiles: {},
+      dataFiles: {}
     };
   },
   watch: {
@@ -723,7 +795,7 @@ export default {
         this.$set(this.dataError, "repassword", [""]);
         this.isValidForm["repassword"] = true;
       }
-    },
+    }
   },
   computed: {
     akun() {
@@ -751,12 +823,27 @@ export default {
       alamat: this.profil.alamat ?? this.profil.alamat_lengkap,
       nomor_telephone: this.profil.nomor_telephone,
       id_provinsi: this.profil.id_provinsi,
+      nama_provinsi: this.profil.nama_provinsi,
       id_kota: this.profil.id_kota,
+      nama_kota: this.profil.nama_kota,
       id_kecamatan: this.profil.id_kecamatan,
+      nama_kecamatan: this.profil.nama_kecamatan,
       id_penjurusan: this.profil.id_penjurusan,
+      nama_penjurusan: this.profil.nama_penjurusan,
+      nama_sekolah: this.profil.nama_sekolah,
+      id_prodi_bind_perguruan: this.profil.id_prodi_bind_perguruan,
+      id_prodi_bind_perguruan_2: this.profil.id_prodi_bind_perguruan_2,
       password: "",
       repassword: ""
     };
+
+    if(!this.profil.id_prodi_bind_perguruan) {
+      this.optionProdiBindPerguruanDisabled = false
+    }
+    if(!this.profil.id_prodi_bind_perguruan_2) {
+      this.optionProdiBindPerguruanDisabled_2 = false
+    }
+
     if (this.profil && this.profil.parent) {
       this.formOrtu = {
         nama_lengkap: this.profil.parent.nama_lengkap,
@@ -766,29 +853,29 @@ export default {
         nomor_telephone: this.profil.parent.nomor_telephone
       };
     }
-    if(this.profil && this.profil.user_doc && this.profil.user_doc.length) {
-      this.userDocs = this.profil.user_doc
+    if (this.profil && this.profil.user_doc && this.profil.user_doc.length) {
+      this.userDocs = this.profil.user_doc;
     } else {
       this.userDocs = [
         {
-          doc_label: 'KTP/Passport/SIM',
-          doc_type: 'idcard',
+          doc_label: "KTP/Passport/SIM",
+          doc_type: "idcard",
           doc_file: null,
-          doc_status: 'Pending',
+          doc_status: "Pending"
         },
         {
-          doc_label: 'NPWP',
-          doc_type: 'npwp',
+          doc_label: "NPWP",
+          doc_type: "npwp",
           doc_file: null,
-          doc_status: 'Pending',
+          doc_status: "Pending"
         },
         {
-          doc_label: 'Ijazah Terakhir',
-          doc_type: 'ijazah',
+          doc_label: "Ijazah Terakhir",
+          doc_type: "ijazah",
           doc_file: null,
-          doc_status: 'Pending',
+          doc_status: "Pending"
         }
-      ]
+      ];
     }
     // this.getMaster("penjurusan");
     if (this.$cookiz.get("provinsi")) {
@@ -800,6 +887,9 @@ export default {
     } else {
       this.getAPI("provinsi");
     }
+    this.getMaster("programStudi");
+    this.getProdiBindPerguruan("");
+    this.getProdiBindPerguruan("", 2);
   },
   methods: {
     apiUrl(param) {
@@ -884,6 +974,8 @@ export default {
             });
           } else if (type == "kelas") {
             //
+          } else {
+            this.dataOption[type] = res.data.data;
           }
         })
         .catch(err => {
@@ -923,12 +1015,94 @@ export default {
         })
         .finally(() => (this.loading = false));
     },
-    onSubmit() {
+    getProdiBindPerguruan(id_program_studi, nomor = 1) {
 
-      if(this.formSiswa.password && !this.formSiswa.repassword) {
-        return this.showToastMessage('Mohon ulangi password untuk konfirmasi dari kesalahan pengetikan!');
-      } else if(this.formSiswa.password !== this.formSiswa.repassword) {
-        return this.showToastMessage('Password tidak sama!');
+      this.loading = true;
+      this.$axios.defaults.headers.Authorization =
+        "Bearer " + this.$cookiz.get("_ujiaja");
+      this.$axios.defaults.withCredentials = true;
+      this.$axios
+        .$get(`/api/tranStudiPerguruan`, {
+          params: { id_program_studi }
+        })
+        .then(res => {
+          console.log(res);
+          if (res.success) {
+            if (nomor == 2) {
+              this.dataOptionProdiBindPerguruan_2 = res.data.data.map(item => {
+                let textField = item.perguruan.nama_perguruan;
+                textField += " - " + item.program_studi.nama_studi;
+                textField += " (" + item.akreditasi_program_studi + ")";
+                textField += " - PG: " + item.passing_grade_prodi;
+                return {
+                  id: item.id,
+                  textField
+                };
+              });
+              if (
+                !this.id_program_studi_2 &&
+                this.formSiswa.id_prodi_bind_perguruan_2
+              ) {
+                const found = res.data.data.find(
+                  item => item.id == this.formSiswa.id_prodi_bind_perguruan_2
+                );
+                if (found) {
+                  this.id_program_studi_2 = found.id_program_studi;
+                }
+              }
+            } else {
+              this.dataOptionProdiBindPerguruan = res.data.data.map(item => {
+                let textField = item.perguruan.nama_perguruan;
+                textField += " - " + item.program_studi.nama_studi;
+                textField += " (" + item.akreditasi_program_studi + ")";
+                textField += " - PG: " + item.passing_grade_prodi;
+                return {
+                  id: item.id,
+                  textField
+                };
+              });
+              if (
+                !this.id_program_studi &&
+                this.formSiswa.id_prodi_bind_perguruan
+              ) {
+                const found = res.data.data.find(
+                  item => item.id == this.formSiswa.id_prodi_bind_perguruan
+                );
+                if (found) {
+                  this.id_program_studi = found.id_program_studi;
+                }
+              }
+            }
+          }
+        })
+        .catch(err => {
+          console.log(err);
+          this.catchError(err);
+        })
+        .finally(() => (this.loading = false));
+    },
+    onSubmit() {
+      // console.log(this.formSiswa.id_prodi_bind_perguruan)
+      // console.log(this.formSiswa.id_prodi_bind_perguruan_2)
+      // console.log(this.optionProdiBindPerguruanDisabled)
+      // console.log(this.optionProdiBindPerguruanDisabled_2)
+      if (
+        (!this.optionProdiBindPerguruanDisabled && !this.formSiswa.id_prodi_bind_perguruan) ||
+        (!this.formSiswa.optionProdiBindPerguruanDisabled_2 &&
+          !this.formSiswa.id_prodi_bind_perguruan_2)
+      ) {
+        return this.showToastMessage(
+          "Program Studi wajib dipilih terlebih dahulu!",
+          "warning"
+        );
+      }
+
+      if (this.formSiswa.password && !this.formSiswa.repassword) {
+        return this.showToastMessage(
+          "Mohon ulangi password untuk konfirmasi dari kesalahan pengetikan!"
+        );
+      } else if (this.formSiswa.password !== this.formSiswa.repassword) {
+        return this.showToastMessage("Password tidak sama!");
       }
 
       if (Object.values(this.isValidForm).includes(false)) {
@@ -938,32 +1112,56 @@ export default {
           solid: true,
           autoHideDelay: 3000
         });
-        return this.showToastMessage('Mohon lengkapi formulir yang belum valid!'); 
+        return this.showToastMessage(
+          "Mohon lengkapi formulir yang belum valid!"
+        );
       }
 
       let dataSave = {
         ...this.formSiswa
       };
 
+      const findNamaProvinsi = this.dataOption["provinsi"].find(
+        item => item.id == this.formSiswa.id_provinsi
+      );
+      if (findNamaProvinsi) {
+        this.formSiswa.nama_provinsi = findNamaProvinsi.nama;
+      }
+      const findNamaKota = this.dataOption["kota_kabupaten"].find(
+        item => item.id == this.formSiswa.id_kota
+      );
+      if (findNamaKota) {
+        this.formSiswa.nama_kota = findNamaKota.nama;
+      }
+      const findNamaKecamatan = this.dataOption["kecamatan"].find(
+        item => item.id == this.formSiswa.id_kecamatan
+      );
+      if (findNamaKecamatan) {
+        this.formSiswa.nama_kecamatan = findNamaKecamatan
+          ? findNamaKecamatan.nama
+          : "";
+      }
+
+      // return;
+
       if (this.dataFiles["fotoprofil"] && this.dataFiles["fotoprofil"].file) {
         dataSave.foto = this.dataFiles["fotoprofil"].file;
       }
 
-      if(this.akun.role_user == 'teacher') {
-
+      if (this.akun.role_user == "teacher") {
         let userDocs = [];
-     
+
         for (let i = 0; i < this.userDocs.length; i++) {
           const doc = this.userDocs[i];
-          if(this.dataFiles[doc.doc_type]) {
+          if (this.dataFiles[doc.doc_type]) {
             userDocs.push({
               ...doc,
               doc_type: this.dataFiles[doc.doc_type].type,
-              doc_file: this.dataFiles[doc.doc_type].file,
-            })
+              doc_file: this.dataFiles[doc.doc_type].file
+            });
           }
         }
-        
+
         dataSave.user_docs = userDocs;
       }
 
@@ -993,18 +1191,17 @@ export default {
             //     this.$router.app.refresh();
             //   }
             // );
-            if(this.isProfilLengkap === false) {
+            if (this.isProfilLengkap === false) {
               this.$axios
                 .$get(`/api/users/${this.akun.role_user}/cek`)
                 .then(res => {
                   console.log(res);
-                  this.$store.commit('set', ['isProfilLengkap', res.success]);
+                  this.$store.commit("set", ["isProfilLengkap", res.success]);
                 })
                 .catch(err => {
                   console.log(err);
-                })  
+                });
             }
-            
           } else {
             this.$bvToast.toast("Permintaan gagal!", {
               title: "Error",
@@ -1081,20 +1278,23 @@ export default {
     badgeStatus(status) {
       let badgeClass;
       switch (status) {
-        case 'Approved':
-          badgeClass = 'badge badge-success'
+        case "Approved":
+          badgeClass = "badge badge-success";
           break;
-        case 'Approved':
-          badgeClass = 'badge badge-success'
+        case "Approved":
+          badgeClass = "badge badge-success";
           break;
         default:
-          badgeClass = 'badge badge-secondary'
+          badgeClass = "badge badge-secondary";
           break;
       }
-      return badgeClass
+      return badgeClass;
     },
     handleUploadedFile(param) {
-      this.files[param] = this.$refs[param] && this.$refs[param].files ? this.$refs[param].files[0] : this.$refs[param][0].files[0];
+      this.files[param] =
+        this.$refs[param] && this.$refs[param].files
+          ? this.$refs[param].files[0]
+          : this.$refs[param][0].files[0];
       console.log(this.files[param]);
       // this.$refs[param].closest(
       //   ".custom-file"
