@@ -142,6 +142,18 @@ Vue.mixin({
       }
       return '';
     },
+    getNotif() {
+      this.$axios
+        .$get("/api/notification", {
+          params: {}
+        })
+        .then(response => {
+          if (response.success) {
+            this.$store.commit("set", ["notifData", response.data.data]);
+            this.$store.commit("set", ["notifTotal", response.data.total]);
+          }
+        });
+    },
     appLogout() {
       const role =
         this.$store.state.dataUser &&

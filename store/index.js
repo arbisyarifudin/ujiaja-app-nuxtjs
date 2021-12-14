@@ -9,7 +9,9 @@ export const state = () => ({
   dataError: {},
   breadcrumbs: [],
   isProfilLengkap: true,
-  dataSetting: []
+  dataSetting: [],
+  notifData: [],
+  notifTotal: 0
   // listNomorSoal: [],
   // currentNomor: {},
   // currentSoal: {}
@@ -98,6 +100,26 @@ export const actions = {
           await commit("set", ["dataSetting", response.data]);
         }
         return;
+      })
+      .then(() => {
+        app.$axios
+          .$get("api/notification", {
+            headers: {
+              Authorization: "Bearer " + app.$cookiz.get("_ujiaja")
+            }
+          })
+          .then(async response => {
+            // console.log('pengaturan', response.data)
+            if (response.success) {
+              await commit("set", ["notifData", response.data.data]);
+              await commit("set", ["notifTotal", response.data.total]);
+            }
+            return;
+          })
+          .catch(error => {
+            // console.log('pengaturan err',error.response)
+            return;
+          });
       })
       .catch(error => {
         // console.log('pengaturan err',error.response)

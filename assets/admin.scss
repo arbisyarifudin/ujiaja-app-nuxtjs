@@ -1407,6 +1407,54 @@ input.form {
     }
 }
 
+.notif {
+    &-dropdown {
+        max-width: 100%;
+        .dropdown-menu {
+            min-width: 300px;
+            max-width: 450px;
+        }
+        
+        .notif-total {
+            font-size: 11px;
+            border-radius: 50%;
+            width: 15px;
+            height: 15px;
+        }
+
+        &-item {
+            color: #9e8df3;
+            border-bottom: 1px solid #dbdbdb;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            &:active {
+                color: #fff;
+                border-color: transparent;
+                .notif-title {
+                    color: #fff;
+                }
+            }
+            .notif-title {
+                font-size: 13px;
+            }
+            .notif-body {
+                font-size: 12px;
+                min-width: 300px;
+                white-space: normal;
+            }
+            .notif-icon {
+                font-size: 20px;
+            }
+            &.opened {
+                color: #c5c5c5;
+                .notif-title {
+                    color: #c5c5c5;
+                }
+            }
+        }
+    }
+}
+
 /* CSS on MOBILE */
 /* HAPE */
 /* TABLET */

@@ -44,21 +44,17 @@
                 </li>
               </ul>
               <ul class="nav navbar-nav ml-auto align-items-center">
-                <b-nav-item-dropdown text="Notif" right no-caret>
-                  <template #button-content>
-                    <i class="fas fa-bell"></i>
-                  </template>
-                  <b-dropdown-item href="/produk/tryout">Notif</b-dropdown-item>
-                  <b-dropdown-item href="/produk/les-pribate"
-                    >Nofif 2</b-dropdown-item
-                  >
-                </b-nav-item-dropdown>
+                <UINotificationDropdown :user-role="user.role_user"/>
                 <b-nav-item-dropdown text="Profil" right no-caret>
                   <template #button-content>
                     <img src="/icon-user.png" class="img-fluid" width="24" />
                   </template>
                   <b-dropdown-item to="/app/profile">Profil</b-dropdown-item>
-                  <b-dropdown-item v-if="user.role_user == 'teacher'" to="/app/partner/earnings">Pendapatan</b-dropdown-item>
+                  <b-dropdown-item
+                    v-if="user.role_user == 'teacher'"
+                    to="/app/partner/earnings"
+                    >Pendapatan</b-dropdown-item
+                  >
                   <b-dropdown-item @click.prevent="appLogout"
                     >Keluar</b-dropdown-item
                   >
@@ -78,9 +74,7 @@
           >
             <div
               class="col-md-12 text-left"
-              v-if="
-                !isProfilLengkap && $route.path != '/app/profile/edit'
-              "
+              v-if="!isProfilLengkap && $route.path != '/app/profile/edit'"
             >
               <div class="alert-konten">
                 <p class="text-alert">
@@ -110,10 +104,10 @@ import ContentWrapper from "../components/Layout/ContentWrapper.vue";
 export default {
   components: { ContentWrapper },
   middleware: "auth-user",
-  data () {
+  data() {
     return {
-      // profileLengkap: true
-    }
+      // notifData: []
+    };
   },
   computed: {
     user() {
@@ -124,26 +118,41 @@ export default {
     },
     isProfilLengkap() {
       return this.$store.state.isProfilLengkap;
-    }
+    },
   },
   created() {
-    if(this.user && this.user.role_user)
-    {
+    if (this.user && this.user.role_user) {
       this.$axios
         .$get(`/api/users/${this.user.role_user}/cek`)
         .then(res => {
           console.log(res);
-          this.$store.commit('set', ['isProfilLengkap', res.success]);
+          this.$store.commit("set", ["isProfilLengkap", res.success]);
         })
         .catch(err => {
           console.log(err);
-        })
-          // .finally(() => (this.loading = false));
+        });
+      // .finally(() => (this.loading = false));
     }
+    this.getNotif();
   },
   mounted() {
     console.log("user", this.user);
     console.log("userDetail", this.userDetail);
+  },
+  methods: {
+    getNotif() {
+      this.$axios
+        .$get("/api/notification", {
+          params: {}
+        })
+        .then(response => {
+          if (response.success) {
+            // this.notifData = response.data.data;
+            this.$store.commit('set', ['notifData', response.data.data])
+            this.$store.commit('set', ['notifTotal', response.data.total])
+          }
+        });
+    }
   }
 };
 </script>

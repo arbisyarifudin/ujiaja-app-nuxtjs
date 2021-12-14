@@ -1506,6 +1506,60 @@ input.form-control-info {
   font-weight: 600;
 }
 
+.notif-dropdown {
+  max-width: 100%;
+}
+
+.notif-dropdown .dropdown-menu {
+  min-width: 300px;
+  max-width: 450px;
+}
+
+.notif-dropdown .notif-total {
+  font-size: 11px;
+  border-radius: 50%;
+  width: 15px;
+  height: 15px;
+}
+
+.notif-dropdown-item {
+  color: #9e8df3;
+  border-bottom: 1px solid #dbdbdb;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.notif-dropdown-item:active {
+  color: #fff;
+  border-color: transparent;
+}
+
+.notif-dropdown-item:active .notif-title {
+  color: #fff;
+}
+
+.notif-dropdown-item .notif-title {
+  font-size: 13px;
+}
+
+.notif-dropdown-item .notif-body {
+  font-size: 12px;
+  min-width: 300px;
+  white-space: normal;
+}
+
+.notif-dropdown-item .notif-icon {
+  font-size: 20px;
+}
+
+.notif-dropdown-item.opened {
+  color: #c5c5c5;
+}
+
+.notif-dropdown-item.opened .notif-title {
+  color: #c5c5c5;
+}
+
 /* CSS on MOBILE */
 /* HAPE */
 /* TABLET */

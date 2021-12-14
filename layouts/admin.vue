@@ -6,7 +6,7 @@
           <nav class="sidebar navbar-light pt-3 pl-4" id="menu">
             <img src="/logo2.png" class="img-fluid w-25 pb-4" />
             <UIMenuSuperAdmin v-if="user.role_user == 'superAdmin'" />
-            <UIMenuAdmin v-else-if="user.role_user == 'admin'"/>
+            <UIMenuAdmin v-else-if="user.role_user == 'admin'" />
           </nav>
         </div>
         <b-sidebar
@@ -45,16 +45,10 @@
                   </button>
                 </li>
               </ul>
-              <ul class="nav navbar-nav ml-auto align-items-center">
-                <b-nav-item-dropdown text="Notif" right no-caret>
-                  <template #button-content>
-                    <i class="fas fa-bell"></i>
-                  </template>
-                  <b-dropdown-item to="/produk/tryout">Notif</b-dropdown-item>
-                  <b-dropdown-item to="/produk/les-pribate"
-                    >Nofif 2</b-dropdown-item
-                  >
-                </b-nav-item-dropdown>
+              <ul
+                class="nav navbar-nav ml-auto align-items-center"
+              >
+                <UINotificationDropdown :user-role="user.role_user"/>
                 <b-nav-item-dropdown text="Profil" right no-caret>
                   <template #button-content>
                     <img src="/icon-user.png" class="img-fluid" width="30" />
@@ -90,11 +84,34 @@ export default {
     },
     userDetail() {
       return this.$store.state.dataUser.detail;
-    }
+    },
+  },
+  data() {
+    return {
+      // notifData: []
+    };
+  },
+  created() {
+    this.getNotif();
   },
   mounted() {
     console.log("user", this.user);
     console.log("userDetail", this.userDetail);
+  },
+  methods: {
+    getNotif() {
+      this.$axios
+        .$get("/api/notification", {
+          params: {}
+        })
+        .then(response => {
+          if (response.success) {
+            // this.notifData = response.data.data;
+            this.$store.commit("set", ["notifData", response.data.data]);
+            this.$store.commit("set", ["notifTotal", response.data.total]);
+          }
+        });
+    }
   }
 };
 </script>
