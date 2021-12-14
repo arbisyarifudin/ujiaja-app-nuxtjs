@@ -47,6 +47,7 @@ export default {
         href += "/" + item;
         let text = item.charAt(0).toUpperCase() + item.slice(1);
         text = text.replace(/_/g, " ");
+        text = text.replace(/-/g, " ");
 
         newBreadcrumbs.push({
           text: text,
