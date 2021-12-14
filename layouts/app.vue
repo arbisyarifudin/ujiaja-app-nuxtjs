@@ -44,7 +44,7 @@
                 </li>
               </ul>
               <ul class="nav navbar-nav ml-auto align-items-center">
-                <UINotificationDropdown :user-role="user.role_user"/>
+                <UINotificationDropdown :user-role="user.role_user" layout="app"/>
                 <b-nav-item-dropdown text="Profil" right no-caret>
                   <template #button-content>
                     <img src="/icon-user.png" class="img-fluid" width="24" />

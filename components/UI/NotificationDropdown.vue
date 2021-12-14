@@ -1,12 +1,12 @@
 <template>
   <b-nav-item-dropdown text="Notif" right no-caret class="notif-dropdown">
     <template #button-content>
-      <i class="fas fa-bell"></i> 
-      <span class="badge badge-primary notif-total">{{notifTotal}}</span>
+      <i class="fas fa-bell"></i>
+      <span class="badge badge-primary notif-total">{{ notifTotal }}</span>
     </template>
     <template v-for="(item, index) in notifData">
-      <b-dropdown-item :to="toPath(item)" :key="'n' + index">
-        <div class="notif-dropdown-item d-flex align-items-start">
+      <b-dropdown-item @click.prevent="toPath(item)" :key="'n' + index">
+        <div class="notif-dropdown-item d-flex align-items-start" :class="item.notification_open ? 'opened' : ''">
           <span
             class="fas fa-fw mr-2 notif-icon"
             :class="iconType(item.notification_type)"
@@ -68,7 +68,20 @@ export default {
           return "fa-bell";
       }
     },
-    toPath(item) {
+    async toPath(item) {
+
+      if(item.notification_open === false || item.notification_open === 0) {
+        await this.$axios.$put(`/api/notification/open/${item.notification_id}`)
+        .then(() => {
+          // item.notification_open = 1
+        })
+        .catch((err) => { console.log(error) })
+      } 
+
+      window.location.href = this.getPath(item)
+
+    },
+    getPath(item) {
       const data = JSON.parse(item.notification_data);
       const basePath = this.layout == "admin" ? "administrator" : "app";
       if (this.userRole == "admin" || this.userRole == "superAdmin") {
@@ -76,24 +89,35 @@ export default {
           case 0: // registration
             const user = data.user;
             const userDetail = data.detail;
-            return {
-              path: `/${basePath}/user/student`
-            };
-            break;
-
+            // return {
+            //   path: `/${basePath}/user/student`
+            // };
+            return `/${basePath}/user/student`
+          case 1: // transaction
+            // const user = data.user;
+            // const userDetail = data.detail;
+            // return {
+            //   path: `/${basePath}/payment`
+            // };
+            return `/${basePath}/payment`
           default:
-            break;
+            return "#";
         }
       } else {
         switch (item.notification_type) {
           case 0: // registration
-            return {
-              path: `/${basePath}/profile/edit`
-            };
-            break;
-
+            // return {
+            //   path: `/${basePath}/profile/edit`
+            // };
+            return `/${basePath}/profile/edit`
+          case 1: // transaction
+          console.log(data)
+          // return {
+          //   path: `/${basePath}/payment/${data.id}/detail`
+          // };
+          return `/${basePath}/payment/${data.id}/detail`
           default:
-            break;
+            return "#";
         }
       }
     }

@@ -537,6 +537,9 @@ export default {
           }
           return true;
         })
+        .then(() => {
+          this.getNotif()
+        })
         .catch(err => {
           console.log(err);
           this.catchError(err);
