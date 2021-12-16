@@ -112,12 +112,13 @@
         <i class="far fa-edit mr-1"></i> Kerjakan Ujian
       </button>
 
-      <button
+      <nuxt-link
         v-if="dataDetail.is_task_done"
         class="btn btn-primary dashboard mb-4 ml-2"
+        :to="`/app/partner/uktt/${dataDetail.produk.id}/result`"
       >
         <i class="fas fa-award mr-1"></i> Lihat Hasil
-      </button>
+      </nuxt-link>
 
       <div class="row mt-3">
         <div class="col-md-12">

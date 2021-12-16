@@ -97,11 +97,11 @@
                   </td>
                   <td>
                     <i class="fas fa-user"></i>
-                    {{
+                    <!-- {{
                       item.user && item.user.siswa
                         ? item.user.siswa.nama_lengkap
                         : item.user.guru.nama_lengkap
-                    }}
+                    }} -->
                   </td>
                   <td>
                     <div class="d-flex justify-content-between">
@@ -327,7 +327,12 @@ export default {
       items: [],
       selectedId: null,
       selectedIndex: null,
-      detail: {},
+      detail: {
+        user: {
+          siswa: {},
+          tentor: {},
+        }
+      },
       showBukti: false,
       form: {
         status: null,
