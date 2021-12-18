@@ -39,7 +39,7 @@
       </div>
       <div class="col-md-12">
         <div class="row">
-          <div class="col-md-6">
+          <div class="col-md-4">
             <div class="bg-white pl-5 p-4">
               <h5 class="mb-3">Total Soal</h5>
               <div class="d-flex justify-content-between">
@@ -52,13 +52,13 @@
               </div>
             </div>
           </div>
-          <!-- <div class="col-md-4">
+          <div class="col-md-4">
             <div class="bg-white pl-5 p-4">
-              <h5 class="mb-3">Biaya</h5>
-              <p>{{ dataDetail.produk.harga_label }}</p>
+              <h5 class="mb-3">Standar Nilai Minimal</h5>
+              <p>{{ dataDetail.produk.uktt_nilai_minimal }}/100</p>
             </div>
-          </div> -->
-          <div class="col-md-6">
+          </div>
+          <div class="col-md-4">
             <div class="bg-white pl-5 p-4">
               <h5 class="mb-3">Status</h5>
               <p>
