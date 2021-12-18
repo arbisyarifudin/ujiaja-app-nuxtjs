@@ -157,7 +157,7 @@
                               id="id_mapel"
                               v-model="soal.id_mapel"
                               @change="onUpdateSoal(soal)"
-                              :disabled="soal.pertanyaan.length > 0"
+                              :disabled="a != 0"
                             >
                               <option :value="null">-- Pilih --</option>
                               <option

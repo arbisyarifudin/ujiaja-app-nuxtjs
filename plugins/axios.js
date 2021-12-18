@@ -23,17 +23,17 @@ export default function({ $axios, $cookiz }) {
   //       .shift();
   // }
 
-  $axios
-    .$get("/sanctum/csrf-cookie", {
-      withCredentials: true
-    })
-    .catch(err => this.catchError(err));
+  // $axios
+  //   .$get("/sanctum/csrf-cookie", {
+  //     withCredentials: true
+  //   })
+  //   .catch(err => this.catchError(err));
 
   //   $axios.defaults.xsrfHeaderName = "X-XSRF-TOKEN";
   //   $axios.defaults.xsrfCookieName = "XSRF-TOKEN";
-  $axios.defaults.headers.post["X-XSRF-TOKEN"] = $cookiz.get("XSRF-TOKEN");
-  $axios.defaults.headers.put["X-XSRF-TOKEN"] = $cookiz.get("XSRF-TOKEN");
-  $axios.defaults.headers.delete["X-XSRF-TOKEN"] = $cookiz.get("XSRF-TOKEN");
+  // $axios.defaults.headers.post["X-XSRF-TOKEN"] = $cookiz.get("XSRF-TOKEN");
+  // $axios.defaults.headers.put["X-XSRF-TOKEN"] = $cookiz.get("XSRF-TOKEN");
+  // $axios.defaults.headers.delete["X-XSRF-TOKEN"] = $cookiz.get("XSRF-TOKEN");
   // $axios.defaults.headers.Authorization = "Bearer " + getCookie("_ujiaja");
   $axios.defaults.headers.Authorization = "Bearer " + $cookiz.get("_ujiaja");
   $axios.defaults.withCredentials = true;

@@ -21,7 +21,7 @@
             <a class="btn btn-outline-primary " :href="`/app/tryout/mine`"
               >Kembali</a
             >
-            <a class="btn btn-primary ml-2" :href="`/app/tryout/mine`"
+            <a class="btn btn-primary ml-2" :href="`/app/tryout/${detail.produk.id}/result`"
               >Lihat Hasil</a
             >
             <!-- <button
@@ -588,7 +588,12 @@ export default {
         window.removeEventListener("beforeunload", this.onCloseWindow);
         this.$bvModal.hide("modal-confirm-start");
         this.$bvModal.hide("modal-confirm-end");
-        this.$bvModal.show("modal-success-end");
+        this.$cookiz.remove("_ujiaja_temp_to_user");
+        if(this.detailUjian.list_tryout && this.detailUjian.list_tryout.length > 1) {
+          this.goToNext()
+        } else {
+          this.$bvModal.show("modal-success-end");
+        }
         this.loading = false;
       }
     },

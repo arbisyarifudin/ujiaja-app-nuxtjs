@@ -297,7 +297,8 @@ export default {
             page: this.filter.page,
             kategori_produk: filterKategori,
             jenis_produk: filterEvent,
-            tipe_paket: filterPaket
+            tipe_paket: filterPaket,
+            excludes_kategori: ['UKTT']
           }
         })
         .then(res => {

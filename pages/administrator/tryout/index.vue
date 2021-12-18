@@ -285,7 +285,8 @@ export default {
             q: this.filter.keyword,
             paginate: this.filter.perPage,
             page: this.filter.page,
-            filter: this.filter.category
+            filter: this.filter.category,
+            excludes: ['UKTT'],
           }
         })
         .then(res => {

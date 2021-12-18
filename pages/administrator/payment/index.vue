@@ -97,11 +97,9 @@
                   </td>
                   <td>
                     <i class="fas fa-user"></i>
-                    <!-- {{
-                      item.user && item.user.siswa
-                        ? item.user.siswa.nama_lengkap
-                        : item.user.guru.nama_lengkap
-                    }} -->
+                    <span v-if="item.user && item.user.role_user == 'siswa' && item.user.siswa">{{item.user.siswa.nama_lengkap}}</span>
+                    <span v-else-if="item.user && item.user.role_user == 'teacher' && item.user.guru">{{item.user.guru.nama_lengkap}}</span>
+                    <span v-else>-</span>
                   </td>
                   <td>
                     <div class="d-flex justify-content-between">

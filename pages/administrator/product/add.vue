@@ -81,8 +81,8 @@
                     { text: 'Perorangan', value: 'Perorangan' },
                     { text: 'Masal', value: 'Masal' }
                   ]"
-                  :disabled="form.tipe_paket == 'Bundling'"
                 >
+                  <!-- :disabled="form.tipe_paket == 'Bundling'" -->
                 </b-form-select>
               </div>
               <div

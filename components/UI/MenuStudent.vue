@@ -27,11 +27,11 @@
       <b-dropdown-item to="/app/tryout">Cari Tryout</b-dropdown-item>
       <b-dropdown-item to="/app/tryout/mine">Tryoutku</b-dropdown-item>
     </b-nav-item-dropdown>
-    <li class="nav-item">
+    <!-- <li class="nav-item">
       <nuxt-link class="nav-link d-flex align-items-center" to="/app/courses"
         ><i class="fas fa-book fa-2x fa-fw mr-2"></i> Bank Soal</nuxt-link
       >
-    </li>
+    </li> -->
     <!-- <li class="nav-item">
       <nuxt-link class="nav-link d-flex align-items-center" to="/app/mbti"
         ><i class="fas fa-list-alt fa-2x fa-fw mr-2"></i> Tes Kepribadian</nuxt-link

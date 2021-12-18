@@ -123,7 +123,7 @@
           tag="div"
           text="Belum ada data Tryout."
           style="position: relative; width: 100%;"
-          v-if="!loading && list['bundling'] && list['bundling'].length < 1"
+          v-if="!loading && list['utbk_mandiri'] && list['utbk_mandiri'].length < 1"
         />
       </section>
       <section class="mb-3">
@@ -211,7 +211,7 @@
           tag="div"
           text="Belum ada data Tryout."
           style="position: relative; width: 100%;"
-          v-if="!loading && list['bundling'] && list['bundling'].length < 1"
+          v-if="!loading && list['utbk_akbar'] && list['utbk_akbar'].length < 1"
         />
       </section>
       <section class="mb-3">
@@ -296,7 +296,7 @@
           tag="div"
           text="Belum ada data Tryout."
           style="position: relative; width: 100%;"
-          v-if="!loading && list['bundling'] && list['bundling'].length < 1"
+          v-if="!loading && list['aspd'] && list['aspd'].length < 1"
         />
       </section>
  
