@@ -1074,6 +1074,7 @@ export default {
         );
         return;
       }
+      const jawaban = uuidv4();
       const dataSoalTryout = {
         id_soal_tryout: id_soal,
         bab_mapel: ["Bab Test"],
@@ -1082,7 +1083,7 @@ export default {
         soal: "Apa arti kehidupan di dunia ini?",
         opsi_pertanyaan: [
           {
-            uuid: uuidv4(),
+            uuid: jawaban,
             option: "Opsi 1"
           },
           {
@@ -1098,7 +1099,7 @@ export default {
             option: "Opsi 4"
           }
         ],
-        jawaban_pertanyaan: uuidv4(),
+        jawaban_pertanyaan: jawaban,
         pembahasan_pertanyaan: "Ini Pembahasan Pertanyaan....",
         parent_soal_pertanyaan: null
       };
@@ -1213,6 +1214,7 @@ export default {
       }
       this.onSubmit.pertanyaan[pertanyaan.id].loading = true;
 
+      const jawaban = uuidv4();
       const dataSave = {
         id_soal_tryout: pertanyaan.id_soal_tryout,
         bab_mapel: ["Bab Test"],
@@ -1222,7 +1224,7 @@ export default {
         gambar: null,
         opsi_pertanyaan: [
           {
-            uuid: uuidv4(),
+            uuid: jawaban,
             option: "Opsi 1"
           },
           {
@@ -1238,7 +1240,7 @@ export default {
             option: "Opsi 4"
           }
         ],
-        jawaban_pertanyaan: uuidv4(),
+        jawaban_pertanyaan: jawaban,
         pembahasan_pertanyaan: "Pembahasan pertanyaan...",
         parent_soal_pertanyaan: pertanyaan.id,
         pertanyaan_child: []
@@ -1297,6 +1299,7 @@ export default {
     addBabMapel(pertanyaan, pertanyaan_parent) {
       // console.log(pertanyaan);
       // return;
+      const jawaban = uuidv4()
       const dataSave = {
         id_soal_tryout: pertanyaan.id_soal_tryout,
         bab_mapel: ["Bab Test"],
@@ -1306,7 +1309,7 @@ export default {
         gambar: null,
         opsi_pertanyaan: [
           {
-            uuid: uuidv4(),
+            uuid: jawaban,
             option: "Opsi 1"
           },
           {
@@ -1322,7 +1325,7 @@ export default {
             option: "Opsi 4"
           }
         ],
-        jawaban_pertanyaan: uuidv4(),
+        jawaban_pertanyaan: jawaban,
         pembahasan_pertanyaan: "Pembahasan pertanyaan...",
         parent_soal_pertanyaan: null,
         pertanyaan_child: []
