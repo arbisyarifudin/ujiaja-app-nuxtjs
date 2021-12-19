@@ -69,7 +69,7 @@
             <tbody class="body-table">
               <template v-if="totalRows > 0">
                 <tr v-for="(item, index) in items" :key="index">
-                  <td class="text-center">{{ index + 1 }}</td>
+                  <td class="text-center">{{ (filter.page - 1) * filter.perPage + (index + 1) }}</td>
                   <td class="btn-table">
                     <button
                       title="Detail"
