@@ -36,13 +36,13 @@
           <img :src="skorStampImage()" alt="stamp" class="skor-stamp">
           <div class="mb-2">Total Skor</div>
           <div class="h3 skor-val">{{dataResult.skor.skor_akhir}} / {{detailProduk.uktt_nilai_minimal}}</div>
-          <button class="btn btn-primary square btn-sm" v-if="!isLulus" @click.prevent="resetUjian"><i class="fas fa-reply fa-fw mr-1"></i> Ulangi Ujian</button>
+          <button class="btn btn-primary square btn-sm" v-if="!isLulus" @click.prevent="$bvModal.show('modal-confirm')"><i class="fas fa-reply fa-fw mr-1"></i> Ulangi Ujian</button>
         </div>
       </div>
     </div>
     <hr>
-    <div class="alert alert-danger" v-if="!isLulus && !loading">Mohon maaf! Anda belum mencapai nilai minimum kelulusan Ujian UKTT ini. Silakan coba lagi.</div>
-    <div class="alert alert-success" v-if="isLulus && !loading">Selamat! Skor Anda telah mencapai nilai minimum kelulusan Ujian UKTT ini. Sekarang level Anda telah naik menjadi <b>_LEVEL_</b>. <hr>Untuk naik ke level selanjutnya Anda perlu memenui syarat berikut:
+    <div class="alert alert-danger" v-if="!isLulus && !loading && dataResult.detail && dataResult.detail.produk">Mohon maaf! Anda belum mencapai nilai minimum kelulusan Ujian UKTT ini. Silakan coba lagi.</div>
+    <div class="alert alert-success" v-if="isLulus && !loading && dataResult.detail && dataResult.detail.produk">Selamat! Skor Anda telah mencapai nilai minimum kelulusan Ujian UKTT ini. Sekarang level Anda telah naik menjadi <b>{{dataResult.detail.produk.level.nama_levek}}</b>. <hr>Untuk naik ke level selanjutnya Anda perlu memenui syarat berikut:
     <br>
     <ul>
       <li>asas</li>
@@ -72,6 +72,36 @@
         </li>
       </ol>
     </div>
+    <b-modal
+      id="modal-confirm"
+      title="Konfirmasi Kerjakan UKTT Ulang"
+      centered
+      hide-footer
+      class="admin-modal"
+    >
+      <div>
+        <p class="modal-text">
+          Apakah Anda yakin ingin mengerjakan UKTT ulang? Data hasil ujian terakhir akan dihapus dan tidak dapat dikembalikan.
+        </p>
+        <div class="modal-footer justify-content-end" style="border: 0px">
+          <button
+            class="btn btn-outline-secondary square"
+            type="button"
+            @click="$bvModal.hide('modal-confirm')"
+          >
+            Tutup
+          </button>
+          <button
+            class="btn btn-primary tambah px-4 py-2 square"
+            type="button"
+            :disabled="submitting"
+            @click.prevent="resetUjian"
+          >
+            <b-spinner small v-if="submitting" class="mr-1"></b-spinner> Ya, Kerjakan Ulang
+          </button>
+        </div>
+      </div>
+    </b-modal>
   </div>
 </template>
 
@@ -110,6 +140,7 @@ export default {
   data() {
     return {
       loading: true,
+      submitting: false,
       detailProduk: {},
       dataResult: {
         detail: {},
@@ -186,7 +217,7 @@ export default {
       }
     },
     skorStampImage() {
-      if (this.dataResult.skor.skor_akhir > this.detailProduk.uktt_nilai_minimum) {
+      if (this.isLulus) {
         return '/icon/uktt-lulus.svg';
       } else {
         return '/icon/uktt-gagal.svg'
@@ -194,6 +225,20 @@ export default {
     },
     resetUjian() {
       console.log('reset')
+      this.submitting = true
+      this.$axios.$delete('/api/tryout_user/uktt-reset/' + this.dataResult.detail.id)
+      .then(response => {
+        this.showToastMessage('UKTT berhasil direset!', 'success');
+        const encryptedProductId = this.encrypt(this.dataResult.detail.id_produk);
+        const encryptedProductIdSafe = encodeURIComponent(encryptedProductId);
+        const encryptedTryoutId = this.encrypt(this.dataResult.detail.id_tryout);
+        const encryptedTryoutIdSafe = encodeURIComponent(encryptedTryoutId);
+        window.location.href = `/app/partner/uktt/${encryptedProductIdSafe}/test/?tryout=${encryptedTryoutIdSafe}`;
+      }).catch(err => {
+        console.log(err);
+        this.catchError(err);
+      })
+      .finally(() => (this.submitting = false));
     }
   }
 };
