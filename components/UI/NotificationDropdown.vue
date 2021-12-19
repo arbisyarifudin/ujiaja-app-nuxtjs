@@ -52,7 +52,7 @@ export default {
       return this.$store.state.notifData;
     },
     notifTotal() {
-      return this.$store.state.notifTotal;
+      return this.$store.state.notifData && this.$store.state.notifData.filter(item => item.notification_open === 0).length;
     }
   },
   methods: {
