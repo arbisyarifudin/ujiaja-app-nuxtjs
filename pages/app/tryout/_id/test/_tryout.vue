@@ -21,7 +21,7 @@
             <a class="btn btn-outline-primary " :href="`/app/tryout/mine`"
               >Kembali</a
             >
-            <a class="btn btn-primary ml-2" :href="`/app/tryout/${detail.produk.id}/result`"
+            <a class="btn btn-primary ml-2" :href="`/app/tryout/${detail.id}/result`"
               >Lihat Hasil</a
             >
             <!-- <button

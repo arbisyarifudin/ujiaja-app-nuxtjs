@@ -119,7 +119,7 @@
                       <i class="fas fa-calendar-alt fa-fw"></i>
                       {{ item.tanggal_mulai_label }}
                     </p>
-                    <p v-if="item.tipe_paket == 'Bundling'">
+                    <p v-if="item.jenis_produk == 'Masal' && item.tipe_paket == 'Bundling'">
                       {{ item.tanggal_mulai_label }}
                     </p>
                     <p
@@ -203,8 +203,8 @@
       >
         <div class="col-md-8">
           <h4 class="m-0 mb-3">Oops!</h4>
-          <p>
-            Kamu belum memiliki Tryout. <br />
+          <p class="shadow-none" style="background-color: rgba(255, 255, 255, 0.5)">
+            Data pada filter ini tidak tersedia atau kamu belum memiliki Tryout. <br />
             Yuk beli tryout sekarang..
           </p>
           <nuxt-link class="btn btn-primary dashboard px-4" to="/app/tryout">

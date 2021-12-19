@@ -1086,16 +1086,18 @@ export default {
       // console.log(this.formSiswa.id_prodi_bind_perguruan_2)
       // console.log(this.optionProdiBindPerguruanDisabled)
       // console.log(this.optionProdiBindPerguruanDisabled_2)
-      if (
-        (!this.optionProdiBindPerguruanDisabled && !this.formSiswa.id_prodi_bind_perguruan) ||
-        (!this.formSiswa.optionProdiBindPerguruanDisabled_2 &&
-          !this.formSiswa.id_prodi_bind_perguruan_2)
-      ) {
-        return this.showToastMessage(
-          "Program Studi wajib dipilih terlebih dahulu!",
-          "warning"
-        );
-      }
+       if (this.akun.role_user == "siswa") {
+        if (
+          (!this.optionProdiBindPerguruanDisabled && !this.formSiswa.id_prodi_bind_perguruan) ||
+          (!this.formSiswa.optionProdiBindPerguruanDisabled_2 &&
+            !this.formSiswa.id_prodi_bind_perguruan_2)
+        ) {
+          return this.showToastMessage(
+            "Program Studi wajib dipilih terlebih dahulu!",
+            "warning"
+          );
+        }
+       }
 
       if (this.formSiswa.password && !this.formSiswa.repassword) {
         return this.showToastMessage(

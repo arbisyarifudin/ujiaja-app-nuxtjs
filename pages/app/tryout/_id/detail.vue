@@ -43,10 +43,10 @@
                   "
                 ></span>
               </p>
-              <p class="text-dark h5" v-else>
+              <!-- <p class="text-dark h5" v-else>
                 <i class="fas fa-fw fa-calendar"></i>
                 <span>Tidak Ada Batasan Waktu Pengerjaan</span>
-              </p>
+              </p> -->
             </div>
           </div>
           <p class="mt-3" v-html="dataDetail.produk.deskripsi_produk">

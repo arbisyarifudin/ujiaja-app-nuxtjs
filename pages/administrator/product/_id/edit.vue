@@ -546,7 +546,7 @@ export default {
         status_produk: "Aktif",
         tanggal_mulai: null,
         tanggal_berakhir: null,
-        perhitungan: { correct: 2, wrong: -1, unfilled: 0 },
+        perhitungan: { correct: 1, wrong: 0, unfilled: 0 },
         tryout_reguler: "",
         tryout_bundling: [],
         tryout: [],
