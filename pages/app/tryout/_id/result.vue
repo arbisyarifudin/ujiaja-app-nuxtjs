@@ -1,5 +1,5 @@
 <template>
-  <div class="container-fluid crud px-md-4 px-0">
+  <div class="container-fluid crud px-md-4 px-0 py-4 bg-white">
     <div class="dash-kelas p-0 text-left">
       <h3>
         <BackUrl
@@ -11,9 +11,9 @@
       </h3>
       <h2 class="pb-0 mb-5">
         {{
-          detailProduk.nama_produk
-            ? detailProduk.nama_produk
-            : "Tes Kompetensi UjiAja"
+          dataResult.detail.nama_produk
+            ? dataResult.detail.nama_produk
+            : "-"
         }}
       </h2>
     </div>
@@ -21,57 +21,76 @@
       <div class="col-md-8">
         <div class="skor-date">
           <div class="mb-3">
-            <i class="fas fa-calendar fa-fw mr-1"></i> {{formatTanggal(detailSoal.waktu_selesai)}}
+            <i class="fas fa-calendar fa-fw mr-1"></i> {{formatTanggal(dataResult.detail.waktu_selesai)}}
           </div>
           <div class="mb-3">
-            <i class="fas fa-clock fa-fw mr-1"></i> {{formatTanggal(detailSoal.waktu_selesai, 'HH:mm')}} WIB
-          </div>
-          <div class="mb-3">
-            <i class="fas fa-book fa-fw mr-1"></i> {{detailSoal.nama_mapel}}
+            <i class="fas fa-clock fa-fw mr-1"></i> {{formatTanggal(dataResult.detail.waktu_selesai, 'HH:mm')}} WIB
           </div>
         </div>
       </div>
       <div class="col-md-4">
         <div class="text-center skor-box">
-          <img :src="skorStampImage()" alt="stamp" class="skor-stamp">
           <div class="mb-2">Total Skor</div>
-          <div class="h3 skor-val">{{dataResult.skor.skor_akhir}} / {{detailProduk.uktt_nilai_minimal}}</div>
-          <button class="btn btn-primary square btn-sm" v-if="!isLulus" @click.prevent="resetUjian"><i class="fas fa-reply fa-fw mr-1"></i> Ulangi Ujian</button>
+          <div class="h3 skor-val">{{dataResult.detail.ceeb_avg}}</div>
+          <!-- <div class="h5 skor-val"><small>Peringkat</small> 2 <small>dari</small> 100</div> -->
         </div>
       </div>
     </div>
     <hr>
-    <div class="alert alert-danger" v-if="!isLulus && !loading">Mohon maaf! Anda belum mencapai nilai minimum kelulusan Ujian UKTT ini. Silakan coba lagi.</div>
-    <div class="alert alert-success" v-if="isLulus && !loading">Selamat! Skor Anda telah mencapai nilai minimum kelulusan Ujian UKTT ini. Sekarang level Anda telah naik menjadi <b>_LEVEL_</b>. <hr>Untuk naik ke level selanjutnya Anda perlu memenui syarat berikut:
-    <br>
-    <ul>
-      <li>asas</li>
-      <li>asas</li>
-      <li>asas</li>
-    </ul>
+    <div class="hasil mt-4" v-if="!loading">
+      <table class="table table-borderless" v-for="(tryout, t_index) in dataResult.tryout" :key="'t'+t_index">
+        <thead>
+          <tr>
+            <th>{{tryout.judul_edit}} <small v-if="tryout.kelompok_soal" class="ml-1">({{tryout.kelompok_soal}})</small></th>
+            <th style="width: 150px; max-width: 50%">Skor</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(mapel, m_index) in tryout.mapel" :key="'m'+m_index">
+            <td>{{mapel.nama_mapel}}</td>
+            <td>{{mapel.ceeb}}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Peluang Masuk -->
+      <table class="table table-borderless">
+        <thead>
+          <tr>
+            <th colspan="3">Peluang Masuk Program Studi Pilihan</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-if="detailUser.prodi_satu">
+            <td>
+               <span v-if="detailUser.prodi_satu.perguruan">{{detailUser.prodi_satu.perguruan.nama_perguruan}}</span>
+            </td>
+            <td>
+              <span v-if="detailUser.prodi_satu.program_studi">{{detailUser.prodi_satu.program_studi.nama_studi}}</span>
+            </td>
+            <td style="width: 150px; max-width: 50%">{{peluangLabel(detailUser.prodi_satu)}}</td>
+          </tr>
+         <tr v-if="detailUser.prodi_dua">
+            <td>
+               <span v-if="detailUser.prodi_dua.perguruan">{{detailUser.prodi_dua.perguruan.nama_perguruan}}</span>
+            </td>
+            <td>
+              <span v-if="detailUser.prodi_dua.program_studi">{{detailUser.prodi_dua.program_studi.nama_studi}}</span>
+            </td>
+            <td style="width: 150px; max-width: 50%">{{peluangLabel(detailUser.prodi_dua)}}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <hr>
+
+      <div class="d-flex justify-content-">
+        <nuxt-link class="btn btn-primary square" to="/"><i class="fas fa-award fa-fw mr-1"></i> Lihat Sertifikat</nuxt-link>
+        <nuxt-link class="btn btn-primary square ml-3" to="/"><i class="fas fa-file-alt fa-fw mr-1"></i> Review Tryout</nuxt-link>
+      </div>
+
     </div>
-    <hr>
-    <div class="soal mt-4">
-      <div class="h4">Detail Soal</div>
-      <UILoading v-if="loading" />
-      <ol>
-        <li class="pl-2 mb-4" v-for="(soal, s_index) in dataResult.soal" :key="'s'+s_index">
-          <div class="h6 text-dark soal-pertanyaan" v-html="soal.soal_pertanyaan"></div>
-          <ul class="list-unstyled">
-            <li v-for="(opsi, o_index) in soal.opsi_pertanyaan" :key="'o'+o_index">
-              <label :for="`${s_index}-${o_index}`"
-                ><input :id="`${s_index}-${o_index}`" type="radio" :name="`radio_${s_index}_${o_index}`" disabled :value="opsi.uuid" :checked="opsi.uuid === soal.jawaban_user"/>
-                <span v-html="opsi.option" :class="optionColor(soal, opsi)"></span>
-                </label
-              >
-            </li>
-          </ul>
-          <div class="mt-2">
-            <div class="badge badge-info px-2" style="border-radius: 10px; font-weight: 500; font-size: 12px" v-for="(bab, b_index) in soal.bab" :key="'b'+b_index">{{bab}}</div>
-          </div>
-        </li>
-      </ol>
-    </div>
+    <UILoading v-if="loading"/>
   </div>
 </template>
 
@@ -92,12 +111,13 @@
     transform: rotate(-15deg);
   }
 }
-.soal {
-  .soal-pertanyaan {
-     color: #47415b!important;
-     margin-bottom: 10px;
-     p {
-        color: #47415b!important;
+.hasil {
+  table {
+     th {
+       font-weight: bold;
+     }
+     td {
+       font-size: 13px;
      }
   }
 }
@@ -110,46 +130,32 @@ export default {
   data() {
     return {
       loading: true,
-      detailProduk: {},
       dataResult: {
         detail: {},
-        soal: [],
-        pencocokan: [],
-        skor: {
-          skor_akhir: 0
-        }
-      }
+        tryout: [],
+      },
+      detailUser: {}
     };
   },
   created() {
     if (!this.$route.params.id) return this.$router.go(-1);
-    this.getDetail("produk", this.$route.params.id);
     this.getResult(this.$route.params.id)
+    this.getProfile();
   },
   computed: {
-    detailSoal() {
-      if (this.dataResult.soal && this.dataResult.soal.length > 0 ) {
-        return {
-          ...this.dataResult.detail,
-          ...this.dataResult.soal[0],
-        };
-      } else {
-        return {}
-      }
-    },
-    isLulus() {
-      return this.dataResult.skor.skor_akhir >= this.detailProduk.uktt_nilai_minimal
-    }
+   user() {
+     return this.$store.state.dataUser.user
+   }
   },  
   methods: {
-    getDetail(type, id) {
+    getProfile() {
       this.loading = true;
       this.$axios
-        .$get(`/api/${type}/find/${id}`)
+        .$get(`/api/users/siswa/find/${this.user.id}`)
         .then(res => {
           console.log(res);
           if (res.success) {
-            this.detailProduk = res.data;
+            this.detailUser = res.data;
           }
           return true;
         })
@@ -162,7 +168,7 @@ export default {
     getResult(id) {
       this.loading = true;
       this.$axios
-        .$get(`/api/tryout_user/uktt-hasil/?id_produk=${id}`)
+        .$get(`/api/tryout_user/hasil-pengerjaan-perorangan/?id_produk=${id}`)
         .then(res => {
           console.log(res);
           if (res.success) {
@@ -175,25 +181,23 @@ export default {
           this.catchError(err);
         })
         .finally(() => (this.loading = false));
-    },
-    optionColor(soal, opsi) {
-      console.log(soal.nomor, soal.jawaban_pertanyaan, soal.jawaban_user)
-      if(opsi.uuid == soal.jawaban_pertanyaan && opsi.uuid == soal.jawaban_user) {
-          return 'text-success font-weight-bold'
-      }
-      if(opsi.uuid == soal.jawaban_user && soal.jawaban_user != soal.jawaban_pertanyaan) {
-        return 'text-danger font-weight-bold'
-      }
-    },
-    skorStampImage() {
-      if (this.dataResult.skor.skor_akhir > this.detailProduk.uktt_nilai_minimum) {
-        return '/icon/uktt-lulus.svg';
+    },    
+    peluangLabel(data) {
+
+      const skorAkhir = parseFloat(this.dataResult.detail.ceeb_avg);
+      const passingGrade = parseFloat(data.passing_grade_prodi)
+
+      const batasBawah = passingGrade - (passingGrade * 0.05);
+      const batasAtas = passingGrade + (passingGrade * 0.05);
+
+      if(skorAkhir >= batasBawah && skorAkhir <= batasAtas) {
+        return 'Sedang'
+      } else if (skorAkhir > batasAtas) {
+        return 'Tinggi'
       } else {
-        return '/icon/uktt-gagal.svg'
+        return 'Rendah'
       }
-    },
-    resetUjian() {
-      console.log('reset')
+
     }
   }
 };
