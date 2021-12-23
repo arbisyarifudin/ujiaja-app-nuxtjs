@@ -4,10 +4,10 @@
       <h3>
         <BackUrl
           :title="null"
-          :url="$route.query.ref ? $route.query.ref : '/app/partner/uktt'"
+          :url="$route.query.ref ? $route.query.ref : `/app/tryout/${dataResult.detail.id_produk}/detail`"
           class="py-1 px-2 mr-3"
         />
-        Hasil Ujian
+        Hasil Tryout
       </h3>
       <h2 class="pb-0 mb-5">
         {{
@@ -84,9 +84,9 @@
 
       <hr>
 
-      <div class="d-flex justify-content-">
-        <nuxt-link class="btn btn-primary square" to="/"><i class="fas fa-award fa-fw mr-1"></i> Lihat Sertifikat</nuxt-link>
-        <nuxt-link class="btn btn-primary square ml-3" to="/"><i class="fas fa-file-alt fa-fw mr-1"></i> Review Tryout</nuxt-link>
+      <div class="d-flex justify-content-end">
+        <button class="btn btn-primary square" @click.prevent><i class="fas fa-award fa-fw mr-1"></i> Lihat Sertifikat</button>
+        <nuxt-link class="btn btn-outline-primary square ml-3" :to="`/app/tryout/${dataResult.detail.id_produk}/review`"><i class="fas fa-file-alt fa-fw mr-1"></i> Review Tryout</nuxt-link>
       </div>
 
     </div>
@@ -168,7 +168,7 @@ export default {
     getResult(id) {
       this.loading = true;
       this.$axios
-        .$get(`/api/tryout_user/hasil-pengerjaan-perorangan/?id_produk=${id}`)
+        .$get(`/api/tryout_user/hasil-pengerjaan/?id_produk=${id}`)
         .then(res => {
           console.log(res);
           if (res.success) {
