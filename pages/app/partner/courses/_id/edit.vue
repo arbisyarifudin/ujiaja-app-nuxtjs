@@ -130,7 +130,7 @@
                 </div> -->
                 <div class="form-group reg-siswa">
                   <label for="file_kursus"
-                    >ID Video Youtube <code>*</code></label
+                    >ID Video Youtube <code>[opsional]</code></label
                   >
                   <div class="input-group mb-3">
                     <input
@@ -373,7 +373,7 @@ export default {
         !this.form.nama_kursus ||
         !this.form.harga_kursus ||
         !this.form.deskripsi_kursus ||
-        !this.form.video_kursus ||
+        // !this.form.video_kursus ||
         !this.form.id_mapel ||
         !this.form.id_jenjang
       ) {
