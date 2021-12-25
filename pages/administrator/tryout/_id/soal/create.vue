@@ -67,6 +67,7 @@
                   id="panduan_pengerjaan"
                   @blur="onBlurPanduan"
                   v-model="formTryout.panduan_pengerjaan"
+                  :editor-toolbar="customToolbar"
                 />
               </client-only>
               <UISaveStatus :data="onSubmit.panduan" />
@@ -400,7 +401,51 @@
                                     soalp.template_pertanyaan == 'Pilihan Ganda'
                                   "
                                 >
+                                  <!-- <div class="text-danger mb-4 mt-n2">
+                                    Jika ingin mengunggah gambar, sebisa mungkin
+                                    gunakan gambar berukuran kecil untuk
+                                    menghemat resource.
+                                  </div> -->
                                   <div
+                                    class="row"
+                                    v-for="(opsi, c) in soalp.opsi_pertanyaan"
+                                    :key="'C' + c"
+                                  >
+                                    <div class="col">
+                                      <input
+                                        type="radio"
+                                        :id="'opsi' + b + '-' + c"
+                                        :name="'opsi' + b"
+                                        :value="opsi.uuid"
+                                        v-model="soalp.jawaban_pertanyaan"
+                                        @change="
+                                          onUpdatePertanyaanOpsi(soalp, c)
+                                        "
+                                      />
+                                    </div>
+                                    <div class="col-md-10">
+                                      <VueEditor
+                                        :id="'opsi-text-' + b + '-' + c"
+                                        v-model="opsi.option"
+                                        @blur="onUpdatePertanyaan(soalp)"
+                                      />
+                                    </div>
+                                    <div class="col-1 text-left">
+                                      <button
+                                        type="button"
+                                        class="btn btn-danger"
+                                        v-if="
+                                          c > 3 &&
+                                            opsi.uuid !==
+                                              soalp.jawaban_pertanyaan
+                                        "
+                                        @click.prevent="deleteOption(soalp, c)"
+                                      >
+                                        <i class="fa fa-times"></i>
+                                      </button>
+                                    </div>
+                                  </div>
+                                  <!-- <div
                                     class="input-group mb-3"
                                     v-for="(opsi, c) in soalp.opsi_pertanyaan"
                                     :key="'C' + c"
@@ -425,6 +470,7 @@
                                       v-model="opsi.option"
                                       @change="onUpdatePertanyaan(soalp)"
                                     />
+                                   
                                     <div class="input-group-prepend">
                                       <button
                                         type="button"
@@ -439,8 +485,7 @@
                                         <i class="fa fa-times"></i>
                                       </button>
                                     </div>
-                                    <!-- {{ opsi }} -->
-                                  </div>
+                                  </div> -->
                                   <UISaveStatus
                                     :data="onSubmit.pertanyaan[soalp.id]"
                                     v-if="onSubmit.pertanyaan[soalp.id]"
@@ -453,7 +498,42 @@
                                       'Pilihan Ganda Kompleks'
                                   "
                                 >
-                                  <div
+                                <div class="row">
+                                  <div class="col-1">
+                                  <input
+                                      type="checkbox"
+                                      :id="'opsi' + b + '-' + c"
+                                      :name="'opsi' + b"
+                                      :value="opsi.uuid"
+                                      v-model="soalp.jawaban_pertanyaan"
+                                      @change="
+                                        onUpdatePertanyaanOpsi(soalp, c)
+                                      "
+                                    />
+                                  </div>
+                                  <div class="col-10">
+                                    <VueEditor
+                                        :id="'opsi-text-' + b + '-' + c"
+                                        v-model="opsi.option"
+                                        @blur="onUpdatePertanyaan(soalp)"
+                                      />
+                                  </div>
+                                  <div class="col-1 text-left">
+                                    <button
+                                      type="button"
+                                      class="btn btn-danger"
+                                      v-if="
+                                        c > 3 &&
+                                          opsi.uuid !==
+                                            soalp.jawaban_pertanyaan
+                                      "
+                                      @click.prevent="deleteOption(soalp, c)"
+                                    >
+                                      <i class="fa fa-times"></i>
+                                    </button>
+                                  </div>
+                                </div>
+                                  <!-- <div
                                     class="input-group mb-3"
                                     v-for="(opsi, c) in soalp.opsi_pertanyaan"
                                     :key="'C' + c"
@@ -492,8 +572,7 @@
                                         <i class="fa fa-times"></i>
                                       </button>
                                     </div>
-                                    <!-- {{ opsi }} -->
-                                  </div>
+                                  </div> -->
                                   <UISaveStatus
                                     :data="onSubmit.pertanyaan[soalp.id]"
                                     v-if="onSubmit.pertanyaan[soalp.id]"
@@ -880,6 +959,7 @@ export default {
   data() {
     return {
       loading: false,
+      // customToolbar: [["bold", "italic", "underline"], [{ list: "bullet" }], ['code-block']],
       formTryout: {
         panduan_pengerjaan: "",
         kategori: "",
@@ -1299,7 +1379,7 @@ export default {
     addBabMapel(pertanyaan, pertanyaan_parent) {
       // console.log(pertanyaan);
       // return;
-      const jawaban = uuidv4()
+      const jawaban = uuidv4();
       const dataSave = {
         id_soal_tryout: pertanyaan.id_soal_tryout,
         bab_mapel: ["Bab Test"],
