@@ -1033,7 +1033,7 @@ export default {
                 let textField = item.perguruan.nama_perguruan;
                 textField += " - " + item.program_studi.nama_studi;
                 textField += " (" + item.akreditasi_program_studi + ")";
-                textField += " - PG: " + item.passing_grade_prodi;
+                // textField += " - PG: " + item.passing_grade_prodi;
                 return {
                   id: item.id,
                   textField
