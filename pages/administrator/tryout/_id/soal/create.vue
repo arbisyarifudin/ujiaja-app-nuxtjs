@@ -67,7 +67,6 @@
                   id="panduan_pengerjaan"
                   @blur="onBlurPanduan"
                   v-model="formTryout.panduan_pengerjaan"
-                  :editor-toolbar="customToolbar"
                 />
               </client-only>
               <UISaveStatus :data="onSubmit.panduan" />
@@ -445,54 +444,13 @@
                                       </button>
                                     </div>
                                   </div>
-                                  <!-- <div
-                                    class="input-group mb-3"
-                                    v-for="(opsi, c) in soalp.opsi_pertanyaan"
-                                    :key="'C' + c"
-                                  >
-                                    <div class="input-group-prepend">
-                                      <div class="input-group-text">
-                                        <input
-                                          type="radio"
-                                          :id="'opsi' + b + '-' + c"
-                                          :name="'opsi' + b"
-                                          :value="opsi.uuid"
-                                          v-model="soalp.jawaban_pertanyaan"
-                                          @change="
-                                            onUpdatePertanyaanOpsi(soalp, c)
-                                          "
-                                        />
-                                      </div>
-                                    </div>
-                                    <input
-                                      type="text"
-                                      class="form-control"
-                                      v-model="opsi.option"
-                                      @change="onUpdatePertanyaan(soalp)"
-                                    />
-                                   
-                                    <div class="input-group-prepend">
-                                      <button
-                                        type="button"
-                                        class="btn btn-danger"
-                                        v-if="
-                                          c > 3 &&
-                                            opsi.uuid !==
-                                              soalp.jawaban_pertanyaan
-                                        "
-                                        @click.prevent="deleteOption(soalp, c)"
-                                      >
-                                        <i class="fa fa-times"></i>
-                                      </button>
-                                    </div>
-                                  </div> -->
                                   <UISaveStatus
                                     :data="onSubmit.pertanyaan[soalp.id]"
                                     v-if="onSubmit.pertanyaan[soalp.id]"
                                   />
                                 </div>
 
-                                <div
+                                <!-- <div
                                   v-if="
                                     soalp.template_pertanyaan ==
                                       'Pilihan Ganda Kompleks'
@@ -533,7 +491,7 @@
                                     </button>
                                   </div>
                                 </div>
-                                  <!-- <div
+                                <div
                                     class="input-group mb-3"
                                     v-for="(opsi, c) in soalp.opsi_pertanyaan"
                                     :key="'C' + c"
@@ -572,12 +530,12 @@
                                         <i class="fa fa-times"></i>
                                       </button>
                                     </div>
-                                  </div> -->
+                                  </div> 
                                   <UISaveStatus
                                     :data="onSubmit.pertanyaan[soalp.id]"
                                     v-if="onSubmit.pertanyaan[soalp.id]"
                                   />
-                                </div>
+                                </div> -->
 
                                 <p class="mt-4">Pembahasan <code>*</code></p>
                                 <!-- <textarea
@@ -685,7 +643,43 @@
                               </div>
 
                               <div class="px-4 soal">
-                                <div
+                                <div class="row" v-for="(opsi_child,
+                                  d) in child.opsi_pertanyaan"
+                                  :key="'D' + d">
+                                  <div class="col-md-1">
+                                     <input
+                                        type="radio"
+                                        :name="'opsi' + b + '-' + d"
+                                        :value="opsi_child.uuid"
+                                        v-model="child.jawaban_pertanyaan"
+                                        @change="
+                                          onUpdatePertanyaanOpsi(child, d)
+                                        "
+                                      />
+                                  </div>
+                                  <div class="col-md-10">
+                                    <VueEditor
+                                      :name="'opsi-text-' + b + '-' + d"
+                                     v-model="opsi_child.option"
+                                      @blur="onUpdatePertanyaan(child)"
+                                    />
+                                  </div>
+                                  <div class="col-md-1 text-left">
+                                     <button
+                                      type="button"
+                                      class="btn btn-danger"
+                                      v-if="
+                                        d > 3 &&
+                                          opsi_child.correct !==
+                                            child.jawaban_pertanyaan
+                                      "
+                                      @click.prevent="deleteOption(child, d)"
+                                    >
+                                      <i class="fa fa-times"></i>
+                                    </button>
+                                  </div>
+                                </div>
+                                <!-- <div
                                   class="input-group mb-3"
                                   v-for="(opsi_child,
                                   d) in child.opsi_pertanyaan"
@@ -724,7 +718,7 @@
                                       <i class="fa fa-times"></i>
                                     </button>
                                   </div>
-                                </div>
+                                </div> -->
                                 <UISaveStatus
                                   :data="onSubmit.perchild[child.id]"
                                   v-if="onSubmit.perchild[child.id]"
@@ -1158,7 +1152,7 @@ export default {
       const dataSoalTryout = {
         id_soal_tryout: id_soal,
         bab_mapel: ["Bab Test"],
-        penjelasan_pertanyaan: "Penjelasan Untuk Beberapa Pertanyaan....",
+        penjelasan_pertanyaan: "",
         template_pertanyaan: this.dataDetail.template_soal ?? "Pilihan Ganda",
         soal: "Apa arti kehidupan di dunia ini?",
         opsi_pertanyaan: [
@@ -1383,7 +1377,7 @@ export default {
       const dataSave = {
         id_soal_tryout: pertanyaan.id_soal_tryout,
         bab_mapel: ["Bab Test"],
-        penjelasan_pertanyaan: "Penjelasan pertanyaan ..",
+        penjelasan_pertanyaan: "",
         template_pertanyaan: this.dataDetail.template_soal ?? "Pilihan Ganda",
         soal: "Pertanyaaaannya???",
         gambar: null,
