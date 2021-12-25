@@ -75,7 +75,7 @@ export default {
           "UjiAja menyediakan semua amunisi yang kamu butuhkan untuk menuju kampus impianmu!<br /> Belajar efektif dengan rangkuman lengkap serta ratusan soal yang variatif dan menantang.",
         item: [
           {
-            gambar: "/produk/Produk1.png",
+            gambar: "/produk/produk1.png",
             judul: "Tryout",
             brand: "by UjiAja",
             deskripsi:

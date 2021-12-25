@@ -290,7 +290,7 @@ export default {
       },
       form: {
         nama_kursus: "",
-        harga_kursus: 50000,
+        harga_kursus: 0,
         deskripsi_kursus: "",
         id_penjurusan: null,
         id_jenjang: null,
@@ -347,6 +347,11 @@ export default {
         file_kursus: null
       }
     };
+  },
+  computed: {
+    userDetail() {
+      return this.$store.state.dataUser.detail
+    }
   },
   mounted() {
     this.getData("penjurusan", { params: { paginate: 99 } });
@@ -462,6 +467,7 @@ export default {
           console.log(res);
           if (res.success) {
             this.dataOption['harga_kursus'] = res.data;
+            this.form.harga_kursus = this.userDetail && this.userDetail.level && this.userDetail.level.honor_level
           }
         })
         .catch(err => {
