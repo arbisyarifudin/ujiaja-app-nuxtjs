@@ -1,3 +1,5 @@
+var webpack = require('webpack')
+
 export default {
   env: {
     baseUrl:
@@ -47,7 +49,8 @@ export default {
     { src: "~/plugins/vue-tiny-slider.js", mode: "client" },
     { src: "~/plugins/axios.js", mode: "client" },
     { src: "~/plugins/custom-mixins.js", mode: "client" },
-    { src: "~/plugins/star-rating.js", mode: "client" }
+    { src: "~/plugins/star-rating.js", mode: "client" },
+    { src: "~/plugins/editor.js", mode: "client" }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -67,7 +70,7 @@ export default {
     ["cookie-universal-nuxt", { alias: "cookiz" }],
 
     // vue2-editor
-    "vue2-editor/nuxt",
+    // "vue2-editor/nuxt",
 
     "nuxt-highcharts"
   ],
@@ -97,9 +100,15 @@ export default {
   build: {
     splitChunks: {
       layouts: true
-    }
+    },
     // babel: {
     //   compact: true
     // }
+    plugins: [
+      new webpack.ProvidePlugin({
+        'window.Quill': 'quill/dist/quill.js',
+        'Quill': 'quill/dist/quill.js'
+      })
+    ]
   }
 };
