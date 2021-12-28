@@ -1,6 +1,6 @@
 <template>
   <div class="container-fluid crud">
-    <form @submit.prevent="validateForm">
+    <form @submit.prevent>
       <div class="row d-flex no-gutters">
         <div
           class="col-md-12 dashboard"
@@ -65,13 +65,24 @@
               <client-only>
                 <VueEditor
                   id="panduan_pengerjaan"
+                  ref="panduan_pengerjaan"
                   @blur="onBlurPanduan"
+                  :editorOptions="editorOptions"
                   v-model="formTryout.panduan_pengerjaan"
                 />
+                <div class="d-flex justify-content-end">
+                  <button
+                    class="btn btn-primary btn-sm square btn-add-mathjax"
+                    @click="addMathJax('panduan_pengerjaan')"
+                  >
+                    Add Formula
+                  </button>
+                </div>
               </client-only>
               <UISaveStatus :data="onSubmit.panduan" />
             </div>
             <div class="col-md-12 accordion">
+              <UILoading v-if="loading"/>
               <div id="accordion" role="tab-list">
                 <b-card
                   no-body
@@ -168,36 +179,6 @@
                               >
                             </select>
                           </div>
-                          <!-- <div class="form-group reg-siswa">
-                            <label for="alokasi_waktu"
-                              >Alokasi Waktu Per Mata Pelajaran (Menit)
-                              <code>*</code></label
-                            >
-                            <input
-                              type="number"
-                              class="form-control"
-                              id="alokasi_waktu"
-                              name="alokasi_waktu"
-                              placeholder="Misal: 80"
-                              v-model="soal.alokasi_waktu_per_mapel"
-                              @change="onUpdateSoal(soal)"
-                            />
-                          </div> -->
-                          <!-- <div class="form-group reg-siswa">
-                            <label for="jeda_waktu"
-                              >Jeda Waktu Antar Mata Pelajaran (Menit)
-                              <code>*</code></label
-                            >
-                            <input
-                              type="number"
-                              class="form-control"
-                              id="jeda_waktu"
-                              name="jeda_waktu"
-                              placeholder="Misal: 5"
-                              v-model="soal.jeda_waktu_antar_mapel"
-                              @change="onUpdateSoal(soal)"
-                            />
-                          </div> -->
                           <UISaveStatus
                             :data="onSubmit.soal[soal.id]"
                             v-if="
@@ -255,7 +236,7 @@
                                   placeholder="Isi Bab Mata Pelajaran"
                                 /> -->
                                   <b-form-tags
-                                    :input-id="'bab-' + b"
+                                    :input-id="'bab-' + soalp.id + '-' + b"
                                     separator=","
                                     remove-on-delete
                                     placeholder="Isi Bab Mata Pelajaran"
@@ -279,19 +260,35 @@
                                 Kosongkan jika tidak diperlukan penjelasan
                                 pertanyaan.
                               </div>
-                              <!-- <textarea
-                                name=""
-                                id="textarea"
-                                cols="30"
-                                rows="10"
-                                class="w-100"
-                                v-model="soalp.penjelasan_pertanyaan"
-                              ></textarea> -->
+                              {{
+                                "penjelasan_pertanyaan-" + soalp.id + "-" + b
+                              }}
                               <VueEditor
-                                :id="'penjelasan_pertanyaan-' + b"
+                                :id="
+                                  'penjelasan_pertanyaan-' + soalp.id + '-' + b
+                                "
+                                :ref="
+                                  'penjelasan_pertanyaan-' + soalp.id + '-' + b
+                                "
+                                :editorOptions="editorOptions"
                                 v-model="soalp.penjelasan_pertanyaan"
                                 @blur="onUpdatePertanyaan(soalp)"
                               />
+                              <div class="d-flex justify-content-end">
+                                <button
+                                  class="btn btn-primary btn-sm square btn-add-mathjax"
+                                  @click="
+                                    addMathJax(
+                                      'penjelasan_pertanyaan-' +
+                                        soalp.id +
+                                        '-' +
+                                        b
+                                    )
+                                  "
+                                >
+                                  Add Formula
+                                </button>
+                              </div>
                               <UISaveStatus
                                 :data="onSubmit.pertanyaan[soalp.id]"
                                 v-if="onSubmit.pertanyaan[soalp.id]"
@@ -328,11 +325,25 @@
                                   class="w-100"
                                   v-model="soalp.soal"
                                 ></textarea> -->
-                                <VueEditor
-                                  :id="'soal-' + b"
-                                  v-model="soalp.soal"
-                                  @blur="onUpdatePertanyaan(soalp)"
-                                />
+                                <client-only>
+                                  <VueEditor
+                                    :id="'soal-' + soalp.id + '-' + b"
+                                    :ref="'soal-' + soalp.id + '-' + b"
+                                    v-model="soalp.soal"
+                                    :editorOptions="editorOptions"
+                                    @blur="onUpdatePertanyaan(soalp)"
+                                  />
+                                  <div class="d-flex justify-content-end">
+                                    <button
+                                      class="btn btn-primary btn-sm square btn-add-mathjax"
+                                      @click="
+                                        addMathJax('soal-' + soalp.id + '-' + b)
+                                      "
+                                    >
+                                      Add Formula
+                                    </button>
+                                  </div>
+                                </client-only>
 
                                 <UISaveStatus
                                   :data="onSubmit.pertanyaan[soalp.id]"
@@ -406,15 +417,20 @@
                                     menghemat resource.
                                   </div> -->
                                   <div
-                                    class="row"
+                                    class="row mb-3"
                                     v-for="(opsi, c) in soalp.opsi_pertanyaan"
                                     :key="'C' + c"
                                   >
                                     <div class="col">
                                       <input
                                         type="radio"
-                                        :id="'opsi' + b + '-' + c"
-                                        :name="'opsi' + b"
+                                        :id="
+                                          'opsi' + soalp.id + '-' + b + '-' + c
+                                        "
+                                        :ref="
+                                          'opsi' + soalp.id + '-' + b + '-' + c
+                                        "
+                                        :name="'opsi' + soalp.id + '-' + b"
                                         :value="opsi.uuid"
                                         v-model="soalp.jawaban_pertanyaan"
                                         @change="
@@ -423,11 +439,46 @@
                                       />
                                     </div>
                                     <div class="col-md-10">
-                                      <VueEditor
-                                        :id="'opsi-text-' + b + '-' + c"
-                                        v-model="opsi.option"
-                                        @blur="onUpdatePertanyaan(soalp)"
-                                      />
+                                      <client-only>
+                                        <VueEditor
+                                          :id="
+                                            'opsi-text-' +
+                                              soalp.id +
+                                              '-' +
+                                              b +
+                                              '-' +
+                                              c
+                                          "
+                                          :ref="
+                                            'opsi-text-' +
+                                              soalp.id +
+                                              '-' +
+                                              b +
+                                              '-' +
+                                              c
+                                          "
+                                          v-model="opsi.option"
+                                          :editorOptions="editorOptions"
+                                          @blur="onUpdatePertanyaan(soalp)"
+                                        />
+                                        <div class="d-flex justify-content-end">
+                                          <button
+                                            class="btn btn-primary btn-sm square btn-add-mathjax"
+                                            @click="
+                                              addMathJax(
+                                                'opsi-text-' +
+                                                  soalp.id +
+                                                  '-' +
+                                                  b +
+                                                  '-' +
+                                                  c
+                                              )
+                                            "
+                                          >
+                                            Add Formula
+                                          </button>
+                                        </div>
+                                      </client-only>
                                     </div>
                                     <div class="col-1 text-left">
                                       <button
@@ -450,93 +501,6 @@
                                   />
                                 </div>
 
-                                <!-- <div
-                                  v-if="
-                                    soalp.template_pertanyaan ==
-                                      'Pilihan Ganda Kompleks'
-                                  "
-                                >
-                                <div class="row">
-                                  <div class="col-1">
-                                  <input
-                                      type="checkbox"
-                                      :id="'opsi' + b + '-' + c"
-                                      :name="'opsi' + b"
-                                      :value="opsi.uuid"
-                                      v-model="soalp.jawaban_pertanyaan"
-                                      @change="
-                                        onUpdatePertanyaanOpsi(soalp, c)
-                                      "
-                                    />
-                                  </div>
-                                  <div class="col-10">
-                                    <VueEditor
-                                        :id="'opsi-text-' + b + '-' + c"
-                                        v-model="opsi.option"
-                                        @blur="onUpdatePertanyaan(soalp)"
-                                      />
-                                  </div>
-                                  <div class="col-1 text-left">
-                                    <button
-                                      type="button"
-                                      class="btn btn-danger"
-                                      v-if="
-                                        c > 3 &&
-                                          opsi.uuid !==
-                                            soalp.jawaban_pertanyaan
-                                      "
-                                      @click.prevent="deleteOption(soalp, c)"
-                                    >
-                                      <i class="fa fa-times"></i>
-                                    </button>
-                                  </div>
-                                </div>
-                                <div
-                                    class="input-group mb-3"
-                                    v-for="(opsi, c) in soalp.opsi_pertanyaan"
-                                    :key="'C' + c"
-                                  >
-                                    <div class="input-group-prepend">
-                                      <div class="input-group-text">
-                                        <input
-                                          type="checkbox"
-                                          :id="'opsi' + b + '-' + c"
-                                          :name="'opsi' + b"
-                                          :value="opsi.uuid"
-                                          v-model="soalp.jawaban_pertanyaan"
-                                          @change="
-                                            onUpdatePertanyaanOpsi(soalp, c)
-                                          "
-                                        />
-                                      </div>
-                                    </div>
-                                    <input
-                                      type="text"
-                                      class="form-control"
-                                      v-model="opsi.option"
-                                      @change="onUpdatePertanyaan(soalp)"
-                                    />
-                                    <div class="input-group-prepend">
-                                      <button
-                                        type="button"
-                                        class="btn btn-danger"
-                                        v-if="
-                                          c > 3 &&
-                                            opsi.uuid !==
-                                              soalp.jawaban_pertanyaan
-                                        "
-                                        @click.prevent="deleteOption(soalp, c)"
-                                      >
-                                        <i class="fa fa-times"></i>
-                                      </button>
-                                    </div>
-                                  </div> 
-                                  <UISaveStatus
-                                    :data="onSubmit.pertanyaan[soalp.id]"
-                                    v-if="onSubmit.pertanyaan[soalp.id]"
-                                  />
-                                </div> -->
-
                                 <p class="mt-4">Pembahasan <code>*</code></p>
                                 <!-- <textarea
                                   name=""
@@ -546,11 +510,27 @@
                                   class="w-100"
                                   v-model="soalp.pembahasan_pertanyaan"
                                 ></textarea> -->
-                                <VueEditor
-                                  :id="'pembahasan-' + b"
-                                  v-model="soalp.pembahasan_pertanyaan"
-                                  @blur="onUpdatePertanyaan(soalp)"
-                                />
+                                <client-only>
+                                  <VueEditor
+                                    :id="'pembahasan-' + soalp.id + '-' + b"
+                                    :ref="'pembahasan-' + soalp.id + '-' + b"
+                                    v-model="soalp.pembahasan_pertanyaan"
+                                    :editorOptions="editorOptions"
+                                    @blur="onUpdatePertanyaan(soalp)"
+                                  />
+                                  <div class="d-flex justify-content-end">
+                                    <button
+                                      class="btn btn-primary btn-sm square btn-add-mathjax"
+                                      @click="
+                                        addMathJax(
+                                          'pembahasan-' + soalp.id + '-' + b
+                                        )
+                                      "
+                                    >
+                                      Add Formula
+                                    </button>
+                                  </div>
+                                </client-only>
                                 <UISaveStatus
                                   :data="onSubmit.pertanyaan[soalp.id]"
                                   v-if="onSubmit.pertanyaan[soalp.id]"
@@ -617,11 +597,36 @@
                                   class="w-100"
                                   v-model="child.soal"
                                 ></textarea> -->
-                                <VueEditor
-                                  :id="'soal-' + b + ' - ' + d"
-                                  v-model="child.soal"
-                                  @blur="onUpdatePertanyaanChild(child)"
-                                />
+                                <client-only>
+                                  <VueEditor
+                                    :id="
+                                      'soal-' + child.id + '-' + b + ' - ' + d
+                                    "
+                                    :ref="
+                                      'soal-' + child.id + '-' + b + ' - ' + d
+                                    "
+                                    v-model="child.soal"
+                                    :editorOptions="editorOptions"
+                                    @blur="onUpdatePertanyaanChild(child)"
+                                  />
+                                  <div class="d-flex justify-content-end">
+                                    <button
+                                      class="btn btn-primary btn-sm square btn-add-mathjax"
+                                      @click="
+                                        addMathJax(
+                                          'soal-' +
+                                            child.id +
+                                            '-' +
+                                            b +
+                                            ' - ' +
+                                            d
+                                        )
+                                      "
+                                    >
+                                      Add Formula
+                                    </button>
+                                  </div>
+                                </client-only>
                                 <UISaveStatus
                                   :data="onSubmit.perchild[child.id]"
                                   v-if="onSubmit.perchild[child.id]"
@@ -643,68 +648,80 @@
                               </div>
 
                               <div class="px-4 soal">
-                                <div class="row" v-for="(opsi_child,
-                                  d) in child.opsi_pertanyaan"
-                                  :key="'D' + d">
-                                  <div class="col-md-1">
-                                     <input
-                                        type="radio"
-                                        :name="'opsi' + b + '-' + d"
-                                        :value="opsi_child.uuid"
-                                        v-model="child.jawaban_pertanyaan"
-                                        @change="
-                                          onUpdatePertanyaanOpsi(child, d)
-                                        "
-                                      />
-                                  </div>
-                                  <div class="col-md-10">
-                                    <VueEditor
-                                      :name="'opsi-text-' + b + '-' + d"
-                                     v-model="opsi_child.option"
-                                      @blur="onUpdatePertanyaan(child)"
-                                    />
-                                  </div>
-                                  <div class="col-md-1 text-left">
-                                     <button
-                                      type="button"
-                                      class="btn btn-danger"
-                                      v-if="
-                                        d > 3 &&
-                                          opsi_child.correct !==
-                                            child.jawaban_pertanyaan
-                                      "
-                                      @click.prevent="deleteOption(child, d)"
-                                    >
-                                      <i class="fa fa-times"></i>
-                                    </button>
-                                  </div>
-                                </div>
-                                <!-- <div
-                                  class="input-group mb-3"
+                                <div
+                                  class="row mb-3"
                                   v-for="(opsi_child,
                                   d) in child.opsi_pertanyaan"
                                   :key="'D' + d"
                                 >
-                                  <div class="input-group-prepend">
-                                    <div class="input-group-text">
-                                      <input
-                                        type="radio"
-                                        :name="'opsi' + b + '-' + d"
-                                        :value="opsi_child.uuid"
-                                        v-model="child.jawaban_pertanyaan"
-                                        @change="
-                                          onUpdatePertanyaanOpsi(child, d)
-                                        "
-                                      />
-                                    </div>
+                                  <div class="col-md-1">
+                                    <input
+                                      type="radio"
+                                      :id="
+                                        'opsi-' + child.id + '-' + b + '-' + d
+                                      "
+                                      :ref="
+                                        'opsi-' + child.id + '-' + b + '-' + d
+                                      "
+                                      :name="
+                                        'opsi-' + child.id + '-' + b + '-' + d
+                                      "
+                                      :value="opsi_child.uuid"
+                                      v-model="child.jawaban_pertanyaan"
+                                      @change="onUpdatePertanyaanOpsi(child, d)"
+                                    />
                                   </div>
-                                  <input
-                                    type="text"
-                                    class="form-control"
-                                    v-model="opsi_child.option"
-                                    @change="onUpdatePertanyaan(child)"
-                                  />
-                                  <div class="input-group-prepend">
+                                  <div class="col-md-10">
+                                    <client-only>
+                                      <VueEditor
+                                        :id="
+                                          'opsi-text-' +
+                                            child.id +
+                                            '-' +
+                                            b +
+                                            '-' +
+                                            d
+                                        "
+                                        :ref="
+                                          'opsi-text-' +
+                                            child.id +
+                                            '-' +
+                                            b +
+                                            '-' +
+                                            d
+                                        "
+                                        :name="
+                                          'opsi-text-' +
+                                            child.id +
+                                            '-' +
+                                            b +
+                                            '-' +
+                                            d
+                                        "
+                                        v-model="opsi_child.option"
+                                        :editorOptions="editorOptions"
+                                        @blur="onUpdatePertanyaan(child)"
+                                      />
+                                      <div class="d-flex justify-content-end">
+                                        <button
+                                          class="btn btn-primary btn-sm square btn-add-mathjax"
+                                          @click="
+                                            addMathJax(
+                                              'opsi-text-' +
+                                                child.id +
+                                                '-' +
+                                                b +
+                                                '-' +
+                                                d
+                                            )
+                                          "
+                                        >
+                                          Add Formula
+                                        </button>
+                                      </div>
+                                    </client-only>
+                                  </div>
+                                  <div class="col-md-1 text-left">
                                     <button
                                       type="button"
                                       class="btn btn-danger"
@@ -718,7 +735,8 @@
                                       <i class="fa fa-times"></i>
                                     </button>
                                   </div>
-                                </div> -->
+                                </div>
+                                
                                 <UISaveStatus
                                   :data="onSubmit.perchild[child.id]"
                                   v-if="onSubmit.perchild[child.id]"
@@ -733,11 +751,46 @@
                                   class="w-100"
                                   v-model="child.pembahasan_pertanyaan"
                                 ></textarea> -->
-                                <VueEditor
-                                  :id="'pembahasan-' + b + '-' + d"
-                                  v-model="child.pembahasan_pertanyaan"
-                                  @blur="onUpdatePertanyaan(child)"
-                                />
+                                <client-only>
+                                  <VueEditor
+                                    :id="
+                                      'pembahasan-' +
+                                        child.id +
+                                        '-' +
+                                        b +
+                                        '-' +
+                                        d
+                                    "
+                                    :ref="
+                                      'pembahasan-' +
+                                        child.id +
+                                        '-' +
+                                        b +
+                                        '-' +
+                                        d
+                                    "
+                                    v-model="child.pembahasan_pertanyaan"
+                                    :editorOptions="editorOptions"
+                                    @blur="onUpdatePertanyaan(child)"
+                                  />
+                                  <div class="d-flex justify-content-end">
+                                    <button
+                                      class="btn btn-primary btn-sm square btn-add-mathjax"
+                                      @click="
+                                        addMathJax(
+                                          'pembahasan-' +
+                                            child.id +
+                                            '-' +
+                                            b +
+                                            '-' +
+                                            d
+                                        )
+                                      "
+                                    >
+                                      Add Formula
+                                    </button>
+                                  </div>
+                                </client-only>
                                 <UISaveStatus
                                   :data="onSubmit.perchild[child.id]"
                                   v-if="onSubmit.perchild[child.id]"
@@ -864,34 +917,6 @@
                           >
                         </select>
                       </div>
-                      <!-- <div class="form-group reg-siswa">
-                        <label for="alokasi_waktu"
-                          >Alokasi Waktu Per Mata Pelajaran (Menit)
-                          <code>*</code></label
-                        >
-                        <input
-                          type="number"
-                          class="form-control"
-                          id="alokasi_waktu"
-                          name="alokasi_waktu"
-                          placeholder="Misal: 80"
-                          v-model="newMapel.alokasi_waktu_per_mapel"
-                        />
-                      </div> -->
-                      <!-- <div class="form-group reg-siswa">
-                        <label for="jeda_waktu"
-                          >Jeda Waktu Antar Mata Pelajaran (Menit)
-                          <code>*</code></label
-                        >
-                        <input
-                          type="number"
-                          class="form-control"
-                          id="jeda_waktu"
-                          name="jeda_waktu"
-                          placeholder="Misal: 5"
-                          v-model="newMapel.jeda_waktu_antar_mapel"
-                        />
-                      </div> -->
                       <div class="d-flex">
                         <button
                           type="button"
@@ -950,10 +975,29 @@ import { v4 as uuidv4 } from "uuid";
 
 export default {
   layout: "admin",
+  fetchOnServer: false,
   data() {
     return {
       loading: false,
       // customToolbar: [["bold", "italic", "underline"], [{ list: "bullet" }], ['code-block']],
+      editorOptions: {
+        modules: {
+          imageResize: {
+            modules: ["Resize", "DisplaySize", "Toolbar"],
+            handleStyles: {
+              backgroundColor: "black",
+              border: "none",
+              color: "white"
+            },
+            displayStyles: {
+              backgroundColor: "black",
+              border: "none",
+              color: "white"
+            }
+          },
+          mathjax: true
+        }
+      },
       formTryout: {
         panduan_pengerjaan: "",
         kategori: "",
@@ -980,7 +1024,8 @@ export default {
         // jeda_waktu_antar_mapel: null,
         jenis_soal: null,
         kelompok_soal: null
-      }
+      },
+      test: ""
     };
   },
   mounted() {
@@ -990,6 +1035,21 @@ export default {
     this.getData("mapel");
   },
   methods: {
+    addMathJax(ref) {
+      console.log(this.$refs[ref]);
+      let refElement = this.$refs[ref];
+      if (!refElement) return;
+      let editor = refElement.quill;
+      if (!editor) {
+        editor = refElement[0].quill;
+      }
+      const latex = prompt("Enter a LaTeX formula:", "e=mc^2");
+      const range = editor.getSelection(true);
+      editor.deleteText(range.index, range.length);
+      editor.insertEmbed(range.index, "mathjax", latex);
+      editor.insertText(range.index + range.length + 1, " ");
+      editor.setSelection(range.index + range.length + 1);
+    },
     getDetail(type, id) {
       this.loading = true;
       this.$axios
@@ -1497,7 +1557,7 @@ export default {
         });
     },
     onUpdatePertanyaan(pertanyaan) {
-      console.log(pertanyaan);
+      // console.log(pertanyaan);
       if (
         pertanyaan.template_pertanyaan == "Pilihan Ganda Kompleks" &&
         !Array.isArray(pertanyaan.jawaban_pertanyaan)
