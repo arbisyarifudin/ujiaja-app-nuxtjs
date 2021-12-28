@@ -1,6 +1,8 @@
 <template>
-  <PageDashboardStudent v-if="user.role_user == 'siswa'"/>
-  <PageDashboardTeacher v-else-if="user.role_user == 'teacher'"/>
+  <PageDashboardStudent
+    v-if="user.role_user == 'siswa'"
+  />
+  <PageDashboardTeacher v-else-if="user.role_user == 'teacher'" />
 </template>
 
 <script>

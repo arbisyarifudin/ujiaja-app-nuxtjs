@@ -1,10 +1,38 @@
 <template>
-   <div class="container-fluid konten-editprofil">
-    <div class="col-md-12 dash-kelas p-0 text-left">
+  <div class="container-fluid konten-editprofil">
+    <div class="col-md-12 dash-kelas p-0 text-left pos-relative">
       <h2 class="pb-0">Dashboard</h2>
-      <h5 class="mt-4">
+      <UILoading v-if="loading"/>
+      <h5 class="mt-4 mb-4" v-if="isDisplayBatteries">
+        Yuk terus belajar, dan naikan score UTBK kamu untuk meningkatkan peluang masuk
+        ke Perguruan Tinggi impianmu.
+      </h5>
+      <div class="row justify-content-around" v-if="isDisplayBatteries">
+        <div class="col-md-3 col-6 text-center">
+          <div class="h5">{{prodiSatu.program_studi ? prodiSatu.program_studi.nama_studi : '-'}}</div>
+          <div class="h6">Passing Grade {{prodiSatu.passing_grade_prodi}}</div>
+          <div class="battery my-3">
+            <div class="battery-outline">
+              <div class="battery-fill" :style="{height: (190 * (scoreData.pg1_percent / 100)) + 'px'}">{{scoreData.pg1_percent}}%</div>
+            </div>
+          </div>
+          <div class="h6">{{prodiSatu.perguruan ? prodiSatu.perguruan.nama_perguruan : '-'}}</div>
+        </div>
+         <div class="col-md-3 col-6 text-center">
+          <div class="h5">{{prodiDua.program_studi ? prodiDua.program_studi.nama_studi : '-'}}</div>
+          <div class="h6">Passing Grade {{prodiDua.passing_grade_prodi}}</div>
+          <div class="battery my-3">
+            <div class="battery-outline">
+              <div class="battery-fill" :style="{height: (190 * (scoreData.pg2_percent / 100)) + 'px'}">{{scoreData.pg2_percent}}%</div>
+            </div>
+          </div>
+          <div class="h6">{{prodiDua.perguruan ? prodiDua.perguruan.nama_perguruan : '-'}}</div>
+        </div>
+      </div>
+      <!-- <h5 class="mt-4">
         Halo {{ userDetail.nama_lengkap }}, selamat datang!<i class=""></i>
       </h5>
+       -->
       <!-- <h5 class="info-kelas mt-5 mb-5">Kelas Les Privat</h5> -->
       <div class="kelas shadow-sm mt-5">
         <div class="col-md-8">
@@ -53,39 +81,6 @@
             </div>
           </div>
         </div>
-        <!-- <div class="col-md-6">
-          <div class="card card-karir m-3">
-            <div class="card-body text-left p-0">
-              <div class="card-content px-4">
-                <h3
-                  class="card-judul card-program mt-4 mb-2"
-                  style="overflow: hidden; height: 60px"
-                >
-                  Tryout Asesmen Nasional
-                </h3>
-                <p
-                  class="card-text pb-0"
-                  style="overflow: hidden; height: 60px"
-                >
-                  Temukan tryout Asesmen Kompetensi Nasional pilihanmu disini.
-                </p>
-
-                <a href="" class="karir-link"
-                  >Detail <i class="fa fa-chevron-right ml-1"></i
-                ></a>
-              </div>
-              <div class="d-flex justify-content-end pb-4 pr-4 m-0 bordered">
-                <div class="icon-footer">
-                  <h4 class="title">TRYOUT</h4>
-                  <h5 class="subtitle single small">
-                    Asesmen Nasional
-                  </h5>
-                  <img src="/icon/icon-card-bg.png" class="img-fluid image" />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div> -->
         <div class="col-md-6">
           <div class="card card-karir m-3">
             <div class="card-body text-left p-0">
@@ -131,15 +126,101 @@
             Siapa tau aku minat di<br />
             kampus itu...
           </p>
-          <a class="btn btn-primary dashboard px-4" href="/app/mbti">Ikuti Tes MBTI</a>
+          <a class="btn btn-primary dashboard px-4" href="/app/mbti"
+            >Ikuti Tes MBTI</a
+          >
         </div>
       </div>
     </div>
   </div>
 </template>
 
+<style lang="scss" scoped>
+.battery {
+  &-outline {
+    background-image: url("/dashboard/battery-outline.png");
+    width: 125px;
+    height: 250px;
+    // max-width: 100%;
+    background-size: contain;
+    background-position: center center;
+    background-repeat: no-repeat;
+    margin: auto;
+    position: relative;
+    overflow: hidden;
+  }
+  &-fill {
+    background-color: #a494fc;
+    width: 105px;
+    // height: 190px;
+    height: 0;
+    transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: absolute;
+    bottom: 25px;
+    left: 10px;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+</style>
+
 <script>
 export default {
+  data() {
+    return {
+      loading: true,
+      isDisplayBatteries: false,
+      scoreData: {},
+      prodiSatu: {},
+      prodiDua: {}
+    };
+  },
+  created() {
+    this.getProfilLengkap()
+    this.getPersentaseSkor();
+  },
+  methods: {
+    getPersentaseSkor() {
+      this.loading = true
+      this.$axios
+        .$get("/api/tryout_user/rerata-persentase-hasil", {
+          params: {}
+        })
+        .then(response => {
+          if (response.success) {
+            this.scoreData = response.data;
+            this.isDisplayBatteries = true;
+          }
+        })
+        .catch(error => {
+          this.isDisplayBatteries = false;
+        })
+        .finally(() => {
+          this.loading = false
+        })
+    },
+    getProfilLengkap() {
+      this.loading = true
+      this.$axios
+        .$get("/api/users/siswa/find/" + this.user.id, {
+          params: {}
+        })
+        .then(response => {
+          if (response.success) {
+            this.prodiSatu = response.data.prodi_satu;
+            this.prodiDua = response.data.prodi_dua;
+          }
+        })
+        .catch(error => {
+          this.isDisplayBatteries = false;
+        })
+        .finally(() => {
+          this.loading = false
+        })
+    }
+  },
   computed: {
     user() {
       return this.$store.state.dataUser.user;
