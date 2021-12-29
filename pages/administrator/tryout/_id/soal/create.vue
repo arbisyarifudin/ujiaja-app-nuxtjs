@@ -260,9 +260,6 @@
                                 Kosongkan jika tidak diperlukan penjelasan
                                 pertanyaan.
                               </div>
-                              {{
-                                "penjelasan_pertanyaan-" + soalp.id + "-" + b
-                              }}
                               <VueEditor
                                 :id="
                                   'penjelasan_pertanyaan-' + soalp.id + '-' + b
@@ -297,7 +294,7 @@
                             <div class="card-body-content-dua dua">
                               <div class="col-md-12 px-4 py-2 soal mt-2">
                                 <div class="header-soal">
-                                  <p>Pertanyaan 1 <code>*</code></p>
+                                 <p style="font-weight: bold">Pertanyaan {{soalp.nomor}} <code>*</code></p>
                                   <button
                                     type="button"
                                     class="btn btn-danger dua py-1"
@@ -563,8 +560,8 @@
                             >
                               <div class="col-md-12 px-4 py-2 soal mt-2">
                                 <div class="header-soal">
-                                  <p>
-                                    Pertanyaan {{ 3 - 1 + d }} <code>*</code>
+                                  <p style="font-weight: bold">
+                                    Pertanyaan {{child.nomor}} <code>*</code>
                                   </p>
                                   <!-- <button
                                     type="button"
