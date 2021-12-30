@@ -57,7 +57,7 @@
                 <th>Nama Lengkap</th>
                 <th>Email</th>
                 <th>No. Telp/HP</th>
-                <th>Pend. Terakhir</th>
+                <th>Sekolah</th>
                 <th>Umur</th>
               </tr>
             </thead>
@@ -90,8 +90,12 @@
                   <td>{{ item.nama_lengkap }}</td>
                   <td>{{ item.email }}</td>
                   <td>{{ item.nomor_telephone }}</td>
-                  <td>{{ item.pendidikan_terakhir }}</td>
-                  <td>{{ formatSelisih(item.tanggal_lahir ? item.tanggal_lahir : '1980-01-01', new Date(), 'years') }} tahun</td>
+                  <td>{{ item.nama_sekolah ? item.nama_sekolah : '-' }}</td>
+                  <td>
+                    <span v-if="item.tgl_lahir">{{ formatSelisih(item.tgl_lahir, new Date(), 'years') }}</span>
+                    <span v-else>-</span>
+                     tahun
+                  </td>
                 </tr>
               </template>
               <UITableLoading v-if="loading" />
@@ -168,22 +172,30 @@
               <tr>
                 <th width="150">Tanggal Lahir</th>
                 <th width="10">:</th>
-                <th>{{detail.tempat_lahir}}, {{formatTanggal(detail.tanggal_lahir ? detail.tanggal_lahir : '1980-01-01')}}</th>
+                <th>{{detail.tempat_lahir}}, {{formatTanggal(detail.tgl_lahir)}}</th>
               </tr>
               <tr>
                 <th width="150">Umur</th>
                 <th width="10">:</th>
-                <th>{{ formatSelisih(detail.tanggal_lahir ? detail.tanggal_lahir : '1980-01-01', new Date(), 'years') }} tahun</th>
+                <th>
+                  <span v-if="detail.tgl_lahir">{{ formatSelisih(detail.tgl_lahir, new Date(), 'years') }}</span>
+                  <span v-else>-</span>
+                   tahun
+                  </th>
               </tr>
               <tr>
-                <th width="150">Pendidikan Terakhir</th>
+                <th width="150">Nama Sekolah</th>
                 <th width="10">:</th>
-                <th>{{ detail.pendidikan_terakhir }}</th>
+                <th>{{ detail.nama_sekolah }}</th>
               </tr>
               <tr>
                 <th width="150">Alamat Lengkap</th>
                 <th width="10">:</th>
-                <th>{{ detail.alamat_lengkap ? detail.alamat_lengkap : '-' }}</th>
+                <th>{{ detail.alamat_lengkap ? detail.alamat_lengkap : '-' }}
+                  <span v-if="detail.nama_kecamatan">, {{detail.nama_kecamatan}},</span>
+                  <span v-if="detail.nama_kota">{{detail.nama_kota}},</span>
+                  <span v-if="detail.nama_provinsi">{{detail.nama_provinsi}},</span>
+                </th>
               </tr>
               <tr>
                 <th width="150">Agama</th>

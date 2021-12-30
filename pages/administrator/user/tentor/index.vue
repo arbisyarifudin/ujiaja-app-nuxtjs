@@ -90,16 +90,11 @@
                   <td>{{ item.nama_lengkap }}</td>
                   <td>{{ item.email }}</td>
                   <td>{{ item.nomor_telephone }}</td>
-                  <td>{{ item.pendidikan_terakhir }}</td>
+                  <td>{{ item.pendidikan_terakhir ? item.pendidikan_terakhir : '-' }}</td>
                   <td>
-                    {{
-                      formatSelisih(
-                        item.tanggal_lahir ? item.tanggal_lahir : "1980-01-01",
-                        new Date(),
-                        "years"
-                      )
-                    }}
-                    tahun
+                    <span v-if="item.tanggal_lahir">{{ formatSelisih(item.tanggal_lahir, new Date(), 'years') }}</span>
+                    <span v-else>-</span>
+                     tahun
                   </td>
                 </tr>
               </template>
@@ -216,17 +211,10 @@
                 <th width="150">Umur</th>
                 <th width="10">:</th>
                 <th>
-                  {{
-                    formatSelisih(
-                      detail.tanggal_lahir
-                        ? detail.tanggal_lahir
-                        : "1980-01-01",
-                      new Date(),
-                      "years"
-                    )
-                  }}
-                  tahun
-                </th>
+                  <span v-if="detail.tanggal_lahir">{{ formatSelisih(detail.tanggal_lahir, new Date(), 'years') }}</span>
+                  <span v-else>-</span>
+                   tahun
+                  </th>
               </tr>
               <tr>
                 <th width="150">Pendidikan Terakhir</th>
@@ -236,8 +224,10 @@
               <tr>
                 <th width="150">Alamat Lengkap</th>
                 <th width="10">:</th>
-                <th>
-                  {{ detail.alamat_lengkap ? detail.alamat_lengkap : "-" }}
+                <th>{{ detail.alamat_lengkap ? detail.alamat_lengkap : '-' }}
+                  <span v-if="detail.nama_kecamatan">, {{detail.nama_kecamatan}},</span>
+                  <span v-if="detail.nama_kota">{{detail.nama_kota}},</span>
+                  <span v-if="detail.nama_provinsi">{{detail.nama_provinsi}},</span>
                 </th>
               </tr>
               <tr>
