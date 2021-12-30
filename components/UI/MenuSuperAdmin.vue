@@ -75,6 +75,9 @@
       <b-dropdown-item to="/administrator/product"
         >Data Produk / Event</b-dropdown-item
       >
+      <b-dropdown-item to="/administrator/tryout-history"
+        >Riwayat Tryout Siswa</b-dropdown-item
+      >
     </b-nav-item-dropdown>
     <b-nav-item-dropdown text="Modul UKTT" right>
       <template #button-content>
