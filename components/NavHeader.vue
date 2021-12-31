@@ -1,7 +1,9 @@
 <template>
   <b-navbar toggleable="lg" type="dark" variant="transparent" class="mx-lg-5">
     <b-container>
-      <b-navbar-brand to="/"><img src="/logo-ujiaja.png" /></b-navbar-brand>
+      <!-- <b-navbar-brand to="/"><img src="/logo-ujiaja.png" /></b-navbar-brand> -->
+      <b-navbar-brand to="/"><img v-if="ApiUrl" :src="ApiUrl(navData.logo)" class="img-fluid" style="width: 60px"/></b-navbar-brand>
+
       <b-navbar-toggle target="navbarheader"></b-navbar-toggle>
       <b-collapse id="navbarheader" is-nav>
         <!-- Right aligned nav items -->
@@ -27,3 +29,21 @@
     </b-container>
   </b-navbar>
 </template>
+
+<script>
+export default {
+  methods: {
+    ApiUrl(param) {
+      return process.env.apiUrl + "/" + param;
+    },
+  },
+  props: {
+    navData: {
+      type: Object,
+      default: () => {
+        return {}
+      }
+    }
+  }
+}
+</script>

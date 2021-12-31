@@ -6,6 +6,7 @@
       style="background: linear-gradient(180deg, rgba(115, 112, 251, 0.9) 0%, rgba(138, 131, 255, 0.9) 100%);
       box-shadow: 0px 2px 4px rgba(84, 84, 84, 0.12);
       border-radius: 0px 0px 12px 12px;"
+      :navData="navData"
     />
     <div class="hero" id="hero" style="min-height: 400px">
       <div class="container">
@@ -29,7 +30,7 @@
 
 <script>
 export default {
-  props: ["heroData", "variant"],
+  props: ["heroData", "variant", 'navData'],
   data() {
     return {};
   },

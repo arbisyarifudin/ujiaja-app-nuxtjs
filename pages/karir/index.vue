@@ -1,6 +1,6 @@
 <template>
   <div>
-    <HeaderKarir />
+    <HeaderKarir :navData="navData" />
     <div class="program-studi mb-5 mt-n5">
       <div class="container">
         <div class="row justify-content-center">
@@ -118,7 +118,7 @@
         </div>
       </div>
     </div>
-    <Footer />
+    <Footer :footerData="footerData" />
   </div>
 </template>
 
@@ -130,6 +130,36 @@ export default {
         class: "",
       },
     };
+  },
+  asyncData(context) {
+    function getSetting(key) {
+      const settings = context.store.state.dataSetting;
+      const foundSetting = settings.find(item => item.key == key);
+      if(foundSetting) {
+        return foundSetting.isi;
+      }
+      return '';
+    }
+
+    const navData = {
+      logo: getSetting('logo'),
+    }
+
+    const footerData = {
+      logo: getSetting('logo'),
+      alamat_kantor: getSetting('alamat_kantor'),
+      telp: getSetting('telp'),
+      whatsapp: getSetting('whatsapp'),
+      instagram: getSetting('instagram'),
+      facebook: getSetting('facebook'),
+      youtube: getSetting('youtube'),
+      email: getSetting('email'),
+    }
+
+    return {
+      navData,
+      footerData
+    }
   },
 };
 </script>

@@ -13,12 +13,13 @@
               d-lg-block
             "
           >
-            <img src="/logo-ujiaja.png" class="mb-lg-3" />
+          <client-only>
+            <img v-if="ApiUrl" :src="ApiUrl(footerData.logo)" class="mb-lg-3" style="width: 60px"/>
+          </client-only>
             <div class="ml-4 ml-lg-0">
               <h5>Kantor Pusat</h5>
               <p class="mb-0 pb-0">
-                Jl. Sunaryo No.14, Kotabaru, Kec. Gondokusuman, Kota Yogyakarta,
-                Daerah Istimewa Yogyakarta 55224
+                {{footerData.alamat_kantor}}
               </p>
             </div>
           </div>
@@ -29,7 +30,7 @@
               <li><a class="li" href="/untuk-tutor">Untuk Tutor</a></li>
               <li><a class="li" href="/untuk-siswa">Untuk Siswa</a></li>
               <li><a class="li" href="/untuk-orangtua">Untuk Orang Tua</a></li>
-              <li><a class="li" href="/karir">Karir</a></li>
+              <!-- <li><a class="li" href="/karir">Karir</a></li> -->
             </ul>
           </div>
           <div class="mb-3 col-lg-3 col-sm-4 col-6">
@@ -58,31 +59,31 @@
               <li><h4>Hubungi Kami</h4></li>
               <li>
                 <ul class="list-unstyled nav mb-2 flex-wrap">
-                  <li>
-                    <a href="#"
+                  <li v-if="footerData.telp">
+                    <a :href="`tel:${footerData.telp}`"
                       ><span class="sosmed"><i class="fas fa-phone"></i></span
                     ></a>
                   </li>
-                  <li>
-                    <a href="#"
+                  <li v-if="footerData.instagram">
+                    <a :href="`${footerData.instagram}`"
                       ><span class="sosmed"
                         ><i class="fab fa-instagram"></i></span
                     ></a>
                   </li>
-                  <li>
-                    <a href="#"
+                 <li v-if="footerData.whatsapp">
+                    <a :href="`https://wa.me/${footerData.whatsapp}`"
                       ><span class="sosmed"
                         ><i class="fab fa-whatsapp"></i></span
                     ></a>
                   </li>
-                  <li>
-                    <a href="#"
+                  <li v-if="footerData.facebook">
+                    <a :href="`${footerData.facebook}`"
                       ><span class="sosmed"
                         ><i class="fab fa-facebook"></i></span
                     ></a>
                   </li>
-                  <li>
-                    <a href="#"
+                  <li v-if="footerData.email">
+                    <a :href="`mailto:${footerData.email}`"
                       ><span class="sosmed"
                         ><i class="fas fa-envelope"></i></span
                     ></a>
@@ -103,3 +104,21 @@
     </footer>
   </div>
 </template>
+
+<script>
+export default {
+  methods: {
+    ApiUrl(param) {
+      return process.env.apiUrl + "/" + param;
+    },
+  },
+  props: {
+    footerData: {
+      type: Object,
+      default: () => {
+        return {}
+      }
+    }
+  }
+}
+</script>

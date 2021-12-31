@@ -5,7 +5,7 @@
       haveVariant ? 'variant-' + this.variant : '',
     ]"
   >
-    <NavHeader />
+    <NavHeader :navData="navData" />
     <div class="hero" id="hero" style="min-height: 400px">
       <div class="container">
         <div class="row">
@@ -28,7 +28,7 @@
 
 <script>
 export default {
-  props: ["heroData", "variant"],
+  props: ["heroData", "variant", "navData"],
   data() {
     return {};
   },

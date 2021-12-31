@@ -8,7 +8,8 @@
   >
     <b-navbar toggleable="lg" type="dark" variant="transparent">
       <b-container>
-        <b-navbar-brand to="/"><img src="/logo-ujiaja.png" /></b-navbar-brand>
+        <!-- <b-navbar-brand to="/"><img src="/logo-ujiaja.png" /></b-navbar-brand> -->
+        <b-navbar-brand to="/"><img v-if="ApiUrl" :src="ApiUrl(navData.logo)" class="img-fluid" style="width: 60px"/></b-navbar-brand>
         <b-navbar-toggle target="navbarheader"></b-navbar-toggle>
         <b-collapse id="navbarheader" is-nav>
           <!-- Right aligned nav items -->
@@ -79,7 +80,7 @@
 
 <script>
 export default {
-  props: ["variant"],
+  props: ["variant", "navData"],
   data() {
     return {};
   },
@@ -89,6 +90,11 @@ export default {
         return true;
       }
       return false;
+    },
+  },
+   methods: {
+    ApiUrl(param) {
+      return process.env.apiUrl + "/" + param;
     },
   },
 };

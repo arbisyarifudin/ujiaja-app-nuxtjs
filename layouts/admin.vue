@@ -4,7 +4,7 @@
       <div class="row">
         <div class="col-xl-3 col-lg-4 col-sm-4 bg-white d-none d-lg-block">
           <nav class="sidebar navbar-light pt-3 pl-4" id="menu">
-            <img src="/logo2.png" class="img-fluid w-25 pb-4" />
+            <img v-if="ApiUrl" :src="ApiUrl(getSetting('logo'))" class="img-fluid w-25 pb-4" />
             <UIMenuSuperAdmin v-if="user.role_user == 'superAdmin'" />
             <UIMenuAdmin v-else-if="user.role_user == 'admin'" />
           </nav>
@@ -16,7 +16,8 @@
           backdrop
         >
           <nav class="sidebar navbar-light pt-3 pl-4" id="menu">
-            <img src="/logo2.png" class="img-fluid w-25 pb-4" />
+            <!-- <img src="/logo2.png" class="img-fluid w-25 pb-4" /> -->
+            <img v-if="ApiUrl" :src="ApiUrl(getSetting('logo'))" class="img-fluid w-25 pb-4" />
             <UIMenuAdmin />
           </nav>
         </b-sidebar>
@@ -55,6 +56,9 @@
                   </template>
                   <b-dropdown-item to="/administrator/profile"
                     >Profil</b-dropdown-item
+                  >
+                   <b-dropdown-item to="/administrator/setting"
+                    >Pengaturan</b-dropdown-item
                   >
                   <b-dropdown-item @click.prevent="appLogout"
                     >Keluar</b-dropdown-item

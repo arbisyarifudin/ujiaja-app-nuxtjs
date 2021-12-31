@@ -89,7 +89,7 @@ export const actions = {
     }
 
     await app.$axios
-      .$get("api/pengaturan", {
+      .$get("api/public/pengaturan", {
         headers: {
           Authorization: "Bearer " + app.$cookiz.get("_ujiaja")
         }
@@ -109,7 +109,7 @@ export const actions = {
             }
           })
           .then(async response => {
-            // console.log('pengaturan', response.data)
+            // console.log('notif', response.data)
             if (response.success) {
               await commit("set", ["notifData", response.data.data]);
               await commit("set", ["notifTotal", response.data.total]);

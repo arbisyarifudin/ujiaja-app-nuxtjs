@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Header variant="melengkung primary" :heroData="header.hero" />
+    <Header variant="melengkung primary" :heroData="header.hero" :navData="navData"/>
     <SectionKeunggulan :props="keunggulan" variant="bg-transparent" />
     <SectionLangkah :props="langkah" />
     <SectionCardHero
@@ -12,7 +12,7 @@
       button
     />
 
-    <SectionPertanyaan :items="pertanyaan" />
+    <SectionPertanyaan :items="pertanyaan" :footerData="footerData" />
 
     <Footer />
   </div>
@@ -135,6 +135,36 @@ export default {
         },
       ],
     };
+  },
+  asyncData(context) {
+    function getSetting(key) {
+      const settings = context.store.state.dataSetting;
+      const foundSetting = settings.find(item => item.key == key);
+      if(foundSetting) {
+        return foundSetting.isi;
+      }
+      return '';
+    }
+
+    const navData = {
+      logo: getSetting('logo'),
+    }
+
+    const footerData = {
+      logo: getSetting('logo'),
+      alamat_kantor: getSetting('alamat_kantor'),
+      telp: getSetting('telp'),
+      whatsapp: getSetting('whatsapp'),
+      instagram: getSetting('instagram'),
+      facebook: getSetting('facebook'),
+      youtube: getSetting('youtube'),
+      email: getSetting('email'),
+    }
+
+    return {
+      navData,
+      footerData
+    }
   },
 };
 </script>

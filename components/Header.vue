@@ -3,14 +3,14 @@
     id="header"
     :class="['header', haveVariant ? 'variant-' + this.variant : '']"
   >
-    <NavHeader />
+    <NavHeader :navData="navData"/>
     <Hero :props="heroData" v-if="heroData" />
   </header>
 </template>
 
 <script>
 export default {
-  props: ["heroData", "variant"],
+  props: ["heroData", "variant", "navData"],
   data() {
     return {};
   },

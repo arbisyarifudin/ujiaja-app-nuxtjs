@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Header variant="melengkung no-hero primary" />
+    <Header variant="melengkung no-hero primary" :navData="navData"/>
     <div class="page-content kebijakan-privasi bg-white">
       <div class="">
         <h2 class="page-title">Syarat dan Ketenuan</h2>
@@ -97,6 +97,41 @@
         </div>
       </div>
     </div>
-    <Footer class="bg-white" />
+    <Footer class="bg-white" :footerData="footerData"/>
   </div>
 </template>
+
+<script>
+export default {
+  asyncData(context) {
+    function getSetting(key) {
+      const settings = context.store.state.dataSetting;
+      const foundSetting = settings.find(item => item.key == key);
+      if(foundSetting) {
+        return foundSetting.isi;
+      }
+      return '';
+    }
+
+    const navData = {
+      logo: getSetting('logo'),
+    }
+
+    const footerData = {
+      logo: getSetting('logo'),
+      alamat_kantor: getSetting('alamat_kantor'),
+      telp: getSetting('telp'),
+      whatsapp: getSetting('whatsapp'),
+      instagram: getSetting('instagram'),
+      facebook: getSetting('facebook'),
+      youtube: getSetting('youtube'),
+      email: getSetting('email'),
+    }
+
+    return {
+      navData,
+      footerData
+    }
+  },
+}
+</script>

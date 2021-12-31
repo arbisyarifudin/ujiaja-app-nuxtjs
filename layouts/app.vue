@@ -4,7 +4,8 @@
       <div class="row">
         <div class="col-lg-3 bg-white d-none d-lg-block">
           <nav class="sidebar navbar-light pt-3 pl-4" id="menu">
-            <img src="/logo2.png" class="img-fluid w-25 pb-4" />
+            <img v-if="ApiUrl" :src="ApiUrl(getSetting('logo'))" class="img-fluid w-25 pb-4" />
+            <!-- <img src="/logo2.png" class="img-fluid w-25 pb-4" /> -->
             <UIMenuStudent v-if="user.role_user == 'siswa'" />
             <UIMenuPartner v-if="user.role_user == 'teacher'" />
           </nav>
@@ -16,7 +17,8 @@
           backdrop
         >
           <nav class="sidebar navbar-light pt-3 pl-4" id="menu">
-            <img src="/logo2.png" class="img-fluid w-25 pb-4" />
+            <img v-if="ApiUrl" :src="ApiUrl(getSetting('logo'))" class="img-fluid w-25 pb-4" />
+            <!-- <img src="/logo2.png" class="img-fluid w-25 pb-4" /> -->
             <UIMenuStudent v-if="user.role_user == 'siswa'" />
             <UIMenuPartner v-if="user.role_user == 'teacher'" />
           </nav>
