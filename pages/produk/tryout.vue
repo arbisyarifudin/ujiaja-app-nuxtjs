@@ -75,15 +75,15 @@ export default {
             tambahan: "Gratis Tes Minat, Bakat & Potensi",
             url: "/produk/tryout-utbk",
           },
-          {
-            gambar: "/produk/tryout2.png",
-            judul: 'Tryout <span class="large">Asesmen Nasional</span>',
-            brand: "by UjiAja",
-            deskripsi:
-              "Persiapkan dirimu hadapi ujian Asesmen Kompetensi Minimum (Literasi & Numerasi) dengan latihan Tryout AKM yang akurat. Tryout ini ditujukan untuk jenjang SD hingga SMA.",
-            tambahan: null,
-            url: "/produk/tryout-asesmen-nasional",
-          },
+          // {
+          //   gambar: "/produk/tryout2.png",
+          //   judul: 'Tryout <span class="large">Asesmen Nasional</span>',
+          //   brand: "by UjiAja",
+          //   deskripsi:
+          //     "Persiapkan dirimu hadapi ujian Asesmen Kompetensi Minimum (Literasi & Numerasi) dengan latihan Tryout AKM yang akurat. Tryout ini ditujukan untuk jenjang SD hingga SMA.",
+          //   tambahan: null,
+          //   url: "/produk/tryout-asesmen-nasional",
+          // },
           {
             gambar: "/produk/tryout3.png",
             judul: 'Tryout <span class="large">ASPD</span>',
@@ -100,7 +100,7 @@ export default {
             deskripsi:
               "Persiapkan kuliah, dan potensimu dengan pilihan yang tepat sesuai minat dan bakat dengan ikut MBTI. MBTI ini ditujukan untuk jenjang SD hingga SMA.",
             tambahan: null,
-            url: "#",
+            url: "/app/mbti",
           },
         ],
       },

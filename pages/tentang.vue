@@ -202,7 +202,7 @@ export default {
             "Media pembelajaran berbasis teknologi yang fokus pada kemampuan menjawab soal sehingga kamu bisa lebih mempersiapkan diri menghadapi ujian. ",
           judul: "Tentang UjiAja",
           ctaButtonText: null,
-          // image: "/tentang-ujiaja.png",
+          image: "/banner-tentang.png",
           isJudulFirst: false,
         },
       },

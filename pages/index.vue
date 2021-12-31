@@ -11,7 +11,7 @@
       description="Uji Tes Minat Bakat, Latihan Soal Tryout, dan
     belajar di UjiAja itu menyenangkan! Tapi, kamu dapat nikmati fitur-fitur
     UjiAja lebih lengkap tanpa batas dengan membeli Tryout Premium."
-      href="#"
+      href="/app/tryout"
       cta-text="Lihat Tryout"
     />
     <SectionTestimoni :props="testimoni" />
@@ -19,7 +19,7 @@
       src="/eneng.png"
       title="Ribuan Pesaingmu Mulai Persiapkan Diri"
       description="Tunggu apa lagi? Ayo bergabung dengan UjiAja dan belajar bareng bersama UjiAja!"
-      href="#"
+      href="/registrasi"
       cta-text="Daftar Sekarang"
       button
     />
@@ -80,15 +80,17 @@ export default {
             brand: "by UjiAja",
             deskripsi:
               "Persiapkan dirimu hadapi Tryout UTBK hingga ASPD dengan latihan Tryout yang akurat dan lengkap dengan fitur terbaik.",
-            tambahan: "Gratis Tes Minat, Bakat & Potensi"
+            tambahan: "Gratis Tes Minat, Bakat & Potensi",
+            url: "/produk/tryout"
           },
           {
-            gambar: "/produk/Produk2.png",
+            gambar: "/produk/produk2.png",
             judul: 'Les<span class="large">Privat</span>',
             brand: "by UjiAja",
             deskripsi:
               "Temukan guru privat untuk belajar eksklusif 1 murid 1 guru. Semua pelajaran, semua usia!",
-            tambahan: null
+            tambahan: null,
+            url: "/produk/les-privat"
           }
         ]
       },

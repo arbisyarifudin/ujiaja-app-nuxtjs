@@ -18,7 +18,7 @@
                   <img :src="item.foto" class="img-fluid" />
                 </div>
                 <div class="col-lg-8 col-12 pt-lg-5">
-                  <h3>{{ item.nama }}</h3>
+                  <h3 class="mt-0 mb-2">{{ item.nama }}</h3>
                   <h4>{{ item.titel }}</h4>
                 </div>
               </div>

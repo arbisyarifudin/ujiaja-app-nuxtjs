@@ -20,7 +20,7 @@
                     <p class="fitur-text">
                       Ribuan soal dan pembahasan yang dapat digunakan oleh guru
                     </p>
-                    <a href="" class="readmore">Selengkapnya</a>
+                    <a href="/app" class="readmore">Selengkapnya</a>
                   </CardGrad>
                 </div>
                 <div class="col-md-8 mb-4">
@@ -32,7 +32,7 @@
                           Tersedia ratusan paket Try Out yang bisa di akses
                           kapan saja dan dimana saja
                         </p>
-                        <a href="" class="readmore">Selengkapnya</a>
+                        <a href="/app/tryout" class="readmore">Selengkapnya</a>
                       </div>
                       <div class="col-md-6 text-center order-md-2 order-1">
                         <img src="/fitur/fitur2.png" class="img-fluid h-100" />
@@ -51,7 +51,7 @@
                           Pengajar kami senantiasa menunggu pertanyaan mu setiap
                           harinya
                         </p>
-                        <a href="" class="readmore">Selengkapnya</a>
+                        <a href="/app" class="readmore">Selengkapnya</a>
                       </div>
                       <div class="col-md-6 text-center order-md-2 order-1">
                         <img src="/fitur/fitur4.png" class="img-fluid h-100" />
@@ -68,7 +68,7 @@
                     <p class="fitur-text">
                       Akses dan ikuti event Tryout Nasional setiap bulannya
                     </p>
-                    <a href="" class="readmore">Selengkapnya</a>
+                    <a href="/app/tryout" class="readmore">Selengkapnya</a>
                   </CardGrad>
                 </div>
               </div>
@@ -86,12 +86,12 @@
                   Orang tua dapat memantau perkembangan belajar anak dengan data
                   statistik hasil ujian.
                 </p>
-                <a href="" class="readmore text-left">Selengkapnya</a>
+                <a href="/app" class="readmore text-left">Selengkapnya</a>
               </CardGrad>
             </div>
           </div>
           <div class="row">
-            <div class="col-md-3 mb-4">
+            <div class="col-md-6 mb-4">
               <CardGrad :lg="'top-bottom'" class="fitur">
                 <div class="text-center">
                   <img src="/fitur/fitur6.png" class="mb-4 img-fluid" />
@@ -103,7 +103,7 @@
                 <a href="" class="readmore">Selengkapnya</a>
               </CardGrad>
             </div>
-            <div class="col-md-6 mb-4">
+            <!-- <div class="col-md-6 mb-4">
               <CardGrad :lg="'left-right'" class="fitur">
                 <div class="row">
                   <div class="col-md-6 text-center">
@@ -119,8 +119,8 @@
                   </div>
                 </div>
               </CardGrad>
-            </div>
-            <div class="col-md-3 mb-4">
+            </div> -->
+            <div class="col-md-6 mb-4">
               <CardGrad :lg="'top-bottom'" class="fitur">
                 <div class="text-center">
                   <img src="/fitur/fitur8.png" class="pb-3 ml-2 img-fluid" />
@@ -129,7 +129,7 @@
                 <p class="fitur-text">
                   Siswa dapat menggali potensi diri lebih dalam dengan tes ini
                 </p>
-                <a href="" class="readmore">Selengkapnya</a>
+                <a href="app/mbti" class="readmore">Selengkapnya</a>
               </CardGrad>
             </div>
           </div>

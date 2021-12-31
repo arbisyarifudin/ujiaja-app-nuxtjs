@@ -766,6 +766,12 @@ body {
   line-height: 28px;
 }
 
+@media screen and (max-width: 1280px) {
+  #hero img.hero-image {
+    width: 38%;
+  }
+}
+
 /* CSS on MOBILE */
 /* HAPE */
 /* TABLET */

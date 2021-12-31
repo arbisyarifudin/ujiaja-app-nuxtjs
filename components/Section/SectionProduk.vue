@@ -7,7 +7,7 @@
           <p v-html="props.deskripsi"></p>
         </div>
       </div>
-      <div class="row">
+      <div class="row justify-content-around">
         <template v-for="(item, i) in props.item">
           <div class="col-lg-6 col-md-12 mb-4" :key="'SP' + i">
             <div class="produk">
