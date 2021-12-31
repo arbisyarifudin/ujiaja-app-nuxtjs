@@ -14,6 +14,8 @@
       href="/app/tryout"
       cta-text="Lihat Tryout"
     />
+    <SectionTryoutAkbar />
+    <SectionProgramStudi />
     <SectionTestimoni :props="testimoni" />
     <SectionCardHero
       src="/eneng.png"
@@ -43,7 +45,7 @@ export default {
         }
       },
       keunggulan: {
-        judul: "Kenapa Harus Pakai UjiAja?",
+        judul: "Kenapa Harus Pakai UjiAja.com?",
         item: [
           {
             gambar: "/icon/icon1.png",

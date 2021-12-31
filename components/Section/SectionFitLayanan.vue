@@ -100,7 +100,7 @@
                 <p class="fitur-text">
                   Soal yang tersedia sesuai dengan TPM DIY
                 </p>
-                <a href="" class="readmore">Selengkapnya</a>
+                <a href="/app/tryout" class="readmore">Selengkapnya</a>
               </CardGrad>
             </div>
             <!-- <div class="col-md-6 mb-4">
