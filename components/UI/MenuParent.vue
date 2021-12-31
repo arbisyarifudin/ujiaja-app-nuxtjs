@@ -8,29 +8,14 @@
     <li class="nav-item">
       <nuxt-link
         class="nav-link d-flex align-items-center"
-        to="/app/partner/courses"
-        ><i class="fab fa-wpforms fa-2x fa-fw mr-2"></i> Kelas Kursus</nuxt-link
+        to="/app/partner/tryout"
+        ><i class="far fa-edit fa-2x fa-fw mr-2"></i> Hasil Ujian</nuxt-link
       >
     </li>
     <li class="nav-item">
-      <nuxt-link
-        class="nav-link d-flex align-items-center"
-        to="/app/partner/uktt"
-        ><i class="far fa-edit fa-2x fa-fw mr-2"></i> Ujian UKTT</nuxt-link
-      >
-    </li>
-    <li class="nav-item">
-      <nuxt-link class="nav-link d-flex align-items-center" to="/app/payment"
+      <nuxt-link class="nav-link d-flex align-items-center" to="/app/parent/payment"
         ><i class="far fa-file-alt fa-2x fa-fw mr-2"></i> Riwayat
         Transaksi</nuxt-link
-      >
-    </li>
-    <li class="nav-item">
-      <nuxt-link
-        class="nav-link d-flex align-items-center"
-        to="/app/partner/testimonial"
-        ><i class="far fa-comment fa-2x fa-fw mr-2"></i> Testimoni
-        Siswa</nuxt-link
       >
     </li>
     <li class="nav-item">

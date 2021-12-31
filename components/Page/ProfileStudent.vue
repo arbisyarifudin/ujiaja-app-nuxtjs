@@ -1,6 +1,12 @@
 <template>
   <b-card>
-    <h3 class="card-title">Profil</h3>
+    <div class="d-flex justify-content-between align-items-center">
+      <h3 class="card-title">Profil</h3>
+      <div>Kelengkapan Profil: 
+        <span class="text-success font-weight-bold" v-if="isProfilLengkap">100%</span>
+        <span class="text-danger font-weight-bold" v-else>15%</span>
+      </div>
+    </div>
     <hr />
     <table class="table table-borderless">
       <tbody>
@@ -70,6 +76,9 @@ export default {
     },
     user_detail() {
       return this.$store.state.dataUser.detail;
+    },
+    isProfilLengkap() {
+      return this.$store.state.isProfilLengkap
     }
   }
 };
