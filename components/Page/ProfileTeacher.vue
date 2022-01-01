@@ -222,7 +222,8 @@ export default {
       .then(response => {
         console.log(response)
         this.showToastMessage('Akun berhasil dihapus')
-        this.$cookiz.removeAll()
+        this.$cookiz.remove("_ujiaja");
+        this.$store.commit("SET_IS_AUTH", false);
         this.$router.replace({path: '/masuk'})
       })
       .catch(error => {
