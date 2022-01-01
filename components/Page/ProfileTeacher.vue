@@ -2,8 +2,11 @@
   <b-card>
     <div class="d-flex justify-content-between align-items-center">
       <h3 class="card-title">Profil</h3>
-      <div>Kelengkapan Profil: 
-        <span class="text-success font-weight-bold" v-if="isProfilLengkap">100%</span>
+      <div>
+        Kelengkapan Profil:
+        <span class="text-success font-weight-bold" v-if="isProfilLengkap"
+          >100%</span
+        >
         <span class="text-danger font-weight-bold" v-else>15%</span>
       </div>
     </div>
@@ -35,10 +38,16 @@
               <tr>
                 <th width="140">Username</th>
                 <th width="20" class="px-0 text-center">:</th>
-                <td>{{ user.username }} <span title="Status Verifikasi" class="ml-1">
-                  <i class="fas fa-check text-success" v-if="user.verifikasi == 2"></i>
-                  <i class="fas fa-times text-danger" v-else></i>
-                  </span></td>
+                <td>
+                  {{ user.username }}
+                  <span title="Status Verifikasi" class="ml-1">
+                    <i
+                      class="fas fa-check text-success"
+                      v-if="user.verifikasi == 2"
+                    ></i>
+                    <i class="fas fa-times text-danger" v-else></i>
+                  </span>
+                </td>
               </tr>
               <tr>
                 <th width="140">Email</th>
@@ -71,9 +80,14 @@
             </tbody>
           </table>
         </div>
-        <nuxt-link to="/app/profile/edit" class="btn btn-info btn-sm"
-          >Ubah Profil</nuxt-link
-        >
+        <div class="d-flex align-items-center justify-content-between">
+          <nuxt-link to="/app/profile/edit" class="btn btn-info btn-sm"
+            >Ubah Profil</nuxt-link
+          >
+          <button class="btn btn-danger btn-sm" style="opacity: 80%" v-b-modal.modal-delete>
+            <i class="fas fa-fw mr-1 fa-trash"></i> Hapus Akun
+          </button>
+        </div>
       </div>
       <div class="col-md-5">
         <h4>Level</h4>
@@ -87,26 +101,74 @@
           <div class="col-md-8">
             <div class="level-rating text-left mb-2">
               <div class="title">Rating saat Ini:</div>
-              <div class="text-star" v-html="rerataUlasan(user_detail.rate_mengajar)"></div>
-              <div><b>{{user_detail.rate_mengajar}}</b>/5</div>
+              <div
+                class="text-star"
+                v-html="rerataUlasan(user_detail.rate_mengajar)"
+              ></div>
+              <div>
+                <b>{{ user_detail.rate_mengajar }}</b
+                >/5
+              </div>
             </div>
             <div class="level-honorarium text-left mb-2">
               <div class="title">Honorarium Maksimum:</div>
-              <div v-if="user && formatRupiah">Rp {{user_detail.level ? formatRupiah(user_detail.level.honor_level) : 0}}</div>
+              <div v-if="user && formatRupiah">
+                Rp
+                {{
+                  user_detail.level
+                    ? formatRupiah(user_detail.level.honor_level)
+                    : 0
+                }}
+              </div>
             </div>
             <div class="level-job text-left mb-2">
               <div class="title">Total Mengajar:</div>
-              <div>{{user_detail.total_mengajar}} sesi</div>
+              <div>{{ user_detail.total_mengajar }} sesi</div>
             </div>
           </div>
         </div>
       </div>
     </div>
+   <b-modal
+      id="modal-delete"
+      title="Konfirmasi Hapus Akun"
+      hide-footer
+      centered
+      modal-class="admin-modal"
+    >
+      <div>
+        <p class="modal-text">
+          Apakah anda yakin ingin menghapus akun Tentor anda? <small class="text-danger"><b>Perhatian:</b> Setelah dihapus, akun tidak dapat dikembalikan.</small>
+        </p>
+        <div class="modal-footer justify-content-end" style="border: 0px">
+          <button
+            class="btn btn-outline-danger"
+            type="button"
+            @click="$bvModal.hide('modal-delete')"
+          >
+            Tidak
+          </button>
+          <button
+            class="btn btn-danger tambah px-4 py-2"
+            type="button"
+            :disabled="submitting"
+            @click.prevent="deleteData"
+          >
+            <b-spinner small v-if="submitting" class="mr-1"></b-spinner> Ya, Saya Yakin
+          </button>
+        </div>
+      </div>
+    </b-modal>
   </b-card>
 </template>
 
 <script>
 export default {
+  data() {
+    return {
+      submitting: false,
+    }
+  },
   computed: {
     user() {
       return this.$store.state.dataUser.user;
@@ -115,7 +177,7 @@ export default {
       return this.$store.state.dataUser.detail;
     },
     isProfilLengkap() {
-      return this.$store.state.isProfilLengkap
+      return this.$store.state.isProfilLengkap;
     }
   },
   methods: {
@@ -148,12 +210,28 @@ export default {
       for (let x = 0; x < sisaDesimal; x++) {
         element += '<i class="fas fa-star-half-alt fa-fw text-star"></i>';
       }
-      for (let x = 0; x < (5 - rataRataFloor - sisaDesimal); x++) {
+      for (let x = 0; x < 5 - rataRataFloor - sisaDesimal; x++) {
         element += '<i class="far fa-star fa-fw text-star"></i>';
       }
 
       return element;
     },
+    deleteData() {
+      this.submitting = true
+      this.$axios.$delete('/api/users/teacher/delete/' + this.user.id)
+      .then(response => {
+        console.log(response)
+        this.showToastMessage('Akun berhasil dihapus')
+        this.$cookiz.removeAll()
+        this.$router.replace({path: '/masuk'})
+      })
+      .catch(error => {
+        this.catchError(error)
+      })
+      .finally(() => {
+        this.submitting = false
+      })
+    }
   }
 };
 </script>
