@@ -194,6 +194,11 @@
 
 <script>
 export default {
+  head() {
+    return {
+      title: 'Tentang',
+    }
+  },
   data() {
     return {
       header: {

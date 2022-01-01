@@ -26,6 +26,11 @@
 
 <script>
 export default {
+  head() {
+    return {
+      title: 'Tryout',
+    }
+  },
   data() {
     return {
       header: {

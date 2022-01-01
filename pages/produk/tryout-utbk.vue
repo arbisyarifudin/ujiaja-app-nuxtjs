@@ -37,6 +37,11 @@
 
 <script>
 export default {
+  head() {
+    return {
+      title: 'Tryout UTBK',
+    }
+  },
   data() {
     return {
       header: {

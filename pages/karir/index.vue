@@ -126,6 +126,7 @@
 export default {
   head() {
     return {
+      title: 'Karir',
       bodyAttrs: {
         class: "",
       },

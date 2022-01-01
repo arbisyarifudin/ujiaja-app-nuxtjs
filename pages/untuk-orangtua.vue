@@ -70,6 +70,11 @@
 
 <script>
 export default {
+  head() {
+    return {
+      title: 'Untuk Orangtua',
+    }
+  },
   data() {
     return {
       header: {

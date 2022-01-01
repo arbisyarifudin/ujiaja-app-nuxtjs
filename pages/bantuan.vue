@@ -124,6 +124,11 @@
 
 <script>
 export default {
+  head() {
+    return {
+      title: 'Bantuan',
+    }
+  },
   data() {
     return {
       toggled: 1,

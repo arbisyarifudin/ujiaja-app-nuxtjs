@@ -147,6 +147,11 @@ import ContentWrapper from "@/components/Layout/ContentWrapper";
 export default {
   middleware: "auth-guest",
   components: { ContentWrapper },
+  head() {
+    return {
+      title: 'Masuk',
+    }
+  },
   asyncData(context) {
     function getSetting(key) {
       const settings = context.store.state.dataSetting;

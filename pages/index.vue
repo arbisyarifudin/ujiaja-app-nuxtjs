@@ -31,6 +31,12 @@
 
 <script>
 export default {
+  head() {
+    return {
+      title: this.navData.seo_web_name ?? 'Ujiaja.com',
+      titleTemplate: '%s'
+    }
+  },
   data() {
     return {
       header: {
@@ -130,6 +136,7 @@ export default {
 
     const navData = {
       logo: getSetting('logo'),
+      seo_web_name: getSetting('seo_web_name'),
     }
 
     const footerData = {

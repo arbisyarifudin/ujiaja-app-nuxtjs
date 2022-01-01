@@ -103,6 +103,11 @@
 
 <script>
 export default {
+  head() {
+    return {
+      title: 'Syarat & Ketentuan',
+    }
+  },
   asyncData(context) {
     function getSetting(key) {
       const settings = context.store.state.dataSetting;

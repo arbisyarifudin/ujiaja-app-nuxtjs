@@ -225,6 +225,11 @@
 <script>
 export default {
   middleware: "auth-guest",
+  head() {
+    return {
+      title: 'Registrasi',
+    }
+  },
   data() {
     return {
       showPassword: false,

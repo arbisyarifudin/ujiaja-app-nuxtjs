@@ -40,6 +40,11 @@ dan menjadi pemenang di UKTT!"
 
 <script>
 export default {
+  head() {
+    return {
+      title: 'Ujian Kenaikan Tingkat Tentor (UKTT)',
+    }
+  },
   data() {
     return {
       keunggulan: {

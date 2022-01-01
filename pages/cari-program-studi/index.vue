@@ -166,7 +166,9 @@
 <script>
 export default {
   head() {
-    return {};
+    return {
+      title: 'Cari Program Studi',
+    }
   },
   asyncData(context) {
     function getSetting(key) {

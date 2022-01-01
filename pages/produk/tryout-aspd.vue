@@ -40,6 +40,11 @@ dan menjadi pemenang di Tryout ASPD!"
 
 <script>
 export default {
+  head() {
+    return {
+      title: 'Tryout ASPD',
+    }
+  },
   data() {
     return {
       keunggulan: {

@@ -20,6 +20,11 @@
 
 <script>
 export default {
+  head() {
+    return {
+      title: 'Les Privat',
+    }
+  },
   data() {
     return {
       header: {

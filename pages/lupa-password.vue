@@ -59,6 +59,11 @@
 <script>
 export default {
   middleware: "auth-guest",
+  head() {
+    return {
+      title: 'Lupa Password',
+    }
+  },
   data() {
     return {
       form: {

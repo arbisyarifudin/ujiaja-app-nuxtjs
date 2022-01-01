@@ -74,6 +74,11 @@
 
 <script>
 export default {
+  head() {
+    return {
+      title: this.detail.nama_studi,
+    }
+  },
   data() {
     return {
       // detail: {}

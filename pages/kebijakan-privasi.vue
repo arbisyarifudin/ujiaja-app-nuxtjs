@@ -97,6 +97,11 @@
 
 <script>
 export default {
+  head() {
+    return {
+      title: 'Kebijakan Privasi',
+    }
+  },
   asyncData(context) {
     function getSetting(key) {
       const settings = context.store.state.dataSetting;

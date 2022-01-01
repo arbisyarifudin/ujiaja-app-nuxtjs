@@ -99,6 +99,11 @@
 <script>
 export default {
   middleware: "auth-guest",
+  head() {
+    return {
+      title: 'Ganti Password',
+    }
+  },
   asyncData(context) {
     function getSetting(key) {
       const settings = context.store.state.dataSetting;

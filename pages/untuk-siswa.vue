@@ -26,6 +26,11 @@
 
 <script>
 export default {
+  head() {
+    return {
+      title: 'Untuk Siswa',
+    }
+  },
   data() {
     return {
       header: {
