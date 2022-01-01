@@ -148,6 +148,14 @@
               <span class="small">Tidak ada data program studi.</span>
             </div>
           </div>
+          <b-pagination
+            class="pagination-table"
+            v-if="totalRows > 0 && totalRows > filter.perPage"
+            v-model="filter.page"
+            :total-rows="totalRows"
+            :per-page="filter.perPage"
+          >
+          </b-pagination>
         </div>
       </div>
     </div>
@@ -195,7 +203,7 @@ export default {
       loading: true,
       filter: {
         keyword: "",
-        perPage: "",
+        perPage: 9,
         page: 1,
         mapel: null,
         penjurusan: null
@@ -227,6 +235,15 @@ export default {
     //   }
     //   // this.getPaginate("program/studi");
     // },
+    "filter.page": function(value) {
+      if (value) {
+        this.$router.push({
+          path: "cari-program-studi",
+          query: { ...this.$route.query, halaman: value }
+        });
+      }
+      this.getPaginate("program/studi");
+    },
     "filter.mapel": function(value) {
       if (value) {
         this.$router.push({
@@ -247,6 +264,7 @@ export default {
     }
   },
   created() {
+    this.filter.page = this.$route.query.halaman ?? 1
     this.getPaginate("program/studi");
     this.getData("mapel");
     this.getData("penjurusan");
