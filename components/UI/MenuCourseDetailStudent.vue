@@ -32,7 +32,7 @@
             <i class="fas fa-file-alt fa-fw"></i> Detail Pembayaran
           </router-link>
           <router-link
-            v-if="detail.transaksi && detail.transaksi.status == 'Sudah Diverifikasi'"
+            v-if="detail.transaksi && detail.transaksi.status == 'Sudah Diverifikasi' && (detailStudent.status_dikelas != 'Pending' && detailStudent.status_dikelas != 'Ditolak')"
             :to="`/app/student/courses/${detail.id}/materials?ref=${$route.path}`"
             role="button"
             class="btn btn-primary square py-1 px-2 mr-2"
@@ -40,7 +40,7 @@
             <i class="fas fa-book fa-fw"></i> Materi Kelas
           </router-link>
           <a
-            v-if="detail.transaksi && detail.transaksi.status == 'Sudah Diverifikasi'"
+            v-if="detail.transaksi && detail.transaksi.status == 'Sudah Diverifikasi' && (detailStudent.status_dikelas != 'Pending' && detailStudent.status_dikelas != 'Ditolak')"
             :href="`tel:${detail.tentor.nomor_telephone}`"
             role="button"
             class="btn btn-success square py-1 px-2 mr-2"

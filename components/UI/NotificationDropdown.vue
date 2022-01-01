@@ -92,7 +92,11 @@ export default {
             // return {
             //   path: `/${basePath}/user/student`
             // };
-            return `/${basePath}/user/student`
+            if(user && user.role_user == 'siswa') {
+              return `/${basePath}/user/student`
+            } else if(user && user.role_user == 'teacher') {
+              return `/${basePath}/user/tentor`
+            } 
           case 1: // transaction
             // const user = data.user;
             // const userDetail = data.detail;
