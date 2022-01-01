@@ -468,7 +468,8 @@ export default {
       this.$axios
         .$get(`/api/bank`, {
           params: {
-            paginate: 20
+            paginate: 20,
+            aktif: 'Ya'
           }
         })
         .then(res => {
@@ -552,7 +553,7 @@ export default {
           icon = "/icon/bank-mandiri.png";
           break;
         default:
-          icon = "/icon/bca.png";
+          icon = "/icon/bank.png";
           break;
       }
       return icon;
