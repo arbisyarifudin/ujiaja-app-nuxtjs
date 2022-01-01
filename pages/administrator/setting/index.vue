@@ -299,6 +299,85 @@
               </button>
             </div>
           </b-tab>
+          <b-tab title="Bank">
+            <div class="form-user">
+              <div
+                class="form-group mb-4 row level"
+                v-for="(bank, b_index) in dataBank"
+                :key="'b' + b_index"
+              >
+                <label for="" class="form-label col-md-2 mb-4">
+                  <div class="p-2" style="border: 1px dashed #d5d5d5;">
+                    <!-- <span>Lv.</span> -->
+                    <span style="font-weight: 600; font-size: 20px">{{
+                      bank.nama_bank
+                    }}</span>
+                  </div>
+                </label>
+                <div class="col-md-8">
+                  <div class="row">
+                    <div class="col-lg-8 col-md-8 mb-4">
+                        <label>Nama Bank</label>
+                        <b-form-input v-model="bank.nama_bank"></b-form-input>
+                    </div>
+                    <div class="col-lg-2 col-md-2 mb-4">
+                      <label>Status</label>
+                      <b-form-radio-group
+                        class="btn-radio-toggle"
+                        :id="'btn-radio-' + b_index"
+                        v-model="bank.aktif"
+                        :options="[
+                          { text: 'Aktif', value: 'Ya' },
+                          { text: 'Tidak', value: 'Tidak' }
+                        ]"
+                        button-variant="outline-primary"
+                        size="sm"
+                        :name="'status-' + b_index"
+                        buttons
+                      ></b-form-radio-group>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-4 col-md-4 col-6 mb-4">
+                      <label>Nama Pemilik</label>
+                      <b-form-input
+                        v-model="bank.nama_pemilik"
+                      ></b-form-input>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-6 mb-4">
+                      <label>Nomor Rekening</label>
+                      <b-form-input
+                        type="number"
+                        :min="0"
+                        v-model="bank.nomor_rekening"
+                      ></b-form-input>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-6 mb-4">
+                      <label>Cabang <code>[opsional]</code></label>
+                      <b-form-input
+                        v-model="bank.cabang"
+                      ></b-form-input>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="d-flex">
+              <button
+                type="submit"
+                class="btn btn-primary square"
+                :disabled="submitting || loading"
+                @click.prevent="submitDataBank"
+              >
+                <b-spinner
+                  small
+                  class="mr-1"
+                  v-if="submitting || loading"
+                ></b-spinner>
+                Simpan
+              </button>
+            </div>
+          </b-tab>
         </b-tabs>
       </div>
     </div>
@@ -323,7 +402,8 @@ export default {
         logo: null
       },
       dataLevel: [],
-      dataUKTT: []
+      dataUKTT: [],
+      dataBank: []
     };
   },
   created() {
@@ -336,13 +416,17 @@ export default {
   },
   watch: {
     tab(value) {
-      console.log(value);
+      console.log('tab',value);
       if (value == 2) {
         if (this.dataUKTT.length < 1) {
           this.getUKTT();
         }
         if (this.dataLevel.length < 1) {
           this.getAllLevel();
+        }
+      } else if (value == 3) {
+        if (this.dataBank.length < 1) {
+          this.getAllBank();
         }
       }
     }
@@ -426,6 +510,22 @@ export default {
       }
       return "";
     },
+    getAllBank() {
+      this.loading = true;
+      this.$axios
+        .$get("api/bank")
+        .then(async response => {
+          if (response.success) {
+            this.dataBank = response.data.data;
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        })
+        .finally(() => {
+          this.loading = false;
+        });
+    },
     updateSetting(key) {},
     submitData() {
       console.log(this.form);
@@ -453,6 +553,25 @@ export default {
         .then(response => {
           console.log(response);
           this.showToastMessage('Level berhasil disimpan!', 'success');
+        })
+        .catch(error => {
+          console.log(error);
+        })
+        .finally(() => {
+          this.submitting = false;
+        });
+    },
+    submitDataBank() {
+      console.log(this.dataBank)
+      // return
+      this.submitting = true;
+      this.$axios
+        .$put("/api/bank/update/multiple", {
+          banks: this.dataBank
+        })
+        .then(response => {
+          console.log(response);
+          this.showToastMessage('Bank berhasil disimpan!', 'success');
         })
         .catch(error => {
           console.log(error);
