@@ -49,7 +49,7 @@
               <ul
                 class="nav navbar-nav ml-auto align-items-center"
               >
-                <UINotificationDropdown :user-role="user.role_user"/>
+                <UINotificationDropdown :user-role="user.role_user" @expand-all="expandAllNotif"/>
                 <b-nav-item-dropdown text="Profil" right no-caret>
                   <template #button-content>
                     <img src="/icon-user.png" class="img-fluid" width="30" />
@@ -67,6 +67,22 @@
               </ul>
             </nav>
           </div>
+          <b-sidebar id="aside-notif" title="Semua Notifikasi" v-model="showAllNotif" right shadow backdrop width="400px" @hidden="closeAllNotif">
+            <b-list-group v-for="(item, n_index) in notifData" :key="'n'+n_index">
+              <b-list-group-item style="border-color: transparent">
+                <div class="notif-dropdown-item d-flex align-items-start" :class="item.notification_open ? 'opened' : ''">
+                <span
+                  class="fas fa-fw mr-2 notif-icon"
+                  :class="iconType(item.notification_type)"
+                ></span>
+                <div>
+                  <h4 class="notif-title">{{ item.notification_title }}</h4>
+                  <div class="notif-body" v-html="item.notification_body"></div>
+                </div>
+              </div>
+              </b-list-group-item>
+            </b-list-group>
+          </b-sidebar>
           <main id="konten" class="konten px-md-3 px-0 pt-0">
             <Breadcrumb />
             <Nuxt />
@@ -89,24 +105,51 @@ export default {
     userDetail() {
       return this.$store.state.dataUser.detail;
     },
+    notifData() {
+      return this.$store.state.notifData;
+    },
+  },
+  head() {
+    return {
+      title: 'App',
+    }
   },
   data() {
     return {
       // notifData: []
+      showAllNotif: false,
+      filter: {
+        page: 1,
+        limit: 6,
+        search: '',
+        sortBy: '',
+        sortDir: '',
+      }
     };
   },
   created() {
-    this.getNotif();
+    this.getNotif({
+      ...this.filter
+    });
   },
   mounted() {
     console.log("user", this.user);
     console.log("userDetail", this.userDetail);
   },
   methods: {
-    getNotif() {
+    getNotif(params) {
+
+      const {page, limit, search, sortBy, sortDir} = params
+
       this.$axios
         .$get("/api/notification", {
-          params: {}
+          params: {
+            page: page,
+            limit: limit,
+            search: search,
+            sortBy: sortBy,
+            sortDir: sortDir,
+          }
         })
         .then(response => {
           if (response.success) {
@@ -115,7 +158,33 @@ export default {
             this.$store.commit("set", ["notifTotal", response.data.total]);
           }
         });
-    }
+    },
+    expandAllNotif() {
+      this.showAllNotif = true
+      // this.filter.page += 1
+      this.filter.limit = 20
+      this.getNotif({...this.filter})
+    },
+    closeAllNotif() {
+      this.$store.commit("set", ["notifData", []]);
+      this.$store.commit("set", ["notifTotal", 0]);
+      this.showAllNotif = false
+      // this.filter.page += 1
+      this.filter.limit = 6
+      this.getNotif({...this.filter})
+    },
+    iconType(type) {
+      switch (type) {
+        case 0:
+          // registration
+          return "fa-user-plus";
+        case 1:
+          // transaction
+          return "fa-money-check";
+        default:
+          return "fa-bell";
+      }
+    },
   }
 };
 </script>

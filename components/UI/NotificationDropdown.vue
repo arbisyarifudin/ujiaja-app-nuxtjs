@@ -17,15 +17,15 @@
           </div>
         </div>
       </b-dropdown-item>
-      <!-- <b-dropdown-item :to="layout + '/notifications'" :key="'n' + (index + 99)">
-        <span>Lihat Semua Notifikasi</span>
-      </b-dropdown-item> -->
     </template>
     <template v-if="notifData && notifData.length < 1">
       <b-dropdown-item>
         <span>Tidak ada notifikasi.</span>
       </b-dropdown-item>
     </template>
+    <b-dropdown-item class="text-center" @click.prevent="$emit('expand-all')" v-else>
+      <span>Lihat Semua Notifikasi</span>
+    </b-dropdown-item>
   </b-nav-item-dropdown>
 </template>
 
