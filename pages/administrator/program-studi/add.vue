@@ -367,6 +367,12 @@ export default {
       this.submitData("programStudi");
     },
     submitData(type) {
+
+      const findPenjurusan = this.dataOption['penjurusan'].find(item => item.id_penjurusan == this.form.id_penjurusan);
+      if(findPenjurusan) {
+        this.form.kelompok = findPenjurusan == 'IPA' ? 'SAINTEK' : 'SOSHUM'
+      }
+
       this.loading = true;
       this.$axios
         .$post(`/api/${type}/create/multiple`, this.form)
