@@ -21,6 +21,7 @@
                     class="form-control"
                     @change="handleUploadedFile('logo')"
                   />
+                  <div class="text-info mt-1" style="font-size: 13px">Ukuran gambar logo disarankan 1:1 ratio. Misal 150x150, 300x300, dst</div>
                 </div>
                 <div class="col-md-2">
                   <img
