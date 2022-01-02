@@ -262,12 +262,13 @@
                 <div class="mt-4">
                   <div class="mb-3">
                     <p class="mb-2">
-                      Apakah bukti pembayaran ini dapat diterima?
+                      Apakah transaksi dan/atau bukti pembayaran ini dapat diterima?
                     </p>
                     <select class="form-control" v-model="form.status">
                       <option :value="null">-- Pilih --</option>
                       <option value="Sudah Diverifikasi">Terima</option>
                       <option value="Ditolak">Tolak</option>
+                      <option value="Dibatalkan">Batalkan</option>
                     </select>
                   </div>
                   <div class="mb-3" v-if="form.status == 'Ditolak'">
@@ -275,7 +276,17 @@
                     <textarea
                       class="form-control"
                       rows="4"
+                      placeholder="Misal: Dana yg di trf kurang"
                       v-model="form.alasan_penolakan"
+                    ></textarea>
+                  </div>
+                  <div class="mb-3" v-if="form.status == 'Dibatalkan'">
+                    <p class="mb-2">Tulis alasan pembatalan</p>
+                    <textarea
+                      class="form-control"
+                      rows="4"
+                      placeholder="Misal: Refund/dll"
+                      v-model="form.alasan_pembatalan"
                     ></textarea>
                   </div>
                 </div>
@@ -335,6 +346,7 @@ export default {
       form: {
         status: null,
         alasan_penolakan: null,
+        alasan_pembatalan: null,
         jenis_transaksi: "",
       }
     };
@@ -436,13 +448,17 @@ export default {
         this.showToastMessage('Alasan penolakan wajib diisi', 'warning');
         return;
       }
+      if(this.form.status == 'Dibatalkan' && !this.form.alasan_pembatalan) {
+        this.showToastMessage('Alasan pembatalan wajib diisi', 'warning');
+        return;
+      }
       this.submitting = true;
       this.$axios
         .$put(`/api/transaksi/update-status/${this.selectedId}`, this.form)
         .then(res => {
           console.log(res);
           if (res.success) {
-            this.$bvToast.toast("Pembayaran berhasil diverifikasi!", {
+            this.$bvToast.toast("Status Pembayaran berhasil diubah!", {
               title: "Sukses",
               variant: "success",
               solid: true,
