@@ -111,6 +111,11 @@
 export default {
   middleware: "auth-guest",
   layout: "plain",
+  head() {
+    return {
+      title: 'Login'
+    }
+  },
   data() {
     return {
       showPassword: false,
