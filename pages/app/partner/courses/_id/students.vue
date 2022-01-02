@@ -18,8 +18,8 @@
             <div class="col-md-12 crud">
               <h4>Daftar Siswa di Kelas</h4>
               <hr />
-              <b-tabs content-class="mt-3" v-model="tabs" lazy>
-                <b-tab title="Bergabung">
+              <b-tabs content-class="mt-3" lazy @input="updateTab">
+                <b-tab title="Bergabung" :active="tabs == 0">
                   <div class="table-responsive">
                     <table class="table table-borderless">
                       <thead class="thead-light">
@@ -99,7 +99,7 @@
                     </div>
                   </div>
                 </b-tab>
-                <b-tab title="Menunggu Persetujuan">
+                <b-tab title="Menunggu Persetujuan" :active="tabs == 1">
                   <div class="table-responsive">
                     <table class="table table-borderless">
                       <thead class="thead-light">
@@ -264,7 +264,7 @@
       @hidden="resetModal"
     >
       <div>
-        <p class="modal-text">Apakah Anda yakin ingin menolak Siswa Ini?</p>
+        <p class="modal-text">Apakah Anda yakin ingin menolak Siswa Ini? <div class="small text-danger"><b>Perhatian:</b> Aksi tidak dapat dibatalkan.</div></p>
         <div class="modal-footer justify-content-end" style="border: 0px">
           <button
             class="btn btn-sm btn-danger tambah px-4 py-2"
@@ -348,20 +348,35 @@ export default {
       return this.$router.push("/app/partner/courses");
     this.getDetail("kursus", this.$route.params.id);
     this.getStudent(99);
+    if(this.$route.query.tab) {
+        this.tabs =  parseInt(this.$route.query.tab)
+        // console.log('tabs', this.tabs)
+      }
   },
   watch: {
-    tabs(value) {
-      if (value > -1) {
-        if (value == 0) {
-          this.getStudent(99);
-        } else {
-          this.getStudent(value);
-        }
-      }
-    }
+    // tabs(value) {
+    //   if (value > -1) {
+    //     if (value == 0) {
+    //       this.getStudent(99);
+    //     } else {
+    //       this.getStudent(value);
+    //     }
+    //   }
+    // }
   },
   methods: {
     resetModal() {},
+    updateTab(tabIndex) {
+      // if(this.$route.query.tab) {
+      //   this.tabs =  parseInt(this.$route.query.tab)
+      // }
+      console.log('tabs', this.tabs)
+      if (tabIndex == 0) {
+          this.getStudent(99);
+        } else {
+          this.getStudent(tabIndex);
+        }
+    },
     getDetail(type, id) {
       this.loading = true;
       this.$axios
