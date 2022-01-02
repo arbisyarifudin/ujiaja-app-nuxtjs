@@ -49,6 +49,12 @@
             >
               Tambah
             </nuxt-link>
+            <button
+              class="btn btn-outline-primary tambah crud-btn__add px-4 ml-2"
+              v-b-modal.modal-import
+            >
+              Import
+            </button>
           </div>
         </div>
       </div>
@@ -68,7 +74,9 @@
             <tbody class="body-table">
               <template v-if="totalRows > 0">
                 <tr v-for="(item, index) in items" :key="index">
-                  <td class="text-center">{{ (filter.page - 1) * filter.perPage + (index + 1) }}</td>
+                  <td class="text-center">
+                    {{ (filter.page - 1) * filter.perPage + (index + 1) }}
+                  </td>
                   <td>
                     <img
                       :src="ApiUrl(item.icon_prodi)"
@@ -168,9 +176,75 @@
         </div>
       </div>
     </b-modal>
+
+    <b-modal
+      id="modal-import"
+      title="Import PT dan Prodi"
+      hide-footer
+      centered
+      modal-class="admin-modal"
+      @hidden="resetModal"
+    >
+      <div>
+        <p class="modal-text">
+          Import data perguruan tinggi dan program studi berdasarkan format yang
+          sudah ditentukan.
+        </p>
+        <div>
+          <div class="form-group reg-siswa">
+            <label for="file_import">Unggah File</label>
+            <div class="custom-file mb-3">
+              <input
+                type="file"
+                class="custom-file-input"
+                id="file_import"
+                ref="file_import"
+                @change="handleUploadedFile('file_import')"
+                accept=".xls,.xlsx"
+              />
+              <label class="custom-file-label" for="file_import"
+                >Pilih file atau drag kesini</label
+              >
+              <div class="d-flex justify-content-between">
+                <!-- <div class="text-danger mt-1" style="font-size: 13px">
+                  File yang diizinkan .xls, .xlsx
+                </div> -->
+                <a :href="ApiUrl('file/sample_import_ptn_prodi.xlsx')" style="font-size: 13px" class="mt-2 text-info"
+                  ><i class="fas fa-fw fa-download mr-1"></i> Unduh format file</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer justify-content-end" style="border: 0px">
+          <button
+            class="btn btn-outline-secondary"
+            type="button"
+            :disabled="submitting"
+            @click="$bvModal.hide('modal-import')"
+          >
+            Batal
+          </button>
+          <button
+            class="btn btn-primary tambah px-4 py-2"
+            type="button"
+            :disabled="submitting"
+            @click.prevent="importFile"
+          >
+            <b-spinner small v-if="submitting" class="mr-1"></b-spinner>
+            Jalankan Proses Import
+          </button>
+        </div>
+      </div>
+    </b-modal>
   </div>
 </template>
-
+<style scoped>
+.custom-file-input:lang(en) ~ .custom-file-label::after {
+  content: 'Jelajahi';
+  color: #444;
+}
+</style>
 <script>
 export default {
   layout: "admin",
@@ -185,7 +259,11 @@ export default {
       totalRows: 0,
       items: [],
       selectedId: null,
-      selectedIndex: null
+      selectedIndex: null,
+      submitting: false,
+      files: {
+        file_import: ""
+      }
     };
   },
   created() {
@@ -200,6 +278,9 @@ export default {
     }
   },
   methods: {
+    ApiUrl(param) {
+      return process.env.apiUrl + "/" + param;
+    },
     resetModal() {},
     getData(type) {
       this.loading = true;
@@ -241,6 +322,7 @@ export default {
               autoHideDelay: 3000
             });
             this.$bvModal.hide("modal-delete");
+            this.getData("programStudi");
           }
           return true;
         })
@@ -249,6 +331,37 @@ export default {
           this.catchError(err);
         })
         .finally(() => (this.loading = false));
+    },
+    handleUploadedFile(param) {
+      this.files[param] = this.$refs[param].files[0];
+      console.log(this.files[param]);
+      this.$refs[param].closest(
+        ".custom-file"
+      ).children[1].textContent = this.files[param].name;
+    },
+    importFile() {
+      this.submitting = true
+      let formData = new FormData();
+      formData.append("file", this.files.file_import);
+      this.$axios
+        .$post(`/api/tranStudiPerguruan/import`, formData)
+        .then(res => {
+          console.log(res);
+          if (res.success) {
+            this.$bvToast.toast(`Data berhasil diimport!`, {
+              title: "Sukses",
+              variant: "success",
+              solid: true,
+              autoHideDelay: 3000
+            });
+            this.$bvModal.hide("modal-import");
+          }
+        })
+        .catch(err => {
+          console.log(err);
+          this.catchError(err);
+        })
+        .finally(() => (this.submitting = false));
     }
   }
 };
