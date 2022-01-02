@@ -178,13 +178,13 @@
                     <nuxt-link
                       to="/app/ticket"
                       class="btn btn-primary btn-sm square mr-2"
-                      >Hubungi Kami</nuxt-link
+                      ><i class="fas fa-envelope fa-fw mr-1"></i> Hubungi Kami</nuxt-link
                     >
-                    <nuxt-link
+                    <!-- <nuxt-link
                       to="/"
                       class="btn btn-outline-secondary btn-sm square"
                       >Lakukan Refund Dana</nuxt-link
-                    >
+                    > -->
                   </div>
                 </b-list-group-item>
               </b-list-group>
