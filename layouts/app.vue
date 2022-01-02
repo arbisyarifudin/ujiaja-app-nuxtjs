@@ -86,11 +86,14 @@
             width="400px"
             @hidden="closeAllNotif"
           >
-            <b-list-group
-              v-for="(item, n_index) in notifData"
-              :key="'n' + n_index"
-            >
-              <b-list-group-item style="border-color: transparent">
+            <b-list-group>
+              <b-list-group-item
+                v-for="(item, n_index) in notifData"
+                :key="'n' + n_index"
+                style="border-color: transparent; cursor: pointer"
+                class="pt-2 pb-2"
+                @click.prevent="toPath(item)"
+              >
                 <div
                   class="notif-dropdown-item d-flex align-items-start"
                   :class="item.notification_open ? 'opened' : ''"
@@ -204,7 +207,7 @@ export default {
     });
   },
   mounted() {
-    this.isServer = false
+    this.isServer = false;
     console.log("user", this.user);
     console.log("userDetail", this.userDetail);
   },
@@ -257,6 +260,71 @@ export default {
           return "fa-money-check";
         default:
           return "fa-bell";
+      }
+    },
+    async toPath(item) {
+      if (item.notification_open === false || item.notification_open === 0) {
+        await this.$axios
+          .$put(`/api/notification/open/${item.notification_id}`)
+          .then(() => {
+            // item.notification_open = 1
+          })
+          .catch(err => {
+            console.log(error);
+          });
+      }
+
+      window.location.href = this.getPath(item);
+    },
+    getPath(item) {
+      const data = JSON.parse(item.notification_data);
+      const basePath = this.layout == "admin" ? "administrator" : "app";
+      if (this.userRole == "admin" || this.userRole == "superAdmin") {
+        switch (item.notification_type) {
+          case 0: // registration
+            const user = data.user;
+            const userDetail = data.detail;
+            // return {
+            //   path: `/${basePath}/user/student`
+            // };
+            if (user && user.role_user == "siswa") {
+              return `/${basePath}/user/student`;
+            } else if (user && user.role_user == "teacher") {
+              return `/${basePath}/user/tentor`;
+            }
+          case 1: // transaction
+            // const user = data.user;
+            // const userDetail = data.detail;
+            // return {
+            //   path: `/${basePath}/payment`
+            // };
+            return `/${basePath}/payment`;
+          default:
+            return "#";
+        }
+      } else {
+        switch (item.notification_type) {
+          case 0: // registration
+            // return {
+            //   path: `/${basePath}/profile/edit`
+            // };
+            return `/${basePath}/profile/edit`;
+          case 1: // transaction
+            console.log(data);
+            // return {
+            //   path: `/${basePath}/payment/${data.id}/detail`
+            // };
+            return `/${basePath}/payment/${data.id}/detail`;
+          case 3: // courses
+            console.log(data);
+            const detail = data.detail ? data.detail : data;
+            if (detail.status_dikelas == "Ditolak") {
+              return `/${basePath}/student/courses/${detail.id}/rejected?notifId=${item.notification_id}`;
+            }
+            return `/${basePath}/student/courses/${detail.id}/detail`;
+          default:
+            return "#";
+        }
       }
     }
   }
