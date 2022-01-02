@@ -4,7 +4,7 @@
       <div class="row">
         <div class="col-xl-3 col-lg-4 col-sm-4 bg-white d-none d-lg-block">
           <nav class="sidebar navbar-light pt-3 pl-4" id="menu">
-            <img v-if="ApiUrl" :src="ApiUrl(getSetting('logo'))" class="img-fluid w-25 pb-4" />
+            <img v-if="!isServer" :src="ApiUrl(getSetting('logo'))" class="img-fluid w-25 pb-4" />
             <UIMenuSuperAdmin v-if="user.role_user == 'superAdmin'" />
             <UIMenuAdmin v-else-if="user.role_user == 'admin'" />
           </nav>
@@ -15,9 +15,8 @@
           shadow
           backdrop
         >
-          <nav class="sidebar navbar-light pt-3 pl-4" id="menu">
-            <!-- <img src="/logo2.png" class="img-fluid w-25 pb-4" /> -->
-            <img v-if="ApiUrl" :src="ApiUrl(getSetting('logo'))" class="img-fluid w-25 pb-4" />
+          <nav class="sidebar navbar-light pt-3 pl-4" id="menu2">
+            <img v-if="!isServer" :src="ApiUrl(getSetting('logo'))" class="img-fluid w-25 pb-4" />
             <UIMenuAdmin />
           </nav>
         </b-sidebar>
@@ -98,6 +97,7 @@ import Breadcrumb from "@/components/UI/Breadcrumb.vue";
 export default {
   middleware: "auth-admin",
   components: { Breadcrumb },
+  fetchOnServer: false,
   computed: {
     user() {
       return this.$store.state.dataUser.user;
@@ -117,6 +117,7 @@ export default {
   data() {
     return {
       // notifData: []
+      isServer: true,
       showAllNotif: false,
       filter: {
         page: 1,
@@ -133,10 +134,14 @@ export default {
     });
   },
   mounted() {
+    this.isServer = false
     console.log("user", this.user);
     console.log("userDetail", this.userDetail);
   },
   methods: {
+    ApiUrl(param) {
+      return process.env.apiUrl + "/" + param;
+    },
     getNotif(params) {
 
       const {page, limit, search, sortBy, sortDir} = params

@@ -4,8 +4,11 @@
       <div class="row">
         <div class="col-lg-3 bg-white d-none d-lg-block">
           <nav class="sidebar navbar-light pt-3 pl-4" id="menu">
-            <img v-if="ApiUrl" :src="ApiUrl(getSetting('logo'))" class="img-fluid w-25 pb-4" />
-            <!-- <img src="/logo2.png" class="img-fluid w-25 pb-4" /> -->
+            <img
+              v-if="!isServer"
+              :src="ApiUrl(getSetting('logo'))"
+              class="img-fluid w-25 pb-4"
+            />
             <UIMenuStudent v-if="user.role_user == 'siswa'" />
             <UIMenuPartner v-if="user.role_user == 'teacher'" />
             <UIMenuParent v-if="user.role_user == 'parent'" />
@@ -17,9 +20,12 @@
           shadow
           backdrop
         >
-          <nav class="sidebar navbar-light pt-3 pl-4" id="menu">
-            <img v-if="ApiUrl" :src="ApiUrl(getSetting('logo'))" class="img-fluid w-25 pb-4" />
-            <!-- <img src="/logo2.png" class="img-fluid w-25 pb-4" /> -->
+          <nav class="sidebar navbar-light pt-3 pl-4" id="menu2">
+            <img
+              v-if="!isServer"
+              :src="ApiUrl(getSetting('logo'))"
+              class="img-fluid w-25 pb-4"
+            />
             <UIMenuStudent v-if="user.role_user == 'siswa'" />
             <UIMenuPartner v-if="user.role_user == 'teacher'" />
             <UIMenuParent v-if="user.role_user == 'parent'" />
@@ -48,7 +54,11 @@
                 </li>
               </ul>
               <ul class="nav navbar-nav ml-auto align-items-center">
-                <UINotificationDropdown :user-role="user.role_user" layout="app" @expand-all="expandAllNotif"/>
+                <UINotificationDropdown
+                  :user-role="user.role_user"
+                  layout="app"
+                  @expand-all="expandAllNotif"
+                />
                 <b-nav-item-dropdown text="Profil" right no-caret>
                   <template #button-content>
                     <img src="/icon-user.png" class="img-fluid" width="24" />
@@ -66,19 +76,37 @@
               </ul>
             </nav>
           </div>
-         <b-sidebar id="aside-notif" title="Semua Notifikasi" v-model="showAllNotif" right shadow backdrop width="400px" @hidden="closeAllNotif">
-            <b-list-group v-for="(item, n_index) in notifData" :key="'n'+n_index">
+          <b-sidebar
+            id="aside-notif"
+            title="Semua Notifikasi"
+            v-model="showAllNotif"
+            right
+            shadow
+            backdrop
+            width="400px"
+            @hidden="closeAllNotif"
+          >
+            <b-list-group
+              v-for="(item, n_index) in notifData"
+              :key="'n' + n_index"
+            >
               <b-list-group-item style="border-color: transparent">
-                <div class="notif-dropdown-item d-flex align-items-start" :class="item.notification_open ? 'opened' : ''">
-                <span
-                  class="fas fa-fw mr-2 notif-icon"
-                  :class="iconType(item.notification_type)"
-                ></span>
-                <div>
-                  <h4 class="notif-title">{{ item.notification_title }}</h4>
-                  <div class="notif-body" v-html="item.notification_body"></div>
+                <div
+                  class="notif-dropdown-item d-flex align-items-start"
+                  :class="item.notification_open ? 'opened' : ''"
+                >
+                  <span
+                    class="fas fa-fw mr-2 notif-icon"
+                    :class="iconType(item.notification_type)"
+                  ></span>
+                  <div>
+                    <h4 class="notif-title">{{ item.notification_title }}</h4>
+                    <div
+                      class="notif-body"
+                      v-html="item.notification_body"
+                    ></div>
+                  </div>
                 </div>
-              </div>
               </b-list-group-item>
             </b-list-group>
           </b-sidebar>
@@ -124,21 +152,23 @@ import ContentWrapper from "../components/Layout/ContentWrapper.vue";
 export default {
   components: { ContentWrapper },
   middleware: "auth-user",
+  fetchOnServer: false,
   head() {
     return {
-      title: 'App',
-    }
+      title: "App"
+    };
   },
   data() {
     return {
       // notifData: []
+      isServer: true,
       showAllNotif: false,
       filter: {
         page: 1,
         limit: 6,
-        search: '',
-        sortBy: '',
-        sortDir: '',
+        search: "",
+        sortBy: "",
+        sortDir: ""
       }
     };
   },
@@ -154,7 +184,7 @@ export default {
     },
     notifData() {
       return this.$store.state.notifData;
-    },
+    }
   },
   created() {
     if (this.user && this.user.role_user) {
@@ -169,18 +199,21 @@ export default {
         });
       // .finally(() => (this.loading = false));
     }
-     this.getNotif({
+    this.getNotif({
       ...this.filter
     });
   },
   mounted() {
+    this.isServer = false
     console.log("user", this.user);
     console.log("userDetail", this.userDetail);
   },
   methods: {
-   getNotif(params) {
-
-      const {page, limit, search, sortBy, sortDir} = params
+    ApiUrl(param) {
+      return process.env.apiUrl + "/" + param;
+    },
+    getNotif(params) {
+      const { page, limit, search, sortBy, sortDir } = params;
 
       this.$axios
         .$get("/api/notification", {
@@ -189,7 +222,7 @@ export default {
             limit: limit,
             search: search,
             sortBy: sortBy,
-            sortDir: sortDir,
+            sortDir: sortDir
           }
         })
         .then(response => {
@@ -201,18 +234,18 @@ export default {
         });
     },
     expandAllNotif() {
-      this.showAllNotif = true
+      this.showAllNotif = true;
       // this.filter.page += 1
-      this.filter.limit = 20
-      this.getNotif({...this.filter})
+      this.filter.limit = 20;
+      this.getNotif({ ...this.filter });
     },
     closeAllNotif() {
       this.$store.commit("set", ["notifData", []]);
       this.$store.commit("set", ["notifTotal", 0]);
-      this.showAllNotif = false
+      this.showAllNotif = false;
       // this.filter.page += 1
-      this.filter.limit = 6
-      this.getNotif({...this.filter})
+      this.filter.limit = 6;
+      this.getNotif({ ...this.filter });
     },
     iconType(type) {
       switch (type) {
@@ -225,7 +258,7 @@ export default {
         default:
           return "fa-bell";
       }
-    },
+    }
   }
 };
 </script>
