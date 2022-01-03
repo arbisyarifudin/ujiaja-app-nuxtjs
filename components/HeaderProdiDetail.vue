@@ -33,14 +33,28 @@
                   <h4>Kategori Prodi: Komputer & Teknologi</h4>
                 </div>
               </div> -->
-              <p
+              <!-- <p
                 style="font-size: 22px"
                 class="text-white"
                 v-if="heroData.mapel"
               >
                 Pelajaran Terkait:
                 {{ heroData.mapel.nama_mapel }}
-              </p>
+              </p> -->
+              <div v-if="heroData.list_mapel && heroData.list_mapel.length > 0">
+               <p class="text-white" style="font-size: 22px">
+                  Pelajaran Terkait: <br>
+                <span v-for="(item, index) in heroData.list_mapel" :key="index" class="small">
+                  {{item.mapel.nama_mapel}}
+                  <span v-if="index != (heroData.list_mapel.length -1)">,</span>
+                </span>
+               </p>
+              </div>
+              <div v-else>
+                <p class="text-white" style="font-size: 22px">
+                  Pelajaran Terkait: -
+                </p>
+              </div>
             </div>
           </div>
         </div>

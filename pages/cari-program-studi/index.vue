@@ -117,8 +117,15 @@
                         }}
                       </p>
                       <p class="pb-2">
-                        <strong>Pelajaran</strong><br />
-                        {{ item.mapel ? item.mapel.nama_mapel : "?" }}
+                        <strong>Pelajaran Terkait</strong><br />
+                        <!-- {{ item.mapel ? item.mapel.nama_mapel : "?" }} -->
+                        <span v-if="item.list_mapel && item.list_mapel.length > 0">
+                          {{item.list_mapel[0].mapel.nama_mapel}}
+                          <span v-if="item.list_mapel.length > 1">
+                            & {{item.list_mapel.length - 1}} lainnya
+                          </span>
+                        </span>
+                        <span v-else>-</span>
                       </p>
                     </div>
                     <a
@@ -248,6 +255,8 @@ export default {
     },
     "filter.mapel": function(value) {
       if (value) {
+        this.filter.page = 1
+        this.filter.mapel = value
         this.$router.push({
           path: "cari-program-studi",
           query: { ...this.$route.query, mapel: value }
