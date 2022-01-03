@@ -223,8 +223,10 @@
 </template>
 
 <script>
+import ContentWrapper from "@/components/Layout/ContentWrapper";
 export default {
   middleware: "auth-guest",
+  components: { ContentWrapper },
   head() {
     return {
       title: 'Registrasi',
@@ -415,7 +417,7 @@ export default {
         .then((res) => {
           console.log(res);
           if (res.success) {
-            this.$bvToast.toast(
+            this.$root.$bvToast.toast(
               "Registrasi berhasil! Silakan cek email Anda untuk lakukan verifikasi.",
               {
                 title: "Sukses",
@@ -426,7 +428,7 @@ export default {
             );
             this.$router.replace("/masuk");
           } else {
-            this.$bvToast.toast("Registrasi gagal!", {
+            this.$root.$bvToast.toast("Registrasi gagal!", {
               title: "Error",
               variant: "danger",
               solid: true,

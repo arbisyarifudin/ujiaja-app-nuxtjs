@@ -135,19 +135,22 @@
                         <option value="Mesin Pencari">Mesin Pencari</option>
                         <option value="Teman / Kenalan">Teman / Kenalan</option>
                         <option value="Mesin Pencari">Mesin Pencari</option>
-                      </select> -->
-                      <option value="">Pilih Sumber</option>
-                      <option value="Internet & Mesin Pencari">Internet & Mesin Pencari</option>
-                      <option value="Teman/Saudara">Teman/Saudara</option>
-                      <option value="Medsos (FB, IG, dll)">
-                        Medsos (FB, IG, dll)
-                      </option>
-                      <option value="Brosur/Iklan Digital">
-                        Brosur/Iklan Digital
-                      </option>
-                      <option value="Iklan Media Cetak/TV/Radio">
-                        Iklan Media Cetak/TV/Radio
-                      </option>
+                        -->
+                        <option value="">Pilih Sumber</option>
+                        <option value="Internet & Mesin Pencari"
+                          >Internet & Mesin Pencari</option
+                        >
+                        <option value="Teman/Saudara">Teman/Saudara</option>
+                        <option value="Medsos (FB, IG, dll)">
+                          Medsos (FB, IG, dll)
+                        </option>
+                        <option value="Brosur/Iklan Digital">
+                          Brosur/Iklan Digital
+                        </option>
+                        <option value="Iklan Media Cetak/TV/Radio">
+                          Iklan Media Cetak/TV/Radio
+                        </option>
+                      </select>
                     </div>
                   </b-col>
                 </b-row>
@@ -850,11 +853,11 @@ export default {
       repassword: ""
     };
 
-    if(!this.profil.id_prodi_bind_perguruan) {
-      this.optionProdiBindPerguruanDisabled = false
+    if (!this.profil.id_prodi_bind_perguruan) {
+      this.optionProdiBindPerguruanDisabled = false;
     }
-    if(!this.profil.id_prodi_bind_perguruan_2) {
-      this.optionProdiBindPerguruanDisabled_2 = false
+    if (!this.profil.id_prodi_bind_perguruan_2) {
+      this.optionProdiBindPerguruanDisabled_2 = false;
     }
 
     if (this.profil && this.profil.parent) {
@@ -1029,7 +1032,6 @@ export default {
         .finally(() => (this.loading = false));
     },
     getProdiBindPerguruan(id_program_studi, nomor = 1) {
-
       this.loading = true;
       this.$axios.defaults.headers.Authorization =
         "Bearer " + this.$cookiz.get("_ujiaja");
@@ -1099,9 +1101,10 @@ export default {
       // console.log(this.formSiswa.id_prodi_bind_perguruan_2)
       // console.log(this.optionProdiBindPerguruanDisabled)
       // console.log(this.optionProdiBindPerguruanDisabled_2)
-       if (this.akun.role_user == "siswa") {
+      if (this.akun.role_user == "siswa") {
         if (
-          (!this.optionProdiBindPerguruanDisabled && !this.formSiswa.id_prodi_bind_perguruan) ||
+          (!this.optionProdiBindPerguruanDisabled &&
+            !this.formSiswa.id_prodi_bind_perguruan) ||
           (!this.formSiswa.optionProdiBindPerguruanDisabled_2 &&
             !this.formSiswa.id_prodi_bind_perguruan_2)
         ) {
@@ -1110,7 +1113,7 @@ export default {
             "warning"
           );
         }
-       }
+      }
 
       if (this.formSiswa.password && !this.formSiswa.repassword) {
         return this.showToastMessage(

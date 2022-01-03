@@ -228,7 +228,7 @@ export default {
         .then(res => {
           console.log(res);
           if (res.success) {
-            this.$bvToast.toast(
+            this.$root.$bvToast.toast(
               "Login berhasil! Anda akan segera dialihkan ke halaman dashboard.",
               {
                 title: "Sukses",
