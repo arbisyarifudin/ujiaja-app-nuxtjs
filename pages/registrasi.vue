@@ -161,7 +161,7 @@
                       v-model="form.info"
                     >
                       <option value="">Pilih Sumber</option>
-                      <option value="Internet">Internet</option>
+                      <option value="Internet & Mesin Pencari">Internet & Mesin Pencari</option>
                       <option value="Teman/Saudara">Teman/Saudara</option>
                       <option value="Medsos (FB, IG, dll)">
                         Medsos (FB, IG, dll)

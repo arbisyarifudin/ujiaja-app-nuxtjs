@@ -131,10 +131,23 @@
                         v-model="formSiswa.info"
                       >
                         <option :value="null">--Pilih--</option>
-                        <option value="Sosial Media">Sosial Media</option>
+                        <!-- <option value="Sosial Media">Sosial Media</option>
                         <option value="Mesin Pencari">Mesin Pencari</option>
                         <option value="Teman / Kenalan">Teman / Kenalan</option>
-                      </select>
+                        <option value="Mesin Pencari">Mesin Pencari</option>
+                      </select> -->
+                      <option value="">Pilih Sumber</option>
+                      <option value="Internet & Mesin Pencari">Internet & Mesin Pencari</option>
+                      <option value="Teman/Saudara">Teman/Saudara</option>
+                      <option value="Medsos (FB, IG, dll)">
+                        Medsos (FB, IG, dll)
+                      </option>
+                      <option value="Brosur/Iklan Digital">
+                        Brosur/Iklan Digital
+                      </option>
+                      <option value="Iklan Media Cetak/TV/Radio">
+                        Iklan Media Cetak/TV/Radio
+                      </option>
                     </div>
                   </b-col>
                 </b-row>
