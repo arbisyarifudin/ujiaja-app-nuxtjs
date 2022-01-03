@@ -1,7 +1,7 @@
 <template>
   <div>
     <Header class="headerdua no-bg mx-lg-5" :navData="navData" />
-    <ContentWrapper>
+    <LayoutContentWrapper>
       <div class="container">
         <div class="row d-flex justify-content-center" v-if="!submited">
           <div class="col-md-8 lp-password">
@@ -91,7 +91,7 @@
           </div>
         </div>
       </div>
-    </ContentWrapper>
+    </LayoutContentWrapper>
     <Footer :footerData="footerData" />
   </div>
 </template>
