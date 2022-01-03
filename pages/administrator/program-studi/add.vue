@@ -79,7 +79,7 @@
                     </template>
                   </b-form-select>
                 </div>
-                <div class="form-group reg-siswa">
+                <!-- <div class="form-group reg-siswa">
                   <label for="mapel"
                     >Mata Pelajaran Terkait <code>*</code></label
                   >
@@ -97,6 +97,44 @@
                       >
                     </template>
                   </b-form-select>
+                </div> -->
+                <div class="form-group reg-siswa">
+                  <label for="mapel"
+                    >Mata Pelajaran Terkait <code>*</code></label
+                  >
+                 <b-form-tags
+                    id="tags-component-select"
+                    v-model="mapelSelected"
+                    size="md"
+                    class="mb-2"
+                    add-on-change
+                    no-outer-focus
+                  >
+                    <template v-slot="{ tags, inputAttrs, inputHandlers, disabled, removeTag }">
+                      <ul v-if="tags.length > 0" class="list-inline d-inline-block mb-2">
+                        <li v-for="tag in tags" :key="tag" class="list-inline-item">
+                          <b-form-tag
+                            @remove="removeTag(tag)"
+                            :title="tag"
+                            :disabled="disabled"
+                            variant="info"
+                          >{{ tag }}</b-form-tag>
+                        </li>
+                      </ul>
+                      <b-form-select
+                        v-bind="inputAttrs"
+                        v-on="inputHandlers"
+                        :disabled="disabled || availableMapels.length === 0"
+                        :options="availableMapels"
+                        @change="changeMapel"
+                      >
+                        <template #first>
+                          <!-- This is required to prevent bugs with Safari -->
+                          <option disabled value="">--Pilih Mapel--</option>
+                        </template>
+                      </b-form-select>
+                    </template>
+                  </b-form-tags>
                 </div>
               </div>
             </div>
@@ -271,13 +309,6 @@
 </template>
 
 <script>
-// import { VueEditor, Quill } from "vue2-editor";
-
-// import { ImageDrop } from "quill-image-drop-module";
-// import ImageResize from "quill-image-resize-module";
-
-// Quill.register("modules/imageDrop", ImageDrop);
-// Quill.register("modules/imageResize", ImageResize);
 export default {
   layout: "admin",
   data() {
@@ -313,17 +344,27 @@ export default {
             akreditasi_program_studi: null,
             passing_grade_prodi: null
           }
-        ]
+        ],
+        mapels: []
       },
       files: {
         icon_prodi: null
-      }
+      },
+      dataMapels: [],
+      mapelSelected: [],
+      // options: ['Apple', 'Orange', 'Banana', 'Lime', 'Peach', 'Chocolate', 'Strawberry'],
+      // value: [],
     };
   },
   mounted() {
     this.getData("perguruanTinggi", { params: { paginate: 99 } });
     this.getData("penjurusan", { params: { paginate: 99 } });
     this.getData("mapel", { params: { paginate: 99 } });
+  },
+  computed: {
+    availableMapels() {
+      return this.dataMapels.filter(opt => this.mapelSelected.indexOf(opt) === -1)
+    },
   },
   methods: {
     onTest(range, oldRange, source) {
@@ -341,12 +382,20 @@ export default {
       //     console.log(text);
       //   }
     },
+    changeMapel(mapel) {
+      const search = this.dataMaster.mapel.find(item => item.nama_mapel == mapel);
+      if(search) {
+        this.form.mapels.push({
+          id_mapel: search.id
+        })
+      }
+    },
     validateForm() {
       console.log(this.form);
       if (
         !this.form.nama_studi ||
         !this.form.id_penjurusan ||
-        !this.form.id_mapel ||
+        // !this.form.id_mapel ||
         // !this.form.icon_prodi ||
         !this.form.deskripsi ||
         !this.form.alasan ||
@@ -354,7 +403,8 @@ export default {
         !this.form.program_studi_dan_perguruan_tinggi[0].id_perguruan_tinggi ||
         !this.form.program_studi_dan_perguruan_tinggi[0]
           .akreditasi_program_studi ||
-        !this.form.program_studi_dan_perguruan_tinggi[0].passing_grade_prodi
+        !this.form.program_studi_dan_perguruan_tinggi[0].passing_grade_prodi ||
+        !this.form.mapels[0].id_mapel
       ) {
         this.$bvToast.toast("Mohon lengkapi form dengan benar!", {
           title: "Peringatan",
@@ -367,10 +417,11 @@ export default {
       this.submitData("programStudi");
     },
     submitData(type) {
-
-      const findPenjurusan = this.dataOption['penjurusan'].find(item => item.id_penjurusan == this.form.id_penjurusan);
-      if(findPenjurusan) {
-        this.form.kelompok = findPenjurusan == 'IPA' ? 'SAINTEK' : 'SOSHUM'
+      const findPenjurusan = this.dataOption["penjurusan"].find(
+        item => item.id_penjurusan == this.form.id_penjurusan
+      );
+      if (findPenjurusan) {
+        this.form.kelompok = findPenjurusan == "IPA" ? "SAINTEK" : "SOSHUM";
       }
 
       this.loading = true;
@@ -420,12 +471,16 @@ export default {
                 }
               });
             } else if (type == "mapel") {
-              this.dataOption[type] = this.dataMaster[type].map(item => {
-                let textField = item.nama_mapel;
-                return {
-                  ...item,
-                  textField
-                };
+              // this.dataOption[type] = this.dataMaster[type].map(item => {
+              //   let text = item.nama_mapel;
+              //   return {
+              //     value: item.id,
+              //     text
+              //   };
+              // });
+              this.dataMapels = this.dataMaster[type].map(item => {
+                let text = item.nama_mapel;
+                return text
               });
             } else if (type == "perguruanTinggi") {
               this.dataOption[type] = this.dataMaster[type].map(item => {
