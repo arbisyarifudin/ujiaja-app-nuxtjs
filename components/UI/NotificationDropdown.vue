@@ -87,7 +87,7 @@ export default {
             // item.notification_open = 1
           })
           .catch(err => {
-            console.log(error);
+            console.log(err);
           });
       }
 
