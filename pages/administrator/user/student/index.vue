@@ -191,17 +191,17 @@
               <tr>
                 <th width="150">Alamat Lengkap</th>
                 <th width="10">:</th>
-                <th>{{ detail.alamat_lengkap ? detail.alamat_lengkap : '-' }}
+                <th>{{ detail.alamat ? detail.alamat : '-' }}
                   <span v-if="detail.nama_kecamatan">, {{detail.nama_kecamatan}},</span>
                   <span v-if="detail.nama_kota">{{detail.nama_kota}},</span>
                   <span v-if="detail.nama_provinsi">{{detail.nama_provinsi}},</span>
                 </th>
               </tr>
-              <tr>
+              <!-- <tr>
                 <th width="150">Agama</th>
                 <th width="10">:</th>
                 <th>{{ detail.agama }}</th>
-              </tr>
+              </tr> -->
               <tr>
                 <th width="150">Jenis Kelamin</th>
                 <th width="10">:</th>

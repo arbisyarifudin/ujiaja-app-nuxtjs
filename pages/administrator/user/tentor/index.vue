@@ -230,11 +230,11 @@
                   <span v-if="detail.nama_provinsi">{{detail.nama_provinsi}},</span>
                 </th>
               </tr>
-              <tr>
+              <!-- <tr>
                 <th width="150">Agama</th>
                 <th width="10">:</th>
                 <th>{{ detail.agama }}</th>
-              </tr>
+              </tr> -->
               <tr>
                 <th width="150">Jenis Kelamin</th>
                 <th width="10">:</th>
