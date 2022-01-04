@@ -196,7 +196,7 @@ export default {
           return "fa-bell";
       }
     },
-    async toPath(item) {
+     async toPath(item) {
       if (item.notification_open === false || item.notification_open === 0) {
         await this.$axios
           .$put(`/api/notification/open/${item.notification_id}`)
@@ -212,8 +212,8 @@ export default {
     },
     getPath(item) {
       const data = JSON.parse(item.notification_data);
-      const basePath = this.layout == "admin" ? "administrator" : "app";
-      if (this.userRole == "admin" || this.userRole == "superAdmin") {
+      const basePath = "administrator";
+      if (this.user.role_user == "admin" || this.user.role_user == "superAdmin") {
         switch (item.notification_type) {
           case 0: // registration
             const user = data.user;
@@ -252,10 +252,14 @@ export default {
           case 3: // courses
             console.log(data);
             const detail = data.detail ? data.detail : data;
-            if (detail.status_dikelas == "Ditolak") {
-              return `/${basePath}/student/courses/${detail.id}/rejected?notifId=${item.notification_id}`;
+            if (this.userRole == 'siswa' && detail.status_dikelas == "Ditolak") {
+              return `/${basePath}/student/courses/${detail.id}/rejected?notifId=${item.notification_id}&rejectId=${detail.id}`;
             }
-            return `/${basePath}/student/courses/${detail.id}/detail`;
+            if(this.userRole == 'siswa') {
+              return `/${basePath}/student/courses/${detail.id_kursus}/detail`;
+            } else {
+              return `/${basePath}/partner/courses/${detail.id_kursus}/students?tab=1`;
+            }
           default:
             return "#";
         }

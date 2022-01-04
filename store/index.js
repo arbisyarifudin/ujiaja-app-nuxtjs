@@ -101,29 +101,29 @@ export const actions = {
         }
         return;
       })
-      .then(() => {
-        app.$axios
-          .$get("api/notification", {
-            headers: {
-              Authorization: "Bearer " + app.$cookiz.get("_ujiaja")
-            },
-            params: {
-              limit: 6
-            }
-          })
-          .then(async response => {
-            // console.log("notif", response.data);
-            if (response.success) {
-              await commit("set", ["notifData", response.data.data]);
-              await commit("set", ["notifTotal", response.data.total]);
-            }
-            return;
-          })
-          .catch(error => {
-            // console.log('pengaturan err',error.response)
-            return;
-          });
-      })
+      // .then(() => {
+      //   app.$axios
+      //     .$get("api/notification", {
+      //       headers: {
+      //         Authorization: "Bearer " + app.$cookiz.get("_ujiaja")
+      //       },
+      //       params: {
+      //         limit: 6
+      //       }
+      //     })
+      //     .then(async response => {
+      //       // console.log("notif", response.data);
+      //       if (response.success) {
+      //         await commit("set", ["notifData", response.data.data]);
+      //         await commit("set", ["notifTotal", response.data.total]);
+      //       }
+      //       return;
+      //     })
+      //     .catch(error => {
+      //       // console.log('pengaturan err',error.response)
+      //       return;
+      //     });
+      // })
       .catch(error => {
         // console.log('pengaturan err',error.response)
         return;
