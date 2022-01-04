@@ -44,10 +44,10 @@
                       { text: 'Semua Kategori', value: '' },
                       { text: 'UTBK', value: 'UTBK' },
                       { text: 'ASPD', value: 'ASPD' },
-                      { text: 'Asesmen Nasional', value: 'Asmenas' }
                     ]"
                     @change="getData('tryout')"
                   ></b-form-select>
+                      <!-- { text: 'Asesmen Nasional', value: 'Asmenas' } -->
                 </b-input-group>
               </div>
             </div>
