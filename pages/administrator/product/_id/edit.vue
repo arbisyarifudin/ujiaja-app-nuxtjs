@@ -55,10 +55,10 @@
                     { text: '-- Pilih --', value: null },
                     { text: 'UTBK', value: 'UTBK' },
                     { text: 'ASPD', value: 'ASPD' },
-                    { text: 'Asesmen Nasional', value: 'Asmenas' }
                   ]"
                 >
                 </b-form-select>
+                    <!-- { text: 'Asesmen Nasional', value: 'Asmenas' } -->
               </div>
               <div class="form-group reg-siswa">
                 <label for="tipe_paket">Paket <code>*</code></label>

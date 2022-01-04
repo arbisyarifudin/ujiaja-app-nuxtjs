@@ -127,7 +127,7 @@ export default {
         password: "",
         ulangi_password: ""
       },
-      isUbahPassword: false
+      isUbahPassword: false,
     };
   },
   created() {
@@ -211,7 +211,6 @@ export default {
     },
     getDetail(type) {
       this.loading = true;
-      this.$bvModal.show("modal-detail");
       this.$axios
         .$get(`/api/${type}/find/${this.$route.params.id}`)
         .then(res => {

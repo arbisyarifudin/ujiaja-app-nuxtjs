@@ -234,7 +234,12 @@ Vue.mixin({
           autoHideDelay: 3000
         });
         // this.appLogout();
-        this.$router.replace("/app");
+        const userRole = this.$store.state.dataUser ? this.$store.state.dataUser.user.role_user : null;
+        if(userRole.includes('teacher') || userRole.includes('siswa')) {
+          this.$router.replace("/app/dashboard");
+        } else {
+          this.$router.replace("/administrator/dashboard");
+        }
         return;
       } else if (
         error.response &&

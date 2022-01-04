@@ -92,6 +92,15 @@
                         style="font-size: 17px; color: #baadff;"
                       ></i
                     ></router-link>
+                    <router-link
+                      title="Permission"
+                      class="btn btn-light px-2 mt-n2"
+                      :to="`/administrator/user/admin/${item.id_admin}/permission`"
+                      ><i
+                        class="fas fa-fw fa-key"
+                        style="font-size: 17px; color: #baadff;"
+                      ></i
+                    ></router-link>
                     <button
                       class="btn btn-light trash px-2 mt-n3"
                       @click.prevent="
