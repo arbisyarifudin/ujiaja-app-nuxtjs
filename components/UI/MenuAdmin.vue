@@ -56,7 +56,7 @@
         >Program Studi</b-dropdown-item
       >
     </b-nav-item-dropdown>
-    <b-nav-item-dropdown text="Modul Tryout" right v-if="isHavePermission(['Tryout'], 'List')">
+    <b-nav-item-dropdown text="Modul Tryout" right v-if="isHavePermission(['Tryout & UKTT - Data Master', 'Tryout & UKTT - Pertanyaan Soal', 'Tryout & UKTT - Produk/Event', 'Tryout Riwayat'], 'List')">
       <template #button-content>
         <span
           class="nav-link mb-0 p-0"
@@ -70,14 +70,17 @@
           <i class="fas fa-clipboard fa-fw mr-2"></i> Modul Tryout</span
         >
       </template>
-      <b-dropdown-item to="/administrator/tryout"
+      <b-dropdown-item to="/administrator/tryout" v-if="isHavePermission(['Tryout & UKTT - Data Master', 'Tryout & UKTT - Pertanyaan Soal'], 'List')"
         >Data Tryout & Soal</b-dropdown-item
       >
-      <b-dropdown-item to="/administrator/product"
+      <b-dropdown-item to="/administrator/product" v-if="isHavePermission(['Tryout & UKTT - Produk/Event'], 'List')"
         >Data Produk / Event</b-dropdown-item
       >
+      <b-dropdown-item to="/administrator/tryout-history" v-if="isHavePermission(['Tryout Riwayat'], 'View Hasil Pengerjaan') || isHavePermission(['Tryout Riwayat'], 'View Riwayat Pengerjaan')"
+        >Riwayat Tryout Siswa</b-dropdown-item
+      >
     </b-nav-item-dropdown>
-    <b-nav-item-dropdown text="Modul UKTT" right v-if="isHavePermission(['Tryout', 'UKTT'], 'List')">
+    <b-nav-item-dropdown text="Modul UKTT" right v-if="isHavePermission(['Tryout & UKTT - Data Master', 'Tryout & UKTT - Pertanyaan Soal', 'Tryout & UKTT - Produk/Event', 'Tryout Riwayat'], 'List')">
       <template #button-content>
         <span
           class="nav-link mb-0 p-0"
@@ -86,12 +89,12 @@
           <i class="fas fa-clipboard fa-fw mr-2"></i> Modul UKTT</span
         >
       </template>
-      <b-dropdown-item to="/administrator/uktt">Data Soal UKTT</b-dropdown-item>
-      <b-dropdown-item to="/administrator/uktt/product"
+      <b-dropdown-item to="/administrator/uktt" v-if="isHavePermission(['Tryout & UKTT - Data Master', 'Tryout & UKTT - Pertanyaan Soal'], 'List')">Data Soal UKTT</b-dropdown-item>
+      <b-dropdown-item to="/administrator/uktt/product" v-if="isHavePermission(['Tryout & UKTT - Produk/Event'], 'List')"
         >Data Produk UKTT</b-dropdown-item
       >
     </b-nav-item-dropdown>
-    <b-nav-item-dropdown text="Modul MBTI" right v-if="isHavePermission(['MBTI'], 'List')">
+    <b-nav-item-dropdown text="Modul MBTI" right v-if="isHavePermission(['MBTI - Data Dimensi', 'MBTI - Data Kepribadian', 'MBTI - Data Utama', 'MBTI - Data Soal & Pertanyaan'], 'List')">
       <template #button-content>
         <span
           class="nav-link mb-0 p-0"
@@ -106,23 +109,37 @@
           <i class="fas fa-clipboard fa-fw mr-2"></i> Modul MBTI</span
         >
       </template>
-      <b-dropdown-item to="/administrator/mbti/personality"
+      <b-dropdown-item to="/administrator/mbti/personality" v-if="isHavePermission(['MBTI - Data Kepribadian'], 'List')"
         >Data Kepribadian</b-dropdown-item
       >
-      <b-dropdown-item to="/administrator/mbti/dimention"
+      <b-dropdown-item to="/administrator/mbti/dimention" v-if="isHavePermission(['MBTI - Data Dimensi'], 'List')"
         >Data Dimensi Dasar</b-dropdown-item
       >
-      <b-dropdown-item to="/administrator/mbti"
+      <b-dropdown-item to="/administrator/mbti" v-if="isHavePermission(['MBTI - Data Utama', 'MBTI - Data Soal & Pertanyaan'], 'List')"
         >Data MBTI & Soal</b-dropdown-item
       >
     </b-nav-item-dropdown>
-    <li class="nav-item" v-if="isHavePermission(['Transaksi'], 'List')">
-      <nuxt-link
-        class="nav-link d-flex align-items-center"
-        to="/administrator/payment"
-        ><i class="fas fa-id-badge fa-fw mr-2"></i> Transaksi</nuxt-link
+    <b-nav-item-dropdown text="Transaksi" right v-if="isHavePermission(['Transaksi - Pembayaran Produk', 'Transaksi - Penarikan Data'], 'List')">
+      <template #button-content>
+        <span
+          class="nav-link mb-0 p-0"
+          :class="[
+            $route.path.includes('payment') ||
+            $route.path.includes('withdrawal')
+              ? 'nuxt-link-active'
+              : ''
+          ]"
+        >
+          <i class="fas fa-id-badge fa-fw mr-2"></i> Transaksi</span
+        >
+      </template>
+      <b-dropdown-item to="/administrator/payment" v-if="isHavePermission(['Transaksi - Pembayaran Produk'], 'List')"
+        >Pembayaran</b-dropdown-item
       >
-    </li>
+      <b-dropdown-item to="/administrator/withdrawal" v-if="isHavePermission(['Transaksi - Penarikan Data'], 'List')"
+        >Penarikan</b-dropdown-item
+      >
+    </b-nav-item-dropdown>
     <b-nav-item-dropdown text="Pengguna" right v-if="isHavePermission(['Data Siswa', 'Data Tentor'], 'List')">
       <template #button-content>
         <span
@@ -138,10 +155,10 @@
           <i class="fas fa-clipboard fa-fw mr-2"></i> Pengguna</span
         >
       </template>
-      <b-dropdown-item to="/administrator/user/student"
+      <b-dropdown-item to="/administrator/user/student" v-if="isHavePermission(['Data Siswa'], 'List')"
         >Data Siswa</b-dropdown-item
       >
-      <b-dropdown-item to="/administrator/user/tentor"
+      <b-dropdown-item to="/administrator/user/tentor" v-if="isHavePermission(['Data Tentor'], 'List')"
         >Data Tentor</b-dropdown-item
       >
     </b-nav-item-dropdown>

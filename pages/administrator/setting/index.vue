@@ -107,6 +107,7 @@
                 class="btn btn-primary square"
                 :disabled="submitting || loading"
                 @click.prevent="submitData"
+                v-if="isHavePermission('Pengaturan', 'Edit')"
               >
                 <b-spinner
                   small
@@ -199,6 +200,7 @@
                 class="btn btn-primary square"
                 :disabled="submitting || loading"
                 @click.prevent="submitData"
+                v-if="isHavePermission('Pengaturan', 'Edit')"
               >
                 <b-spinner
                   small
@@ -290,6 +292,7 @@
                 class="btn btn-primary square"
                 :disabled="submitting || loading"
                 @click.prevent="submitDataLevel"
+                v-if="isHavePermission('Level', 'Edit')"
               >
                 <b-spinner
                   small
@@ -369,6 +372,7 @@
                 class="btn btn-primary square"
                 :disabled="submitting || loading"
                 @click.prevent="submitDataBank"
+                v-if="isHavePermission('Bank', 'Edit')"
               >
                 <b-spinner
                   small
@@ -407,7 +411,7 @@ export default {
       dataBank: []
     };
   },
-  created() {
+  mounted() {
     this.getAllSetting();
   },
   computed: {
@@ -465,6 +469,17 @@ export default {
         })
         .finally(() => {
           this.loading = false;
+          // if (this.isHavePermission('Pengaturan', 'List')) {
+          //   console.log('hav pengaturan')
+          //   this.getAllSetting();
+          // } else 
+          if (!this.isHavePermission('Pengaturan', 'List') && this.isHavePermission('Level', 'List')) {
+            // console.log('hav level')
+            this.getAllLevel()
+          } else if (!this.isHavePermission('Pengaturan', 'List') && !this.isHavePermission('Level', 'List') && this.isHavePermission('Bank', 'List')) {
+            // console.log('hav bank')
+            this.getAllBank()
+          }
         });
     },
     getAllLevel() {

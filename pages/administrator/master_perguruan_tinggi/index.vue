@@ -75,6 +75,7 @@
                       :to="
                         `/administrator/master_perguruan_tinggi/edit/${item.id}`
                       "
+                      v-if="isHavePermission('Perguruan Tinggi', 'Edit')"
                     >
                       <i class="fa fa-edit"></i>
                     </nuxt-link>
@@ -85,9 +86,11 @@
                         selectedIndex = index;
                         $bvModal.show('modal-delete');
                       "
+                      v-if="isHavePermission('Perguruan Tinggi', 'Delete')"
                     >
                       <i class="fa fa-trash"></i>
                     </button>
+                    <span v-if="!isHavePermission('Perguruan Tinggi', 'Edit') && !isHavePermission('Perguruan Tinggi', 'Delete')">-</span>
                   </td>
                 </tr>
               </template>

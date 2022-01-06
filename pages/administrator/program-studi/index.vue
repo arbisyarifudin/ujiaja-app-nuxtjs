@@ -96,6 +96,7 @@
                     <nuxt-link
                       class="btn btn-light edit px-2"
                       :to="`/administrator/program-studi/edit/${item.id}`"
+                      v-if="isHavePermission('Program Studi', 'Edit')"
                     >
                       <i class="far fa-edit"></i>
                     </nuxt-link>
@@ -106,9 +107,11 @@
                         selectedIndex = index;
                         $bvModal.show('modal-delete');
                       "
+                      v-if="isHavePermission('Program Studi', 'Delete')"
                     >
                       <i class="fas fa-trash-alt"></i>
                     </button>
+                    <span v-if="!isHavePermission('Program Studi', 'Edit') && !isHavePermission('Program Studi', 'Delete')">-</span>
                   </td>
                 </tr>
               </template>

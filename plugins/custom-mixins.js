@@ -129,6 +129,27 @@ Vue.mixin({
       }
       return "form-control";
     },
+    isHavePermission(moduleName, actionName) {
+      // console.log(this.perms);
+      const userPermissions = this.$store.state.userPermissions;
+      if(!userPermissions) return false
+      const moduleFound = userPermissions.find(module => moduleName.includes(module.label));
+      if (moduleFound) {
+        // console.log('moduleFound', moduleFound)
+        const actionFound = moduleFound.actions.find(
+          action => action.label == actionName
+        );
+        if (actionFound) {
+          // console.log("actionFound", actionFound);
+          if (actionFound.allow) {
+            return true;
+          }
+          return false;
+        }
+        return false;
+      }
+      return false;
+    },
     getLevelName(id) {
       console.log(id)
       const levels = ['BASE', 'SUPER', 'ELITE', 'MASTER', 'LEGEND'];

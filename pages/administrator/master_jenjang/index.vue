@@ -72,6 +72,7 @@
                     <nuxt-link
                       class="btn btn-light px-2"
                       :to="`/administrator/master_jenjang/edit/${item.id}`"
+                      v-if="isHavePermission('Jenjang', 'Edit')"
                     >
                       <i class="fa fa-edit"></i>
                     </nuxt-link>
@@ -82,9 +83,11 @@
                         selectedIndex = index;
                         $bvModal.show('modal-delete');
                       "
+                      v-if="isHavePermission('Jenjang', 'Delete')"
                     >
                       <i class="fa fa-trash"></i>
                     </button>
+                    <span v-if="!isHavePermission('Jenjang', 'Edit') && !isHavePermission('Jenjang', 'Delete')">-</span>
                   </td>
                 </tr>
               </template>
