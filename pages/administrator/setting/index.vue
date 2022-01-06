@@ -10,7 +10,7 @@
       <div class="col-md-12 crud-body">
         <UILoading v-if="loading" />
         <b-tabs v-model="tab" class="mt-2" content-class="pt-4">
-          <b-tab title="Umum">
+          <b-tab title="Umum" v-if="isHavePermission('Pengaturan', 'List')">
             <div class="form-user">
               <div class="form-group mb-4 row">
                 <label class="form-label col-md-2">Logo</label>
@@ -117,7 +117,7 @@
               </button>
             </div>
           </b-tab>
-          <b-tab title="Biaya">
+          <b-tab title="Biaya" v-if="isHavePermission('Pengaturan', 'List')">
             <div class="form-user">
               <div class="form-group mb-4 row">
                 <label class="form-label col-md-2" for="fee_banktrf"
@@ -209,7 +209,7 @@
               </button>
             </div>
           </b-tab>
-          <b-tab title="Level">
+          <b-tab title="Level" v-if="isHavePermission('Level', 'List')">
             <div class="form-user">
               <div
                 class="form-group mb-4 row level"
@@ -300,7 +300,7 @@
               </button>
             </div>
           </b-tab>
-          <b-tab title="Bank">
+          <b-tab title="Bank" v-if="isHavePermission('Bank', 'List')">
             <div class="form-user">
               <div
                 class="form-group mb-4 row level"
@@ -413,7 +413,10 @@ export default {
   computed: {
     settings() {
       return this.$store.state.dataSetting;
-    }
+    },
+    userPermissions() {
+      return this.$store.state.userPermissions;
+    },
   },
   watch: {
     tab(value) {
@@ -457,7 +460,8 @@ export default {
           }
         })
         .catch(error => {
-          console.log(error);
+          // console.log(error);
+          this.catchError(error)
         })
         .finally(() => {
           this.loading = false;
@@ -473,7 +477,8 @@ export default {
           }
         })
         .catch(error => {
-          console.log(error);
+          // console.log(error);
+          this.catchError(error)
         })
         .finally(() => {
           this.loading = false;
@@ -521,7 +526,8 @@ export default {
           }
         })
         .catch(error => {
-          console.log(error);
+          // console.log(error);
+          this.catchError(error)
         })
         .finally(() => {
           this.loading = false;
@@ -613,6 +619,25 @@ export default {
           })
           .finally(() => (this.loading = false));
       }
+    },
+    isHavePermission(moduleName, actionName) {
+      // console.log(this.perms);
+      const moduleFound = this.userPermissions.find(module => moduleName.includes(module.label));
+      if (moduleFound) {
+        // console.log('moduleFound', moduleFound)
+        const actionFound = moduleFound.actions.find(
+          action => action.label == actionName
+        );
+        if (actionFound) {
+          // console.log("actionFound", actionFound);
+          if (actionFound.allow) {
+            return true;
+          }
+          return false;
+        }
+        return false;
+      }
+      return false;
     }
   }
 };

@@ -11,7 +11,8 @@ export const state = () => ({
   isProfilLengkap: true,
   dataSetting: [],
   notifData: [],
-  notifTotal: 0
+  notifTotal: 0,
+  userPermissions: []
   // listNomorSoal: [],
   // currentNomor: {},
   // currentSoal: {}

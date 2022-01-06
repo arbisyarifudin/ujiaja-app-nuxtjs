@@ -6,7 +6,7 @@
           <nav class="sidebar navbar-light pt-3 pl-4" id="menu">
             <a href="/" target="_blank"><img v-if="!isServer" :src="ApiUrl(getSetting('logo'))" class="img-fluid w-25 pb-4" /></a>
             <UIMenuSuperAdmin v-if="user.role_user == 'superAdmin'" />
-            <UIMenuAdmin v-else-if="user.role_user == 'admin'" />
+            <UIMenuAdmin v-else-if="user.role_user == 'admin'" :permissions="userPermissions"/>
           </nav>
         </div>
         <b-sidebar
@@ -57,7 +57,7 @@
                   <b-dropdown-item to="/administrator/profile"
                     >Profil</b-dropdown-item
                   >
-                   <b-dropdown-item to="/administrator/setting"
+                   <b-dropdown-item to="/administrator/setting" v-if="isHavePermission(['Pengaturan', 'Level', 'Bank'], 'List')"
                     >Pengaturan</b-dropdown-item
                   >
                   <b-dropdown-item @click.prevent="appLogout"
@@ -115,6 +115,9 @@ export default {
     notifData() {
       return this.$store.state.notifData;
     },
+    userPermissions() {
+      return this.$store.state.userPermissions;
+    },
   },
   head() {
     return {
@@ -139,6 +142,7 @@ export default {
     this.getNotif({
       ...this.filter
     });
+    this.getUserPermission()
   },
   mounted() {
     this.isServer = false
@@ -265,6 +269,39 @@ export default {
             return "#";
         }
       }
+    },
+    getUserPermission() {
+      this.loading = true
+      this.$axios
+        .$get("/api/permission/mine", {
+          params: {
+            user_id: this.user.id,
+          }
+        })
+        .then(response => {
+          if (response.success) {
+            this.$store.commit("set", ["userPermissions", response.data]);
+          }
+        });
+    },
+    isHavePermission(moduleName, actionName) {
+      // console.log(this.perms);
+      const moduleFound = this.userPermissions.find(module => moduleName.includes(module.label));
+      if (moduleFound) {
+        // console.log('moduleFound', moduleFound)
+        const actionFound = moduleFound.actions.find(
+          action => action.label == actionName
+        );
+        if (actionFound) {
+          // console.log("actionFound", actionFound);
+          if (actionFound.allow) {
+            return true;
+          }
+          return false;
+        }
+        return false;
+      }
+      return false;
     }
   }
 };

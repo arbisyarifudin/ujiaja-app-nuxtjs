@@ -7,14 +7,14 @@
         ><i class="fas fa-chart-pie fa-fw mr-2"></i> Dashboard</nuxt-link
       >
     </li>
-    <li class="nav-item">
+    <li class="nav-item" v-if="isHavePermission('Jenjang', 'List')">
       <nuxt-link
         class="nav-link d-flex align-items-center"
         to="/administrator/master_jenjang"
         ><i class="fas fa-caret-square-up fa-fw mr-2"></i> Jenjang</nuxt-link
       >
     </li>
-    <b-nav-item-dropdown text="Sekolah" right>
+    <b-nav-item-dropdown text="Sekolah" right v-if="isHavePermission(['Kelas', 'Penjurusan', 'Mapel'], 'List')">
       <template #button-content>
         <span
           class="nav-link mb-0 p-0"
@@ -36,7 +36,7 @@
         >Mata Pelajaran</b-dropdown-item
       >
     </b-nav-item-dropdown>
-    <b-nav-item-dropdown text="Perguruan Tinggi" right>
+    <b-nav-item-dropdown text="Perguruan Tinggi" right v-if="isHavePermission(['Perguruan Tinggi', 'Program Studi'], 'List')">
       <template #button-content>
         <span
           class="nav-link mb-0 p-0"
@@ -56,12 +56,13 @@
         >Program Studi</b-dropdown-item
       >
     </b-nav-item-dropdown>
-    <b-nav-item-dropdown text="Modul Tryout" right>
+    <b-nav-item-dropdown text="Modul Tryout" right v-if="isHavePermission(['Tryout'], 'List')">
       <template #button-content>
         <span
           class="nav-link mb-0 p-0"
           :class="[
-            $route.path.includes('tryout') || $route.path.includes('product') && !$route.path.includes('uktt')
+            $route.path.includes('tryout') ||
+            ($route.path.includes('product') && !$route.path.includes('uktt'))
               ? 'nuxt-link-active'
               : ''
           ]"
@@ -76,27 +77,21 @@
         >Data Produk / Event</b-dropdown-item
       >
     </b-nav-item-dropdown>
-    <b-nav-item-dropdown text="Modul UKTT" right>
+    <b-nav-item-dropdown text="Modul UKTT" right v-if="isHavePermission(['Tryout', 'UKTT'], 'List')">
       <template #button-content>
         <span
           class="nav-link mb-0 p-0"
-          :class="[
-            $route.path.includes('uktt')
-              ? 'nuxt-link-active'
-              : ''
-          ]"
+          :class="[$route.path.includes('uktt') ? 'nuxt-link-active' : '']"
         >
           <i class="fas fa-clipboard fa-fw mr-2"></i> Modul UKTT</span
         >
       </template>
-      <b-dropdown-item to="/administrator/uktt"
-        >Data Soal UKTT</b-dropdown-item
-      >
+      <b-dropdown-item to="/administrator/uktt">Data Soal UKTT</b-dropdown-item>
       <b-dropdown-item to="/administrator/uktt/product"
         >Data Produk UKTT</b-dropdown-item
       >
     </b-nav-item-dropdown>
-    <b-nav-item-dropdown text="Modul MBTI" right>
+    <b-nav-item-dropdown text="Modul MBTI" right v-if="isHavePermission(['MBTI'], 'List')">
       <template #button-content>
         <span
           class="nav-link mb-0 p-0"
@@ -121,12 +116,14 @@
         >Data MBTI & Soal</b-dropdown-item
       >
     </b-nav-item-dropdown>
-    <li class="nav-item">
-      <nuxt-link class="nav-link d-flex align-items-center" to="/administrator/payment"
+    <li class="nav-item" v-if="isHavePermission(['Transaksi'], 'List')">
+      <nuxt-link
+        class="nav-link d-flex align-items-center"
+        to="/administrator/payment"
         ><i class="fas fa-id-badge fa-fw mr-2"></i> Transaksi</nuxt-link
       >
     </li>
-     <b-nav-item-dropdown text="Pengguna" right>
+    <b-nav-item-dropdown text="Pengguna" right v-if="isHavePermission(['Data Siswa', 'Data Tentor'], 'List')">
       <template #button-content>
         <span
           class="nav-link mb-0 p-0"
@@ -148,20 +145,57 @@
         >Data Tentor</b-dropdown-item
       >
     </b-nav-item-dropdown>
-    <!-- <li class="nav-item">
-      <nuxt-link class="nav-link d-flex align-items-center" to="#"
-        ><i class="fas fa-file-alt fa-fw mr-2"></i> Laporan Transaksi</nuxt-link
-      >
-    </li> -->
-    <!-- <li class="nav-item">
-      <nuxt-link class="nav-link d-flex align-items-center" to="#"
-        ><i class="fas fa-chart-bar fa-fw mr-2"></i> Statistik User</nuxt-link
-      >
-    </li> -->
-     <li class="nav-item">
-      <nuxt-link class="nav-link d-flex align-items-center" to="/administrator/ticket"
+    <li class="nav-item" v-if="isHavePermission('Pengaduan', 'List')">
+      <nuxt-link
+        class="nav-link d-flex align-items-center"
+        to="/administrator/ticket"
         ><i class="fas fa-question-circle fa-fw mr-2"></i> Pengaduan</nuxt-link
       >
     </li>
   </ul>
 </template>
+
+<script>
+export default {
+  props: {
+    permissions: {
+      type: Array,
+      default: function() {
+        return [];
+      }
+    }
+  },
+  data() {
+    return {
+      perms: []
+    };
+  },
+  watch: {
+    permissions(value) {
+      // console.log(value);
+      this.perms = value;
+    }
+  },
+  methods: {
+    isHavePermission(moduleName, actionName) {
+      // console.log(this.perms);
+      const moduleFound = this.perms.find(module => moduleName.includes(module.label));
+      if (moduleFound) {
+        // console.log('moduleFound', moduleFound)
+        const actionFound = moduleFound.actions.find(
+          action => action.label == actionName
+        );
+        if (actionFound) {
+          // console.log("actionFound", actionFound);
+          if (actionFound.allow) {
+            return true;
+          }
+          return false;
+        }
+        return false;
+      }
+      return false;
+    }
+  }
+};
+</script>
