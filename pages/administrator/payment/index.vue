@@ -429,6 +429,7 @@ export default {
             this.detail = res.data;
             this.form.status = this.detail.status == 'Menunggu Verifikasi' ? null : this.detail.status
             this.form.alasan_penolakan = this.detail.alasan_penolakan
+            this.form.alasan_pembatalan = this.detail.alasan_pembatalan
             this.form.jenis_transaksi = this.detail.jenis_transaksi
           }
           return true;
