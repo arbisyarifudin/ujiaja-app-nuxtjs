@@ -284,12 +284,15 @@ export default {
       }
     },
     "form.password": function (value) {
-      var passwordRegex =
-        /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,20}$/;
+      var passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/
+      //   // /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,20}$/;
       var test = value.match(passwordRegex);
-      if (value && test === null) {
+      // var test = this.checkPwd(value)
+      if (value && test == null) {
+      // if (value && test !== 'ok') {
         this.$set(this.dataError, "password", [
-          "Password minimal 8 - 20 karakter. Dengan setidaknya terdapat 1 huruf kapital, 1 angka dan 1 karakter spesial.",
+          // "Password minimal 8 - 20 karakter. Dengan setidaknya terdapat 1 huruf kapital, 1 angka dan 1 karakter spesial.",
+          "Password minimal 8-20 karakter. Dengan setidaknya terdapat 1 huruf kapital dan 1 angka.",
         ]);
         this.isValidForm["password"] = false;
       } else {
@@ -345,6 +348,20 @@ export default {
     },
   },
   methods: {
+    checkPwd(str) {
+        if (str.length < 6) {
+            return("too_short");
+        } else if (str.length > 50) {
+            return("too_long");
+        } else if (str.search(/\d/) == -1) {
+            return("no_num");
+        } else if (str.search(/[a-zA-Z]/) == -1) {
+            return("no_letter");
+        } else if (str.search(/[^a-zA-Z0-9\!\@\#\$\%\^\&\*\(\)\_\+]/) != -1) {
+            return("bad_char");
+        }
+        return("ok");
+    },
     showError(field) {
       if (
         this.dataError[field] !== undefined &&
