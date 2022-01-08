@@ -321,7 +321,7 @@ export default {
     };
   },
   created() {
-    this.getData("transaksi");
+    this.getData("transaksi/mine");
   },
   computed: {
     user() {
@@ -330,10 +330,10 @@ export default {
   },
   watch: {
     "filter.keyword": function(value) {
-      this.getData("transaksi");
+      this.getData("transaksi/mine");
     },
     "filter.page": function(value) {
-      this.getData("transaksi");
+      this.getData("transaksi/mine");
     }
   },
   methods: {
