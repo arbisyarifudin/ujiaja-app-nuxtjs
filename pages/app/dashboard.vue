@@ -3,6 +3,7 @@
     v-if="user.role_user == 'siswa'"
   />
   <PageDashboardTeacher v-else-if="user.role_user == 'teacher'" />
+  <PageDashboardTeacher v-else-if="user.role_user == 'parent'" />
 </template>
 
 <script>

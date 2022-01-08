@@ -21,7 +21,7 @@
                         v-model="formSiswa.nama_lengkap"
                       />
                     </div>
-                    <div class="form-group reg-siswa">
+                    <div class="form-group reg-siswa" v-if="akun.role_user != 'parent'">
                       <label for="tempat_lahir">Tempat Lahir</label>
                       <input
                         type="text"
@@ -76,7 +76,7 @@
                     </div>
                   </b-col>
                   <b-col>
-                    <div class="form-group reg-siswa">
+                    <div class="form-group reg-siswa" v-if="akun.role_user != 'parent'">
                       <label for="jenis_kelamin">Jenis Kelamin</label>
                       <select
                         class="form-control"
@@ -88,7 +88,7 @@
                         <option value="Perempuan">Perempuan</option>
                       </select>
                     </div>
-                    <div class="form-group reg-siswa">
+                    <div class="form-group reg-siswa" v-if="akun.role_user != 'parent'">
                       <label for="tanggal_lahir">Tanggal Lahir</label>
                       <input
                         type="date"
@@ -100,7 +100,7 @@
                       />
                     </div>
                     <div class="row">
-                      <div class="form-group col-md-3">
+                      <div class="form-group col-md-3" v-if="akun.role_user != 'parent'">
                         <img
                           v-if="apiUrl"
                           :src="apiUrl(profil.foto)"
@@ -111,7 +111,7 @@
                           style="width: 100%; height: 80px; object-fit: contain"
                         />
                       </div>
-                      <div class="col-md-8 form-group reg-siswa">
+                      <div class="col-md-8 form-group reg-siswa" v-if="akun.role_user != 'parent'">
                         <label>Unggah Foto</label>
                         <input
                           type="file"
@@ -121,7 +121,7 @@
                         />
                       </div>
                     </div>
-                    <div class="form-group reg-siswa">
+                    <div class="form-group reg-siswa" v-if="akun.role_user != 'parent'">
                       <label for="info"
                         >Dapat informasi tentang UjiaAja melalui?</label
                       >
@@ -136,7 +136,7 @@
                         <option value="Teman / Kenalan">Teman / Kenalan</option>
                         <option value="Mesin Pencari">Mesin Pencari</option>
                         -->
-                        <option value="">Pilih Sumber</option>
+                        <!-- <option value="">Pilih  Sumber</option> -->
                         <option value="Internet & Mesin Pencari"
                           >Internet & Mesin Pencari</option
                         >
@@ -287,7 +287,7 @@
                   </b-col>
                 </b-row>
               </b-tab>
-              <b-tab title="Alamat">
+              <b-tab title="Alamat" v-if="akun.role_user != 'parent'">
                 <b-row>
                   <b-col>
                     <div class="form-group reg-siswa">

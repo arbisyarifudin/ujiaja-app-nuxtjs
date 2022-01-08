@@ -131,14 +131,20 @@ export default {
             // return {
             //   path: `/${basePath}/payment/${data.id}/detail`
             // };
+            if (this.userRole == "parent") {
+              return `/${basePath}/parent/payment-history/${data.id}/detail`;
+            }
             return `/${basePath}/payment/${data.id}/detail`;
           case 3: // courses
             console.log(data);
             const detail = data.detail ? data.detail : data;
-            if (this.userRole == 'siswa' && detail.status_dikelas == "Ditolak") {
+            if (
+              this.userRole == "siswa" &&
+              detail.status_dikelas == "Ditolak"
+            ) {
               return `/${basePath}/student/courses/${detail.id}/rejected?notifId=${item.notification_id}&rejectId=${detail.id}`;
             }
-            if(this.userRole == 'siswa') {
+            if (this.userRole == "siswa") {
               return `/${basePath}/student/courses/${detail.id_kursus}/detail`;
             } else {
               return `/${basePath}/partner/courses/${detail.id_kursus}/students?tab=1`;

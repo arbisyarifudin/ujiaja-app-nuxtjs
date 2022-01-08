@@ -1,5 +1,6 @@
 <template>
   <PageProfileStudent v-if="user.role_user == 'siswa'"/>
+  <PageProfileParent v-else-if="user.role_user == 'parent'"/>
   <PageProfileTeacher v-else-if="user.role_user == 'teacher'"/>
 </template>
 

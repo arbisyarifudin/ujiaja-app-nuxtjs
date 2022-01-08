@@ -8,12 +8,12 @@
     <li class="nav-item">
       <nuxt-link
         class="nav-link d-flex align-items-center"
-        to="/app/partner/tryout"
+        to="/app/parent/tryout-history"
         ><i class="far fa-edit fa-2x fa-fw mr-2"></i> Hasil Ujian</nuxt-link
       >
     </li>
     <li class="nav-item">
-      <nuxt-link class="nav-link d-flex align-items-center" to="/app/parent/payment"
+      <nuxt-link class="nav-link d-flex align-items-center" to="/app/parent/payment-history"
         ><i class="far fa-file-alt fa-2x fa-fw mr-2"></i> Riwayat
         Transaksi</nuxt-link
       >
