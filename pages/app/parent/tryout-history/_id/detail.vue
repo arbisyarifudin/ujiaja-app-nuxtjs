@@ -35,7 +35,7 @@
         <div class="text-center skor-box">
           <div class="mb-2">Total Skor</div>
           <div class="h3 skor-val">{{dataResult.detail.ceeb_avg}}</div>
-          <!-- <div class="h5 skor-val"><small>Peringkat</small> 2 <small>dari</small> 100</div> -->
+          <div class="h5 skor-val" v-if="dataResult.detail.tipe_event == 'Masal'"><small>Peringkat</small> {{dataResult.detail.ranking}} <small>dari</small> {{dataResult.detail.jsp}}</div>
         </div>
       </div>
     </div>
