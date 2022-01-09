@@ -4,7 +4,7 @@
       <div class="col-md-12 dashboard px-0">
         <h2 class="dash-label">Riwayat Transaksi</h2>
         <p>
-          Data ini berisi transaksi dari pembayaran yang dilakukan oleh anak-anak Anda.
+          Data ini berisi transaksi dari pembayaran yang dilakukan oleh siswa.
         </p>
       </div>
       <div class="col-md-12 text-right mt-4 crud-tools">

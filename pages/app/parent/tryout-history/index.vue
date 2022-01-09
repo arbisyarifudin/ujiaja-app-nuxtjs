@@ -4,7 +4,7 @@
       <div class="col-md-12 dashboard px-0">
         <h2 class="dash-label">Riwayat Tryout</h2>
         <p>
-          Data ini berisi riwayat dari pengerjaan Tryout anak-anak Anda.
+          Data ini berisi riwayat dari pengerjaan Tryout siswa.
         </p>
       </div>
       <div class="col-md-12 text-right mt-4 crud-tools">

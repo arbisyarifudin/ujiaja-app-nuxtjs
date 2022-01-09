@@ -43,7 +43,7 @@
       <hr />
       <UILoading v-if="loading" />
       <h5 class="mt-4 mb-4" v-if="isDisplayBatteries">
-        Skor UTKB anak Anda:
+        Skor UTKB siswa:
       </h5>
       <div class="row justify-content-around" v-if="isDisplayBatteries">
         <div class="col-md-3 col-6 text-center">
@@ -63,6 +63,7 @@
               >
                 {{ scoreData.pg1_percent }}%
               </div>
+              <div class="battery-fill px-1" style="opacity: 0.5; font-size: 10px; height: 40%" v-if="scoreData.avg_score < 1">Siswa belum mengerjakan tryout.</div>
             </div>
           </div>
           <div class="h6">
@@ -84,6 +85,7 @@
               >
                 {{ scoreData.pg2_percent }}%
               </div>
+              <div class="battery-fill px-1" style="opacity: 0.5; font-size: 10px; height: 40%" v-if="scoreData.avg_score < 1">Siswa belum mengerjakan tryout.</div>
             </div>
           </div>
           <div class="h6">
