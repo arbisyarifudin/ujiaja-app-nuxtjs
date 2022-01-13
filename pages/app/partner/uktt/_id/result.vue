@@ -34,7 +34,7 @@
       <div class="col-md-4">
         <div class="text-center skor-box">
           <img :src="skorStampImage()" alt="stamp" class="skor-stamp">
-          <div class="mb-2">Total Skor</div>
+          <div class="mb-2">Skor</div>
           <div class="h3 skor-val">{{dataResult.skor.skor_akhir}} / {{detailProduk.uktt_nilai_minimal}}</div>
           <button class="btn btn-primary square btn-sm" v-if="!isLulus" @click.prevent="$bvModal.show('modal-confirm')"><i class="fas fa-reply fa-fw mr-1"></i> Ulangi Ujian</button>
         </div>
