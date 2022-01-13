@@ -85,7 +85,15 @@
       <hr>
 
       <div class="d-flex justify-content-end">
-        <button class="btn btn-primary square" @click.prevent><i class="fas fa-award fa-fw mr-1"></i> Lihat Sertifikat</button>
+        <button
+          class="btn btn-primary square"
+          :disabled="generating"
+          @click.prevent="generatePDF"
+        >
+          <b-spinner v-if="generating" small></b-spinner>
+          <i class="fas fa-award fa-fw mr-1" v-else></i>
+          Lihat Sertifikat
+        </button>
         <nuxt-link class="btn btn-outline-primary square ml-3" :to="`/app/tryout/${dataResult.detail.id_produk}/review`"><i class="fas fa-file-alt fa-fw mr-1"></i> Review Tryout</nuxt-link>
       </div>
 
@@ -130,6 +138,7 @@ export default {
   data() {
     return {
       loading: true,
+      generating: false,
       dataResult: {
         detail: {},
         tryout: [],
@@ -198,7 +207,31 @@ export default {
         return 'Rendah'
       }
 
-    }
+    },
+    generatePDF() {
+      this.generating = true;
+      this.$axios
+        .$post(`/api/tryout_user/generate-certificate`, {
+            id_produk: this.$route.query.idp,
+            id_user: this.$route.query.idu,
+          })
+        .then(res => {
+          console.log(res);
+          if (res.success) {
+            const pdfUrl = res.data
+            let anchor = document.createElement('a');
+            anchor.setAttribute('target', '_blank')
+            anchor.setAttribute('href', pdfUrl);
+            // console.log(anchor);
+            anchor.click()
+          }
+        })
+        .catch(err => {
+          console.log(err);
+          this.catchError(err);
+        })
+        .finally(() => (this.generating = false));
+    },
   }
 };
 </script>
