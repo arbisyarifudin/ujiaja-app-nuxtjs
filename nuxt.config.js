@@ -5,7 +5,7 @@ export default {
     baseUrl:
       process.env.NODE_ENV !== "production"
         ? "http://localhost:7000"
-        : "http://54.254.180.229",
+        : "http://ujiaja.com",
     apiUrl:
       process.env.NODE_ENV !== "production"
         ? "http://localhost:8000"
