@@ -15,3 +15,13 @@
     }
 }
 </style>
+
+<script>
+export default {
+  head() {
+    return {
+      title: 'App',
+    }
+  },
+}
+</script>
