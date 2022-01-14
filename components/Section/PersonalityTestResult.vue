@@ -4,7 +4,7 @@
       <div class="d-flex justify-content-between">
         <div>
           <h2 class="dash-label">
-            Halo, Arbi Syarifudin!
+             Halo, {{userDetail.nama_lengkap}}!
           </h2>
           <p style="color: #777">
             Berikut adalah hasil test MBTI yang pernah kamu kerjakan.
