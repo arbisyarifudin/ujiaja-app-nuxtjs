@@ -176,7 +176,7 @@
                     ></b-form-radio-group>
                   </div>
                 </b-col>
-                <b-col class="col-md-6">
+                <b-col class="col-md-6" v-if="mbtiActive">
                   <div class="form-group reg-siswa">
                     <label for="bonus"
                       >Bonus Tes Kepribadian <code>*</code></label
@@ -437,6 +437,7 @@ export default {
       loading: false,
       fetching: false,
       dataTryout: [],
+      mbtiActive: null,
       form: {
         nama_produk: null,
         deskripsi_produk: "",
@@ -465,6 +466,7 @@ export default {
   },
   mounted() {
     this.getData("tryout");
+    this.getMBTIActive()
   },
   computed: {
     filteredTryout() {
@@ -580,6 +582,21 @@ export default {
 
       console.log(this.form);
       this.submitData("produk");
+    },
+    getMBTIActive() {
+      this.loading = true;
+      this.$axios
+        .$get(`/api/mbti/active`)
+        .then(res => {
+          console.log(res);
+          if (res.success) {
+            this.mbtiActive = res.data;
+          }
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+        .finally(() => (this.loading = false));
     },
     submitData(type) {
       this.loading = true;
