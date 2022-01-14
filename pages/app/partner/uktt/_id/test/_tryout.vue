@@ -122,7 +122,9 @@
                               jawabanUser[currentNomor.nomor].jawaban_user
                             "
                           />
-                          {{ opsi.option }}</label
+                          <!-- {{ opsi.option }} -->
+                          <span v-html="opsi.option" class="option-text"></span>
+                          </label
                         >
                       </li>
                       <li class="mt-4">
@@ -687,7 +689,7 @@ export default {
     async getDetailUjian() {
       this.loading = true;
       await this.$axios
-        .$get(`/api/tryout_user/per-tryout-produk/`, {
+        .$get(`/api/tryout_user/per-tryout-produk`, {
           params: {
             id_produk: this.productId,
             id_tryout: this.tryoutId

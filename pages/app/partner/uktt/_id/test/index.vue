@@ -130,7 +130,7 @@ export default {
     async getDetailUjian() {
       this.loading = true;
       await this.$axios
-        .$get(`/api/tryout_user/per-tryout-produk/`, {
+        .$get(`/api/tryout_user/per-tryout-produk`, {
           params: {
             id_produk: this.productId,
             id_tryout: this.tryoutId

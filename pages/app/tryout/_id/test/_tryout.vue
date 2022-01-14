@@ -121,7 +121,9 @@
                               jawabanUser[currentNomor.nomor].jawaban_user
                             "
                           />
-                          {{ opsi.option }}</label
+                          <!-- {{opsi.option}} -->
+                          <span v-html="opsi.option" class="option-text"></span>
+                          </label
                         >
                       </li>
                       <li class="mt-4">
