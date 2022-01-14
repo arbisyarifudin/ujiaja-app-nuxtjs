@@ -45,7 +45,7 @@
           </nuxt-link>
           <nuxt-link
             class="btn btn-primary dashboard px-4"
-            :to="`/app/payment/${detail.transaksi.id}/detail`"
+            :to="`/app/payment/${detail.transaksi.id_induk}/detail`"
             v-if="
               detail &&
                 detail.transaksi &&
@@ -59,9 +59,7 @@
             v-if="
               (detail &&
                 detail.transaksi &&
-                detail.transaksi.status == 'Sudah Diverifikasi') ||
-                userDetail.bonus_mbti > 0
-            "
+                detail.transaksi.status == 'Sudah Diverifikasi')"
             type="button"
             @click="toTesPage"
           >

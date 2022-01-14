@@ -432,7 +432,13 @@ export default {
             this.loading = false;
           }
         })
-        .catch(error => console.log(error));
+        .catch(error => {
+          // console.log(error)
+          this.catchError(error)
+          this.$router.replace("/app/mbti")
+        }).finally(() => {
+          this.loading = false
+        })
     },
     updateNomor(dataNomor) {
       this.currentNomor = dataNomor;
