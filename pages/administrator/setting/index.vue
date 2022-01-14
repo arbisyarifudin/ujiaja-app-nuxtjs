@@ -10,7 +10,7 @@
       <div class="col-md-12 crud-body">
         <UILoading v-if="loading" />
         <b-tabs v-model="tab" class="mt-2" content-class="pt-4">
-          <b-tab title="Umum" v-if="isHavePermission('Pengaturan', 'List')">
+          <b-tab title="Umum" v-if="isHavePermission('Pengaturan', 'View')">
             <div class="form-user">
               <div class="form-group mb-4 row">
                 <label class="form-label col-md-2">Logo</label>
@@ -118,7 +118,7 @@
               </button>
             </div>
           </b-tab>
-          <b-tab title="Biaya" v-if="isHavePermission('Pengaturan', 'List')">
+          <b-tab title="Biaya" v-if="isHavePermission('Pengaturan', 'View')">
             <div class="form-user">
               <div class="form-group mb-4 row">
                 <label class="form-label col-md-2" for="fee_banktrf"
@@ -211,7 +211,7 @@
               </button>
             </div>
           </b-tab>
-          <b-tab title="Level" v-if="isHavePermission('Level', 'List')">
+          <b-tab title="Level" v-if="isHavePermission('Level', 'View')">
             <div class="form-user">
               <div
                 class="form-group mb-4 row level"
@@ -473,10 +473,10 @@ export default {
           //   console.log('hav pengaturan')
           //   this.getAllSetting();
           // } else 
-          if (!this.isHavePermission('Pengaturan', 'List') && this.isHavePermission('Level', 'List')) {
+          if (!this.isHavePermission('Pengaturan', 'View') && this.isHavePermission('Level', 'View')) {
             // console.log('hav level')
             this.getAllLevel()
-          } else if (!this.isHavePermission('Pengaturan', 'List') && !this.isHavePermission('Level', 'List') && this.isHavePermission('Bank', 'List')) {
+          } else if (!this.isHavePermission('Pengaturan', 'View') && !this.isHavePermission('Level', 'View') && this.isHavePermission('Bank', 'List')) {
             // console.log('hav bank')
             this.getAllBank()
           }

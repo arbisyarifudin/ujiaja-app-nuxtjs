@@ -57,7 +57,7 @@
                   <b-dropdown-item to="/administrator/profile"
                     >Profil</b-dropdown-item
                   >
-                   <b-dropdown-item to="/administrator/setting" v-if="isHavePermission(['Pengaturan', 'Level', 'Bank'], 'List')"
+                   <b-dropdown-item to="/administrator/setting" v-if="isHavePermission('Pengaturan', 'List') || isHavePermission('Bank', 'List') || isHavePermission('Level', 'View')"
                     >Pengaturan</b-dropdown-item
                   >
                   <b-dropdown-item @click.prevent="appLogout"
