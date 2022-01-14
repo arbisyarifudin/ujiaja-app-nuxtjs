@@ -124,7 +124,11 @@ export default {
     getData(type) {
       this.loading = true;
       this.$axios
-        .$get(`/api/${type}`)
+        .$get(`/api/${type}`, {
+          params: {
+            paginate: 99,
+          }
+        })
         .then((res) => {
           console.log(res);
           if (res.success) {
