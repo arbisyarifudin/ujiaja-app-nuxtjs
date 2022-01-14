@@ -85,7 +85,8 @@
             </div>
             <div class="col-md-6 p-0" v-if="dataDetail.produk || dataDetail.mbti || dataDetail.kursus">
               <p class="mb-1" style="color: #9490A4;">Total Pembayaran</p>
-              <p class="">Rp {{ formatRupiah(dataDetail.total_harga) }}</p>
+              <p class="" v-if="dataDetail.jenis_transaksi == 'Bonus MBTI'">Rp {{ formatRupiah(dataDetail.produk.harga_produk) }}</p>
+              <p class="" v-else>Rp {{ formatRupiah(dataDetail.total_harga) }}</p>
               <p class="mb-1" style="color: #9490A4;">Metode Pembayaran</p>
               <p class="" v-if="dataDetail.tipe == 'Bank Transfer'">
                 Bank Transfer - {{ dataDetail.bank.nama_bank }}
