@@ -362,9 +362,9 @@ export default {
       const encryptedTryoutIdSafe = encodeURIComponent(encryptedTryoutId);
       // this.$router.replace(`/app/tryout/${encryptedProductIdSafe}/test`);
       // window.location.replace(
-      //   `/app/tryout/${encryptedProductIdSafe}/test/?tryout=${encryptedTryoutIdSafe}`
+      //   `/app/tryout/${encryptedProductIdSafe}/test?tryout=${encryptedTryoutIdSafe}`
       // );
-      window.location.href = `/app/tryout/${encryptedProductIdSafe}/test/?tryout=${encryptedTryoutIdSafe}`;
+      window.location.href = `/app/tryout/${encryptedProductIdSafe}/test?tryout=${encryptedTryoutIdSafe}`;
     },
     formatRupiah(num) {
       if (num) {

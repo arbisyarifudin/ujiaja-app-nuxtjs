@@ -305,7 +305,8 @@ export default {
             jenis_produk: this.filter.event,
             status_produk: "Aktif",
             tipe_paket: this.filter.package,
-            id_user: this.user.id
+            id_user: this.user.id,
+            excludes_kategori: ['UKTT']
           }
         })
         .then(res => {

@@ -756,7 +756,7 @@ export default {
       const encryptedTryoutId = this.encrypt(this.tryoutId);
       const encryptedTryoutIdSafe = encodeURIComponent(encryptedTryoutId);
       window.location.replace(
-        `/app/partner/uktt/${encryptedProductIdSafe}/test/?tryout=${encryptedTryoutIdSafe}`
+        `/app/partner/uktt/${encryptedProductIdSafe}/test?tryout=${encryptedTryoutIdSafe}`
       );
     }
   },

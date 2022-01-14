@@ -138,7 +138,7 @@ export default {
     getResult(id) {
       this.loading = true;
       this.$axios
-        .$get(`/api/tryout_user/riwayat-pengerjaan/?id_produk=${id}`)
+        .$get(`/api/tryout_user/riwayat-pengerjaan?id_produk=${id}`)
         .then(res => {
           console.log(res);
           if (res.success) {

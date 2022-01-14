@@ -193,7 +193,7 @@ export default {
     getResult(id) {
       this.loading = true;
       this.$axios
-        .$get(`/api/tryout_user/uktt-hasil/?id_produk=${id}`)
+        .$get(`/api/tryout_user/uktt-hasil?id_produk=${id}`)
         .then(res => {
           console.log(res);
           if (res.success) {
@@ -233,7 +233,7 @@ export default {
         const encryptedProductIdSafe = encodeURIComponent(encryptedProductId);
         const encryptedTryoutId = this.encrypt(this.dataResult.detail.id_tryout);
         const encryptedTryoutIdSafe = encodeURIComponent(encryptedTryoutId);
-        window.location.href = `/app/partner/uktt/${encryptedProductIdSafe}/test/?tryout=${encryptedTryoutIdSafe}`;
+        window.location.href = `/app/partner/uktt/${encryptedProductIdSafe}/test?tryout=${encryptedTryoutIdSafe}`;
       }).catch(err => {
         console.log(err);
         this.catchError(err);
