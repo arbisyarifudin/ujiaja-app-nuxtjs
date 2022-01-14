@@ -25,6 +25,7 @@
                   <b-form-select
                     v-model="filterCategory"
                     :options="[
+                      { text: 'Semua', value: null },
                       { text: 'UTBK Mandiri', value: 'UTBK Mandiri' },
                       { text: 'UTBK Akbar', value: 'UTBK Akbar' },
                       { text: 'ASPD', value: 'ASPD' },
@@ -226,13 +227,16 @@ export default {
         page: 1,
         perPage: 6,
         keyword: "",
-        category: "UTBK",
-        package: "Reguler",
-        event: "Perorangan"
+        // category: "UTBK",
+        // package: "Reguler",
+        // event: "Perorangan"
+        category: "",
+        package: "",
+        event: ""
       },
       totalRows: 0,
       items: [],
-      filterCategory: "UTBK Mandiri",
+      filterCategory: null,
       filterStatus: null
     };
   },
@@ -282,9 +286,12 @@ export default {
           this.filter.package = "Bundling";
           break;
         default:
-          this.filter.category = "UTBK";
-          this.filter.event = "Perorangan";
-          this.filter.package = "Reguler";
+          // this.filter.category = "UTBK";
+          // this.filter.event = "Perorangan";
+          // this.filter.package = "Reguler";
+          this.filter.category = "";
+          this.filter.event = "";
+          this.filter.package = "";
           break;
       }
       this.loading = true;
