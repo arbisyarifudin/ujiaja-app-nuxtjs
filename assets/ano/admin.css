@@ -55,7 +55,7 @@ label {
 input {
   font-size: 16px;
   color: #e5d9f2;
-  opacity: 50%;
+  opacity: 0.5;
 }
 .masuk {
   color: #baadff;
@@ -219,7 +219,7 @@ input {
   background: rgba(176, 166, 239, 0.95);
   border-radius: 20px;
   padding: 30px;
-  opacity: 80%;
+  opacity: 0.8;
   margin-top: 220px;
 }
 .card-karir {
@@ -521,7 +521,7 @@ input {
 }
 .card-content p {
   color: #9490a4;
-  opacity: 80%;
+  opacity: 0.8;
   font-size: 16px;
 }
 .card-content h5 {
@@ -569,7 +569,7 @@ input {
 }
 .konten textarea {
   border-color: #9490a4;
-  opacity: 50%;
+  opacity: 0.5;
 }
 [aria-expanded="false"] > .expanded,
 [aria-expanded="true"] > .collapsed {
@@ -767,7 +767,7 @@ th {
   padding-left: 10px;
   padding-right: 10px;
   color: #949494;
-  opacity: 50%;
+  opacity: 0.5;
   font-size: 14px;
   font-weight: 300;
   border: 1px solid #949494;
