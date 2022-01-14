@@ -125,6 +125,9 @@ export default {
         case "Menunggu Konfirmasi Selesai":
           label = "Tentor telah menyelesaikan Kelas";
           break;
+        case "Pending":
+          label = "Menunggu Approval Tentor";
+          break;
         default:
           label = status;
           break;
