@@ -258,6 +258,7 @@ input:disabled,
 
 #menu.sidebar .navbar-nav .nav-link.active, #menu.sidebar .navbar-nav .nav-link.nuxt-link-active, #menu.sidebar .navbar-nav .nav-link.nuxt-link-exact-active {
   color: #47415b;
+  font-weight: 600;
 }
 
 #menu.sidebar .navbar-nav .nav-link.dropdown-toggle::after {

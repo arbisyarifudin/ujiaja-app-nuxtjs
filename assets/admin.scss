@@ -248,6 +248,11 @@ input,
             &.nuxt-link-active,
             &.nuxt-link-exact-active {
                 color: #47415b;
+                font-weight: 600;
+                // color: #000;
+                // color: #9e8df3;
+                // background-color: #9e8df3;
+                // color: #fff;
             }
             &.dropdown-toggle {
                 // font-family: "Font Awesome 5 Free";
