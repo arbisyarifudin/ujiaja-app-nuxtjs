@@ -8,6 +8,15 @@ body {
   color: #baadff !important;
 }
 
+.router-push {
+  cursor: pointer;
+}
+
+.router-push:hover {
+  -webkit-box-shadow: 0 4px 10px rgba(199, 199, 199, 0.5) !important;
+          box-shadow: 0 4px 10px rgba(199, 199, 199, 0.5) !important;
+}
+
 .bg-soft {
   background-color: #f5efff;
 }

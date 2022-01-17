@@ -33,6 +33,23 @@ h6 {
   font-weight: normal !important;
 }
 
+.option-text {
+  margin-bottom: 0;
+}
+
+.option-text p {
+  margin-bottom: 0 !important;
+}
+
+.router-push {
+  cursor: pointer;
+}
+
+.router-push:hover {
+  -webkit-box-shadow: 0 4px 10px rgba(199, 199, 199, 0.5) !important;
+          box-shadow: 0 4px 10px rgba(199, 199, 199, 0.5) !important;
+}
+
 .breadcrumb {
   background-color: transparent;
 }

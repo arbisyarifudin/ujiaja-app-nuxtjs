@@ -46,6 +46,13 @@ h6 {
     }
 }
 
+.router-push {
+    cursor: pointer;
+    &:hover {
+        box-shadow: 0 4px 10px rgba(199, 199, 199, 0.5)!important;
+    }
+}
+
 .breadcrumb {
     background-color: transparent;
     &-item {

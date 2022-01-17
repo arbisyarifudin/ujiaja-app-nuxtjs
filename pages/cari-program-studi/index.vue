@@ -97,7 +97,7 @@
               v-for="(item, index) in items"
               :key="index"
             >
-              <div class="card card-karir card-prodi">
+              <div class="card card-karir card-prodi router-push" @click="$router.push(`/cari-program-studi/${item.slug}`)">
                 <div class="card-body text-left p-0">
                   <div class="card-content px-4">
                     <h3

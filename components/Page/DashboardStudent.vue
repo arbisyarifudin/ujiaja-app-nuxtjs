@@ -48,7 +48,7 @@
       </h5>
       <div class="row">
         <div class="col-md-6">
-          <div class="card card-karir m-3">
+          <div class="card card-karir m-3 router-push" @click="$router.push('/app/tryout')">
             <div class="card-body text-left p-0">
               <div class="card-content px-4">
                 <h3
@@ -83,7 +83,7 @@
         </div>
         <div class="col-md-6">
           <div class="card card-karir m-3">
-            <div class="card-body text-left p-0">
+            <div class="card-body text-left p-0 router-push" @click="$router.push('/app/tryout')">
               <div class="card-content px-4">
                 <h3
                   class="card-judul card-program mt-4 mb-2"
