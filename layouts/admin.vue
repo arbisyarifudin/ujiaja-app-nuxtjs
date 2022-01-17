@@ -2,7 +2,7 @@
   <div class="admin-wrapper">
     <div class="container-fluid">
       <div class="row">
-        <div class="col-xl-3 col-lg-4 col-sm-4 bg-white d-none d-lg-block">
+        <div class="col-xl-3 col-lg-4 col-sm-4 bg-white d-none d-lg-block sidebar-col">
           <nav class="sidebar navbar-light pt-3 pl-4" id="menu">
             <a href="/" target="_blank"><img v-if="!isServer" :src="ApiUrl(getSetting('logo'))" class="img-fluid w-25 pb-4" /></a>
             <UIMenuSuperAdmin v-if="user.role_user == 'superAdmin'" />
