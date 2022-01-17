@@ -50,7 +50,8 @@ export default {
     { src: "~/plugins/axios.js", mode: "client" },
     { src: "~/plugins/custom-mixins.js", mode: "client" },
     { src: "~/plugins/star-rating.js", mode: "client" },
-    { src: "~/plugins/editor.js", mode: "client" }
+    { src: "~/plugins/editor.js", mode: "client" },
+    { src: "~/plugins/vue-select.js", mode: "client" }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

@@ -21,7 +21,10 @@
                         v-model="formSiswa.nama_lengkap"
                       />
                     </div>
-                    <div class="form-group reg-siswa" v-if="akun.role_user != 'parent'">
+                    <div
+                      class="form-group reg-siswa"
+                      v-if="akun.role_user != 'parent'"
+                    >
                       <label for="tempat_lahir">Tempat Lahir</label>
                       <input
                         type="text"
@@ -76,7 +79,10 @@
                     </div>
                   </b-col>
                   <b-col>
-                    <div class="form-group reg-siswa" v-if="akun.role_user != 'parent'">
+                    <div
+                      class="form-group reg-siswa"
+                      v-if="akun.role_user != 'parent'"
+                    >
                       <label for="jenis_kelamin">Jenis Kelamin</label>
                       <select
                         class="form-control"
@@ -88,7 +94,10 @@
                         <option value="Perempuan">Perempuan</option>
                       </select>
                     </div>
-                    <div class="form-group reg-siswa" v-if="akun.role_user != 'parent'">
+                    <div
+                      class="form-group reg-siswa"
+                      v-if="akun.role_user != 'parent'"
+                    >
                       <label for="tanggal_lahir">Tanggal Lahir</label>
                       <input
                         type="date"
@@ -100,7 +109,10 @@
                       />
                     </div>
                     <div class="row">
-                      <div class="form-group col-md-3" v-if="akun.role_user != 'parent'">
+                      <div
+                        class="form-group col-md-3"
+                        v-if="akun.role_user != 'parent'"
+                      >
                         <img
                           v-if="apiUrl"
                           :src="apiUrl(profil.foto)"
@@ -111,7 +123,10 @@
                           style="width: 100%; height: 80px; object-fit: contain"
                         />
                       </div>
-                      <div class="col-md-8 form-group reg-siswa" v-if="akun.role_user != 'parent'">
+                      <div
+                        class="col-md-8 form-group reg-siswa"
+                        v-if="akun.role_user != 'parent'"
+                      >
                         <label>Unggah Foto</label>
                         <input
                           type="file"
@@ -121,7 +136,10 @@
                         />
                       </div>
                     </div>
-                    <div class="form-group reg-siswa" v-if="akun.role_user != 'parent'">
+                    <div
+                      class="form-group reg-siswa"
+                      v-if="akun.role_user != 'parent'"
+                    >
                       <label for="info"
                         >Dapat informasi tentang UjiaAja melalui?</label
                       >
@@ -163,10 +181,10 @@
                       1</label
                     >
                   </b-col>
-                  <b-col md="5">
+                  <b-col md="4">
                     <div class="form-group reg-siswa">
                       <label for="id_program_studi">Program Studi</label>
-                      <b-form-select
+                      <!-- <b-form-select
                         class="form-control"
                         id="id_program_studi"
                         v-model="id_program_studi"
@@ -179,13 +197,25 @@
                         value-field="id"
                         text-field="nama_studi"
                       >
-                      </b-form-select>
+                      </b-form-select> -->
+                      <v-select
+                      id="id_program_studi"
+                        :options="dataOption['programStudi']"
+                        v-model="id_program_studi"
+                        label="nama_studi"
+                        @input="
+                          optionProdiBindPerguruanDisabled = false;
+                          formSiswa.id_prodi_bind_perguruan = null;
+                          getProdiBindPerguruan(id_program_studi);
+                        "
+                        :getOptionKey="prodi => prodi.id"
+                      />
                     </div>
                   </b-col>
-                  <b-col md="5">
+                  <b-col md="6">
                     <div class="form-group reg-siswa">
                       <label for="prodi_bind_perguruan">Perguruan Tinggi</label>
-                      <b-form-select
+                      <!-- <b-form-select
                         class="form-control"
                         id="prodi_bind_perguruan"
                         v-model="formSiswa.id_prodi_bind_perguruan"
@@ -194,7 +224,15 @@
                         text-field="textField"
                         :disabled="optionProdiBindPerguruanDisabled"
                       >
-                      </b-form-select>
+                      </b-form-select> -->
+                      <v-select
+                        id="prodi_bind_perguruan"
+                        v-model="formSiswa.id_prodi_bind_perguruan"
+                        :options="dataOptionProdiBindPerguruan"
+                        label="textField"
+                        :reduce="item => item.id"
+                      />
+                        <!-- :disabled="optionProdiBindPerguruanDisabled" -->
                     </div>
                   </b-col>
                 </b-row>
@@ -205,10 +243,10 @@
                       2</label
                     >
                   </b-col>
-                  <b-col md="5">
+                  <b-col md="4">
                     <div class="form-group reg-siswa">
                       <label for="id_program_studi_2">Program Studi</label>
-                      <b-form-select
+                      <!-- <b-form-select
                         class="form-control"
                         id="id_program_studi_2"
                         v-model="id_program_studi_2"
@@ -221,15 +259,26 @@
                         value-field="id"
                         text-field="nama_studi"
                       >
-                      </b-form-select>
+                      </b-form-select> -->
+                      <v-select id="id_program_studi_2"
+                        :options="dataOption['programStudi']"
+                        v-model="id_program_studi_2"
+                        label="nama_studi"
+                        @input="
+                          optionProdiBindPerguruanDisabled_2 = false;
+                          formSiswa.id_prodi_bind_perguruan_2 = false;
+                          getProdiBindPerguruan(id_program_studi_2, 2);
+                        "
+                        :getOptionKey="prodi => prodi.id"
+                      />
                     </div>
                   </b-col>
-                  <b-col md="5">
+                  <b-col md="6">
                     <div class="form-group reg-siswa">
                       <label for="prodi_bind_perguruan_2"
                         >Perguruan Tinggi</label
                       >
-                      <b-form-select
+                      <!-- <b-form-select
                         class="form-control"
                         id="prodi_bind_perguruan_2"
                         v-model="formSiswa.id_prodi_bind_perguruan_2"
@@ -238,7 +287,15 @@
                         text-field="textField"
                         :disabled="optionProdiBindPerguruanDisabled_2"
                       >
-                      </b-form-select>
+                      </b-form-select> -->
+                      <v-select
+                        id="prodi_bind_perguruan"
+                        v-model="formSiswa.id_prodi_bind_perguruan_2"
+                        :options="dataOptionProdiBindPerguruan_2"
+                        label="textField"
+                        :reduce="item => item.id"
+                      />
+                        <!-- :disabled="optionProdiBindPerguruanDisabled_2" -->
                     </div>
                   </b-col>
                 </b-row>
@@ -988,8 +1045,6 @@ export default {
                 textField
               };
             });
-          } else if (type == "kelas") {
-            //
           } else {
             this.dataOption[type] = res.data.data;
           }
@@ -1031,14 +1086,18 @@ export default {
         })
         .finally(() => (this.loading = false));
     },
-    getProdiBindPerguruan(id_program_studi, nomor = 1) {
+    getProdiBindPerguruan(id_program_studi_selected, nomor = 1) {
+      const id_program_studi = id_program_studi_selected ? id_program_studi_selected.id : ''
       this.loading = true;
       this.$axios.defaults.headers.Authorization =
         "Bearer " + this.$cookiz.get("_ujiaja");
       this.$axios.defaults.withCredentials = true;
       this.$axios
         .$get(`/api/tranStudiPerguruan`, {
-          params: { id_program_studi }
+          params: { 
+            id_program_studi: id_program_studi,
+            id_prodi_bind_perguruan: nomor == 1 ? this.formSiswa.id_prodi_bind_perguruan : this.formSiswa.id_prodi_bind_perguruan_2,
+           }
         })
         .then(res => {
           console.log(res);
@@ -1062,7 +1121,8 @@ export default {
                   item => item.id == this.formSiswa.id_prodi_bind_perguruan_2
                 );
                 if (found) {
-                  this.id_program_studi_2 = found.id_program_studi;
+                  // this.id_program_studi_2 = found.id_program_studi;
+                  this.id_program_studi_2 = found.program_studi;
                 }
               }
             } else {
@@ -1084,8 +1144,9 @@ export default {
                   item => item.id == this.formSiswa.id_prodi_bind_perguruan
                 );
                 if (found) {
-                  this.id_program_studi = found.id_program_studi;
-                }
+                  // this.id_program_studi = found.id_program_studi;
+                  this.id_program_studi = found.program_studi;
+                } 
               }
             }
           }
