@@ -228,6 +228,22 @@ input:disabled,
   z-index: 11;
 }
 
+.floating-pagination {
+  position: fixed;
+  bottom: 20px;
+  z-index: 99;
+  right: 20px;
+  background-color: #fff;
+  padding: 10px 10px;
+  border-radius: 10px;
+  -webkit-box-shadow: 0 0 5px 0 rgba(127, 127, 127, 0.3);
+          box-shadow: 0 0 5px 0 rgba(127, 127, 127, 0.3);
+}
+
+.floating-pagination > ul {
+  margin-bottom: 0px;
+}
+
 #right-sect {
   position: relative;
 }

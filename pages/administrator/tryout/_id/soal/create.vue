@@ -94,8 +94,8 @@
                     <a
                       class="card-link"
                       href="#"
-                      v-b-toggle="'accordion-' + a"
                       style="padding: 30px;"
+                      @click.prevent="updateAccordion(a)"
                     >
                       <p class="text-card m-0 text-h5">
                         Soal
@@ -119,15 +119,17 @@
                           >- {{ soal.kelompok_soal }}</span
                         >
                       </p>
-                      <span class="collapsed"><i class="fas fa-plus"></i></span>
-                      <span class="expanded"
+                      <span class="collapsed" v-if="tab != a && !visible"><i class="fas fa-plus"></i></span>
+                      <span class="collapsed" v-else-if="tab == a && !visible"><i class="fas fa-plus"></i></span>
+                      <span class="collapsed" v-else-if="tab != a && visible"><i class="fas fa-plus"></i></span>
+                      <span class="expanded" v-else-if="tab == a && visible"
                         ><i class="fas fa-minus"></i> Minimize</span
                       ></a
                     >
                   </b-card-header>
                   <b-collapse
                     :id="'accordion-' + a"
-                    visible
+                    :visible="tab == a && visible"
                     accordion="my-accordion"
                     role="tabpanel"
                   >
@@ -291,7 +293,7 @@
                                 v-if="onSubmit.pertanyaan[soalp.id]"
                               />
                             </div>
-                            <div class="card-body-content-dua dua">
+                            <div class="card-body-content-dua dua" :id="'pertanyaan-'+soalp.nomor">
                               <div class="col-md-12 px-4 py-2 soal mt-2">
                                 <div class="header-soal">
                                  <p style="font-weight: bold">Pertanyaan {{soalp.nomor}} <code>*</code></p>
@@ -557,6 +559,7 @@
                               class="card-body-content-dua dua"
                               v-for="(child, d) in soalp.pertanyaan_child"
                               :key="'D' + d"
+                              :id="'pertanyaan-'+child.nomor"
                             >
                               <div class="col-md-12 px-4 py-2 soal mt-2">
                                 <div class="header-soal">
@@ -964,6 +967,18 @@
         </div>
       </div>
     </form>
+    <div class="floating-pagination">
+      <div class="text-center small mb-1">Navigation:</div>
+          <!-- v-if="totalRows > 0 && totalRows > filter.perPage && !loading" -->
+      <b-pagination
+          class="pagination-table"
+          v-if="!loading"
+          v-model="filter.page"
+          :total-rows="filter.totalNumber"
+          :per-page="filter.perPage"
+        >
+        </b-pagination>
+    </div>
   </div>
 </template>
 
@@ -976,6 +991,7 @@ export default {
   data() {
     return {
       loading: false,
+      tab: 0,
       // customToolbar: [["bold", "italic", "underline"], [{ list: "bullet" }], ['code-block']],
       editorOptions: {
         modules: {
@@ -1022,7 +1038,15 @@ export default {
         jenis_soal: null,
         kelompok_soal: null
       },
-      test: ""
+      test: "",
+      visible: true,
+      filter: {
+        page: 1,
+        totalNumber: 20,
+        perPage: 1,
+        numberInSubtest: 0
+      },
+      numberSubtest: []
     };
   },
   mounted() {
@@ -1045,7 +1069,41 @@ export default {
     this.getDetail("tryout", this.$route.params.id);
     this.getData("mapel");
   },
+  watch: {
+    "filter.page": async function(number) {
+      if (number) {
+        const baseUrl = window.location.origin + window.location.pathname
+        
+        const subtestPosition = this.numberSubtest.findIndex(item => item.includes(number))
+
+        if(this.tab != subtestPosition) {
+          this.tab = subtestPosition 
+          this.visible = true
+          await this.$nextTick(async () => {
+            await this.delay(360)
+            window.location.href = baseUrl + "#pertanyaan-" + number
+          });
+        } else {
+          window.location.href = baseUrl + "#pertanyaan-" + number
+        }
+      }
+    }
+  },
   methods: {
+    delay: ms => new Promise(res => {
+      setTimeout(res, ms)
+    }),
+    updateAccordion(a) {
+      // console.log(a)
+      if(this.tab != a) {
+        this.visible = true
+        this.tab = a
+      } else {
+        this.visible = !this.visible
+      }
+      console.log(this.tab)
+      console.log(this.visible)
+    },
     addMathJax(ref) {
       console.log(this.$refs[ref]);
       let refElement = this.$refs[ref];
@@ -1071,6 +1129,9 @@ export default {
             this.dataDetail = res.data;
             this.formSoal = res.data.soal;
             this.formTryout = { ...this.dataDetail };
+            this.filter.totalNumber = res.totalNomor;
+            this.filter.numberInSubtest = 0;
+            this.numberSubtest = res.nomorSubtest;
           }
           return true;
         })

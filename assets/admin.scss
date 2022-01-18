@@ -216,6 +216,22 @@ input,
     z-index: 11;
 }
 
+.floating-pagination {
+    position: fixed;
+    bottom: 20px;
+    z-index: 99;
+    // left: calc(50% + 100px);
+    // transform: translateX(calc(-50% + 100px));
+    right: 20px;
+    background-color: #fff;
+    padding: 10px 10px;
+    border-radius: 10px;
+    box-shadow: 0 0 5px 0 rgba(127, 127, 127, 0.3);
+    > ul {
+        margin-bottom: 0px;
+    }
+}
+
 #right-sect {
     // overflow-x: hidden;
     // overflow-y: auto;
