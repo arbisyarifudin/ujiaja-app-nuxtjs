@@ -362,6 +362,16 @@ export default {
     if (!this.$route.params.id)
       return this.$router.push("/administrator/program-studi");
 
+    this.$store.commit("modifyBreadcrumb", [
+      {
+        text: "Program Studi",
+        href: "/administrator/program-studi",
+      },
+      {
+        text: "Edit",
+        active: true
+      }
+    ]);
     this.getDetail("programStudi", this.$route.params.id);
     this.getData("perguruanTinggi", { params: { paginate: 99 } });
     this.getData("penjurusan", { params: { paginate: 99 } });

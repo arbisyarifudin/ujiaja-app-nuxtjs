@@ -59,6 +59,16 @@ export default {
   mounted() {
     if (!this.$route.params.id)
       return this.$router.push("/administrator/master_mapel");
+    this.$store.commit("modifyBreadcrumb", [
+    {
+      text: "Master Mapel",
+      href: "/administrator/master_mapel",
+    },
+    {
+      text: "Edit",
+      active: true
+    }
+  ]);
     this.getDetail("mapel", this.$route.params.id);
   },
   methods: {

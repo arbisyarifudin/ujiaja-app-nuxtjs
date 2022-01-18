@@ -563,6 +563,16 @@ export default {
   async mounted() {
     if (!this.$route.params.id)
       return this.$router.push("/administrator/product");
+    this.$store.commit("modifyBreadcrumb", [
+      {
+        text: "Product",
+        href: "/administrator/product",
+      },
+      {
+        text: "Edit",
+        active: true
+      }
+    ]);
     await this.getData("tryout");
     this.getDetail("produk", this.$route.params.id);
   },

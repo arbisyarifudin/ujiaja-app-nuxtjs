@@ -1028,6 +1028,20 @@ export default {
   mounted() {
     if (!this.$route.params.id)
       return this.$router.push("/administrator/tryout");
+
+    this.$store.commit("modifyBreadcrumb", [
+      {
+        text: "Tryout",
+        href: "/administrator/tryout",
+      },
+      {
+        text: "Soal",
+      },
+      {
+        text: "Create",
+        active: true
+      }
+    ]);
     this.getDetail("tryout", this.$route.params.id);
     this.getData("mapel");
   },

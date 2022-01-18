@@ -912,6 +912,19 @@ export default {
   },
   mounted() {
     if (!this.$route.params.id) return this.$router.push("/administrator/uktt");
+    this.$store.commit("modifyBreadcrumb", [
+      {
+        text: "UKTT",
+        href: "/administrator/uktt",
+      },
+      {
+        text: "Soal",
+      },
+      {
+        text: "Create",
+        active: true
+      }
+    ]);
     this.getDetail("tryout", this.$route.params.id);
     this.getData("mapel");
   },

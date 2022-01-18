@@ -67,6 +67,16 @@ export default {
   mounted() {
     if (!this.$route.params.id)
       return this.$router.push("/administrator/master_perguruan_tinggi");
+    this.$store.commit("modifyBreadcrumb", [
+    {
+      text: "Master Perguruan Tinggi",
+      href: "/administrator/master_perguruan_tinggi",
+    },
+    {
+      text: "Edit",
+      active: true
+    }
+  ]);
     this.getDetail("perguruanTinggi", this.$route.params.id);
   },
   methods: {

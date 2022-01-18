@@ -57,6 +57,16 @@ export default {
   mounted() {
     if (!this.$route.params.id)
       return this.$router.push("/administrator/master_jenjang");
+    this.$store.commit("modifyBreadcrumb", [
+      {
+        text: "Master Jenjang",
+        href: "/administrator/master_jenjang",
+      },
+      {
+        text: "Edit",
+        active: true
+      }
+    ]);
     this.getDetail("jenjang", this.$route.params.id);
   },
   methods: {

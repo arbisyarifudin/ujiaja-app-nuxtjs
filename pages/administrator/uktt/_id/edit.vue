@@ -116,6 +116,16 @@ export default {
   mounted() {
     this.getData("jenjang");
     if (!this.$route.params.id) return this.$router.push("/administrator/uktt");
+    this.$store.commit("modifyBreadcrumb", [
+      {
+        text: "UKTT",
+        href: "/administrator/product",
+       }, 
+      {                            
+        text: "Edit",    
+        active: true                                                  
+      }
+    ]);                
     this.getDetail("tryout", this.$route.params.id);
   },
   methods: {

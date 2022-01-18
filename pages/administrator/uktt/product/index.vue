@@ -175,6 +175,16 @@ export default {
   },
   created() {
     this.getData("produk");
+    this.$store.commit("setBreadcrumb", [
+      { text: "Dashboard", icon: "house" },
+      {
+        text: "UKTT",
+      },
+      {
+        text: "Product",
+        active: true
+      },
+    ]);
   },
   watch: {
     "filter.keyword": function(value) {

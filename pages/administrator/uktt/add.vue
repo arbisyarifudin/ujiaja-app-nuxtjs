@@ -133,6 +133,16 @@ export default {
     };
   },
   mounted() {
+    this.$store.commit("setBreadcrumb", [
+      { text: "Dashboard", icon: "house" },
+      {
+        text: "UKTT",
+      },
+      {
+        text: "Add",
+        active: true
+      },
+    ]);
     this.getData("jenjang");
     this.getData("mapel");
   },

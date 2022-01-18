@@ -209,6 +209,20 @@ export default {
   mounted() {
     if (!this.$route.params.id)
       return this.$router.push("/administrator/uktt/product");
+    this.$store.commit("modifyBreadcrumb", [
+      {
+        text: "UKTT",
+        href: "/administrator/uktt",
+      },
+      {
+        text: "Product",
+        href: '/administrator/product'
+      },
+      {
+        text: "Detail",
+        active: true
+      }
+    ]);
     this.getDetail("produk", this.$route.params.id);
   },
   methods: {

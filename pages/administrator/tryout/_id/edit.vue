@@ -220,6 +220,17 @@ export default {
     this.getData("penjurusan");
     if (!this.$route.params.id)
       return this.$router.push("/administrator/tryout");
+    
+    this.$store.commit("modifyBreadcrumb", [
+      {
+        text: "Tryout",
+        href: "/administrator/tryout",
+      },
+      {
+        text: "Edit",
+        active: true
+      }
+    ]);
     this.getDetail("tryout", this.$route.params.id);
   },
   methods: {

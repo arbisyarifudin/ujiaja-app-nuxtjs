@@ -78,6 +78,16 @@ export default {
   mounted() {
     if (!this.$route.params.id)
       return this.$router.push("/administrator/master_penjurusan");
+    this.$store.commit("modifyBreadcrumb", [
+      {
+        text: "Master Penjurusan",
+        href: "/administrator/master_penjurusan",
+      },
+      {
+        text: "Edit",
+        active: true
+      }
+    ]);
     this.getData("kelas");
     this.getDetail("penjurusan", this.$route.params.id);
   },

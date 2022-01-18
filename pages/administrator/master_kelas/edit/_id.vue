@@ -73,6 +73,16 @@ export default {
   mounted() {
     if (!this.$route.params.id)
       return this.$router.push("/administrator/master_kelas");
+    this.$store.commit("modifyBreadcrumb", [
+      {
+        text: "Master Kelas",
+        href: "/administrator/master_kelas",
+      },
+      {
+        text: "Edit",
+        active: true
+      }
+    ]);
     this.getData("jenjang");
     this.getDetail("kelas", this.$route.params.id);
   },

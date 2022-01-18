@@ -203,6 +203,13 @@ export default {
   },
   mounted() {
     this.getData("tryout");
+    this.$store.commit("setBreadcrumb", [
+      { text: "Dashboard", icon: "house" },
+      {
+        text: "UKTT",
+        active: true
+      }
+    ]);
   },
   watch: {
     "filter.keyword": function(value) {
