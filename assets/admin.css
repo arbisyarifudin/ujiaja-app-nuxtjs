@@ -223,9 +223,15 @@ input:disabled,
 }
 
 .sidebar-col {
-  -webkit-box-shadow: 3px 0px 10px 0px rgba(230, 230, 230, 0.5) !important;
-          box-shadow: 3px 0px 10px 0px rgba(230, 230, 230, 0.5) !important;
+  -webkit-box-shadow: 3px 0px 10px 0px rgba(207, 207, 207, 0.5) !important;
+          box-shadow: 3px 0px 10px 0px rgba(207, 207, 207, 0.5) !important;
   z-index: 11;
+  background-color: #baadff;
+  color: #fff;
+}
+
+.sidebar-col .navbar-light .navbar-nav .nav-link {
+  color: rgba(255, 255, 255, 0.8);
 }
 
 .floating-pagination {
