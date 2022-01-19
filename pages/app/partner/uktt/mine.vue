@@ -57,7 +57,8 @@
             v-for="(item, i) in items"
             :key="i"
           >
-            <div class="card card-karir m-2">
+            <div class="card card-karir m-2 router-push"
+              @click="$router.push(`/app/partner/uktt/${item.id}/detail`)">
               <!-- style="width: 350px; max-width: 100%" -->
               <div class="card-body text-left p-0 pt-3">
                 <!-- <div class="" style="display: flex; justify-content: flex-end;">

@@ -38,7 +38,10 @@
             v-for="(item, i) in list"
             :key="i"
           >
-            <div class="card card-karir m-2">
+            <div
+              class="card card-karir m-2 router-push"
+              @click="$router.push(`/app/partner/uktt/${item.id}/detail`)"
+            >
               <div class="card-body text-left p-0 pt-3">
                 <div class="card-content px-4">
                   <h3
@@ -48,16 +51,12 @@
                     {{ item.nama_produk }}
                   </h3>
                   <div class="d-flex justify-content-between mt-1">
-                    <p>{{
-                        item.mapel && item.mapel[0]
-                          ? item.mapel[0]
-                          : "-"
-                      }}</p>
+                    <p>
+                      {{ item.mapel && item.mapel[0] ? item.mapel[0] : "-" }}
+                    </p>
                     <p class="beda">
                       {{
-                        item.jenjang && item.jenjang[0]
-                          ? item.jenjang[0]
-                          : "-"
+                        item.jenjang && item.jenjang[0] ? item.jenjang[0] : "-"
                       }}
                     </p>
                   </div>
@@ -82,7 +81,7 @@
                   <p class="mb-2" v-if="item.level">
                     <i class="fas fa-award fa-fw"></i> Lv.
                     <!-- {{ item.level ? item.level.nama_level : "-" }} -->
-                    {{getLevelName(item.level.id)}}
+                    {{ getLevelName(item.level.id) }}
                   </p>
                 </div>
                 <div
@@ -125,7 +124,6 @@
           v-if="!loading && list && list.length < 1"
         />
       </section>
-      
     </div>
   </div>
 </template>
@@ -142,8 +140,8 @@ export default {
       filter: {
         page: 1,
         perPage: 6,
-        category: 'UKTT'
-      },
+        category: "UKTT"
+      }
     };
   },
   created() {
@@ -170,7 +168,7 @@ export default {
         .then(res => {
           if (res.success) {
             this.list = res.data.data;
-            this.totalRows = res.data.paginate.total
+            this.totalRows = res.data.paginate.total;
           }
         })
         .catch(err => {
