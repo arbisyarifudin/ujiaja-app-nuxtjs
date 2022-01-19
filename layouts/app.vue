@@ -2,7 +2,7 @@
   <div class="admin-wrapper">
     <div class="container-fluid">
       <div class="row">
-        <div class="col-lg-3 bg-white d-none d-lg-block">
+        <div class="col-lg-3 d-none d-lg-block sidebar-col">
           <nav class="sidebar navbar-light pt-3 pl-4" id="menu">
             <img
               v-if="!isServer"
@@ -16,7 +16,7 @@
         </div>
         <b-sidebar
           id="admin-sidebar"
-          class="bg-white d-block d-lg-none"
+          class="d-block d-lg-none bg-primary"
           shadow
           backdrop
         >
