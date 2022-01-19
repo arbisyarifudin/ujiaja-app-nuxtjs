@@ -357,6 +357,14 @@ export default {
       }
     };
   },
+  computed: {
+    user() {
+      return this.$store.state.dataUser.user;
+    },
+    userDetail() {
+      return this.$store.state.dataUser.detail;
+    }
+  },
   created() {
     if (!this.$route.params.id)
       return this.$router.push("/app/partner/courses");
@@ -478,12 +486,16 @@ export default {
             if (this.youtubeVideoUrl) {
               this.appliedVideo = true;
             }
+            if(this.dataDetail.id_tentor !== this.user.id) {
+              return this.$router.replace('/app/partner/courses');
+            }
           }
           return true;
         })
         .catch(err => {
           console.log(err);
           this.catchError(err);
+          return this.$router.replace('/app/partner/courses');
         })
         .finally(() => (this.loading = false));
     },

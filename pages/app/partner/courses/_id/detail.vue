@@ -304,6 +304,14 @@ export default {
       submitting: false
     };
   },
+  computed: {
+    user() {
+      return this.$store.state.dataUser.user;
+    },
+    userDetail() {
+      return this.$store.state.dataUser.detail;
+    }
+  },
   created() {
     if (!this.$route.params.id)
       return this.$router.push("/app/partner/courses");
@@ -322,11 +330,15 @@ export default {
             this.youtubeVideoId = this.generateYoutubeVideoId(
               this.dataDetail.video_kursus
             );
+            if(this.dataDetail.id_tentor !== this.user.id) {
+              return this.$router.replace('/app/partner/courses');
+            }
           }
         })
         .catch(err => {
           console.log(err);
           this.catchError(err);
+          return this.$router.replace('/app/partner/courses');
         })
         .finally(() => (this.loading = false));
     },

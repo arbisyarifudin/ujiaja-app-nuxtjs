@@ -196,6 +196,7 @@ export default {
           params: {
             q: this.filter.keyword,
             paginate: this.filter.perPage,
+            id_tentor: this.user.id
           }
         })
         .then(res => {
