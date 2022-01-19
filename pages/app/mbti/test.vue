@@ -129,7 +129,7 @@
                 Selanjutnya
               </button>
             </div>
-            <div class="col-6 mb-3">
+            <div class="col-sm-6 col-12 mb-3">
               <button
                 type="button"
                 class="btn btn-info btn-block square"
@@ -139,7 +139,7 @@
                 Nomor Soal
               </button>
             </div>
-            <div class="col-6 mb-3">
+            <div class="col-sm-6 col-12 mb-3">
               <button
                 type="button"
                 class="btn btn-danger btn-block square"

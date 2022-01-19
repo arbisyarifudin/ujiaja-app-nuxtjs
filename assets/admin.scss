@@ -988,15 +988,15 @@ input.form {
         max-height: 100%;
         width: 100%;
         margin-top: 20px;
-        overflow-y: hidden;
+        // overflow-y: hidden;
         > .row {
             min-height: 60vh;
         }
     }
     .left-section {
-        // overflow-y: auto;
+        overflow-y: auto;
         height: 100%;
-        max-height: calc(100vh - 150px);
+        // max-height: calc(100vh - 150px);
         // padding-top: 30px;
         // position: relative;
     }
@@ -1023,7 +1023,7 @@ input.form {
     .question {
         &-list {
             font-size: 13px;
-            height: 100%;
+            // height: 100%;
             overflow-y: auto;
         }
         &-header-title {
@@ -1052,6 +1052,7 @@ input.form {
     .question {
         &-board {
             height: 100%;
+            height: calc(100vh - 100px)
         }
     }
     .info {
@@ -1512,6 +1513,13 @@ input.form {
     .super-admin {
         &::before {
             display: none;
+        }
+    }
+    .ujian {
+        .question {
+            &-board {
+                height: calc(100vh - 170px);
+            }
         }
     }
 }

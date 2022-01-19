@@ -168,6 +168,26 @@
               <li><span class="unfilled"></span> Soal yang belum dijawab</li>
             </ul>
             <hr />
+            <div class="row">
+              <div class="col-6 mb-3">
+                <button
+                  type="button"
+                  class="btn btn-primary btn-block square"
+                  @click="onKeyDownNavigation({ key: 'ArrowLeft' })"
+                >
+                  <i class="fas fa-arrow-left"></i>
+                </button>
+              </div>
+              <div class="col-6 mb-3">
+                <button
+                  type="button"
+                  class="btn btn-primary btn-block square"
+                  @click="onKeyDownNavigation({ key: 'ArrowRight' })"
+                >
+                  <i class="fas fa-arrow-right"></i>
+                </button>
+              </div>
+            </div>
             <button
               type="button"
               class="btn btn-danger btn-block square"
@@ -182,6 +202,55 @@
             <!-- <h3 class="board-title mb-3">Panduan Pengerjaan:</h3>
     <div class="board-guide-text" v-html="dataTryout.panduan_pengerjaan"></div> -->
             <!-- {{ jawabanUser }} -->
+          </div>
+        </div>
+        <div class="col-12 d-md-none mt-3">
+          <div class="row">
+            <div class="col-6 mb-3">
+              <button
+                type="button"
+                class="btn btn-primary btn-block square"
+                @click="onKeyDownNavigation({ key: 'ArrowLeft' })"
+              >
+                Sebelumnya
+              </button>
+            </div>
+            <div class="col-6 mb-3">
+              <button
+                type="button"
+                class="btn btn-primary btn-block square"
+                @click="onKeyDownNavigation({ key: 'ArrowRight' })"
+              >
+                Selanjutnya
+              </button>
+            </div>
+            <div class="col-sm-6 col-12 mb-3">
+              <button
+                type="button"
+                class="btn btn-info btn-block square"
+                v-b-toggle.sidebar-board
+              >
+                <i class="fas fa-list"></i>
+                Nomor Soal
+              </button>
+            </div>
+            <div class="col-sm-6 col-12 mb-3">
+              <button
+                type="button"
+                class="btn btn-danger btn-block square"
+                :disabled="
+                  loading || jawaban_user_array.length !== totalJawaban
+                "
+                v-b-modal.modal-confirm-end
+              >
+                <i class="fas fa-paper-plane"></i>
+                {{
+                detailUjian.list_tryout && detailUjian.list_tryout.length > 1
+                  ? "Selesai dan Lanjutkan"
+                  : "Selesai dan Serahkan"
+              }}
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -400,6 +469,26 @@ export default {
     },
     user() {
       return this.$store.state.dataUser.user;
+    },
+    jawaban_user_array() {
+      let data = [];
+
+      for (const key in this.jawabanUser) {
+        if (Object.hasOwnProperty.call(this.jawabanUser, key)) {
+          const element = this.jawabanUser[key];
+          if (element && element.jawaban_user) {
+            data.push(element);
+          }
+        }
+      }
+      return data;
+    },
+    totalJawaban() {
+      let data = [];
+      for (const key in this.jawabanUser) {
+        data.push(key);
+      }
+      return data.length;
     }
   },
   methods: {

@@ -21,7 +21,9 @@
             <a class="btn btn-outline-primary " :href="`/app/tryout/mine`"
               >Kembali</a
             >
-            <a class="btn btn-primary ml-2" :href="`/app/tryout/${detail.id}/result`"
+            <a
+              class="btn btn-primary ml-2"
+              :href="`/app/tryout/${detail.id}/result`"
               >Lihat Hasil</a
             >
             <!-- <button
@@ -123,8 +125,7 @@
                           />
                           <!-- {{opsi.option}} -->
                           <span v-html="opsi.option" class="option-text"></span>
-                          </label
-                        >
+                        </label>
                       </li>
                       <li class="mt-4">
                         <button
@@ -167,6 +168,26 @@
               <li><span class="unfilled"></span> Soal yang belum dijawab</li>
             </ul>
             <hr />
+            <div class="row">
+              <div class="col-6 mb-3">
+                <button
+                  type="button"
+                  class="btn btn-primary btn-block square"
+                  @click="onKeyDownNavigation({ key: 'ArrowLeft' })"
+                >
+                  <i class="fas fa-arrow-left"></i>
+                </button>
+              </div>
+              <div class="col-6 mb-3">
+                <button
+                  type="button"
+                  class="btn btn-primary btn-block square"
+                  @click="onKeyDownNavigation({ key: 'ArrowRight' })"
+                >
+                  <i class="fas fa-arrow-right"></i>
+                </button>
+              </div>
+            </div>
             <button
               type="button"
               class="btn btn-danger btn-block square"
@@ -174,13 +195,62 @@
             >
               {{
                 detailUjian.list_tryout && detailUjian.list_tryout.length > 1
-                  ? "Selesai dan Lanjutkan"
+                  ? "Ke Subtest Selanjutnya"
                   : "Selesai dan Serahkan"
               }}
             </button>
             <!-- <h3 class="board-title mb-3">Panduan Pengerjaan:</h3>
     <div class="board-guide-text" v-html="dataTryout.panduan_pengerjaan"></div> -->
             <!-- {{ jawabanUser }} -->
+          </div>
+        </div>
+        <div class="col-12 d-md-none mt-3">
+          <div class="row">
+            <div class="col-6 mb-3">
+              <button
+                type="button"
+                class="btn btn-primary btn-block square"
+                @click="onKeyDownNavigation({ key: 'ArrowLeft' })"
+              >
+                Sebelumnya
+              </button>
+            </div>
+            <div class="col-6 mb-3">
+              <button
+                type="button"
+                class="btn btn-primary btn-block square"
+                @click="onKeyDownNavigation({ key: 'ArrowRight' })"
+              >
+                Selanjutnya
+              </button>
+            </div>
+            <div class="col-sm-6 col-12 mb-3">
+              <button
+                type="button"
+                class="btn btn-info btn-block square"
+                v-b-toggle.sidebar-board
+              >
+                <i class="fas fa-list"></i>
+                Nomor Soal
+              </button>
+            </div>
+            <div class="col-sm-6 col-12 mb-3">
+              <button
+                type="button"
+                class="btn btn-danger btn-block square"
+                :disabled="
+                  loading || jawaban_user_array.length !== totalJawaban
+                "
+                v-b-modal.modal-confirm-end
+              >
+                <i class="fas fa-paper-plane"></i>
+                {{
+                detailUjian.list_tryout && detailUjian.list_tryout.length > 1
+                  ? "Ke Subtest Selanjutnya"
+                  : "Selesai dan Serahkan"
+              }}
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -362,7 +432,7 @@ export default {
     await this.getDetailProduk();
     await this.getDetailUjian();
 
-    console.log(this.detailUjian)
+    console.log(this.detailUjian);
     // return;
 
     // jika data ujian sudah pernah dibuat
@@ -400,6 +470,26 @@ export default {
     },
     user() {
       return this.$store.state.dataUser.user;
+    },
+    jawaban_user_array() {
+      let data = [];
+
+      for (const key in this.jawabanUser) {
+        if (Object.hasOwnProperty.call(this.jawabanUser, key)) {
+          const element = this.jawabanUser[key];
+          if (element && element.jawaban_user) {
+            data.push(element);
+          }
+        }
+      }
+      return data;
+    },
+    totalJawaban() {
+      let data = [];
+      for (const key in this.jawabanUser) {
+        data.push(key);
+      }
+      return data.length;
     }
   },
   methods: {
@@ -457,7 +547,7 @@ export default {
       if (waktuBatas < today) {
         this.isTimeout = true;
         window.removeEventListener("beforeunload", this.onCloseWindow);
-        console.log('sudah melewati batas waktu')
+        console.log("sudah melewati batas waktu");
         this.goToNext();
         return;
       }
@@ -474,14 +564,18 @@ export default {
       const interval = 1000;
       const boardTimer = document.querySelector(".board-timer");
       const countdownElement = boardTimer.children[1];
-      
 
       const isNotTimeout =
         duration.hours() >= 0 &&
         duration.minutes() >= 0 &&
         duration.seconds() >= 0;
 
-      console.log(diffTime, duration.hours(), duration.minutes(), duration.seconds());
+      console.log(
+        diffTime,
+        duration.hours(),
+        duration.minutes(),
+        duration.seconds()
+      );
 
       if (isNotTimeout) {
         this.countdownTimer = setInterval(
@@ -591,8 +685,11 @@ export default {
         this.$bvModal.hide("modal-confirm-start");
         this.$bvModal.hide("modal-confirm-end");
         this.$cookiz.remove("_ujiaja_temp_to_user");
-        if(this.detailUjian.list_tryout && this.detailUjian.list_tryout.length > 1) {
-          this.goToNext()
+        if (
+          this.detailUjian.list_tryout &&
+          this.detailUjian.list_tryout.length > 1
+        ) {
+          this.goToNext();
         } else {
           this.$bvModal.show("modal-success-end");
         }
@@ -650,7 +747,7 @@ export default {
             tryoutNotDone.id
             // tryoutNotDone.id != this.tryoutId
           );
-          if(!this.jawabanUser['1']) {
+          if (!this.jawabanUser["1"]) {
             await this.getNomorSoal();
           }
           const response = await this.submitJawabanUser();
@@ -664,7 +761,7 @@ export default {
             this.isTimeout = true;
             this.loading = false;
           }
-        } else if(!this.detailUjian.waktu_selesai) {
+        } else if (!this.detailUjian.waktu_selesai) {
           this.onConfirmEndTest();
         } else {
           console.log("all DONE");
