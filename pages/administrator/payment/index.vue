@@ -252,9 +252,9 @@
             <div class="modal-body-kanan">
               <div class="card-image" v-show="showBukti || form.status != 'Menunggu Verifikasi'">
                 <a href="/reg-siswa.png" target="_blank">
+                      <!-- @error="noImage" -->
                   <img
                     :src="ApiUrl(detail.bukti_pembayaran)"
-                      @error="noImage"
                     alt="payment struck image"
                     class="img-fluid"
                   />
