@@ -212,8 +212,8 @@ export default {
       this.generating = true;
       this.$axios
         .$post(`/api/tryout_user/generate-certificate`, {
-            id_produk: this.$route.query.idp,
-            id_user: this.$route.query.idu,
+            id_produk: this.dataResult.detail.id_produk,
+            id_user: this.dataResult.detail.id_user,
           })
         .then(res => {
           console.log(res);
