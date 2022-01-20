@@ -126,12 +126,12 @@
       >
         <i class="far fa-edit mr-1"></i> Kerjakan Tryout
       </button>
-      <button
+      <!-- <button
         class="btn btn-primary dashboard mb-4"
         @click.prevent="startTest(false)"
       >
         <i class="far fa-edit mr-1"></i> Kerjakan Tryout
-      </button>
+      </button> -->
       <button
         v-if="
           dataDetail.is_paid &&
