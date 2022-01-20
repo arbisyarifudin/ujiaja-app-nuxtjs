@@ -37,7 +37,7 @@
             <div class="row">
               <div class="col form-group reg-siswa">
                 <label for="alokasi_waktu"
-                  >Alokasi Waktu Per Mata Pelajaran (Menit)
+                  >Alokasi Waktu Pengerjaan (Menit)
                   <code>*</code></label
                 >
                 <input
@@ -51,7 +51,7 @@
               </div>
               <div class="col form-group reg-siswa">
                 <label for="jeda_waktu"
-                  >Jeda Waktu Antar Mata Pelajaran (Menit) <code>*</code></label
+                  >Jeda Waktu Perpindahan (Menit) <code>*</code></label
                 >
                 <input
                   type="number"
