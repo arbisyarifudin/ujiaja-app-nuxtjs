@@ -99,6 +99,26 @@
               <li><span class="unfilled"></span> Soal yang belum dijawab</li>
             </ul>
             <hr />
+            <div class="row">
+              <div class="col-6 mb-3">
+                <button
+                  type="button"
+                  class="btn btn-primary btn-block square"
+                  @click="onKeyDownNavigation({ key: 'ArrowLeft' })"
+                >
+                  <i class="fas fa-arrow-left"></i>
+                </button>
+              </div>
+              <div class="col-6 mb-3">
+                <button
+                  type="button"
+                  class="btn btn-primary btn-block square"
+                  @click="onKeyDownNavigation({ key: 'ArrowRight' })"
+                >
+                  <i class="fas fa-arrow-right"></i>
+                </button>
+              </div>
+            </div>
             <button
               type="button"
               class="btn btn-danger btn-block square"

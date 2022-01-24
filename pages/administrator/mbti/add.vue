@@ -49,7 +49,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-md-4">
+            <!-- <div class="col-md-4">
               <div class="form-user mt-3">
                 <div class="form-group reg-siswa">
                   <label for="sertifikat_mbti">Sertifikat <code>*</code></label>
@@ -64,7 +64,7 @@
                   />
                 </div>
               </div>
-            </div>
+            </div> -->
             <div class="col-md-4">
               <div class="form-user mt-3">
                 <div class="form-group reg-siswa">
@@ -111,7 +111,7 @@ export default {
         deskripsi: "",
         panduan: "-",
         harga: 10000,
-        sertifikat: 'Pakai',
+        sertifikat: 'Tidak Pakai',
         status: 'Tidak Aktif',
         id_dimensi: [1, 2, 3, 4]
       }

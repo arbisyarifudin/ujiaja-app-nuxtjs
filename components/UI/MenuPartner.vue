@@ -12,7 +12,7 @@
         ><i class="fab fa-wpforms fa-2x fa-fw mr-2"></i> Kelas Kursus</nuxt-link
       >
     </li>
-    <li class="nav-item">
+    <li class="nav-item" v-if="userDetailWatch && userDetailWatch.total_kursus > 0">
       <nuxt-link
         class="nav-link d-flex align-items-center"
         to="/app/partner/uktt"
@@ -41,3 +41,41 @@
     </li>
   </ul>
 </template>
+
+<script>
+export default {
+  props: {
+    user: {
+      type: Object,
+      default: () => {}
+    },
+    userDetail: {
+      type: Object,
+      default: () => {}
+    }
+  },
+  data() {
+    return {
+      userWatch: {},
+      userDetailWatch: {},
+    }
+  },
+  mounted() {
+    this.userWatch = this.user
+    this.userDetailWatch = this.userDetail
+  },
+  watch: {
+    user(value) {
+      if(value) {
+        this.userWatch = value
+      }
+    },
+    userDetail(value) {
+      console.log(value)
+      if(value) {
+        this.userDetailWatch = value
+      }
+    }
+  }
+}
+</script>

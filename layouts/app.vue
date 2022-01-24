@@ -10,7 +10,7 @@
               class="img-fluid w-25 pb-4"
             />
             <UIMenuStudent v-if="user.role_user == 'siswa'" />
-            <UIMenuPartner v-if="user.role_user == 'teacher'" />
+            <UIMenuPartner v-if="user.role_user == 'teacher'" :user="user" :user-detail="userDetail"/>
             <UIMenuParent v-if="user.role_user == 'parent'" />
           </nav>
         </div>

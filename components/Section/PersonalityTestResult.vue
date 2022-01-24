@@ -230,6 +230,11 @@ export default {
       this.detail = value;
     }
   },
+  computed: {
+    userDetail() {
+      return this.$store.state.dataUser.detail;
+    }
+  },
   methods: {
     retakeTest() {
       this.loading = true;

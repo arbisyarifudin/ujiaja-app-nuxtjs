@@ -159,7 +159,7 @@
                     <h4 class="title">TRYOUT</h4>
                     <h5 class="subtitle">
                       <span class="mr-0">{{ item.kategori_produk }}</span
-                      ><span class="ml-0" v-if="item.jenis_tryout[0]">
+                      ><span class="ml-0" v-if="item.jenis_tryout[0] && item.tipe_paket !== 'Bundling'">
                         - {{ item.jenis_tryout[0] }}</span
                       ><span
                         class="ml-0"

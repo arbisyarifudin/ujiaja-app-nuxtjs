@@ -355,7 +355,7 @@ export default {
   },
   mounted() {
     this.getData("penjurusan", { params: { paginate: 99 } });
-    this.getData("mapel");
+    this.getData("mapel", {params: {paginate: 999}});
     this.getData("jenjang");
     this.getPriceOption();
   },

@@ -156,11 +156,11 @@ export default {
     getProduk(params = {}) {
       this.loading = true;
       this.$axios
-        .$get(`/api/produk`, {
+        .$get(`/api/produk-uktt`, {
           params: {
             paginate: this.filter.perPage,
             page: this.filter.page,
-            kategori_produk: this.filter.category,
+            // kategori_produk: this.filter.category,
             status_produk: "Aktif",
             ...params
           }

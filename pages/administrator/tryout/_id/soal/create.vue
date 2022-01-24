@@ -18,7 +18,7 @@
               <b-icon icon="arrow-left" class="mr-1"></b-icon>
               Kembali
             </nuxt-link> -->
-            <BackUrl />
+            <BackUrl url="/administrator/tryout"/>
           </div>
           <p>
             <i class="far fa-file-alt fa-fw mr-1"></i>

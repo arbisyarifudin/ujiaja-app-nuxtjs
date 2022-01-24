@@ -2,9 +2,11 @@
   <div class="container-fluid crud">
     <form @submit.prevent="validateForm">
       <div class="row d-flex no-gutters">
-        <div class="col-md-12 dashboard d-flex justify-content-between align-items-center">
+        <div
+          class="col-md-12 dashboard d-flex justify-content-between align-items-center"
+        >
           <h2 class="dash-label">Ubah Kelas</h2>
-          <BackUrl/>
+          <BackUrl />
         </div>
         <p>
           Yuk, ubah kelas les privat jika ada kesalahan data!
@@ -139,7 +141,7 @@
                       placeholder="www.youtube.com/watch?v=G7QRSjeIIH8"
                       name="youtube_video_url"
                       id="youtube_video_url"
-                     v-model="youtubeVideoUrl"
+                      v-model="youtubeVideoUrl"
                       :disabled="appliedVideo"
                     />
                     <div class="input-group-append">
@@ -260,7 +262,7 @@
           >
             Kembali
           </nuxt-link> -->
-          <BackUrl/>
+          <BackUrl />
           <button type="submit" class="btn btn-primary" :disabled="loading">
             <b-spinner small class="mr-1" v-if="loading"></b-spinner>
             Simpan
@@ -370,7 +372,7 @@ export default {
       return this.$router.push("/app/partner/courses");
     this.getDetail("kursus", this.$route.params.id);
     this.getData("penjurusan", { params: { paginate: 99 } });
-    this.getData("mapel");
+    this.getData("mapel", { params: { paginate: 999 } });
     this.getData("jenjang");
     this.getPriceOption();
   },
@@ -482,12 +484,14 @@ export default {
             this.dataDetail = res.data;
             this.form = { ...this.dataDetail };
             this.youtubeVideoUrl = this.form.video_kursus;
-            this.youtubeVideoId = this.generateYoutubeVideoId(this.form.video_kursus);
+            this.youtubeVideoId = this.generateYoutubeVideoId(
+              this.form.video_kursus
+            );
             if (this.youtubeVideoUrl) {
               this.appliedVideo = true;
             }
-            if(this.dataDetail.id_tentor !== this.user.id) {
-              return this.$router.replace('/app/partner/courses');
+            if (this.dataDetail.id_tentor !== this.user.id) {
+              return this.$router.replace("/app/partner/courses");
             }
           }
           return true;
@@ -495,26 +499,26 @@ export default {
         .catch(err => {
           console.log(err);
           this.catchError(err);
-          return this.$router.replace('/app/partner/courses');
+          return this.$router.replace("/app/partner/courses");
         })
         .finally(() => (this.loading = false));
     },
     getPriceOption() {
-    this.loading = true;
-    this.$axios
-      .$get('/api/kursus/price-option')
-      .then(res => {
-        console.log(res);
-        if (res.success) {
-          this.dataOption['harga_kursus'] = res.data;
-        }
-      })
-      .catch(err => {
-        console.log(err);
-        this.catchError(err);
-      })
-      .finally(() => (this.loading = false));
-  },
+      this.loading = true;
+      this.$axios
+        .$get("/api/kursus/price-option")
+        .then(res => {
+          console.log(res);
+          if (res.success) {
+            this.dataOption["harga_kursus"] = res.data;
+          }
+        })
+        .catch(err => {
+          console.log(err);
+          this.catchError(err);
+        })
+        .finally(() => (this.loading = false));
+    },
     handleUploadedFile(param) {
       this.files[param] = this.$refs[param].files[0];
       console.log(this.files[param]);
@@ -547,7 +551,7 @@ export default {
     applyVideo() {
       if (this.youtubeVideoUrl && !this.appliedVideo) {
         this.form.video_kursus = this.youtubeVideoUrl;
-        this.youtubeVideoId = this.generateYoutubeVideoId(this.youtubeVideoUrl)
+        this.youtubeVideoId = this.generateYoutubeVideoId(this.youtubeVideoUrl);
         this.appliedVideo = true;
       } else {
         this.form.video_kursus = "";
@@ -555,9 +559,9 @@ export default {
       }
     },
     generateYoutubeVideoId(url) {
-      if(!url) return;
+      if (!url) return;
       const youtubeUrlSplit = url.split("?v=");
-      if(youtubeUrlSplit[1]) {
+      if (youtubeUrlSplit[1]) {
         return youtubeUrlSplit[1];
       }
       return;

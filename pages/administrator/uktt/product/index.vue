@@ -80,9 +80,15 @@
                   >
                     {{ item.nama_produk }}
                   </h3>
-                  <div class="d-flex justify-content-between">
-                    <p>Matematika</p>
-                    <p class="beda">SD</p>
+                  <div class="d-flex justify-content-between mt-1">
+                    <p>
+                      {{ item.mapel && item.mapel[0] ? item.mapel[0] : "-" }}
+                    </p>
+                    <p class="beda">
+                      {{
+                        item.jenjang && item.jenjang[0] ? item.jenjang[0] : "-"
+                      }}
+                    </p>
                   </div>
                   <p style="font-size: 13px" class="mb-2">Persyaratan:</p>
                   <div

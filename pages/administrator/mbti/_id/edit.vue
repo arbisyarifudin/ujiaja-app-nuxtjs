@@ -49,7 +49,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-md-4">
+            <!-- <div class="col-md-4">
               <div class="form-user mt-3">
                 <div class="form-group reg-siswa">
                   <label for="sertifikat_mbti">Sertifikat <code>*</code></label>
@@ -64,7 +64,7 @@
                   />
                 </div>
               </div>
-            </div>
+            </div> -->
             <div class="col-md-4">
               <div class="form-user mt-3">
                 <div class="form-group reg-siswa">
