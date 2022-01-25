@@ -45,11 +45,11 @@
               <div class="kanan mx-5 my-5">
                 <div class="d-flex align-items-center">
                   <img
-                    src="/logo1.png"
+                    :src="ApiUrl(navData.logo)"
                     class="img-fluid my-4"
                     style="width: 12%"
                   />
-                  <img src="/ujiAja.png" class="img-fluid" style="width: 7%" />
+                  <!-- <img src="/ujiAja.png" class="img-fluid" style="width: 7%" /> -->
                 </div>
                 <h3 class="masuk-akun mb-4">Masuk Akun</h3>
                 <form
@@ -249,6 +249,9 @@ export default {
     },
   },
   methods: {
+    ApiUrl(param) {
+      return process.env.apiUrl + "/" + param;
+    },
     showError(field) {
       if (
         this.dataError[field] !== undefined &&

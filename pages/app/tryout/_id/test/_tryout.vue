@@ -245,10 +245,10 @@
               >
                 <i class="fas fa-paper-plane"></i>
                 {{
-                detailUjian.list_tryout && detailUjian.list_tryout.length > 1
-                  ? "Ke Subtest Selanjutnya"
-                  : "Selesai dan Serahkan"
-              }}
+                  detailUjian.list_tryout && detailUjian.list_tryout.length > 1
+                    ? "Ke Subtest Selanjutnya"
+                    : "Selesai dan Serahkan"
+                }}
               </button>
             </div>
           </div>
@@ -675,7 +675,10 @@ export default {
     },
     async onConfirmEndTest() {
       clearInterval(this.countdownTimer);
-      if (this.detailUjian.waktu_selesai) return;
+      if (this.detailUjian.waktu_selesai) {
+        this.detail.is_task_done = true;
+        return;
+      }
       this.loading = true;
       this.isTimeout = true;
       const response = await this.submitJawabanUser();
@@ -769,6 +772,7 @@ export default {
       } else {
         console.log("single DONE");
         this.onConfirmEndTest();
+        // this.detail.is_task_done = true
       }
     },
     async getDetailProduk() {

@@ -78,7 +78,7 @@
               form-login__kanan
             "
           >
-            <img src="/logoujiaja2.png" class="img-fluid pb-md-5 logo" />
+            <img :src="ApiUrl(navData.logo)" class="img-fluid pb-md-5 logo" style="width: 200px"/>
             <div>
               <h2 class="text-primary mess-title">Selamat datang!</h2>
               <p class="mess-subtitle">
@@ -116,6 +116,37 @@ export default {
       title: 'Login'
     }
   },
+  asyncData(context) {
+    function getSetting(key) {
+      const settings = context.store.state.dataSetting;
+      const foundSetting = settings.find(item => item.key == key);
+      if(foundSetting) {
+        return foundSetting.isi;
+      }
+      return '';
+    }
+
+    const navData = {
+      logo: getSetting('logo'),
+      seo_web_name: getSetting('seo_web_name'),
+    }
+
+    const footerData = {
+      logo: getSetting('logo'),
+      alamat_kantor: getSetting('alamat_kantor'),
+      telp: getSetting('telp'),
+      whatsapp: getSetting('whatsapp'),
+      instagram: getSetting('instagram'),
+      facebook: getSetting('facebook'),
+      youtube: getSetting('youtube'),
+      email: getSetting('email'),
+    }
+
+    return {
+      navData,
+      footerData
+    }
+  },
   data() {
     return {
       showPassword: false,
@@ -129,6 +160,9 @@ export default {
     };
   },
   watch: {
+    ApiUrl(param) {
+      return process.env.apiUrl + "/" + param;
+    },
     showPassword: function(value) {
       console.log(value);
     },

@@ -45,12 +45,16 @@
             <div class="col-md-7">
               <div class="kanan mx-5 my-5">
                 <div class="d-flex align-items-center mb-4">
-                  <img src="/logo.png" class="img-fluid" style="width: 10%" />
                   <img
+                    :src="ApiUrl(navData.logo)"
+                    class="img-fluid my-4"
+                    style="width: 12%"
+                  />
+                  <!-- <img
                     src="/logo-text.png"
                     class="img-fluid"
                     style="width: 10%"
-                  />
+                  /> -->
                 </div>
                 <h3>Daftar Akun</h3>
                 <!-- <button class="btn btn-outline-primary mr-2" type="button">
@@ -232,6 +236,36 @@ export default {
       title: 'Registrasi',
     }
   },
+  asyncData(context) {
+    function getSetting(key) {
+      const settings = context.store.state.dataSetting;
+      const foundSetting = settings.find(item => item.key == key);
+      if(foundSetting) {
+        return foundSetting.isi;
+      }
+      return '';
+    }
+
+    const navData = {
+      logo: getSetting('logo'),
+    }
+
+    const footerData = {
+      logo: getSetting('logo'),
+      alamat_kantor: getSetting('alamat_kantor'),
+      telp: getSetting('telp'),
+      whatsapp: getSetting('whatsapp'),
+      instagram: getSetting('instagram'),
+      facebook: getSetting('facebook'),
+      youtube: getSetting('youtube'),
+      email: getSetting('email'),
+    }
+
+    return {
+      navData,
+      footerData
+    }
+  },
   data() {
     return {
       showPassword: false,
@@ -348,6 +382,9 @@ export default {
     },
   },
   methods: {
+    ApiUrl(param) {
+      return process.env.apiUrl + "/" + param;
+    },
     checkPwd(str) {
         if (str.length < 6) {
             return("too_short");

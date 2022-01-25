@@ -370,6 +370,7 @@ export default {
       // window.location.replace(
       //   `/app/tryout/${encryptedProductIdSafe}/test?tryout=${encryptedTryoutIdSafe}`
       // );
+
       window.location.href = `/app/tryout/${encryptedProductIdSafe}/test?tryout=${encryptedTryoutIdSafe}`;
     },
     formatRupiah(num) {

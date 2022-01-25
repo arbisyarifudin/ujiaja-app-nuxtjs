@@ -10,35 +10,74 @@
         Review Tryout
       </h3>
       <h2 class="pb-0 mb-5">
-        {{
-          detailProduk.nama_produk
-            ? detailProduk.nama_produk
-            : "-"
-        }}
+        {{ detailProduk.nama_produk ? detailProduk.nama_produk : "-" }}
       </h2>
     </div>
     <UILoading v-if="loading" />
     <b-tabs v-model="tab">
-      <b-tab :title="`${tryout.judul_edit} ${tryout.kelompok_soal ? `(${tryout.kelompok_soal})` : ''}`" v-for="(tryout, t_index) in dataResult.tryout" :key="'t-'+t_index" :id="'section-'+t_index">
+      <b-tab
+        :title="
+          `${tryout.judul_edit} ${
+            tryout.kelompok_soal ? `(${tryout.kelompok_soal})` : ''
+          }`
+        "
+        v-for="(tryout, t_index) in dataResult.tryout"
+        :key="'t-' + t_index"
+        :id="'section-' + t_index"
+      >
         <div class="soal mt-4 mb-4 px-2 py-1">
           <div class="mb-4 d-flex justify-content-between">
             <div class="h4">Riwayat Jawaban Kamu</div>
-            <nuxt-link class="btn btn-primary square" :to="`/app/tryout/${dataResult.detail.id_produk}/answers?tab=${tab}`"><b-icon icon="key" class="mr-2"></b-icon> Lihat Kunci Jawaban / Pembahasan</nuxt-link>
+            <nuxt-link
+              class="btn btn-primary square"
+              :to="
+                `/app/tryout/${dataResult.detail.id_produk}/answers?tab=${tab}`
+              "
+              ><b-icon icon="key" class="mr-2"></b-icon> Lihat Kunci Jawaban /
+              Pembahasan</nuxt-link
+            >
           </div>
           <ol>
-            <li class="pl-2 mb-4" v-for="(soal, s_index) in tryout.soal" :key="'s'+s_index">
-              <div class="h6 text-dark soal-pertanyaan" v-html="soal.soal_pertanyaan"></div>
+            <li
+              class="pl-2 mb-4"
+              v-for="(soal, s_index) in tryout.soal"
+              :key="'s' + s_index"
+            >
+              <div
+                class="h6 text-dark soal-pertanyaan"
+                v-html="soal.soal_pertanyaan"
+              ></div>
               <ul class="list-unstyled">
-                <li v-for="(opsi, o_index) in soal.opsi_pertanyaan" :key="'o'+o_index">
+                <li
+                  v-for="(opsi, o_index) in soal.opsi_pertanyaan"
+                  :key="'o' + o_index"
+                >
                   <label :for="`${s_index}-${o_index}`"
-                    ><input :id="`${s_index}-${o_index}`" type="radio" :name="`radio_${s_index}_${o_index}`" disabled :value="opsi.uuid" :checked="opsi.uuid === soal.jawaban_user"/>
-                    <span v-html="opsi.option" :class="optionColor(soal, opsi)"></span>
-                    </label
-                  >
+                    ><input
+                      :id="`${s_index}-${o_index}`"
+                      type="radio"
+                      :name="`radio_${s_index}_${o_index}`"
+                      disabled
+                      :value="opsi.uuid"
+                      :checked="opsi.uuid === soal.jawaban_user"
+                    />
+                    <span
+                      v-html="opsi.option"
+                      :class="optionColor(soal, opsi)"
+                      class="option-text"
+                    ></span>
+                  </label>
                 </li>
               </ul>
               <div class="mt-2">
-                <div class="badge badge-info px-2" style="border-radius: 10px; font-weight: 500; font-size: 12px" v-for="(bab, b_index) in soal.bab" :key="'b'+b_index">{{bab}}</div>
+                <div
+                  class="badge badge-info px-2"
+                  style="border-radius: 10px; font-weight: 500; font-size: 12px"
+                  v-for="(bab, b_index) in soal.bab"
+                  :key="'b' + b_index"
+                >
+                  {{ bab }}
+                </div>
               </div>
             </li>
           </ol>
@@ -66,15 +105,23 @@
   }
 }
 .soal {
-  border-top: none!important;
+  border-top: none !important;
   .soal-pertanyaan {
-     color: #47415b!important;
-     margin-bottom: 10px;
-     p {
-        color: #47415b!important;
-     }
+    color: #47415b !important;
+    margin-bottom: 10px;
+    p {
+      color: #47415b !important;
+    }
   }
 }
+// label.opsi-pertanyaan {
+//   display: flex;
+//   align-items: start;
+//   p {
+//     margin-bottom: 0;
+//     padding-left: 10px;
+//   }
+// }
 </style>
 
 <script>
@@ -100,7 +147,7 @@ export default {
   created() {
     if (!this.$route.params.id) return this.$router.go(-1);
     this.getDetail("produk", this.$route.params.id);
-    this.getResult(this.$route.params.id)
+    this.getResult(this.$route.params.id);
   },
   methods: {
     getDetail(type, id) {
@@ -138,13 +185,19 @@ export default {
         .finally(() => (this.loading = false));
     },
     optionColor(soal, opsi) {
-      if(opsi.uuid == soal.jawaban_pertanyaan && opsi.uuid == soal.jawaban_user) {
-          return 'text-success font-weight-bold'
+      if (
+        opsi.uuid == soal.jawaban_pertanyaan &&
+        opsi.uuid == soal.jawaban_user
+      ) {
+        return "text-success font-weight-bold";
       }
-      if(opsi.uuid == soal.jawaban_user && soal.jawaban_user != soal.jawaban_pertanyaan) {
-        return 'text-danger font-weight-bold'
+      if (
+        opsi.uuid == soal.jawaban_user &&
+        soal.jawaban_user != soal.jawaban_pertanyaan
+      ) {
+        return "text-danger font-weight-bold";
       }
-    },
+    }
   }
 };
 </script>

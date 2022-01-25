@@ -61,7 +61,7 @@
             <li v-for="(opsi, o_index) in soal.opsi_pertanyaan" :key="'o'+o_index">
               <label :for="`${s_index}-${o_index}`"
                 ><input :id="`${s_index}-${o_index}`" type="radio" :name="`radio_${s_index}_${o_index}`" disabled :value="opsi.uuid" :checked="opsi.uuid === soal.jawaban_user"/>
-                <span v-html="opsi.option" :class="optionColor(soal, opsi)"></span>
+                <span v-html="opsi.option" :class="optionColor(soal, opsi)" class="option-text"></span>
                 </label
               >
             </li>

@@ -34,7 +34,7 @@
                       <li v-for="(opsi, o_index) in soal.opsi_pertanyaan" :key="'o'+o_index">
                         <label :for="`${t_index}-${s_index}-${o_index}`"
                           ><input :id="`${t_index}-${s_index}-${o_index}`" type="radio" :name="`radio_${t_index}_${s_index}_${o_index}`" disabled :value="opsi.uuid" :checked="opsi.uuid == soal.jawaban_user"/>
-                          <span v-html="opsi.option" :class="optionColor(soal, opsi)"></span>
+                          <span v-html="opsi.option" :class="optionColor(soal, opsi)" class="option-text"></span>
                           </label
                         >
                       </li>
@@ -78,13 +78,14 @@
 .soal {
   border-top: none!important;
   .soal-pertanyaan {
-     color: #47415b!important;
+    color: #47415b!important;
      margin-bottom: 10px;
      p {
-        color: #47415b!important;
+       color: #47415b!important;
      }
   }
 }
+
 </style>
 
 <script>
