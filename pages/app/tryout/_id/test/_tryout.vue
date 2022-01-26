@@ -742,8 +742,10 @@ export default {
         );
         console.log("tryoutNotDone", tryoutNotDone);
         console.log("productId", this.productId);
+        // return
         // if (tryoutNotDone && tryoutNotDone.id != this.tryoutId) {
         if (tryoutNotDone) {
+
           console.log(
             "tryoutId",
             this.tryoutId,
@@ -753,6 +755,28 @@ export default {
           if (!this.jawabanUser["1"]) {
             await this.getNomorSoal();
           }
+
+          const tryoutNotDoneIndex = listTryout.findIndex(
+            item => !item.is_tryout_done && item.id != this.tryoutId
+          );
+
+          const lastTryout = tryoutNotDoneIndex == (listTryout.length - 1)
+
+          const moment = require("moment");
+          const today = moment.now();
+          const waktuMulai = new Date(tryoutNotDone.waktu_mulai_test).getTime();
+          const waktuBatas = waktuMulai + tryoutNotDone.alokasi_waktu * 1000 * 60;
+
+          // console.log(today);
+          // cek batas waktu mulai dengan hari ini
+          if (waktuBatas < today && lastTryout == true) {
+            this.isTimeout = true;
+            window.removeEventListener("beforeunload", this.onCloseWindow);
+            console.log("sudah melewati batas waktu - tryout akhir");
+            // this.onConfirmEndTest();
+            return;
+          }
+
           const response = await this.submitJawabanUser();
           if (response && response.data && !response.data.is_task_done) {
             // this.toTryoutTestPage(this.detailUjian.id_produk, tryoutNotDone.id);

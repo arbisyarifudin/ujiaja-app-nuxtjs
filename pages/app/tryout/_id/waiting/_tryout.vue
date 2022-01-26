@@ -185,7 +185,10 @@ export default {
           this.newUjian = response.data;
           return response.data.data;
         })
-        .catch(error => console.log(error));
+        .catch(error => {
+          console.log(error)
+          return false
+        });
     },
   }
 };
