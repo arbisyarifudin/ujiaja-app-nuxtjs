@@ -107,6 +107,12 @@
         :to="`/app/tryout/${dataDetail.produk.id}/enroll`"
         >Beli Tryout</router-link
       >
+      <router-link
+        class="btn btn-primary dashboard mb-4"
+        v-else-if="!loading && dataDetail.transaksi && dataDetail.transaksi.status == 'Kadaluarsa'"
+        :to="`/app/tryout/${dataDetail.produk.id}/enroll`"
+        >Beli Tryout</router-link
+      >
       <button
         v-else-if="!dataDetail.is_paid"
         :disabled="true"
