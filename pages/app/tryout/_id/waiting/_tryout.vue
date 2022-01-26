@@ -169,6 +169,9 @@ export default {
       if(newUjian) {
         window.removeEventListener("beforeunload", this.onCloseWindow);
         this.toTryoutTestPage(this.productId, newUjian.id_tryout);
+      } else {
+        this.showToastMessage('Duplicate data!');
+        window.location.replace('/app/tryout/' + this.productId + '/detail')
       }
     },
     async createTryoutUser() {

@@ -273,12 +273,34 @@
       </b-sidebar>
     </div>
     <div
-      class="ujian-wrapper bg-white"
+      class="ujian-wrapper bg-white "
       v-else-if="!loading && detail.is_task_start && detail.is_task_done"
     >
-      <div class="row">
+      <div class="row align-items-center justify-content-center">
         <p>Kamus sudah menyelesaikan Tryout ini.</p>
       </div>
+      <div
+            v-if="detail && detail.jenis_produk == 'Perorangan'"
+            class="mt-3 text-center"
+          >
+            <a class="btn btn-outline-primary " :href="`/app/tryout/${detail.id}/detail`"
+              >Kembali</a
+            >
+            <a
+              class="btn btn-primary ml-2"
+              :href="`/app/tryout/${detail.id}/result`"
+              >Lihat Hasil</a
+            >
+          </div>
+          <div
+            v-else
+            class="mt-3 text-center"
+          >
+            <a class="btn btn-outline-primary ml-2"
+              :href="`/app/tryout/${detail.id}/detail`"
+              >Lihat Hasil</a
+            >
+          </div>
     </div>
     <b-modal
       id="modal-confirm-start"
@@ -674,7 +696,9 @@ export default {
         .finally(() => {});
     },
     async onConfirmEndTest() {
+      console.log("onConfirmEndTest");
       clearInterval(this.countdownTimer);
+      console.log(this.detailUjian);
       if (this.detailUjian.waktu_selesai) {
         this.detail.is_task_done = true;
         return;
@@ -683,6 +707,7 @@ export default {
       this.isTimeout = true;
       const response = await this.submitJawabanUser();
       if (response) {
+        console.log("submitJawabanUser response", response);
         this.detailUjian.waktu_selesai = "ada isi";
         window.removeEventListener("beforeunload", this.onCloseWindow);
         this.$bvModal.hide("modal-confirm-start");
@@ -745,7 +770,6 @@ export default {
         // return
         // if (tryoutNotDone && tryoutNotDone.id != this.tryoutId) {
         if (tryoutNotDone) {
-
           console.log(
             "tryoutId",
             this.tryoutId,
@@ -756,27 +780,27 @@ export default {
             await this.getNomorSoal();
           }
 
-          const tryoutNotDoneIndex = listTryout.findIndex(
-            item => !item.is_tryout_done && item.id != this.tryoutId
-          );
+          // const tryoutCurrentIndex = listTryout.findIndex(
+          //   item => !item.is_tryout_done && item.id != this.tryoutId
+          // );
 
-          const lastTryout = tryoutNotDoneIndex == (listTryout.length - 1)
+          // const lastTryout = tryoutNotDoneIndex == (listTryout.length - 1)
 
-          const moment = require("moment");
-          const today = moment.now();
-          const waktuMulai = new Date(tryoutNotDone.waktu_mulai_test).getTime();
-          const waktuBatas = waktuMulai + tryoutNotDone.alokasi_waktu * 1000 * 60;
+          // const moment = require("moment");
+          // const today = moment.now();
+          // const waktuMulai = new Date(tryoutNotDone.waktu_mulai_test).getTime();
+          // const waktuBatas = waktuMulai + tryoutNotDone.alokasi_waktu * 1000 * 60;
 
           // console.log(today);
           // cek batas waktu mulai dengan hari ini
-          if (waktuBatas < today && lastTryout == true) {
-            this.isTimeout = true;
-            window.removeEventListener("beforeunload", this.onCloseWindow);
-            console.log("sudah melewati batas waktu - tryout akhir");
-            // this.onConfirmEndTest();
-            return;
-          }
-
+          // console.log('tryoutNotDoneIndex', tryoutNotDoneIndex)
+          // return
+          // if (waktuBatas < today) {
+          //   this.isTimeout = true;
+          //   window.removeEventListener("beforeunload", this.onCloseWindow);
+          //   console.log("sudah melewati batas waktu - tryout akhir");
+          //   this.onConfirmEndTest();
+          // } else {
           const response = await this.submitJawabanUser();
           if (response && response.data && !response.data.is_task_done) {
             // this.toTryoutTestPage(this.detailUjian.id_produk, tryoutNotDone.id);
@@ -788,9 +812,12 @@ export default {
             this.isTimeout = true;
             this.loading = false;
           }
+          // }
         } else if (!this.detailUjian.waktu_selesai) {
           this.onConfirmEndTest();
         } else {
+          this.loading = false
+          this.detail.is_task_done = true;
           console.log("all DONE");
         }
       } else {
