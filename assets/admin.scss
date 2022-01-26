@@ -828,6 +828,17 @@ table,
     }
 }
 
+.kelas { 
+    &.bg-buat-kelas {
+        background-image: url('/dash-guru.png');
+        background-position-x: right;
+    }
+    &.bg-uktt {
+        background-image: url('/dash-guru2.png');
+        background-position-x: right;
+    }
+ }
+
 /* unggah foto */
 
 .box {

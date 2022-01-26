@@ -891,6 +891,16 @@ table,
   border: 1px solid #9490a4;
 }
 
+.kelas.bg-buat-kelas {
+  background-image: url("/dash-guru.png");
+  background-position-x: right;
+}
+
+.kelas.bg-uktt {
+  background-image: url("/dash-guru2.png");
+  background-position-x: right;
+}
+
 /* unggah foto */
 .box {
   position: relative;
