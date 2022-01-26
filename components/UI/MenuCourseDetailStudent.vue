@@ -6,7 +6,7 @@
       </h3>
       <div >
         <router-link
-        v-if="!detail.transaksi"
+        v-if="!detail.transaksi || (detail.transaksi && detail.transaksi.status_dikelas == 'Sesi Selesai')"
           :to="`/app/student/courses/${detail.id}/enroll?ref=${$route.path}`"
           role="button"
           class="btn btn-primary square py-1 px-2 mr-2"

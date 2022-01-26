@@ -6,7 +6,8 @@
           <h2 class="dash-label">
             <b-spinner type="grow" class="mr-2" v-if="loading" /> Detail Kelas
           </h2>
-          <BackUrl url="/app/student/courses" />
+          <BackUrl title="Kembali"
+          ::url="!$route.query.ref ? `/app/student/courses` :  $route.query.ref"/>
         </div>
       </div>
       <div class="col-md-12">
@@ -399,7 +400,7 @@
     >
       <template v-if="detailTeacher && !loading">
         <div class="row">
-          <div class="col-md-12 modal-body-kiri">
+          <div class="col-md-8 modal-body-kiri">
            <table class="table table-borderless">
               <tr>
                 <th width="150">Nama Lengkap</th>
@@ -449,6 +450,9 @@
                 <th>{{ detailTeacher.jenis_kelamin }}</th>
               </tr>
             </table>
+          </div>
+          <div class="col-md-4">
+            <img v-if="detailTeacher" @error="noImage" :src="ApiUrl(detailTeacher.foto)" alt="photo" class="img-fluid" style="object-fit: contain; width: 150px">
           </div>
         </div>
         <div class="modal-footer justify-content-center" style="border: 0px">
@@ -512,7 +516,6 @@ export default {
     if (!this.$route.params.id)
       return this.$router.push("/app/partner/courses");
     this.getDetail("kursus", this.$route.params.id);
-    this.getDetailByStudent();
     this.getUlasan();
   },
   methods: {
@@ -530,6 +533,9 @@ export default {
             this.youtubeVideoId = this.generateYoutubeVideoId(
               this.dataDetail.video_kursus
             );
+            if(this.dataDetail.transaksi && this.dataDetail.transaksi.status_dikelas) {
+              this.getDetailByStudent();
+            }
           }
         })
         .catch(err => {

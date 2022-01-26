@@ -66,9 +66,9 @@
                   <p
                   v-if="item.transaksi"
                     class="label-event mb-2 px-4 py-1"
-                    :class="[item.transaksi && item.transaksi.status == 'Sudah Diverifikasi' ? '' : 'draft']"
+                    :class="[item.transaksi && (item.transaksi.status == 'Sudah Diverifikasi' && item.transaksi.status_dikelas !== 'Sesi Selesai') ? '' : 'draft']"
                   >
-                    {{ item.transaksi && item.transaksi.status == 'Sudah Diverifikasi' ? "Dibeli" : "&nbsp;" }}
+                    {{ item.transaksi && (item.transaksi.status == 'Sudah Diverifikasi' && item.transaksi.status_dikelas !== 'Sesi Selesai') ? "Dibeli" : "&nbsp;" }}
                   </p>
                   <p v-else >&nbsp;</p>
                 </div>
