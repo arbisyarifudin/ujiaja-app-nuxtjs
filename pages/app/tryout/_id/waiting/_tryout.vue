@@ -121,7 +121,8 @@ export default {
     },
     startTimer() {
       const moment = require("moment");
-      const jeda_waktu = (this.tryout.jeda_waktu) * 1000 * 60;
+      // const jeda_waktu = (this.tryout.jeda_waktu) * 1000 * 60; // Minute
+      const jeda_waktu = (this.tryout.jeda_waktu) * 1000; // Second
       let duration = moment.duration(jeda_waktu, "milliseconds");
       console.log(jeda_waktu);
       const interval = 1000;

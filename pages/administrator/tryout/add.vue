@@ -51,7 +51,7 @@
               </div>
               <div class="col form-group reg-siswa">
                 <label for="jeda_waktu"
-                  >Jeda Waktu Perpindahan (Menit) <code>*</code></label
+                  >Jeda Waktu Perpindahan (Detik) <code>*</code></label
                 >
                 <input
                   type="number"
