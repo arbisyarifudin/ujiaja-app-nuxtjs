@@ -160,9 +160,6 @@ export default {
     };
   },
   watch: {
-    ApiUrl(param) {
-      return process.env.apiUrl + "/" + param;
-    },
     showPassword: function(value) {
       console.log(value);
     },
@@ -216,6 +213,9 @@ export default {
     }
   },
   methods: {
+    ApiUrl(param) {
+      return process.env.apiUrl + "/" + param;
+    },
     showError(field) {
       if (
         this.dataError[field] !== undefined &&
