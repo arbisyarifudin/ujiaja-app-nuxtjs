@@ -1049,7 +1049,7 @@ export default {
       numberSubtest: []
     };
   },
-  mounted() {
+  async mounted() {
     if (!this.$route.params.id)
       return this.$router.push("/administrator/tryout");
 
@@ -1066,7 +1066,7 @@ export default {
         active: true
       }
     ]);
-    this.getDetail("tryout", this.$route.params.id);
+    await this.getDetail("tryout", this.$route.params.id);
     this.getData("mapel");
   },
   watch: {
@@ -1119,27 +1119,28 @@ export default {
       editor.insertText(range.index + range.length + 1, " ");
       editor.setSelection(range.index + range.length + 1);
     },
-    getDetail(type, id) {
+    async getDetail(type, id) {
       this.loading = true;
-      this.$axios
+      await this.$axios
         .$get(`/api/${type}/find/${id}/detail`)
-        .then(res => {
+        .then(async res => {
           console.log(res);
           if (res.success) {
-            this.dataDetail = res.data;
+            this.dataDetail = await res.data;
             this.formSoal = res.data.soal;
             this.formTryout = { ...this.dataDetail };
             this.filter.totalNumber = res.totalNomor;
             this.filter.numberInSubtest = 0;
             this.numberSubtest = res.nomorSubtest;
+            this.loading = false
           }
-          return true;
         })
         .catch(err => {
           console.log(err);
           this.catchError(err);
+          this.loading = false
         })
-        .finally(() => (this.loading = false));
+        // .finally(() => (this.loading = false));
     },
     getData(type, params = {}) {
       this.loading = true;
@@ -1151,18 +1152,19 @@ export default {
             page: params.page ?? 1
           }
         })
-        .then(res => {
+        .then(async res => {
           console.log("getMaster" + type, res);
           if (res.success) {
-            this.dataMaster[type] = res.data.data;
+            this.dataMaster[type] = await res.data.data;
+            this.loading = false
           }
-          return true;
         })
         .catch(err => {
           console.log(err);
           this.catchError(err);
+          this.loading = false
         })
-        .finally(() => (this.loading = false));
+        // .finally(() => (this.loading = false));
     },
     validateForm() {
       console.log(this.formTryout);

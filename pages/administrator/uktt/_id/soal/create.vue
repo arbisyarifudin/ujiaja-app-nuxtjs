@@ -934,7 +934,7 @@ export default {
       numberSubtest: []
     };
   },
-  mounted() {
+  async mounted() {
     if (!this.$route.params.id) return this.$router.push("/administrator/uktt");
     this.$store.commit("modifyBreadcrumb", [
       {
@@ -949,9 +949,10 @@ export default {
         active: true
       }
     ]);
-    this.getDetail("tryout", this.$route.params.id);
+    await this.getDetail("tryout", this.$route.params.id);
     this.getData("mapel");
-  },watch: {
+  },
+  watch: {
     "filter.page": async function(number) {
       if (number) {
         const baseUrl = window.location.origin + window.location.pathname
@@ -1001,9 +1002,9 @@ export default {
       editor.insertText(range.index + range.length + 1, " ");
       editor.setSelection(range.index + range.length + 1);
     },
-    getDetail(type, id) {
+    async getDetail(type, id) {
       this.loading = true;
-      this.$axios
+      await this.$axios
         .$get(`/api/${type}/find/${id}/detail`)
         .then(res => {
           console.log(res);
@@ -1014,14 +1015,15 @@ export default {
              this.filter.totalNumber = res.totalNomor;
             this.filter.numberInSubtest = 0;
             this.numberSubtest = res.nomorSubtest;
+            this.loading = false
           }
-          return true;
         })
         .catch(err => {
           console.log(err);
           this.catchError(err);
+          this.loading = false
         })
-        .finally(() => (this.loading = false));
+        // .finally(() => (this.loading = false));
     },
     getData(type, params = {}) {
       this.loading = true;
@@ -1038,13 +1040,14 @@ export default {
           if (res.success) {
             this.dataMaster[type] = res.data.data;
           }
-          return true;
+          this.loading = false
         })
         .catch(err => {
           console.log(err);
           this.catchError(err);
+          this.loading = false
         })
-        .finally(() => (this.loading = false));
+        // .finally(() => (this.loading = false));
     },
     validateForm() {
       console.log(this.formTryout);

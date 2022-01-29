@@ -434,13 +434,14 @@ export default {
             // this.formSoal = res.data.soal;
             this.formMBTI = { ...this.dataDetail };
           }
-          return true;
+          this.loading = false
         })
         .catch(err => {
           console.log(err);
           this.catchError(err);
+          this.loading = false
         })
-        .finally(() => (this.loading = false));
+        // .finally(() => (this.loading = false));
     },
     createPertanyaan(id_dimensi, ref) {
       const dataPertanyaanBaru = {
