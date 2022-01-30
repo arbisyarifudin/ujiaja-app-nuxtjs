@@ -6,7 +6,7 @@
       <no-ssr>
         <form action="" class="form-user" @submit.prevent="onSubmit">
           <div class="mt-4 mb-5">
-            <b-tabs pills nav-wrapper-class="mb-4">
+            <b-tabs pills nav-wrapper-class="mb-4" v-model="tabProfile">
               <b-tab title="Identitas Diri" active>
                 <b-row>
                   <b-col>
@@ -210,21 +210,12 @@
                         "
                         :getOptionKey="prodi => prodi.id"
                       />
+                      <div style="font-size: 14px" class="text-info" v-if="loading">Memuat...</div>
                     </div>
                   </b-col>
                   <b-col md="6">
                     <div class="form-group reg-siswa">
                       <label for="prodi_bind_perguruan">Perguruan Tinggi</label>
-                      <!-- <b-form-select
-                        class="form-control"
-                        id="prodi_bind_perguruan"
-                        v-model="formSiswa.id_prodi_bind_perguruan"
-                        :options="dataOptionProdiBindPerguruan"
-                        value-field="id"
-                        text-field="textField"
-                        :disabled="optionProdiBindPerguruanDisabled"
-                      >
-                      </b-form-select> -->
                       <v-select
                         id="prodi_bind_perguruan"
                         v-model="formSiswa.id_prodi_bind_perguruan"
@@ -232,7 +223,7 @@
                         label="textField"
                         :reduce="item => item.id"
                       />
-                        <!-- :disabled="optionProdiBindPerguruanDisabled" -->
+                      <div style="font-size: 14px" class="text-info" v-if="loading">Memuat...</div>
                     </div>
                   </b-col>
                 </b-row>
@@ -246,20 +237,6 @@
                   <b-col md="4">
                     <div class="form-group reg-siswa">
                       <label for="id_program_studi_2">Program Studi</label>
-                      <!-- <b-form-select
-                        class="form-control"
-                        id="id_program_studi_2"
-                        v-model="id_program_studi_2"
-                        :options="dataOption['programStudi']"
-                        @change="
-                          optionProdiBindPerguruanDisabled_2 = false;
-                          formSiswa.id_prodi_bind_perguruan_2 = false;
-                          getProdiBindPerguruan(id_program_studi_2, 2);
-                        "
-                        value-field="id"
-                        text-field="nama_studi"
-                      >
-                      </b-form-select> -->
                       <v-select id="id_program_studi_2"
                         :options="dataOption['programStudi']"
                         v-model="id_program_studi_2"
@@ -271,6 +248,7 @@
                         "
                         :getOptionKey="prodi => prodi.id"
                       />
+                      <div style="font-size: 14px" class="text-info" v-if="loading">Memuat...</div>
                     </div>
                   </b-col>
                   <b-col md="6">
@@ -278,16 +256,6 @@
                       <label for="prodi_bind_perguruan_2"
                         >Perguruan Tinggi</label
                       >
-                      <!-- <b-form-select
-                        class="form-control"
-                        id="prodi_bind_perguruan_2"
-                        v-model="formSiswa.id_prodi_bind_perguruan_2"
-                        :options="dataOptionProdiBindPerguruan_2"
-                        value-field="id"
-                        text-field="textField"
-                        :disabled="optionProdiBindPerguruanDisabled_2"
-                      >
-                      </b-form-select> -->
                       <v-select
                         id="prodi_bind_perguruan"
                         v-model="formSiswa.id_prodi_bind_perguruan_2"
@@ -295,7 +263,7 @@
                         label="textField"
                         :reduce="item => item.id"
                       />
-                        <!-- :disabled="optionProdiBindPerguruanDisabled_2" -->
+                      <div style="font-size: 14px" class="text-info" v-if="loading">Memuat...</div>
                     </div>
                   </b-col>
                 </b-row>
@@ -359,52 +327,52 @@
                     </div>
                     <div class="form-group reg-siswa">
                       <label for="provinsi">Provinsi</label>
-                      <b-form-select
-                        class="form-control"
+                      <v-select
                         id="provinsi"
                         v-model="formSiswa.id_provinsi"
                         :options="dataOption['provinsi']"
-                        value-field="id"
-                        text-field="nama"
-                        @change="
+                        label="nama"
+                        @input="
                           () => {
                             getAPI('kota_kabupaten');
                             dataOption['kecamatan'] = [];
                           }
                         "
-                      >
-                      </b-form-select>
+                        :reduce="item => item.id"
+                        :getOptionKey="item => item.id"
+                      />
+                      <div style="font-size: 14px" class="text-info" v-if="loading">Memuat...</div>
                     </div>
                   </b-col>
                   <b-col>
                     <div class="form-group reg-siswa">
                       <label for="kota">Kota</label>
-                      <b-form-select
-                        class="form-control"
+                      <v-select
                         id="kota"
                         v-model="formSiswa.id_kota"
                         :options="dataOption['kota_kabupaten']"
-                        value-field="id"
-                        text-field="nama"
-                        @change="
+                        label="nama"
+                        @input="
                           () => {
                             getAPI('kecamatan');
                           }
                         "
-                      >
-                      </b-form-select>
+                        :reduce="item => item.id"
+                        :getOptionKey="item => item.id"
+                      />
+                      <div style="font-size: 14px" class="text-info" v-if="loading">Memuat...</div>
                     </div>
                     <div class="form-group reg-siswa">
                       <label for="kecamatan">Kecamatan</label>
-                      <b-form-select
-                        class="form-control"
+                      <v-select
                         id="kecamatan"
                         v-model="formSiswa.id_kecamatan"
                         :options="dataOption['kecamatan']"
-                        value-field="id"
-                        text-field="nama"
-                      >
-                      </b-form-select>
+                        label="nama"
+                        :reduce="item => item.id"
+                        :getOptionKey="item => item.id"
+                      />
+                      <div style="font-size: 14px" class="text-info" v-if="loading">Memuat...</div>
                     </div>
                   </b-col>
                 </b-row>
@@ -695,6 +663,7 @@ export default {
   layout: "app",
   data() {
     return {
+      tabProfile: 0,
       // showTabOrtu: false,
       showPassword: false,
       loading: false,
@@ -868,6 +837,19 @@ export default {
         this.$set(this.dataError, "repassword", [""]);
         this.isValidForm["repassword"] = true;
       }
+    },
+    tabProfile (tab) {
+      console.log(tab)
+      if(tab) {
+        if(tab === 1) {
+          if(this.dataOption['kota_kabupaten'] && this.dataOption['kota_kabupaten'].length < 1) {
+            this.getAPI('kota_kabupaten')
+          }
+          if(this.dataOption['kecamatan'] && this.dataOption['kecamatan'].length < 1) {
+            this.getAPI('kecamatan')
+          }
+        }
+      }
     }
   },
   computed: {
@@ -951,15 +933,16 @@ export default {
       ];
     }
     // this.getMaster("penjurusan");
-    if (this.$cookiz.get("provinsi")) {
-      this.dataOption["provinsi"] = this.$cookiz.get("provinsi");
-      if (this.$cookiz.get("kota_kabupaten"))
-        this.dataOption["kota_kabupaten"] = this.$cookiz.get("kota_kabupaten");
-      if (this.$cookiz.get("kecamatan"))
-        this.dataOption["kecamatan"] = this.$cookiz.get("kecamatan");
-    } else {
-      this.getAPI("provinsi");
-    }
+    // if (this.$cookiz.get("provinsi")) {
+    //   this.dataOption["provinsi"] = this.$cookiz.get("provinsi");
+    //   if (this.$cookiz.get("kota_kabupaten"))
+    //     this.dataOption["kota_kabupaten"] = this.$cookiz.get("kota_kabupaten");
+    //   if (this.$cookiz.get("kecamatan"))
+    //     this.dataOption["kecamatan"] = this.$cookiz.get("kecamatan");
+    // } else {
+    //   this.getAPI("provinsi");
+    // }
+    this.getAPI("provinsi");
     this.getMaster("programStudi");
     this.getProdiBindPerguruan("");
     this.getProdiBindPerguruan("", 2);
