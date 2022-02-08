@@ -142,16 +142,23 @@
                         ]"
                       >
                         <div class="col-md-12 text-right p-0">
-                          <button
-                            type="button"
-                            class="btn btn-danger py-1"
-                            @click.prevent=""
-                            v-if="
+                            <!-- v-if="
                               soal.pertanyaan.length > 0 &&
                                 a != 0 &&
                                 dataDetail.kategori != 'ASPD'
-                            "
+                            " -->
+                          <button
+                            type="button"
+                            class="btn btn-danger py-1"
+                            @click.prevent="deleteMapel(soal.id, a)"
+                          :disabled="loading"
                           >
+                            <b-spinner
+                              v-if="loading"
+                              type="grow"
+                              small
+                              class="mr-1"
+                            ></b-spinner>
                             Hapus Mata Pelajaran
                           </button>
                         </div>
@@ -891,6 +898,27 @@
                   </b-collapse>
                 </b-card>
 
+                <b-card class="mt-4" body-class="pb-4">
+                  <button
+                    type="button"
+                    class="btn btn-warning tambah py-1 mt-4"
+                    :disabled="loading"
+                    @click.prevent="
+                      addNewMapel = true;
+                      newMapel.jenis_soal = dataDetail.jenis_soal;
+                      newMapel.kelompok_soal = dataDetail.kelompok_soal;
+                    "
+                  >
+                    <b-spinner
+                      small
+                      type="grow"
+                      class="mr-1"
+                      v-if="loading"
+                    ></b-spinner>
+                    Tambah Mata Pelajaran
+                  </button>
+                </b-card>
+
                 <!-- Add New Mapel -->
                 <b-card class="pt-4 pb-2 mt-4" v-if="addNewMapel">
                   <h3 class="card-title h4 py-3">Tambah Mata Pelajaran Baru</h3>
@@ -990,7 +1018,7 @@ export default {
   fetchOnServer: false,
   data() {
     return {
-      loading: false,
+      loading: true,
       tab: 0,
       // customToolbar: [["bold", "italic", "underline"], [{ list: "bullet" }], ['code-block']],
       editorOptions: {
@@ -1268,6 +1296,40 @@ export default {
             // alokasi_waktu_per_mapel: null,
             // jeda_waktu_antar_mapel: null
           };
+        });
+    },
+    deleteMapel(soal_id, index_soal) {
+      const r = confirm('Apakah Anda yakin ingin menghapus Mapel ini?')
+      if(!r) return
+
+      this.loading = true;
+      this.$axios
+        .$delete(`/api/tryout/soal/delete/${soal_id}`)
+        .then(res => {
+          console.log("delete mapel", res);
+          if (res.success) {
+            this.formSoal.splice(index_soal, 1)
+            this.showToastMessage(
+              "Mata pelajaran berhasil dihapus!",
+              "danger"
+            );
+          }
+          return true;
+        })
+        .catch(err => {
+          console.log(err);
+          if(err.response && err.response.status == 500 && err.response.data.line == 703) {
+            this.showToastMessage(
+              "Mata pelajaran gagal dihapus karena soal sudah terdaftar pada Tryout Siswa! Silakan buat tryout baru.",
+              "danger",
+              5000
+            );
+            return null
+          }
+          this.catchError(err);
+        })
+        .finally(() => {
+          this.loading = false;
         });
     },
     createBab(id_soal, ref) {
