@@ -1694,16 +1694,16 @@ export default {
     },
     onUpdatePertanyaan(pertanyaan) {
       // console.log(pertanyaan);
-      if (
-        pertanyaan.template_pertanyaan == "Pilihan Ganda Kompleks" &&
-        !Array.isArray(pertanyaan.jawaban_pertanyaan)
-      ) {
-        pertanyaan.jawaban_pertanyaan = [pertanyaan.jawaban_pertanyaan];
-      } else {
-        pertanyaan.jawaban_pertanyaan = pertanyaan.opsi_pertanyaan[0]
-          ? pertanyaan.opsi_pertanyaan[0].uuid
-          : pertanyaan.jawaban_pertanyaan;
-      }
+      // if (
+      //   pertanyaan.template_pertanyaan == "Pilihan Ganda Kompleks" &&
+      //   !Array.isArray(pertanyaan.jawaban_pertanyaan)
+      // ) {
+      //   pertanyaan.jawaban_pertanyaan = [pertanyaan.jawaban_pertanyaan];
+      // } else {
+      //   pertanyaan.jawaban_pertanyaan = pertanyaan.opsi_pertanyaan[0]
+      //     ? pertanyaan.opsi_pertanyaan[0].uuid
+      //     : pertanyaan.jawaban_pertanyaan;
+      // }
 
       if (!this.onSubmit.pertanyaan[pertanyaan.id]) {
         this.onSubmit.pertanyaan[pertanyaan.id] = {};
