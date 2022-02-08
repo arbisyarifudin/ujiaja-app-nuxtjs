@@ -226,11 +226,7 @@
                     type="button"
                     class="btn btn-sm btn-danger px-3"
                     v-if="i != 0"
-                    @click.prevent="
-                      () => {
-                        form.program_studi_dan_perguruan_tinggi.splice(i, 1);
-                      }
-                    "
+                    @click.prevent="deleteData(item.id_bind, i)"
                   >
                     -
                   </button>
@@ -246,6 +242,7 @@
                 @click.prevent="
                   () => {
                     form.program_studi_dan_perguruan_tinggi.push({
+                      id_bind: null,
                       id_perguruan_tinggi: null,
                       akreditasi_program_studi: null,
                       passing_grade_prodi: null
@@ -571,6 +568,7 @@ export default {
               program_studi_dan_perguruan_tinggi: this.dataDetail.listperguruan.map(
                 item => {
                   return {
+                    id_bind: item.id,
                     id_perguruan_tinggi: item.id_perguruan_tinggi,
                     akreditasi_program_studi: item.akreditasi_program_studi,
                     passing_grade_prodi: item.passing_grade_prodi
@@ -588,6 +586,23 @@ export default {
               })
           }
           return true;
+        })
+        .catch(err => {
+          console.log(err);
+          this.catchError(err);
+        })
+        .finally(() => (this.loading = false));
+    },
+    deleteData(id_bind, index) {
+      this.loading = true
+      this.$axios
+        .$delete(`/api/tranStudiPerguruan/delete/${id_bind}`)
+        .then(res => {
+          console.log(res);
+          if (res && this.form.program_studi_dan_perguruan_tinggi[index] && 
+          this.form.program_studi_dan_perguruan_tinggi[index].id_bind != null) {
+            this.form.program_studi_dan_perguruan_tinggi.splice(index, 1);
+          }
         })
         .catch(err => {
           console.log(err);
