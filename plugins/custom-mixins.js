@@ -213,12 +213,12 @@ Vue.mixin({
     noImage(event) {
       event.target.src = `${window.origin}/logo2.png`;
     },
-    showToastMessage(message = "Pesan", type = "danger") {
+    showToastMessage(message = "Pesan", type = "danger", duration = 3000) {
       this.$root.$bvToast.toast(message, {
         title: "Pesan",
         variant: type,
         solid: true,
-        autoHideDelay: 3000
+        autoHideDelay: duration
       });
     },
     encrypt(text) {
