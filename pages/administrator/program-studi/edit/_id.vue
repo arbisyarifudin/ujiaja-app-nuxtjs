@@ -421,7 +421,7 @@ export default {
         !this.form.program_studi_dan_perguruan_tinggi[0].passing_grade_prodi ||
         !this.form.program_studi_dan_perguruan_tinggi[0]
           .akreditasi_program_studi ||
-        !this.form.mapels[0].id_mapel
+        (this.form.mapels && this.form.mapels.length == 0)
       ) {
         this.$bvToast.toast("Mohon lengkapi form dengan benar!", {
           title: "Peringatan",
