@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid crud">
     <form @submit.prevent="validateForm">
-      <div class="row d-flex no-gutters bg-white mx-0 p-3">
+      <div class="row d-flex no-gutters bg-white mx-0 p-3" style="position: relative; z-index: 10">
         <div class="col-md-12 dashboard">
           <h2 class="dash-label">Ubah Izin Akses</h2>
           <p>
@@ -82,6 +82,11 @@ export default {
     await this.getDetail("users/admin");
     this.getPermissionListMine();
   },
+  computed: {
+    user() {
+      return this.$store.state.dataUser.user;
+    }
+  },
   methods: {
     validateForm() {
       console.log(this.form);
@@ -112,13 +117,14 @@ export default {
       //     return;
       // }
 
-      this.submitData("users/admin");
+      this.submitData("permission/assign");
     },
     submitData(type) {
       this.loading = true;
       this.$axios
-        .$put(`/api/${type}/update/${this.$route.params.id}`, {
+        .$post(`/api/${type}`, {
           ...this.form,
+          user_id: this.form.id_admin,
           permissions: this.permissionList
         })
         .then(res => {
@@ -130,7 +136,7 @@ export default {
               solid: true,
               autoHideDelay: 3000
             });
-            this.$router.replace("/administrator/user/admin");
+            // this.$router.replace("/administrator/user/admin");
           }
           return true;
         })

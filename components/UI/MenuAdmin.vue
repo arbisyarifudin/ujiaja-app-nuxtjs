@@ -28,11 +28,11 @@
           ><i class="fas fa-school fa-fw mr-2"></i> Sekolah</span
         >
       </template>
-      <b-dropdown-item to="/administrator/master_kelas">Kelas</b-dropdown-item>
-      <b-dropdown-item to="/administrator/master_penjurusan"
+      <b-dropdown-item to="/administrator/master_kelas" v-if="isHavePermission('Kelas', 'List')">Kelas</b-dropdown-item>
+      <b-dropdown-item to="/administrator/master_penjurusan" v-if="isHavePermission('Penjurusan', 'List')"
         >Penjurusan</b-dropdown-item
       >
-      <b-dropdown-item to="/administrator/master_mapel"
+      <b-dropdown-item to="/administrator/master_mapel" v-if="isHavePermission('Mapel', 'List')"
         >Mata Pelajaran</b-dropdown-item
       >
     </b-nav-item-dropdown>
@@ -49,10 +49,10 @@
           ><i class="fas fa-school fa-fw mr-2"></i> Perguruan Tinggi</span
         >
       </template>
-      <b-dropdown-item to="/administrator/master_perguruan_tinggi"
+      <b-dropdown-item to="/administrator/master_perguruan_tinggi" v-if="isHavePermission('Perguruan Tinggi', 'List')"
         >Perguruan Tinggi</b-dropdown-item
       >
-      <b-dropdown-item to="/administrator/program-studi"
+      <b-dropdown-item to="/administrator/program-studi" v-if="isHavePermission('Program Studi', 'List')"
         >Program Studi</b-dropdown-item
       >
     </b-nav-item-dropdown>

@@ -7,6 +7,7 @@
             <a href="/" target="_blank"><img v-if="!isServer" :src="ApiUrl(getSetting('logo'))" class="img-fluid w-25 pb-4" /></a>
             <UIMenuSuperAdmin v-if="user.role_user == 'superAdmin'" />
             <UIMenuAdmin v-else-if="user.role_user == 'admin'" :permissions="userPermissions"/>
+            <div class="text-white small mt-3 text-center" v-if="loading">Memuat...</div>
           </nav>
         </div>
         <b-sidebar
@@ -18,7 +19,8 @@
           <nav class="sidebar navbar-light pt-3 pl-4" id="menu2">
             <a href="/" target="_blank"><img v-if="!isServer" :src="ApiUrl(getSetting('logo'))" class="img-fluid w-25 pb-4" /></a>
             <UIMenuSuperAdmin v-if="user.role_user == 'superAdmin'" />
-            <UIMenuAdmin v-else-if="user.role_user == 'admin'" />
+            <UIMenuAdmin v-else-if="user.role_user == 'admin'" :permissions="userPermissions"/>
+            <div class="small mt-3 text-center" v-if="loading">Memuat...</div>
           </nav>
         </b-sidebar>
         <div
@@ -127,6 +129,7 @@ export default {
   data() {
     return {
       // notifData: []
+      loading: false,
       isServer: true,
       showAllNotif: false,
       filter: {
@@ -282,7 +285,7 @@ export default {
           if (response.success) {
             this.$store.commit("set", ["userPermissions", response.data]);
           }
-        });
+        }).finally(() => {this.loading = false});
     },
     isHavePermission(moduleName, actionName) {
       // console.log(this.perms);

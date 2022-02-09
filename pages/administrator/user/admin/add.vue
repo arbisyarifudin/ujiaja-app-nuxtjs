@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid crud">
     <form @submit.prevent="validateForm">
-      <div class="row d-flex no-gutters bg-white mx-0 p-3">
+      <div class="row d-flex no-gutters bg-white mx-0 p-3" style="position: relative; z-index: 10">
         <div class="col-md-12 dashboard">
           <h2 class="dash-label">Tambah Admin</h2>
           <p>
