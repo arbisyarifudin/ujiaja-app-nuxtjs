@@ -55,8 +55,9 @@
                 <th width="50" class="aksi">Aksi</th>
                 <th width="100">Status</th>
                 <th>Tanggal</th>
-                <th>Kode Transaksi</th>
-                <th>Metode Pembayaran</th>
+                <th>Kode</th>
+                <th>Produk</th>
+                <th>Metode</th>
                 <th width="120">Total</th>
               </tr>
             </thead>
@@ -88,6 +89,7 @@
                     WIB
                   </td>
                   <td>{{ item.kode }}</td>
+                  <td>{{ item.produk ? item.produk.nama_produk : '-' }}</td>
                   <td>
                     {{
                       item.tipe == "Pihak Ketiga"
