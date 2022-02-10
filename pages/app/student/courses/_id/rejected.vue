@@ -403,7 +403,7 @@ export default {
     getDataReject(id) {
       this.loading = true;
       this.$axios
-        .$get(`/api/kursus-siswa/find/${id}`)
+        .$get(`/api/kursus-siswafind/${id}`)
         .then(res => {
           if (res.success) {
             this.dataReject = res.data;
@@ -494,7 +494,7 @@ export default {
     joinAfterRejected() {
       this.submitting = true;
       this.$axios
-        .$post(`/api/kursus-siswa/join-after-reject`, {
+        .$post(`/api/kursus-siswajoin-after-reject`, {
           rejectId: this.dataReject.id,
           from: this.$route.params.id,
           to: this.selectedId

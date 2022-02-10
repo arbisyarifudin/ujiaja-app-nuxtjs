@@ -251,7 +251,7 @@ export default {
     getDetailByStudent() {
       this.loading = true;
       this.$axios
-        .$get(`/api/kursus-siswa/find/${this.$route.params.id}/student`)
+        .$get(`/api/kursus-siswafind/${this.$route.params.id}/student`)
         .then(res => {
           if (res.success) {
             this.dataDetailByStudent = res.data;
@@ -319,7 +319,7 @@ export default {
       this.submitting = true;
       this.$axios
         .$put(
-          `/api/kursus-siswa/update/${this.dataDetailByStudent.id}/status`,
+          `/api/kursus-siswaupdate/${this.dataDetailByStudent.id}/status`,
           {
             status_dikelas: "Sesi Selesai"
           }

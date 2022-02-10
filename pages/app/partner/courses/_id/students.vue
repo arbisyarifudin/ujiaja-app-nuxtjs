@@ -481,7 +481,7 @@ export default {
 
       this.loadingTable = true;
       await this.$axios
-        .$get("/api/kursus-siswa/", {
+        .$get("/api/kursus-siswa", {
           params: {
             id_kursus: this.$route.params.id,
             status_dikelas: status
@@ -502,7 +502,7 @@ export default {
     approvalStudent(status) {
       this.loadingTable = true;
       this.$axios
-        .$put(`/api/kursus-siswa/update/${this.selectedId}/status`, {
+        .$put(`/api/kursus-siswaupdate/${this.selectedId}/status`, {
           status_dikelas: status
         })
         .then(res => {
@@ -530,7 +530,7 @@ export default {
     selesaikanSesi() {
       this.loadingTable = true;
       this.$axios
-        .$put(`/api/kursus-siswa/update/${this.selectedId}/status`, {
+        .$put(`/api/kursus-siswaupdate/${this.selectedId}/status`, {
           status_dikelas: "Menunggu Konfirmasi Selesai"
         })
         .then(res => {
