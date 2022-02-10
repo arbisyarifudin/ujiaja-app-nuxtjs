@@ -25,30 +25,50 @@
             <!-- <div class="h4">{{tryout.judul_edit}}</div> -->
             <div class="h5">Soal dan Jawaban Kamu</div>
           </div>
-          <ol>
-            <li class="pl-2 mb-4" v-for="(soal, s_index) in tryout.soal" :key="'s'+s_index">
-              <div class="row">
-                <div class="col-md-5">
-                  <div class="h6 text-dark soal-pertanyaan" v-html="soal.soal_pertanyaan"></div>
-                    <ul class="list-unstyled">
-                      <li v-for="(opsi, o_index) in soal.opsi_pertanyaan" :key="'o'+o_index">
-                        <label :for="`${t_index}-${s_index}-${o_index}`"
-                          ><input :id="`${t_index}-${s_index}-${o_index}`" type="radio" :name="`radio_${t_index}_${s_index}_${o_index}`" disabled :value="opsi.uuid" :checked="opsi.uuid == soal.jawaban_user"/>
-                          <span v-html="opsi.option" :class="optionColor(soal, opsi)" class="option-text"></span>
-                          </label
-                        >
-                      </li>
-                    </ul>
-                    <div class="mt-2">
-                      <div class="badge badge-info px-2" style="border-radius: 10px; font-weight: 500; font-size: 12px" v-for="(bab, b_index) in soal.bab" :key="'b'+b_index">{{bab}}</div>
-                    </div>
-                </div>
-                <div class="col-md-7">
-                  <div class="h6">Pembahasan</div>
-                  <div v-html="soal.pembahasan_pertanyaan"></div>
-                  <div class="h6 mt-3">Jawaban: <span>{{opsiBenar(soal)}}</span></div>
+           <ol>
+            <li
+              class="pl-2 mb-4"
+              v-for="(soal, s_index) in tryout.soal"
+              :key="'s' + s_index"
+            >
+            <div class="row">
+              <div class="col-md-7">
+                <div
+                  class="h6 text-dark soal-pertanyaan"
+                  v-html="soal.soal_pertanyaan"
+                ></div>
+                <ul class="list-unstyled">
+                  <li
+                    v-for="(opsi, o_index) in soal.opsi_pertanyaan"
+                    :key="'o' + o_index"
+                  >
+                  <div class="question-option">
+                    <span class="question-option-letter" :class="letterColorClass(soal, opsi)" v-text="letterLabel(o_index)"></span>
+                      <span
+                        v-html="opsi.option"
+                        class="question-option-text"
+                      ></span>
+                  </div>
+                  </li>
+                </ul>
+                <div class="mt-3" v-if="soal.koreksi_jawaban == 'Salah' || soal.koreksi_jawaban == 'Kosong'">
+                  <div  style="font-size: 12px; font-weight: 600;">Pelajari lagi tentang Bab:</div>
+                  <div
+                    class="badge badge-danger px-2 mr-2"
+                    style="border-radius: 2px; font-weight: 500; font-size: 12px"
+                    v-for="(bab, b_index) in soal.bab"
+                    :key="'b' + b_index"
+                  >
+                    {{ bab }}
+                  </div>
                 </div>
               </div>
+              <div class="col-md-5">
+                  <div class="h6">Pembahasan</div>
+                  <div v-html="soal.pembahasan_pertanyaan"></div>
+                  <div class="h6 mt-3">Jawaban Benar: <span class="font-weight-bold text-success ml-2">{{opsiBenar(soal)}}</span></div>
+                </div>
+            </div>
             </li>
           </ol>
           <hr>
@@ -166,7 +186,7 @@ export default {
       // }
     },
     opsiBenar(soal) {  
-      const opsiLetter = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
+      const opsiLetter = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
       const foundIndex = soal.opsi_pertanyaan.findIndex(item => item.uuid == soal.jawaban_pertanyaan)
       if(foundIndex > -1) {
         return opsiLetter[foundIndex]
@@ -181,6 +201,25 @@ export default {
       //   } 
       // }
       // return result;
+    },
+    letterLabel(index) {
+      const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
+      return letters[index] ?? '-';
+    },
+    letterColorClass(soal, opsi) {
+      if (
+        opsi.uuid == soal.jawaban_pertanyaan &&
+        opsi.uuid == soal.jawaban_user
+      ) {
+        return "correct font-weight-bold";
+      }
+      if (
+        opsi.uuid == soal.jawaban_user &&
+        soal.jawaban_user != soal.jawaban_pertanyaan
+      ) {
+        return "wrong font-weight-bold";
+      }
+      return ''
     }
   
   }

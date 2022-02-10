@@ -52,27 +52,20 @@
                   v-for="(opsi, o_index) in soal.opsi_pertanyaan"
                   :key="'o' + o_index"
                 >
-                  <label :for="`${s_index}-${o_index}`"
-                    ><input
-                      :id="`${s_index}-${o_index}`"
-                      type="radio"
-                      :name="`radio_${s_index}_${o_index}`"
-                      disabled
-                      :value="opsi.uuid"
-                      :checked="opsi.uuid === soal.jawaban_user"
-                    />
+                 <div class="question-option">
+                   <span class="question-option-letter" :class="letterColorClass(soal, opsi)" v-text="letterLabel(o_index)"></span>
                     <span
                       v-html="opsi.option"
-                      :class="optionColor(soal, opsi)"
-                      class="option-text"
+                      class="question-option-text"
                     ></span>
-                  </label>
+                 </div>
                 </li>
               </ul>
-              <div class="mt-2">
+              <div class="mt-3" v-if="soal.koreksi_jawaban == 'Salah' || soal.koreksi_jawaban == 'Kosong'">
+                <div  style="font-size: 12px; font-weight: 600;">Pelajari lagi tentang Bab:</div>
                 <div
-                  class="badge badge-info px-2"
-                  style="border-radius: 10px; font-weight: 500; font-size: 12px"
+                  class="badge badge-danger px-2 mr-2"
+                  style="border-radius: 2px; font-weight: 500; font-size: 12px"
                   v-for="(bab, b_index) in soal.bab"
                   :key="'b' + b_index"
                 >
@@ -197,6 +190,25 @@ export default {
       ) {
         return "text-danger font-weight-bold";
       }
+    },
+    letterLabel(index) {
+      const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
+      return letters[index] ?? '-';
+    },
+    letterColorClass(soal, opsi) {
+      if (
+        opsi.uuid == soal.jawaban_pertanyaan &&
+        opsi.uuid == soal.jawaban_user
+      ) {
+        return "correct font-weight-bold";
+      }
+      if (
+        opsi.uuid == soal.jawaban_user &&
+        soal.jawaban_user != soal.jawaban_pertanyaan
+      ) {
+        return "wrong font-weight-bold";
+      }
+      return ''
     }
   }
 };

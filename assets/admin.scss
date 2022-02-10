@@ -78,6 +78,35 @@ input,
     }
 }
 
+.question-option {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    &-letter {
+        border: 1px solid #91b0b3;
+        font-size: 14px;
+        border-color: 1px solid #9e8df3;
+        background-color: #9e8df3;
+        color: white;
+        &.correct {
+            border-color: 1px solid #55cb4a;
+            background-color: #55cb4a;
+            color: white;
+        }
+        &.wrong {
+            border-color: 1px solid #df2424;
+            background-color: #df2424;
+            color: white;
+        }
+        width: 20px;
+        height: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 10px;
+    }
+}
+
 .b-form-tags-input {
     color: #1a1a1a;
     small.form-text {
