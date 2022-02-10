@@ -59,7 +59,7 @@
                   <b-dropdown-item to="/administrator/profile"
                     >Profil</b-dropdown-item
                   >
-                   <b-dropdown-item to="/administrator/setting" v-if="isHavePermission('Pengaturan', 'List') || isHavePermission('Bank', 'List') || isHavePermission('Level', 'View')"
+                   <b-dropdown-item to="/administrator/setting" v-if="isHavePermission('Pengaturan', 'View') || isHavePermission('Bank', 'List') || isHavePermission('Level', 'View')"
                     >Pengaturan</b-dropdown-item
                   >
                   <b-dropdown-item @click.prevent="appLogout"
@@ -278,7 +278,7 @@ export default {
       this.$axios
         .$get("/api/permission/mine", {
           params: {
-            user_id: this.user.id,
+            user_id: this.user.role_user !== 'superAdmin' ? this.user.id : '',
           }
         })
         .then(response => {
