@@ -167,7 +167,6 @@
                         >
                           <div
                             class="form-group reg-siswa mb-0"
-                            v-if="dataDetail.kategori != 'ASPD'"
                           >
                             <label for="id_mapel"
                               >Mata Pelajaran <code>*</code></label
@@ -851,8 +850,6 @@
                           type="button"
                           class="btn btn-warning tambah py-1 mt-4"
                           v-if="
-                            dataDetail.kategori != 'ASPD' &&
-                              dataDetail.jenis_soal != 'Campuran' &&
                               a == formSoal.length - 1 &&
                               soal.pertanyaan.length > 0
                           "
@@ -926,7 +923,6 @@
                     <div class="col-md-12 form-user form-pilih-kelas p-0 mt-3">
                       <div
                         class="form-group reg-siswa"
-                        v-if="dataDetail.kategori != 'ASPD'"
                       >
                         <label for="id_mapel"
                           >Mata Pelajaran <code>*</code></label
