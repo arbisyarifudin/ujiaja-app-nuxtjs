@@ -251,7 +251,7 @@ export default {
     };
   },
   mounted() {
-    if (!this.$route.params.id) return this.$router.go(-1);
+    // if (!this.$route.params.id) return this.$router.go(-1);
     this.getDetail("produk", this.$route.params.id);
   },
   computed: {

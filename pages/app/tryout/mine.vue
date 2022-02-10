@@ -34,7 +34,7 @@
                   ></b-form-select>
                 </b-input-group>
               </div>
-              <div class="col-md-5">
+              <!-- <div class="col-md-5">
                 <b-input-group>
                   <template #prepend>
                     <b-input-group-text
@@ -50,7 +50,7 @@
                     ]"
                   ></b-form-select>
                 </b-input-group>
-              </div>
+              </div> -->
             </div>
           </div>
 
@@ -143,11 +143,11 @@
                   class="card-bawah pb-3 px-4 m-0 bordered"
                   style="border-bottom: 12px solid #D7D2F7; border-radius:0px 0px 12px 12px;"
                 >
-                  <nuxt-link
-                    :to="`/app/tryout/${item.id}/detail?ref=${$route.path}`"
+                  <a
+                    :href="`/app/tryout/${item.id}/detail?ref=${$route.path}`"
                     class="karir-link"
                     >Detail <i class="fas fa-chevron-right ml-1"></i
-                  ></nuxt-link>
+                  ></a>
                   <div class="icon-footer center">
                     <h4 class="title">TRYOUT</h4>
                     <h5 class="subtitle">
