@@ -281,6 +281,9 @@ Vue.mixin({
         });
       } else if (error.response && error.response.status == 422) {
         for (let key in error.response.data.messages) {
+          if(key == 'soal') {
+            this.$cookiz.remove("_ujiaja_temp_mbti_user");
+          }
           // console.log(key, error.response.data);
           // this.$set(this.dataError, key, [error.response.data.messages[key]]);
           this.$store.commit("putError", [
