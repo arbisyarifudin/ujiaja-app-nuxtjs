@@ -460,7 +460,7 @@
                 <button
                   type="button"
                   @click.prevent="
-                    selectedId = item.id;
+                    selectedId = item.id_produk_paket;
                     $bvModal.show('modal-delete');
                   "
                 >
@@ -754,7 +754,8 @@ export default {
           console.log(res);
           if (res.success) {
             this.listTryout.splice(this.selectedIndex, 1);
-            this.$root.$bvToast.toast("Data " + type + " berhasil dihapus.", {
+            const typeLabel = type == 'produk/paket' ? 'tryout' : type;
+            this.$root.$bvToast.toast("Data " + typeLabel + " berhasil dihapus.", {
               title: "Sukses",
               variant: "success",
               solid: true,
