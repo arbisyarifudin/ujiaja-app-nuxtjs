@@ -10,6 +10,9 @@
         <div class="col text-center">
           <p v-if="detailUjian.waktu_selesai">
             Kamu sudah selesai mengerjakan Tryout ini.
+            <span v-if="detail.jenis_produk == 'Masal'">
+              Dan dapat melihat hasil pada <b>{{formatTanggal(detail.tanggal_berakhir,'Do MMMM YYYY HH:mm')}} WIB.</b> 
+            </span>
           </p>
           <p v-else>
             Mohon maaf! Waktu untuk mengerjakan Tryout Ini sudah habis.
@@ -22,6 +25,7 @@
               >Kembali</a
             >
             <a
+            v-if="detail.is_result_openable === true"
               class="btn btn-primary ml-2"
               :href="`/app/tryout/${detail.id}/result`"
               >Lihat Hasil</a
@@ -277,7 +281,12 @@
       v-else-if="!loading && detail.is_task_start && detail.is_task_done"
     >
       <div class="row align-items-center justify-content-center">
-        <p>Kamus sudah menyelesaikan Tryout ini.</p>
+         <p v-if="detailUjian.waktu_selesai">
+            Kamu sudah selesai mengerjakan Tryout ini.
+            <span v-if="detail.jenis_produk == 'Masal'">
+              Dan dapat melihat hasil pada <b>{{formatTanggal(detail.tanggal_berakhir,'Do MMMM YYYY HH:mm')}} WIB.</b> 
+            </span>
+          </p>
       </div>
       <div
             v-if="detail && detail.jenis_produk == 'Perorangan'"
@@ -287,6 +296,7 @@
               >Kembali</a
             >
             <a
+            v-if="detail.is_result_openable === true"
               class="btn btn-primary ml-2"
               :href="`/app/tryout/${detail.id}/result`"
               >Lihat Hasil</a
@@ -298,7 +308,7 @@
           >
             <a class="btn btn-outline-primary ml-2"
               :href="`/app/tryout/${detail.id}/detail`"
-              >Lihat Hasil</a
+              >Lihat Detail Ujian</a
             >
           </div>
     </div>
@@ -398,9 +408,13 @@
       @hidden="resetModal"
     >
       <div>
-        <p class="modal-text">
+        <p class="modal-text" v-if="detail.jenis_produk != 'Masal'">
           Kamu dapat langsung melihat hasil ujian tryout dan lihat rekomendasi
           belajar yang tepat untukmu sekarang juga!
+        </p>
+        <p class="modal-text" v-else-if="detail.jenis_produk == 'Masal'">
+          Kamu berhasil menyelesaikan ujian tryout akbar dan dapat melihat hasilnya pada 
+          <b>{{formatTanggal(detail.tanggal_berakhir,'Do MMMM YYYY HH:mm')}} WIB.</b>
         </p>
         <div class="modal-footer justify-content-end" style="border: 0px">
           <button
@@ -411,6 +425,7 @@
             Halaman Utama
           </button>
           <button
+          v-if="detail.is_result_openable == true"
             class="btn btn-primary tambah px-4 py-2"
             type="button"
             :disabled="loading"
@@ -701,6 +716,7 @@ export default {
       console.log(this.detailUjian);
       if (this.detailUjian.waktu_selesai) {
         this.detail.is_task_done = true;
+        this.loading = false;
         return;
       }
       this.loading = true;

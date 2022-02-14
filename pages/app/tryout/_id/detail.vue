@@ -165,10 +165,17 @@
       >
       <router-link
         class="btn btn-primary dashboard mb-4 square"
-        v-if="!loading && dataDetail.is_task_done"
+        v-if="!loading && dataDetail.is_task_done && dataDetail.is_result_openable"
         :to="`/app/tryout/${dataDetail.produk.id}/result`"
         ><i class="fas fa-fw fa-award"></i> Lihat Hasil</router-link
       >
+      <button
+        class="btn btn-primary dashboard mb-4 square"
+        :disabled="true"
+        v-else-if="!loading && dataDetail.is_task_done && dataDetail.is_result_openable === false"
+        ><i class="fas fa-fw fa-award"></i> Lihat Hasil</button
+      >
+      <div v-if="!loading && dataDetail.is_task_done && dataDetail.is_result_openable === false" class="small text-info mt-n3 mb-4">Hasil keluar pada saat tanggal Tryout Akbar berakhir.</div>
 
       <h4 class="mb-4" style="font-size: 18px" v-if="dataDetail.is_paid">
         Daftar Produk:
@@ -202,11 +209,11 @@
         <div
           class="card-body row no-gutters mandiri-detail pos-relative flex-wrap"
         >
-          <div class="col-md-12">
+          <!-- <div class="col-md-12">
             <p class="alert alert-light" style="font-size: 13px">
               <i class="fas fa-info-circle mr-1"></i> {{ tryout.deskripsi }}
             </p>
-          </div>
+          </div> -->
           <UILoading v-if="loading" class="col-md-12" />
           <div class="col-md-4 mb-3" v-for="(soal, s) in tryout.soal" :key="s">
             <div class="mr-2 pt-4 pb-3 px-4 shadow-none border-none">
