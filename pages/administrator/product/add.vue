@@ -79,7 +79,7 @@
                   :options="[
                     { text: '-- Pilih --', value: null },
                     { text: 'Perorangan', value: 'Perorangan' },
-                    { text: 'Masal', value: 'Masal' }
+                    { text: 'Masal (Akbar)', value: 'Masal' }
                   ]"
                 >
                   <!-- :disabled="form.tipe_paket == 'Bundling'" -->

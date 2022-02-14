@@ -84,7 +84,7 @@
                   :options="[
                     { text: '-- Pilih --', value: null },
                     { text: 'Perorangan', value: 'Perorangan' },
-                    { text: 'Masal', value: 'Masal' }
+                    { text: 'Masal (Akbar)', value: 'Masal' }
                   ]"
                 >
                 </b-form-select>
