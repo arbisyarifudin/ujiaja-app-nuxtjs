@@ -28,7 +28,7 @@
           </div>
         </div>
       </div>
-      <div class="col-md-4">
+      <div class="col-md-4" v-if="dataResult.detail.kategori_produk == 'UTBK'">
         <div class="text-center skor-box">
           <div class="mb-2">Skor</div>
           <div class="h3 skor-val">{{dataResult.detail.ceeb_avg}}</div>
@@ -48,13 +48,14 @@
         <tbody>
           <tr v-for="(mapel, m_index) in tryout.mapel" :key="'m'+m_index">
             <td>{{mapel.nama_mapel}}</td>
-            <td>{{mapel.ceeb}}</td>
+            <td v-if="dataResult.detail.kategori_produk == 'UTBK'">{{mapel.ceeb}}</td>
+            <td v-if="dataResult.detail.kategori_produk == 'ASPD'">{{mapel.nilai}}</td>
           </tr>
         </tbody>
       </table>
 
       <!-- Peluang Masuk -->
-      <table class="table table-borderless">
+      <table class="table table-borderless" v-if="dataResult.detail.kategori_produk == 'UTBK'">
         <thead>
           <tr>
             <th colspan="3">Peluang Masuk Program Studi Pilihan</th>
@@ -89,6 +90,7 @@
           class="btn btn-primary square"
           :disabled="generating"
           @click.prevent="generatePDF"
+          v-if="dataResult.detail.kategori_produk == 'UTBK'"
         >
           <b-spinner v-if="generating" small></b-spinner>
           <i class="fas fa-award fa-fw mr-1" v-else></i>
@@ -175,9 +177,10 @@ export default {
         .finally(() => (this.loading = false));
     },
     getResult(id) {
+      const kategori = this.$route.query.category == 'ASPD' ? '-aspd' : ''
       this.loading = true;
       this.$axios
-        .$get(`/api/tryout_user/hasil-pengerjaan?id_produk=${id}&id_user=${this.user.id}`)
+        .$get(`/api/tryout_user/hasil-pengerjaan${kategori}?id_produk=${id}&id_user=${this.user.id}`)
         .then(res => {
           console.log(res);
           if (res.success) {
@@ -187,6 +190,9 @@ export default {
         })
         .catch(err => {
           console.log(err);
+          if(err.response && err.response.status == 400 && err.response.data && err.response.data.message) {
+            return this.showToastMessage(err.response.data.message)
+          }
           this.catchError(err);
         })
         .finally(() => (this.loading = false));
