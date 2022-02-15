@@ -418,7 +418,7 @@ export default {
     });
     this.getProduk("aspd", {
       kategori_produk: "ASPD",
-      jenis_produk: "Perorangan",
+      jenis_produk: "",
       tipe_paket: "Reguler"
     });
     // this.getProduk("asmenas", {

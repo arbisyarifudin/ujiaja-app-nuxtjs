@@ -103,18 +103,18 @@
       </div>
       <router-link
         class="btn btn-primary dashboard mb-4"
-        v-if="!loading && !dataDetail.transaksi"
+        v-if="!loading && !dataDetail.transaksi && dataDetail.is_expired_test == false"
         :to="`/app/tryout/${dataDetail.produk.id}/enroll`"
         >Beli Tryout</router-link
       >
       <router-link
         class="btn btn-primary dashboard mb-4"
-        v-else-if="!loading && dataDetail.transaksi && dataDetail.transaksi.status == 'Kadaluarsa'"
+        v-else-if="!loading && dataDetail.transaksi && dataDetail.transaksi.status == 'Kadaluarsa' && dataDetail.is_expired_test == false"
         :to="`/app/tryout/${dataDetail.produk.id}/enroll`"
         >Beli Tryout</router-link
       >
       <button
-        v-else-if="!dataDetail.is_paid"
+        v-else-if="!dataDetail.is_paid && dataDetail.is_expired_test == false"
         :disabled="true"
         class="btn btn-primary dashboard mb-4"
       >
@@ -156,7 +156,7 @@
             isPayable(
               dataDetail,
               dataDetail.transaksi && dataDetail.transaksi.tipe
-            )
+            ) && dataDetail.is_expired_test == false
         "
         :to="
           `/app/payment/${dataDetail.produk.transaksi_user.id}/detail?ref=${$route.path}`
