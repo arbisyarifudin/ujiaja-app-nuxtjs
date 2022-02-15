@@ -144,7 +144,7 @@
                     ></b-form-radio-group>
                   </div>
                 </b-col>
-                <b-col class="col-md-6">
+                <b-col class="col-md-6" v-if="form.kategori_produk != 'ASPD'">
                   <div class="form-group reg-siswa">
                     <label for="pakai_sertifikat"
                       >Pakai Sertifikat <code>*</code></label
@@ -256,7 +256,7 @@
                       : item => form.tryout && !form.tryout.includes(item.id) -->
                   <!-- eslint-disable-next-line vue/no-unused-vars  -->
                   <template
-                    #option="{ judul, kategori, jenis_soal, kelompok_soal, template_soal, penjurusan }"
+                    #option="{ judul, kategori, jenis_soal, kelompok_soal, template_soal, penjurusan, soal }"
                   >
                     <h5 class="mb-0">{{ judul }}</h5>
                     <div class="small text-italic">
@@ -279,10 +279,11 @@
                         }}</span
                       >
                       <span v-if="template_soal">- {{ template_soal }}</span>
+                      <span>- Jumlah Soal {{soal.length}}</span>
                     </div>
                   </template>
                   <template
-                    #selected-option="{ judul, kategori, jenis_soal, kelompok_soal, template_soal, penjurusan }"
+                    #selected-option="{ judul, kategori, jenis_soal, kelompok_soal, template_soal, penjurusan, soal }"
                   >
                     <div style="display: flex; align-items: baseline">
                       <strong class="mb-0 mr-2">{{ judul }} :</strong>
@@ -306,6 +307,7 @@
                           }}</span
                         >
                         <span v-if="template_soal">- {{ template_soal }}</span>
+                        <span>- Jumlah Soal {{soal.length}}</span>
                       </div>
                     </div>
                   </template>
@@ -337,7 +339,7 @@
                       : item => form.tryout && !form.tryout.includes(item.id) -->
                   <!-- eslint-disable-next-line vue/no-unused-vars  -->
                   <template
-                    #option="{ judul, kategori, jenis_soal, kelompok_soal, template_soal, penjurusan }"
+                    #option="{ judul, kategori, jenis_soal, kelompok_soal, template_soal, penjurusan, soal }"
                   >
                     <h5 class="mb-0">{{ judul }}</h5>
                     <div class="small text-italic">
@@ -360,10 +362,11 @@
                         }}</span
                       >
                       <span v-if="template_soal">- {{ template_soal }}</span>
+                      <span>- Jumlah Soal {{soal.length}}</span>
                     </div>
                   </template>
                   <template
-                    #selected-option="{ judul, kategori, jenis_soal, kelompok_soal, template_soal, penjurusan }"
+                    #selected-option="{ judul, kategori, jenis_soal, kelompok_soal, template_soal, penjurusan, soal }"
                   >
                     <div style="display: flex; align-items: baseline">
                       <strong class="mb-0 mr-2">{{ judul }} :</strong>
@@ -387,6 +390,7 @@
                           }}</span
                         >
                         <span v-if="template_soal">- {{ template_soal }}</span>
+                        <span>- Jumlah Soal {{soal.length}}</span>
                       </div>
                     </div>
                   </template>
@@ -566,8 +570,36 @@ export default {
 
       if (this.form.tipe_paket == "Bundling") {
         this.form.id_tryout = [...this.form.tryout_bundling];
+        for (let index = 0; index < this.form.tryout_bundling.length; index++) {
+          const idTryout = this.form.tryout_bundling[index];
+          const findTryout = this.dataTryout.find(item => {
+            return item.id == idTryout
+          })
+          if(findTryout && findTryout.soal.length < 1) {
+            this.$bvToast.toast("Dilarang menggunakan data tryout yang jumlah soalnya 0. Harap isi soal terlebih dahulu.", {
+              title: "Peringatan",
+              variant: "warning",
+              solid: true,
+              autoHideDelay: 2000
+            });
+            return
+          }
+        }
       } else {
         this.form.id_tryout = [this.form.tryout_reguler];
+        const idTryout = this.form.tryout_reguler;
+        const findTryout = this.dataTryout.find(item => {
+          return item.id == idTryout
+        })
+        if(findTryout && findTryout.soal.length < 1) {
+          this.$bvToast.toast("Dilarang menggunakan data tryout yang jumlah soalnya 0. Harap isi soal terlebih dahulu.", {
+            title: "Peringatan",
+            variant: "warning",
+            solid: true,
+            autoHideDelay: 2000
+          });
+          return
+        }
       }
       if (this.form.jenis_produk == "Perorangan") {
         this.form.tanggal_mulai = null;
@@ -579,6 +611,7 @@ export default {
       } else {
         this.form.bonus = null
       }
+
 
       console.log(this.form);
       this.submitData("produk");

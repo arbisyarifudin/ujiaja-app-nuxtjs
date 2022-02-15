@@ -265,7 +265,7 @@
                       : item => form.tryout && !form.tryout.includes(item.id) -->
                   <!-- eslint-disable-next-line vue/no-unused-vars  -->
                   <template
-                    #option="{ judul, kategori, jenis_soal, kelompok_soal, template_soal, penjurusan }"
+                    #option="{ judul, kategori, jenis_soal, kelompok_soal, template_soal, penjurusan, soal }"
                   >
                     <h5 class="mb-0">{{ judul }}</h5>
                     <div class="small text-italic">
@@ -288,10 +288,11 @@
                         }}</span
                       >
                       <span v-if="template_soal">- {{ template_soal }}</span>
+                       <span>- Jumlah Soal {{soal.length}}</span>
                     </div>
                   </template>
                   <template
-                    #selected-option="{ judul, kategori, jenis_soal, kelompok_soal, template_soal, penjurusan }"
+                    #selected-option="{ judul, kategori, jenis_soal, kelompok_soal, template_soal, penjurusan, soal }"
                   >
                     <div style="display: flex; align-items: baseline">
                       <strong class="mb-0 mr-2">{{ judul }} :</strong>
@@ -315,6 +316,7 @@
                           }}</span
                         >
                         <span v-if="template_soal">- {{ template_soal }}</span>
+                         <span>- Jumlah Soal {{soal.length}}</span>
                       </div>
                     </div>
                   </template>
@@ -348,7 +350,7 @@
                       : item => form.tryout && !form.tryout.includes(item.id) -->
                   <!-- eslint-disable-next-line vue/no-unused-vars  -->
                   <template
-                    #option="{ judul, kategori, jenis_soal, kelompok_soal, template_soal, penjurusan }"
+                    #option="{ judul, kategori, jenis_soal, kelompok_soal, template_soal, penjurusan, soal }"
                   >
                     <h5 class="mb-0">{{ judul }}</h5>
                     <div class="small text-italic">
@@ -371,10 +373,11 @@
                         }}</span
                       >
                       <span v-if="template_soal">- {{ template_soal }}</span>
+                       <span>- Jumlah Soal {{soal.length}}</span>
                     </div>
                   </template>
                   <template
-                    #selected-option="{ judul, kategori, jenis_soal, kelompok_soal, template_soal, penjurusan }"
+                    #selected-option="{ judul, kategori, jenis_soal, kelompok_soal, template_soal, penjurusan, soal }"
                   >
                     <div style="display: flex; align-items: baseline">
                       <strong class="mb-0 mr-2">{{ judul }} :</strong>
@@ -398,6 +401,7 @@
                           }}</span
                         >
                         <span v-if="template_soal">- {{ template_soal }}</span>
+                         <span>- Jumlah Soal {{soal.length}}</span>
                       </div>
                     </div>
                   </template>
@@ -455,6 +459,7 @@
                     <span v-if="item.template_soal"
                       >- {{ item.template_soal }}</span
                     >
+                     <span>- Jumlah Soal {{item.soal.length}}</span>
                   </div>
                 </div>
                 <button
@@ -647,8 +652,36 @@ export default {
       ) {
         if (this.form.tipe_paket == "Bundling") {
           this.form.id_tryout = [...this.form.tryout_bundling];
+          for (let index = 0; index < this.form.tryout_bundling.length; index++) {
+          const idTryout = this.form.tryout_bundling[index];
+          const findTryout = this.dataTryout.find(item => {
+            return item.id == idTryout
+          })
+          if(findTryout && findTryout.soal.length < 1) {
+            this.$bvToast.toast("Dilarang menggunakan data tryout yang jumlah soalnya 0. Harap isi soal terlebih dahulu.", {
+              title: "Peringatan",
+              variant: "warning",
+              solid: true,
+              autoHideDelay: 2000
+            });
+            return
+          }
+        }
         } else {
           this.form.id_tryout = [this.form.tryout_reguler];
+          const idTryout = this.form.tryout_reguler;
+          const findTryout = this.dataTryout.find(item => {
+            return item.id == idTryout
+          })
+          if(findTryout && findTryout.soal.length < 1) {
+            this.$bvToast.toast("Dilarang menggunakan data tryout yang jumlah soalnya 0. Harap isi soal terlebih dahulu.", {
+              title: "Peringatan",
+              variant: "warning",
+              solid: true,
+              autoHideDelay: 2000
+            });
+            return
+          }
         }
       } else {
         this.form.id_tryout = "";
@@ -658,6 +691,30 @@ export default {
         this.form.bonus = {mbti: true}
       } else {
         this.form.bonus = null
+      }
+
+      if(this.listTryout && this.listTryout.length < 1) {
+        if (this.form.tipe_paket == "Bundling") {
+          if(this.form.tryout_bundling && this.form.tryout_bundling.length < 1) {
+            this.$bvToast.toast("Mohon pilih soal tryout terlebih dahulu.", {
+              title: "Peringatan",
+              variant: "warning",
+              solid: true,
+              autoHideDelay: 2000
+            });
+            return
+          }
+        } else {
+          if(!this.form.tryout_reguler) {
+            this.$bvToast.toast("Mohon pilih soal tryout terlebih dahulu.", {
+              title: "Peringatan",
+              variant: "warning",
+              solid: true,
+              autoHideDelay: 2000
+            });
+            return
+          }
+        }
       }
 
       console.log(this.form);
@@ -694,7 +751,7 @@ export default {
       this.fetching = true;
       this.$axios
         .$get(`/api/${type}`, {
-          params: { filter: this.form.kategori_produk }
+          params: { filter: this.form.kategori_produk, paginate: 999 }
         })
         .then(res => {
           console.log(res);
@@ -750,10 +807,32 @@ export default {
       this.loading = true;
       this.$axios
         .$delete(`/api/${type}/delete/${this.selectedId}`)
-        .then(res => {
+        .then(async res => {
           console.log(res);
           if (res.success) {
             this.listTryout.splice(this.selectedIndex, 1);
+            // console.log(this.form.tryout_bundling)
+            // console.log(this.form.tryout)
+            // console.log(this.selectedId)
+            // if (this.form.tipe_paket == "Bundling") {
+            //   const findIndex = this.form.tryout_bundling.findIndex(id => {
+            //     return id == this.selectedId
+            //   })
+            //   console.log(findIndex)
+            //   if(findIndex) {
+            //     this.form.tryout_bundling.splice(findIndex, 1);
+            //   }
+            //   const findIndex2 = this.form.tryout.findIndex(id => {
+            //     return id == this.selectedId
+            //   })
+            //   console.log(findIndex2)
+            //   if(findIndex2) {
+            //     this.form.tryout.splice(findIndex2, 1);
+            //   }
+
+            // } else {
+            //   this.form.tryout_reguler = '';
+            // }
             const typeLabel = type == 'produk/paket' ? 'tryout' : type;
             this.$root.$bvToast.toast("Data " + typeLabel + " berhasil dihapus.", {
               title: "Sukses",
@@ -762,6 +841,8 @@ export default {
               autoHideDelay: 3000
             });
             this.$bvModal.hide("modal-delete");
+            // this.dataTryout = [];
+            // await this.getData("tryout");
             // this.$router.replace("/administrator/product");
           }
           return true;
@@ -770,7 +851,10 @@ export default {
           console.log(err);
           this.catchError(err);
         })
-        .finally(() => (this.loading = false));
+        .finally(() => {
+          window.location.reload()  
+          this.loading = false
+        });
     }
   }
 };
