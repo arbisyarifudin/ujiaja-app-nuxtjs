@@ -323,7 +323,10 @@ export default {
           return true;
         })
         .catch(err => {
-          console.log(err);
+          console.log(err.response)
+          if(err.response && err.response.status && err.response.status == 500 && err.response.data && err.response.data.message && err.response.data.message.includes('SQLSTATE[23000]')) {
+            return this.showToastMessage('Data tidak dapat dihapus karena sudah terdaftar pada produk yang telah dibeli oleh Siswa!', 'danger', 4000);
+          }
           this.catchError(err);
         })
         .finally(() => (this.loading = false));
