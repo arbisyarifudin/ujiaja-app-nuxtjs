@@ -55,7 +55,7 @@
       </table>
 
       <!-- Peluang Masuk -->
-      <table class="table table-borderless" v-if="dataResult.detail.kategori_produk == 'UTBK'">
+      <table class="table table-borderless" v-if="dataResult.detail.kategori_produk == 'UTBK' && userDetail.nama_jenjang == 'SMA'">
         <thead>
           <tr>
             <th colspan="3">Peluang Masuk Program Studi Pilihan</th>
@@ -156,6 +156,9 @@ export default {
   computed: {
    user() {
      return this.$store.state.dataUser.user
+   },
+   userDetail() {
+     return this.$store.state.dataUser.detail
    }
   },  
   methods: {
