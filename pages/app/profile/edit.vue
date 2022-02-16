@@ -46,19 +46,38 @@
                         v-model="formSiswa.nomor_telephone"
                       />
                     </div>
-                    <div
-                      class="form-group reg-siswa"
-                      v-if="akun.role_user == 'siswa'"
-                    >
-                      <label for="nama_sekolah">Nama Sekolah</label>
-                      <input
-                        type="text"
-                        class="form-control pl-0"
-                        id="nama_sekolah"
-                        name="nama_sekolah"
-                        placeholder="Tulis nama sekolah kamu sekarang"
-                        v-model="formSiswa.nama_sekolah"
-                      />
+                    <div class="row" v-if="akun.role_user == 'siswa'">
+                      <div class="col-md-9">
+                        <div
+                          class="form-group reg-siswa"
+                        >
+                          <label for="nama_sekolah">Nama Sekolah</label>
+                          <input
+                            type="text"
+                            class="form-control pl-0"
+                            id="nama_sekolah"
+                            name="nama_sekolah"
+                            placeholder="Tulis nama sekolah kamu sekarang"
+                            v-model="formSiswa.nama_sekolah"
+                          />
+                        </div>
+                      </div>
+                      <div class="col-md-3">
+                        <div
+                          class="form-group reg-siswa"
+                        >
+                          <label for="jenjang">Jenjang</label>
+                          <select
+                            class="form-control"
+                            id="jenjang"
+                            v-model="formSiswa.nama_jenjang"
+                          >
+                            <option value="SD">SD Sederajat</option>
+                            <option value="SMP">SMP Sederajat</option>
+                            <option value="SMA">SMA Sederajat</option>
+                          </select>
+                        </div>
+                      </div>
                     </div>
                     <div
                       class="form-group reg-siswa"
@@ -174,7 +193,7 @@
                 </b-row>
                 <hr />
                 <!-- <h4>Pilihan Program Studi</h4> -->
-                <b-row v-if="akun.role_user == 'siswa'">
+                <b-row v-if="akun.role_user == 'siswa' && formSiswa.nama_jenjang == 'SMA'">
                   <b-col md="2">
                     <label
                       ><i class="fas fa-fw fa-graduation-cap"></i> Pilihan Prodi
@@ -227,7 +246,7 @@
                     </div>
                   </b-col>
                 </b-row>
-                <b-row v-if="akun.role_user == 'siswa'">
+                <b-row v-if="akun.role_user == 'siswa' && formSiswa.nama_jenjang == 'SMA'">
                   <b-col md="2">
                     <label
                       ><i class="fas fa-fw fa-graduation-cap"></i> Pilihan Prodi
@@ -690,7 +709,8 @@ export default {
         password: "",
         repassword: "",
         pendidikan_terakhir: "", // tentor
-        nama_sekolah: "" // siswa
+        nama_sekolah: "", // siswa,
+        nama_jenjang: "SD" // siswa
       },
       provinsi: {},
       kota: {},
@@ -736,6 +756,12 @@ export default {
     };
   },
   watch: {
+    "formSiswa.nama_jenjang": function(value) {
+      if(value && value === 'SMA') {
+        this.getProdiBindPerguruan("");
+        this.getProdiBindPerguruan("", 2);
+      }
+    },
     "formOrtu.username": function(value) {
       if (!value) return;
       var usernameRegex = /^[a-zA-Z0-9]+$/;
@@ -886,6 +912,7 @@ export default {
       id_penjurusan: this.profil.id_penjurusan,
       nama_penjurusan: this.profil.nama_penjurusan,
       nama_sekolah: this.profil.nama_sekolah,
+      nama_jenjang: this.profil.nama_jenjang ?? 'SMA',
       id_prodi_bind_perguruan: this.profil.id_prodi_bind_perguruan,
       id_prodi_bind_perguruan_2: this.profil.id_prodi_bind_perguruan_2,
       password: "",
@@ -944,8 +971,10 @@ export default {
     // }
     this.getAPI("provinsi");
     this.getMaster("programStudi");
-    this.getProdiBindPerguruan("");
-    this.getProdiBindPerguruan("", 2);
+    if(this.profil.nama_jenjang === 'SMA') {
+      this.getProdiBindPerguruan("");
+      this.getProdiBindPerguruan("", 2);
+    }
   },
   methods: {
     apiUrl(param) {
@@ -1145,7 +1174,7 @@ export default {
       // console.log(this.formSiswa.id_prodi_bind_perguruan_2)
       // console.log(this.optionProdiBindPerguruanDisabled)
       // console.log(this.optionProdiBindPerguruanDisabled_2)
-      if (this.akun.role_user == "siswa") {
+      if (this.akun.role_user == "siswa" && this.formSiswa.nama_jenjang === 'SMA') {
         if (
           (!this.optionProdiBindPerguruanDisabled &&
             !this.formSiswa.id_prodi_bind_perguruan) ||
