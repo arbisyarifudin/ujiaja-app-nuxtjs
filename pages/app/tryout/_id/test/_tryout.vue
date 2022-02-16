@@ -11,7 +11,13 @@
           <p v-if="detailUjian.waktu_selesai">
             Kamu sudah selesai mengerjakan Tryout ini.
             <span v-if="detail.jenis_produk == 'Masal'">
-              Dan dapat melihat hasil pada <b>{{formatTanggal(detail.tanggal_berakhir,'Do MMMM YYYY HH:mm')}} WIB.</b> 
+              Dan dapat melihat hasil pada
+              <b
+                >{{
+                  formatTanggal(detail.tanggal_berakhir, "Do MMMM YYYY HH:mm")
+                }}
+                WIB.</b
+              >
             </span>
           </p>
           <p v-else>
@@ -25,7 +31,6 @@
               >Kembali</a
             >
             <a
-            v-if="detail.is_result_openable === true"
               class="btn btn-primary ml-2"
               :href="`/app/tryout/${detail.id}/result`"
               >Lihat Hasil</a
@@ -39,6 +44,20 @@
             <b-spinner small v-if="loading" class="mr-1"></b-spinner>
             Ulangi Tryout
           </button> -->
+          </div>
+          <div
+            v-else-if="detail && detail.jenis_produk == 'Masal'"
+            class="mt-3"
+          >
+            <a class="btn btn-outline-primary " :href="`/app/tryout/mine`"
+              >Kembali</a
+            >
+            <a
+              v-if="detail.is_result_openable === true"
+              class="btn btn-primary ml-2"
+              :href="`/app/tryout/${detail.id}/result`"
+              >Lihat Hasil</a
+            >
           </div>
         </div>
       </div>
@@ -281,36 +300,42 @@
       v-else-if="!loading && detail.is_task_start && detail.is_task_done"
     >
       <div class="row align-items-center justify-content-center">
-         <p v-if="detailUjian.waktu_selesai">
-            Kamu sudah selesai mengerjakan Tryout ini.
-            <span v-if="detail.jenis_produk == 'Masal'">
-              Dan dapat melihat hasil pada <b>{{formatTanggal(detail.tanggal_berakhir,'Do MMMM YYYY HH:mm')}} WIB.</b> 
-            </span>
-          </p>
+        <p v-if="detailUjian.waktu_selesai">
+          Kamu sudah selesai mengerjakan Tryout ini.
+          <span v-if="detail.jenis_produk == 'Masal'">
+            Dan dapat melihat hasil pada
+            <b
+              >{{
+                formatTanggal(detail.tanggal_berakhir, "Do MMMM YYYY HH:mm")
+              }}
+              WIB.</b
+            >
+          </span>
+        </p>
       </div>
       <div
-            v-if="detail && detail.jenis_produk == 'Perorangan'"
-            class="mt-3 text-center"
-          >
-            <a class="btn btn-outline-primary " :href="`/app/tryout/${detail.id}/detail`"
-              >Kembali</a
-            >
-            <a
-            v-if="detail.is_result_openable === true"
-              class="btn btn-primary ml-2"
-              :href="`/app/tryout/${detail.id}/result`"
-              >Lihat Hasil</a
-            >
-          </div>
-          <div
-            v-else
-            class="mt-3 text-center"
-          >
-            <a class="btn btn-outline-primary ml-2"
-              :href="`/app/tryout/${detail.id}/detail`"
-              >Lihat Detail Ujian</a
-            >
-          </div>
+        v-if="detail && detail.jenis_produk == 'Perorangan'"
+        class="mt-3 text-center"
+      >
+        <a
+          class="btn btn-outline-primary "
+          :href="`/app/tryout/${detail.id}/detail`"
+          >Kembali</a
+        >
+        <a
+          v-if="detail.is_result_openable === true"
+          class="btn btn-primary ml-2"
+          :href="`/app/tryout/${detail.id}/result`"
+          >Lihat Hasil</a
+        >
+      </div>
+      <div v-else class="mt-3 text-center">
+        <a
+          class="btn btn-outline-primary ml-2"
+          :href="`/app/tryout/${detail.id}/detail`"
+          >Lihat Detail Ujian</a
+        >
+      </div>
     </div>
     <b-modal
       id="modal-confirm-start"
@@ -413,8 +438,14 @@
           belajar yang tepat untukmu sekarang juga!
         </p>
         <p class="modal-text" v-else-if="detail.jenis_produk == 'Masal'">
-          Kamu berhasil menyelesaikan ujian tryout akbar dan dapat melihat hasilnya pada 
-          <b>{{formatTanggal(detail.tanggal_berakhir,'Do MMMM YYYY HH:mm')}} WIB.</b>
+          Kamu berhasil menyelesaikan ujian tryout akbar dan dapat melihat
+          hasilnya pada
+          <b
+            >{{
+              formatTanggal(detail.tanggal_berakhir, "Do MMMM YYYY HH:mm")
+            }}
+            WIB.</b
+          >
         </p>
         <div class="modal-footer justify-content-end" style="border: 0px">
           <button
@@ -425,7 +456,7 @@
             Halaman Utama
           </button>
           <button
-          v-if="detail.is_result_openable == true"
+            v-if="detail.is_result_openable == true"
             class="btn btn-primary tambah px-4 py-2"
             type="button"
             :disabled="loading"
@@ -832,7 +863,7 @@ export default {
         } else if (!this.detailUjian.waktu_selesai) {
           this.onConfirmEndTest();
         } else {
-          this.loading = false
+          this.loading = false;
           this.detail.is_task_done = true;
           console.log("all DONE");
         }
