@@ -50,10 +50,10 @@
                   :options="[
                     { text: '-- Pilih --', value: null },
                     { text: 'UTBK', value: 'UTBK' },
-                    { text: 'ASPD', value: 'ASPD' },
+                    { text: 'ASPD', value: 'ASPD' }
                   ]"
                 >
-                    <!-- { text: 'Asesmen Nasional', value: 'Asmenas' } -->
+                  <!-- { text: 'Asesmen Nasional', value: 'Asmenas' } -->
                 </b-form-select>
               </div>
               <div class="form-group reg-siswa">
@@ -192,19 +192,19 @@
                     ></b-form-radio-group>
                   </div>
                 </b-col>
-                 <b-col class="col-md-6" v-if="form.jenis_produk == 'Masal'">
+                <b-col class="col-md-6" v-if="form.jenis_produk == 'Masal'">
                   <div class="form-group reg-siswa">
                     <label for="pakai_perankingan"
                       >Maksimal Peserta <code>*</code></label
                     >
                     <b-input-group append="Orang">
                       <b-form-input
-                      type="number"
+                        type="number"
                         id="maksimal_peserta"
                         name="maksimal_peserta"
                         v-model="form.maksimal_peserta"
                         min="2"
-                        />
+                      />
                     </b-input-group>
                   </div>
                 </b-col>
@@ -279,7 +279,7 @@
                         }}</span
                       >
                       <span v-if="template_soal">- {{ template_soal }}</span>
-                      <span>- Jumlah Soal {{soal.length}}</span>
+                      <span>- Jumlah Mapel {{ soal.length }}</span>
                     </div>
                   </template>
                   <template
@@ -307,7 +307,7 @@
                           }}</span
                         >
                         <span v-if="template_soal">- {{ template_soal }}</span>
-                        <span>- Jumlah Soal {{soal.length}}</span>
+                        <span>- Jumlah Mapel {{ soal.length }}</span>
                       </div>
                     </div>
                   </template>
@@ -362,7 +362,7 @@
                         }}</span
                       >
                       <span v-if="template_soal">- {{ template_soal }}</span>
-                      <span>- Jumlah Soal {{soal.length}}</span>
+                      <span>- Jumlah Mapel {{ soal.length }}</span>
                     </div>
                   </template>
                   <template
@@ -390,7 +390,7 @@
                           }}</span
                         >
                         <span v-if="template_soal">- {{ template_soal }}</span>
-                        <span>- Jumlah Soal {{soal.length}}</span>
+                        <span>- Jumlah Mapel {{ soal.length }}</span>
                       </div>
                     </div>
                   </template>
@@ -412,7 +412,10 @@
             </div>
           </div>
         </div>
-        <div class="crud-footer d-flex justify-content-end mt-5" style="z-index: 5">
+        <div
+          class="crud-footer d-flex justify-content-end mt-5"
+          style="z-index: 5"
+        >
           <nuxt-link
             to="/administrator/product"
             class="btn btn-outline-secondary mr-2"
@@ -470,7 +473,7 @@ export default {
   },
   mounted() {
     this.getData("tryout");
-    this.getMBTIActive()
+    this.getMBTIActive();
   },
   computed: {
     filteredTryout() {
@@ -482,9 +485,9 @@ export default {
   watch: {
     "form.jenis_produk": function(value) {
       if (value == "Perorangan") {
-        this.form.pakai_perankingan = null
+        this.form.pakai_perankingan = null;
       } else {
-        this.form.pakai_perankingan = "Ya"
+        this.form.pakai_perankingan = "Ya";
       }
     },
     "form.tipe_paket": function(value) {
@@ -529,8 +532,7 @@ export default {
         this.form.jenis_produk == "Masal" &&
         (!this.form.pakai_perankingan ||
           !this.form.tanggal_mulai ||
-          !this.form.tanggal_berakhir
-          )
+          !this.form.tanggal_berakhir)
       ) {
         this.$bvToast.toast(
           "Untuk event masal diperlukan tanggal mulai dan selesai.",
@@ -573,45 +575,91 @@ export default {
         for (let index = 0; index < this.form.tryout_bundling.length; index++) {
           const idTryout = this.form.tryout_bundling[index];
           const findTryout = this.dataTryout.find(item => {
-            return item.id == idTryout
-          })
-          if(findTryout && findTryout.soal.length < 1) {
-            this.$bvToast.toast("Dilarang menggunakan data tryout yang jumlah soalnya 0. Harap isi soal terlebih dahulu.", {
-              title: "Peringatan",
-              variant: "warning",
-              solid: true,
-              autoHideDelay: 2000
-            });
-            return
+            return item.id == idTryout;
+          });
+          if (findTryout && findTryout.soal.length < 1) {
+            this.$bvToast.toast(
+              "Jumlah Mapel masih 0 pada " +
+                findTryout.judul +
+                "! Harap tambahkan terlebih dahulu.",
+              {
+                title: "Peringatan",
+                variant: "warning",
+                solid: true,
+                autoHideDelay: 5000
+              }
+            );
+            return;
+          } else if (findTryout && findTryout.soal.length > 0) {
+            for (let index2 = 0; index2 < findTryout.soal.length; index2++) {
+              const soal = findTryout.soal[index2];
+              if (soal && soal.pertanyaan < 1) {
+                this.$bvToast.toast(
+                  "Salahsatu mapel pada " +
+                    findTryout.judul +
+                    " terdeteksi belum memiliki soal! Harap tambahkan terlebih dahulu.",
+                  {
+                    title: "Peringatan",
+                    variant: "warning",
+                    solid: true,
+                    autoHideDelay: 5000
+                  }
+                );
+                return;
+              }
+            }
           }
         }
       } else {
         this.form.id_tryout = [this.form.tryout_reguler];
         const idTryout = this.form.tryout_reguler;
         const findTryout = this.dataTryout.find(item => {
-          return item.id == idTryout
-        })
-        if(findTryout && findTryout.soal.length < 1) {
-          this.$bvToast.toast("Dilarang menggunakan data tryout yang jumlah soalnya 0. Harap isi soal terlebih dahulu.", {
-            title: "Peringatan",
-            variant: "warning",
-            solid: true,
-            autoHideDelay: 2000
-          });
-          return
+          return item.id == idTryout;
+        });
+        if (findTryout && findTryout.soal.length < 1) {
+          this.$bvToast.toast(
+            "Jumlah Mapel masih 0 pada " +
+              findTryout.judul +
+              "! Harap tambahkan terlebih dahulu.",
+            {
+              title: "Peringatan",
+              variant: "warning",
+              solid: true,
+              autoHideDelay: 5000
+            }
+          );
+          return;
+        } else if (findTryout && findTryout.soal.length > 0) {
+          for (let index2 = 0; index2 < findTryout.soal.length; index2++) {
+            const soal = findTryout.soal[index2];
+            if (soal && soal.pertanyaan < 1) {
+              this.$bvToast.toast(
+                "Salahsatu mapel pada " +
+                  findTryout.judul +
+                  " terdeteksi belum memiliki soal! Harap tambahkan soal terlebih dahulu.",
+                {
+                  title: "Peringatan",
+                  variant: "warning",
+                  solid: true,
+                  autoHideDelay: 5000
+                }
+              );
+              return;
+            }
+          }
         }
       }
+
       if (this.form.jenis_produk == "Perorangan") {
         this.form.tanggal_mulai = null;
         this.form.tanggal_berakhir = null;
       }
 
-      if(this.form.bonus_mbti == 'Ya') {
-        this.form.bonus = {mbti: true}
+      if (this.form.bonus_mbti == "Ya") {
+        this.form.bonus = { mbti: true };
       } else {
-        this.form.bonus = null
+        this.form.bonus = null;
       }
-
 
       console.log(this.form);
       this.submitData("produk");
@@ -626,8 +674,8 @@ export default {
             this.mbtiActive = res.data;
           }
         })
-        .catch((error) => {
-          console.log(error)
+        .catch(error => {
+          console.log(error);
         })
         .finally(() => (this.loading = false));
     },
@@ -658,7 +706,7 @@ export default {
       this.fetching = true;
       this.$axios
         .$get(`/api/${type}`, {
-         params: { filter: this.form.kategori_produk, paginate: 999 }
+          params: { filter: this.form.kategori_produk, paginate: 999 }
         })
         .then(res => {
           console.log(res);
