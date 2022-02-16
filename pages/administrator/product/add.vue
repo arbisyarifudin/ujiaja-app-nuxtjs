@@ -658,7 +658,7 @@ export default {
       this.fetching = true;
       this.$axios
         .$get(`/api/${type}`, {
-          params: { filter: this.form.kategori_produk }
+         params: { filter: this.form.kategori_produk, paginate: 999 }
         })
         .then(res => {
           console.log(res);
