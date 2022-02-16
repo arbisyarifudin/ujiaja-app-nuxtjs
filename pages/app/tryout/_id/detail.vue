@@ -335,7 +335,9 @@ export default {
         const diffAkhirMenit = this.formatSelisih(hariIni, tglAkhir, "minutes");
         const diffAkhirDetik = this.formatSelisih(hariIni, tglAkhir, "seconds");
 
+        console.log(diffMulaiJam, diffMulaiMenit, diffMulaiDetik);
         console.log(diffAkhirJam, diffAkhirMenit, diffAkhirDetik);
+
 
         let sudahLewatMulai, belumLewatAkhir, sudahLewatAkhir;
 
@@ -344,10 +346,11 @@ export default {
           sudahLewatMulai = true;
         }
 
-        if (diffAkhirJam > 0 && diffAkhirMenit > 0 && diffAkhirDetik > 0) {
+        if (diffAkhirJam >= 0 && diffAkhirMenit >= 0 && diffAkhirDetik >= 0) {
           console.log("Masih dibawah jam berakhir.");
           belumLewatAkhir = true;
         }
+        // return
 
         if (
           diffMulaiJam <= 0 &&
@@ -366,7 +369,7 @@ export default {
           window.alert("Mohon maaf. Event belum dimulai ya!");
         } else if (sudahLewatMulai && sudahLewatAkhir) {
           window.alert("Mohon maaf. Event sudah berlalu!");
-        }
+        } 
       } else {
         this.toTryoutTestPage();
       }
