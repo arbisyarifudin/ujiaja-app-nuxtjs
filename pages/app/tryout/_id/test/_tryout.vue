@@ -166,12 +166,18 @@
                   </div>
                 </div>
               </div>
+              <div class="d-block d-md-none">
+                <h2 class="board-timer d-flex align-items-center" id="board-timer-2" style="font-size: 25px">
+                  <i class="far fa-clock fa-fw mr-1 small"></i>
+                  <span class="countdown">00:00:00</span>
+                </h2>
+              </div>
             </div>
           </div>
         </div>
         <div class="col-md-4 d-md-block d-none">
           <div class="info-board bg-white p-4">
-            <h2 class="board-timer d-flex align-items-center">
+            <h2 class="board-timer d-flex align-items-center" id="board-timer-1">
               <i class="far fa-clock fa-fw mr-1 small"></i>
               <span class="countdown">00:00:00</span>
             </h2>
@@ -286,12 +292,31 @@
         right
       >
         <div class="info-board bg-white p-4">
+          <!-- <h2 class="board-timer d-flex align-items-center">
+            <i class="far fa-clock fa-fw mr-1 small"></i>
+            <span class="countdown">00:00:00</span>
+          </h2>
+          <hr /> -->
+          <h2 class="board-title mb-3">Nomor Soal</h2>
           <UjianNumberList
             @update="updateNomor"
             :jawaban="jawabanUser"
             :list="listNomorSoal"
             :active="currentNomor.nomor"
           />
+          <hr />
+          <h2 class="board-title mb-3">Keterangan</h2>
+          <ul class="list-unstyled board-legend">
+            <li><span class="active"></span> Posisi kamu saat ini</li>
+            <li><span class="filled"></span> Soal yang sudah dijawab</li>
+            <li><span class="unfilled"></span> Soal yang belum dijawab</li>
+          </ul>
+        <!-- <UjianNumberList
+          @update="updateNomor"
+          :jawaban="jawabanUser"
+          :list="listNomorSoal"
+          :active="currentNomor.nomor"
+        /> -->
         </div>
       </b-sidebar>
     </div>
@@ -630,8 +655,14 @@ export default {
       }
       let duration = moment.duration(diffTime, "milliseconds");
       const interval = 1000;
-      const boardTimer = document.querySelector(".board-timer");
+      // const boardTimer = document.querySelector(".board-timer");
+      const boardTimer = document.getElementById("board-timer-1");
+      // console.log(boardTimer)
+      const boardTimer2 = document.getElementById("board-timer-2");
+      // console.log(boardTimer2)
+      // return
       const countdownElement = boardTimer.children[1];
+      const countdownElement2 = boardTimer2.children[1];
 
       const isNotTimeout =
         duration.hours() >= 0 &&
@@ -672,6 +703,8 @@ export default {
               console.log("time is running..");
               // console.log(countdownElement)
               countdownElement.textContent =
+                hours + ":" + minutes + ":" + seconds;
+              countdownElement2.textContent =
                 hours + ":" + minutes + ":" + seconds;
               this.saveJawaban();
             } else {
