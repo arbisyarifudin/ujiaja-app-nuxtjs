@@ -224,11 +224,12 @@
                         label="nama_studi"
                         @input="
                           optionProdiBindPerguruanDisabled = false;
-                          formSiswa.id_prodi_bind_perguruan = null;
+                          selectNew = true;
                           getProdiBindPerguruan(id_program_studi);
                         "
                         :getOptionKey="prodi => prodi.id"
                       />
+                          <!-- formSiswa.id_prodi_bind_perguruan = null; -->
                       <div style="font-size: 14px" class="text-info" v-if="loading">Memuat...</div>
                     </div>
                   </b-col>
@@ -262,11 +263,12 @@
                         label="nama_studi"
                         @input="
                           optionProdiBindPerguruanDisabled_2 = false;
-                          formSiswa.id_prodi_bind_perguruan_2 = false;
+                          selectNew_2 = true;
                           getProdiBindPerguruan(id_program_studi_2, 2);
                         "
                         :getOptionKey="prodi => prodi.id"
                       />
+                          <!-- formSiswa.id_prodi_bind_perguruan_2 = null; -->
                       <div style="font-size: 14px" class="text-info" v-if="loading">Memuat...</div>
                     </div>
                   </b-col>
@@ -743,6 +745,8 @@ export default {
       dataOptionProdiBindPerguruan_2: [],
       optionProdiBindPerguruanDisabled: true,
       optionProdiBindPerguruanDisabled_2: true,
+      selectNew: false,
+      selectNew_2: false,
       isValidForm: {
         username: null,
         password: null,
@@ -970,7 +974,7 @@ export default {
     //   this.getAPI("provinsi");
     // }
     this.getAPI("provinsi");
-    this.getMaster("programStudi");
+    this.getMaster("programStudi", {params: { paginate: 999 }});
     if(this.profil.nama_jenjang === 'SMA') {
       this.getProdiBindPerguruan("");
       this.getProdiBindPerguruan("", 2);
@@ -1035,13 +1039,13 @@ export default {
 
       this.onSubmitOrtu();
     },
-    getMaster(type) {
+    getMaster(type, params = {}) {
       this.loading = true;
       this.$axios.defaults.headers.Authorization =
         "Bearer " + this.$cookiz.get("_ujiaja");
       this.$axios.defaults.withCredentials = true;
       this.$axios
-        .$get(`/api/${type}`)
+        .$get(`/api/${type}`, params)
         .then(res => {
           console.log(res);
           this.dataMaster[type] = res.data.data;
@@ -1104,24 +1108,29 @@ export default {
       this.$axios.defaults.headers.Authorization =
         "Bearer " + this.$cookiz.get("_ujiaja");
       this.$axios.defaults.withCredentials = true;
+      console.log('this.formSiswa.id_prodi_bind_perguruan', this.formSiswa.id_prodi_bind_perguruan)
+      console.log('this.formSiswa.id_prodi_bind_perguruan_2', this.formSiswa.id_prodi_bind_perguruan_2)
+      const id_prodi_bind_perguruan = nomor == 1 ? this.formSiswa.id_prodi_bind_perguruan : this.formSiswa.id_prodi_bind_perguruan_2;
       this.$axios
         .$get(`/api/tranStudiPerguruan`, {
           params: { 
+            paginate: 9999,
             id_program_studi: id_program_studi,
-            id_prodi_bind_perguruan: nomor == 1 ? this.formSiswa.id_prodi_bind_perguruan : this.formSiswa.id_prodi_bind_perguruan_2,
+            id_prodi_bind_perguruan: id_prodi_bind_perguruan,
            }
         })
-        .then(res => {
+        .then(async res => {
           console.log(res);
           if (res.success) {
             if (nomor == 2) {
-              this.dataOptionProdiBindPerguruan_2 = res.data.data.map(item => {
-                let textField = item.perguruan.nama_perguruan;
+              this.dataOptionProdiBindPerguruan_2 = await res.data.data.map(item => {
+                let textField = item.perguruan && item.perguruan.nama_perguruan ? item.perguruan.nama_perguruan : '';
                 textField += " - " + item.program_studi.nama_studi;
                 textField += " (" + item.akreditasi_program_studi + ")";
                 // textField += " - PG: " + item.passing_grade_prodi;
                 return {
                   id: item.id,
+                  id_prodi: item.program_studi.id,
                   textField
                 };
               });
@@ -1137,14 +1146,23 @@ export default {
                   this.id_program_studi_2 = found.program_studi;
                 }
               }
+              if(this.id_program_studi_2 && this.formSiswa.id_prodi_bind_perguruan_2 && this.selectNew_2 === true) {
+                const searchFound = this.dataOptionProdiBindPerguruan_2.find(
+                  item => item.id_prodi == id_program_studi_selected.id
+                );
+                if(searchFound) {
+                  this.formSiswa.id_prodi_bind_perguruan_2 = searchFound.id
+                }
+              }
             } else {
-              this.dataOptionProdiBindPerguruan = res.data.data.map(item => {
-                let textField = item.perguruan.nama_perguruan;
+              this.dataOptionProdiBindPerguruan = await res.data.data.map(item => {
+                let textField = item.perguruan && item.perguruan.nama_perguruan ? item.perguruan.nama_perguruan : '';
                 textField += " - " + item.program_studi.nama_studi;
                 textField += " (" + item.akreditasi_program_studi + ")";
                 // textField += " - PG: " + item.passing_grade_prodi;
                 return {
                   id: item.id,
+                  id_prodi: item.program_studi.id,
                   textField
                 };
               });
@@ -1159,6 +1177,15 @@ export default {
                   // this.id_program_studi = found.id_program_studi;
                   this.id_program_studi = found.program_studi;
                 } 
+              } 
+
+              if(this.id_program_studi && this.formSiswa.id_prodi_bind_perguruan && this.selectNew === true) {
+                const searchFound = this.dataOptionProdiBindPerguruan.find(
+                  item => item.id_prodi == id_program_studi_selected.id
+                );
+                if(searchFound) {
+                  this.formSiswa.id_prodi_bind_perguruan = searchFound.id
+                }
               }
             }
           }
