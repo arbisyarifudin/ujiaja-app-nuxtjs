@@ -42,8 +42,8 @@
             mb-3
           "
         >
-          <img src="/logo1.png" class="img-fluid" style="width: 50px" />
-          <img src="/ujiAja.png" class="img-fluid" style="width: 50px" />
+          <!-- <img src="/logo1.png" class="img-fluid" style="width: 50px" /> -->
+          <img :src="ApiUrl(navData.logo)" class="img-fluid" style="width: 90px" />
         </div>
         <h2 class="py-3 mb-4">Perjalanan Sejarah UjiAja</h2>
         <div class="row align-flex-star justify-content-center">
@@ -68,7 +68,7 @@
           </div>
           <div class="col-md-5 col-8 ml-n4 mb-5 align-self-end">
             <div class="text-left sejarah">
-              <p style="color: #baadff" class="pb-2">Lorem</p>
+              <p style="color: #6560FD; font-weight: 500; font-size: 17px" class="pb-2">Lorem</p>
               <p class="pb-0">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore
                 sunt repellendus adipisci nostrum reprehenderit dolores iure
@@ -84,7 +84,7 @@
 
           <div class="col-md-5 col-8 mr-n4 mb-5 align-self-end">
             <div class="text-left sejarah-kiri">
-              <p style="color: #baadff" class="pb-2">Lorem</p>
+              <p style="color: #6560FD; font-weight: 500; font-size: 17px" class="pb-2">Lorem</p>
               <p class="pb-0">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore
                 sunt repellendus adipisci nostrum reprehenderit dolores iure
@@ -132,7 +132,7 @@
           </div>
           <div class="col-md-5 col-8 ml-n4 mb-4 align-self-end">
             <div class="text-left sejarah">
-              <p style="color: #baadff" class="pb-2">Lorem</p>
+              <p style="color: #6560FD; font-weight: 500; font-size: 17px" class="pb-2">Lorem</p>
               <p class="pb-0">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore
                 sunt repellendus adipisci nostrum reprehenderit dolores iure
@@ -243,5 +243,10 @@ export default {
       footerData
     }
   },
+  methods: {
+    ApiUrl(param) {
+      return process.env.apiUrl + "/" + param;
+    }
+  }
 };
 </script>

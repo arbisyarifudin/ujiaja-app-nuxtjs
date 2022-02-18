@@ -14,7 +14,7 @@
           <b-button
             v-if="props.ctaButtonText"
             :variant="props.ctaButtonVariant"
-            class="px-4"
+            class="px-4 button-cta"
             :href="props.cataButtonUrl"
             >{{ props.ctaButtonText }}</b-button
           >
@@ -24,6 +24,12 @@
     </div>
   </div>
 </template>
+
+<style scoped>
+  .button-cta:hover {
+    transform: scale(1.1);
+  }
+</style>
 
 <script>
 export default {

@@ -39,7 +39,7 @@ export default {
           subjudul:
             "Dapatkan penghasilan tambahan sebagai pengajar di UjiAja dan hasilkan uang sesuai lokasi dan jadwalmu!",
           ctaButtonText: "Daftar Sekarang",
-          ctaButtonVariant: "light",
+          ctaButtonVariant: "primary",
           cataButtonUrl: "/registrasi",
           image: "/banneruntuktutor.png",
           isJudulFirst: false,
@@ -104,7 +104,7 @@ export default {
             titel: "Guru Privat di UjiAja",
             testimoni:
               "Tiga tahun menjadi Mitra Pengajar di UjiAja memberikan pengalaman yang berharga untuk saya. Selain itu, menyadarkan saya bahwa mengajar adalah seberapa banyak murid memahami materi, bukan seberapa banyak pengajar menyampaikan materi.",
-            foto: "randy.png",
+            foto: "randy_2.png",
           },
         ],
       },

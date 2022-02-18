@@ -33,7 +33,7 @@ export default {
           subjudul:
             "Tentukan pilihanmu, mau online ataupun tatap muka dengan ratusa guru terbaik dari UjiAja.",
           ctaButtonText: "Temukan Sekarang",
-          ctaButtonVariant: "light",
+          ctaButtonVariant: "primary",
           cataButtonUrl: "/registrasi",
           image: "/bannerles.png",
           isJudulFirst: false,

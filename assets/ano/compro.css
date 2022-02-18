@@ -1,6 +1,12 @@
 :root {
   --primer: #a594f9;
-  --sekunder: #9490a4;
+  --sekunder: var(--text);
+
+  --primary: #F9F871;
+  --title: #6560FD;
+  --light: #f5efff;
+  --secondary-title: #000;
+  --text: #100906;
 }
 
 body {
@@ -10,7 +16,7 @@ body {
 
 h2 {
   font-size: 22px;
-  color: #47415b;
+  color: #000;
   font-weight: 500;
   padding-top: 69px;
   padding-bottom: 30px;
@@ -26,13 +32,13 @@ h3 {
   border: 1px solid #f5efff;
   box-sizing: border-box;
   border-radius: 21px;
-  color: #baadff;
+  color: var(--title);
   padding-left: 20px;
   padding-right: 20px;
 }
 .btn-outline-primary:hover {
-  background-color: #baadff;
-  border-color: #baadff;
+  background-color: var(--title);
+  border-color: var(--title);
   color: #fdfdfd;
 }
 
@@ -43,7 +49,9 @@ p {
   margin: 0px;
 }
 .navbar-dark .navbar-nav .nav-link {
-  color: #f5efff;
+  /* color: #f5efff; */
+  color: var(--title);
+  font-weight: 500;
   padding-left: 30px;
   padding-right: 30px;
   font-size: 12px;
@@ -52,13 +60,17 @@ p {
   content: none;
 }
 .navbar-dark .navbar-nav .nav-link:hover {
-  background-color: #f5efff;
-  color: #7370fb;
+  /* background-color: #f5efff;
+  color: #7370fb; */
+  background-color: var(--title);
+  color: #f5efff;
   border-radius: 20px;
 }
 #navbarheader .btn-outline-primary {
-  color: #f5efff;
-  border-color: #f5efff;
+  /* color: #f5efff; */
+  /* border-color: #f5efff; */
+  color: var(--title);
+  border-color: var(--title);
   border-radius: 20px;
   padding-left: 15px;
   padding-right: 15px;
@@ -66,12 +78,23 @@ p {
   margin-left: 15px;
 }
 #navbarheader .btn-outline-primary:hover {
-  background-color: #f5efff;
-  color: #7370fb;
+  /* background-color: #f5efff;
+  color: #7370fb; */
+  background-color: var(--title);
+  color: #f5efff;
 }
+
+.navbar-dark .navbar-nav .show > .nav-link, .navbar-dark .navbar-nav .active > .nav-link, .navbar-dark .navbar-nav .nav-link.show, .navbar-dark .navbar-nav .nav-link.active {
+  background-color: var(--title);
+  color: #f5efff;
+  border-radius: 20px;
+}
+
 #header {
-  background: url("/background/hero-overlay-full.png"),
-    linear-gradient(255.96deg, #7370fb 0%, #8a83ff 57.6%, #baadff 100%);
+  /* background: url("/background/hero-overlay-full.png"),
+    linear-gradient(255.96deg, #7370fb 0%, #8a83ff 57.6%, var(--title) 100%); */
+  background: url("/background/hero-overlay-full_2.png"),
+  linear-gradient(255.96deg, #F9F871 0%, #F4F489 57.6%, #FDFCAF 100%);
   background-repeat: no-repeat;
   background-size: cover;
   background-position-x: center;
@@ -209,13 +232,13 @@ ol {
   padding-top: 17px;
   padding-bottom: 17px;
   margin: 0px;
-  color: #baadff;
+  color: var(--title);
   font-size: 18px;
   text-align: center;
 }
 #keunggulan-slider .owl-item p {
   font-size: 14px;
-  color: #9490a4;
+  color: var(--text);
   text-align: center;
   font-weight: 400;
 }
@@ -239,36 +262,36 @@ ol {
 }
 
 .section-produk .produk h4 {
-  color: #cdc1ff;
+  color: var(--title);
   font-size: 18px;
   margin: 0px;
 }
 .section-produk .produk .large {
   font-size: 22px;
-  color: #baadff;
+  color: var(--title);
 }
 .section-produk .produk h5 {
   font-size: 10px;
   font-weight: 300;
-  color: #cdc1ff;
+  color: var(--title);
   padding-bottom: 20px;
 }
 .section-produk .produk .tp {
   font-size: 12px;
   font-weight: 500;
-  color: #baadff;
+  color: var(--title);
 }
 .section-produk .produk .btn-outline-primary {
   border: 1px solid #f5efff;
   box-sizing: border-box;
   border-radius: 20px;
-  color: #baadff;
+  color: var(--title);
   padding-left: 30px;
   padding-right: 30px;
   font-size: 14px;
 }
 .section-produk .produk .btn-outline-primary:hover {
-  background-color: #baadff;
+  background-color: var(--title);
   color: #fdfdfd;
 }
 
@@ -284,7 +307,7 @@ ol {
 }
 .fitur-layanan .readmore {
   font-size: 12px;
-  color: #cdc1ff;
+  color: var(--title);
   text-align: left;
 }
 .fitur-layanan .fitur {
@@ -314,8 +337,8 @@ ol {
 
 .fitur-layanan .fitur h4 {
   font-size: 18px;
-  font-weight: 500px;
-  color: #baadff;
+  font-weight: 500;
+  color: var(--title);
   text-align: left;
 }
 .fitur-layanan .fitur-text {
@@ -356,16 +379,16 @@ ol {
 }
 .hero-lagi h4 {
   font-size: 18px;
-  color: #baadff;
+  color: var(--title);
   margin-bottom: 24px;
 }
 .hero-lagi p {
   font-size: 12px;
-  color: #9490a4;
+  color: var(--text);
   padding-right: 98px;
 }
 .hero-lagi a {
-  color: #baadff;
+  color: var(--title);
   font-size: 12px;
 }
 .testimoni {
@@ -386,12 +409,12 @@ ol {
 }
 .testimoni .testimoni-content h3 {
   font-size: 22px;
-  color: #baadff;
+  color: var(--title);
   /* padding-top: 75px; */
 }
 .testimoni .testimoni-content h4 {
   font-size: 18px;
-  color: #cdc1ff;
+  color: var(--title);
 }
 /* .hero-tiga {
   margin-top: 69px;
@@ -406,17 +429,17 @@ ol {
 }
 .hero-tiga h4 {
   font-size: 18px;
-  color: #baadff;
+  color: var(--title);
   margin-top: 84px;
   margin-bottom: 24px;
 }
 .hero-tiga p {
-  color: #9490a4;
+  color: var(--text);
   font-size: 12px;
 } */
 h5 {
   font-size: 12px;
-  color: #47415b;
+  color: #000;
   font-weight: 500;
 }
 
@@ -523,15 +546,15 @@ h5 {
 }
 .hero-tryout p {
   font-size: 14px;
-  color: #9490a4;
+  color: var(--text);
 }
 .cara-daftar h3 {
   font-size: 22px;
-  color: #47415b;
+  color: #000;
 }
 .cara-daftar h4 {
   font-size: 12px;
-  color: #baadff;
+  color: var(--title);
 }
 [aria-expanded="false"] > .expanded,
 [aria-expanded="true"] > .collapsed {
@@ -569,7 +592,7 @@ h5 {
 }
 .card-body {
   font-size: 12px;
-  color: #9490a4;
+  color: var(--text);
   padding-left: 0px;
 }
 .card-header {
@@ -578,7 +601,7 @@ h5 {
   padding-top: 20px;
   padding-bottom: 20px;
   background: transparent;
-  border-bottom: 1px solid #9490a4;
+  border-bottom: 1px solid var(--text);
 }
 .kategori h2 {
   padding-top: 15px;
@@ -591,7 +614,7 @@ h5 {
   margin: 0px;
 }
 .bantuan ul a {
-  color: #9490a4;
+  color: var(--text);
 }
 .bantuan ul li :hover {
   color: #a594f9;
@@ -603,7 +626,7 @@ h5 {
 .bantuan a {
   font-size: 12px;
   font-weight: 500;
-  color: #47415b;
+  color: #000;
   padding: 0px;
   list-style: none;
   text-decoration: none;
@@ -621,11 +644,11 @@ h5 {
 .misi h3 {
   margin-top: 40px;
   margin-bottom: 15px;
-  color: #baadff;
+  color: var(--title);
 }
 .fa-bullseye,
 .fa-rocket {
-  color: #d3cef8;
+  color: var(--title);
 }
 .detail,
 .tujuan {
@@ -637,7 +660,7 @@ h5 {
   padding-bottom: 60px;
 }
 .rmap-item .small {
-  color: #47415b;
+  color: #000;
   font-size: 14px;
 }
 .sejarah {
@@ -661,7 +684,7 @@ h5 {
 }
 .kiri .judul {
   font-size: 18px;
-  color: #47415b;
+  color: #000;
   padding-top: 20px;
 }
 .kanan {
@@ -673,14 +696,14 @@ h5 {
 .kanan h3 {
   margin-top: 0px;
   margin-bottom: 5px;
-  color: #baadff;
+  color: var(--title);
 }
 .kanan .small {
   font-size: 14px;
 }
 
 .form-user label {
-  color: #9490a4;
+  color: var(--text);
 }
 
 .form-user .form-control,
@@ -689,7 +712,7 @@ h5 {
   border-right: none;
   border-top: none;
   background-color: transparent;
-  border-bottom: 1px solid #9490a4;
+  border-bottom: 1px solid var(--text);
   border-radius: 0;
 }
 
@@ -706,7 +729,7 @@ h5 {
   border-bottom-color: var(--primer);
 }
 .masuk-daftar {
-  color: #baadff;
+  color: var(--title);
 }
 .lupa {
   color: #cc8c84;
@@ -732,7 +755,7 @@ h5 {
   width: auto;
 }
 .karir-link {
-  color: #baadff;
+  color: var(--title);
   font-size: 16px;
 }
 .form-karir,
@@ -744,7 +767,7 @@ h5 {
   color: #b0a6ef;
 }
 .form-group .form-control-karir::placeholder {
-  color: #9490a4;
+  color: var(--text);
   opacity: 50%;
 }
 .form-group .form-control-karir {
@@ -765,12 +788,12 @@ h5 {
   margin-bottom: 90px;
 }
 .konten-editprofil h2 {
-  color: #47415b;
+  color: #000;
   font-size: 38px;
   font-weight: 400;
 }
 .konten-editprofil h5 {
-  color: #47415b;
+  color: #000;
   font-size: 18px;
 }
 .dash-siswa {
@@ -860,12 +883,12 @@ h5 {
 .pagination-program .page-link {
   background: transparent;
   border: 0px;
-  color: #baadff;
+  color: var(--title);
   font-size: 16px;
   padding: 15px;
 }
 .pagination-program .page-link:hover {
-  background: #baadff;
+  background: var(--title);
   color: #f5efff;
   border-radius: 10px;
 }
@@ -887,11 +910,11 @@ h5 {
 }
 .hubungi-kami .fa-stack,
 .hubungi-kami h4 {
-  color: #baadff;
+  color: var(--title);
   margin-bottom: 15px;
 }
 .hubungi-kami h5 {
-  color: #cdc1ff;
+  color: var(--title);
   font-size: 16px;
 }
 .kebijakan {
@@ -906,7 +929,7 @@ h5 {
   padding: 100px;
 }
 .kebijakan-privasi h2 {
-  color: #baadff;
+  color: var(--title);
   font-size: 36px;
   margin-bottom: 60px;
   margin-top: 60px;

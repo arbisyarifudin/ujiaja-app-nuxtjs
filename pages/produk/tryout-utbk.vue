@@ -50,7 +50,7 @@ export default {
           subjudul:
             "Gunakan Platform Tryout Terbaik Untuk Tingkatkan Kesiapanmu. Hadapi Masuk Jenjang SMP, SMA dan Perguruan Tinggi negeri!",
           ctaButtonText: "Daftar Sekarang",
-          ctaButtonVariant: "light",
+          ctaButtonVariant: "primary",
           cataButtonUrl: "/registrasi",
           image: "/hero-tryout.png",
           isJudulFirst: false,

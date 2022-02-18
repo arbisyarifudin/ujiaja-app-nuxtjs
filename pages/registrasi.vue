@@ -209,9 +209,9 @@
                 <div class="text-center px-4 pt-2">
                   <p class="small">
                     Dengan masuk ke UjiAja, saya menyetujui <br />
-                    <a href="#" style="color: #baadff">Ketentuan Pengguna</a>
+                    <a href="#" style="color: #6560FD">Ketentuan Pengguna</a>
                     serta
-                    <a href="#" style="color: #baadff">Kebijakan Privasi</a>
+                    <a href="#" style="color: #6560FD">Kebijakan Privasi</a>
                     yang berlaku.
                   </p>
                 </div>

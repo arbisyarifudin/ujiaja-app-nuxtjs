@@ -39,7 +39,7 @@ export default {
           subjudul:
             "Persiapkan kuliah, dan potensimu dengan pilihan yang tepat sesuai minat dan bakat",
           ctaButtonText: "Tes Sekarang Juga",
-          ctaButtonVariant: "light",
+          ctaButtonVariant: "primary",
           cataButtonUrl: "/registrasi",
           image: "/banneruntuksiswa.png",
           isJudulFirst: false,

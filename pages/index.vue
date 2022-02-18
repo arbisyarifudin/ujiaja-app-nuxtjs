@@ -44,7 +44,7 @@ export default {
           subjudul: "Bersama UjiAja, mengerjakan soal terasa lebih mudah",
           judul: "Yuk Belajar Dengan UjiAja Agar Makin Siap Hadapi Ujian",
           ctaButtonText: "Daftar Sekarang",
-          ctaButtonVariant: "outline-primary",
+          ctaButtonVariant: "primary",
           cataButtonUrl: "/registrasi",
           image: "/banner.png",
           isJudulFirst: true
@@ -54,18 +54,18 @@ export default {
         judul: "Kenapa Harus Pakai UjiAja.com?",
         item: [
           {
-            gambar: "/icon/icon1.png",
+            gambar: "/icon/icon1_2.png",
             judul: "20rb+",
             subjudul: "Pelajar Indonesia yang sudah pakai aplikasi SSCI"
           },
           {
-            gambar: "/icon/icon2.png",
+            gambar: "/icon/icon2_2.png",
             judul: "150soal+",
             subjudul:
               " Jumlah soal dan pembahasan Tryout terbaru sesuai kurikulum"
           },
           {
-            gambar: "/icon/icon3.png",
+            gambar: "/icon/icon3_2.png",
             judul: "100siswa+",
             subjudul: "Peserta Tryout SSCI terbukti lolos PTN impian"
           },
