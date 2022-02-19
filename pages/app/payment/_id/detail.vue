@@ -29,11 +29,11 @@
             class="dash-label mb-4 d-block"
             v-if="dataDetail.status == 'Sudah Diverifikasi'"
           >
-            Selamat, pembelian 
+            Selamat, pembelian
             <span v-if="dataDetail.mbti">Tes MBTI</span>
             <span v-else-if="dataDetail.kursus">Kelas Kursus</span>
             <span v-else>Tryout</span>
-             kamu berhasil!
+            kamu berhasil!
           </h2>
           <p v-if="dataDetail.status == 'Sudah Diverifikasi'">
             Terima kasih sudah mempercayakan Uji Aja untuk memenuhi kebutuhan
@@ -46,10 +46,21 @@
               `background: #FDFDFD; box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.5); border-radius: 4px;`
             "
           >
-            <div class="col-md-6 p-0" v-if="dataDetail.produk || dataDetail.mbti">
+            <div
+              class="col-md-6 p-0"
+              v-if="dataDetail.produk || dataDetail.mbti"
+            >
               <p class="mb-1" style="color: #9490A4;">Produk</p>
-              <p class="" v-if="dataDetail.produk" v-text="dataDetail.produk.nama_produk"></p>
-              <p class="" v-if="dataDetail.mbti" v-text="dataDetail.mbti.judul"></p>
+              <p
+                class=""
+                v-if="dataDetail.produk"
+                v-text="dataDetail.produk.nama_produk"
+              ></p>
+              <p
+                class=""
+                v-if="dataDetail.mbti"
+                v-text="dataDetail.mbti.judul"
+              ></p>
               <p class="mb-1" style="color: #9490A4;">Batas Waktu Pembayaran</p>
               <p class="">
                 {{
@@ -83,10 +94,17 @@
               <p class="mb-1" style="color: #9490A4;">No.Invoice</p>
               <p class="">{{ dataDetail.kode }}</p>
             </div>
-            <div class="col-md-6 p-0" v-if="dataDetail.produk || dataDetail.mbti || dataDetail.kursus">
+            <div
+              class="col-md-6 p-0"
+              v-if="dataDetail.produk || dataDetail.mbti || dataDetail.kursus"
+            >
               <p class="mb-1" style="color: #9490A4;">Total Pembayaran</p>
-              <p class="" v-if="dataDetail.jenis_transaksi == 'Bonus MBTI'">Rp {{ formatRupiah(dataDetail.produk.harga_produk) }}</p>
-              <p class="" v-else>Rp {{ formatRupiah(dataDetail.total_harga) }}</p>
+              <p class="" v-if="dataDetail.jenis_transaksi == 'Bonus MBTI'">
+                Rp {{ formatRupiah(dataDetail.produk.harga_produk) }}
+              </p>
+              <p class="" v-else>
+                Rp {{ formatRupiah(dataDetail.total_harga) }}
+              </p>
               <p class="mb-1" style="color: #9490A4;">Metode Pembayaran</p>
               <p class="" v-if="dataDetail.tipe == 'Bank Transfer'">
                 Bank Transfer - {{ dataDetail.bank.nama_bank }}
@@ -95,16 +113,41 @@
                 Pembayaran Instan
               </p>
               <p class="mb-1" style="color: #9490A4;">Status Pembayaran</p>
-              <p class="" v-text="dataDetail.status"></p>
+              <p class="">
+                {{ dataDetail.status }}
+                <button
+                  class="btn btn-danger btn-sm px-2"
+                  v-if="
+                    dataDetail.status == 'Menunggu Pembayaran' ||
+                      dataDetail.status == 'Menunggu Verifikasi'
+                  "
+                  v-b-modal.modal-cancel
+                >
+                  <b-icon icon="x"></b-icon> Batalkan
+                </button>
+              </p>
             </div>
-            <div class="col-12" v-if="dataDetail.status == 'Ditolak' || dataDetail.status == 'Dibatalkan'" style="font-size: 13px">
+            <div
+              class="col-12"
+              v-if="
+                dataDetail.status == 'Ditolak' ||
+                  dataDetail.status == 'Dibatalkan'
+              "
+              style="font-size: 13px"
+            >
               <hr />
-              <div class=" alert alert-danger mb-0" v-if="dataDetail.status == 'Ditolak'">
+              <div
+                class=" alert alert-danger mb-0"
+                v-if="dataDetail.status == 'Ditolak'"
+              >
                 <h6 style="font-size: 15px" class="m-0">Alasan Penolakan</h6>
                 <hr />
                 {{ dataDetail.alasan_penolakan }}
               </div>
-              <div class=" alert alert-danger mb-0" v-if="dataDetail.status == 'Dibatalkan'">
+              <div
+                class=" alert alert-danger mb-0"
+                v-if="dataDetail.status == 'Dibatalkan'"
+              >
                 <h6 style="font-size: 15px" class="m-0">Alasan Pembatalan</h6>
                 <hr />
                 {{ dataDetail.alasan_pembatalan }}
@@ -112,12 +155,19 @@
             </div>
             <div class="col-12 px-0" v-if="!loading">
               <hr />
-              <router-link :to="`/app/tryout/${dataDetail.id_produk}/detail`" v-if="dataDetail.produk"
-                >Lihat Produk</router-link>
+              <router-link
+                :to="`/app/tryout/${dataDetail.id_produk}/detail`"
+                v-if="dataDetail.produk"
+                >Lihat Produk</router-link
+              >
               <router-link :to="`/app/mbti/`" v-else-if="dataDetail.mbti"
-                >Lihat Produk</router-link>
-              <router-link :to="`/app/student/courses/${dataDetail.id_produk}/detail`" v-else-if="dataDetail.kursus"
-                >Lihat Produk</router-link>
+                >Lihat Produk</router-link
+              >
+              <router-link
+                :to="`/app/student/courses/${dataDetail.id_produk}/detail`"
+                v-else-if="dataDetail.kursus"
+                >Lihat Produk</router-link
+              >
             </div>
             <div class="col-12" v-if="loading">
               <UILoading style="min-height: unset" />
@@ -172,7 +222,7 @@
             class="my-4"
             v-if="
               dataDetail.status &&
-                dataDetail.status != 'Sudah Diverifikasi' &&
+                (dataDetail.status != 'Sudah Diverifikasi' && dataDetail.status != 'Kadaluarsa' && dataDetail.status != 'Dibatalkan') &&
                 dataDetail.tipe == 'Bank Transfer'
             "
           >
@@ -221,7 +271,7 @@
             </div>
             <div
               class="col mb-3"
-              v-if="dataDetail.status != 'Sudah Diverifikasi'"
+              v-if="dataDetail.status != 'Sudah Diverifikasi' && dataDetail.status != 'Kadaluarsa' && dataDetail.status != 'Dibatalkan'"
             >
               <button
                 class="btn btn-outline-primary btn-block py-2"
@@ -272,6 +322,35 @@
         </div>
       </div>
     </div>
+    <b-modal
+      id="modal-cancel"
+      title="Batalkan Pembayaran"
+      hide-footer
+      centered
+      size="md"
+      modal-class="admin-modal"
+    >
+      <div class="text-center">
+        Apakah Anda yakin ingin membatalkan pembayaran ini?
+      </div>
+      <div class="modal-footer justify-content-end" style="border: 0px">
+        <button
+          class="btn btn-sm btn-outline-secondary"
+          type="button"
+          @click="$bvModal.hide('modal-cancel')"
+        >
+          Tutup
+        </button>
+        <button
+          class="btn btn-sm btn-primary tambah px-4 py-1"
+          type="button"
+          :disabled="submitting"
+          @click.prevent="cancelPayment"
+        >
+          <b-spinner small v-if="submitting" class="mr-1"></b-spinner> Submit
+        </button>
+      </div>
+    </b-modal>
   </div>
 </template>
 
@@ -281,7 +360,8 @@ export default {
   data() {
     return {
       loading: true,
-      dataDetail: {}
+      dataDetail: {},
+      submitting: false,
     };
   },
   mounted() {
@@ -323,6 +403,25 @@ export default {
           this.catchError(err);
         })
         .finally(() => (this.loading = false));
+    },
+    cancelPayment() {
+      this.submitting = true;
+      this.$axios
+        .$put(`/api/transaksi/update-status/${this.$route.params.id}`, {
+          status: 'Dibatalkan',
+          alasan_pembatalan: 'Dibatalkan sendiri oleh siswa.'
+        })
+        .then(res => {
+          if (res.success) {
+            this.showToastMessage("Pembayaran berhasil dibatalkan!", "success");
+            this.getDetail("transaksi", this.$route.params.id);
+          }
+        })
+        .catch(err => {
+          console.log(err);
+          this.catchError(err);
+        })
+        .finally(() => (this.submitting = false));
     }
   }
 };
