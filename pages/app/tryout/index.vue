@@ -218,7 +218,7 @@
         <div class="d-flex justify-content-between align-items-center mb-3">
           <h5 class="info-kelas">Tryout ASPD</h5>
           <router-link
-            to="/app/tryout/search?category=ASPD&package=Reguler&event=Perorangan"
+            to="/app/tryout/search?category=ASPD&package=&event="
             class="text-primary"
             >Lihat Semua</router-link
           >

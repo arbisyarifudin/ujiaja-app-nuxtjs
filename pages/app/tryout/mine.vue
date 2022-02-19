@@ -115,12 +115,12 @@
                     </p>
                     <p
                       class=""
-                      v-if="item.jenis_produk == 'Masal' || item.tanggal_mulai"
+                      v-if="item.jenis_produk == 'Masal' && item.tipe_paket != 'Bundling'"
                     >
                       <i class="fas fa-calendar-alt fa-fw"></i>
                       {{ item.tanggal_mulai_label }}
                     </p>
-                    <p v-if="item.jenis_produk == 'Masal' && item.tipe_paket == 'Bundling'">
+                    <p v-else-if="item.jenis_produk == 'Masal' && item.tipe_paket == 'Bundling'">
                       {{ item.tanggal_mulai_label }}
                     </p>
                     <p
