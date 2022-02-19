@@ -101,14 +101,36 @@
                 <label for="tanggal_mulai"
                   >Tanggal dan Waktu Mulai <code>*</code></label
                 >
-                <b-form-input
+                <div class="row">
+                  <div class="col-8">
+                    <b-form-input
+                      id="tanggal_mulai_date"
+                      class="form-control"
+                      v-model="tanggal_mulai_date"
+                      type="date"
+                      :disabled="total_pengerjaan > 0"
+                    >
+                    </b-form-input>
+                  </div>
+                  <div class="col-4">
+                    <b-form-input
+                      id="tanggal_mulai_time"
+                      class="form-control"
+                      v-model="tanggal_mulai_time"
+                      type="time"
+                      :disabled="total_pengerjaan > 0"
+                    >
+                    </b-form-input>
+                  </div>
+                </div>
+                <!-- <b-form-input
                   id="tanggal_mulai"
                   class="form-control"
                   v-model="form.tanggal_mulai"
                   type="datetime-local"
                   :disabled="total_pengerjaan > 0"
                 >
-                </b-form-input>
+                </b-form-input> -->
               </div>
               <div
                 class="form-group reg-siswa"
@@ -117,14 +139,36 @@
                 <label for="tanggal_berakhir"
                   >Tanggal dan Waktu Selesai <code>*</code></label
                 >
-                <b-form-input
+                <div class="row">
+                  <div class="col-8">
+                    <b-form-input
+                      id="tanggal_akhir_date"
+                      class="form-control"
+                      v-model="tanggal_akhir_date"
+                      type="date"
+                      :disabled="total_pengerjaan > 0"
+                    >
+                    </b-form-input>
+                  </div>
+                  <div class="col-4">
+                    <b-form-input
+                      id="tanggal_akhir_time"
+                      class="form-control"
+                      v-model="tanggal_akhir_time"
+                      type="time"
+                      :disabled="total_pengerjaan > 0"
+                    >
+                    </b-form-input>
+                  </div>
+                </div>
+                <!-- <b-form-input
                   id="tanggal_berakhir"
                   class="form-control"
                   v-model="form.tanggal_berakhir"
                   type="datetime-local"
                   :disabled="total_pengerjaan > 0"
                 >
-                </b-form-input>
+                </b-form-input> -->
               </div>
               <div class="form-group reg-siswa">
                 <label for="harga_produk">Biaya (Rp) <code>*</code></label>
@@ -556,6 +600,10 @@ export default {
       dataDetail: {},
       total_pengerjaan: 0,
       total_transaksi: 0,
+      tanggal_mulai_date: null,
+      tanggal_mulai_time: null,
+      tanggal_akhir_date: null,
+      tanggal_akhir_time: null,
       form: {
         nama_produk: null,
         deskripsi_produk: "",
@@ -856,6 +904,14 @@ export default {
             this.total_pengerjaan = res.data.total_pengerjaan
             this.total_transaksi = res.data.total_transaksi
             this.dataDetail = res.data.produk;
+            if(this.dataDetail.jenis_produk == 'Masal') {
+              const tanggal_mulai = this.dataDetail.tanggal_mulai
+              this.tanggal_mulai_date = tanggal_mulai.split(' ')[0];
+              this.tanggal_mulai_time = tanggal_mulai.split(' ')[1];
+               const tanggal_akhir = this.dataDetail.tanggal_berakhir
+              this.tanggal_akhir_date = tanggal_akhir.split(' ')[0];
+              this.tanggal_akhir_time = tanggal_akhir.split(' ')[1];
+            }
             this.listTryout = res.data.tryout;
             this.form = {
               ...this.dataDetail,
