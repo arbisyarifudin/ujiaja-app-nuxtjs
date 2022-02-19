@@ -122,6 +122,12 @@ body {
   z-index: 99;
 }
 
+#header .navbar-toggler {
+  color: #6560FD;
+  border-color: #6560FD;
+  font-size: 13px;
+}
+
 #header.variant-melengkung {
   background: url("/background/hero-overlay-2_2.svg"), linear-gradient(249.05deg, #F9F871 -0.01%, #ffff9c 48.22%, #FDFCAF 99.99%);
   background-size: cover;

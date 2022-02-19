@@ -4,7 +4,9 @@
       <!-- <b-navbar-brand to="/"><img src="/logo-ujiaja.png" /></b-navbar-brand> -->
       <b-navbar-brand to="/"><img v-if="ApiUrl" :src="ApiUrl(navData.logo)" class="img-fluid" style="height: 80px; max-width: 150px!important; object-fit:contain;"/></b-navbar-brand>
 
-      <b-navbar-toggle target="navbarheader"></b-navbar-toggle>
+      <b-navbar-toggle target="navbarheader">
+        MENU
+      </b-navbar-toggle>
       <b-collapse id="navbarheader" is-nav>
         <!-- Right aligned nav items -->
         <b-navbar-nav class="ml-auto align-items-center">
