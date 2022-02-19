@@ -7,9 +7,10 @@
             <b-spinner type="grow" class="mr-2" v-if="loading" /> Ubah Produk /
             Event
           </h2>
-          <!-- <p>
-            Ayo, buat produk dari data Tryout yang sudah dibuat.
-          </p> -->
+          <p v-if="total_pengerjaan > 0 && total_transaksi > 0" class="alert alert-danger my-3 small">
+            <b-icon icon="info-circle"></b-icon>
+            Produk/event tidak dapat diubah karena sudah ada transaksi yang terjadi atau siswa yang sudah mengerjakan. Mohon buat produk baru.
+          </p>
         </div>
         <div class="col-md-12 crud-body">
           <div class="form-user">
@@ -21,6 +22,7 @@
                 v-model="form.nama_produk"
                 type="text"
                 placeholder="Tulis nama produk"
+                :disabled="total_pengerjaan > 0"
               >
               </b-form-input>
             </div>
@@ -33,10 +35,12 @@
                   id="deskripsi_produk"
                   v-model="form.deskripsi_produk"
                   :editor-toolbar="customToolbar"
+                  v-if="total_pengerjaan < 1 && total_transaksi < 1"
                 />
               </client-only>
+              <div class="p-3" v-html="form.deskripsi_produk" v-if="total_pengerjaan > 0 && total_transaksi > 0"></div>
             </div>
-            <div class="small text-danger">
+            <div class="small text-danger" v-if="total_pengerjaan < 1 && total_transaksi < 1">
               *Tuliskan deskripsi paket (disarankan maksimal 3 point saja)
             </div>
           </div>
@@ -86,6 +90,7 @@
                     { text: 'Perorangan', value: 'Perorangan' },
                     { text: 'Masal (Akbar)', value: 'Masal' }
                   ]"
+                  :disabled="total_pengerjaan > 0"
                 >
                 </b-form-select>
               </div>
@@ -101,6 +106,7 @@
                   class="form-control"
                   v-model="form.tanggal_mulai"
                   type="datetime-local"
+                  :disabled="total_pengerjaan > 0"
                 >
                 </b-form-input>
               </div>
@@ -116,6 +122,7 @@
                   class="form-control"
                   v-model="form.tanggal_berakhir"
                   type="datetime-local"
+                  :disabled="total_pengerjaan > 0"
                 >
                 </b-form-input>
               </div>
@@ -126,6 +133,7 @@
                   v-model="form.harga_produk"
                   type="number"
                   min="1"
+                  :disabled="total_transaksi > 0"
                 >
                 </b-form-input>
               </div>
@@ -145,6 +153,7 @@
                         { text: 'Ya', value: 'Ya' },
                         { text: 'Tidak', value: 'Tidak' }
                       ]"
+                      :disabled="total_pengerjaan > 0"
                     ></b-form-radio-group>
                   </div>
                 </b-col>
@@ -161,6 +170,7 @@
                         { text: 'Ya', value: 'Ya' },
                         { text: 'Tidak', value: 'Tidak' }
                       ]"
+                      :disabled="total_pengerjaan > 0"
                     ></b-form-radio-group>
                   </div>
                 </b-col>
@@ -177,6 +187,7 @@
                         { text: 'Aktif', value: 'Aktif' },
                         { text: 'Nonaktif', value: 'Tidak' }
                       ]"
+                      :disabled="total_transaksi > 0"
                     ></b-form-radio-group>
                   </div>
                 </b-col>
@@ -191,6 +202,7 @@
                         { text: 'Ya', value: 'Ya' },
                         { text: 'Tidak', value: 'Tidak' }
                       ]"
+                      :disabled="total_transaksi > 0"
                     ></b-form-radio-group>
                   </div>
                 </b-col>
@@ -205,7 +217,8 @@
                         id="maksimal_peserta"
                         name="maksimal_peserta"
                         v-model="form.maksimal_peserta"
-                        min="2"
+                        :min="2"
+                        :disabled="total_transaksi > 0"
                       />
                     </b-input-group>
                   </div>
@@ -220,6 +233,7 @@
                     <b-form-input
                       v-model="form.perhitungan.correct"
                       placeholder="Nilai Benar"
+                      :disabled="total_pengerjaan > 0"
                     ></b-form-input>
                   </b-col>
                   <b-col class="mb-3">
@@ -227,6 +241,7 @@
                     <b-form-input
                       v-model="form.perhitungan.wrong"
                       placeholder="Nilai Salah"
+                      :disabled="total_pengerjaan > 0"
                     ></b-form-input>
                   </b-col>
                   <b-col class="mb-3">
@@ -234,16 +249,17 @@
                     <b-form-input
                       v-model="form.perhitungan.unfilled"
                       placeholder="Nilai Tidak Diisi"
+                      :disabled="total_pengerjaan > 0"
                     ></b-form-input>
                   </b-col>
                 </b-row>
-                <div class="small text-danger">
+                <!-- <div class="small text-danger">
                   Hanya berlaku untuk perhitungan Pilihan Ganda & Pilgan
                   Kompleks
-                </div>
+                </div> -->
               </div>
 
-              <div class="form-group reg-siswa">
+              <div class="form-group reg-siswa" v-if="total_pengerjaan < 1 && total_transaksi < 1">
                 <label for="perhitungan"
                   >Tambah Soal Tryout <code>[opsional]</code></label
                 >
@@ -461,6 +477,7 @@
                   </div>
                 </div>
                 <button
+                v-if="total_pengerjaan < 1 && total_transaksi < 1"
                   type="button"
                   @click.prevent="
                     selectedId = item.id_produk_paket;
@@ -483,7 +500,7 @@
           >
             Kembali
           </nuxt-link>
-          <button type="submit" class="btn btn-primary" :disabled="loading">
+          <button type="submit" class="btn btn-primary" :disabled="loading" v-if="total_pengerjaan < 1 && total_transaksi < 1">
             <b-spinner small class="mr-1" v-if="loading"></b-spinner>
             Simpan
           </button>
@@ -537,6 +554,8 @@ export default {
       fetching: false,
       dataTryout: [],
       dataDetail: {},
+      total_pengerjaan: 0,
+      total_transaksi: 0,
       form: {
         nama_produk: null,
         deskripsi_produk: "",
@@ -834,6 +853,8 @@ export default {
         .then(res => {
           console.log(res);
           if (res.success) {
+            this.total_pengerjaan = res.data.total_pengerjaan
+            this.total_transaksi = res.data.total_transaksi
             this.dataDetail = res.data.produk;
             this.listTryout = res.data.tryout;
             this.form = {
