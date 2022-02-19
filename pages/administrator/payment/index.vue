@@ -261,7 +261,7 @@
                     class="img-fluid"
                   />
                 </a>
-                <div class="mt-4">
+                <div class="mt-4" v-if="detail.status != 'Kadaluarsa' && detail.status != 'Dibatalkan' && detail.alasan_penolakan != 'Dibatalkan sendiri oleh siswa.'">
                   <div class="mb-3">
                     <p class="mb-2">
                       Apakah transaksi dan/atau bukti pembayaran ini dapat diterima?
@@ -308,7 +308,7 @@
             class="btn btn-sm btn-primary tambah px-4 py-1"
             type="button"
             :disabled="submitting"
-            v-if="(showBukti || form.status != 'Menunggu Verifikasi') && !detail.xendit"
+            v-if="(showBukti || form.status != 'Menunggu Verifikasi') && !detail.xendit && detail.status != 'Kadaluarsa' && detail.status != 'Dibatalkan' && detail.alasan_penolakan != 'Dibatalkan sendiri oleh siswa.'"
             @click.prevent="verifyBukti"
           >
             <b-spinner small v-if="submitting" class="mr-1"></b-spinner> Submit

@@ -109,7 +109,7 @@
       >
       <router-link
         class="btn btn-primary dashboard mb-4"
-        v-else-if="!loading && dataDetail.transaksi && dataDetail.transaksi.status == 'Kadaluarsa' && dataDetail.is_expired_test == false"
+        v-else-if="!loading && dataDetail.transaksi && (dataDetail.transaksi.status == 'Kadaluarsa' || dataDetail.transaksi.status == 'Dibatalkan') && dataDetail.is_expired_test == false"
         :to="`/app/tryout/${dataDetail.produk.id}/enroll`"
         >Beli Tryout</router-link
       >
