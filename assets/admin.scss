@@ -1098,7 +1098,7 @@ input.form {
     .info {
         &-board {
             height: 100%;
-            overflow-y: hidden;
+            overflow-y: auto;
         }
     }
     .board {

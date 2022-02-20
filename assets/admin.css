@@ -1173,7 +1173,7 @@ input.form-control-info {
 
 .ujian .info-board {
   height: 100%;
-  overflow-y: hidden;
+  overflow-y: auto;
 }
 
 .ujian .board-list {
