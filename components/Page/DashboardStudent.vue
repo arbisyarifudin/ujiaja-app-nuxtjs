@@ -189,7 +189,7 @@ export default {
           params: {}
         })
         .then(response => {
-          if (response.success) {
+          if (response.success && this.userDetail.nama_jenjang == 'SMA') {
             this.scoreData = response.data;
             this.isDisplayBatteries = true;
           }
