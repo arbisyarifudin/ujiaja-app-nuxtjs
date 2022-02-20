@@ -97,7 +97,7 @@
           <i class="fas fa-award fa-fw mr-1" v-else></i>
           Lihat Sertifikat
         </button>
-        <nuxt-link class="btn btn-outline-primary square ml-3" :to="`/app/tryout/${dataResult.detail.id_produk}/review`"><i class="fas fa-file-alt fa-fw mr-1"></i> Review Tryout</nuxt-link>
+        <nuxt-link class="btn btn-outline-primary square ml-3" :to="`/app/tryout/${dataResult.detail.id_produk}/review?code=${$route.query.code}`"><i class="fas fa-file-alt fa-fw mr-1"></i> Review Tryout</nuxt-link>
       </div>
 
     </div>
@@ -184,7 +184,7 @@ export default {
       const kategori = this.$route.query.category == 'ASPD' ? '-aspd' : ''
       this.loading = true;
       this.$axios
-        .$get(`/api/tryout_user/hasil-pengerjaan${kategori}?id_produk=${id}&id_user=${this.user.id}`)
+        .$get(`/api/tryout_user/hasil-pengerjaan${kategori}?id_produk=${id}&id_user=${this.user.id}&referensi=${this.$route.query.code}`)
         .then(res => {
           console.log(res);
           if (res.success) {

@@ -133,7 +133,8 @@ export default {
         .$get(`/api/tryout_user/per-tryout-produk`, {
           params: {
             id_produk: this.productId,
-            id_tryout: this.tryoutId
+            id_tryout: this.tryoutId,
+            referensi: this.$route.query.kode
           }
         })
         .then(res => {
@@ -170,13 +171,14 @@ export default {
       const dataSave = {
         id_user: null,
         id_produk: this.productId,
-        id_tryout: this.tryoutId
+        id_tryout: this.tryoutId,
+        referensi: this.$route.query.kode
       };
       this.$axios
         .post(`/api/tryout_user/create`, dataSave)
         .then(response => {
           console.log(response);
-          this.$cookiz.remove("_ujiaja_temp_to_user");
+          this.$cookiz.remove("_ujiaja_temp_to_user_" + this.$route.query.kode);
           this.toTryoutTestPage();
         })
         .catch(error => console.log(error))
@@ -188,7 +190,7 @@ export default {
       const encryptedTryoutId = this.encrypt(this.tryoutId);
       const encryptedTryoutIdSafe = encodeURIComponent(encryptedTryoutId);
       window.location.replace(
-        `/app/tryout/${encryptedProductIdSafe}/test/${encryptedTryoutIdSafe}`
+        `/app/tryout/${encryptedProductIdSafe}/test/${encryptedTryoutIdSafe}?kode=${this.$route.query.kode}`
       );
     },
     onCloseWindow(event) {

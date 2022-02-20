@@ -1072,6 +1072,20 @@ input.form-control-info {
   color: #4a98ff !important;
 }
 
+.question-option-radio-group .custom-radio.checked .custom-control-input ~ .custom-control-label::before {
+  color: #fff;
+  border-color: #007bff;
+  background-color: #007bff;
+}
+
+.question-option-radio-group .custom-radio.checked .custom-control-input ~ .custom-control-label::after {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23fff'/%3e%3c/svg%3e");
+}
+
+.question-option-radio-group .custom-control-label {
+  width: 100%;
+}
+
 .nav-pills .nav-link {
   border: 1px solid #9e8df3;
   margin-right: 15px;

@@ -32,7 +32,7 @@
             >
             <a
               class="btn btn-primary ml-2"
-              :href="`/app/tryout/${detail.id}/result`"
+              :href="`/app/tryout/${detail.id}/result?code=${$route.query.kode}`"
               >Lihat Hasil</a
             >
             <!-- <button
@@ -55,7 +55,7 @@
             <a
               v-if="detail.is_result_openable === true"
               class="btn btn-primary ml-2"
-              :href="`/app/tryout/${detail.id}/result`"
+              :href="`/app/tryout/${detail.id}/result?code=${$route.query.kode}`"
               >Lihat Hasil</a
             >
           </div>
@@ -127,26 +127,23 @@
                       class="question-main-text"
                       v-html="currentNomor.soal_pertanyaan"
                     ></p>
-                    <ul class="list-unstyled option-list">
+                    <!-- <ul class="list-unstyled option-list">
                       <li
                         class="option-item"
                         v-for="(opsi, o) in currentNomor.opsi_pertanyaan"
                         :key="'opsi' + o"
                       >
                         <label :for="'opsi-' + currentNomor.nomor + '-' + o"
-                          ><input
-                            v-if="jawabanUser[currentNomor.nomor]"
+                         v-if="jawabanUser[currentNomor.nomor]"
+                          >
+                          <input
                             type="radio"
                             :name="'opsi_' + currentNomor.nomor"
                             :id="'opsi-' + currentNomor.nomor + '-' + o"
                             class="mr-2"
                             :value="opsi.uuid"
-                            @change="saveJawaban"
-                            v-model="
-                              jawabanUser[currentNomor.nomor].jawaban_user
-                            "
+                            v-model="jawabanUser[currentNomor.nomor].jawaban_user"
                           />
-                          <!-- {{opsi.option}} -->
                           <span v-html="opsi.option" class="option-text"></span>
                         </label>
                       </li>
@@ -162,8 +159,24 @@
                           Batal Jawab
                         </button>
                       </li>
-                    </ul>
+                    </ul> -->
+                    <b-form-group v-slot="{ ariaDescribedby }" class="question-option-radio-group">
+                        <b-form-radio v-for="(opsi, o) in currentNomor.opsi_pertanyaan" :key="'opsi' + o" v-model="jawabanUser[currentNomor.nomor].jawaban_user" :aria-describedby="ariaDescribedby" :name="'opsi_' + currentNomor.nomor" :value="opsi.uuid" :class="jawabanUser[currentNomor.nomor].jawaban_user === opsi.uuid ? 'checked' : ''" @change="saveJawaban">
+                          <div v-html="opsi.option"></div>
+                        </b-form-radio>
+                    </b-form-group>
+                    <button
+                          type="button"
+                          class="btn btn-sm btn-light px-3 square"
+                          @click.prevent="
+                            jawabanUser[currentNomor.nomor].jawaban_user = ''
+                          "
+                        >
+                          <i class="fas fa-fa fa-times mr-1"></i>
+                          Batal Jawab
+                        </button>
                   </div>
+                  {{ jawabanUser }}
                 </div>
               </div>
               <div class="d-block d-md-none">
@@ -221,16 +234,18 @@
               type="button"
               class="btn btn-danger btn-block square"
               v-b-modal.modal-confirm-end
+              :disabled="
+                  loading
+                "
             >
               {{
-                detailUjian.list_tryout && detailUjian.list_tryout.length > 1
+                isAllowNext()
                   ? "Ke Subtest Selanjutnya"
                   : "Selesai dan Serahkan"
               }}
             </button>
             <!-- <h3 class="board-title mb-3">Panduan Pengerjaan:</h3>
     <div class="board-guide-text" v-html="dataTryout.panduan_pengerjaan"></div> -->
-            <!-- {{ jawabanUser }} -->
           </div>
         </div>
         <div class="col-12 d-md-none mt-3">
@@ -268,13 +283,13 @@
                 type="button"
                 class="btn btn-danger btn-block square"
                 :disabled="
-                  loading || jawaban_user_array.length !== totalJawaban
+                  loading
                 "
                 v-b-modal.modal-confirm-end
               >
                 <i class="fas fa-paper-plane"></i>
                 {{
-                  detailUjian.list_tryout && detailUjian.list_tryout.length > 1
+                  isAllowNext()
                     ? "Ke Subtest Selanjutnya"
                     : "Selesai dan Serahkan"
                 }}
@@ -350,7 +365,7 @@
         <a
           v-if="detail.is_result_openable === true"
           class="btn btn-primary ml-2"
-          :href="`/app/tryout/${detail.id}/result`"
+          :href="`/app/tryout/${detail.id}/result?code=${$route.query.kode}`"
           >Lihat Hasil</a
         >
       </div>
@@ -411,7 +426,7 @@
       <div>
         <p
           class="modal-text"
-          v-if="detailUjian.list_tryout && detailUjian.list_tryout.length > 1"
+          v-if="isAllowNext()"
         >
           Apakah kamu yakin ingin menyelesaikan dan mengirim jawaban tryoutmu?
           Kamu akan diarahkan ke tryout selanjutnya..
@@ -438,7 +453,7 @@
             <b-spinner small v-if="loading" class="mr-1"></b-spinner>
             <span
               v-if="
-                detailUjian.list_tryout && detailUjian.list_tryout.length > 1
+                isAllowNext()
               "
               >Ya, Kirim & Lanjutkan</span
             >
@@ -485,7 +500,7 @@
             class="btn btn-primary tambah px-4 py-2"
             type="button"
             :disabled="loading"
-            @click.prevent="navGoTo(`/app/tryout/${productId}/result`)"
+            @click.prevent="navGoTo(`/app/tryout/${productId}/result?code=${$route.query.kode}`)"
           >
             Lihat Hasil
           </button>
@@ -617,11 +632,11 @@ export default {
       const encryptedTryoutId = this.encrypt(tryoutID);
       const encryptedTryoutIdSafe = encodeURIComponent(encryptedTryoutId);
       window.location.replace(
-        `/app/tryout/${encryptedProductIdSafe}/waiting/${encryptedTryoutIdSafe}`
+        `/app/tryout/${encryptedProductIdSafe}/waiting/${encryptedTryoutIdSafe}?kode=${this.$route.query.kode}`
       );
     },
     checkLastSaved() {
-      const lastSavedData = this.$cookiz.get("_ujiaja_temp_to_user");
+      const lastSavedData = this.$cookiz.get("_ujiaja_temp_to_user_" + this.$route.query.kode + "_" + this.tryout.id);
       if (lastSavedData) {
         this.jawabanUser = lastSavedData.data;
         return lastSavedData;
@@ -788,23 +803,23 @@ export default {
       const response = await this.submitJawabanUser();
       if (response) {
         console.log("submitJawabanUser response", response);
-        this.detailUjian.waktu_selesai = "ada isi";
         window.removeEventListener("beforeunload", this.onCloseWindow);
         this.$bvModal.hide("modal-confirm-start");
         this.$bvModal.hide("modal-confirm-end");
-        this.$cookiz.remove("_ujiaja_temp_to_user");
+        this.$cookiz.remove("_ujiaja_temp_to_user_" + this.$route.query.kode + "_" + this.tryout.id);
         if (
-          this.detailUjian.list_tryout &&
-          this.detailUjian.list_tryout.length > 1
+          this.isAllowNext()
         ) {
           this.goToNext();
         } else {
+          this.detailUjian.waktu_selesai = "ada isi";
           this.$bvModal.show("modal-success-end");
         }
         this.loading = false;
       }
     },
     async submitJawabanUser() {
+      console.log('submitJawaban',this.jawabanUser)
       const data = await this.$axios
         .$post(`/api/tryout_user_jawaban/create/multiple`, {
           id_tryout_user: this.detailUjian.id,
@@ -818,12 +833,14 @@ export default {
       return data;
     },
     updateNomor(dataNomor) {
+      console.log(dataNomor)
       // this.$store.commit("set", ["currentNomor", dataNomor]);
       this.currentNomor = dataNomor;
     },
     saveJawaban() {
       const dataSave = this.jawabanUser;
-      this.$cookiz.set("_ujiaja_temp_to_user", {
+      this.$cookiz.set("_ujiaja_temp_to_user_" + this.$route.query.kode + "_" + this.tryout.id, {
+        kode: this.$route.query.kode,
         id_user: this.user.id,
         id_produk: this.detail.id,
         id_tryout: this.tryout.id,
@@ -929,7 +946,8 @@ export default {
         .$get(`/api/tryout_user/per-tryout-produk`, {
           params: {
             id_produk: this.productId,
-            id_tryout: this.tryoutId
+            id_tryout: this.tryoutId,
+            referensi: this.$route.query.kode
           }
         })
         .then(res => {
@@ -997,6 +1015,18 @@ export default {
       window.location.replace(
         `/app/tryout/${encryptedProductIdSafe}/test?tryout=${encryptedTryoutIdSafe}`
       );
+    },
+    isAllowNext() {
+      if(this.detailUjian.list_tryout && this.detailUjian.list_tryout.length > 1)
+      {
+        const find = this.detailUjian.list_tryout.find(item => item.id === this.tryout.id)
+        const lastNumber = this.detailUjian.list_tryout.length
+        if(find && find.number < lastNumber) {
+          return true
+        }
+        return false
+      }
+      return false
     }
   },
   fetchOnServer: false

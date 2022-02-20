@@ -166,7 +166,7 @@
       <router-link
         class="btn btn-primary dashboard mb-4 square"
         v-if="!loading && dataDetail.is_task_done && dataDetail.is_result_openable"
-        :to="`/app/tryout/${dataDetail.produk.id}/result?category=${dataDetail.produk.kategori_produk}`"
+        :to="`/app/tryout/${dataDetail.produk.id}/result?category=${dataDetail.produk.kategori_produk}&code=${dataDetail.transaksi.kode}`"
         ><i class="fas fa-fw fa-award"></i> Lihat Hasil</router-link
       >
       <button
@@ -387,7 +387,7 @@ export default {
       //   `/app/tryout/${encryptedProductIdSafe}/test?tryout=${encryptedTryoutIdSafe}`
       // );
 
-      window.location.href = `/app/tryout/${encryptedProductIdSafe}/test?tryout=${encryptedTryoutIdSafe}`;
+      window.location.href = `/app/tryout/${encryptedProductIdSafe}/test?tryout=${encryptedTryoutIdSafe}&kode=${this.dataDetail.transaksi.kode}`;
     },
     formatRupiah(num) {
       if (num) {

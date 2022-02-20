@@ -94,7 +94,7 @@ export default {
       const encryptedTryoutId = this.encrypt(tryoutID);
       const encryptedTryoutIdSafe = encodeURIComponent(encryptedTryoutId);
       window.location.replace(
-        `/app/tryout/${encryptedProductIdSafe}/test/${encryptedTryoutIdSafe}`
+        `/app/tryout/${encryptedProductIdSafe}/test/${encryptedTryoutIdSafe}?kode=${this.$route.query.kode}`
       );
     },
     onCloseWindow(event) {
@@ -172,7 +172,7 @@ export default {
         this.toTryoutTestPage(this.productId, newUjian.id_tryout);
       } else {
         this.showToastMessage('Duplicate data!');
-        window.location.replace('/app/tryout/' + this.productId + '/detail')
+        // window.location.replace('/app/tryout/' + this.productId + '/detail')
       }
     },
     async createTryoutUser() {
@@ -180,7 +180,8 @@ export default {
       const dataSave = {
         id_user: null,
         id_produk: this.productId,
-        id_tryout: this.tryoutId
+        id_tryout: this.tryoutId,
+        referensi: this.$route.query.kode
       };
       return await this.$axios
         .post(`/api/tryout_user/create`, dataSave)

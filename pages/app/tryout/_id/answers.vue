@@ -133,6 +133,14 @@ export default {
     this.getDetail("produk", this.$route.params.id);
     this.getResult(this.$route.params.id)
   },
+  computed: {
+   user() {
+     return this.$store.state.dataUser.user
+   },
+   userDetail() {
+     return this.$store.state.dataUser.detail
+   }
+  }, 
   methods: {
     updateTab(tabIndex) {
       if(this.$route.query.tab) {
@@ -159,7 +167,7 @@ export default {
     getResult(id) {
       this.loading = true;
       this.$axios
-        .$get(`/api/tryout_user/riwayat-pengerjaan?id_produk=${id}`)
+        .$get(`/api/tryout_user/riwayat-pengerjaan?id_produk=${id}&id_user=${this.user.id}&referensi=${this.$route.query.code}`)
         .then(res => {
           console.log(res);
           if (res.success) {
