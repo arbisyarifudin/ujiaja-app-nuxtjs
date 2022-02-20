@@ -1350,19 +1350,23 @@ export default {
         opsi_pertanyaan: [
           {
             uuid: jawaban,
-            option: "Opsi 1"
+            option: "Opsi A"
           },
           {
             uuid: uuidv4(),
-            option: "Opsi 2"
+            option: "Opsi B"
           },
           {
             uuid: uuidv4(),
-            option: "Opsi 3"
+            option: "Opsi C"
           },
           {
             uuid: uuidv4(),
-            option: "Opsi 4"
+            option: "Opsi D"
+          },
+          {
+            uuid: uuidv4(),
+            option: "Opsi E"
           }
         ],
         jawaban_pertanyaan: jawaban,
@@ -1392,9 +1396,14 @@ export default {
         .finally(() => (this.loading = false));
     },
     addOption(pertanyaan) {
+      // console.log('pertanyaan', pertanyaan)
       if (!this.onSubmit.pertanyaan[pertanyaan.id]) {
         this.onSubmit.pertanyaan[pertanyaan.id] = {};
       }
+      pertanyaan.opsi_pertanyaan.push({
+        uuid: uuidv4(),
+        option: "Opsi Baru"
+      });
       this.onSubmit.pertanyaan[pertanyaan.id].loading = true;
       this.$axios
         .$put(`/api/soal/pertanyaan/update/${pertanyaan.id}`, pertanyaan)
@@ -1403,12 +1412,7 @@ export default {
             this.onSubmit.pertanyaan[pertanyaan.id].submitted = true;
             this.onSubmit.pertanyaan[pertanyaan.id].success = true;
             this.onSubmit.pertanyaan[pertanyaan.id].loading = false;
-            pertanyaan.opsi_pertanyaan.push({
-              uuid: uuidv4(),
-              option: "Opsi Baru"
-            });
           }
-          return true;
         })
         .catch(err => {
           this.onSubmit.pertanyaan[pertanyaan.id].submitted = true;
@@ -1420,11 +1424,15 @@ export default {
         });
     },
     addChildOption(perchild) {
-      console.log(perchild);
+      // console.log('perchild', perchild);
       if (!this.onSubmit.perchild[perchild.id]) {
         this.onSubmit.perchild[perchild.id] = {};
       }
       this.onSubmit.perchild[perchild.id].loading = true;
+      perchild.opsi_pertanyaan.push({
+        uuid: uuidv4(),
+        option: "Opsi Baru"
+      });
       this.$axios
         .$put(`/api/soal/pertanyaan/update/${perchild.id}`, perchild)
         .then(res => {
@@ -1432,12 +1440,7 @@ export default {
             this.onSubmit.perchild[perchild.id].submitted = true;
             this.onSubmit.perchild[perchild.id].success = true;
             this.onSubmit.perchild[perchild.id].loading = false;
-            perchild.opsi_pertanyaan.push({
-              option: "Opsi Baru",
-              correct: false
-            });
           }
-          return true;
         })
         .catch(err => {
           this.onSubmit.perchild[perchild.id].submitted = true;
@@ -1491,19 +1494,23 @@ export default {
         opsi_pertanyaan: [
           {
             uuid: jawaban,
-            option: "Opsi 1"
+            option: "Opsi A"
           },
           {
             uuid: uuidv4(),
-            option: "Opsi 2"
+            option: "Opsi B"
           },
           {
             uuid: uuidv4(),
-            option: "Opsi 3"
+            option: "Opsi C"
           },
           {
             uuid: uuidv4(),
-            option: "Opsi 4"
+            option: "Opsi D"
+          },
+          {
+            uuid: uuidv4(),
+            option: "Opsi E"
           }
         ],
         jawaban_pertanyaan: jawaban,
@@ -1576,19 +1583,23 @@ export default {
         opsi_pertanyaan: [
           {
             uuid: jawaban,
-            option: "Opsi 1"
+            option: "Opsi A"
           },
           {
             uuid: uuidv4(),
-            option: "Opsi 2"
+            option: "Opsi B"
           },
           {
             uuid: uuidv4(),
-            option: "Opsi 3"
+            option: "Opsi C"
           },
           {
             uuid: uuidv4(),
-            option: "Opsi 4"
+            option: "Opsi D"
+          },
+          {
+            uuid: uuidv4(),
+            option: "Opsi E"
           }
         ],
         jawaban_pertanyaan: jawaban,
