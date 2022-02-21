@@ -224,6 +224,7 @@ export default {
         .$post(`/api/tryout_user/generate-certificate`, {
             id_produk: this.dataResult.detail.id_produk,
             id_user: this.dataResult.detail.id_user,
+            referensi: this.$route.query.code,
           })
         .then(res => {
           console.log(res);
@@ -232,6 +233,7 @@ export default {
             let anchor = document.createElement('a');
             anchor.setAttribute('target', '_blank')
             anchor.setAttribute('href', pdfUrl);
+            anchor.setAttribute('download', true);
             // console.log(anchor);
             anchor.click()
           }

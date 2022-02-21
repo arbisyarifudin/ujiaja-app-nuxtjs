@@ -23,8 +23,10 @@
               </p>
             </div>
             <div class="col-md-6 p-0">
-              <p class="text-dark h5"
-                v-if="dataDetail.produk.jenis_produk == 'Masal'">
+              <p
+                class="text-dark h5"
+                v-if="dataDetail.produk.jenis_produk == 'Masal'"
+              >
                 <i class="fas fa-fw fa-calendar"></i>
                 <span
                   v-text="
@@ -95,21 +97,39 @@
               {{ dataDetail.total_waktu }}m</span
             >
           </div>
-           <div class="small" style="color: #555" v-if="dataDetail.produk.bonus">
+          <div class="small" style="color: #555" v-if="dataDetail.produk.bonus">
             <i class="fas fa-fw fa-tag"></i>
-            Bonus Tes MBTI : <i class="fas fa-fw" :class="[dataDetail.produk.bonus && dataDetail.produk.bonus.mbti ? 'fa-check text-success' : 'fa-times text-danger']"></i>
+            Bonus Tes MBTI :
+            <i
+              class="fas fa-fw"
+              :class="[
+                dataDetail.produk.bonus && dataDetail.produk.bonus.mbti
+                  ? 'fa-check text-success'
+                  : 'fa-times text-danger'
+              ]"
+            ></i>
           </div>
         </div>
       </div>
       <router-link
         class="btn btn-primary dashboard mb-4"
-        v-if="!loading && !dataDetail.transaksi && dataDetail.is_expired_test == false"
+        v-if="
+          !loading &&
+            !dataDetail.transaksi &&
+            dataDetail.is_expired_test == false
+        "
         :to="`/app/tryout/${dataDetail.produk.id}/enroll`"
         >Beli Tryout</router-link
       >
       <router-link
         class="btn btn-primary dashboard mb-4"
-        v-else-if="!loading && dataDetail.transaksi && (dataDetail.transaksi.status == 'Kadaluarsa' || dataDetail.transaksi.status == 'Dibatalkan') && dataDetail.is_expired_test == false"
+        v-else-if="
+          !loading &&
+            dataDetail.transaksi &&
+            (dataDetail.transaksi.status == 'Kadaluarsa' ||
+              dataDetail.transaksi.status == 'Dibatalkan') &&
+            dataDetail.is_expired_test == false
+        "
         :to="`/app/tryout/${dataDetail.produk.id}/enroll`"
         >Beli Tryout</router-link
       >
@@ -142,7 +162,8 @@
         v-if="
           dataDetail.is_paid &&
             !dataDetail.is_task_done &&
-            dataDetail.is_task_start
+            dataDetail.is_task_start &&
+            !dataDetail.is_expired_test
         "
         class="btn btn-primary dashboard mb-4"
         @click.prevent="startTest(true)"
@@ -156,7 +177,8 @@
             isPayable(
               dataDetail,
               dataDetail.transaksi && dataDetail.transaksi.tipe
-            ) && dataDetail.is_expired_test == false
+            ) &&
+            dataDetail.is_expired_test == false
         "
         :to="
           `/app/payment/${dataDetail.produk.transaksi_user.id}/detail?ref=${$route.path}`
@@ -165,17 +187,49 @@
       >
       <router-link
         class="btn btn-primary dashboard mb-4 square"
-        v-if="!loading && dataDetail.is_task_done && dataDetail.is_result_openable"
-        :to="`/app/tryout/${dataDetail.produk.id}/result?category=${dataDetail.produk.kategori_produk}&code=${dataDetail.transaksi.kode}`"
+        v-if="
+          !loading && dataDetail.is_task_done && dataDetail.is_result_openable
+        "
+        :to="
+          `/app/tryout/${dataDetail.produk.id}/result?category=${dataDetail.produk.kategori_produk}&code=${dataDetail.transaksi.kode}`
+        "
         ><i class="fas fa-fw fa-award"></i> Lihat Hasil</router-link
       >
       <button
         class="btn btn-primary dashboard mb-4 square"
         :disabled="true"
-        v-else-if="!loading && dataDetail.is_task_done && dataDetail.is_result_openable === false"
-        ><i class="fas fa-fw fa-award"></i> Lihat Hasil</button
+        v-else-if="
+          !loading &&
+            dataDetail.is_task_done &&
+            dataDetail.is_result_openable === false
+        "
       >
-      <div v-if="!loading && dataDetail.is_task_done && dataDetail.is_result_openable === false" class="small text-info mt-n3 mb-4">Hasil keluar pada saat tanggal Tryout Akbar berakhir.</div>
+        <i class="fas fa-fw fa-award"></i> Lihat Hasil
+      </button>
+      <button
+        class="btn btn-primary dashboard mb-4 square d-flex align-items-center"
+        v-if="
+          dataDetail.produk.jenis_produk == 'Masal' &&
+            !loading &&
+            !dataDetail.is_task_done &&
+            dataDetail.is_task_progress &&
+            dataDetail.is_result_openable &&
+            dataDetail.is_expired_test
+        "
+        :disabled="true"
+      >
+        <b-spinner small></b-spinner>
+      </button>
+      <div
+        v-if="
+          !loading &&
+            dataDetail.is_task_done &&
+            dataDetail.is_result_openable === false
+        "
+        class="small text-info mt-n3 mb-4"
+      >
+        Hasil keluar pada saat tanggal Tryout Akbar berakhir.
+      </div>
 
       <h4 class="mb-4" style="font-size: 18px" v-if="dataDetail.is_paid">
         Daftar Produk:
@@ -257,9 +311,10 @@ export default {
       }
     };
   },
-  mounted() {
+  async mounted() {
     // if (!this.$route.params.id) return this.$router.go(-1);
-    this.getDetail("produk", this.$route.params.id);
+    await this.getDetail("produk", this.$route.params.id);
+    this.forceSubmitJawabanUser()
   },
   computed: {
     isAlreadyStartEvent() {
@@ -270,16 +325,16 @@ export default {
   },
   methods: {
     resetModal() {},
-    getDetail(type, id) {
+    async getDetail(type, id) {
       this.loading = true;
-      this.$axios
+      return await this.$axios
         .$get(`/api/${type}/find/${id}/detail`)
-        .then(res => {
+        .then(async res => {
           console.log(res);
           if (res.success) {
-            this.dataDetail = res.data;
+            this.dataDetail = await res.data;
           }
-          return true;
+          return true
         })
         .catch(err => {
           console.log(err);
@@ -287,30 +342,43 @@ export default {
         })
         .finally(() => (this.loading = false));
     },
-    deleteData(type) {
-      this.loading = true;
-      this.$axios
-        .$delete(`/api/${type}/delete/${this.$route.params.id}`)
-        .then(res => {
-          console.log(res);
-          if (res.success) {
-            // this.items.splice(this.selectedIndex, 1);
-            this.$root.$bvToast.toast("Data " + type + " berhasil dihapus.", {
-              title: "Sukses",
-              variant: "success",
-              solid: true,
-              autoHideDelay: 3000
-            });
-            this.$bvModal.hide("modal-delete");
-            this.$router.replace("/administrator/product");
+    async forceSubmitJawabanUser() {
+      // console.log('cek', this.loading)
+      // console.log('cek', this.dataDetail)
+      if (
+        this.dataDetail.produk.jenis_produk == "Masal" &&
+        !this.dataDetail.is_task_done &&
+        this.dataDetail.is_task_progress &&
+        this.dataDetail.is_result_openable &&
+        this.dataDetail.is_expired_test &&
+        this.dataDetail.is_paid
+      ) {
+        // console.log('cek2')
+        const jawabans = this.dataDetail.produk.tryout_user_user;
+        // console.log(jawabans)
+        for (let i = 0; i < jawabans.length; i++) {
+          const jawaban = jawabans[i];
+          const tempJawaban = JSON.parse(jawaban.temp_jawaban_user)
+          // console.log(tempJawaban)
+          if(jawaban.waktu_selesai == null || jawaban.waktu_selesai == '') {
+            this.loading = true
+            await this.$axios
+              .$post(`/api/tryout_user_jawaban/create/multiple`, {
+                id_tryout_user: jawaban.id,
+                jawabans: tempJawaban,
+                waktu_selesai_ujian: new Date()
+              })
+              .then(response => {
+                console.log(response)
+              })
+              .catch(error => console.log(error))
+              .finally(()=>{
+                this.dataDetail.is_task_done = true
+                this.loading = false
+              })
           }
-          return true;
-        })
-        .catch(err => {
-          console.log(err);
-          this.catchError(err);
-        })
-        .finally(() => (this.loading = false));
+        }
+      }
     },
     startTest(isContinue = false) {
       // if (this.dataDetail.produk.jenis_produk !== "Masal") {
@@ -337,7 +405,6 @@ export default {
 
         console.log(diffMulaiJam, diffMulaiMenit, diffMulaiDetik);
         console.log(diffAkhirJam, diffAkhirMenit, diffAkhirDetik);
-
 
         let sudahLewatMulai, belumLewatAkhir, sudahLewatAkhir;
 
@@ -369,7 +436,7 @@ export default {
           window.alert("Mohon maaf. Event belum dimulai ya!");
         } else if (sudahLewatMulai && sudahLewatAkhir) {
           window.alert("Mohon maaf. Event sudah berlalu!");
-        } 
+        }
       } else {
         this.toTryoutTestPage();
       }

@@ -722,6 +722,14 @@ export default {
               countdownElement2.textContent =
                 hours + ":" + minutes + ":" + seconds;
               this.saveJawaban();
+
+              const kerutinan = 10 // detik
+              // setiap n menit sekali simpan ke server
+              // console.log(duration.seconds() % kerutinan)
+              if(duration.seconds() % kerutinan == 0) {
+                this.saveJawabanToServer()
+              }
+
             } else {
               console.log("> Tryout sudah melewati waktu!");
               this.isTimeout = true;
@@ -847,6 +855,17 @@ export default {
         data: dataSave,
         time: new Date().getTime()
       });
+    },
+    saveJawabanToServer() {
+      const dataSave = this.jawabanUser;
+      this.$axios.$put('/api/tryout_user/update/' + this.detailUjian.id, {
+        temp_jawaban_user: dataSave
+      }).then(response => {
+        console.log('temp jawaban saved to server', response)
+      }).catch(error => {
+        console.log(error)
+        this.catchError(error)
+      })
     },
     async goToNext() {
       console.log("goToNext");
