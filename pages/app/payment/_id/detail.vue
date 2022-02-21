@@ -414,6 +414,7 @@ export default {
         .then(res => {
           if (res.success) {
             this.showToastMessage("Pembayaran berhasil dibatalkan!", "success");
+            this.$bvModal.hide('modal-cancel')
             this.getDetail("transaksi", this.$route.params.id);
           }
         })

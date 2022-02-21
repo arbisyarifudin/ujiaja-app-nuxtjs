@@ -4,18 +4,26 @@
       <h3 class="mb-0">
         {{ detail.nama_kursus }}
       </h3>
-      <div >
+      <div>
         <router-link
-        v-if="!detail.transaksi || (detail.transaksi && detail.transaksi.status_dikelas == 'Sesi Selesai')"
+          v-if="
+            !detail.transaksi ||
+              (detail.transaksi &&
+                detail.transaksi.status_dikelas == 'Sesi Selesai')
+          "
           :to="`/app/student/courses/${detail.id}/enroll?ref=${$route.path}`"
           role="button"
           class="btn btn-primary square py-1 px-2 mr-2"
-          title="Beli">
+          title="Beli"
+        >
           <i class="fas fa-shopping-cart fa-fw"></i> Beli Kelas Kursus
         </router-link>
         <div v-else>
-           <button
-            v-if="detailStudent && detailStudent.status_dikelas == 'Menunggu Konfirmasi Selesai'"
+          <button
+            v-if="
+              detailStudent &&
+                detailStudent.status_dikelas == 'Menunggu Konfirmasi Selesai'
+            "
             role="button"
             class="btn btn-info square py-1 px-2 mr-2"
             title="Konfirmasi Selesai Sesi"
@@ -24,27 +32,54 @@
             <i class="fas fa-check fa-fw"></i> Konfirmasi Selesai
           </button>
           <router-link
-          v-if="detail.transaksi"
-            :to="`/app/payment/${detail.transaksi.id}/detail?ref=${$route.path}`"
+            v-if="detail.transaksi"
+            :to="
+              `/app/payment/${detail.transaksi.id}/detail?ref=${$route.path}`
+            "
             role="button"
             class="btn btn-secondary square py-1 px-2 mr-2"
-            title="Detail Pembayaran">
+            title="Detail Pembayaran"
+          >
             <i class="fas fa-file-alt fa-fw"></i> Detail Pembayaran
+            <span v-if="detail.transaksi && detail.transaksi.status == 'Dibatalkan'">(Dibatalkan)</span>
           </router-link>
           <router-link
-            v-if="detail.transaksi && detail.transaksi.status == 'Sudah Diverifikasi' && (detailStudent.status_dikelas != 'Pending' && detailStudent.status_dikelas != 'Ditolak')"
-            :to="`/app/student/courses/${detail.id}/materials?ref=${$route.path}`"
+            v-if="detail.transaksi && detail.transaksi.status == 'Dibatalkan'"
+            :to="`/app/student/courses/${detail.id}/enroll?ref=${$route.path}`"
             role="button"
             class="btn btn-primary square py-1 px-2 mr-2"
-            title="Lihat Materi Kelas">
+            title="Beli"
+          >
+            <i class="fas fa-shopping-cart fa-fw"></i> Beli Kelas Kursus Lagi
+          </router-link>
+          <router-link
+            v-if="
+              detail.transaksi &&
+                detail.transaksi.status == 'Sudah Diverifikasi' &&
+                detailStudent.status_dikelas != 'Pending' &&
+                  detailStudent.status_dikelas != 'Ditolak'
+            "
+            :to="
+              `/app/student/courses/${detail.id}/materials?ref=${$route.path}`
+            "
+            role="button"
+            class="btn btn-primary square py-1 px-2 mr-2"
+            title="Lihat Materi Kelas"
+          >
             <i class="fas fa-book fa-fw"></i> Materi Kelas
           </router-link>
           <a
-            v-if="detail.transaksi && detail.transaksi.status == 'Sudah Diverifikasi' && (detailStudent.status_dikelas != 'Pending' && detailStudent.status_dikelas != 'Ditolak')"
+            v-if="
+              detail.transaksi &&
+                detail.transaksi.status == 'Sudah Diverifikasi' &&
+                detailStudent.status_dikelas != 'Pending' &&
+                  detailStudent.status_dikelas != 'Ditolak'
+            "
             :href="`tel:${detail.tentor.nomor_telephone}`"
             role="button"
             class="btn btn-success square py-1 px-2 mr-2"
-            title="Hubungi Tentor">
+            title="Hubungi Tentor"
+          >
             <i class="fab fa-whatsapp fa-fw"></i>
           </a>
         </div>
@@ -63,11 +98,18 @@
           >{{ detail.menerima_peserta ? "Aktif" : "Nonaktif" }}</span
         ></span
       >
-      <i class="fas fa-fw fa-circle mx-3" style="font-size: 5px" v-if="detailStudent && detailStudent.status_dikelas"></i>
-      <span  v-if="detailStudent && detailStudent.status_dikelas">Status Anda di Kelas:
-        <span :class="statusBadge(detailStudent.status_dikelas)" v-text="labelBadge(detailStudent.status_dikelas)"></span
+      <i
+        class="fas fa-fw fa-circle mx-3"
+        style="font-size: 5px"
+        v-if="detailStudent && detailStudent.status_dikelas"
+      ></i>
+      <span v-if="detailStudent && detailStudent.status_dikelas"
+        >Status Anda di Kelas:
+        <span
+          :class="statusBadge(detailStudent.status_dikelas)"
+          v-text="labelBadge(detailStudent.status_dikelas)"
         ></span
-      >
+      ></span>
     </div>
   </div>
 </template>
