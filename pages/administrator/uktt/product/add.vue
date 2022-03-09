@@ -391,7 +391,8 @@ export default {
                 ...res.data.data
               ];
             } else if (type == "level") {
-              this.dataMaster.level = res.data.map(item => {
+              const levelWithoutLegend = res.data.filter(item => item.nama_level !== 'LEGEND')
+              this.dataMaster.level = levelWithoutLegend.map(item => {
                 return {
                   text: item.nama_level,
                   value: item.id

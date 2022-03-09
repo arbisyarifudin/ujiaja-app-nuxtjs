@@ -152,8 +152,13 @@ Vue.mixin({
     },
     getLevelName(id) {
       console.log(id)
-      const levels = ['BASE', 'SUPER', 'ELITE', 'MASTER', 'LEGEND'];
+      const levels = ['BASE', 'SUPER', 'ELITE', 'MASTER', 'LEGEND', ''];
       return levels[id-1];
+    },
+    getHadiahLevelName(id) {
+      console.log(id)
+      const levels = ['BASE', 'SUPER', 'ELITE', 'MASTER', 'LEGEND'];
+      return levels[id];
     },
     getSetting(key) {
       const settings = this.$store.state.dataSetting;
