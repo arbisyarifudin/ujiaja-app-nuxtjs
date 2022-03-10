@@ -111,7 +111,7 @@
                   <p class="mb-2" v-if="item.level">
                     <i class="fas fa-award fa-fw"></i> Lv.
                     <!-- {{ item.level ? item.level.nama_level : "-" }} -->
-                    {{getLevelName(item.level.id)}}
+                    {{getHadiahLevelName(item.level.id)}}
                   </p>
                 </div>
                 <div
