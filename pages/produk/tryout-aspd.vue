@@ -86,7 +86,7 @@ export default {
           {
             judul: "Pilih Metode Pembayaran & Lakukan Pembayaran",
             deskripsi:
-              "Pilih metode pembayaran, tekan tombol “Bayar”. Tryout Asesmen Nasional yang dibeli telah aktif dan siap digunakan siswa.",
+              "Pilih metode pembayaran, tekan tombol “Bayar”. Tryout Asesmen Daerah yang dibeli telah aktif dan siap digunakan siswa.",
           },
         ],
       },

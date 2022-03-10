@@ -42,7 +42,7 @@
                   >Tryout Asesmen Nasional</a
                 >
               </li> -->
-              <li><a class="li" href="/produk/tryout-asp">Tryout ASPD</a></li>
+              <li><a class="li" href="/produk/tryout-aspd">Tryout ASPD</a></li>
               <li>
                 <a class="li" href="/produk/ujian-kenaikan-tingkat-tentor"
                   >Ujian Kenaikan Tingkat Tentor (UKTT)</a
