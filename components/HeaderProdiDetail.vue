@@ -5,7 +5,9 @@
       haveVariant ? 'variant-' + this.variant : ''
     ]"
     :style="
-      `background: linear-gradient(360deg, rgba(138, 131, 255, 0.68) 0%, rgba(246, 244, 255, 0.3) 100% ), url(/background/temukan-program.png);
+      `
+      background: linear-gradient(360deg, rgba(138, 131, 255, 0.68) 0%, rgba(246, 244, 255, 0.3) 100% ), 
+      url(/background/temukan-program.png);
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
     background-size: cover;
     background-repeat: no-repeat;
@@ -13,7 +15,11 @@
     background-position-y: center;`
     "
   >
-    <NavHeader :navData="navData" />
+    <NavHeader
+      style="background: linear-gradient(180deg, #F9F871 0%, #FFFFC1 100%);  box-shadow: 0px 2px 4px rgba(84, 84, 84, 0.12);
+      border-radius: 0px 0px 12px 12px;"
+      :navData="navData"
+    />
     <div class="hero" id="hero" style="min-height: 400px;">
       <div class="container">
         <div class="row">
@@ -42,13 +48,19 @@
                 {{ heroData.mapel.nama_mapel }}
               </p> -->
               <div v-if="heroData.list_mapel && heroData.list_mapel.length > 0">
-               <p class="text-white" style="font-size: 22px">
-                  Pelajaran Terkait: <br>
-                <span v-for="(item, index) in heroData.list_mapel" :key="index" class="small">
-                  {{item.mapel.nama_mapel}}
-                  <span v-if="index != (heroData.list_mapel.length -1)">,</span>
-                </span>
-               </p>
+                <p class="text-white" style="font-size: 22px">
+                  Pelajaran Terkait: <br />
+                  <span
+                    v-for="(item, index) in heroData.list_mapel"
+                    :key="index"
+                    class="small"
+                  >
+                    {{ item.mapel.nama_mapel }}
+                    <span v-if="index != heroData.list_mapel.length - 1"
+                      >,</span
+                    >
+                  </span>
+                </p>
               </div>
               <div v-else>
                 <p class="text-white" style="font-size: 22px">
