@@ -105,7 +105,7 @@ export default {
             deskripsi:
               "Persiapkan kuliah, dan potensimu dengan pilihan yang tepat sesuai minat dan bakat dengan ikut MBTI. MBTI ini ditujukan untuk jenjang SD hingga SMA.",
             tambahan: null,
-            url: "/app/mbti",
+            url: "/produk/tes-mbti",
           },
         ],
       },

@@ -83,7 +83,7 @@ export default {
           "UjiAja menyediakan semua amunisi yang kamu butuhkan untuk menuju kampus impianmu!<br /> Belajar efektif dengan rangkuman lengkap serta ratusan soal yang variatif dan menantang.",
         item: [
           {
-            gambar: "/produk/produk1.png",
+            gambar: "/produk/produk1_2.png",
             judul: "Tryout",
             brand: "by UjiAja",
             deskripsi:
@@ -92,7 +92,7 @@ export default {
             url: "/produk/tryout"
           },
           {
-            gambar: "/produk/produk2.png",
+            gambar: "/produk/produk2_2.png",
             judul: 'Les<span class="large">Privat</span>',
             brand: "by UjiAja",
             deskripsi:
