@@ -38,7 +38,7 @@
 
         <div class="konten-program col-md-12 text-center">
           <div class="row mb-4 crud-tools">
-            <div class="col-md-8 text-left">
+            <div class="col-md-12 text-left">
               <!-- <h3 class="h6 text-dark">Filter by</h3> -->
               <div class="row justify-content-start align-items-center">
                 <!-- <div class="col-md-3"> -->
@@ -59,7 +59,7 @@
                     ></b-form-select>
                   </b-input-group> -->
                 <!-- </div> -->
-                <div class="col-md-4">
+                <!-- <div class="col-md-4">
                   <h3 class="h6 text-dark mt-0 mb-3">Filter by</h3>
                   <b-input-group>
                     <template #prepend>
@@ -72,8 +72,57 @@
                       :options="dataMaster['mapel']"
                     ></b-form-select>
                   </b-input-group>
+                </div> -->
+                <div class="col-md-7">
+                  <h3 class="h6 text-dark mt-0 mb-3">Filter by</h3>
+                  <!-- <b-input-group>
+                    <template #prepend>
+                      <b-input-group-text
+                        ><i class="fas fa-filter"></i
+                      ></b-input-group-text>
+                    </template>
+                    <b-form-select
+                      v-model="filter.mapel"
+                      :options="dataMaster['mapel']"
+                    ></b-form-select>
+                  </b-input-group> -->
+                  <b-input-group class="d-flex">
+                    <template #prepend>
+                      <b-input-group-text
+                        ><i class="fas fa-filter"></i
+                      ></b-input-group-text>
+                    </template>
+                    <!-- <b-form-select
+                      v-model="filter.mapel"
+                      :options="dataMaster['mapel']"
+                    ></b-form-select> -->
+                    <v-select
+                      :options="dataPerguruan"
+                      placeholder="- Perguruan Tinggi -"
+                      v-model="filter.id_perguruan_tinggi"
+                      :reduce="item => item.id"
+                      label="nama_perguruan"
+                      id="cari-prodi"
+                      class="bg-white custom-select"
+                    >
+                      <template
+                        #no-options="{ search, /* searching, loading */ }"
+                      >
+                        <div class="small py-2" v-if="search">
+                          <em class="text-muted">{{ search }}</em> tidak
+                          ditemukan
+                        </div>
+                        <div class="small py-2" v-else>
+                          Tidak ada data perguruan.
+                        </div>
+                      </template>
+                    </v-select>
+                  </b-input-group>
+                    <div class="small text-info mt-2" v-if="loading">
+                      Mengambil data...
+                    </div>
                 </div>
-                <div class="col-md-5">
+                <div class="col-md-4">
                   <h3 class="h6 text-dark mt-0 mb-lg-3 mb-0">&nbsp;</h3>
                   <b-input-group>
                     <template #prepend>
@@ -81,11 +130,25 @@
                         ><i class="fas fa-filter"></i
                       ></b-input-group-text>
                     </template>
-                    <b-form-select
+                    <!-- <b-form-select
                       v-model="filter.penjurusan"
                       :options="dataMaster['penjurusan']"
+                    ></b-form-select> -->
+                    <b-form-select
+                      v-model="filter.akreditasi_program_studi"
+                      :options="akreditasiOption"
                     ></b-form-select>
                   </b-input-group>
+                  <div class="small text-info mt-2" v-if="loading">
+                     &nbsp;
+                    </div>
+                </div>
+                <div class="col-md-1">
+                  <div class="mt-0 mb-lg-3 mb-0">&nbsp;</div>
+                  <button class="btn btn-primary" @click.prevent="getPaginate('program/studi')">Filter</button>
+                  <div class="small text-info mt-2" v-if="loading">
+                     &nbsp;
+                    </div>
                 </div>
               </div>
             </div>
@@ -97,7 +160,10 @@
               v-for="(item, index) in items"
               :key="index"
             >
-              <div class="card card-karir card-prodi router-push" @click="$router.push(`/cari-program-studi/${item.slug}`)">
+              <div
+                class="card card-karir card-prodi router-push"
+                @click="$router.push(`/cari-program-studi/${item.slug}`)"
+              >
                 <div class="card-body text-left p-0">
                   <div class="card-content px-4">
                     <h3
@@ -119,10 +185,12 @@
                       <p class="pb-2">
                         <strong>Pelajaran Terkait</strong><br />
                         <!-- {{ item.mapel ? item.mapel.nama_mapel : "?" }} -->
-                        <span v-if="item.list_mapel && item.list_mapel.length > 0">
-                          {{item.list_mapel[0].mapel.nama_mapel}}
+                        <span
+                          v-if="item.list_mapel && item.list_mapel.length > 0"
+                        >
+                          {{ item.list_mapel[0].mapel.nama_mapel }}
                           <span v-if="item.list_mapel.length > 1">
-                            & {{item.list_mapel.length - 1}} lainnya
+                            & {{ item.list_mapel.length - 1 }} lainnya
                           </span>
                         </span>
                         <span v-else>-</span>
@@ -170,42 +238,60 @@
   </div>
 </template>
 
+<style>
+#cari-prodi .vs__dropdown-toggle {
+  border-color: transparent !important;
+}
+#cari-prodi .vs__search {
+  font-size: 12px;
+}
+#cari-prodi .vs__selected-options {
+  overflow-x: hidden;
+  white-space: nowrap;
+}
+</style>
+
 <script>
+import vSelect from "vue-select";
+import "vue-select/dist/vue-select.css";
 export default {
+  components: {
+    vSelect
+  },
   head() {
     return {
-      title: 'Cari Program Studi',
-    }
+      title: "Cari Program Studi"
+    };
   },
   asyncData(context) {
     function getSetting(key) {
       const settings = context.store.state.dataSetting;
       const foundSetting = settings.find(item => item.key == key);
-      if(foundSetting) {
+      if (foundSetting) {
         return foundSetting.isi;
       }
-      return '';
+      return "";
     }
 
     const navData = {
-      logo: getSetting('logo'),
-    }
+      logo: getSetting("logo")
+    };
 
     const footerData = {
-      logo: getSetting('logo'),
-      alamat_kantor: getSetting('alamat_kantor'),
-      telp: getSetting('telp'),
-      whatsapp: getSetting('whatsapp'),
-      instagram: getSetting('instagram'),
-      facebook: getSetting('facebook'),
-      youtube: getSetting('youtube'),
-      email: getSetting('email'),
-    }
+      logo: getSetting("logo"),
+      alamat_kantor: getSetting("alamat_kantor"),
+      telp: getSetting("telp"),
+      whatsapp: getSetting("whatsapp"),
+      instagram: getSetting("instagram"),
+      facebook: getSetting("facebook"),
+      youtube: getSetting("youtube"),
+      email: getSetting("email")
+    };
 
     return {
       navData,
       footerData
-    }
+    };
   },
   data() {
     return {
@@ -215,14 +301,23 @@ export default {
         perPage: 9,
         page: 1,
         mapel: null,
-        penjurusan: null
+        penjurusan: null,
+        id_perguruan_tinggi: null,
+        akreditasi_program_studi: null
       },
       totalRows: 0,
       items: [],
       dataMaster: {
         mapel: [],
         penjurusan: []
-      }
+      },
+      dataPerguruan: [],
+      akreditasiOption: [
+        {
+          text: "-- Akreditasi --",
+          value: ""
+        }
+      ]
     };
   },
   watch: {
@@ -255,8 +350,8 @@ export default {
     },
     "filter.mapel": function(value) {
       if (value) {
-        this.filter.page = 1
-        this.filter.mapel = value
+        this.filter.page = 1;
+        this.filter.mapel = value;
         this.$router.push({
           path: "cari-program-studi",
           query: { ...this.$route.query, mapel: value }
@@ -272,13 +367,36 @@ export default {
         });
       }
       this.getPaginate("program/studi");
+    },
+    "filter.id_perguruan_tinggi": function(value) {
+      if (value) {
+        this.akreditasiOption = [
+          {
+            text: "-- Akreditasi --",
+            value: ""
+          },
+          {
+            text: "A",
+            value: "A"
+          },
+          {
+            text: "B",
+            value: "B"
+          },
+          {
+            text: "C",
+            value: "C"
+          }
+        ];
+      }
     }
   },
   created() {
-    this.filter.page = this.$route.query.halaman ?? 1
+    this.filter.page = this.$route.query.halaman ?? 1;
     this.getPaginate("program/studi");
-    this.getData("mapel");
-    this.getData("penjurusan");
+    // this.getData("mapel");
+    // this.getData("penjurusan");
+    this.getData("perguruan");
   },
   methods: {
     getPaginate(type) {
@@ -289,8 +407,10 @@ export default {
             q: this.filter.keyword,
             paginate: this.filter.perPage,
             page: this.filter.page,
-            mapel: this.filter.mapel,
-            penjurusan: this.filter.penjurusan
+            // mapel: this.filter.mapel,
+            // penjurusan: this.filter.penjurusan
+            id_perguruan_tinggi: this.filter.id_perguruan_tinggi,
+            akreditasi_program_studi: this.filter.akreditasi_program_studi
           }
         })
         .then(res => {
@@ -351,6 +471,9 @@ export default {
                 text: "Semua Penjurusan",
                 value: null
               });
+            } else if (type == "perguruan") {
+              this.dataPerguruan = res.data.data;
+              console.log(this.dataPerguruan);
             }
           }
           return true;

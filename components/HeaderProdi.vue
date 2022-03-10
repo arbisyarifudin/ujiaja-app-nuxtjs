@@ -2,9 +2,11 @@
   <header
     :class="['header headerdua', haveVariant ? 'variant-' + this.variant : '']"
   >
-    <NavHeader
-      style="background: linear-gradient(180deg, rgba(115, 112, 251, 0.9) 0%, rgba(138, 131, 255, 0.9) 100%);
+      <!-- style="background: linear-gradient(180deg, rgba(115, 112, 251, 0.9) 0%, rgba(138, 131, 255, 0.9) 100%);
       box-shadow: 0px 2px 4px rgba(84, 84, 84, 0.12);
+      border-radius: 0px 0px 12px 12px;" -->
+    <NavHeader
+    style="background: linear-gradient(180deg, #F9F871 0%, #FFFFC1 100%);  box-shadow: 0px 2px 4px rgba(84, 84, 84, 0.12);
       border-radius: 0px 0px 12px 12px;"
       :navData="navData"
     />
