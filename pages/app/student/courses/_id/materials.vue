@@ -319,7 +319,7 @@ export default {
       this.submitting = true;
       this.$axios
         .$put(
-          `/api/kursus-siswaupdate/${this.dataDetailByStudent.id}/status`,
+          `/api/kursus-siswa/update/${this.dataDetailByStudent.id}/status`,
           {
             status_dikelas: "Sesi Selesai"
           }

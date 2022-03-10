@@ -502,7 +502,7 @@ export default {
     approvalStudent(status) {
       this.loadingTable = true;
       this.$axios
-        .$put(`/api/kursus-siswaupdate/${this.selectedId}/status`, {
+        .$put(`/api/kursus-siswa/update/${this.selectedId}/status`, {
           status_dikelas: status
         })
         .then(res => {
@@ -530,7 +530,7 @@ export default {
     selesaikanSesi() {
       this.loadingTable = true;
       this.$axios
-        .$put(`/api/kursus-siswaupdate/${this.selectedId}/status`, {
+        .$put(`/api/kursus-siswa/update/${this.selectedId}/status`, {
           status_dikelas: "Menunggu Konfirmasi Selesai"
         })
         .then(res => {
