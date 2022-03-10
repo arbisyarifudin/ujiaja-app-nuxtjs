@@ -42,9 +42,10 @@
     <div class="col-md-12 dash-kelas p-0 text-left">
       <hr />
       <UILoading v-if="loading" />
-      <h5 class="mt-4 mb-4" v-if="isDisplayBatteries">
+      <h5 class="mt-4" v-if="isDisplayBatteries">
         Skor UTKB siswa:
       </h5>
+      <div class="mb-4"><i class="fas fa-user fa-fw"></i> Ananda {{userDetail.siswa ? userDetail.siswa.nama_lengkap : ''}}</div>
       <div class="row justify-content-around" v-if="isDisplayBatteries">
         <div class="col-md-3 col-6 text-center">
           <div class="h5">
