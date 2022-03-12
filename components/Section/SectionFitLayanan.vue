@@ -91,6 +91,22 @@
             </div>
           </div>
           <div class="row">
+            <div class="col-md-12 mb-4">
+              <CardGrad :lg="'right-left'" class="fitur">
+                <div class="row align-items-center">
+                  <div class="col-md-6 pt-5 order-md-1 order-2">
+                    <h4>Cari Jurusan</h4>
+                    <p class="fitur-text">
+                     Cari jurusan yang kamu minati secara lengkap di Ujiaja.
+                    </p>
+                    <a href="/cari-program-studi" class="readmore">Selengkapnya</a>
+                  </div>
+                  <div class="col-md-6 text-center order-md-2 order-1">
+                    <img src="/fitur/fitur1.png" class="img-fluid" style="height: 68%"/>
+                  </div>
+                </div>
+              </CardGrad>
+            </div>
             <div class="col-md-6 mb-4">
               <CardGrad :lg="'top-bottom'" class="fitur">
                 <div class="text-center">
