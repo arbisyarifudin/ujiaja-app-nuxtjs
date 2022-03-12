@@ -1675,6 +1675,40 @@ input.form-control-info {
   color: #c5c5c5;
 }
 
+.letter-option {
+  cursor: pointer;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  background-color: #fff;
+  color: #9e8df3;
+  font-weight: 500;
+  border-radius: 5px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+  -webkit-box-shadow: 0 0 5px 0 rgba(133, 133, 133, 0.5);
+          box-shadow: 0 0 5px 0 rgba(133, 133, 133, 0.5);
+}
+
+.letter-option.active {
+  background-color: #9e8df3;
+  color: #fff;
+}
+
+.letter-option.active label {
+  color: #fff;
+}
+
+.letter-option label {
+  color: #9e8df3;
+  min-width: 50%;
+}
+
 /* CSS on MOBILE */
 /* HAPE */
 /* TABLET */

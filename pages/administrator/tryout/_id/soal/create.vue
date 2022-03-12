@@ -427,21 +427,26 @@
                                     :key="'C' + c"
                                   >
                                     <div class="col">
-                                      <input
-                                        type="radio"
-                                        :id="
+                                      <div class="letter-option" :class="[soalp.jawaban_pertanyaan == opsi.uuid ? 'active' : '']">
+                                        <label :for="
                                           'opsi' + soalp.id + '-' + b + '-' + c
-                                        "
-                                        :ref="
-                                          'opsi' + soalp.id + '-' + b + '-' + c
-                                        "
-                                        :name="'opsi' + soalp.id + '-' + b"
-                                        :value="opsi.uuid"
-                                        v-model="soalp.jawaban_pertanyaan"
-                                        @change="
-                                          onUpdatePertanyaanOpsi(soalp, c)
-                                        "
-                                      />
+                                        " class="mb-0">{{ letterLabel(c) }}</label>
+                                        <input
+                                          type="radio"
+                                          :id="
+                                            'opsi' + soalp.id + '-' + b + '-' + c
+                                          "
+                                          :ref="
+                                            'opsi' + soalp.id + '-' + b + '-' + c
+                                          "
+                                          :name="'opsi' + soalp.id + '-' + b"
+                                          :value="opsi.uuid"
+                                          v-model="soalp.jawaban_pertanyaan"
+                                          @change="
+                                            onUpdatePertanyaanOpsi(soalp, c)
+                                          "
+                                        />
+                                      </div>
                                     </div>
                                     <div class="col-md-10">
                                       <client-only>
@@ -1796,7 +1801,11 @@ export default {
         .finally(() => {
           this.onSubmit.pertanyaan[pertanyaan.id].loading = false;
         });
-    }
+    },
+    letterLabel(index) {
+      const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'O'];
+      return letters[index] ?? '-';
+    },
   }
 };
 </script>

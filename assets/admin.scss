@@ -1560,6 +1560,32 @@ input.form {
     }
 }
 
+.letter-option {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    color: #9e8df3;
+    font-weight: 500;
+    border-radius: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    box-shadow: 0 0 5px 0 rgba(133, 133, 133, 0.5);
+    &.active {
+        background-color: #9e8df3;
+        color: #fff;
+        label {
+            color: #fff;
+        }
+    }
+    label {
+        color: #9e8df3;
+        min-width: 50%;
+    }
+}
+
 /* CSS on MOBILE */
 /* HAPE */
 /* TABLET */
