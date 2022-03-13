@@ -23,6 +23,7 @@
                     id="nama_kursus"
                     placeholder="Tulis Nama Kelas"
                     v-model="form.nama_kursus"
+                     :disabled="form.status_verifikasi"
                   />
                 </div>
                 <div class="form-group reg-siswa">
@@ -34,6 +35,7 @@
                     :options="dataOption['mapel']"
                     value-field="id"
                     text-field="textField"
+                     :disabled="form.status_verifikasi"
                   >
                     <template #first>
                       <b-form-select-option :value="null"
@@ -51,6 +53,7 @@
                     :options="dataOption['jenjang']"
                     value-field="id"
                     text-field="textField"
+                     :disabled="form.status_verifikasi"
                   >
                     <template #first>
                       <b-form-select-option :value="null"
@@ -70,6 +73,7 @@
                     :options="dataOption['penjurusan']"
                     value-field="id"
                     text-field="textField"
+                     :disabled="form.status_verifikasi"
                   >
                     <template #first>
                       <b-form-select-option :value="null"
@@ -184,6 +188,7 @@
                   id="model_belajar"
                   v-model="form.model_belajar"
                   :options="['Online', 'Offline']"
+                   :disabled="form.status_verifikasi"
                 ></b-form-select>
               </div>
             </div>
@@ -194,6 +199,7 @@
                   class="form-control"
                   id="alamat"
                   v-model="form.alamat"
+                   :disabled="form.status_verifikasi"
                 ></b-form-input>
               </div>
             </div>
@@ -201,6 +207,7 @@
               <div class="form-group reg-siswa">
                 <label for="id_provinsi">Provinsi <code>*</code></label>
                 <v-select
+                  v-bind:class="{ disabled: form.status_verifikasi }"
                   id="provinsi"
                   v-model="form.id_provinsi"
                   :options="dataOption['provinsi']"
@@ -226,7 +233,7 @@
               <div class="form-group reg-siswa">
                 <label for="id_kota">Kota/Kabupaten <code>*</code></label>
                 <v-select
-                v-bind:class="{ disabled: !changedProv }"
+                v-bind:class="{ disabled: !changedProv || form.status_verifikasi }"
                   id="kota"
                   v-model="form.id_kota"
                   :options="dataOption['kota_kabupaten']"
@@ -248,7 +255,7 @@
               <div class="form-group reg-siswa">
                 <label for="id_kecamatan">Kecamatan <code>*</code></label>
                 <v-select
-                v-bind:class="{ disabled: !changedProv }"
+                v-bind:class="{ disabled: !changedProv || form.status_verifikasi }"
                   id="kecamatan"
                   v-model="form.id_kecamatan"
                   :options="dataOption['kecamatan']"
