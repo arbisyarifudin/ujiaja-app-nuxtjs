@@ -369,7 +369,7 @@ export default {
             value: 50000
           }
         ],
-        provisi: [],
+        provinsi: [],
         kota_kabupaten: [],
         kecamatan: []
       },
