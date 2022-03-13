@@ -29,6 +29,10 @@ body {
   background-color: #b0a6ef;
 }
 
+.model-belajar {
+  font-size: 12px !important;
+}
+
 .pos-relative {
   position: relative;
 }

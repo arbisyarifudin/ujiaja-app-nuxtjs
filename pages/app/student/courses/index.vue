@@ -112,7 +112,8 @@
                     class="card-judul card-program mb-4 mt-3"
                     style="height: 60px"
                   >
-                    {{ item.nama_kursus }}
+                    {{ item.nama_kursus }} 
+                    <span class="model-belajar badge badge-primary">{{item.model_belajar}}</span>
                   </h3>
                   <p class="mb-2">
                     <i class="fas fa-user-check fa-fw"></i>
@@ -211,7 +212,7 @@
           <div class="form-group">
             <label for="model_belajar">Model Belajar</label>
             <b-form-select
-              :options="['Online', 'Offline']"
+              :options="modelOptions"
               v-model="filter.model_belajar"
             ></b-form-select>
           </div>
@@ -303,7 +304,7 @@ export default {
         keyword: "",
         id_mapel: null,
         id_jenjang: null,
-        model_belajar: 'Online',
+        model_belajar: '',
         id_provinsi: null,
         id_kota: null,
         id_kecamatan: null
@@ -316,7 +317,21 @@ export default {
         provinsi: [],
         kota_kabupaten: [],
         kecamatan: []
-      }
+      },
+      modelOptions: [
+        {
+          value: '',
+          text: '-- Semua Model --',
+        },
+        {
+          value: 'Online',
+          text: 'Online',
+        },
+        {
+          value: 'Offline',
+          text: 'Offline',
+        }
+      ]
     };
   },
   computed: {
