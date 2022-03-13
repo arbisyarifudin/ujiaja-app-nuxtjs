@@ -162,6 +162,7 @@
                     </ul> -->
                     <b-form-group v-slot="{ ariaDescribedby }" class="question-option-radio-group">
                         <b-form-radio v-for="(opsi, o) in currentNomor.opsi_pertanyaan" :key="'opsi' + o" v-model="jawabanUser[currentNomor.nomor].jawaban_user" :aria-describedby="ariaDescribedby" :name="'opsi_' + currentNomor.nomor" :value="opsi.uuid" :class="jawabanUser[currentNomor.nomor].jawaban_user === opsi.uuid ? 'checked' : ''" @change="saveJawaban">
+                          <div class="question-option-letter mb-2">{{letterLabel(o)}}</div>
                           <div v-html="opsi.option"></div>
                         </b-form-radio>
                     </b-form-group>
@@ -176,7 +177,6 @@
                           Batal Jawab
                         </button>
                   </div>
-                  {{ jawabanUser }}
                 </div>
               </div>
               <div class="d-block d-md-none">
@@ -1046,6 +1046,25 @@ export default {
         return false
       }
       return false
+    },
+    letterLabel(index) {
+      const letters = [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M",
+        "O"
+      ];
+      return letters[index] ?? "-";
     }
   },
   fetchOnServer: false

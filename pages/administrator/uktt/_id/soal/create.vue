@@ -62,7 +62,7 @@
                       class="card-link"
                       href="#"
                       style="padding: 30px;"
-                       @click.prevent="updateAccordion(a)"
+                      @click.prevent="updateAccordion(a)"
                     >
                       <p class="text-card m-0 text-h5">
                         Soal
@@ -86,9 +86,15 @@
                           >- {{ soal.kelompok_soal }}</span
                         >
                       </p>
-                      <span class="collapsed" v-if="tab != a && !visible"><i class="fas fa-plus"></i></span>
-                      <span class="collapsed" v-else-if="tab == a && !visible"><i class="fas fa-plus"></i></span>
-                      <span class="collapsed" v-else-if="tab != a && visible"><i class="fas fa-plus"></i></span>
+                      <span class="collapsed" v-if="tab != a && !visible"
+                        ><i class="fas fa-plus"></i
+                      ></span>
+                      <span class="collapsed" v-else-if="tab == a && !visible"
+                        ><i class="fas fa-plus"></i
+                      ></span>
+                      <span class="collapsed" v-else-if="tab != a && visible"
+                        ><i class="fas fa-plus"></i
+                      ></span>
                       <span class="expanded" v-else-if="tab == a && visible"
                         ><i class="fas fa-minus"></i> Minimize</span
                       ></a
@@ -276,10 +282,15 @@
                                 v-if="onSubmit.pertanyaan[soalp.id]"
                               />
                             </div>
-                            <div class="card-body-content-dua dua":id="'pertanyaan-'+soalp.nomor">
+                            <div
+                              class="card-body-content-dua dua"
+                              :id="'pertanyaan-' + soalp.nomor"
+                            >
                               <div class="col-md-12 px-4 py-2 soal mt-2">
                                 <div class="header-soal">
-                                  <p style="font-weight: bold">Pertanyaan {{soalp.nomor}} <code>*</code></p>
+                                  <p style="font-weight: bold">
+                                    Pertanyaan {{ soalp.nomor }} <code>*</code>
+                                  </p>
                                   <button
                                     type="button"
                                     class="btn btn-danger dua py-1"
@@ -362,24 +373,58 @@
                                     v-for="(opsi, c) in soalp.opsi_pertanyaan"
                                     :key="'C' + c"
                                   >
-                                    <div class="col" :for="
-                                          'opsi' + soalp.id + '-' + b + '-' + c
-                                        ">
-                                      <input
-                                        type="radio"
-                                        :id="
-                                          'opsi' + soalp.id + '-' + b + '-' + c
-                                        "
-                                        :ref="
-                                          'opsi' + soalp.id + '-' + b + '-' + c
-                                        "
-                                        :name="'opsi' + soalp.id + '-' + b"
-                                        :value="opsi.uuid"
-                                        v-model="soalp.jawaban_pertanyaan"
-                                        @change="
-                                          onUpdatePertanyaanOpsi(soalp, c)
-                                        "
-                                      />
+                                    <div
+                                      class="col"
+                                      :for="
+                                        'opsi' + soalp.id + '-' + b + '-' + c
+                                      "
+                                    >
+                                      <div
+                                        class="letter-option"
+                                        :class="[
+                                          soalp.jawaban_pertanyaan == opsi.uuid
+                                            ? 'active'
+                                            : ''
+                                        ]"
+                                      >
+                                        <label
+                                          :for="
+                                            'opsi' +
+                                              soalp.id +
+                                              '-' +
+                                              b +
+                                              '-' +
+                                              c
+                                          "
+                                          class="mb-0"
+                                          >{{ letterLabel(c) }}</label
+                                        >
+                                        <input
+                                          type="radio"
+                                          :id="
+                                            'opsi' +
+                                              soalp.id +
+                                              '-' +
+                                              b +
+                                              '-' +
+                                              c
+                                          "
+                                          :ref="
+                                            'opsi' +
+                                              soalp.id +
+                                              '-' +
+                                              b +
+                                              '-' +
+                                              c
+                                          "
+                                          :name="'opsi' + soalp.id + '-' + b"
+                                          :value="opsi.uuid"
+                                          v-model="soalp.jawaban_pertanyaan"
+                                          @change="
+                                            onUpdatePertanyaanOpsi(soalp, c)
+                                          "
+                                        />
+                                      </div>
                                     </div>
                                     <div class="col-md-10">
                                       <client-only>
@@ -445,7 +490,7 @@
                                 </div>
 
                                 <p class="mt-4">Pembahasan <code>*</code></p>
-                               <client-only>
+                                <client-only>
                                   <VueEditor
                                     :id="'pembahasan-' + soalp.id + '-' + b"
                                     :ref="'pembahasan-' + soalp.id + '-' + b"
@@ -495,7 +540,7 @@
                               class="card-body-content-dua dua"
                               v-for="(child, d) in soalp.pertanyaan_child"
                               :key="'D' + d"
-                              :id="'pertanyaan-'+child.nomor"
+                              :id="'pertanyaan-' + child.nomor"
                             >
                               <div class="col-md-12 px-4 py-2 soal mt-2">
                                 <div class="header-soal">
@@ -584,28 +629,47 @@
                               </div>
 
                               <div class="px-4 soal">
-                               <div
+                                <div
                                   class="row mb-3"
                                   v-for="(opsi_child,
                                   d) in child.opsi_pertanyaan"
                                   :key="'D' + d"
                                 >
                                   <div class="col-md-1">
-                                    <input
-                                      type="radio"
-                                      :id="
-                                        'opsi-' + child.id + '-' + b + '-' + d
-                                      "
-                                      :ref="
-                                        'opsi-' + child.id + '-' + b + '-' + d
-                                      "
-                                      :name="
-                                        'opsi-' + child.id + '-' + b + '-' + d
-                                      "
-                                      :value="opsi_child.uuid"
-                                      v-model="child.jawaban_pertanyaan"
-                                      @change="onUpdatePertanyaanOpsi(child, d)"
-                                    />
+                                    <div
+                                      class="letter-option"
+                                      :class="[
+                                        child.jawaban_pertanyaan ==
+                                        opsi_child.uuid
+                                          ? 'active'
+                                          : ''
+                                      ]"
+                                    >
+                                      <label
+                                        :for="
+                                          'opsi-' + child.id + '-' + b + '-' + d
+                                        "
+                                        class="mb-0"
+                                        >{{ letterLabel(d) }}</label
+                                      >
+                                      <input
+                                        type="radio"
+                                        :id="
+                                          'opsi-' + child.id + '-' + b + '-' + d
+                                        "
+                                        :ref="
+                                          'opsi-' + child.id + '-' + b + '-' + d
+                                        "
+                                        :name="
+                                          'opsi-' + child.id + '-' + b + '-' + d
+                                        "
+                                        :value="opsi_child.uuid"
+                                        v-model="child.jawaban_pertanyaan"
+                                        @change="
+                                          onUpdatePertanyaanOpsi(child, d)
+                                        "
+                                      />
+                                    </div>
                                   </div>
                                   <div class="col-md-10">
                                     <client-only>
@@ -686,7 +750,7 @@
                                   class="w-100"
                                   v-model="child.pembahasan_pertanyaan"
                                 ></textarea> -->
-                               <client-only>
+                                <client-only>
                                   <VueEditor
                                     :id="
                                       'pembahasan-' +
@@ -857,15 +921,15 @@
     </form>
     <div class="floating-pagination">
       <div class="text-center small mb-1">Navigation:</div>
-          <!-- v-if="totalRows > 0 && totalRows > filter.perPage && !loading" -->
+      <!-- v-if="totalRows > 0 && totalRows > filter.perPage && !loading" -->
       <b-pagination
-          class="pagination-table"
-          v-if="!loading"
-          v-model="filter.page"
-          :total-rows="filter.totalNumber"
-          :per-page="filter.perPage"
-        >
-        </b-pagination>
+        class="pagination-table"
+        v-if="!loading"
+        v-model="filter.page"
+        :total-rows="filter.totalNumber"
+        :per-page="filter.perPage"
+      >
+      </b-pagination>
     </div>
   </div>
 </template>
@@ -939,10 +1003,10 @@ export default {
     this.$store.commit("modifyBreadcrumb", [
       {
         text: "UKTT",
-        href: "/administrator/uktt",
+        href: "/administrator/uktt"
       },
       {
-        text: "Soal",
+        text: "Soal"
       },
       {
         text: "Create",
@@ -955,37 +1019,40 @@ export default {
   watch: {
     "filter.page": async function(number) {
       if (number) {
-        const baseUrl = window.location.origin + window.location.pathname
-        
-        const subtestPosition = this.numberSubtest.findIndex(item => item.includes(number))
+        const baseUrl = window.location.origin + window.location.pathname;
 
-        if(this.tab != subtestPosition) {
-          this.tab = subtestPosition 
-          this.visible = true
+        const subtestPosition = this.numberSubtest.findIndex(item =>
+          item.includes(number)
+        );
+
+        if (this.tab != subtestPosition) {
+          this.tab = subtestPosition;
+          this.visible = true;
           await this.$nextTick(async () => {
-            await this.delay(360)
-            window.location.href = baseUrl + "#pertanyaan-" + number
+            await this.delay(360);
+            window.location.href = baseUrl + "#pertanyaan-" + number;
           });
         } else {
-          window.location.href = baseUrl + "#pertanyaan-" + number
+          window.location.href = baseUrl + "#pertanyaan-" + number;
         }
       }
     }
   },
   methods: {
-    delay: ms => new Promise(res => {
-      setTimeout(res, ms)
-    }),
+    delay: ms =>
+      new Promise(res => {
+        setTimeout(res, ms);
+      }),
     updateAccordion(a) {
       // console.log(a)
-      if(this.tab != a) {
-        this.visible = true
-        this.tab = a
+      if (this.tab != a) {
+        this.visible = true;
+        this.tab = a;
       } else {
-        this.visible = !this.visible
+        this.visible = !this.visible;
       }
-      console.log(this.tab)
-      console.log(this.visible)
+      console.log(this.tab);
+      console.log(this.visible);
     },
     addMathJax(ref) {
       console.log(this.$refs[ref]);
@@ -1012,18 +1079,18 @@ export default {
             this.dataDetail = res.data;
             this.formSoal = res.data.soal;
             this.formTryout = { ...this.dataDetail };
-             this.filter.totalNumber = res.totalNomor;
+            this.filter.totalNumber = res.totalNomor;
             this.filter.numberInSubtest = 0;
             this.numberSubtest = res.nomorSubtest;
-            this.loading = false
+            this.loading = false;
           }
         })
         .catch(err => {
           console.log(err);
           this.catchError(err);
-          this.loading = false
-        })
-        // .finally(() => (this.loading = false));
+          this.loading = false;
+        });
+      // .finally(() => (this.loading = false));
     },
     getData(type, params = {}) {
       this.loading = true;
@@ -1040,14 +1107,14 @@ export default {
           if (res.success) {
             this.dataMaster[type] = res.data.data;
           }
-          this.loading = false
+          this.loading = false;
         })
         .catch(err => {
           console.log(err);
           this.catchError(err);
-          this.loading = false
-        })
-        // .finally(() => (this.loading = false));
+          this.loading = false;
+        });
+      // .finally(() => (this.loading = false));
     },
     validateForm() {
       console.log(this.formTryout);

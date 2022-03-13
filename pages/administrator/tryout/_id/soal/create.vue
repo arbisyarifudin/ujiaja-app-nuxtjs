@@ -18,7 +18,7 @@
               <b-icon icon="arrow-left" class="mr-1"></b-icon>
               Kembali
             </nuxt-link> -->
-            <BackUrl url="/administrator/tryout"/>
+            <BackUrl url="/administrator/tryout" />
           </div>
           <p>
             <i class="far fa-file-alt fa-fw mr-1"></i>
@@ -82,7 +82,7 @@
               <UISaveStatus :data="onSubmit.panduan" />
             </div>
             <div class="col-md-12 accordion">
-              <UILoading v-if="loading"/>
+              <UILoading v-if="loading" />
               <div id="accordion" role="tab-list">
                 <b-card
                   no-body
@@ -119,9 +119,15 @@
                           >- {{ soal.kelompok_soal }}</span
                         >
                       </p>
-                      <span class="collapsed" v-if="tab != a && !visible"><i class="fas fa-plus"></i></span>
-                      <span class="collapsed" v-else-if="tab == a && !visible"><i class="fas fa-plus"></i></span>
-                      <span class="collapsed" v-else-if="tab != a && visible"><i class="fas fa-plus"></i></span>
+                      <span class="collapsed" v-if="tab != a && !visible"
+                        ><i class="fas fa-plus"></i
+                      ></span>
+                      <span class="collapsed" v-else-if="tab == a && !visible"
+                        ><i class="fas fa-plus"></i
+                      ></span>
+                      <span class="collapsed" v-else-if="tab != a && visible"
+                        ><i class="fas fa-plus"></i
+                      ></span>
                       <span class="expanded" v-else-if="tab == a && visible"
                         ><i class="fas fa-minus"></i> Minimize</span
                       ></a
@@ -142,7 +148,7 @@
                         ]"
                       >
                         <div class="col-md-12 text-right p-0">
-                            <!-- v-if="
+                          <!-- v-if="
                               soal.pertanyaan.length > 0 &&
                                 a != 0 &&
                                 dataDetail.kategori != 'ASPD'
@@ -151,7 +157,7 @@
                             type="button"
                             class="btn btn-danger py-1"
                             @click.prevent="deleteMapel(soal.id, a)"
-                          :disabled="loading"
+                            :disabled="loading"
                           >
                             <b-spinner
                               v-if="loading"
@@ -165,9 +171,7 @@
                         <div
                           class="col-md-12 form-user form-pilih-kelas p-0 mt-3"
                         >
-                          <div
-                            class="form-group reg-siswa mb-0"
-                          >
+                          <div class="form-group reg-siswa mb-0">
                             <label for="id_mapel"
                               >Mata Pelajaran <code>*</code></label
                             >
@@ -299,10 +303,15 @@
                                 v-if="onSubmit.pertanyaan[soalp.id]"
                               />
                             </div>
-                            <div class="card-body-content-dua dua" :id="'pertanyaan-'+soalp.nomor">
+                            <div
+                              class="card-body-content-dua dua"
+                              :id="'pertanyaan-' + soalp.nomor"
+                            >
                               <div class="col-md-12 px-4 py-2 soal mt-2">
                                 <div class="header-soal">
-                                 <p style="font-weight: bold">Pertanyaan {{soalp.nomor}} <code>*</code></p>
+                                  <p style="font-weight: bold">
+                                    Pertanyaan {{ soalp.nomor }} <code>*</code>
+                                  </p>
                                   <button
                                     type="button"
                                     class="btn btn-danger dua py-1"
@@ -427,17 +436,43 @@
                                     :key="'C' + c"
                                   >
                                     <div class="col">
-                                      <div class="letter-option" :class="[soalp.jawaban_pertanyaan == opsi.uuid ? 'active' : '']">
-                                        <label :for="
-                                          'opsi' + soalp.id + '-' + b + '-' + c
-                                        " class="mb-0">{{ letterLabel(c) }}</label>
+                                      <div
+                                        class="letter-option"
+                                        :class="[
+                                          soalp.jawaban_pertanyaan == opsi.uuid
+                                            ? 'active'
+                                            : ''
+                                        ]"
+                                      >
+                                        <label
+                                          :for="
+                                            'opsi' +
+                                              soalp.id +
+                                              '-' +
+                                              b +
+                                              '-' +
+                                              c
+                                          "
+                                          class="mb-0"
+                                          >{{ letterLabel(c) }}</label
+                                        >
                                         <input
                                           type="radio"
                                           :id="
-                                            'opsi' + soalp.id + '-' + b + '-' + c
+                                            'opsi' +
+                                              soalp.id +
+                                              '-' +
+                                              b +
+                                              '-' +
+                                              c
                                           "
                                           :ref="
-                                            'opsi' + soalp.id + '-' + b + '-' + c
+                                            'opsi' +
+                                              soalp.id +
+                                              '-' +
+                                              b +
+                                              '-' +
+                                              c
                                           "
                                           :name="'opsi' + soalp.id + '-' + b"
                                           :value="opsi.uuid"
@@ -570,12 +605,12 @@
                               class="card-body-content-dua dua"
                               v-for="(child, d) in soalp.pertanyaan_child"
                               :key="'D' + d"
-                              :id="'pertanyaan-'+child.nomor"
+                              :id="'pertanyaan-' + child.nomor"
                             >
                               <div class="col-md-12 px-4 py-2 soal mt-2">
                                 <div class="header-soal">
                                   <p style="font-weight: bold">
-                                    Pertanyaan {{child.nomor}} <code>*</code>
+                                    Pertanyaan {{ child.nomor }} <code>*</code>
                                   </p>
                                   <!-- <button
                                     type="button"
@@ -666,21 +701,40 @@
                                   :key="'D' + d"
                                 >
                                   <div class="col-md-1">
-                                    <input
-                                      type="radio"
-                                      :id="
-                                        'opsi-' + child.id + '-' + b + '-' + d
-                                      "
-                                      :ref="
-                                        'opsi-' + child.id + '-' + b + '-' + d
-                                      "
-                                      :name="
-                                        'opsi-' + child.id + '-' + b + '-' + d
-                                      "
-                                      :value="opsi_child.uuid"
-                                      v-model="child.jawaban_pertanyaan"
-                                      @change="onUpdatePertanyaanOpsi(child, d)"
-                                    />
+                                    <div
+                                      class="letter-option"
+                                      :class="[
+                                        child.jawaban_pertanyaan ==
+                                        opsi_child.uuid
+                                          ? 'active'
+                                          : ''
+                                      ]"
+                                    >
+                                      <label
+                                        :for="
+                                          'opsi-' + child.id + '-' + b + '-' + d
+                                        "
+                                        class="mb-0"
+                                        >{{ letterLabel(d) }}</label
+                                      >
+                                      <input
+                                        type="radio"
+                                        :id="
+                                          'opsi-' + child.id + '-' + b + '-' + d
+                                        "
+                                        :ref="
+                                          'opsi-' + child.id + '-' + b + '-' + d
+                                        "
+                                        :name="
+                                          'opsi-' + child.id + '-' + b + '-' + d
+                                        "
+                                        :value="opsi_child.uuid"
+                                        v-model="child.jawaban_pertanyaan"
+                                        @change="
+                                          onUpdatePertanyaanOpsi(child, d)
+                                        "
+                                      />
+                                    </div>
                                   </div>
                                   <div class="col-md-10">
                                     <client-only>
@@ -747,7 +801,7 @@
                                     </button>
                                   </div>
                                 </div>
-                                
+
                                 <UISaveStatus
                                   :data="onSubmit.perchild[child.id]"
                                   v-if="onSubmit.perchild[child.id]"
@@ -855,7 +909,7 @@
                           type="button"
                           class="btn btn-warning tambah py-1 mt-4"
                           v-if="
-                              a == formSoal.length - 1 &&
+                            a == formSoal.length - 1 &&
                               soal.pertanyaan.length > 0
                           "
                           :disabled="loading"
@@ -926,9 +980,7 @@
                   <h3 class="card-title h4 py-3">Tambah Mata Pelajaran Baru</h3>
                   <div class="card-body-content">
                     <div class="col-md-12 form-user form-pilih-kelas p-0 mt-3">
-                      <div
-                        class="form-group reg-siswa"
-                      >
+                      <div class="form-group reg-siswa">
                         <label for="id_mapel"
                           >Mata Pelajaran <code>*</code></label
                         >
@@ -998,15 +1050,15 @@
     </form>
     <div class="floating-pagination">
       <div class="text-center small mb-1">Navigation:</div>
-          <!-- v-if="totalRows > 0 && totalRows > filter.perPage && !loading" -->
+      <!-- v-if="totalRows > 0 && totalRows > filter.perPage && !loading" -->
       <b-pagination
-          class="pagination-table"
-          v-if="!loading"
-          v-model="filter.page"
-          :total-rows="filter.totalNumber"
-          :per-page="filter.perPage"
-        >
-        </b-pagination>
+        class="pagination-table"
+        v-if="!loading"
+        v-model="filter.page"
+        :total-rows="filter.totalNumber"
+        :per-page="filter.perPage"
+      >
+      </b-pagination>
     </div>
   </div>
 </template>
@@ -1085,10 +1137,10 @@ export default {
     this.$store.commit("modifyBreadcrumb", [
       {
         text: "Tryout",
-        href: "/administrator/tryout",
+        href: "/administrator/tryout"
       },
       {
-        text: "Soal",
+        text: "Soal"
       },
       {
         text: "Create",
@@ -1101,37 +1153,40 @@ export default {
   watch: {
     "filter.page": async function(number) {
       if (number) {
-        const baseUrl = window.location.origin + window.location.pathname
-        
-        const subtestPosition = this.numberSubtest.findIndex(item => item.includes(number))
+        const baseUrl = window.location.origin + window.location.pathname;
 
-        if(this.tab != subtestPosition) {
-          this.tab = subtestPosition 
-          this.visible = true
+        const subtestPosition = this.numberSubtest.findIndex(item =>
+          item.includes(number)
+        );
+
+        if (this.tab != subtestPosition) {
+          this.tab = subtestPosition;
+          this.visible = true;
           await this.$nextTick(async () => {
-            await this.delay(360)
-            window.location.href = baseUrl + "#pertanyaan-" + number
+            await this.delay(360);
+            window.location.href = baseUrl + "#pertanyaan-" + number;
           });
         } else {
-          window.location.href = baseUrl + "#pertanyaan-" + number
+          window.location.href = baseUrl + "#pertanyaan-" + number;
         }
       }
     }
   },
   methods: {
-    delay: ms => new Promise(res => {
-      setTimeout(res, ms)
-    }),
+    delay: ms =>
+      new Promise(res => {
+        setTimeout(res, ms);
+      }),
     updateAccordion(a) {
       // console.log(a)
-      if(this.tab != a) {
-        this.visible = true
-        this.tab = a
+      if (this.tab != a) {
+        this.visible = true;
+        this.tab = a;
       } else {
-        this.visible = !this.visible
+        this.visible = !this.visible;
       }
-      console.log(this.tab)
-      console.log(this.visible)
+      console.log(this.tab);
+      console.log(this.visible);
     },
     addMathJax(ref) {
       console.log(this.$refs[ref]);
@@ -1161,15 +1216,15 @@ export default {
             this.filter.totalNumber = res.totalNomor;
             this.filter.numberInSubtest = 0;
             this.numberSubtest = res.nomorSubtest;
-            this.loading = false
+            this.loading = false;
           }
         })
         .catch(err => {
           console.log(err);
           this.catchError(err);
-          this.loading = false
-        })
-        // .finally(() => (this.loading = false));
+          this.loading = false;
+        });
+      // .finally(() => (this.loading = false));
     },
     getData(type, params = {}) {
       this.loading = true;
@@ -1185,15 +1240,15 @@ export default {
           console.log("getMaster" + type, res);
           if (res.success) {
             this.dataMaster[type] = await res.data.data;
-            this.loading = false
+            this.loading = false;
           }
         })
         .catch(err => {
           console.log(err);
           this.catchError(err);
-          this.loading = false
-        })
-        // .finally(() => (this.loading = false));
+          this.loading = false;
+        });
+      // .finally(() => (this.loading = false));
     },
     validateForm() {
       console.log(this.formTryout);
@@ -1300,8 +1355,8 @@ export default {
         });
     },
     deleteMapel(soal_id, index_soal) {
-      const r = confirm('Apakah Anda yakin ingin menghapus Mapel ini?')
-      if(!r) return
+      const r = confirm("Apakah Anda yakin ingin menghapus Mapel ini?");
+      if (!r) return;
 
       this.loading = true;
       this.$axios
@@ -1309,23 +1364,24 @@ export default {
         .then(res => {
           console.log("delete mapel", res);
           if (res.success) {
-            this.formSoal.splice(index_soal, 1)
-            this.showToastMessage(
-              "Mata pelajaran berhasil dihapus!",
-              "danger"
-            );
+            this.formSoal.splice(index_soal, 1);
+            this.showToastMessage("Mata pelajaran berhasil dihapus!", "danger");
           }
           return true;
         })
         .catch(err => {
           console.log(err);
-          if(err.response && err.response.status == 500 && err.response.data.line == 703) {
+          if (
+            err.response &&
+            err.response.status == 500 &&
+            err.response.data.line == 703
+          ) {
             this.showToastMessage(
               "Mata pelajaran gagal dihapus karena soal sudah terdaftar pada Tryout Siswa! Silakan buat tryout baru.",
               "danger",
               5000
             );
-            return null
+            return null;
           }
           this.catchError(err);
         })
@@ -1803,9 +1859,24 @@ export default {
         });
     },
     letterLabel(index) {
-      const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'O'];
-      return letters[index] ?? '-';
-    },
+      const letters = [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M",
+        "O"
+      ];
+      return letters[index] ?? "-";
+    }
   }
 };
 </script>
