@@ -85,6 +85,7 @@
                     id="harga_kursus"
                     v-model="form.harga_kursus"
                     :options="dataOption['harga_kursus']"
+                    :disabled="form.status_verifikasi"
                   >
                     <template #first>
                       <b-form-select-option :value="null"
@@ -170,6 +171,93 @@
                       allowfullscreen
                     ></iframe>
                   </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row form-user">
+            <div class="col-md-6">
+              <div class="form-group reg-siswa">
+                <label for="model_belajar">Model Belajar <code>*</code></label>
+                <b-form-select
+                  class="form-control"
+                  id="model_belajar"
+                  v-model="form.model_belajar"
+                  :options="['Online', 'Offline']"
+                ></b-form-select>
+              </div>
+            </div>
+            <div class="col-md-6" v-if="form.model_belajar == 'Online'">
+              <div class="form-group reg-siswa">
+                <label for="alamat">Alamat <code>*</code></label>
+                <b-form-input
+                  class="form-control"
+                  id="alamat"
+                  v-model="form.alamat"
+                ></b-form-input>
+              </div>
+            </div>
+            <div class="col-md-4" v-if="form.model_belajar == 'Online'">
+              <div class="form-group reg-siswa">
+                <label for="id_provinsi">Provinsi <code>*</code></label>
+                <v-select
+                  id="provinsi"
+                  v-model="form.id_provinsi"
+                  :options="dataOption['provinsi']"
+                  label="nama"
+                  @input="
+                    () => {
+                      changedProv = true;
+                      form.id_kota = null;
+                      form.id_kecamatan = null;
+                      getAPI('kota_kabupaten');
+                      dataOption['kecamatan'] = [];
+                    }
+                  "
+                  :reduce="item => item.id"
+                  :getOptionKey="item => item.id"
+                />
+                <div style="font-size: 14px" class="text-info" v-if="loading">
+                  Memuat...
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4" v-if="form.model_belajar == 'Online'">
+              <div class="form-group reg-siswa">
+                <label for="id_kota">Kota/Kabupaten <code>*</code></label>
+                <v-select
+                v-bind:class="{ disabled: !changedProv }"
+                  id="kota"
+                  v-model="form.id_kota"
+                  :options="dataOption['kota_kabupaten']"
+                  label="nama"
+                  @input="
+                    () => {
+                      getAPI('kecamatan');
+                    }
+                  "
+                  :reduce="item => item.id"
+                  :getOptionKey="item => item.id"
+                />
+                <div style="font-size: 14px" class="text-info" v-if="loading">
+                  Memuat...
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4" v-if="form.model_belajar == 'Online'">
+              <div class="form-group reg-siswa">
+                <label for="id_kecamatan">Kecamatan <code>*</code></label>
+                <v-select
+                v-bind:class="{ disabled: !changedProv }"
+                  id="kecamatan"
+                  v-model="form.id_kecamatan"
+                  :options="dataOption['kecamatan']"
+                  label="nama"
+                  :reduce="item => item.id"
+                  :getOptionKey="item => item.id"
+                />
+                <div style="font-size: 14px" class="text-info" v-if="loading">
+                  Memuat...
                 </div>
               </div>
             </div>
@@ -273,6 +361,17 @@
   </div>
 </template>
 
+<style scoped>
+.disabled {
+  pointer-events:none;
+  color: #bfcbd9;
+  cursor: not-allowed;
+  background-image: none;
+  background-color: #eef1f6;
+  border-color: #d1dbe5;   
+}
+</style>
+
 <script>
 export default {
   layout: "app",
@@ -280,6 +379,7 @@ export default {
     return {
       loading: false,
       appliedVideo: false,
+      changedProv: false,
       youtubeVideoId: "",
       youtubeVideoUrl: "",
       dataMaster: {
@@ -297,7 +397,10 @@ export default {
             text: "Rp 50.000 / 90 mnt",
             value: 50000
           }
-        ]
+        ],
+        provinsi: [],
+        kota_kabupaten: [],
+        kecamatan: []
       },
       form: {
         nama_kursus: "",
@@ -309,6 +412,14 @@ export default {
         file_kursus: "",
         video_kursus: "",
         sampul_kelas: "",
+        model_belajar: "Online",
+        alamat: "",
+        id_provinsi: "",
+        nama_provinsi: "",
+        id_kota: "",
+        nama_kota: "",
+        id_kecamatan: "",
+        nama_kecamatan: "",
         jadwals: [
           {
             hari_jadwal: "Senin",
@@ -367,7 +478,7 @@ export default {
       return this.$store.state.dataUser.detail;
     }
   },
-  created() {
+  async created() {
     if (!this.$route.params.id)
       return this.$router.push("/app/partner/courses");
     this.getDetail("kursus", this.$route.params.id);
@@ -375,6 +486,22 @@ export default {
     this.getData("mapel", { params: { paginate: 999 } });
     this.getData("jenjang");
     this.getPriceOption();
+    await this.getAPI("provinsi");
+    this.form.id_provinsi = parseInt(this.dataDetail.id_provinsi)
+    this.form.id_kota = parseInt(this.dataDetail.id_kota)
+    this.form.id_kecamatan = parseInt(this.dataDetail.id_kecamatan)
+    this.dataOption['kota_kabupaten'] = [
+      {
+        id: parseInt(this.dataDetail.id_kota),
+        nama: this.dataDetail.nama_kota
+      }
+    ]
+    this.dataOption['kecamatan'] = [
+      {
+        id: parseInt(this.dataDetail.id_kecamatan),
+        nama: this.dataDetail.nama_kecamatan
+      }
+    ]
   },
   methods: {
     validateForm() {
@@ -395,7 +522,76 @@ export default {
         });
         return;
       }
+
+      if (this.form.model_belajar == "Online") {
+        if (
+          !this.form.alamat ||
+          !this.form.id_provinsi ||
+          !this.form.id_kota ||
+          !this.form.id_kecamatan
+        ) {
+          this.$bvToast.toast("Mohon lengkapi form alamat dengan benar!", {
+            title: "Peringatan",
+            variant: "warning",
+            solid: true,
+            autoHideDelay: 2000
+          });
+          return;
+        }
+
+        const findNamaProvinsi = this.dataOption["provinsi"].find(
+          item => item.id == this.form.id_provinsi
+        );
+        if (findNamaProvinsi) {
+          this.form.nama_provinsi = findNamaProvinsi.nama;
+        }
+        const findNamaKota = this.dataOption["kota_kabupaten"].find(
+          item => item.id == this.form.id_kota
+        );
+        if (findNamaKota) {
+          this.form.nama_kota = findNamaKota.nama;
+        }
+        const findNamaKecamatan = this.dataOption["kecamatan"].find(
+          item => item.id == this.form.id_kecamatan
+        );
+        if (findNamaKecamatan) {
+          this.form.nama_kecamatan = findNamaKecamatan
+            ? findNamaKecamatan.nama
+            : "";
+        }
+      }
+
       this.submitData();
+    },
+    async getAPI(type) {
+      this.loading = true;
+
+      let params = "";
+
+      if (type == "kota_kabupaten" || type == "kota") {
+        params = "/" + this.form.id_provinsi;
+      } else if (type == "kecamatan") {
+        params = "/" + this.form.id_kota;
+      }
+      // console.log(type, params);
+
+      // this.$axios.defaults.headers = {};
+      // this.$axios.defaults.withCredentials = false;
+
+      await this.$axios
+        .$get(`/api/${type}${params}`)
+        .then(res => {
+          console.log(res);
+          if (type == "kota") {
+            type = "kota_kabupaten";
+          }
+          this.dataOption[type] = res.data[type];
+        })
+        .catch(err => {
+          console.log(err);
+          this.catchError(err);
+        })
+        .finally(() => (this.loading = false));
     },
     submitData(type) {
       this.loading = true;
@@ -493,6 +689,7 @@ export default {
             if (this.dataDetail.id_tentor !== this.user.id) {
               return this.$router.replace("/app/partner/courses");
             }
+            // this.dataOption['provinsi'] = 
           }
           return true;
         })

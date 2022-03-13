@@ -25,6 +25,22 @@
                   <td>{{ dataDetail.tentor.nama_lengkap }}</td>
                 </tr>
                 <tr>
+                  <th width="150">Model Belajar</th>
+                  <td width="10">:</td>
+                  <td>
+                    <span class="badge badge-success">{{
+                      dataDetail.model_belajar
+                    }}</span>
+                  </td>
+                </tr>
+                <tr v-if="dataDetail.model_belajar == 'Offline'">
+                  <th width="150">Alamat</th>
+                  <td width="10">:</td>
+                  <td>
+                    {{dataDetail.alamat}}, {{dataDetail.nama_kecamatan}}, {{dataDetail.nama_kota}}, {{dataDetail.nama_provinsi}}
+                  </td>
+                </tr>
+                <tr>
                   <th width="150">Level</th>
                   <td width="10">:</td>
                   <td>
