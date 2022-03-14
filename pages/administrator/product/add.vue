@@ -121,9 +121,10 @@
                   id="harga_produk"
                   v-model="form.harga_produk"
                   type="number"
-                  min="1"
+                  min="0"
                 >
                 </b-form-input>
+                <div class="text-danger mt-1 small">Rp 0 = Gratis</div>
               </div>
             </div>
             <div class="col-md-6">
@@ -593,7 +594,7 @@ export default {
           } else if (findTryout && findTryout.soal.length > 0) {
             for (let index2 = 0; index2 < findTryout.soal.length; index2++) {
               const soal = findTryout.soal[index2];
-              if (soal && soal.pertanyaan < 1) {
+              if (soal && soal.pertanyaan.length < 1) {
                 this.$bvToast.toast(
                   "Salahsatu mapel pada " +
                     findTryout.judul +
@@ -632,7 +633,7 @@ export default {
         } else if (findTryout && findTryout.soal.length > 0) {
           for (let index2 = 0; index2 < findTryout.soal.length; index2++) {
             const soal = findTryout.soal[index2];
-            if (soal && soal.pertanyaan < 1) {
+            if (soal && soal.pertanyaan.length < 1) {
               this.$bvToast.toast(
                 "Salahsatu mapel pada " +
                   findTryout.judul +

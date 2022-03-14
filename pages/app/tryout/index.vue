@@ -68,7 +68,8 @@
                   </div>
                   <div class="d-flex justify-content-between mb-2">
                     <p class="">
-                      <i class="fas fa-tags fa-fw"></i> {{ item.harga_label }}
+                      <i class="fas fa-tags fa-fw"></i>
+                      {{ item.harga_produk > 0 ? item.harga_label : 'GRATIS' }}
                     </p>
                   </div>
                 </div>
@@ -168,7 +169,8 @@
                   </div>
                   <div class="d-flex justify-content-between mb-2">
                     <p class="">
-                      <i class="fas fa-tags fa-fw"></i> {{ item.harga_label }}
+                      <i class="fas fa-tags fa-fw"></i>
+                      {{ item.harga_produk > 0 ? item.harga_label : 'GRATIS' }}
                     </p>
                     <p class="">
                       <i class="fas fa-calendar-alt fa-fw"></i>
@@ -257,7 +259,8 @@
                   </div>
                   <div class="d-flex justify-content-between mb-2">
                     <p class="">
-                      <i class="fas fa-tags fa-fw"></i> {{ item.harga_label }}
+                      <i class="fas fa-tags fa-fw"></i>
+                      {{ item.harga_produk > 0 ? item.harga_label : 'GRATIS' }}
                     </p>
                     <p class="beda">{{ item.penjurusan[0] }}</p>
                   </div>
@@ -342,7 +345,8 @@
                   </div> -->
                   <div class="d-flex justify-content-between mb-2">
                     <p class="">
-                      <i class="fas fa-tags fa-fw"></i> {{ item.harga_label }}
+                      <i class="fas fa-tags fa-fw"></i>
+                      {{ item.harga_produk > 0 ? item.harga_label : 'GRATIS' }}
                     </p>
                     <p class="beda">{{ item.kategori_produk }}</p>
                   </div>
