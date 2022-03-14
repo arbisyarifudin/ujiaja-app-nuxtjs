@@ -151,12 +151,12 @@ Vue.mixin({
       return false;
     },
     getLevelName(id) {
-      console.log(id)
+      // console.log(id)
       const levels = ['BASE', 'SUPER', 'ELITE', 'MASTER', 'LEGEND', ''];
       return levels[id-1];
     },
     getHadiahLevelName(id) {
-      console.log(id)
+      // console.log(id)
       const levels = ['BASE', 'SUPER', 'ELITE', 'MASTER', 'LEGEND'];
       return levels[id];
     },

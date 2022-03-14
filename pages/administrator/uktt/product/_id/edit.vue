@@ -7,6 +7,10 @@
             <b-spinner type="grow" class="mr-2" v-if="loading" /> Edit Produk
             UKTT
           </h2>
+          <p v-if="total_pengerjaan > 0 && total_transaksi > 0" class="alert alert-danger my-3 small">
+            <b-icon icon="info-circle"></b-icon>
+            Produk tidak dapat diubah karena sudah ada transaksi yang terjadi atau Tentor yang sudah mengerjakan. Mohon buat produk baru.
+          </p>
         </div>
         <div class="col-md-12 crud-body mt-4">
           <div class="form-user">
