@@ -4,16 +4,18 @@
       <h3>
         <BackUrl
           :title="null"
-          :url="$route.query.ref ? $route.query.ref : `/app/tryout/${dataResult.detail.id_produk}/detail`"
+          :url="
+            $route.query.ref
+              ? $route.query.ref
+              : `/app/tryout/${dataResult.detail.id_produk}/detail`
+          "
           class="py-1 px-2 mr-3"
         />
         Hasil Tryout
       </h3>
       <h2 class="pb-0 mb-5">
         {{
-          dataResult.detail.nama_produk
-            ? dataResult.detail.nama_produk
-            : "-"
+          dataResult.detail.nama_produk ? dataResult.detail.nama_produk : "-"
         }}
       </h2>
     </div>
@@ -21,42 +23,90 @@
       <div class="col-md-8">
         <div class="skor-date">
           <div class="mb-3">
-            <i class="fas fa-calendar fa-fw mr-1"></i> {{formatTanggal(dataResult.detail.waktu_selesai)}}
+            <i class="fas fa-calendar fa-fw mr-1"></i>
+            {{ formatTanggal(dataResult.detail.waktu_selesai) }}
           </div>
           <div class="mb-3">
-            <i class="fas fa-clock fa-fw mr-1"></i> {{formatTanggal(dataResult.detail.waktu_selesai, 'HH:mm')}} WIB
+            <i class="fas fa-clock fa-fw mr-1"></i>
+            {{ formatTanggal(dataResult.detail.waktu_selesai, "HH:mm") }} WIB
           </div>
         </div>
       </div>
       <div class="col-md-4" v-if="dataResult.detail.kategori_produk == 'UTBK'">
         <div class="text-center skor-box">
           <div class="mb-2">Skor</div>
-          <div class="h3 skor-val">{{dataResult.detail.ceeb_avg}}</div>
-          <div class="h5 skor-val" v-if="dataResult.detail.tipe_event == 'Masal'"><small>Peringkat</small> {{dataResult.detail.ranking}} <small>dari</small> {{dataResult.detail.jsp}}</div>
-          <div class="h5 skor-val" v-else-if="dataResult.detail.tipe_event == 'Perorangan'"><small>Jumlah Peserta</small> {{dataResult.detail.jsp}} <small>orang</small></div>
+          <div class="h3 skor-val">{{ dataResult.detail.ceeb_avg }}</div>
+          <div
+            class="h5 skor-val"
+            v-if="dataResult.detail.tipe_event == 'Masal'"
+          >
+            <small>Peringkat</small> {{ dataResult.detail.ranking }}
+            <small>dari</small> {{ dataResult.detail.jsp }}
+          </div>
+          <div
+            class="h5 skor-val"
+            v-else-if="dataResult.detail.tipe_event == 'Perorangan'"
+          >
+            <small>Jumlah Peserta</small> {{ dataResult.detail.jsp }}
+            <small>orang</small>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4" v-if="dataResult.detail.kategori_produk == 'ASPD'">
+        <div class="text-center skor-box">
+          <div class="mb-2">Skor</div>
+          <div class="h3 skor-val">
+            {{ dataResult.detail.rerata_nilai_label }}
+          </div>
+          <div
+            class="h5 skor-val"
+            v-if="dataResult.detail.tipe_event == 'Masal'"
+          >
+            <small>Peringkat</small> {{ dataResult.detail.ranking }}
+            <small>dari</small> {{ dataResult.detail.jsp }}
+          </div>
         </div>
       </div>
     </div>
-    <hr>
+    <hr />
     <div class="hasil mt-4" v-if="!loading">
-      <table class="table table-borderless" v-for="(tryout, t_index) in dataResult.tryout" :key="'t'+t_index">
+      <table
+        class="table table-borderless"
+        v-for="(tryout, t_index) in dataResult.tryout"
+        :key="'t' + t_index"
+      >
         <thead>
           <tr>
-            <th>{{tryout.judul_edit}} <small v-if="tryout.kelompok_soal" class="ml-1">({{tryout.kelompok_soal}})</small></th>
+            <th>
+              {{ tryout.judul_edit }}
+              <small v-if="tryout.kelompok_soal" class="ml-1"
+                >({{ tryout.kelompok_soal }})</small
+              >
+            </th>
             <th style="width: 150px; max-width: 50%">Skor</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(mapel, m_index) in tryout.mapel" :key="'m'+m_index">
-            <td>{{mapel.nama_mapel}}</td>
-            <td v-if="dataResult.detail.kategori_produk == 'UTBK'">{{mapel.ceeb}}</td>
-            <td v-if="dataResult.detail.kategori_produk == 'ASPD'">{{mapel.nilai}}</td>
+          <tr v-for="(mapel, m_index) in tryout.mapel" :key="'m' + m_index">
+            <td>{{ mapel.nama_mapel }}</td>
+            <td v-if="dataResult.detail.kategori_produk == 'UTBK'">
+              {{ mapel.ceeb }}
+            </td>
+            <td v-if="dataResult.detail.kategori_produk == 'ASPD'">
+              {{ mapel.nilai_label }}
+            </td>
           </tr>
         </tbody>
       </table>
 
       <!-- Peluang Masuk -->
-      <table class="table table-borderless" v-if="dataResult.detail.kategori_produk == 'UTBK' && userDetail.nama_jenjang == 'SMA'">
+      <table
+        class="table table-borderless"
+        v-if="
+          dataResult.detail.kategori_produk == 'UTBK' &&
+            userDetail.nama_jenjang == 'SMA'
+        "
+      >
         <thead>
           <tr>
             <th colspan="3">Peluang Masuk Program Studi Pilihan</th>
@@ -65,43 +115,60 @@
         <tbody>
           <tr v-if="detailUser.prodi_satu">
             <td>
-               <span v-if="detailUser.prodi_satu.perguruan">{{detailUser.prodi_satu.perguruan.nama_perguruan}}</span>
+              <span v-if="detailUser.prodi_satu.perguruan">{{
+                detailUser.prodi_satu.perguruan.nama_perguruan
+              }}</span>
             </td>
             <td>
-              <span v-if="detailUser.prodi_satu.program_studi">{{detailUser.prodi_satu.program_studi.nama_studi}}</span>
+              <span v-if="detailUser.prodi_satu.program_studi">{{
+                detailUser.prodi_satu.program_studi.nama_studi
+              }}</span>
             </td>
-            <td style="width: 150px; max-width: 50%">{{peluangLabel(detailUser.prodi_satu)}}</td>
+            <td style="width: 150px; max-width: 50%">
+              {{ peluangLabel(detailUser.prodi_satu) }}
+            </td>
           </tr>
-         <tr v-if="detailUser.prodi_dua">
+          <tr v-if="detailUser.prodi_dua">
             <td>
-               <span v-if="detailUser.prodi_dua.perguruan">{{detailUser.prodi_dua.perguruan.nama_perguruan}}</span>
+              <span v-if="detailUser.prodi_dua.perguruan">{{
+                detailUser.prodi_dua.perguruan.nama_perguruan
+              }}</span>
             </td>
             <td>
-              <span v-if="detailUser.prodi_dua.program_studi">{{detailUser.prodi_dua.program_studi.nama_studi}}</span>
+              <span v-if="detailUser.prodi_dua.program_studi">{{
+                detailUser.prodi_dua.program_studi.nama_studi
+              }}</span>
             </td>
-            <td style="width: 150px; max-width: 50%">{{peluangLabel(detailUser.prodi_dua)}}</td>
+            <td style="width: 150px; max-width: 50%">
+              {{ peluangLabel(detailUser.prodi_dua) }}
+            </td>
           </tr>
         </tbody>
       </table>
 
-      <hr>
+      <hr />
 
       <div class="d-flex justify-content-end">
+        <!-- v-if="dataResult.detail.kategori_produk == 'UTBK'" -->
         <button
           class="btn btn-primary square"
           :disabled="generating"
           @click.prevent="generatePDF"
-          v-if="dataResult.detail.kategori_produk == 'UTBK'"
         >
           <b-spinner v-if="generating" small></b-spinner>
           <i class="fas fa-award fa-fw mr-1" v-else></i>
           Lihat Sertifikat
         </button>
-        <nuxt-link class="btn btn-outline-primary square ml-3" :to="`/app/tryout/${dataResult.detail.id_produk}/review?code=${$route.query.code}`"><i class="fas fa-file-alt fa-fw mr-1"></i> Review Tryout</nuxt-link>
+        <nuxt-link
+          class="btn btn-outline-primary square ml-3"
+          :to="
+            `/app/tryout/${dataResult.detail.id_produk}/review?code=${$route.query.code}`
+          "
+          ><i class="fas fa-file-alt fa-fw mr-1"></i> Review Tryout</nuxt-link
+        >
       </div>
-
     </div>
-    <UILoading v-if="loading"/>
+    <UILoading v-if="loading" />
   </div>
 </template>
 
@@ -124,12 +191,12 @@
 }
 .hasil {
   table {
-     th {
-       font-weight: bold;
-     }
-     td {
-       font-size: 13px;
-     }
+    th {
+      font-weight: bold;
+    }
+    td {
+      font-size: 13px;
+    }
   }
 }
 </style>
@@ -144,24 +211,24 @@ export default {
       generating: false,
       dataResult: {
         detail: {},
-        tryout: [],
+        tryout: []
       },
       detailUser: {}
     };
   },
   created() {
     if (!this.$route.params.id) return this.$router.go(-1);
-    this.getResult(this.$route.params.id)
+    this.getResult(this.$route.params.id);
     this.getProfile();
   },
   computed: {
-   user() {
-     return this.$store.state.dataUser.user
-   },
-   userDetail() {
-     return this.$store.state.dataUser.detail
-   }
-  },  
+    user() {
+      return this.$store.state.dataUser.user;
+    },
+    userDetail() {
+      return this.$store.state.dataUser.detail;
+    }
+  },
   methods: {
     getProfile() {
       this.loading = true;
@@ -181,10 +248,12 @@ export default {
         .finally(() => (this.loading = false));
     },
     getResult(id) {
-      const kategori = this.$route.query.category == 'ASPD' ? '-aspd' : ''
+      const kategori = this.$route.query.category == "ASPD" ? "-aspd" : "";
       this.loading = true;
       this.$axios
-        .$get(`/api/tryout_user/hasil-pengerjaan${kategori}?id_produk=${id}&id_user=${this.user.id}&referensi=${this.$route.query.code}`)
+        .$get(
+          `/api/tryout_user/hasil-pengerjaan${kategori}?id_produk=${id}&id_user=${this.user.id}&referensi=${this.$route.query.code}`
+        )
         .then(res => {
           console.log(res);
           if (res.success) {
@@ -194,48 +263,52 @@ export default {
         })
         .catch(err => {
           console.log(err);
-          if(err.response && err.response.status == 400 && err.response.data && err.response.data.message) {
-            return this.showToastMessage(err.response.data.message)
+          if (
+            err.response &&
+            err.response.status == 400 &&
+            err.response.data &&
+            err.response.data.message
+          ) {
+            return this.showToastMessage(err.response.data.message);
           }
           this.catchError(err);
         })
         .finally(() => (this.loading = false));
-    },    
+    },
     peluangLabel(data) {
-
       const skorAkhir = parseFloat(this.dataResult.detail.ceeb_avg);
-      const passingGrade = parseFloat(data.passing_grade_prodi)
+      const passingGrade = parseFloat(data.passing_grade_prodi);
 
-      const batasBawah = passingGrade - (passingGrade * 0.05);
-      const batasAtas = passingGrade + (passingGrade * 0.05);
+      const batasBawah = passingGrade - passingGrade * 0.05;
+      const batasAtas = passingGrade + passingGrade * 0.05;
 
-      if(skorAkhir >= batasBawah && skorAkhir <= batasAtas) {
-        return 'Sedang'
+      if (skorAkhir >= batasBawah && skorAkhir <= batasAtas) {
+        return "Sedang";
       } else if (skorAkhir > batasAtas) {
-        return 'Tinggi'
+        return "Tinggi";
       } else {
-        return 'Rendah'
+        return "Rendah";
       }
-
     },
     generatePDF() {
       this.generating = true;
       this.$axios
         .$post(`/api/tryout_user/generate-certificate`, {
-            id_produk: this.dataResult.detail.id_produk,
-            id_user: this.dataResult.detail.id_user,
-            referensi: this.$route.query.code,
-          })
+          id_produk: this.dataResult.detail.id_produk,
+          id_user: this.dataResult.detail.id_user,
+          referensi: this.$route.query.code,
+          kategori: this.dataResult.detail.kategori_produk
+        })
         .then(res => {
           console.log(res);
           if (res.success) {
-            const pdfUrl = res.data
-            let anchor = document.createElement('a');
-            anchor.setAttribute('target', '_blank')
-            anchor.setAttribute('href', pdfUrl);
-            anchor.setAttribute('download', true);
+            const pdfUrl = res.data;
+            let anchor = document.createElement("a");
+            anchor.setAttribute("target", "_blank");
+            anchor.setAttribute("href", pdfUrl);
+            anchor.setAttribute("download", true);
             // console.log(anchor);
-            anchor.click()
+            anchor.click();
           }
         })
         .catch(err => {
@@ -243,7 +316,7 @@ export default {
           this.catchError(err);
         })
         .finally(() => (this.generating = false));
-    },
+    }
   }
 };
 </script>
