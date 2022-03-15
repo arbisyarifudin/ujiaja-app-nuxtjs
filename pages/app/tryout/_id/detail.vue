@@ -519,7 +519,8 @@ export default {
         harga_produk: 0,
         kode_unik: null,
         biaya_adm: null,
-        total_harga: 0
+        total_harga: 0,
+        jenis_transaksi: 'Tryout'
       };
 
       // console.log(dataSave)

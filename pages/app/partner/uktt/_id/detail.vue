@@ -81,36 +81,77 @@
         >
           <i class="far fa-edit mr-1"></i> Kerjakan Ujian
         </button> -->
-      <div
-        v-if="
-          !dataDetail.is_task_done &&
-            dataDetail.produk.prasyarat &&
-            dataDetail.produk.prasyarat.level_tentor_terpenuhi &&
-            dataDetail.produk.prasyarat.uktt_sebelumnya_lulus
-        "
-      >
+      <div v-if="!loading && dataDetail.is_paid">
+        <div
+          v-if="
+            !dataDetail.is_task_done &&
+              dataDetail.produk.prasyarat &&
+              dataDetail.produk.prasyarat.level_tentor_terpenuhi &&
+              dataDetail.produk.prasyarat.uktt_sebelumnya_lulus
+          "
+        >
+          <button
+            v-if="!dataDetail.is_task_start"
+            class="btn btn-primary dashboard mb-4"
+            @click.prevent="startTest(false)"
+          >
+            <i class="far fa-edit mr-1"></i> Kerjakan Ujian
+          </button>
+          <button
+            v-if="dataDetail.is_task_start"
+            class="btn btn-primary dashboard mb-4"
+            @click.prevent="startTest(true)"
+          >
+            <i class="far fa-edit mr-1"></i> Lanjut Mengerjakan
+          </button>
+        </div>
         <button
-          v-if="!dataDetail.is_task_start"
+          v-else-if="!dataDetail.is_task_done"
           class="btn btn-primary dashboard mb-4"
-          @click.prevent="startTest(false)"
+          :disabled="true"
         >
           <i class="far fa-edit mr-1"></i> Kerjakan Ujian
         </button>
-        <button
-          v-if="dataDetail.is_task_start"
-          class="btn btn-primary dashboard mb-4"
-          @click.prevent="startTest(true)"
-        >
-          <i class="far fa-edit mr-1"></i> Lanjut Mengerjakan
-        </button>
       </div>
-      <button
-        v-else-if="!dataDetail.is_task_done"
-        class="btn btn-primary dashboard mb-4"
-        :disabled="true"
-      >
-        <i class="far fa-edit mr-1"></i> Kerjakan Ujian
-      </button>
+      <div v-else-if="!loading && dataDetail.is_paid == false">
+        <div class="" v-if="dataDetail.produk.harga_produk > 0">
+          <router-link
+            class="btn btn-primary dashboard mb-4"
+            v-if="!dataDetail.transaksi"
+            :to="`/app/partner/uktt/${dataDetail.produk.id}/enroll`"
+            >Beli UKTT</router-link
+          >
+          <router-link
+            class="btn btn-primary dashboard mb-4"
+            v-else-if="
+              dataDetail.transaksi &&
+                (dataDetail.transaksi.status == 'Kadaluarsa' ||
+                  dataDetail.transaksi.status == 'Dibatalkan')
+            "
+            :to="`/app/partner/uktt/${dataDetail.produk.id}/enroll`"
+            >Beli UKTT</router-link
+          >
+          <button
+            v-else-if="!dataDetail.is_paid"
+            :disabled="true"
+            class="btn btn-primary dashboard mb-4"
+          >
+            <i class="fas fa-fw fa-shopping-cart"></i>
+            Beli UKTT
+          </button>
+        </div>
+        <div class="" v-else-if="!dataDetail.transaksi">
+           <button
+            class="btn btn-primary dashboard mb-4"
+            @click.prevent="claimFreeProduct"
+            :disabled="submitting"
+          >
+            <b-spinner small class="mr-1" v-if="submitting"></b-spinner>
+            <i class="fas fa-fw fa-shopping-cart" v-else></i>
+            Klaim UKTT Gratis
+          </button>
+        </div>
+      </div>
 
       <nuxt-link
         v-if="dataDetail.is_task_done"
@@ -273,6 +314,7 @@ export default {
   data() {
     return {
       loading: true,
+      submitting: false,
       dataDetail: {
         produk: {},
         tryout: []
@@ -289,8 +331,14 @@ export default {
         return true;
       }
     },
+    user() {
+      return this.$store.state.dataUser.user;
+    },
     userDetail() {
       return this.$store.state.dataUser.detail;
+    },
+    pembayaranUKTT() {
+      return this.getSetting && this.getSetting("pembayaran_uktt");
     }
   },
   methods: {
@@ -442,6 +490,45 @@ export default {
         }
       }
       return false;
+    },
+    claimFreeProduct() {
+      this.submitting = true;
+      let dataSave;
+
+      dataSave = {
+        id_user: this.user.id,
+        id_produk: this.dataDetail.produk.id,
+        id_bank: null,
+        tanggal_transaksi: new Date(),
+        tipe: "Free Claim",
+        harga_produk: 0,
+        kode_unik: null,
+        biaya_adm: null,
+        total_harga: 0,
+        jenis_transaksi: 'UKTT'
+      };
+
+      // console.log(dataSave)
+      // return;
+
+      this.$axios
+        .$post(`/api/transaksi/create`, dataSave)
+        .then(res => {
+          if (res.success) {
+            this.showToastMessage("UKTT berhasil diklaim!", "success");
+            window.location.reload();
+            return true
+          }
+        })
+        .then(() => {
+          this.getNotif();
+          return true
+        })
+        .catch(err => {
+          console.log(err);
+          this.catchError(err);
+        })
+        // .finally(() => (this.submitting = false));
     }
   }
 };
