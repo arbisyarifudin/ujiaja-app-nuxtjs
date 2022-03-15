@@ -47,7 +47,7 @@
             "
           >
             <div
-              class="col-md-6 p-0"
+              class="col-md-6 p-0 pr-1"
               v-if="dataDetail.produk || dataDetail.mbti"
             >
               <p class="mb-1" style="color: #9490A4;">Produk</p>
@@ -222,7 +222,7 @@
             class="my-4"
             v-if="
               dataDetail.status &&
-                (dataDetail.status != 'Sudah Diverifikasi' && dataDetail.status != 'Kadaluarsa' && dataDetail.status != 'Dibatalkan') &&
+                (dataDetail.status != 'Menunggu Pembayaran' && dataDetail.status != 'Sudah Diverifikasi' && dataDetail.status != 'Kadaluarsa' && dataDetail.status != 'Dibatalkan') &&
                 dataDetail.tipe == 'Bank Transfer'
             "
           >

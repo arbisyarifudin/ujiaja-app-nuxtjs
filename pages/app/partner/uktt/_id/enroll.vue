@@ -179,7 +179,7 @@
                 <h5>Pesanan</h5>
                 <div class="bg-white p-4 mr-2 mt-3" style="min-height: 200px">
                   <h5>{{ dataDetail.produk.nama_produk }}</h5>
-                  <p class="mb-2 mt-3">Harga Tryout</p>
+                  <p class="mb-2 mt-3">Harga Ujian</p>
                   <h5 class="mb-0 text-primary">
                     {{ dataDetail.produk.harga_label }}
                   </h5>
@@ -190,7 +190,7 @@
                 <div class="bg-white p-4 mt-3">
                   <div class="d-flex d-flex justify-content-between">
                     <div class="mr-5 pr-5">
-                      <p class="mb-3">Harga Tryout</p>
+                      <p class="mb-3">Harga Ujian</p>
                       <p
                         class="mb-3 small"
                         v-if="paymentMethod == 'Bank Transfer'"
@@ -429,7 +429,7 @@ export default {
       }
     });
     if (!this.$route.params.id)
-      return this.$router.push("/app/tryout/mine");
+      return this.$router.push("/app/partner/uktt");
     this.getDetail("produk", this.$route.params.id);
     this.getBank("bank");
   },
@@ -509,7 +509,7 @@ export default {
         kode_unik: this.paymentMethod == 'Bank Transfer' ? this.kodeUnik : null,
         biaya_adm: this.paymentMethod == 'Pihak Ketiga' ? this.biayaAdm : null,
         total_harga: this.totalHarga,
-        jenis_transaksi: 'Tryout'
+        jenis_transaksi: 'UKTT'
       };
 
       // console.log(dataSave)

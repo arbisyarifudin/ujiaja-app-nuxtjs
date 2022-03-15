@@ -139,6 +139,20 @@
             <i class="fas fa-fw fa-shopping-cart"></i>
             Beli UKTT
           </button>
+          <router-link
+            class="btn btn-primary dashboard mb-4 ml-2"
+            v-if="
+              !loading &&
+                isPayable(
+                  dataDetail,
+                  dataDetail.transaksi && dataDetail.transaksi.tipe
+                )
+            "
+            :to="
+              `/app/payment/${dataDetail.produk.transaksi_user.id}/detail?ref=${$route.path}`
+            "
+            >Detail Pembayaran</router-link
+          >
         </div>
         <div class="" v-else-if="!dataDetail.transaksi">
            <button
