@@ -148,17 +148,28 @@
 
       <hr />
 
-      <div class="d-flex justify-content-end">
+      <div class="d-flex justify-content-between">
         <!-- v-if="dataResult.detail.kategori_produk == 'UTBK'" -->
-        <button
-          class="btn btn-primary square"
-          :disabled="generating"
-          @click.prevent="generatePDF"
-        >
-          <b-spinner v-if="generating" small></b-spinner>
-          <i class="fas fa-award fa-fw mr-1" v-else></i>
-          Lihat Sertifikat
-        </button>
+        <div class="d-flex">
+           <button
+            class="btn btn-primary square"
+            :disabled="generating"
+            @click.prevent="generatePDF(false)"
+          >
+            <b-spinner v-if="generating" small></b-spinner>
+            <i class="fas fa-award fa-fw mr-1" v-else></i>
+            Lihat Sertifikat
+          </button>
+          <button
+            class="btn btn-outline-primary square ml-2"
+            :disabled="sending"
+            @click.prevent="generatePDF(true)"
+          >
+            <b-spinner v-if="sending" small></b-spinner>
+            <i class="fas fa-envelope fa-fw mr-1" v-else></i>
+            Kirim Email Sertifikat
+          </button>
+        </div>
         <nuxt-link
           class="btn btn-outline-primary square ml-3"
           :to="
@@ -209,6 +220,7 @@ export default {
     return {
       loading: true,
       generating: false,
+      sending: false,
       dataResult: {
         detail: {},
         tryout: []
@@ -290,32 +302,37 @@ export default {
         return "Rendah";
       }
     },
-    generatePDF() {
-      this.generating = true;
+    generatePDF(is_send_to_email = false) {
+      this.sending = true;
       this.$axios
         .$post(`/api/tryout_user/generate-certificate`, {
           id_produk: this.dataResult.detail.id_produk,
           id_user: this.dataResult.detail.id_user,
           referensi: this.$route.query.code,
-          kategori: this.dataResult.detail.kategori_produk
+          kategori: this.dataResult.detail.kategori_produk,
+          send_to_email: is_send_to_email
         })
         .then(res => {
           console.log(res);
           if (res.success) {
-            const pdfUrl = res.data;
-            let anchor = document.createElement("a");
-            anchor.setAttribute("target", "_blank");
-            anchor.setAttribute("href", pdfUrl);
-            anchor.setAttribute("download", true);
-            // console.log(anchor);
-            anchor.click();
-          }
+            if(is_send_to_email == false) {
+              const pdfUrl = res.data;
+              let anchor = document.createElement("a");
+              anchor.setAttribute("target", "_blank");
+              anchor.setAttribute("href", pdfUrl);
+              anchor.setAttribute("download", true);
+              // console.log(anchor);
+              anchor.click();
+            } else {
+              this.showToastMessage('Sertifikat berhasil dikirim ke emailmu!', 'success')
+            }
+          } 
         })
         .catch(err => {
           console.log(err);
           this.catchError(err);
         })
-        .finally(() => (this.generating = false));
+        .finally(() => (this.sending = false));
     }
   }
 };
