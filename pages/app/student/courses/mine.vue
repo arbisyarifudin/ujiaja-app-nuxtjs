@@ -45,7 +45,7 @@
                     :options="[
                       { text: '-- Filter Status --', value: '' },
                       { text: 'Sedang Berjalan', value: 'Bergabung' },
-                      { text: 'Sudah Selesai', value: 'Sesi Selesai' },
+                      { text: 'Sudah Selesai', value: 'Sesi Selesai' }
                     ]"
                     @change="getData"
                   ></b-form-select>
@@ -77,12 +77,25 @@
             v-for="(item, i) in itemsFiltered"
             :key="i"
           >
-            <div class="card card-karir m-2 router-push" @click="$router.push(`/app/student/courses/${item.id}/detail?ref=${$route.path}`)">
+            <div
+              class="card card-karir m-2 router-push"
+              @click="
+                $router.push(
+                  `/app/student/courses/${item.id}/detail?ref=${$route.path}`
+                )
+              "
+            >
               <!-- style="width: 350px; max-width: 100%" -->
-              <div class="card-body text-left p-0">
-                <div class="" style="display: flex; justify-content: flex-end;">
+              <div class="card-top">
+                <img
+                  :src="ApiUrl(item.tentor ? item.tentor.foto : '')"
+                  @error="noAvatar"
+                  alt=""
+                  class="card-img-top"
+                />
+                <div class="card-top__float-top">
                   <p
-                    class="label-event mb-2 px-4 py-1"
+                    class="card-top__label label-event mb-2 px-4 py-1"
                     :class="[
                       item.status_dikelas &&
                       item.status_dikelas !== 'Sesi Selesai'
@@ -97,6 +110,35 @@
                         : "Selesai"
                     }}
                   </p>
+                </div>
+                <div class="card-top__float-bottom">
+                  <div class="title">
+                    {{ item.tentor ? item.tentor.nama_lengkap : "" }}
+                  </div>
+                  <div class="subtitle">
+                    <b-icon icon="cursor-fill"></b-icon>
+                    {{ item.nama_kota ? item.nama_kota : "N/A" }}
+                  </div>
+                </div>
+              </div>
+              <div class="card-body text-left p-0">
+                <div class="" style="display: flex; justify-content: flex-end;">
+                  <!-- <p
+                    class="label-event mb-2 px-4 py-1"
+                    :class="[
+                      item.status_dikelas &&
+                      item.status_dikelas !== 'Sesi Selesai'
+                        ? ''
+                        : 'draft'
+                    ]"
+                  >
+                    {{
+                      item.status_dikelas &&
+                      item.status_dikelas !== "Sesi Selesai"
+                        ? "Berjalan"
+                        : "Selesai"
+                    }}
+                  </p> -->
                 </div>
                 <div class="card-content px-4 mt-4">
                   <p
@@ -134,9 +176,12 @@
                 >
                   <nuxt-link
                     v-if="item.menerima_peserta"
-                    :to="
-                      `/app/student/courses/${item.id}/detail?ref=${$route.path}`
-                    "
+                    :to="{
+                      path: `/app/student/courses/${item.id}/detail`,
+                      params: {
+                        ref: $route.path
+                      }
+                    }"
                     class="karir-link"
                     >Detail <i class="fas fa-chevron-right ml-1"></i
                   ></nuxt-link>
@@ -185,16 +230,17 @@
 
       <div
         class="kelas lihat-tryout mt-4 d-flex w-100"
-        v-if="itemsFiltered == 0 && totalRows != 0 && !loading && !filter.keyword"
+        v-if="
+          itemsFiltered == 0 && totalRows != 0 && !loading && !filter.keyword
+        "
       >
         <div class="col-md-8">
           <h4 class="m-0 mb-3">Oops!</h4>
           <p>
-           Data pada filter status ini kosong.
+            Data pada filter status ini kosong.
           </p>
         </div>
       </div>
-
     </div>
   </div>
 </template>
@@ -213,7 +259,7 @@ export default {
       },
       totalRows: 0,
       items: [],
-      inFilterStatus: false,
+      inFilterStatus: false
     };
   },
   computed: {
@@ -245,11 +291,11 @@ export default {
   },
   watch: {
     "filter.keyword": function(value) {
-      this.filter.status = ''
+      this.filter.status = "";
       this.getData();
     },
     "filter.page": function(value) {
-      this.filter.status = ''
+      this.filter.status = "";
       this.getData();
     }
   },

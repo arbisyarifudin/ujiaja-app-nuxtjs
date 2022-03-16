@@ -42,14 +42,14 @@ h6 {
 .option-text {
     margin-bottom: 0;
     p {
-        margin-bottom: 0!important;
+        margin-bottom: 0 !important;
     }
 }
 
 .router-push {
     cursor: pointer;
     &:hover {
-        box-shadow: 0 4px 10px rgba(199, 199, 199, 0.5)!important;
+        box-shadow: 0 4px 10px rgba(199, 199, 199, 0.5) !important;
     }
 }
 
@@ -250,7 +250,6 @@ input,
     }
 }
 
-
 .floating-pagination {
     position: fixed;
     bottom: 20px;
@@ -328,7 +327,7 @@ input,
                         content: none;
                     }
                 }
-             }
+            }
         }
     }
     .dropdown {
@@ -337,10 +336,10 @@ input,
             // left: 120px !important;
             // left: 150px !important;
             // transform: translate3d(140px, 40px, 0px)!important;
-            top: 0!important;
-            right: 10px!important;
-            left: unset!important;
-            transform: translateX(100%)!important;
+            top: 0 !important;
+            right: 10px !important;
+            left: unset !important;
+            transform: translateX(100%) !important;
             &::before {
                 content: "";
                 position: absolute;
@@ -857,16 +856,16 @@ table,
     }
 }
 
-.kelas { 
+.kelas {
     &.bg-buat-kelas {
-        background-image: url('/dash-guru.png');
+        background-image: url("/dash-guru.png");
         background-position-x: right;
     }
     &.bg-uktt {
-        background-image: url('/dash-guru2.png');
+        background-image: url("/dash-guru2.png");
         background-position-x: right;
     }
- }
+}
 
 /* unggah foto */
 
@@ -1106,7 +1105,7 @@ input.form {
     .question {
         &-board {
             height: 100%;
-            height: calc(100vh - 100px)
+            height: calc(100vh - 100px);
         }
     }
     .info {
@@ -1519,7 +1518,7 @@ input.form {
             min-width: 300px;
             max-width: 450px;
         }
-        
+
         .notif-total {
             font-size: 11px;
             border-radius: 50%;
@@ -1583,6 +1582,56 @@ input.form {
     label {
         color: #9e8df3;
         min-width: 50%;
+    }
+}
+
+.card-top {
+    position: relative;
+    height: 300px;
+    &::after {
+        content: "";
+        background: linear-gradient(180deg, rgba(146, 134, 255, 0.1) 0%, rgba(146, 134, 255, 0.4) 100%);
+        position: absolute;
+        z-index: 5;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        top: 0;
+    }
+    > img {
+        height: 100%;
+        object-fit: cover;
+    }
+    &__float {
+        &-top {
+            z-index: 8;
+            position: absolute;
+            top: 15px;
+            right: 15px;
+        }
+        &-bottom {
+            z-index: 8;
+            position: absolute;
+            bottom: 15px;
+            left: 15px;
+            color: #fff;
+            .title {
+                font-size: 20px;
+                font-weight: 500;
+                text-transform: capitalize;
+            }
+            .subtitle {
+                font-size: 14px;
+            }
+        }
+    }
+    &__label {
+        background-color: #55cb4a;
+        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.08);
+        // border-radius: 0px 12px;
+        border-radius: 0px;
+        color: #fdfdfd!important;
+        font-size: 13px!important;
     }
 }
 

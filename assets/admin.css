@@ -1709,6 +1709,63 @@ input.form-control-info {
   min-width: 50%;
 }
 
+.card-top {
+  position: relative;
+  height: 300px;
+}
+
+.card-top::after {
+  content: "";
+  background: -webkit-gradient(linear, left top, left bottom, from(rgba(146, 134, 255, 0.1)), to(rgba(146, 134, 255, 0.4)));
+  background: linear-gradient(180deg, rgba(146, 134, 255, 0.1) 0%, rgba(146, 134, 255, 0.4) 100%);
+  position: absolute;
+  z-index: 5;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+}
+
+.card-top > img {
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+.card-top__float-top {
+  z-index: 8;
+  position: absolute;
+  top: 15px;
+  right: 15px;
+}
+
+.card-top__float-bottom {
+  z-index: 8;
+  position: absolute;
+  bottom: 15px;
+  left: 15px;
+  color: #fff;
+}
+
+.card-top__float-bottom .title {
+  font-size: 20px;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.card-top__float-bottom .subtitle {
+  font-size: 14px;
+}
+
+.card-top__label {
+  background-color: #55cb4a;
+  -webkit-box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.08);
+          box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.08);
+  border-radius: 0px;
+  color: #fdfdfd !important;
+  font-size: 13px !important;
+}
+
 /* CSS on MOBILE */
 /* HAPE */
 /* TABLET */

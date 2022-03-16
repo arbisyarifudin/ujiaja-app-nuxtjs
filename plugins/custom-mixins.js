@@ -218,6 +218,9 @@ Vue.mixin({
     noImage(event) {
       event.target.src = `${window.origin}/logo2.png`;
     },
+    noAvatar(event) {
+      event.target.src = `${window.origin}/avatar.jpg`;
+    },
     showToastMessage(message = "Pesan", type = "danger", duration = 3000) {
       this.$root.$bvToast.toast(message, {
         title: "Pesan",

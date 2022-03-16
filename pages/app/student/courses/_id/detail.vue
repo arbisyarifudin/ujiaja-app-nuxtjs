@@ -6,8 +6,10 @@
           <h2 class="dash-label">
             <b-spinner type="grow" class="mr-2" v-if="loading" /> Detail Kelas
           </h2>
-          <BackUrl title="Kembali"
-          ::url="!$route.query.ref ? `/app/student/courses` :  $route.query.ref"/>
+          <BackUrl
+            title="Kembali"
+            :url="!$route.query.ref ? `/app/student/courses` :  $route.query.ref"
+          />
         </div>
       </div>
       <div class="col-md-12">
@@ -41,6 +43,23 @@
                           <i class="fa fa-search"></i>
                         </button>
                       </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th width="150">Model Belajar</th>
+                    <td width="10">:</td>
+                    <td>
+                      <span class="badge badge-success">{{
+                        dataDetail.model_belajar
+                      }}</span>
+                    </td>
+                  </tr>
+                  <tr v-if="dataDetail.model_belajar == 'Offline'">
+                    <th width="150">Alamat</th>
+                    <td width="10">:</td>
+                    <td>
+                      {{ dataDetail.alamat }}, {{ dataDetail.nama_kecamatan }},
+                      {{ dataDetail.nama_kota }}, {{ dataDetail.nama_provinsi }}
                     </td>
                   </tr>
                   <tr>
@@ -389,7 +408,7 @@
       </div>
     </b-modal>
 
-     <b-modal
+    <b-modal
       id="modal-detail-teacher"
       title="Detail Tentor"
       hide-footer
@@ -401,7 +420,7 @@
       <template v-if="detailTeacher && !loading">
         <div class="row">
           <div class="col-md-8 modal-body-kiri">
-           <table class="table table-borderless">
+            <table class="table table-borderless">
               <tr>
                 <th width="150">Nama Lengkap</th>
                 <th width="10">:</th>
@@ -418,7 +437,9 @@
                   }}</span>
                 </th>
               </tr>
-              <tr v-if="dataDetailByStudent && dataDetailByStudent.status_dikelas">
+              <tr
+                v-if="dataDetailByStudent && dataDetailByStudent.status_dikelas"
+              >
                 <th width="150">No. Telp/HP</th>
                 <th width="10">:</th>
                 <th>{{ detailTeacher.nomor_telephone }}</th>
@@ -452,7 +473,14 @@
             </table>
           </div>
           <div class="col-md-4">
-            <img v-if="detailTeacher" @error="noImage" :src="ApiUrl(detailTeacher.foto)" alt="photo" class="img-fluid" style="object-fit: contain; width: 150px">
+            <img
+              v-if="detailTeacher"
+              @error="noImage"
+              :src="ApiUrl(detailTeacher.foto)"
+              alt="photo"
+              class="img-fluid"
+              style="object-fit: contain; width: 150px"
+            />
           </div>
         </div>
         <div class="modal-footer justify-content-center" style="border: 0px">
@@ -498,7 +526,7 @@ export default {
         privasi: "Publik"
       },
       dataDetailByStudent: {},
-      detailTeacher: {},
+      detailTeacher: {}
     };
   },
   computed: {
@@ -533,7 +561,10 @@ export default {
             this.youtubeVideoId = this.generateYoutubeVideoId(
               this.dataDetail.video_kursus
             );
-            if(this.dataDetail.transaksi && this.dataDetail.transaksi.status_dikelas) {
+            if (
+              this.dataDetail.transaksi &&
+              this.dataDetail.transaksi.status_dikelas
+            ) {
               this.getDetailByStudent();
             }
           }
@@ -608,7 +639,7 @@ export default {
           params: {
             id_kursus: this.$route.params.id,
             q: "",
-            paginate: 10,
+            paginate: 10
           }
         })
         .then(res => {
@@ -750,7 +781,7 @@ export default {
         .finally(() => (this.submitting = false));
     },
     getDetailTeacher(id) {
-      this.$bvModal.show('modal-detail-teacher');
+      this.$bvModal.show("modal-detail-teacher");
       this.loading = true;
       this.$axios
         .$get(`/api/users/teacher/find/${id}`)
@@ -784,7 +815,7 @@ export default {
           break;
       }
       return statusClass;
-    },
+    }
   }
 };
 </script>

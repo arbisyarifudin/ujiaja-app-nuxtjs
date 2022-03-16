@@ -79,9 +79,39 @@
               "
             >
               <!-- style="width: 350px; max-width: 100%" -->
+              <div class="card-top">
+                <img :src="ApiUrl(item.tentor ? item.tentor.foto : '')" @error="noAvatar" alt="" class="card-img-top" />
+                <div class="card-top__float-top">
+                  <p
+                    v-if="item.transaksi &&
+                      item.transaksi.status == 'Sudah Diverifikasi' &&
+                      item.transaksi.status_dikelas !== 'Sesi Selesai'"
+                    class="card-top__label label-event mb-2 px-4 py-1"
+                    :class="[
+                      item.transaksi &&
+                      item.transaksi.status == 'Sudah Diverifikasi' &&
+                      item.transaksi.status_dikelas !== 'Sesi Selesai'
+                        ? ''
+                        : 'draft'
+                    ]"
+                  >
+                    {{
+                      item.transaksi &&
+                      item.transaksi.status == "Sudah Diverifikasi" &&
+                      item.transaksi.status_dikelas !== "Sesi Selesai"
+                        ? "Dibeli"
+                        : "&nbsp;"
+                    }}
+                  </p>
+                </div>
+                <div class="card-top__float-bottom">
+                  <div class="title">{{item.tentor ? item.tentor.nama_lengkap : ''}}</div>
+                  <div class="subtitle"><b-icon icon="cursor-fill"></b-icon> {{item.nama_kota ? item.nama_kota : 'N/A'}}</div>
+                </div>
+              </div>
               <div class="card-body text-left p-0">
                 <div class="" style="display: flex; justify-content: flex-end;">
-                  <p
+                  <!-- <p
                     v-if="item.transaksi"
                     class="label-event mb-2 px-4 py-1"
                     :class="[
@@ -99,8 +129,8 @@
                         ? "Dibeli"
                         : "&nbsp;"
                     }}
-                  </p>
-                  <p v-else>&nbsp;</p>
+                  </p> -->
+                  <!-- <p v-else>&nbsp;</p> -->
                 </div>
                 <div class="card-content px-4 mt-4">
                   <p
@@ -112,13 +142,15 @@
                     class="card-judul card-program mb-4 mt-3"
                     style="height: 60px"
                   >
-                    {{ item.nama_kursus }} 
-                    <span class="model-belajar badge badge-primary">{{item.model_belajar}}</span>
+                    {{ item.nama_kursus }}
+                    <span class="model-belajar badge badge-primary">{{
+                      item.model_belajar
+                    }}</span>
                   </h3>
-                  <p class="mb-2">
+                  <!-- <p class="mb-2">
                     <i class="fas fa-user-check fa-fw"></i>
                     {{ item.tentor ? item.tentor.nama_lengkap : "-" }}
-                  </p>
+                  </p> -->
                   <p class="mb-2">
                     <i class="fas fa-award fa-fw"></i>
                     {{ item.mapel ? item.mapel.nama_mapel : "-" }}
@@ -278,10 +310,7 @@
         </div>
       </div>
       <div class="modal-footer">
-        <b-button
-          variant="outline-primary"
-          class="square"
-          @click="resetFilter"
+        <b-button variant="outline-primary" class="square" @click="resetFilter"
           >Reset</b-button
         >
         <b-button variant="primary" class="square" @click="getData"
@@ -304,7 +333,7 @@ export default {
         keyword: "",
         id_mapel: null,
         id_jenjang: null,
-        model_belajar: '',
+        model_belajar: "",
         id_provinsi: null,
         id_kota: null,
         id_kecamatan: null
@@ -320,16 +349,16 @@ export default {
       },
       modelOptions: [
         {
-          value: '',
-          text: '-- Semua Model --',
+          value: "",
+          text: "-- Semua Model --"
         },
         {
-          value: 'Online',
-          text: 'Online',
+          value: "Online",
+          text: "Online"
         },
         {
-          value: 'Offline',
-          text: 'Offline',
+          value: "Offline",
+          text: "Offline"
         }
       ]
     };
@@ -417,7 +446,7 @@ export default {
         .finally(() => (this.loading = false));
     },
     getData() {
-      this.$bvModal.hide('modal-filter')
+      this.$bvModal.hide("modal-filter");
       this.loading = true;
       this.$axios
         .$get("api/kursus", {
@@ -466,12 +495,12 @@ export default {
       return `${element} <span>${rataRata}/5</span>`;
     },
     resetFilter() {
-      this.filter.id_mapel = null
-      this.filter.id_jenjang = null
-      this.filter.model_belajar = null
-      this.filter.id_provinsi = null
-      this.filter.id_kota = null
-      this.filter.id_kecamatan = null
+      this.filter.id_mapel = null;
+      this.filter.id_jenjang = null;
+      this.filter.model_belajar = null;
+      this.filter.id_provinsi = null;
+      this.filter.id_kota = null;
+      this.filter.id_kecamatan = null;
     }
   }
 };
