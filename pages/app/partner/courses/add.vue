@@ -172,11 +172,11 @@
                   class="form-control"
                   id="model_belajar"
                   v-model="form.model_belajar"
-                  :options="['Online', 'Offline']"
+                  :options="['Online', 'Offline', 'Hybrid']"
                 ></b-form-select>
               </div>
             </div>
-            <div class="col-md-6" v-if="form.model_belajar == 'Online'">
+            <div class="col-md-6" v-if="form.model_belajar !== 'Online'">
               <div class="form-group reg-siswa">
                 <label for="alamat">Alamat <code>*</code></label>
                 <b-form-input
@@ -186,7 +186,7 @@
                 ></b-form-input>
               </div>
             </div>
-            <div class="col-md-4" v-if="form.model_belajar == 'Online'">
+            <div class="col-md-4" v-if="form.model_belajar !== 'Online'">
               <div class="form-group reg-siswa">
                 <label for="id_provinsi">Provinsi <code>*</code></label>
                 <v-select
@@ -208,7 +208,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-md-4" v-if="form.model_belajar == 'Online'">
+            <div class="col-md-4" v-if="form.model_belajar !== 'Online'">
               <div class="form-group reg-siswa">
                 <label for="id_kota">Kota/Kabupaten <code>*</code></label>
                 <v-select
@@ -229,7 +229,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-md-4" v-if="form.model_belajar == 'Online'">
+            <div class="col-md-4" v-if="form.model_belajar !== 'Online'">
               <div class="form-group reg-siswa">
                 <label for="id_kecamatan">Kecamatan <code>*</code></label>
                 <v-select
@@ -473,7 +473,7 @@ export default {
         return;
       }
 
-      if (this.form.model_belajar == "Online") {
+      if (this.form.model_belajar !== "Online") {
         if (
           !this.form.alamat ||
           !this.form.id_provinsi ||

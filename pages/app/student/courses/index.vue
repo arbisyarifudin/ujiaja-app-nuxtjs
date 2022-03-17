@@ -249,7 +249,7 @@
             ></b-form-select>
           </div>
         </div>
-        <div class="col-md-6" v-if="filter.model_belajar == 'Offline'">
+        <div class="col-md-6" v-if="filter.model_belajar !== 'Online'">
           <div class="form-group reg-siswa">
             <label for="id_provinsi">Provinsi</label>
             <v-select
@@ -271,7 +271,7 @@
             </div>
           </div>
         </div>
-        <div class="col-md-6" v-if="filter.model_belajar == 'Offline'">
+        <div class="col-md-6" v-if="filter.model_belajar !== 'Online'">
           <div class="form-group">
             <label for="id_kota">Kota/Kabupaten</label>
             <v-select
@@ -292,7 +292,7 @@
             </div>
           </div>
         </div>
-        <div class="col-md-6" v-if="filter.model_belajar == 'Offline'">
+        <div class="col-md-6" v-if="filter.model_belajar !== 'Online'">
           <div class="form-group">
             <label for="id_kecamatan">Kecamatan</label>
             <v-select
@@ -359,6 +359,10 @@ export default {
         {
           value: "Offline",
           text: "Offline"
+        },
+        {
+          value: "Hybrid",
+          text: "Hybrid"
         }
       ]
     };
