@@ -212,7 +212,10 @@ Vue.mixin({
       this.$store.commit("SET_IS_AUTH", false);
       // this.$store.commit("set", ["dataUser", {}]);
     },
-    ApiUrl(param) {
+    ApiUrl(param, no_separator = false) {
+      if(no_separator)  {
+        return process.env.apiUrl + param;
+      }
       return process.env.apiUrl + "/" + param;
     },
     noImage(event) {

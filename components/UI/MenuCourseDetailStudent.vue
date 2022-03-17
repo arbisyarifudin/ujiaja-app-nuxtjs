@@ -41,7 +41,10 @@
             title="Detail Pembayaran"
           >
             <i class="fas fa-file-alt fa-fw"></i> Detail Pembayaran
-            <span v-if="detail.transaksi && detail.transaksi.status == 'Dibatalkan'">(Dibatalkan)</span>
+            <span
+              v-if="detail.transaksi && detail.transaksi.status == 'Dibatalkan'"
+              >(Dibatalkan)</span
+            >
           </router-link>
           <router-link
             v-if="detail.transaksi && detail.transaksi.status == 'Dibatalkan'"
@@ -57,7 +60,7 @@
               detail.transaksi &&
                 detail.transaksi.status == 'Sudah Diverifikasi' &&
                 detailStudent.status_dikelas != 'Pending' &&
-                  detailStudent.status_dikelas != 'Ditolak'
+                detailStudent.status_dikelas != 'Ditolak'
             "
             :to="
               `/app/student/courses/${detail.id}/materials?ref=${$route.path}`
@@ -73,7 +76,7 @@
               detail.transaksi &&
                 detail.transaksi.status == 'Sudah Diverifikasi' &&
                 detailStudent.status_dikelas != 'Pending' &&
-                  detailStudent.status_dikelas != 'Ditolak'
+                detailStudent.status_dikelas != 'Ditolak'
             "
             :href="`tel:${detail.tentor.nomor_telephone}`"
             role="button"
@@ -83,6 +86,16 @@
             <i class="fab fa-whatsapp fa-fw"></i>
           </a>
         </div>
+
+        <b-dropdown text="Profil" right no-caret toggle-class="btn btn-success square" title="Bagikan Kelas Kursus" v-if="ApiUrl">
+          <template #button-content>
+           <b-icon icon="share"></b-icon>
+          </template>
+          <b-dropdown-item target="_blank" :href="`https://www.facebook.com/sharer/sharer.php?u=${ApiUrl($route.path, true)}`">Facebook</b-dropdown-item>
+          <b-dropdown-item target="_blank" :href="`https://twitter.com/intent/tweet?text=Lihat!%20Ada%20kelas%20kursus%20menarik%20disini.%20${ApiUrl($route.path, true)}`">Twitter</b-dropdown-item>
+          <b-dropdown-item target="_blank" :href="`https://www.linkedin.com/shareArticle?mini=true&url=${ApiUrl($route.path, true)}&title=${detail.nama_kursus}&summary=Lihat!%20Ada%20kelas%20kursus%20menarik%20disini.&source=Ujiaja.com`">LinkedIn</b-dropdown-item>
+          <b-dropdown-item target="_blank" :href="`https://wa.me/?text=Lihat!%20Ada%20kelas%20kursus%20menarik%20disini.%20${ApiUrl($route.path, true)}`">Whatsapp</b-dropdown-item>
+        </b-dropdown>
       </div>
     </div>
     <hr />
