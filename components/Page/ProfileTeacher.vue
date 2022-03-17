@@ -138,7 +138,7 @@
     >
       <div>
         <p class="modal-text">
-          Apakah anda yakin ingin menghapus akun Tentor anda? <small class="text-danger"><b>Perhatian:</b> Setelah dihapus, akun tidak dapat dikembalikan.</small>
+          Apakah anda yakin ingin menghapus akun Tentor anda? <small class="text-danger"><b>Perhatian:</b> Dengan menghapus akun, Anda akan kehilangan saldo tersisa dan akun tidak dapat dikembalikan.</small>
         </p>
         <div class="modal-footer justify-content-end" style="border: 0px">
           <button

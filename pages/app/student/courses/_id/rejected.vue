@@ -403,7 +403,7 @@ export default {
     getDataReject(id) {
       this.loading = true;
       this.$axios
-        .$get(`/api/kursus-siswafind/${id}`)
+        .$get(`/api/kursus-siswa/find/${id}`)
         .then(res => {
           if (res.success) {
             this.dataReject = res.data;

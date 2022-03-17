@@ -578,7 +578,7 @@ export default {
     getDetailByStudent() {
       this.loading = true;
       this.$axios
-        .$get(`/api/kursus-siswafind/${this.$route.params.id}/student`)
+        .$get(`/api/kursus-siswa/find/${this.$route.params.id}/student`)
         .then(res => {
           if (res.success) {
             this.dataDetailByStudent = res.data;
