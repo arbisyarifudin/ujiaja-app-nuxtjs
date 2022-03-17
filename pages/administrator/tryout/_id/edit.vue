@@ -209,7 +209,7 @@ export default {
         kelompok_soal: null,
         template_soal: null,
         id_penjurusan: null,
-        panduan_pengerjaan: "-",
+        // panduan_pengerjaan: "-",
         alokasi_waktu: 0,
         jeda_waktu: 0
       },
@@ -283,7 +283,17 @@ export default {
     submitData(type) {
       this.loading = true;
       this.$axios
-        .$put(`/api/${type}/update/${this.$route.params.id}`, this.form)
+        .$put(`/api/${type}/update/${this.$route.params.id}`, {
+          judul: this.form.judul,
+          kategori: this.form.kategori,
+          deskripsi: this.form.deskripsi,
+          jenis_soal: this.form.jenis_soal,
+          kelompok_soal: this.form.kelompok_soal,
+          template_soal: this.form.template_soal,
+          id_penjurusan: this.form.id_penjurusan,
+          jeda_waktu: this.form.jeda_waktu,
+          alokasi_waktu: this.form.alokasi_waktu,
+        })
         .then(res => {
           console.log(res);
           if (res.success) {
