@@ -24,7 +24,7 @@
     <SectionLangkah :props="langkah" />
     <SectionPertanyaan :items="pertanyaan" style="margin-top: 80px" />
     <SectionCardHero
-      src="/tryoututbk.png"
+      src="/tryoututbk_3.png"
       title="Siap untuk masuk kampus impian bersama UjiAja?"
       description="Tunggu apa lagi? Mari bergabung dengan UjiAja dan menjadi pemenang di Tryout UTBK!"
       href="/registrasi"

@@ -334,4 +334,5 @@ export default {
 <style>
 @import url("@/assets/ano/admin.css");
 @import url("@/assets/admin.css");
+@import url("@/assets/theme/admin-3.css");
 </style>

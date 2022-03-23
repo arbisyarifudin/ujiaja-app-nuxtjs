@@ -16,7 +16,7 @@
     "
   >
     <NavHeader
-      style="background: linear-gradient(180deg, #F9F871 0%, #FFFFC1 100%);  box-shadow: 0px 2px 4px rgba(84, 84, 84, 0.12);
+      style="background-color: rgba(39, 13, 204, 0.75)!important;
       border-radius: 0px 0px 12px 12px;"
       :navData="navData"
     />

@@ -1,10 +1,14 @@
 <template>
   <div>
-    <Header variant="melengkung primary" :heroData="header.hero" :navData="navData" />
-    <SectionKeunggulan :props="keunggulan" variant="bg-transparent" />
+    <Header
+      variant="melengkung"
+      :heroData="header.hero"
+      :navData="navData"
+    />
+    <SectionKeunggulan :props="keunggulan" />
     <SectionProduk :props="produk" />
     <SectionCardHero
-      src="/eneng3.png"
+      src="/hero-lagi-person2.png"
       title="Maksimalkan Peluang Lolos Tryout Bersama UjiAja"
       description="Cobalah tryout UTBK, Asesmen Nasional, dan ASPD agar persiapanmu semakin matang sebelum ujian yang sesungguhnya dimula."
       href="/registrasi"
@@ -13,7 +17,7 @@
     />
     <SectionTestimoni :props="testimoni" />
     <SectionCardHero
-      src="/bambang.png"
+      src="/hero-lagi-person3.png"
       title="Temukan keseruan latihan dan uji Tryout Pilihanmu hanya di UjiAja"
       description="Persiapkan materi ujianmu selengkap mungkin sesuai kebutuhanmu."
       href="/registrasi"
@@ -28,8 +32,8 @@
 export default {
   head() {
     return {
-      title: 'Tryout',
-    }
+      title: "Tryout"
+    };
   },
   data() {
     return {
@@ -39,11 +43,11 @@ export default {
           subjudul:
             "Gunakan Platform Tryout Terbaik Untuk Tingkatkan Kesiapanmu. Hadapi Masuk Jenjang SMP, SMA dan Perguruan Tinggi negeri!",
           ctaButtonText: "Daftar Sekarang",
-          ctaButtonVariant: "primary",
+          ctaButtonVariant: "secondary",
           cataButtonUrl: "/registrasi",
-          image: "/hero-tryout.png",
-          isJudulFirst: false,
-        },
+          image: "/hero-tryout_3.png",
+          isJudulFirst: false
+        }
       },
       keunggulan: {
         judul: "Mengapa Kamu harus mencoba tryout di UjiAja?",
@@ -51,20 +55,20 @@ export default {
           {
             gambar: "/icon/icon-tryout.png",
             judul: "Soal Prediksi Yang Akurat",
-            subjudul: "Soal prediksi tryout yang akurat disertai pembahasan",
+            subjudul: "Soal prediksi tryout yang akurat disertai pembahasan"
           },
           {
             gambar: "/icon/icon-tryout2.png",
             judul: "Penilaian sama dengan UTBK, AN, & ASPD",
             subjudul:
-              "Penilaian Tryout di UjiAja mirip dengan penilaian UTBK, Asesmen Nasional, & ASPD",
+              "Penilaian Tryout di UjiAja mirip dengan penilaian UTBK, Asesmen Nasional, & ASPD"
           },
           {
             gambar: "/icon/icon-tryout3.png",
             judul: "Pemeringkatan secara Nasional",
-            subjudul: "Dilakukan pemeringkatan dan pemetaan secara nasional",
-          },
-        ],
+            subjudul: "Dilakukan pemeringkatan dan pemetaan secara nasional"
+          }
+        ]
       },
       produk: {
         judul: "Ada berapa jenis tryout yang ada di UjiAja?",
@@ -78,7 +82,7 @@ export default {
             deskripsi:
               "Persiapkan dirimu hadapi ujian UTBK dengan latihan Tryout yang akurat, lengkap dengan fitur terbaik.",
             tambahan: "Gratis Tes Minat, Bakat & Potensi",
-            url: "/produk/tryout-utbk",
+            url: "/produk/tryout-utbk"
           },
           // {
           //   gambar: "/produk/tryout2.png",
@@ -96,7 +100,7 @@ export default {
             deskripsi:
               "Persiapkan dirimu hadapi ujian Asesmen Standar Pendidikan Daerah (Khusus DIY) dengan latihan Tryout ASPD yang akurat. Tryout ini ditujukan untuk jenjang SD hingga SMA.",
             tambahan: null,
-            url: "/produk/tryout-aspd",
+            url: "/produk/tryout-aspd"
           },
           {
             gambar: "/produk/tryout4.jpg",
@@ -105,61 +109,62 @@ export default {
             deskripsi:
               "Persiapkan kuliah, dan potensimu dengan pilihan yang tepat sesuai minat dan bakat dengan ikut MBTI. MBTI ini ditujukan untuk jenjang SD hingga SMA.",
             tambahan: null,
-            url: "/produk/tes-mbti",
-          },
-        ],
+            url: "/produk/tes-mbti"
+          }
+        ]
       },
       testimoni: {
         judul: "Ratusan alumni UjiAja Berhasil mewujudkan kampus impian",
         deskripsi: "",
+        // varian: 'secondary',
         item: [
           {
             nama: "Carla Mango",
             titel: "Kedokteran - Universitas Negeri Semarang",
             testimoni:
               "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Adipiscing odio id condimentum nisl. Vulputate consequat purus amet facilisis est, lectus non urna morbi. Cursus posuere donec congue velit vitae sit massa purus. Adipiscing at euismod morbi nisl, sit et risus. Eget aliquam lacus vel turpis tellus sed nulla.",
-            foto: "/carla.png",
+            foto: "/carla.png"
           },
           {
             nama: "Wilson Aminoff",
             titel: "Ilmu Komputer - Universitas Gajah Mada",
             testimoni:
               "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fames sed nam eget aenean ultrices proin metus. Ut risus, sed dictumst viverra. Faucibus sed fermentum in eros mi in tellus. Varius consequat, amet ut nulla massa rhoncus. Nibh in adipiscing.",
-            foto: "/wilson.png",
-          },
-        ],
-      },
+            foto: "/wilson.png"
+          }
+        ]
+      }
     };
   },
   asyncData(context) {
     function getSetting(key) {
       const settings = context.store.state.dataSetting;
       const foundSetting = settings.find(item => item.key == key);
-      if(foundSetting) {
+      if (foundSetting) {
         return foundSetting.isi;
       }
-      return '';
+      return "";
     }
 
     const navData = {
-      logo: getSetting('logo'),
-    }
+      logo: getSetting("logo")
+    };
 
     const footerData = {
-      logo: getSetting('logo'),
-      alamat_kantor: getSetting('alamat_kantor'),
-      telp: getSetting('telp'),
-      whatsapp: getSetting('whatsapp'),
-      instagram: getSetting('instagram'),
-      facebook: getSetting('facebook'),
-      youtube: getSetting('youtube'),
-      email: getSetting('email'),
-    }
+      logo: getSetting("logo"),
+      alamat_kantor: getSetting("alamat_kantor"),
+      telp: getSetting("telp"),
+      whatsapp: getSetting("whatsapp"),
+      instagram: getSetting("instagram"),
+      facebook: getSetting("facebook"),
+      youtube: getSetting("youtube"),
+      email: getSetting("email")
+    };
 
     return {
       navData,
       footerData
-    }
-  },
+    };
+  }
 };
 </script>

@@ -1,11 +1,11 @@
 <template>
   <div>
     <Header :heroData="header.hero" :navData="navData"/>
-    <SectionKeunggulan :props="keunggulan" />
+    <SectionKeunggulan :props="keunggulan" variant="with-bg"/>
     <SectionProduk :props="produk" />
     <SectionFitLayanan />
     <SectionCardHero
-      src="/fitur/layanan.png"
+      src="/fitur/layanan-3.png"
       title="Nikmati kemudahan belajar
     di UjiAja"
       description="Uji Tes Minat Bakat, Latihan Soal Tryout, dan
@@ -18,7 +18,7 @@
     <SectionProgramStudi />
     <SectionTestimoni :props="testimoni" />
     <SectionCardHero
-      src="/eneng.png"
+      src="/hero-lagi-person.png"
       title="Ribuan Pesaingmu Mulai Persiapkan Diri"
       description="Tunggu apa lagi? Ayo bergabung dengan UjiAja dan belajar bareng bersama UjiAja!"
       href="/registrasi"
@@ -44,9 +44,9 @@ export default {
           subjudul: "Bersama UjiAja, mengerjakan soal terasa lebih mudah",
           judul: "Yuk Belajar Dengan UjiAja Agar Makin Siap Hadapi Ujian",
           ctaButtonText: "Daftar Sekarang",
-          ctaButtonVariant: "primary",
+          ctaButtonVariant: "secondary",
           cataButtonUrl: "/registrasi",
-          image: "/banner.png",
+          image: "/banner-2.png",
           isJudulFirst: true
         }
       },

@@ -20,7 +20,10 @@ export default {
 
 <style>
 @import url("@/assets/ano/compro.css");
+/* @import url("@/assets/ano/compro2.css"); */
 @import url("@/assets/compro.css");
+/* @import url("@/assets/theme/compro-2.css"); */
+@import url("@/assets/theme/compro-3.css");
 </style>
 
 <style scoped lang="scss">

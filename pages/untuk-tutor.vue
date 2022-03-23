@@ -3,7 +3,7 @@
     <Header variant="melengkung" :heroData="header.hero" :navData="navData"/>
     <SectionKeunggulan :props="keunggulan" />
     <SectionCardHero
-      src="/enengtutor1.png"
+      src="/hero-lagi-tutor1.png"
       title="Bagikan keterampilan mengajar Anda dengan UjiAja"
       description="Bergabunglah dengan kami dan Anda akan memiliki semua yang Anda butuhkan untuk mengajar dengan sukses."
       href="/registrasi"
@@ -13,7 +13,7 @@
     <SectionLangkah :props="langkah" />
     <SectionTestimoni :props="testimoni" />
     <SectionCardHero
-      src="/enengtutor2.png"
+      src="/hero-lagi-tutor2.png"
       title="Dapatkan penghasilan dengan mengajar secara online maupun offline."
       description="Jalin erat dengan ribuan siswa di seluruh Indonesia dengan penuh semangat dan ajari mereka dengan kemampuanmu."
       href="/registrasi"
@@ -39,9 +39,9 @@ export default {
           subjudul:
             "Dapatkan penghasilan tambahan sebagai pengajar di UjiAja dan hasilkan uang sesuai lokasi dan jadwalmu!",
           ctaButtonText: "Daftar Sekarang",
-          ctaButtonVariant: "primary",
+          ctaButtonVariant: "secondary",
           cataButtonUrl: "/registrasi",
-          image: "/banneruntuktutor.png",
+          image: "/banneruntuktutor_3.png",
           isJudulFirst: false,
         },
       },

@@ -3,7 +3,7 @@
     <Header variant="melengkung" :heroData="header.hero" :navData="navData" />
     <SectionKeunggulan :props="keunggulan" />
     <SectionCardHero
-      src="/enenguntuksiswa1.png"
+      src="/hero-lagi-siswa-1.png"
       title="Ciptakan Impianmu dan Temukan Potensimu"
       description="Saatnya gapai kuliah impianmu dengan temukan dan pahami potensi diri."
       href="/registrasi"
@@ -13,7 +13,7 @@
     <SectionLangkah :props="langkah" />
     <SectionTestimoni :props="testimoni" />
     <SectionCardHero
-      src="/enenguntuksisw2.png"
+      src="/hero-lagi-siswa-2.png"
       title="Ketahui Program Studi yang Cocok Buatmu."
       description="Lihat rekomendasi kecocokanmu diantara lebih dari 300 program studi di Indonesia."
       href="/registrasi"
@@ -39,9 +39,9 @@ export default {
           subjudul:
             "Persiapkan kuliah, dan potensimu dengan pilihan yang tepat sesuai minat dan bakat",
           ctaButtonText: "Tes Sekarang Juga",
-          ctaButtonVariant: "primary",
+          ctaButtonVariant: "secondary",
           cataButtonUrl: "/registrasi",
-          image: "/banneruntuksiswa.png",
+          image: "/banneruntuksiswa_3.png",
           isJudulFirst: false,
         },
       },

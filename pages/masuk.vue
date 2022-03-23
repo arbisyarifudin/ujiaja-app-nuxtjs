@@ -150,6 +150,9 @@ export default {
   head() {
     return {
       title: 'Masuk',
+      bodyAttrs: {
+        class: "bg-soft"
+      }
     }
   },
   asyncData(context) {

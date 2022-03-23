@@ -1716,9 +1716,12 @@ export default {
     },
     // on Update Input
     onBlurPanduan(quill) {
+      console.log(this.formTryout)
       this.onSubmit.panduan.loading = true;
       this.$axios
-        .$put(`/api/tryout/update/${this.dataDetail.id}`, this.formTryout)
+        .$put(`/api/tryout/update/${this.dataDetail.id}/panduan`, {
+          panduan_pengerjaan: this.formTryout.panduan_pengerjaan
+        })
         .then(res => {
           if (res.success) {
             this.onSubmit.panduan.submitted = true;

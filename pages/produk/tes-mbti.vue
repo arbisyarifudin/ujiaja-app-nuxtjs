@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Header variant="melengkung primary no-hero" :navData="navData" />
+    <Header variant="melengkung no-hero" :navData="navData" />
     <div class="hero-tryout bg-white">
       <div class="container">
         <div class="row">

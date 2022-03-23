@@ -1,13 +1,6 @@
-$title: #6560FD;
-$title-hover: #5853ec;
-$secondary-title: #000000;
-$text: #100906;
-$bg-main: #F7F692;
-
 body {
     font-family: Poppins, sans-serif;
-    // background-color: #f5e-fff;
-    background-color: $bg-main;
+    background-color: #f5efff;
 }
 
 /* tambahan arbi */
@@ -25,7 +18,7 @@ body {
 
 .bg {
     &-soft {
-        background-color: $bg-main;
+        background-color: #f5efff;
     }
 }
 
@@ -37,19 +30,16 @@ body {
     border-radius: 25px;
     padding-left: 25px;
     padding-right: 25px;
-    transition: 0.3s;
     &:focus,
     .focus {
         box-shadow: none !important;
     }
     &-primary {
-        // background-color: #baadff;
-        // border-color: #baadff;
-        background-color: $title;
-        border-color: $title;
+        background-color: #baadff;
+        border-color: #baadff;
         &:hover {
-            background-color: $title-hover;
-            border-color: $title-hover;
+            background-color: #9e8df3;
+            border-color: #9e8df3;
             color: white;
         }
         &:active:not(.disabled),
@@ -60,8 +50,7 @@ body {
         }
     }
     &-light {
-        // color: #baadff;
-        color: $title;
+        color: #baadff;
         &:hover {
             background-color: transparent;
             color: white;
@@ -70,8 +59,7 @@ body {
     }
     &-outline {
         &-primary {
-            // border: 1px solid #d5cbff;
-            border: 1px solid $title;
+            border: 1px solid #d5cbff;
             &:disabled,
             &.disabled {
                 color: #a594f9;
@@ -83,8 +71,8 @@ body {
             }
             &:active:not(.disabled),
             &:active:not(:disabled) {
-                background-color: $title;
-                border-color: $title;
+                background-color: #9e8df3;
+                border-color: #9e8df3;
                 color: white;
             }
         }
@@ -95,23 +83,19 @@ body {
     }
 }
 
-.dropdown-item:active {
-    background-color: $title!important;
-}
-
 .form-group {
     width: auto;
 }
 
 .circle-rmap {
-    border: 11px solid $title;
+    border: 11px solid #cdc1ff;
     border-radius: 100%;
     height: 9px;
     width: 9px;
 }
 
 .timeline-rmap {
-    border: 2px solid $title;
+    border: 2px solid #cdc1ff;
     width: 0px;
     display: inline-block;
 }
@@ -122,17 +106,10 @@ body {
     nav {
         z-index: 99;
     }
-    .navbar-toggler {
-        color: $title;
-        border-color: $title;
-        font-size: 13px;
-    }
     position: relative;
     &.variant-melengkung {
-        // background: url("/background/hero-overlay-2.svg"),
-        //     linear-gradient(249.05deg, #7370fb -0.01%, #8a83ff 48.22%, #baadff 99.99%);
-        background: url("/background/hero-overlay-2_2.svg"),
-        linear-gradient(249.05deg, #F9F871 -0.01%, #ffff9c 48.22%, #FDFCAF 99.99%);
+        background: url("/background/hero-overlay-2.svg"),
+            linear-gradient(249.05deg, #7370fb -0.01%, #8a83ff 48.22%, #baadff 99.99%);
         background-size: cover;
         background-position: center bottom;
         background-repeat: no-repeat;
@@ -150,7 +127,7 @@ body {
             background-size: 120%;
         }
         &.primary::after {
-            background-image: url("/background/vector-melengkung2_2.svg");
+            background-image: url("/background/vector-melengkung2.svg");
         }
     }
     &.no-hero {
@@ -176,8 +153,7 @@ body {
         background-position-y: center;
         &.no-bg {
             background: none;
-            // background: linear-gradient(180deg, #7370fb 0%, #8a83ff 100%);
-            background: linear-gradient(180deg, #F9F871 0%, #FFFFC1 100%);
+            background: linear-gradient(180deg, #7370fb 0%, #8a83ff 100%);
             box-shadow: 0px 2px 4px rgba(84, 84, 84, 0.12);
             border-radius: 0px 0px 12px 12px;
         }
@@ -221,7 +197,7 @@ body {
     p {
         padding-bottom: 0;
         margin-bottom: 20px;
-        color: $text;
+        color: #9490a4;
         line-height: 29px;
     }
     ol,
@@ -234,9 +210,9 @@ body {
 }
 
 .page-text {
-    color: $text;
+    color: #9490a4;
     h4 {
-        color: $text;
+        color: #9490a4;
         font-weight: 400;
     }
 }
@@ -305,14 +281,14 @@ body {
     min-height: calc(100vh - 80px);
     .judul {
         font-size: 36px;
-        color: $title;
+        color: #f5efff;
     }
     .subjudul {
         line-height: 25px;
         font-weight: normal;
         font-size: 16px;
         padding-bottom: 30px;
-        color: $title;
+        color: #f5efff;
     }
     .hero-image {
         bottom: 0 !important;
@@ -336,14 +312,13 @@ body {
             padding-top: 17px;
             padding-bottom: 17px;
             margin: 0px;
-            color: $title;
-            // font-size: 18px;
-            font-size: 23px;
+            color: #baadff;
+            font-size: 18px;
             text-align: center;
         }
         .caption {
             font-size: 14px;
-            color: $text;
+            color: #9490a4;
             text-align: center;
             font-weight: 400;
         }
@@ -359,8 +334,7 @@ body {
     button {
         position: absolute;
         background-color: #f4f1ff;
-        // color: #b0a6ef;
-        color: $title;
+        color: #b0a6ef;
         border: 1px solid transparent;
         padding: 5px 12px;
         border-radius: 50%;
@@ -416,7 +390,7 @@ body {
         }
         p {
             font-size: 12px;
-            color: $text;
+            color: #9490a4;
         }
     }
 }
@@ -430,10 +404,8 @@ body {
             margin-right: 10px;
             &.active,
             &:active {
-                // background-color: #baadff;
-                // border-color: #baadff;
-                background-color: $title;
-                border-color: $title;
+                background-color: #baadff;
+                border-color: #baadff;
             }
             &.focus,
             &:focus {
@@ -572,7 +544,7 @@ body {
                 font-size: 36px;
             }
             &-subtitle {
-                color: $text;
+                color: #9490a4;
                 font-size: 24px;
             }
         }
@@ -644,7 +616,7 @@ body {
             }
             &-link {
                 background-color: transparent;
-                color: $text;
+                color: #9490a4;
                 padding: 8px 13px;
                 margin-left: 3px;
                 margin-right: 3px;
@@ -733,7 +705,7 @@ body {
 @media screen and (max-width: 1280px) {
     #hero {
         img.hero-image {
-            width: 70%;
+            width: 38%;
         }
     }
 }
@@ -755,11 +727,6 @@ body {
     .program-studi {
         .cari {
             padding: 0 30px;
-        }
-    }
-    #hero {
-        img.hero-image {
-            width: 100%;
         }
     }
 }

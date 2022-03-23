@@ -25,7 +25,7 @@
                     :key="index"
                     class="mb-3 pl-3"
                   >
-                    {{ item.perguruan.nama_perguruan }}
+                    {{ item.perguruan ? item.perguruan.nama_perguruan : '' }}
                   </li>
                 </ol>
               </div>
@@ -77,6 +77,9 @@ export default {
   head() {
     return {
       title: this.detail.nama_studi,
+      bodyAttrs: {
+        class: "bg-soft"
+      }
     }
   },
   data() {

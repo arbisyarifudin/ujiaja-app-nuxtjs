@@ -118,9 +118,9 @@
                       </template>
                     </v-select>
                   </b-input-group>
-                    <div class="small text-info mt-2" v-if="loading">
-                      Mengambil data...
-                    </div>
+                  <div class="small text-info mt-2" v-if="loading">
+                    Mengambil data...
+                  </div>
                 </div>
                 <div class="col-md-4">
                   <h3 class="h6 text-dark mt-0 mb-lg-3 mb-0">&nbsp;</h3>
@@ -140,15 +140,20 @@
                     ></b-form-select>
                   </b-input-group>
                   <div class="small text-info mt-2" v-if="loading">
-                     &nbsp;
-                    </div>
+                    &nbsp;
+                  </div>
                 </div>
                 <div class="col-md-1">
                   <div class="mt-0 mb-lg-3 mb-0">&nbsp;</div>
-                  <button class="btn btn-primary" @click.prevent="getPaginate('program/studi')">Filter</button>
+                  <button
+                    class="btn btn-primary"
+                    @click.prevent="getPaginate('program/studi')"
+                  >
+                    Filter
+                  </button>
                   <div class="small text-info mt-2" v-if="loading">
-                     &nbsp;
-                    </div>
+                    &nbsp;
+                  </div>
                 </div>
               </div>
             </div>
@@ -260,7 +265,10 @@ export default {
   },
   head() {
     return {
-      title: "Cari Program Studi"
+      title: "Cari Program Studi",
+      bodyAttrs: {
+        class: "bg-soft"
+      }
     };
   },
   asyncData(context) {

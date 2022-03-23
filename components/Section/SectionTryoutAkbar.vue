@@ -7,7 +7,7 @@
           Yuk, uji kemampuanmu dengan mengikuti Try Out Akbar UTBK, Asesmen
           Nasional, ASPD dan UKTT 2021!
         </p>
-        <img class="mt-5 mb-5" src="/icon/tryoutakbar.png" alt="" />
+        <img class="mt-5 mb-5" src="/icon/tryoutakbar-3.png" alt="" />
         <h4>
           Persiapkan Tryout yang akan kamu ikuti bersama Tryou Akbar di UjiAja.
         </h4>

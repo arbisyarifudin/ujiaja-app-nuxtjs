@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Header variant="melengkung primary no-hero" :navData="navData" />
+    <Header variant="melengkung no-hero" :navData="navData" />
     <div class="hero-tryout bg-white">
       <div class="container">
         <div class="row">
@@ -26,7 +26,7 @@
     <SectionLangkah :props="langkah" />
     <SectionPertanyaan :items="pertanyaan" style="margin-top: 80px" />
     <SectionCardHero
-      src="/tryoutaspd.png"
+      src="/hero-lagi-uktt.png"
       title="Siap Hadapi Ujian Kenaikan Tingkat Tentor bersama UjiAja?"
       description="Tunggu apa lagi? Mari bergabung dengan UjiAja
 dan menjadi pemenang di UKTT!"

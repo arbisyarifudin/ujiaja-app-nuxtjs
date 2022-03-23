@@ -83,9 +83,9 @@ export default {
           subjudul:
             "Solusi pembelajaran digital dapat membantu orang tua memantau kemajuan belajar anak mereka kapan saja, di mana saja.",
           ctaButtonText: "Pantau Perkembangan Anak",
-          ctaButtonVariant: "primary",
+          ctaButtonVariant: "secondary",
           cataButtonUrl: "/registrasi",
-          image: "/bannerortu.png",
+          image: "/bannerortu_3.png",
           isJudulFirst: false,
         },
       },

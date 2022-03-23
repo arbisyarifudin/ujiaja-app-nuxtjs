@@ -4,7 +4,7 @@
     <SectionKeunggulan :props="keunggulan" variant="bg-transparent" />
     <SectionLangkah :props="langkah" />
     <SectionCardHero
-      src="/lesprivat.png"
+      src="/hero-lagi-person-7.png"
       title="Apa yang ingin kamu pelajari? Temukan guru privatmu di UjiAja."
       description="Lebih dari ratusan siswa telah memberikan rate dan ulasan yang baik dengan guru mereka."
       href="/registrasi"
@@ -35,7 +35,7 @@ export default {
           ctaButtonText: "Temukan Sekarang",
           ctaButtonVariant: "primary",
           cataButtonUrl: "/registrasi",
-          image: "/bannerles.png",
+          image: "/lesprivat_3.png",
           isJudulFirst: false,
         },
       },

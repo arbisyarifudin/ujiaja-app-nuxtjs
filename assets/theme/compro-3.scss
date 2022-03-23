@@ -1,0 +1,330 @@
+$main: #a594f9;
+$title: #270dcc;
+$title-hover: #4741e0;
+$secondary-title: #000000;
+$text: #47415bcc;
+$bg-main: #c3bcf3;
+$light: #f5efff;
+
+body {
+  background-color: $bg-main;
+  .bg-soft {
+    background-color: #f5efff;
+  }
+}
+
+
+p {
+  color: #47415bcc;
+}
+
+h3 {
+  color: $title;
+}
+
+#header {
+  background: url("/background/hero-overlay-full_3.svg"),
+    linear-gradient(284.04deg, #850769 12.91%, rgba(255, 196, 144, 0.74) 45.28%, #baadff 65.01%);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position-x: center;
+  background-position-y: center;
+  &.headerdua.no-bg {
+    background: none;
+    background: rgba(39, 13, 204, 0.75);
+  }
+  &.variant-melengkung.primary::after {
+    background-image: url(/background/vector-melengkung2_3.svg);
+  }
+}
+
+#hero {
+  position: relative;
+  .judul {
+    color: $light;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  }
+  .subjudul {
+    color: $light;
+  }
+}
+
+// background: linear-gradient(180deg, rgba(59, 31, 154, 0.91) 0%, rgba(185, 71, 181, 0.520833) 47.92%, rgba(255, 196, 144, 0.59) 100%);
+
+.lg-top-to-bottom {
+  background: url("/background/texture-1.png"),
+    linear-gradient(
+      180deg,
+      rgba(59, 31, 154, 0.91) 0%,
+      rgba(185, 71, 181, 0.520833) 47.92%,
+      rgba(255, 196, 144, 0.59) 100%
+    );
+}
+.lg-right-to-left {
+  background: url("/background/texture-1.png"),
+    linear-gradient(
+      270deg,
+      rgba(59, 31, 154, 0.91) 0%,
+      rgba(185, 71, 181, 0.520833) 47.92%,
+      rgba(255, 196, 144, 0.59) 100%
+    );
+}
+.lg-left-to-right {
+  background: url("/background/texture-1.png"),
+    linear-gradient(
+      90deg,
+      rgba(59, 31, 154, 0.91) 0%,
+      rgba(185, 71, 181, 0.520833) 47.92%,
+      rgba(255, 196, 144, 0.59) 100%
+    );
+}
+
+.btn.btn {
+  border-radius: 25px;
+  padding-left: 25px;
+  padding-right: 25px;
+  &.square {
+    border-radius: 4px;
+  }
+  &:focus,
+  .focus {
+    box-shadow: none !important;
+  }
+  &-primary {
+    background-color: $title;
+    border-color: $title;
+    &:hover {
+      background-color: $title-hover;
+      border-color: $title-hover;
+      color: white;
+    }
+    &:active:not(.disabled),
+    &:active:not(:disabled) {
+      background-color: $title-hover;
+      border-color: $title-hover;
+      color: white;
+    }
+  }
+  &-light {
+    color: $title;
+    &:hover {
+      background-color: transparent;
+      color: $title;
+      // border-color: white;
+      border: 1px solid #f5f5f5;
+    }
+  }
+  &-danger {
+    border-color: rgb(255, 29, 29);
+    color: #fff;
+    &.fill {
+      border: 1px solid #ffb1b1;
+      background-color: #ffddc7;
+      &:hover {
+        background-color: #ffb1b1;
+        // color: #fff;
+      }
+    }
+    &:hover {
+      background-color: rgb(189, 19, 19) !important;
+    }
+  }
+  &-outline {
+    &-primary {
+      color: $title;
+      // border: 1px solid #c6b8fb;
+      border: 1px solid $title;
+      &:disabled,
+      &.disabled {
+        // color: #a594f9;
+        color: $title;
+        &:hover {
+          color: #fff;
+          border-color: #dddddd;
+          background-color: #dddddd;
+        }
+      }
+      &:hover {
+        background-color: $title;
+        border-color: $title;
+        color: #fff;
+      }
+      &:active {
+        background-color: $title !important;
+        border-color: $title !important;
+        color: #fff;
+      }
+    }
+    &-warning {
+      border: 1px solid #ff8706;
+      color: #ff8706;
+      &.fill {
+        border: 1px solid #ffddc7;
+        background-color: #ffddc7;
+        &:hover {
+          background-color: #ffc49c;
+          // color: #fff;
+        }
+      }
+    }
+  }
+  &:disabled,
+  &.disabled {
+    cursor: not-allowed;
+  }
+}
+
+.button-cta {
+  &.btn {
+    &-secondary {
+      background-color: $light;
+      border-color: $light;
+      color: $main;
+    }
+  }
+}
+
+.fitur-layanan {
+  .fitur {
+    h4 {
+      font-weight: 500;
+      color: $title;
+    }
+  }
+  .readmore {
+    color: #3c1f9a;
+  }
+}
+
+.section-produk {
+  .produk {
+    h4 {
+      color: $title;
+    }
+    .tp {
+      color: $title;
+    }
+    .large {
+      color: $title;
+    }
+    .btn-outline-primary {
+      color: $title;
+      border: 1px solid $title-hover !important;
+      &:disabled,
+      &.disabled {
+        color: $title;
+        &:hover {
+          color: #fff;
+          border-color: #dddddd;
+          background-color: #dddddd;
+        }
+      }
+      &:hover {
+        background-color: $title;
+        border-color: $title;
+        color: #fff;
+      }
+      &:active {
+        background-color: $title !important;
+        border-color: $title !important;
+        color: #fff;
+      }
+    }
+  }
+}
+
+#keunggulan-nav {
+  button {
+    color: $title;
+  }
+}
+
+#keunggulan-slider {
+  &.with-bg {
+    background-color: $bg-main;
+    .slider-item {
+      .title {
+        color: $light;
+        font-size: 30px;
+      }
+      .caption {
+        color: $text;
+      }
+    }
+  }
+}
+
+.hero-lagi {
+  h4 {
+    color: $title;
+  }
+  p {
+    color: $text;
+  }
+}
+
+.testimoni-content {
+  background: linear-gradient(304.77deg, #ffc490 2.18%, #fdfdfd 99.02%) !important;
+  h3,
+  h4 {
+    color: $text !important;
+  }
+}
+
+#header {
+  &.variant-melengkung {
+    background: url(/background/hero-overlay-2_3.svg),
+      linear-gradient(249.05deg, #7370fb -0.01%, #8a83ff 48.22%, #baadff 99.99%);
+    background-repeat: no-repeat;
+    // background-size: 150%;
+    background-size: cover;
+  }
+}
+
+#hero {
+  img.hero-image {
+    width: 55%;
+  }
+}
+
+.card-karir .karir-link {
+  color: $title;
+}
+
+.crud .pagination-table .page-item.active .page-link {
+  background-color: $title;
+}
+
+.login-box {
+  .kiri {
+    background: linear-gradient(180deg, #FDFDFD 0%, #857FFE 100%);;
+  }
+  .kanan {
+    h3 {
+      color: $title;
+    }
+  }
+}
+
+
+.masuk-daftar {
+  color: $title;
+}
+
+.form-control {
+  &::placeholder {
+    color: rgba(38, 13, 204, 0.3)!important;
+  }
+}
+
+.login-box {
+  .btn-group-toggle {
+      .btn {
+          &.active,
+          &:active {
+              background-color: $title;
+              border-color: $title;
+          }
+      }
+  }
+}

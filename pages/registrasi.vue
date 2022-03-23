@@ -234,6 +234,9 @@ export default {
   head() {
     return {
       title: 'Registrasi',
+      bodyAttrs: {
+        class: "bg-soft"
+      }
     }
   },
   asyncData(context) {

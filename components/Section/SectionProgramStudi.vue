@@ -11,7 +11,7 @@
           banget, yuk cari disini bareng UjiAja.
         </p>
         <div class="col-md-5 mx-auto my-5 brandaplus">
-          <img class="mt-5 mb-5" src="/icon/brandatambahan.png" alt="" />
+          <img class="mt-5 mb-5" src="/hero-lagi.png" alt="" />
         </div>
         <h4>
           Pastikan progam studi yang kamu pilih sesuai dengan minat dan
