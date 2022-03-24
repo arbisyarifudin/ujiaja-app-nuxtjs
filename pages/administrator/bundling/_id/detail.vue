@@ -80,7 +80,7 @@
     </div>
     <b-modal
       id="modal-delete"
-      title="Konfirmasi Hapus Produk / Event"
+      title="Konfirmasi Hapus Produk Bundling"
       hide-footer
       centered
       modal-class="admin-modal"
@@ -88,7 +88,7 @@
     >
       <div>
         <p class="modal-text">
-          Apakah anda yakin ingin menghapus produk / event ini?
+          Apakah anda yakin ingin menghapus produk bundling ini?
           <span class="text-danger"
             >Data yang dihapus tidak dapat dikembalikan.</span
           >

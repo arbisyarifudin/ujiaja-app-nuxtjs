@@ -26,7 +26,6 @@
                       { text: 'Tampil 30', value: 30 },
                       { text: 'Tampil 60', value: 60 }
                     ]"
-                    @change="getData('produk')"
                   ></b-form-select>
                 </b-input-group>
               </div>
@@ -88,7 +87,7 @@
                     class="d-flex justify-content-between mb-2"
                   >
                     <p class="mb-2">
-                      <i class="fas fa-tags fa-fw"></i> {{ item.price }}
+                      <i class="fas fa-tags fa-fw"></i> {{ formatRupiah(item.price) }}
                     </p>
                     <p class="mb-2">
                       <i class="fas fa-shopping-bag fa-fw"></i>
@@ -179,6 +178,9 @@ export default {
       this.getData("bundling");
     },
     "filter.page": function(value) {
+      this.getData("bundling");
+    },
+    "filter.perPage": function(value) {
       this.getData("bundling");
     }
   },
