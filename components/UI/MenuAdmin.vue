@@ -76,6 +76,9 @@
       <b-dropdown-item to="/administrator/product" v-if="isHavePermission(['Tryout & UKTT - Produk/Event'], 'List')"
         >Data Produk / Event</b-dropdown-item
       >
+      <b-dropdown-item to="/administrator/bundling" v-if="isHavePermission(['Tryout & UKTT - Produk/Event'], 'List')"
+        >Data Bundling Produk</b-dropdown-item
+      >
       <b-dropdown-item to="/administrator/tryout-history" v-if="isHavePermission(['Tryout Riwayat'], 'View Hasil Pengerjaan') || isHavePermission(['Tryout Riwayat'], 'View Riwayat Pengerjaan')"
         >Riwayat Tryout Siswa</b-dropdown-item
       >
