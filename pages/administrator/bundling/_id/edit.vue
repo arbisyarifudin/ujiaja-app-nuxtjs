@@ -24,7 +24,7 @@
           </div>
           <div class="form-user">
             <div class="form-group reg-user">
-              <label for="desc">Deskripsi Bundle <code>*</code></label>
+              <label for="desc">Deskripsi Produk <code>*</code></label>
               <client-only>
                 <VueEditor
                   id="desc"
@@ -50,7 +50,7 @@
           <div class="form-user">
             <div class="form-group reg-siswa">
               <label for="products"
-                >Pilih Produk yang ingin di Bundle <code>*</code></label
+                >Tambah Produk untuk Bundle ini <code>[opsional]</code></label
               >
               <v-select
                 id="products"
@@ -101,6 +101,47 @@
             </div>
           </div>
         </div>
+        <div class="col-md-12 my-4">
+            <div class="card card-header bg-white pt-4 pb-3">
+              <h3 class="h4 mb-0">Daftar Produk dari Bundling Ini</h3>
+            </div>
+            <UILoading v-if="loading" />
+            <div
+              v-else
+              class="bg-white p-5 pos-relative"
+              v-for="(bp, index) in listProducts"
+              :key="'p-' + index"
+              style="z-index: 5"
+            >
+              <div
+                class="header-detail d-flex justify-content-between align-items-center"
+              >
+                <div class="">
+                  <h5 class="mb-3">{{ bp.product.nama_produk }}</h5>
+                </div>
+                <div>
+                  <button
+                    type="button"
+                    @click.prevent="
+                      selectedId = bp.id;
+                      selectedIndex = index;
+                      $bvModal.show('modal-delete');
+                    "
+                  >
+                    <i class="fas fa-times"></i>
+                  </button>
+                </div>
+              </div>
+              <ul class="pl-4">
+                <li class="mb-3">Kategori : {{ bp.product.kategori_produk }}</li>
+                <li class="mb-3">Pengerjaan : {{ bp.product.jenis_produk }}</li>
+                <li class="mb-3" v-if="bp.product.jenis_produk == 'Masal'">
+                  {{ formatTanggal(bp.product.tanggal_mulai) }} s/d
+                  {{ formatTanggal(bp.product.tanggal_berakhir) }}
+                </li>
+              </ul>
+            </div>
+          </div>
         <div
           class="crud-footer d-flex justify-content-end mt-4"
           style="z-index: 5"
@@ -111,13 +152,44 @@
           >
             Kembali
           </nuxt-link>
-          <button type="submit" class="btn btn-primary" :disabled="loading">
-            <b-spinner small class="mr-1" v-if="loading"></b-spinner>
+          <button type="submit" class="btn btn-primary" :disabled="submitting || loading">
+            <b-spinner small class="mr-1" v-if="submitting"></b-spinner>
             Simpan
           </button>
         </div>
       </div>
     </form>
+    <b-modal
+      id="modal-delete"
+      title="Konfirmasi Hapus"
+      hide-footer
+      centered
+      modal-class="admin-modal"
+    >
+      <div>
+        <p class="modal-text">
+          Apakah anda yakin ingin menghapus produk dari bundling ini? ID:
+          {{ selectedId }}
+        </p>
+        <div class="modal-footer justify-content-end" style="border: 0px">
+          <button
+            class="btn btnutline-secondary"
+            type="button"
+            @click="$bvModal.hide('modal-delete')"
+          >
+            Tidak
+          </button>
+          <button
+            class="btn btn-primary tambah px-4 py-2"
+            type="button"
+            :disabled="submitting"
+            @click.prevent="deleteData('bundling-product')"
+          >
+            <b-spinner small v-if="submitting" class="mr-1"></b-spinner> Ya
+          </button>
+        </div>
+      </div>
+    </b-modal>
   </div>
 </template>
 
@@ -132,13 +204,14 @@ export default {
     return {
       loading: false,
       fetching: false,
+      submitting: false,
       dataProducts: [],
       dataDetail: {},
       productSelected: [],
       form: {
         name: null,
         desc: "",
-        price: 50000,
+        price: "",
         products: []
       },
       listProducts: [],
@@ -148,17 +221,20 @@ export default {
     };
   },
   async mounted() {
+    if (!this.$route.params.id)
+      return this.$router.push("/administrator/bundling");
     this.$store.commit("modifyBreadcrumb", [
       {
         text: "Bundling Product",
         href: "/administrator/bundling"
       },
       {
-        text: "Add",
+        text: "Edit",
         active: true
       }
     ]);
     await this.getData("produk");
+    this.getDetail("bundling", this.$route.params.id);
   },
   watch: {},
   methods: {
@@ -167,11 +243,7 @@ export default {
       if (
         !this.form.name ||
         !this.form.desc ||
-        !this.form.price ||
-        !this.productSelected ||
-        (this.productSelected && this.productSelected.length < 1)
-        // ||
-        // !this.form.perhitungan
+        !this.form.price
       ) {
         this.$bvToast.toast("Mohon lengkapi form dengan benar!", {
           title: "Peringatan",
@@ -182,28 +254,78 @@ export default {
         return;
       }
 
-      this.form.products = this.productSelected.map(item => {
-        return {
-          id: item,
-          custom_price: null
-        };
-      });
+      if (this.productSelected.length > 0) {
+        this.form.products = this.productSelected.map(item => {
+          return {
+            id: item,
+            custom_price: null
+          };
+        });
+      }
+
       this.submitData("bundling");
     },
     submitData(type) {
-      this.loading = true;
+      this.submitting = true;
       this.$axios
-        .$post(`/api/${type}/create`, this.form)
+        .$put(`/api/${type}/update/${this.$route.params.id}`, this.form)
         .then(res => {
           console.log(res);
           if (res.success) {
-            this.$root.$bvToast.toast("Data " + type + " berhasil ditambah.", {
-              title: "Sukses",
-              variant: "success",
-              solid: true,
-              autoHideDelay: 3000
-            });
-            this.$router.replace("/administrator/bundling");
+            this.$root.$bvToast.toast(
+              "Data " + type + " berhasil diperbarui.",
+              {
+                title: "Sukses",
+                variant: "success",
+                solid: true,
+                autoHideDelay: 3000
+              }
+            );
+            this.$router.replace(
+              `/administrator/bundling/${this.$route.params.id}/detail`
+            );
+          }
+          return true;
+        })
+        .catch(err => {
+          console.log(err);
+          this.catchError(err);
+        })
+        .finally(() => (this.submitting = false));
+    },
+    getData(type) {
+      this.fetching = true;
+      this.$axios
+        .$get(`/api/${type}`, {
+           params: { excludes_kategori: ['UKTT'], paginate: 999 }
+        })
+        .then(res => {
+          console.log(res);
+          if (res.success) {
+            this.dataProducts = res.data.data;
+          }
+          return true;
+        })
+        .catch(err => {
+          console.log(err);
+          this.catchError(err);
+        })
+        .finally(() => (this.fetching = false));
+    },
+    async getDetail(type, id) {
+      this.loading = true;
+      await this.$axios
+        .$get(`/api/${type}/find/${id}`)
+        .then(res => {
+          console.log(res);
+          if (res.success) {
+            this.dataDetail = res.data;
+            this.listProducts = res.data.bundling_products;
+            this.form = {
+              ...this.dataDetail,
+              products: this.listProducts.map(item => item.product_id)
+            };
+            // this.productSelected = this.listProducts.map(item => item.id)
           }
           return true;
         })
@@ -213,22 +335,28 @@ export default {
         })
         .finally(() => (this.loading = false));
     },
-    getData(type) {
-      this.fetching = true;
+    deleteData(type) {
+      this.submitting = true;
       this.$axios
-        .$get(`/api/produk`, {
-          params: { excludes_kategori: ['UKTT'], paginate: 999 }
-        })
-        .then(res => {
+        .$delete(`/api/${type}/delete/${this.selectedId}`)
+        .then(async res => {
           console.log(res);
           if (res.success) {
-            this.dataProducts = res.data.data;
-            // this.dataProducts = this.dataProducts.map(item => {
-            //   return {
-            //     value: item.id,
-            //     label: `${item.nama_produk}`
-            //   };
-            // });
+            this.listProducts.splice(this.selectedIndex, 1);
+            const typeLabel = type == "bundling-product" ? "produk bundling" : type;
+            this.$root.$bvToast.toast(
+              "Data " + typeLabel + " berhasil dihapus.",
+              {
+                title: "Sukses",
+                variant: "success",
+                solid: true,
+                autoHideDelay: 3000
+              }
+            );
+            this.$bvModal.hide("modal-delete");
+            // this.dataProducts = [];
+            // await this.getData("tryout");
+            // this.$router.replace("/administrator/product");
           }
           return true;
         })
@@ -236,7 +364,11 @@ export default {
           console.log(err);
           this.catchError(err);
         })
-        .finally(() => (this.fetching = false));
+        .finally(() => {
+          // window.location.reload();
+          this.getDetail('bundling', this.$route.params.id)
+          this.submitting = false;
+        });
     }
   }
 };

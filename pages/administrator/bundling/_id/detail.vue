@@ -53,27 +53,27 @@
         <div
           v-else
           class="bg-white p-5"
-          v-for="(product, p) in dataDetail.products"
+          v-for="(bp, p) in dataDetail.bundling_products"
           :key="'p-'+p"
         >
           <div
             class="header-detail d-flex justify-content-between align-items-center"
           >
             <div class="">
-              <h5 class="mb-3">{{ product.nama_produk }}</h5>
+              <h5 class="mb-3">{{ bp.product.nama_produk }}</h5>
             </div>
             <div>
               <router-link
                 class="btn btn-primary py-1 square"
-                :to="`/administrator/product/${product.id}/detail`"
+                :to="`/administrator/product/${bp.product.id}/detail`"
                 >Detail Produk</router-link
               >
             </div>
           </div>
           <ul class="pl-4">
-            <li class="mb-3">Kategori : {{product.kategori_produk}}</li>
-            <li class="mb-3">Pengerjaan : {{product.jenis_produk}}</li>
-            <li class="mb-3" v-if="product.jenis_produk == 'Masal'">{{formatTanggal(product.tanggal_mulai)}} s/d {{formatTanggal(product.tanggal_berakhir)}}</li>
+            <li class="mb-3">Kategori : {{bp.product.kategori_produk}}</li>
+            <li class="mb-3">Pengerjaan : {{bp.product.jenis_produk}}</li>
+            <li class="mb-3" v-if="bp.product.jenis_produk == 'Masal'">{{formatTanggal(bp.product.tanggal_mulai)}} s/d {{formatTanggal(bp.product.tanggal_berakhir)}}</li>
           </ul>
         </div>
       </div>
