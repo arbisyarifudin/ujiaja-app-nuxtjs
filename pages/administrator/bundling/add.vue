@@ -4,8 +4,7 @@
       <div class="row d-flex no-gutters">
         <div class="col-md-12 dashboard">
           <h2 class="dash-label">
-            <b-spinner type="grow" class="mr-2" v-if="loading" /> Ubah Bundling
-            Produk
+            Tambah Bundling Produk
           </h2>
         </div>
         <div class="col-md-12 crud-body">
@@ -217,7 +216,7 @@ export default {
       this.fetching = true;
       this.$axios
         .$get(`/api/produk`, {
-          params: { excludes_kategori: ['UKTT'], paginate: 999 }
+          params: { excludes_kategori: ["UKTT"], paginate: 999 }
         })
         .then(res => {
           console.log(res);
