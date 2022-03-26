@@ -40,6 +40,8 @@
 
       <div class="col-md-12 my-4">
         <div class="bg-white p-5">
+          <h3 class="h5 mb-0">Status : <span class="badge" :class="dataDetail.show ? 'badge-success' : 'badge-secondary'">{{dataDetail.show ? 'Published' : 'Hidden'}}</span></h3>
+          <hr>
           <h3 class="h5 mb-0">Deskripsi</h3>
           <p class="mb-2" v-html="dataDetail.desc"></p>
         </div>

@@ -49,6 +49,18 @@
           </div>
           <div class="form-user">
             <div class="form-group reg-siswa">
+              <label for="show">Status Tampil <code>*</code></label>
+              <b-form-radio-group
+                id="show"
+                name="show"
+                v-model="form.show"
+                :options="showOptions"
+              >
+              </b-form-radio-group>
+            </div>
+          </div>
+          <div class="form-user">
+            <div class="form-group reg-siswa">
               <label for="products"
                 >Tambah Produk untuk Bundle ini <code>[opsional]</code></label
               >
@@ -212,12 +224,17 @@ export default {
         name: null,
         desc: "",
         price: "",
+        show: 1,
         products: []
       },
       listProducts: [],
       selectedId: null,
       selectedIndex: null,
-      customToolbar: [["bold", "italic", "underline"], [{ list: "bullet" }]]
+      customToolbar: [["bold", "italic", "underline"], [{ list: "bullet" }]],
+      showOptions: [
+        { text: "Tampil", value: 1 },
+        { text: "Sembunyi", value: 0 }
+      ]
     };
   },
   async mounted() {

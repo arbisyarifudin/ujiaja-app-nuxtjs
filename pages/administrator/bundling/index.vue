@@ -70,7 +70,7 @@
                 <div class="" style="display: flex; justify-content: flex-end;">
                   <p
                     class="label-event mb-2 px-4 py-1"
-                    :class="[item.show == 'Aktif' ? '' : 'draft']"
+                    :class="[item.show ? '' : 'draft']"
                   >
                     {{ item.show ? "Publish" : "Hidden" }}
                   </p>
