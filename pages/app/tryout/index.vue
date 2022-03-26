@@ -390,6 +390,27 @@
           v-if="!loading && list['bundling'] && list['bundling'].length < 1"
         />
       </section>
+
+      <div class="cari-tryout d-flex align-items-center p-5 my-5 row">
+        <div class="col-md-1 text-md-center p-md-0">
+          <img src="/icon/caritryouta.png" alt="image" />
+        </div>
+        <div class="col-md-8 pl-md-3 mt-3">
+          <h5>Beli Bundling Lebih Hemat</h5>
+          <p class="pcari-tryout" style="font-size: 14px;">
+            Ingin beli banyak sekaligus? Beli Bundling Aja!
+          </p>
+        </div>
+        <div class="col-md-3 pl-md-3 pr-md-0">
+          <router-link
+            class="btn btn-primary dashboard px-4"
+            to="/app/bundling"
+          >
+            Lihat Produk Bundling
+          </router-link>
+        </div>
+      </div>
+
     </div>
   </div>
 </template>

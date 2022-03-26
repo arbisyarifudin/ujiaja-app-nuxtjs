@@ -38,6 +38,11 @@
       >
     </li> -->
     <li class="nav-item">
+      <nuxt-link class="nav-link d-flex align-items-center" to="/app/bundling"
+        ><i class="fas fa-box fa-2x fa-fw mr-2"></i> Bundle</nuxt-link
+      >
+    </li>
+    <li class="nav-item">
       <nuxt-link class="nav-link d-flex align-items-center" to="/app/payment"
         ><i class="far fa-file-alt fa-2x fa-fw mr-2"></i> Riwayat
         Transaksi</nuxt-link

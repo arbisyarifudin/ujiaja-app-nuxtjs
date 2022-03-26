@@ -12,7 +12,7 @@
     </div>
     <div class="container-fluid">
       <div class="row ">
-        <div class="col-lg-8 col-md-12 dashboard">
+        <div class="col-lg-8 col-md-12 dashboard">    
           <h2
             class="dash-label mb-4"
             v-if="dataDetail.status == 'Menunggu Pembayaran'"
@@ -48,7 +48,7 @@
           >
             <div
               class="col-md-6 p-0 pr-1"
-              v-if="dataDetail.produk || dataDetail.mbti"
+              v-if="dataDetail.produk || dataDetail.mbti || dataDetail.bundling"
             >
               <p class="mb-1" style="color: #9490A4;">Produk</p>
               <p
@@ -60,6 +60,11 @@
                 class=""
                 v-if="dataDetail.mbti"
                 v-text="dataDetail.mbti.judul"
+              ></p>
+              <p
+                class=""
+                v-if="dataDetail.bundling"
+                v-text="dataDetail.bundling.name"
               ></p>
               <p class="mb-1" style="color: #9490A4;">Batas Waktu Pembayaran</p>
               <p class="">
@@ -96,7 +101,7 @@
             </div>
             <div
               class="col-md-6 p-0"
-              v-if="dataDetail.produk || dataDetail.mbti || dataDetail.kursus"
+              v-if="dataDetail.produk || dataDetail.mbti || dataDetail.kursus || dataDetail.bundling"
             >
               <p class="mb-1" style="color: #9490A4;">Total Pembayaran</p>
               <p class="" v-if="dataDetail.jenis_transaksi == 'Bonus MBTI'">
@@ -166,6 +171,11 @@
               <router-link
                 :to="`/app/student/courses/${dataDetail.id_produk}/detail`"
                 v-else-if="dataDetail.kursus"
+                >Lihat Produk</router-link
+              >
+              <router-link
+                :to="`/app/bundling/${dataDetail.id_produk}/detail`"
+                v-else-if="dataDetail.bundling"
                 >Lihat Produk</router-link
               >
             </div>

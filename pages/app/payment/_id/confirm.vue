@@ -91,8 +91,10 @@
                   bayar dan tekan <b>Kirim</b>.
                 </p>
               </div>
-              <hr>
-              <h5 v-if="tempImage || dataDetail.bukti_pembayaran" class="mb-3">Bukti Pembayaran</h5>
+              <hr />
+              <h5 v-if="tempImage || dataDetail.bukti_pembayaran" class="mb-3">
+                Bukti Pembayaran
+              </h5>
               <img
                 :src="
                   tempImage ? tempImage : ApiUrl(dataDetail.bukti_pembayaran)
@@ -168,6 +170,27 @@
                   ></p>
                 </div>
               </div>
+              <div class="d-flex" v-if="dataDetail.bundling">
+                <div class="col-md-8 p-0">
+                  <p class="mb-3">Kode Transaksi</p>
+                  <p class="mb-3" v-text="dataDetail.bundling.name"></p>
+                  <p class="mb-3">Kode Unik</p>
+                  <p class="m-0" style="color: #b0aeef;">Subtotal</p>
+                </div>
+                <div class="col-md-4 p-0 text-right" v-if="dataDetail.bundling">
+                  <p class="mb-3" v-text="dataDetail.kode"></p>
+                  <p
+                    class="mb-3"
+                    v-text="'Rp ' + formatRupiah(dataDetail.harga_produk)"
+                  ></p>
+                  <p v-text="'Rp ' + formatRupiah(dataDetail.kode_unik)"></p>
+                  <p
+                    class="m-0"
+                    style="color: #b0aeef; font-size: 20px"
+                    v-text="'Rp ' + formatRupiah(dataDetail.total_harga)"
+                  ></p>
+                </div>
+              </div>
               <div class="col-md-12 pr-0 text-right">
                 <button
                   class="btn btn-primary mr-0 mt-5 d-inline-block"
@@ -230,7 +253,7 @@
         >
           Halaman Utama
         </router-link>
-         <router-link
+        <router-link
           class="btn btn-primary tambah px-4 py-2"
           style="border-radius: 25px; border:none;"
           role="button"
@@ -239,7 +262,7 @@
         >
           Halaman Utama
         </router-link>
-         <router-link
+        <router-link
           class="btn btn-primary tambah px-4 py-2"
           style="border-radius: 25px; border:none;"
           role="button"

@@ -19,10 +19,10 @@
               <b-form-select
                 v-model="filter.perPage"
                 :options="[
-                  { text: 'Tampil 5', value: 5 },
                   { text: 'Tampil 10', value: 10 },
                   { text: 'Tampil 25', value: 25 },
-                  { text: 'Tampil 50', value: 50 }
+                  { text: 'Tampil 50', value: 50 },
+                  { text: 'Tampil 100', value: 100 }
                 ]"
                 @change="getData('transaksi/mine')"
               ></b-form-select>
@@ -88,7 +88,8 @@
                     WIB
                   </td>
                   <td>{{ item.kode }}</td>
-                  <td>{{ item.produk ? item.produk.nama_produk : '-' }}</td>
+                  <td v-if="item.jenis_transaksi == 'Bundling'">{{ item.bundling ? item.bundling.name : '-' }}</td>
+                  <td v-else>{{ item.produk ? item.produk.nama_produk : '-' }}</td>
                   <td>
                     {{
                       item.tipe == "Pihak Ketiga"
@@ -309,7 +310,7 @@ export default {
       submitting: false,
       filter: {
         page: 1,
-        perPage: 5,
+        perPage: 10,
         keyword: ""
       },
       totalRows: 0,

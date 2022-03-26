@@ -4,8 +4,8 @@
       <div class="col-md-12 dashboard px-0">
         <h2 class="dash-label">Bundling Produk</h2>
         <p>
-          Data ini berisi bundling produk dimana siswa bisa membeli produk dalam
-          1 kali transaksi dengan harga khusus.
+          Ini adalah daftar produk yang sudah di bundle untuk memudahkan kamu
+          membeli banyak produk sekaligus.
         </p>
       </div>
       <div class="col-md-12 text-right mt-4 crud-tools">
@@ -45,12 +45,6 @@
                 debounce="1000"
               ></b-form-input>
             </b-input-group>
-            <nuxt-link
-              class="btn btn-primary tambah crud-btn__add px-4 ml-2"
-              to="/administrator/bundling/add"
-            >
-              Tambah
-            </nuxt-link>
           </div>
         </div>
       </div>
@@ -63,17 +57,16 @@
           >
             <div
               class="card card-karir m-2 router-push"
-              @click="$router.push(`/administrator/bundling/${item.id}/detail`)"
+              @click="$router.push(`/app/bundling/${item.id}/detail?ref=${$route.path}`)"
             >
               <!-- style="width: 350px; max-width: 100%" -->
               <div class="card-body text-left p-0">
                 <div class="" style="display: flex; justify-content: flex-end;">
                   <p
-                    class="label-event mb-2 px-4 py-1"
-                    :class="[item.show ? '' : 'draft']"
-                  >
-                    {{ item.show ? "Publish" : "Hidden" }}
+                    class="label-event mb-2 px-3 py-1" v-if="item.transaksi_user && item.transaksi_user.status != 'Ditolak' && item.transaksi_user.status != 'Kadaluarsa'"
+                  >Dibeli
                   </p>
+                  <p class="mb-2 px-3" v-else>&nbsp;</p>
                 </div>
                 <div class="card-content px-4">
                   <h3
@@ -83,11 +76,10 @@
                     {{ item.name }}
                   </h3>
                   <!-- <h5>TPS</h5> -->
-                  <div
-                    class="d-flex justify-content-between mb-2"
-                  >
+                  <div class="d-flex justify-content-between mb-2">
                     <p class="mb-2">
-                      <i class="fas fa-tags fa-fw"></i> {{ formatRupiah(item.price) }}
+                      <i class="fas fa-tags fa-fw"></i>
+                      {{ formatRupiah(item.price) }}
                     </p>
                     <p class="mb-2">
                       <i class="fas fa-shopping-bag fa-fw"></i>
@@ -96,7 +88,10 @@
                   </div>
                   <div
                     class="package-getlist mb-3"
-                    v-html="item.desc && item.desc.toString().substring(0, 50) + ' ...'"
+                    v-html="
+                      item.desc &&
+                        item.desc.toString().substring(0, 50) + ' ...'
+                    "
                   ></div>
                 </div>
                 <div
@@ -104,7 +99,7 @@
                   style="border-bottom: 12px solid #D7D2F7; border-radius:0px 0px 12px 12px;"
                 >
                   <nuxt-link
-                    :to="`/administrator/bundling/${item.id}/detail`"
+                    :to="`/app/bundling/${item.id}/detail`"
                     class="karir-link"
                     >Detail <i class="fas fa-chevron-right ml-1"></i
                   ></nuxt-link>
@@ -142,12 +137,6 @@
       >
         <h2 class="kosong-title">Oops!</h2>
         <p class="kosong-subtitle">Belum ada produk bundling</p>
-        <nuxt-link
-          class="btn btn-primary tambah-kelas px-4 py-3"
-          to="/administrator/bundling/add"
-        >
-          Tambah Produk
-        </nuxt-link>
       </div>
     </div>
   </div>
@@ -155,7 +144,7 @@
 
 <script>
 export default {
-  layout: "admin",
+  layout: "app",
   data() {
     return {
       loading: false,
@@ -193,7 +182,8 @@ export default {
           params: {
             q: this.filter.keyword,
             paginate: this.filter.perPage,
-            page: this.filter.page
+            page: this.filter.page,
+            show: 1
           }
         })
         .then(res => {
