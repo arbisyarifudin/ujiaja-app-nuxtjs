@@ -645,9 +645,10 @@ export default {
     },
     startTimer() {
       const moment = require("moment");
+      moment.locale('id')
       const today = moment.now();
       const lastSavedData = this.checkLastSaved();
-      const waktuMulai = new Date(this.detailUjian.waktu_mulai).getTime();
+      const waktuMulai = moment(this.detailUjian.waktu_mulai).valueOf()
       const waktuBatas = waktuMulai + this.tryout.alokasi_waktu * 1000 * 60;
 
       // console.log(today);
@@ -832,7 +833,7 @@ export default {
         .$post(`/api/tryout_user_jawaban/create/multiple`, {
           id_tryout_user: this.detailUjian.id,
           jawabans: this.jawabanUser,
-          waktu_selesai_ujian: new Date()
+          // waktu_selesai_ujian: new Date()
         })
         .then(response => {
           return response;

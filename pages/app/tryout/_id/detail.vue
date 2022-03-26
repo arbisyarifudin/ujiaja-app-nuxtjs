@@ -383,7 +383,7 @@ export default {
               .$post(`/api/tryout_user_jawaban/create/multiple`, {
                 id_tryout_user: jawaban.id,
                 jawabans: tempJawaban,
-                waktu_selesai_ujian: new Date()
+                // waktu_selesai_ujian: new Date()
               })
               .then(response => {
                 console.log(response);

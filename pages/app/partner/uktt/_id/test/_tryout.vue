@@ -688,7 +688,7 @@ export default {
         .$post(`/api/tryout_user_jawaban/create/multiple`, {
           id_tryout_user: this.detailUjian.id,
           jawabans: this.jawabanUser,
-          waktu_selesai_ujian: new Date()
+          // waktu_selesai_ujian: new Date()
         })
         .then(response => {
           return response;

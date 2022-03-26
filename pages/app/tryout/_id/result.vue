@@ -47,8 +47,8 @@
             class="h5 skor-val"
             v-else-if="dataResult.detail.tipe_event == 'Perorangan'"
           >
-            <small>Jumlah Peserta</small> {{ dataResult.detail.jsp }}
-            <small>orang</small>
+            <small>dari</small> {{ dataResult.detail.jsp }}
+            <small>orang peserta</small>
           </div>
         </div>
       </div>
@@ -151,7 +151,7 @@
       <div class="d-flex justify-content-between">
         <!-- v-if="dataResult.detail.kategori_produk == 'UTBK'" -->
         <div class="d-flex">
-           <button
+          <button
             class="btn btn-primary square"
             :disabled="generating"
             @click.prevent="generatePDF(false)"
@@ -303,7 +303,11 @@ export default {
       }
     },
     generatePDF(is_send_to_email = false) {
-      this.sending = true;
+      if (is_send_to_email) {
+        this.sending = true;
+      } else {
+        this.generating = true;
+      }
       this.$axios
         .$post(`/api/tryout_user/generate-certificate`, {
           id_produk: this.dataResult.detail.id_produk,
@@ -315,7 +319,7 @@ export default {
         .then(res => {
           console.log(res);
           if (res.success) {
-            if(is_send_to_email == false) {
+            if (is_send_to_email == false) {
               const pdfUrl = res.data;
               let anchor = document.createElement("a");
               anchor.setAttribute("target", "_blank");
@@ -324,15 +328,24 @@ export default {
               // console.log(anchor);
               anchor.click();
             } else {
-              this.showToastMessage('Sertifikat berhasil dikirim ke emailmu!', 'success')
+              this.showToastMessage(
+                "Sertifikat berhasil dikirim ke emailmu!",
+                "success"
+              );
             }
-          } 
+          }
         })
         .catch(err => {
           console.log(err);
           this.catchError(err);
         })
-        .finally(() => (this.sending = false));
+        .finally(() => {
+          if (is_send_to_email) {
+            this.sending = false;
+          } else {
+            this.generating = false;
+          }
+        });
     }
   }
 };
