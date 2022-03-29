@@ -46,6 +46,28 @@
         </div>
       </div>
 
+      <div
+        class="col-md-12 my-4"
+        v-if="
+          dataDetail.transaksi_user &&
+            dataDetail.transaksi_user.status == 'Sudah Diverifikasi'
+        "
+      >
+        <div class="bg-white p-5">
+          <h3 class="h5 mb-3">Unduh Materi</h3>
+          <div class="text-center">
+            <a
+              v-if="ApiUrl"
+              target="_blank"
+              :href="ApiUrl('storage/' + dataDetail.file_link)"
+              class="btn btn-block btn-primary square"
+            >
+            <i class="fas fa-download fa-fw mr-1"></i> Klik untuk mengunduh
+            </a>
+          </div>
+        </div>
+      </div>
+
       <div class="col-md-12 my-4">
         <div class="bg-white p-5">
           <h3 class="h5 mb-3">Deskripsi</h3>
