@@ -43,6 +43,11 @@
       >
     </li>
     <li class="nav-item">
+      <nuxt-link class="nav-link d-flex align-items-center" to="/app/material"
+        ><i class="fas fa-book fa-2x fa-fw mr-2"></i> Material</nuxt-link
+      >
+    </li>
+    <li class="nav-item">
       <nuxt-link class="nav-link d-flex align-items-center" to="/app/payment"
         ><i class="far fa-file-alt fa-2x fa-fw mr-2"></i> Riwayat
         Transaksi</nuxt-link
