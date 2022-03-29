@@ -202,6 +202,12 @@
                    <template v-else-if="detail.kursus">
                     {{ detail.kursus.nama_kursus }}
                   </template>
+                  <template v-else-if="detail.bundling">
+                    {{ detail.bundling.name }}
+                  </template>
+                  <template v-else-if="detail.material">
+                    {{ detail.material.title }}
+                  </template>
                 </th>
               </tr>
               <tr>
