@@ -48,7 +48,7 @@
           >
             <div
               class="col-md-6 p-0 pr-1"
-              v-if="dataDetail.produk || dataDetail.mbti || dataDetail.bundling"
+              v-if="dataDetail.produk || dataDetail.mbti || dataDetail.bundling || dataDetail.material"
             >
               <p class="mb-1" style="color: #9490A4;">Produk</p>
               <p
@@ -65,6 +65,11 @@
                 class=""
                 v-if="dataDetail.bundling"
                 v-text="dataDetail.bundling.name"
+              ></p>
+              <p
+                class=""
+                v-if="dataDetail.material"
+                v-text="dataDetail.material.title"
               ></p>
               <p class="mb-1" style="color: #9490A4;">Batas Waktu Pembayaran</p>
               <p class="">
@@ -101,7 +106,7 @@
             </div>
             <div
               class="col-md-6 p-0"
-              v-if="dataDetail.produk || dataDetail.mbti || dataDetail.kursus || dataDetail.bundling"
+              v-if="dataDetail.produk || dataDetail.mbti || dataDetail.kursus || dataDetail.bundling || dataDetail.material"
             >
               <p class="mb-1" style="color: #9490A4;">Total Pembayaran</p>
               <p class="" v-if="dataDetail.jenis_transaksi == 'Bonus MBTI'">
@@ -118,7 +123,7 @@
                 Pembayaran Instan
               </p>
               <p class="mb-1" style="color: #9490A4;">Status Pembayaran</p>
-              <p class="">
+              <p class="" v-if="!loading">
                 {{ dataDetail.status }}
                 <button
                   class="btn btn-danger btn-sm px-2"
@@ -176,6 +181,11 @@
               <router-link
                 :to="`/app/bundling/${dataDetail.id_produk}/detail`"
                 v-else-if="dataDetail.bundling"
+                >Lihat Produk</router-link
+              >
+               <router-link
+                :to="`/app/material/${dataDetail.id_produk}/detail`"
+                v-else-if="dataDetail.material"
                 >Lihat Produk</router-link
               >
             </div>
@@ -404,7 +414,7 @@ export default {
           if (res.success) {
             this.dataDetail = {};
             this.dataDetail = res.data;
-            this.showToastMessage("Berhasil ambil status terbaru!", "success");
+            // this.showToastMessage("Berhasil ambil status terbaru!", "info");
           }
           return true;
         })
