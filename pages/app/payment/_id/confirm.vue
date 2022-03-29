@@ -191,6 +191,27 @@
                   ></p>
                 </div>
               </div>
+               <div class="d-flex" v-if="dataDetail.material">
+                <div class="col-md-8 p-0">
+                  <p class="mb-3">Kode Transaksi</p>
+                  <p class="mb-3" v-text="dataDetail.material.title"></p>
+                  <p class="mb-3">Kode Unik</p>
+                  <p class="m-0" style="color: #b0aeef;">Subtotal</p>
+                </div>
+                <div class="col-md-4 p-0 text-right" v-if="dataDetail.material">
+                  <p class="mb-3" v-text="dataDetail.kode"></p>
+                  <p
+                    class="mb-3"
+                    v-text="'Rp ' + formatRupiah(dataDetail.harga_produk)"
+                  ></p>
+                  <p v-text="'Rp ' + formatRupiah(dataDetail.kode_unik)"></p>
+                  <p
+                    class="m-0"
+                    style="color: #b0aeef; font-size: 20px"
+                    v-text="'Rp ' + formatRupiah(dataDetail.total_harga)"
+                  ></p>
+                </div>
+              </div>
               <div class="col-md-12 pr-0 text-right">
                 <button
                   class="btn btn-primary mr-0 mt-5 d-inline-block"
