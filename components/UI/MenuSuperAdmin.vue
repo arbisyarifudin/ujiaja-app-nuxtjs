@@ -78,6 +78,9 @@
       <b-dropdown-item to="/administrator/bundling"
         >Data Bundling Produk</b-dropdown-item
       >
+      <b-dropdown-item to="/administrator/materi"
+        >Data Materi Dijual</b-dropdown-item
+      >
       <b-dropdown-item to="/administrator/tryout-history"
         >Riwayat Tryout Siswa</b-dropdown-item
       >

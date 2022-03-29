@@ -70,7 +70,7 @@
                       @click.prevent="
                         selectedId = item.id;
                         selectedIndex = index;
-                        getDetail('materi');
+                        getDetail('material');
                       "
                     >
                       <i class="fa fa-search"></i>
@@ -125,18 +125,40 @@
     >
       <template v-if="detail && !loading">
         <div class="row">
-          <div class="col-md-12 modal-body-kiri">
-            <h5>Data Kelas Kursus</h5>
-            <hr />
+          <div class="col-md-8 modal-body-kiri">
+            <!-- <h5>Data Kelas Kursus</h5> -->
+            <!-- <hr /> -->
             <table class="table table-borderless">
               <tr>
-                <th width="150">Nama Kelas Kursus</th>
+                <th width="150">Judul/Nama Materi</th>
                 <th width="10">:</th>
                 <th>
-                  {{ detail.nama_kursus }}
+                  {{ detail.title }}
+                </th>
+              </tr>
+              <tr>
+                <th width="150">Harga</th>
+                <th width="10">:</th>
+                <th>Rp 
+                  {{ formatRupiah(detail.price) }}
+                </th>
+              </tr>
+              <tr>
+                <th width="150">Deskripsi</th>
+                <th width="10">:</th>
+                <th>
+                  {{ detail.desc }}
                 </th>
               </tr>
             </table>
+          </div>
+          <div class="col-md-4 modal-body-kanan">
+            <img
+                v-if="ApiUrl"
+                :src="ApiUrl('storage/' + detail.cover_image_link)"
+                :alt="detail.cover_image_link"
+                class="img-fluid"
+              />
           </div>
         </div>
         <div class="modal-footer justify-content-center" style="border: 0px">
