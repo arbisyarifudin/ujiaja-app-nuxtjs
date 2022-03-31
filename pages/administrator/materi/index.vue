@@ -41,6 +41,12 @@
                 debounce="1000"
               ></b-form-input>
             </b-input-group>
+            <nuxt-link
+              class="btn btn-primary tambah crud-btn__add px-4 ml-2"
+              to="/administrator/materi/add"
+            >
+              Tambah
+            </nuxt-link>
           </div>
         </div>
       </div>
@@ -75,16 +81,56 @@
                     >
                       <i class="fa fa-search"></i>
                     </button>
+                    <nuxt-link
+                      class="btn btn-light px-2 mt-n2"
+                      :to="`/administrator/materi/${item.id}/edit`"
+                      v-if="isHavePermission('Material', 'Edit')"
+                    >
+                      <i class="fa fa-edit" style="font-size: 18px"></i>
+                    </nuxt-link>
+                    <button
+                      class="btn btn-light px-2 mt-n2"
+                      @click.prevent="
+                        selectedId = item.id;
+                        selectedIndex = index;
+                        $bvModal.show('modal-delete');
+                      "
+                      v-if="isHavePermission('Material', 'Delete')"
+                    >
+                      <i class="fa fa-trash" style="font-size: 18px"></i>
+                    </button>
+                    <span
+                      v-if="
+                        !isHavePermission('Material', 'Edit') &&
+                          !isHavePermission('Material', 'Delete')
+                      "
+                      >-</span
+                    >
                   </td>
                   <td>
-                    <span :class="statusBadge(item.status)">{{
-                      item.status
+                    <span :class="statusBadge(item.published)">{{
+                      item.published ? "Published" : "Hidden"
                     }}</span>
                   </td>
                   <td>{{ item.title }}</td>
-                  <td>{{ item.desc }}</td>
-                  <td>{{ item.cover_image }}</td>
-                  <td>{{ item.file_link }}</td>
+                  <td>{{ item.desc && item.desc.substr(0, 50) }} ..</td>
+                  <td>
+                    <img
+                      :src="ApiUrl('storage/' + item.cover_image_link)"
+                      :alt="item.cover_image_link"
+                      class="img-fluid"
+                      width="120"
+                    />
+                  </td>
+                  <td>
+                    <a
+                      target="_blank"
+                      :href="ApiUrl('storage/' + item.file_link)"
+                      class="btn btn-outline-primary btn-sm"
+                      ><i class="fas fa-download fa-fw mr-1"></i> Unduh
+                      Berkas</a
+                    >
+                  </td>
                 </tr>
               </template>
               <UITableLoading v-if="loading" />
@@ -110,13 +156,13 @@
         class="crud-body kosong"
       >
         <h2 class="kosong-title">Oops!</h2>
-        <p class="kosong-subtitle">Belum ada data Kelas Kursus</p>
+        <p class="kosong-subtitle">Belum ada data Materi</p>
       </div>
     </div>
 
     <b-modal
       id="modal-detail"
-      title="Detail Kelas Kursus"
+      title="Detail Materi"
       hide-footer
       centered
       size="lg"
@@ -126,7 +172,7 @@
       <template v-if="detail && !loading">
         <div class="row">
           <div class="col-md-8 modal-body-kiri">
-            <!-- <h5>Data Kelas Kursus</h5> -->
+            <!-- <h5>Data Materi</h5> -->
             <!-- <hr /> -->
             <table class="table table-borderless">
               <tr>
@@ -139,7 +185,8 @@
               <tr>
                 <th width="150">Harga</th>
                 <th width="10">:</th>
-                <th>Rp 
+                <th>
+                  Rp
                   {{ formatRupiah(detail.price) }}
                 </th>
               </tr>
@@ -152,13 +199,19 @@
               </tr>
             </table>
           </div>
-          <div class="col-md-4 modal-body-kanan">
+          <div class="col-md-4 modal-body-kanan" v-if="ApiUrl">
             <img
-                v-if="ApiUrl"
-                :src="ApiUrl('storage/' + detail.cover_image_link)"
-                :alt="detail.cover_image_link"
-                class="img-fluid"
-              />
+              :src="ApiUrl('storage/' + detail.cover_image_link)"
+              :alt="detail.cover_image_link"
+              class="img-fluid"
+            />
+            <hr />
+            <a
+              target="_blank"
+              :href="ApiUrl('storage/' + detail.file_link)"
+              class="btn btn-outline-primary btn-sm"
+              ><i class="fas fa-download fa-fw mr-1"></i> Unduh Berkas</a
+            >
           </div>
         </div>
         <div class="modal-footer justify-content-center" style="border: 0px">
@@ -206,7 +259,7 @@ export default {
     "filter.page": function(value) {
       this.getData("material");
     },
-    "filter.keyword": function(value) {
+    "filter.perPage": function(value) {
       this.getData("material");
     }
   },

@@ -131,6 +131,9 @@ Vue.mixin({
     },
     isHavePermission(moduleName, actionName) {
       // console.log(this.perms);
+      const userRole = this.$store.state.user.role_user
+      // console.log('userRole',userRole)
+      if(userRole == 'superAdmin') return true
       const userPermissions = this.$store.state.userPermissions;
       if(!userPermissions) return false
       const moduleFound = userPermissions.find(module => moduleName.includes(module.label));
@@ -217,6 +220,12 @@ Vue.mixin({
         return process.env.apiUrl + param;
       }
       return process.env.apiUrl + "/" + param;
+    },
+    isHavePermission(param, no_separator = false) {
+      if(no_separator)  {
+        return process.env.baseUrl + param;
+      }
+      return process.env.baseUrl + "/" + param;
     },
     noImage(event) {
       event.target.src = `${window.origin}/logo2.png`;
