@@ -32,7 +32,7 @@
             >
             <a
               class="btn btn-primary ml-2"
-              :href="`/app/tryout/${detail.id}/result?code=${$route.query.kode}`"
+              :href="`/app/tryout/${detail.id}/result?code=${$route.query.kode}&category=${detail.kategori_produk}`"
               >Lihat Hasil</a
             >
             <!-- <button
@@ -55,7 +55,7 @@
             <a
               v-if="detail.is_result_openable === true"
               class="btn btn-primary ml-2"
-              :href="`/app/tryout/${detail.id}/result?code=${$route.query.kode}`"
+              :href="`/app/tryout/${detail.id}/result?code=${$route.query.kode}&category=${detail.kategori_produk}`"
               >Lihat Hasil</a
             >
           </div>
@@ -365,7 +365,7 @@
         <a
           v-if="detail.is_result_openable === true"
           class="btn btn-primary ml-2"
-          :href="`/app/tryout/${detail.id}/result?code=${$route.query.kode}`"
+          :href="`/app/tryout/${detail.id}/result?code=${$route.query.kode}&category=${detail.kategori_produk}`"
           >Lihat Hasil</a
         >
       </div>
@@ -500,7 +500,7 @@
             class="btn btn-primary tambah px-4 py-2"
             type="button"
             :disabled="loading"
-            @click.prevent="navGoTo(`/app/tryout/${productId}/result?code=${$route.query.kode}`)"
+            @click.prevent="navGoTo(`/app/tryout/${productId}/result?code=${$route.query.kode}&category=${detail.kategori_produk}`)"
           >
             Lihat Hasil
           </button>

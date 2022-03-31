@@ -111,7 +111,7 @@
           </div>
         </div>
       </div>
-      <div v-if="dataDetail.harga_produk > 0">
+      <div v-if="dataDetail.produk.harga_produk > 0">
         <router-link
           class="btn btn-primary dashboard mb-4"
           v-if="
@@ -143,7 +143,7 @@
           Beli Tryout
         </button>
       </div>
-      <div v-else-if="!loading && !dataDetail.transaksi">
+      <div v-else-if="!loading && dataDetail.produk.harga_produk < 10 & !dataDetail.transaksi">
         <button
           class="btn btn-primary dashboard mb-4"
           @click.prevent="claimFreeProduct"
