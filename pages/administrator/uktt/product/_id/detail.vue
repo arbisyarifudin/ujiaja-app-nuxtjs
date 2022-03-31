@@ -16,7 +16,10 @@
           style="display: flex; justify-content: space-between; align-items: center;"
         >
           <div v-if="dataDetail.produk && !loading">
-            <h3 class="mb-0">{{ dataDetail.produk.nama_produk }}</h3>
+            <h3 class="mb-2">{{ dataDetail.produk.nama_produk }}</h3>
+            <div class="h4 text-secondary">
+              Rp {{ formatRupiah(dataDetail.produk.harga_produk) }}
+            </div>
           </div>
           <div v-if="!loading">
             <router-link
@@ -73,6 +76,45 @@
         </div>
       </div>
 
+      <div class="col-md-12 mt-4">
+        <div class="card mb-4 shadow-sm" v-if="dataDetail.produk">
+          <div class="card-body">
+            <div class="mr-2 pt-4 pb-2 px-4 shadow-none border-none">
+              <h5 class="mb-3"> Persyaratan mengikuti Ujian:</h5>
+              <div class="card-content" v-if="dataDetail.produk.level">
+                <p class="mb-2">
+                  <span class="fa-fw mr-1 fas fa-check text-primary"></span>
+                  Mengajar
+                  {{ dataDetail.produk.level.minimal_total_mengajar }}x dalam
+                  {{ dataDetail.produk.level.maksimal_waktu_mengajar }} hari
+                </p>
+                <p class="mb-2">
+                  <span class="fa-fw mr-1 fas fa-check text-primary"></span>
+                  Memiliki rating :
+                  {{ dataDetail.produk.level.minimal_rate_mengajar }} -
+                  <i
+                    class="fas fa-star fa-fw text-warning"
+                    v-for="(rate, r) in dataDetail.produk.level
+                      .minimal_rate_mengajar"
+                    :key="'r' + r"
+                  ></i>
+                  <i
+                    class="far fa-star fa-fw text-warning"
+                    v-for="(rate, r) in 5 -
+                      dataDetail.produk.level.minimal_rate_mengajar"
+                    :key="'r' + r"
+                  ></i>
+                </p>
+                <p class="mb-2" v-if="dataDetail.produk.id_uktt">
+                 <span class="fa-fw mr-1 fas fa-check text-primary"></span>
+                  Telah lulus pada UKTT level sebelumnya
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div class="col-md-12 my-4">
         <div class="bg-white p-5">
           <h5>Penilaian</h5>
@@ -122,7 +164,9 @@
               <h6 class="mb-3 text-muted">
                 <span v-if="tryout.jenis_soal">{{ tryout.jenis_soal }}</span>
                 <!-- <span>- {{ tryout.template_soal }}</span> -->
-                <span v-if="tryout.alokasi_waktu">- {{ tryout.alokasi_waktu }} menit</span>
+                <span v-if="tryout.alokasi_waktu"
+                  >- {{ tryout.alokasi_waktu }} menit</span
+                >
               </h6>
             </div>
             <div>
@@ -212,11 +256,11 @@ export default {
     this.$store.commit("modifyBreadcrumb", [
       {
         text: "UKTT",
-        href: "/administrator/uktt",
+        href: "/administrator/uktt"
       },
       {
         text: "Product",
-        href: '/administrator/product'
+        href: "/administrator/product"
       },
       {
         text: "Detail",
