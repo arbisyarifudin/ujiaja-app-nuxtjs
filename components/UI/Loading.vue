@@ -1,8 +1,25 @@
 <template>
   <div class="loading">
-    <span><b-spinner small class="mr-1"></b-spinner> Memuat data...</span>
+    <span :style="textStyle"><b-spinner small class="mr-1"></b-spinner> {{text}}</span>
   </div>
 </template>
+
+<script>
+export default {
+  props: {
+    text: {
+      type: String,
+      default: 'Memuat data...'
+    },
+    textStyle: {
+      type: Object,
+      default: function() {
+        return {}
+      }
+    },
+  }
+}
+</script>
 
 <style lang="scss" scoped>
 .loading {

@@ -51,6 +51,12 @@
           </div>
         </div>
         <div class="col-md-12 crud-body">
+          <UILoading
+            v-if="refetch"
+            text="Mohon menunggu. Sedang melakukan pembaruan nomor soal..."
+            style="position: fixed; bottom: 0; left: 0; z-index: 99"
+            :textStyle="{ backgroundColor: 'white', padding: '10px' }"
+          />
           <div class="row">
             <div class="col-md-12 buat-soal mt-4">
               <p>Panduan Pengerjaan <code>*</code></p>
@@ -977,7 +983,10 @@
 
                 <!-- Add New Mapel -->
                 <b-card class="pt-4 pb-2 mt-4" v-if="addNewMapel">
-                  <h3 class="card-title h4 py-3">Tambah Mata Pelajaran Baru</h3>
+                  <h3 class="card-title h4 py-3">
+                    Tambah Mata Pelajaran Baru
+                    <!-- a -->
+                  </h3>
                   <div class="card-body-content">
                     <div class="col-md-12 form-user form-pilih-kelas p-0 mt-3">
                       <div class="form-group reg-siswa">
@@ -997,6 +1006,23 @@
                             >{{ mapel.nama_mapel }}</option
                           >
                         </select>
+                      </div>
+                      <div class="form-group reg-siswa">
+                        <div class="row">
+                          <div class="col-md-2">
+                            <label for="jumlah_soal"
+                              >Jumlah Soal <code>*</code></label
+                            >
+                          </div>
+                          <div class="col-md-8">
+                            <input
+                              type="text"
+                              class="form-control"
+                              id="jumlah_soal"
+                              v-model="newMapel.jumlah_soal"
+                            />
+                          </div>
+                        </div>
                       </div>
                       <div class="d-flex">
                         <button
@@ -1072,6 +1098,7 @@ export default {
   data() {
     return {
       loading: true,
+      refetch: false,
       tab: 0,
       // customToolbar: [["bold", "italic", "underline"], [{ list: "bullet" }], ['code-block']],
       editorOptions: {
@@ -1117,7 +1144,8 @@ export default {
         // alokasi_waktu_per_mapel: null,
         // jeda_waktu_antar_mapel: null,
         jenis_soal: null,
-        kelompok_soal: null
+        kelompok_soal: null,
+        jumlah_soal: 25
       },
       test: "",
       visible: true,
@@ -1226,6 +1254,28 @@ export default {
         });
       // .finally(() => (this.loading = false));
     },
+    async refecthSoal() {
+      this.refetch = true;
+      await this.$axios
+        .$get(`/api/tryout/find/${this.$route.params.id}/soal`)
+        .then(async res => {
+          console.log(res);
+          if (res.success) {
+            // this.dataDetail = await res.data;
+            this.formSoal = res.data;
+            // this.formTryout = { ...this.dataDetail };
+            this.filter.totalNumber = res.totalNomor;
+            this.filter.numberInSubtest = 0;
+            this.numberSubtest = res.nomorSubtest;
+            this.refetch = false;
+          }
+        })
+        .catch(err => {
+          console.log(err);
+          this.catchError(err);
+          this.refetch = false;
+        });
+    },
     getData(type, params = {}) {
       this.loading = true;
       this.$axios
@@ -1332,11 +1382,26 @@ export default {
         .then(res => {
           console.log("added new mapel", res);
           if (res.success) {
-            this.formSoal.push({ ...res.data, pertanyaan: [] });
+            if (this.newMapel.jumlah_soal > 0) {
+              this.formSoal.push({
+                ...res.data,
+                pertanyaan: res.new_soal.map(item => {
+                  return {
+                    ...item,
+                    pertanyaan_child: []
+                  };
+                })
+              });
+            } else {
+              this.formSoal.push({ ...res.data, pertanyaan: [] });
+            }
             this.showToastMessage(
               "Mata pelajaran berhasil ditambah!",
               "success"
             );
+
+            // re-fetch detail tryout
+            this.refecthSoal();
           }
           return true;
         })
@@ -1348,9 +1413,10 @@ export default {
           this.loading = false;
           this.addNewMapel = false;
           this.newMapel = {
-            id_mapel: null
+            id_mapel: null,
             // alokasi_waktu_per_mapel: null,
             // jeda_waktu_antar_mapel: null
+            jumlah_soal: 25
           };
         });
     },
@@ -1602,6 +1668,9 @@ export default {
         .finally(() => {
           this.loading = false;
           this.onSubmit.pertanyaan[pertanyaan.id].loading = false;
+
+          // refetch soal
+          this.refecthSoal();
         });
     },
     deleteQuestion(items, index) {
@@ -1628,6 +1697,8 @@ export default {
         })
         .finally(() => {
           this.loading = false;
+          // refetch soal
+          this.refecthSoal();
         });
     },
     addBabMapel(pertanyaan, pertanyaan_parent) {
@@ -1716,7 +1787,7 @@ export default {
     },
     // on Update Input
     onBlurPanduan(quill) {
-      console.log(this.formTryout)
+      console.log(this.formTryout);
       this.onSubmit.panduan.loading = true;
       this.$axios
         .$put(`/api/tryout/update/${this.dataDetail.id}/panduan`, {
