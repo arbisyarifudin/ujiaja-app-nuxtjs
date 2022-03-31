@@ -81,6 +81,20 @@
                     </b-row>
                   </div>
                 </b-col>
+                <b-col class="col-md-3">
+                  <div class="form-user">
+                    <div class="form-group reg-siswa">
+                      <label for="harga_uktt">Harga Produk <code>*</code></label>
+                      <b-form-input
+                        id="harga_uktt"
+                        name="harga_uktt"
+                        v-model="form.harga_produk"
+                        type="number"
+                      >
+                      </b-form-input>
+                    </div>
+                  </div>
+                </b-col>
               </b-row>
               <h4 class="mb-4 mt-4">Persyaratan:</h4>
               <div class="row">
@@ -229,7 +243,7 @@ export default {
         kategori_produk: "UKTT",
         jenis_produk: "",
         tipe_paket: "",
-        harga_produk: 0,
+        harga_produk: 10000,
         pakai_sertifikat: null,
         pakai_perankingan: null,
         status_produk: "Aktif",
@@ -247,7 +261,7 @@ export default {
         kategori_produk: "UKTT",
         id_uktt: "",
         uktt_level: "Dasar",
-        uktt_nilai_minimal: 5,
+        uktt_nilai_minimal: 70,
         uktt_id_level: 1
       },
       customToolbar: [["bold", "italic", "underline"], [{ list: "bullet" }]],
@@ -391,7 +405,9 @@ export default {
                 ...res.data.data
               ];
             } else if (type == "level") {
-              const levelWithoutLegend = res.data.filter(item => item.nama_level !== 'LEGEND')
+              const levelWithoutLegend = res.data.filter(
+                item => item.nama_level !== "LEGEND"
+              );
               this.dataMaster.level = levelWithoutLegend.map(item => {
                 return {
                   text: item.nama_level,

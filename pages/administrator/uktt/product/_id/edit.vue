@@ -85,6 +85,20 @@
                     </b-row>
                   </div>
                 </b-col>
+                <b-col class="col-md-3">
+                  <div class="form-user">
+                    <div class="form-group reg-siswa">
+                      <label for="harga_uktt">Harga Produk <code>*</code></label>
+                      <b-form-input
+                        id="harga_uktt"
+                        name="harga_uktt"
+                        v-model="form.harga_produk"
+                        type="number"
+                      >
+                      </b-form-input>
+                    </div>
+                  </div>
+                </b-col>
               </b-row>
               <h4 class="mb-4 mt-4">Persyaratan:</h4>
               <div class="row">
