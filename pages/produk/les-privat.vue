@@ -171,5 +171,11 @@ export default {
       footerData
     }
   },
+  created() {
+    // console.log(this.$store.getters['checkIsAuth'])
+    if(this.$store.getters['checkIsAuth']) {
+      this.header.hero.cataButtonUrl = '/app/student/courses'
+    }
+  }
 };
 </script>

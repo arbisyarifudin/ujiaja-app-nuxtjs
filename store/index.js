@@ -18,6 +18,12 @@ export const state = () => ({
   // currentSoal: {}
 });
 
+export const getters = {
+  checkIsAuth(state) {
+    return state.isAuth
+  }
+}
+
 export const mutations = {
   SET_IS_AUTH(state, payload) {
     state.isAuth = payload;
