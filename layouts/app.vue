@@ -4,11 +4,12 @@
       <div class="row">
         <div class="col-lg-3 d-none d-lg-block sidebar-col">
           <nav class="sidebar navbar-light pt-3 pl-4" id="menu">
-            <img
+            <!-- <img
               v-if="!isServer"
               :src="ApiUrl(getSetting('logo'))"
               class="img-fluid w-25 pb-4"
-            />
+            /> -->
+            <a href="/" target="_blank"><img v-if="!isServer" :src="ApiUrl(getSetting('logo'))" class="img-fluid w-25 pb-4" /></a>
             <UIMenuStudent v-if="user.role_user == 'siswa'" />
             <UIMenuPartner v-if="user.role_user == 'teacher'" :user="user" :user-detail="userDetail"/>
             <UIMenuParent v-if="user.role_user == 'parent'" />
