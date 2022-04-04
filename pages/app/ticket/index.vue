@@ -292,38 +292,6 @@ export default {
       }
       return prioritasClass;
     },
-    updateStatus() {
-      if (this.selectedData && this.selectedData.status) {
-        this.$axios
-          .$put(`api/pengaduan/update-status/${this.selectedData.id}`, {
-            status: this.selectedData.status
-          })
-          .then(response => {
-            if (response.success) {
-              this.showToastMessage(response.message, "success");
-            }
-          })
-          .catch(error => {
-            this.catchError(error);
-          });
-      }
-    },
-    updatePrioritas() {
-      if (this.selectedData && this.selectedData.prioritas) {
-        this.$axios
-          .$put(`api/pengaduan/update-prioritas/${this.selectedData.id}`, {
-            prioritas: this.selectedData.prioritas
-          })
-          .then(response => {
-            if (response.success) {
-              this.showToastMessage(response.message, "success");
-            }
-          })
-          .catch(error => {
-            this.catchError(error);
-          });
-      }
-    },
     submitData() {
       this.submitting = true;
       this.$axios
