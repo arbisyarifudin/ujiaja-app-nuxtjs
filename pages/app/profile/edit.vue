@@ -1378,6 +1378,8 @@ export default {
                 this.$router.app.refresh();
               }
             );
+            this.$bvModal.hide('modal-ortu')
+            window.location.reload();
           } else {
             this.$bvToast.toast("Permintaan gagal!", {
               title: "Error",
@@ -1386,6 +1388,7 @@ export default {
               autoHideDelay: 3000
             });
           }
+          
         })
         .catch(err => {
           console.log(err);
