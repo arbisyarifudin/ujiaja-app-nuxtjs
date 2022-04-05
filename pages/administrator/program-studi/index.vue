@@ -86,7 +86,14 @@
                     />
                   </td>
                   <td>{{ item.nama_studi }}</td>
-                  <td>{{ item.mapel ? item.mapel.nama_mapel : "?" }}</td>
+                  <!-- <td>{{ item.mapel ? item.mapel.nama_mapel : "?" }}</td> -->
+                  <td>
+                    <ul class="pl-1">
+                      <li v-for="(mapel, mIndex) in item.list_mapel" :key="'m-'+index+'-'+mIndex">
+                        <span v-if="mapel.mapel">{{mapel.mapel.nama_mapel}}</span>
+                      </li>
+                    </ul>
+                  </td>
                   <td>
                     {{
                       item.penjurusan ? item.penjurusan.nama_penjurusan : "?"
