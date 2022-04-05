@@ -714,7 +714,7 @@ export default {
         id_kursus: this.$route.params.id
       };
       this.$axios
-        .$post("api/kursus-ulasan/create/", dataCreate)
+        .$post("api/kursus-ulasan/create", dataCreate)
         .then(res => {
           this.showToastMessage("Balasan berhasil dikirimkan!", "success");
           const refs = this.$refs.formTambah;
@@ -722,7 +722,7 @@ export default {
             refs.style = "display: none";
           }
 
-          window.location.href = "";
+          window.location.reload();
           // if(this.ulasan.list && this.ulasan.list.length < 1) {
           //   this.ulasan.list.push({
           //     ...dataCreate,
@@ -772,6 +772,7 @@ export default {
             );
             this.dataDetailByStudent = res.data;
             this.$bvModal.hide("modal-finish");
+            // window.location.reload()
           }
         })
         .catch(err => {

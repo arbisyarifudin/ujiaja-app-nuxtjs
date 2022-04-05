@@ -221,6 +221,12 @@ Vue.mixin({
       }
       return process.env.apiUrl + "/" + param;
     },
+    BaseUrl(param, no_separator = false) {
+      if(no_separator)  {
+        return process.env.baseUrl + param;
+      }
+      return process.env.baseUrl + "/" + param;
+    },
     isHavePermission(param, no_separator = false) {
       if(no_separator)  {
         return process.env.baseUrl + param;
