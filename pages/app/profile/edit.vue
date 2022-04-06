@@ -355,6 +355,8 @@
                         label="nama"
                         @input="
                           () => {
+                            formSiswa.id_kecamatan = null;
+                            formSiswa.id_kota = null;
                             getAPI('kota_kabupaten');
                             dataOption['kecamatan'] = [];
                           }
@@ -375,6 +377,7 @@
                         label="nama"
                         @input="
                           () => {
+                            formSiswa.id_kecamatan = null;
                             getAPI('kecamatan');
                           }
                         "
@@ -1094,7 +1097,7 @@ export default {
             type = "kota_kabupaten";
           }
           this.dataOption[type] = res.data[type];
-          this.$cookiz.set(type, this.dataOption[type]);
+          // this.$cookiz.set(type, this.dataOption[type]);
         })
         .catch(err => {
           console.log(err);
