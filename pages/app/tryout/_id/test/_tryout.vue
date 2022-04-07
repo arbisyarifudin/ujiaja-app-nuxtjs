@@ -32,7 +32,9 @@
             >
             <a
               class="btn btn-primary ml-2"
-              :href="`/app/tryout/${detail.id}/result?code=${$route.query.kode}&category=${detail.kategori_produk}`"
+              :href="
+                `/app/tryout/${detail.id}/result?code=${$route.query.kode}&category=${detail.kategori_produk}`
+              "
               >Lihat Hasil</a
             >
             <!-- <button
@@ -55,7 +57,9 @@
             <a
               v-if="detail.is_result_openable === true"
               class="btn btn-primary ml-2"
-              :href="`/app/tryout/${detail.id}/result?code=${$route.query.kode}&category=${detail.kategori_produk}`"
+              :href="
+                `/app/tryout/${detail.id}/result?code=${$route.query.kode}&category=${detail.kategori_produk}`
+              "
               >Lihat Hasil</a
             >
           </div>
@@ -160,27 +164,50 @@
                         </button>
                       </li>
                     </ul> -->
-                    <b-form-group v-slot="{ ariaDescribedby }" class="question-option-radio-group">
-                        <b-form-radio v-for="(opsi, o) in currentNomor.opsi_pertanyaan" :key="'opsi' + o" v-model="jawabanUser[currentNomor.nomor].jawaban_user" :aria-describedby="ariaDescribedby" :name="'opsi_' + currentNomor.nomor" :value="opsi.uuid" :class="jawabanUser[currentNomor.nomor].jawaban_user === opsi.uuid ? 'checked' : ''" @change="saveJawaban">
-                          <div class="question-option-letter mb-2">{{letterLabel(o)}}</div>
-                          <div v-html="opsi.option"></div>
-                        </b-form-radio>
+                    <b-form-group
+                      v-slot="{ ariaDescribedby }"
+                      class="question-option-radio-group"
+                    >
+                      <b-form-radio
+                        v-for="(opsi, o) in currentNomor.opsi_pertanyaan"
+                        :key="'opsi' + o"
+                        v-model="jawabanUser[currentNomor.nomor].jawaban_user"
+                        :aria-describedby="ariaDescribedby"
+                        :name="'opsi_' + currentNomor.nomor"
+                        :value="opsi.uuid"
+                        :class="
+                          jawabanUser[currentNomor.nomor].jawaban_user ===
+                          opsi.uuid
+                            ? 'checked'
+                            : ''
+                        "
+                        @change="saveJawaban"
+                      >
+                        <div class="question-option-letter mb-2">
+                          {{ letterLabel(o) }}
+                        </div>
+                        <div v-html="opsi.option"></div>
+                      </b-form-radio>
                     </b-form-group>
                     <button
-                          type="button"
-                          class="btn btn-sm btn-light px-3 square"
-                          @click.prevent="
-                            jawabanUser[currentNomor.nomor].jawaban_user = ''
-                          "
-                        >
-                          <i class="fas fa-fa fa-times mr-1"></i>
-                          Batal Jawab
-                        </button>
+                      type="button"
+                      class="btn btn-sm btn-light px-3 square"
+                      @click.prevent="
+                        jawabanUser[currentNomor.nomor].jawaban_user = ''
+                      "
+                    >
+                      <i class="fas fa-fa fa-times mr-1"></i>
+                      Batal Jawab
+                    </button>
                   </div>
                 </div>
               </div>
               <div class="d-block d-md-none">
-                <h2 class="board-timer d-flex align-items-center" id="board-timer-2" style="font-size: 25px">
+                <h2
+                  class="board-timer d-flex align-items-center"
+                  id="board-timer-2"
+                  style="font-size: 25px"
+                >
                   <i class="far fa-clock fa-fw mr-1 small"></i>
                   <span class="countdown">00:00:00</span>
                 </h2>
@@ -190,7 +217,10 @@
         </div>
         <div class="col-md-4 d-md-block d-none">
           <div class="info-board bg-white p-4">
-            <h2 class="board-timer d-flex align-items-center" id="board-timer-1">
+            <h2
+              class="board-timer d-flex align-items-center"
+              id="board-timer-1"
+            >
               <i class="far fa-clock fa-fw mr-1 small"></i>
               <span class="countdown">00:00:00</span>
             </h2>
@@ -234,9 +264,7 @@
               type="button"
               class="btn btn-danger btn-block square"
               v-b-modal.modal-confirm-end
-              :disabled="
-                  loading
-                "
+              :disabled="loading"
             >
               {{
                 isAllowNext()
@@ -282,9 +310,7 @@
               <button
                 type="button"
                 class="btn btn-danger btn-block square"
-                :disabled="
-                  loading
-                "
+                :disabled="loading"
                 v-b-modal.modal-confirm-end
               >
                 <i class="fas fa-paper-plane"></i>
@@ -326,7 +352,7 @@
             <li><span class="filled"></span> Soal yang sudah dijawab</li>
             <li><span class="unfilled"></span> Soal yang belum dijawab</li>
           </ul>
-        <!-- <UjianNumberList
+          <!-- <UjianNumberList
           @update="updateNomor"
           :jawaban="jawabanUser"
           :list="listNomorSoal"
@@ -365,7 +391,9 @@
         <a
           v-if="detail.is_result_openable === true"
           class="btn btn-primary ml-2"
-          :href="`/app/tryout/${detail.id}/result?code=${$route.query.kode}&category=${detail.kategori_produk}`"
+          :href="
+            `/app/tryout/${detail.id}/result?code=${$route.query.kode}&category=${detail.kategori_produk}`
+          "
           >Lihat Hasil</a
         >
       </div>
@@ -424,10 +452,7 @@
       @hidden="resetModal"
     >
       <div>
-        <p
-          class="modal-text"
-          v-if="isAllowNext()"
-        >
+        <p class="modal-text" v-if="isAllowNext()">
           Apakah kamu yakin ingin menyelesaikan dan mengirim jawaban tryoutmu?
           Kamu akan diarahkan ke tryout selanjutnya..
         </p>
@@ -451,12 +476,7 @@
             @click.prevent="onConfirmEndTest"
           >
             <b-spinner small v-if="loading" class="mr-1"></b-spinner>
-            <span
-              v-if="
-                isAllowNext()
-              "
-              >Ya, Kirim & Lanjutkan</span
-            >
+            <span v-if="isAllowNext()">Ya, Kirim & Lanjutkan</span>
             <span v-else>Ya, Kirim Sekarang</span>
           </button>
         </div>
@@ -500,7 +520,11 @@
             class="btn btn-primary tambah px-4 py-2"
             type="button"
             :disabled="loading"
-            @click.prevent="navGoTo(`/app/tryout/${productId}/result?code=${$route.query.kode}&category=${detail.kategori_produk}`)"
+            @click.prevent="
+              navGoTo(
+                `/app/tryout/${productId}/result?code=${$route.query.kode}&category=${detail.kategori_produk}`
+              )
+            "
           >
             Lihat Hasil
           </button>
@@ -636,8 +660,14 @@ export default {
       );
     },
     checkLastSaved() {
-      const lastSavedData = this.$cookiz.get("_ujiaja_temp_to_user_" + this.$route.query.kode + "_" + this.tryout.id);
+      // const lastSavedData = this.$cookiz.get(
+      //   "_ujiaja_temp_to_user_" + this.$route.query.kode + "_" + this.tryout.id
+      // );
+      let lastSavedData = localStorage.getItem(
+        "_ujiaja_temp_to_user_" + this.$route.query.kode + "_" + this.tryout.id
+      );
       if (lastSavedData) {
+        lastSavedData = JSON.parse(lastSavedData);
         this.jawabanUser = lastSavedData.data;
         return lastSavedData;
       }
@@ -645,10 +675,10 @@ export default {
     },
     startTimer() {
       const moment = require("moment");
-      moment.locale('id')
+      moment.locale("id");
       const today = moment.now();
       const lastSavedData = this.checkLastSaved();
-      const waktuMulai = moment(this.detailUjian.waktu_mulai).valueOf()
+      const waktuMulai = moment(this.detailUjian.waktu_mulai).valueOf();
       const waktuBatas = waktuMulai + this.tryout.alokasi_waktu * 1000 * 60;
 
       // console.log(today);
@@ -724,13 +754,12 @@ export default {
                 hours + ":" + minutes + ":" + seconds;
               this.saveJawaban();
 
-              const kerutinan = 10 // detik
+              const kerutinan = 10; // detik
               // setiap n menit sekali simpan ke server
               // console.log(duration.seconds() % kerutinan)
-              if(duration.seconds() % kerutinan == 0) {
-                this.saveJawabanToServer()
+              if (duration.seconds() % kerutinan == 0) {
+                this.saveJawabanToServer();
               }
-
             } else {
               console.log("> Tryout sudah melewati waktu!");
               this.isTimeout = true;
@@ -815,10 +844,18 @@ export default {
         window.removeEventListener("beforeunload", this.onCloseWindow);
         this.$bvModal.hide("modal-confirm-start");
         this.$bvModal.hide("modal-confirm-end");
-        this.$cookiz.remove("_ujiaja_temp_to_user_" + this.$route.query.kode + "_" + this.tryout.id);
-        if (
-          this.isAllowNext()
-        ) {
+        // this.$cookiz.remove(
+        //   "_ujiaja_temp_to_user_" +
+        //     this.$route.query.kode +
+        //     "_" +
+        //     this.tryout.id
+        // );
+        localStorage.removeItem("_ujiaja_temp_to_user_" +
+            this.$route.query.kode +
+            "_" +
+            this.tryout.id
+        );
+        if (this.isAllowNext()) {
           this.goToNext();
         } else {
           this.detailUjian.waktu_selesai = "ada isi";
@@ -828,11 +865,11 @@ export default {
       }
     },
     async submitJawabanUser() {
-      console.log('submitJawaban',this.jawabanUser)
+      console.log("submitJawaban", this.jawabanUser);
       const data = await this.$axios
         .$post(`/api/tryout_user_jawaban/create/multiple`, {
           id_tryout_user: this.detailUjian.id,
-          jawabans: this.jawabanUser,
+          jawabans: this.jawabanUser
           // waktu_selesai_ujian: new Date()
         })
         .then(response => {
@@ -842,13 +879,21 @@ export default {
       return data;
     },
     updateNomor(dataNomor) {
-      console.log(dataNomor)
+      console.log(dataNomor);
       // this.$store.commit("set", ["currentNomor", dataNomor]);
       this.currentNomor = dataNomor;
     },
     saveJawaban() {
       const dataSave = this.jawabanUser;
-      this.$cookiz.set("_ujiaja_temp_to_user_" + this.$route.query.kode + "_" + this.tryout.id, {
+      // this.$cookiz.set("_ujiaja_temp_to_user_" + this.$route.query.kode + "_" + this.tryout.id, {
+      //   kode: this.$route.query.kode,
+      //   id_user: this.user.id,
+      //   id_produk: this.detail.id,
+      //   id_tryout: this.tryout.id,
+      //   data: dataSave,
+      //   time: new Date().getTime()
+      // });
+      const lsSave = JSON.stringify({
         kode: this.$route.query.kode,
         id_user: this.user.id,
         id_produk: this.detail.id,
@@ -856,17 +901,24 @@ export default {
         data: dataSave,
         time: new Date().getTime()
       });
+      localStorage.setItem(
+        "_ujiaja_temp_to_user_" + this.$route.query.kode + "_" + this.tryout.id,
+        lsSave
+      );
     },
     saveJawabanToServer() {
       const dataSave = this.jawabanUser;
-      this.$axios.$put('/api/tryout_user/update/' + this.detailUjian.id, {
-        temp_jawaban_user: dataSave
-      }).then(response => {
-        console.log('temp jawaban saved to server', response)
-      }).catch(error => {
-        console.log(error)
-        this.catchError(error)
-      })
+      this.$axios
+        .$put("/api/tryout_user/update/" + this.detailUjian.id, {
+          temp_jawaban_user: dataSave
+        })
+        .then(response => {
+          console.log("temp jawaban saved to server", response);
+        })
+        .catch(error => {
+          console.log(error);
+          this.catchError(error);
+        });
     },
     async goToNext() {
       console.log("goToNext");
@@ -1037,16 +1089,20 @@ export default {
       );
     },
     isAllowNext() {
-      if(this.detailUjian.list_tryout && this.detailUjian.list_tryout.length > 1)
-      {
-        const find = this.detailUjian.list_tryout.find(item => item.id === this.tryout.id)
-        const lastNumber = this.detailUjian.list_tryout.length
-        if(find && find.number < lastNumber) {
-          return true
+      if (
+        this.detailUjian.list_tryout &&
+        this.detailUjian.list_tryout.length > 1
+      ) {
+        const find = this.detailUjian.list_tryout.find(
+          item => item.id === this.tryout.id
+        );
+        const lastNumber = this.detailUjian.list_tryout.length;
+        if (find && find.number < lastNumber) {
+          return true;
         }
-        return false
+        return false;
       }
-      return false
+      return false;
     },
     letterLabel(index) {
       const letters = [

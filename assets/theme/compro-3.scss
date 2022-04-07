@@ -175,6 +175,8 @@ h3 {
 }
 
 .button-cta {
+  position: relative;
+  z-index: 10;
   &.btn {
     &-secondary {
       background-color: $light;
@@ -326,5 +328,21 @@ h3 {
               border-color: $title;
           }
       }
+  }
+}
+
+@media screen and (max-width: 990px) {
+  #hero {
+    img.hero-image {
+      width: 80%;
+    }
+  }
+}
+
+@media screen and (max-width: 500px) {
+  #hero {
+    img.hero-image {
+      width: 100%;
+    }
   }
 }

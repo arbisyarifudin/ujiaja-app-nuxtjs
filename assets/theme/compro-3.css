@@ -165,6 +165,11 @@ h3 {
   cursor: not-allowed;
 }
 
+.button-cta {
+  position: relative;
+  z-index: 10;
+}
+
 .button-cta.btn-secondary {
   background-color: #f5efff;
   border-color: #f5efff;
@@ -303,5 +308,17 @@ h3 {
 .login-box .btn-group-toggle .btn.active, .login-box .btn-group-toggle .btn:active {
   background-color: #270dcc;
   border-color: #270dcc;
+}
+
+@media screen and (max-width: 990px) {
+  #hero img.hero-image {
+    width: 80%;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  #hero img.hero-image {
+    width: 100%;
+  }
 }
 /*# sourceMappingURL=compro-3.css.map */
