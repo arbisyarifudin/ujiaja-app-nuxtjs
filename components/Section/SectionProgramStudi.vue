@@ -14,11 +14,11 @@
           <img class="mt-5 mb-5" src="/hero-lagi.png" alt="" />
         </div>
         <h4>
-          Pastikan progam studi yang kamu pilih sesuai dengan minat dan
+          Pastikan program studi yang kamu pilih sesuai dengan minat, bakat dan
           kemampuan kamu.
         </h4>
         <p class="p-0">
-          Ayo, temukan sekarang juga progam studi yang cocok denganmu.
+          Ayo, temukan sekarang juga …!
         </p>
         <a class="btn btn-outline-primary mt-5" href="/cari-program-studi"
           >Temukan Sekarang</a

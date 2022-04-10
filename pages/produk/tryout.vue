@@ -9,8 +9,8 @@
     <SectionProduk :props="produk" />
     <SectionCardHero
       src="/hero-lagi-person2.png"
-      title="Maksimalkan Peluang Lolos Tryout Bersama UjiAja"
-      description="Cobalah tryout UTBK, Asesmen Nasional, dan ASPD agar persiapanmu semakin matang sebelum ujian yang sesungguhnya dimula."
+      title="Siap untuk masuk kampus impian bersama UjiAja?"
+      description="Tunggu apa lagi? Mari bergabung dengan UjiAja dan menjadi pemenang di UTBK SBMPTN….!"
       href="/registrasi"
       cta-text="Daftar Sekarang"
       button
@@ -18,7 +18,7 @@
     <SectionTestimoni :props="testimoni" />
     <SectionCardHero
       src="/hero-lagi-person3.png"
-      title="Temukan keseruan latihan dan uji Tryout Pilihanmu hanya di UjiAja"
+      title="Temukan keseruan latihan dan uji Tryout pilihanmu hanya di UjiAja"
       description="Persiapkan materi ujianmu selengkap mungkin sesuai kebutuhanmu."
       href="/registrasi"
       cta-text="Daftar Sekarang"
@@ -41,7 +41,7 @@ export default {
         hero: {
           judul: "Siap Lolos Sekolah & PTN Impian Bareng UjiAja!",
           subjudul:
-            "Gunakan Platform Tryout Terbaik Untuk Tingkatkan Kesiapanmu. Hadapi Masuk Jenjang SMP, SMA dan Perguruan Tinggi negeri!",
+            "Gunakan Platform Tryout Terbaik untuk Tingkatkan Kesiapanmu, serta menangkan Seleksi Ujian Masuk Jenjang SMP, SMA dan Perguruan Tinggi Negeri Idamanmu!",
           ctaButtonText: "Daftar Sekarang",
           ctaButtonVariant: "secondary",
           cataButtonUrl: "/registrasi",
@@ -55,18 +55,18 @@ export default {
           {
             gambar: "/icon/icon-tryout.png",
             judul: "Soal Prediksi Yang Akurat",
-            subjudul: "Soal prediksi tryout yang akurat disertai pembahasan"
+            subjudul: "Soal prediksi tryout yang akurat disertai pembahasan soal dan rekomendasi pendalaman materi."
           },
           {
             gambar: "/icon/icon-tryout2.png",
-            judul: "Penilaian sama dengan UTBK, AN, & ASPD",
+            judul: "Penilaian sama dengan sistem UTBK, ASPD, PAT/PAS",
             subjudul:
-              "Penilaian Tryout di UjiAja mirip dengan penilaian UTBK, Asesmen Nasional, & ASPD"
+              "Penilaian Tryout di UjiAja menggunakan sistem yang riil dilakukan oleh Panitia SBMPTN dan Panitia PPDB berbagai  di Daerah."
           },
           {
             gambar: "/icon/icon-tryout3.png",
             judul: "Pemeringkatan secara Nasional",
-            subjudul: "Dilakukan pemeringkatan dan pemetaan secara nasional"
+            subjudul: "Dilakukan pemeringkatan dan pemetaan secara nasional dan Daerah sesuai kepentingan pengguna."
           }
         ]
       },
@@ -98,9 +98,18 @@ export default {
             judul: 'Tryout <span class="large">ASPD</span>',
             brand: "by UjiAja",
             deskripsi:
-              "Persiapkan dirimu hadapi ujian Asesmen Standar Pendidikan Daerah (Khusus DIY) dengan latihan Tryout ASPD yang akurat. Tryout ini ditujukan untuk jenjang SD hingga SMA.",
+              "Persiapkan dirimu hadapi ujian Asesmen Standar Pendidikan Daerah (Khusus DIY) dengan latihan Tryout ASPD yang akurat. Tryout ini ditujukan untuk jenjang SD hingga SMP.",
             tambahan: null,
             url: "/produk/tryout-aspd"
+          },
+          {
+            gambar: "/produk/tryout3.png",
+            judul: 'Tryout <span class="large">PAT/PAS</span>',
+            brand: "by UjiAja",
+            deskripsi:
+              "Persiapkan dirimu hadapi ujian Kenaikan Kelas dengan latihan Tryout PAT dan PAS yang akurat. Tryout ini ditujukan untuk jenjang siswa-siswi Kelas 4,5, dan 6 SD ; Kelas 7,8, dan 9 SMP; serta 10,11, dan 12 SMA.",
+            tambahan: null,
+            url: "#"
           },
           {
             gambar: "/produk/tryout4.jpg",

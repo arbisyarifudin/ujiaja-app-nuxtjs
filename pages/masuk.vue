@@ -24,16 +24,14 @@
                         <img src="/login-siswa.png" />
                         <h4 class="judul">Belajar Efektif Bersama UjiAja</h4>
                         <p>
-                          Nikmati bebas akses dan bebas biaya untuk pembahasan
-                          soal tryout dan kunci jawaban sesuai kurikulum.
+                          Nikmati bebas akses dan bebas biaya untuk pembahasan soal tryout, kunci jawaban, analisa serta rekomendasi belajar dan pilihan jurusan.
                         </p>
                       </div>
                       <div class="text-center">
                         <img src="/login-siswa.png" />
                         <h4 class="judul">Belajar Efektif Bersama UjiAja</h4>
                         <p>
-                          Nikmati bebas akses dan bebas biaya untuk pembahasan
-                          soal tryout dan kunci jawaban sesuai kurikulum.
+                          Dapatkan layanan prima dari tutor yang profesional, ramah, bersahabat, asyik dan terpercaya. 
                         </p>
                       </div>
                     </vue-tiny-slider>

@@ -5,8 +5,7 @@
         <div class="col-md-12">
           <h2 style="text-align: center">Fitur dan Layanan UjiAja</h2>
           <p style="text-align: center">
-            Cukup 1 kali bayar kamu akan mendapatkan seluruh fitur dan layanan
-            berikut.
+            Cukup 1 kali bayar kamu akan mendapatkan fitur pilihanmu dengan layanan berikut.
           </p>
           <div class="row">
             <div class="col-lg-9 col-md-12">
@@ -18,7 +17,7 @@
                     </div>
                     <h4>Ribuan Soal Bagi Tutor</h4>
                     <p class="fitur-text">
-                      Ribuan soal dan pembahasan yang dapat digunakan oleh guru
+                      Ribuan soal dan pembahasan yang dapat digunakan oleh guru.
                     </p>
                     <a href="/app" class="readmore">Selengkapnya</a>
                   </CardGrad>
@@ -30,7 +29,7 @@
                         <h4>Tryout UTBK</h4>
                         <p class="fitur-text">
                           Tersedia ratusan paket Try Out yang bisa di akses
-                          kapan saja dan dimana saja
+                          kapan saja dan dimana saja.
                         </p>
                         <a href="/app/tryout" class="readmore">Selengkapnya</a>
                       </div>
@@ -48,8 +47,7 @@
                       <div class="col-md-6 pt-5 order-md-1 order-2">
                         <h4>Diskusi Dengan Tutor</h4>
                         <p class="fitur-text">
-                          Pengajar kami senantiasa menunggu pertanyaan mu setiap
-                          harinya
+                          Pengajar/Guru kami senantiasa menunggu pertanyaanmu setiap harinya.
                         </p>
                         <a href="/app" class="readmore">Selengkapnya</a>
                       </div>
@@ -66,7 +64,7 @@
                     </div>
                     <h4>Event Tryout Akbar</h4>
                     <p class="fitur-text">
-                      Akses dan ikuti event Tryout Nasional setiap bulannya
+                      Akses dan ikuti event Tryout Nasional setiap bulannya.
                     </p>
                     <a href="/app/tryout" class="readmore">Selengkapnya</a>
                   </CardGrad>
@@ -97,7 +95,7 @@
                   <div class="col-md-6 pt-5 order-md-1 order-2">
                     <h4>Cari Jurusan</h4>
                     <p class="fitur-text">
-                     Cari jurusan yang kamu minati secara lengkap di Ujiaja.
+                     Berbagai info jurusan/prodi bisa kamu dapatkan guna memastikan pilihan jurusan yang tepat.
                     </p>
                     <a href="/cari-program-studi" class="readmore">Selengkapnya</a>
                   </div>
@@ -114,7 +112,7 @@
                 </div>
                 <h4>Tryout ASPD</h4>
                 <p class="fitur-text">
-                  Soal yang tersedia sesuai dengan TPM DIY
+                  Soal yang tersedia sesuai dengan kualitas TPM Daerah.
                 </p>
                 <a href="/app/tryout" class="readmore">Selengkapnya</a>
               </CardGrad>
@@ -143,7 +141,7 @@
                 </div>
                 <h4>Tes Minat, Bakat & Potensi</h4>
                 <p class="fitur-text">
-                  Siswa dapat menggali potensi diri lebih dalam dengan tes ini
+                  Siswa dapat mengetahui minat bakat dan menggali potensi diri lebih dalam dengan tes ini.
                 </p>
                 <a href="app/mbti" class="readmore">Selengkapnya</a>
               </CardGrad>

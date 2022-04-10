@@ -37,7 +37,7 @@ export default {
         hero: {
           judul: "Bagikan keahlian Anda Bersama UjiAja",
           subjudul:
-            "Dapatkan penghasilan tambahan sebagai pengajar di UjiAja dan hasilkan uang sesuai lokasi dan jadwalmu!",
+            "Salurkan hobby dan  keahlian mengajarmu  di UjiAja dan hasilkan uang sesuai lokasi, jadwal, dan tingkat profesionalitasmu!",
           ctaButtonText: "Daftar Sekarang",
           ctaButtonVariant: "secondary",
           cataButtonUrl: "/registrasi",
@@ -52,18 +52,18 @@ export default {
             gambar: "/icon/tutor1.png",
             judul: "Tentukan Tarif Les Privatmu",
             subjudul:
-              "Tentukan sendiri tarifmu tanpa ada komisi yang kami ambil.",
+              "Gabung menjadi tentor UjiAja (Baru, Super, Elite, Master atau Legend), kamu bisa menetukan tarifmu sesuai keahlian dan profesionalitasmu.",
           },
           {
             gambar: "/icon/tutor2.png",
             judul: "Mengajar Kapan Saja & Di Mana Saja",
-            subjudul: "Putuskan berapa lama dan berapa jam Anda akan mengajar.",
+            subjudul: "Putuskan kapan dan dimana tempat  Anda akan mengajar, semua bisa dinegokan dengan klien (siswa/ortusiswa).",
           },
           {
             gambar: "/icon/tutor3.png",
             judul: "Fasilitas Pengembangan Soft Skill",
             subjudul:
-              "Anda akan mendapatkan bantuan yang diperlukan dari tim kami",
+              "Anda akan mendapatkan bantuan yang diperlukan dari tim kami.",
           },
         ],
       },

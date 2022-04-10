@@ -79,9 +79,9 @@ export default {
     return {
       header: {
         hero: {
-          judul: "Solusi Belajar Online",
+          judul: "Solusi Belajar Online di UjiAja, lebih mudah, detail dan fleksibel!",
           subjudul:
-            "Solusi pembelajaran digital dapat membantu orang tua memantau kemajuan belajar anak mereka kapan saja, di mana saja.",
+            "Kini para orangtua dapat lebih mudah memantau perkembangan belajar anak, dan berkonsultasi dengan guru/tentor privat pendampingnya, dimana saja dan kapan saja.",
           ctaButtonText: "Pantau Perkembangan Anak",
           ctaButtonVariant: "secondary",
           cataButtonUrl: "/registrasi",

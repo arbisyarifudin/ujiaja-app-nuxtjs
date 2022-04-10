@@ -7,11 +7,7 @@
           <div class="col-lg-12 text-center">
             <h2>Tryout ASPD</h2>
             <p>
-              Matangkan persiapanmu dengan latihan soal Asesmen Standar
-              Pendidikan Daerah Yogyakarta (Bahasa Indonesia, Matematika, Bahasa
-              Inggris, dan Ilmu Pengetahuan Alam (IPA)). Uji kemampuanmu dalam
-              menjawab soal ASPD lewat Tryout Asesmen Standar Pendidikan Daerah
-              terlengkap. Daftar dan coba sekarang Juga!
+              Matangkan persiapanmu dengan latihan soal Asesmen Standar Pendidikan Daerah (Bahasa Indonesia, Matematika, Bahasa Inggris, dan Ilmu Pengetahuan Alam (IPA)), dan uji kemampuanmu dalam menjawab soal-soalnya lewat Tryout ASPD terlengkap. Daftar dan coba sekarang Juga!
             </p>
             <hr
               color="#7370FB"
@@ -53,20 +49,26 @@ export default {
         item: [
           {
             gambar: "/icon/utbk1.png",
-            judul: "Soal Sesuai Dengan ASPD Disdik Provinsi DIY",
+            judul: "Sistem TryOut berdasarkan Aturan Panitia PPDB Daerah",
             subjudul:
-              "Soal ASPD yang disediakan di UjiAja sangat mirip dengan ASPD Disdik DIY",
+              "Matauji, jumlah soal, sistem nilai dan skor angka yang diperoleh dibuat berdasarkan aturan resmi Panitia PPDB di masing-masing Daerah.",
           },
           {
             gambar: "/icon/utbk2.png",
-            judul: "Ujian Berbasis Komputer & Adaptif ",
+            judul: "Soal Sesuai Dengan Kisi-kisi Asesmen Pendidikan Daerah",
             subjudul:
-              "Ujian dilaksanakan berbasis komputer atau Computer Based Test (CBT)",
+              "Soal-soal TryOut ASPD yang disediakan di UjiAja sangat mirip dengan ASPD beneran, so PAS banget jika dijadikan ukuran kesiapan belajarmu.",
           },
           {
             gambar: "/icon/utbk3.png",
-            judul: "Jumlah Soal Sesuai Asesmen Sebenarnya",
-            subjudul: "Jumlah soal sesuai asesmen yang sebenarnya",
+            judul: "Prediksi Soal Sangat Akurat dan Lengkap",
+            subjudul: "Akurasi soal disertai dengan pembahasan yang lengkap dan bisa bikin lebih ngerti konsep dan materinya.",
+          },
+          {
+            gambar: "/icon/utbk2.png",
+            judul: "Analisa dan Rekomendasi Belajar",
+            subjudul:
+              "Di setiap TryOut akan diberikan analisa berdasarkan nilai masing-masing peserta, rata-rata nilai per pelajaran maupun total, progres report dan rekomendasi belajarnya.",
           },
         ],
       },
@@ -92,7 +94,11 @@ export default {
       },
       pertanyaan: [
         {
-          q: "Apa itu TryOut Asesmen Standar Pendidikan Daerah?",
+          q: "Apa itu TryOut ASPD UjiAja?",
+          a: `TryOut ASPD UjiAja adalah platform ujian online melalui simulasi/tryout dalam mengerjakan soal-soal ASPD dengan sistem dan model yang biasa diselenggarakan oleh Panitia  PPDB Tingkat SMP/SMA. Sistem yang didesain berbasis digital ini harapannya mampu menghadirkan solusi yang lebih baik dan tepat guna untuk membantu siswa-siswa SD maupun SMP di seluruh Indonesia dalam menguji kemampuan, serta memberikan arahan fokus belajar untuk menggapai mimpinya bisa masuk Sekolah Idaman.`,
+        },
+        {
+          q: "Apakah pengerjaan TryOut ASPD di UjiAja bisa melalui laptop/PC?",
           a: `Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry
           richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor
           brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon
@@ -103,7 +109,7 @@ export default {
           synth nesciunt you probably haven't heard of them accusamus labore VHS.`,
         },
         {
-          q: "Apakah pengerjaan TryOut Asesmen Standar Pendidikan Daerah di UjiAja bisa melalui laptop/PC?",
+          q: "Kalau saya sudah terdaftar dalam TryOut ASPD, apakah saya bisa mengerjakan TryOut di luar jadwal?",
           a: `Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry
           richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor
           brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon
@@ -114,18 +120,7 @@ export default {
           synth nesciunt you probably haven't heard of them accusamus labore VHS.`,
         },
         {
-          q: "Kalau saya sudah terdaftar dalam TryOut Asesmen Standar Pendidikan Daerah, apakah saya bisa mengerjakan di luar jadwal?",
-          a: `Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry
-          richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor
-          brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon
-          tempor, sunt aliqua put a bird on it squid single-origin coffee nulla
-          assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore
-          wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher
-          vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic
-          synth nesciunt you probably haven't heard of them accusamus labore VHS.`,
-        },
-        {
-          q: "Apakah pengerjaan TryOut Asesmen Standar Pendidikan Daerah di UjiAJa bisa dicicil/dijeda?",
+          q: "Apakah pengerjaan TryOut ASPD di UjiAja bisa dicicil/dijeda?",
           a: `Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry
           richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor
           brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon

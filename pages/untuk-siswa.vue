@@ -35,9 +35,9 @@ export default {
     return {
       header: {
         hero: {
-          judul: "Wujudkan Kuliah Impianmu!",
+          judul: "Wujudkan Sekolah dan Kuliah Impianmu!",
           subjudul:
-            "Persiapkan kuliah, dan potensimu dengan pilihan yang tepat sesuai minat dan bakat",
+            "Raih nilai tinggi di sekolahmu, dan maksimalkan potensi kuliahmu dengan pilihan jurusan yang tepat sesuai minat, bakat, dan kemampuanmu.",
           ctaButtonText: "Tes Sekarang Juga",
           ctaButtonVariant: "secondary",
           cataButtonUrl: "/registrasi",

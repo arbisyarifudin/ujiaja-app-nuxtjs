@@ -6,28 +6,17 @@
       <div class="container text-center">
         <h2>Detail Tentang UjiAja</h2>
         <p class="text-left">
-          UjiAja merupakan Lembaga bimbingan belajar yang sudah mengajar ribuan
-          siswa selama 25 tahun Terakhir. UjiAja beralamat di Jl. Sunaryo No.14,
-          Kotabaru, Kec. Gondokusuman, Kota Yogyakarta, Daerah Istimewa
-          Yogyakarta 55224. Pengalaman 25 tahun ini menjadikan UjiAja pernah
-          menjadi pemimpin di industry ini. Perubahan zaman yang kian kemari
-          semakin cepat dengan dorongan teknologi, juga mendorong semangat
-          UjiAja untuk berbenah menjadi bimbel yang lebih baik dengan bantuan
-          teknologi.<br /><br />
+          UjiAja merupakan produk dari Lembaga Bimbingan Belajar yang sudah mengajar ratusan ribu siswa selama 25 tahun terakhir. Beralamat di Jalan Ipda Tut Harsono 12 Kota Yogyakarta dan menempati Gedung Utama Timoho Block, UjiAja memiliki pengalaman panjang yang pernah menempatkannya  sebagai pemain papan atas dalam industri konseling dan bimbingan belajar. Adanya perubahan zaman dengan perkembangan teknologi yang semakin cepat  mendorong semangat UjiAja untuk berbenah menjadi bimbel berbasis neoteknologi yang lebih baik lagi. </p>
 
-          Tak hanya mendigitalkan apa yang sudah ada, namun UjiAja berusaha
+          <p  class="text-left">Tak hanya mendigitalkan apa yang sudah ada, namun UjiAja berusaha
           mendobrak pasar baru dengan model bisnis baru sistem tryout dan les
           private yang kali ini dikembangkan. Sistem yang didesain berbasis
           digital ini harapanya mampu menghadirkan solusi yang lebih baik dan
           tepat guna untuk membantu para siswa-siswa di seluruh Indonesia untuk
           uji kemampuan dan minat bakat serta memberikan arahan fokus belajar
-          untuk menggapai mimpinya bisa masuk diperguruan tinggi tercinta.<br /><br />
+          untuk menggapai mimpinya bisa masuk diperguruan tinggi tercinta.</p>
 
-          Selain sistem tryout yang dikembangkan sedimikian rupa, untuk
-          mendorong kualitas serta tercapainya mimpi siswa/siswa maka dihadirkan
-          pula platform les private yang dapat mempertemukan guru dan siswa
-          dalam satu platform sesuai kebutuhan pembelajaran siswa.
-        </p>
+          <p  class="text-left">Selain pengembangan sistem tryout, guna  mendorong kualitas serta tercapainya mimpi siswa/siswi maka dihadirkan pula platform les private yang dapat mempertemukan guru dan siswa dalam satu platform sesuai kebutuhan pembelajaran siswa.</p>
       </div>
     </div>
 
@@ -61,39 +50,25 @@
           >
             <div class="circle-rmap mx-auto"></div>
             <div class="timeline-rmap" style="height: 35px"></div>
-            <h2 class="large py-0 m-0">2019</h2>
+            <h2 class="large py-0 m-0">2020</h2>
             <div class="timeline-rmap" style="height: 65px"></div>
-            <p class="small p-0">April</p>
+            <p class="small p-0">Oktober</p>
             <div class="timeline-rmap" style="height: 230px"></div>
           </div>
           <div class="col-md-5 col-8 ml-n4 mb-5 align-self-end">
             <div class="text-left sejarah">
-              <p style="color: #6560FD; font-weight: 500; font-size: 17px" class="pb-2">Lorem</p>
+              <p style="color: #6560FD; font-weight: 500; font-size: 17px" class="pb-2">Audit dan Evaluasi Strategik Perkembangan Bisnis UjiAja</p>
               <p class="pb-0">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore
-                sunt repellendus adipisci nostrum reprehenderit dolores iure
-                sequi, assumenda delectus quaerat possimus temporibus recusandae
-                quam voluptatum atque voluptatibus libero doloremque alias?
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Minima
-                rerum aperiam iusto, deleniti enim blanditiis nemo natus ratione
-                ducimus voluptatibus omnis. Cumque iure ducimus pariatur dicta
-                doloremque voluptas minima ex.
+                Dipengaruhi oleh mewabahnya virus corona (covid-19) yang menyebabkan adanya perubahan model belajar dari proses belajar di sekolah menjadi di rumah, dan kebutuhan penyesuaian pola belajar sejalan dengan percepatan perkembangan teknologi.
               </p>
             </div>
           </div>
 
           <div class="col-md-5 col-8 mr-n4 mb-5 align-self-end">
             <div class="text-left sejarah-kiri">
-              <p style="color: #6560FD; font-weight: 500; font-size: 17px" class="pb-2">Lorem</p>
+              <p style="color: #6560FD; font-weight: 500; font-size: 17px" class="pb-2">Rencana Pengembangan Bisnis Baru UjiAja</p>
               <p class="pb-0">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore
-                sunt repellendus adipisci nostrum reprehenderit dolores iure
-                sequi, assumenda delectus quaerat possimus temporibus recusandae
-                quam voluptatum atque voluptatibus libero doloremque alias?
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Minima
-                rerum aperiam iusto, deleniti enim blanditiis nemo natus ratione
-                ducimus voluptatibus omnis. Cumque iure ducimus pariatur dicta
-                doloremque voluptas minima ex.
+                Ditetapkan sebuah perencanaan tentang pengembangan bisnis baru UjiAja, dengan fokus dan arah kebijakan pada terciptanya layanan konseling dan bimbingan belajar berbasis neo teknologi, melalui pembuatan Platform Media Belajar UjiAja.
               </p>
             </div>
           </div>
@@ -107,9 +82,9 @@
               mr-n5
             "
           >
-            <h2 class="large py-0 m-0">2020</h2>
+            <h2 class="large py-0 m-0">2021</h2>
             <div class="timeline-rmap" style="height: 65px"></div>
-            <p class="small p-0">Agustus</p>
+            <p class="small p-0">Januari</p>
             <div class="timeline-rmap" style="height: 230px"></div>
           </div>
           <div class="col-md-5 col rmap d-flex justify-content-center"></div>
@@ -126,25 +101,72 @@
           >
             <h2 class="large py-0 m-0">2021</h2>
             <div class="timeline-rmap" style="height: 65px"></div>
-            <p class="small p-0">Januari</p>
+            <p class="small p-0">April</p>
             <div class="timeline-rmap" style="height: 200px"></div>
-            <div class="circle-rmap mt-n3 mx-auto"></div>
           </div>
           <div class="col-md-5 col-8 ml-n4 mb-4 align-self-end">
             <div class="text-left sejarah">
-              <p style="color: #6560FD; font-weight: 500; font-size: 17px" class="pb-2">Lorem</p>
+              <p style="color: #6560FD; font-weight: 500; font-size: 17px" class="pb-2">Implementasi Program Pengembangan Platform UjiAja</p>
               <p class="pb-0">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore
-                sunt repellendus adipisci nostrum reprehenderit dolores iure
-                sequi, assumenda delectus quaerat possimus temporibus recusandae
-                quam voluptatum atque voluptatibus libero doloremque alias?
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Minima
-                rerum aperiam iusto, deleniti enim blanditiis nemo natus ratione
-                ducimus voluptatibus omnis. Cumque iure ducimus pariatur dicta
-                doloremque voluptas minima ex.
+               Dimulai pembuatan Platform UjiAja dengan menunjuk salah satu penyedia jasa pembuatan platform teknologi informasi.
               </p>
             </div>
           </div>
+
+          <div class="col-md-5 col-8 mr-n4 mb-5 align-self-end">
+            <div class="text-left sejarah-kiri">
+              <p style="color: #6560FD; font-weight: 500; font-size: 17px" class="pb-2">Uji Coba Sistem Platform UjiAja</p>
+              <p class="pb-0">
+                Dilakukan uji coba kepada siswa-siswi calon pengguna dan mitra untuk memperoleh umpan balik dari sistem try out yang dihadirkan. Ujicoba diikuti oleh lebih dari 500 orang peserta yang terdiri dari siswa-siswi Sekolah Dasar, Sekolah Menengah Pertama, dan Sekolah Menengah Atas. Hasil dari ujicoba ini diperoleh masukan antara lain  penambahan dan perbaikan beberapa fitur, terutama yang terkait dengan User Experience (UX).
+              </p>
+            </div>
+          </div>
+          <div
+            class="
+              col-md-1 col-3
+              rmap-item
+              d-flex-important
+              flex-direction-column
+              align-items-center
+              mr-n5
+            "
+          >
+            <h2 class="large py-0 m-0">2022</h2>
+            <div class="timeline-rmap" style="height: 65px"></div>
+            <p class="small p-0">Februari</p>
+            <div class="timeline-rmap" style="height: 230px"></div>
+          </div>
+          <div class="col-md-5 col rmap d-flex justify-content-center"></div>
+
+          <div class="col-md-5 col rmap d-flex justify-content-center"></div>
+
+          <div class="col-md-5 col rmap d-flex justify-content-center"></div>
+
+          <div class="col-md-5 col rmap d-flex justify-content-center"></div>
+          <div
+            class="
+              col-md-1 col-3
+              rmap-item
+              d-flex-important
+              flex-direction-column
+              align-items-center
+            "
+          >
+            <h2 class="large py-0 m-0">2022</h2>
+            <div class="timeline-rmap" style="height: 65px"></div>
+            <p class="small p-0">April</p>
+            <div class="timeline-rmap" style="height: 200px"></div>
+             <div class="circle-rmap mt-n3 mx-auto"></div>
+          </div>
+          <div class="col-md-5 col-8 ml-n4 mb-4 align-self-end">
+            <div class="text-left sejarah">
+              <p style="color: #6560FD; font-weight: 500; font-size: 17px" class="pb-2">Launching Produk UjiAja </p>
+              <p class="pb-0">
+               Platform UjiAja sebagai sebagai sebuah model bisnis baru yang memberikan layanan TryOut dan Les Privat mulai diperkenalkan dan ditawarkan kepada masyarakat umum.
+              </p>
+            </div>
+          </div>
+          
         </div>
       </div>
     </div>
@@ -153,14 +175,9 @@
       <div class="col-md-12 tujuan text-center">
         <h2>Tujuan UjiAja</h2>
         <p class="text-left">
-          Tujuan dari dibuatnya sistem les private adalah untuk membantu
-          siswa-siswi melihat kemampuan nya serta mempersiapkan diri untuk masuk
-          ke jenjang yang lebih tinggi melalui rekomendasi belajar yang
-          diberikan. Dan untuk sistem les private dibuat dengan tujuan
-          memfasilitasi siswa/siswi untuk belajar pada guru terbaik dimanapun
-          dan kapanpun.
+          Tujuan dari dibuatnya sistem TryOut adalah untuk membantu siswa-siswi melihat minat, bakat dan kemampuannya, serta mempersiapkan diri untuk masuk ke jenjang yang lebih tinggi melalui rekomendasi belajar yang diberikan. Dan untuk sistem les private dibuat dengan tujuan memfasilitasi siswa/siswi untuk belajar pada guru terbaik dimanapun dan kapanpun.
         </p>
-
+        
         <div class="visimisi">
           <div class="row">
             <div class="col-md-6 text-left">
@@ -168,8 +185,7 @@
                 <i class="fa fa-bullseye fa-5x"></i>
                 <h3>Visi Kami</h3>
                 <p>
-                  Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                  Distinctio officiis sint rerum ad.
+                  Menjadi Penyedia Layanan Konsultasi dan Bimbingan Belajar Berbasis Neo Teknologi yang Unggul dan Terpercaya.
                 </p>
               </div>
             </div>
@@ -177,10 +193,12 @@
               <div class="misi">
                 <i class="fa fa-rocket fa-5x"></i>
                 <h3>Misi Kami</h3>
-                <p>
-                  Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                  Distinctio officiis sint rerum ad.
-                </p>
+                <ol>
+                  <li>Menyelenggarakan layanan TryOut untuk tes studi lanjut dan Les Privat yang profesional dan terpercaya.</li>
+                  <li>Mencetak dan menghadirkan sumber daya tutor yang profesional, handal, dan terpercaya dengan konsep kemitraan yang jujur, amanah, dan saling menguntungkan.</li>
+                  <li>Menciptakan hubungan dan komunikasi yang harmonis dengan berbagai pihak, terutama mitra tutor, siswa dan orangtua siswa pengguna platform.</li>
+                  <li>Menyelenggarakan riset dan pengembangan (R&D) produk dan layanan guna perbaikan/ penyempurnaan yang terus-menerus.</li>
+                </ol>
               </div>
             </div>
           </div>
@@ -204,7 +222,7 @@ export default {
       header: {
         hero: {
           subjudul:
-            "Media pembelajaran berbasis teknologi yang fokus pada kemampuan menjawab soal sehingga kamu bisa lebih mempersiapkan diri menghadapi ujian. ",
+            "Media  belajar berbasis teknologi buat kamu-kamu dapetin metode dan partner belajar asyik guna ngadepin ujian sekolah,  seleksi sekolah lanjut  dan masuk perguruan tinggi favoritmu.",
           judul: "Tentang UjiAja",
           ctaButtonText: null,
           image: "/banner-tentang.png",

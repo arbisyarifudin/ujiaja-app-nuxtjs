@@ -8,9 +8,7 @@
       src="/fitur/layanan-3.png"
       title="Nikmati kemudahan belajar
     di UjiAja"
-      description="Uji Tes Minat Bakat, Latihan Soal Tryout, dan
-    belajar di UjiAja itu menyenangkan! Tapi, kamu dapat nikmati fitur-fitur
-    UjiAja lebih lengkap tanpa batas dengan membeli Tryout Premium."
+      description="Uji Tes Minat Bakat, Latihan Soal Tryout, dan belajar Les Privat di UjiAja itu menyenangkan!  So, kamu dapat nikmati fitur-fitur UjiAja lebih lengkap tanpa batas dengan membeli Tryout Premium."
       href="/app/tryout"
       cta-text="Lihat Tryout"
     />
@@ -55,25 +53,25 @@ export default {
         item: [
           {
             gambar: "/icon/icon1_2.png",
-            judul: "20rb+",
-            subjudul: "Pelajar Indonesia yang sudah pakai aplikasi SSCI"
+            judul: "200.000+",
+            subjudul: "Pelajar Indonesia yang sudah pakai aplikasi UjiAja"
           },
           {
             gambar: "/icon/icon2_2.png",
-            judul: "150soal+",
+            judul: "150.000 soal+",
             subjudul:
               " Jumlah soal dan pembahasan Tryout terbaru sesuai kurikulum"
           },
           {
             gambar: "/icon/icon3_2.png",
-            judul: "100siswa+",
+            judul: "100.000 siswa+",
             subjudul: "Peserta Tryout SSCI terbukti lolos PTN impian"
           },
           {
             gambar: "/icon/icon4.png",
             judul: "99%",
             subjudul:
-              "99% pelajar merasa terbantu dan cocok dengan guru privat SSCI"
+              "99% pelajar merasa terbantu dan cocok dengan guru privat UjiAja"
           }
         ]
       },
@@ -87,7 +85,7 @@ export default {
             judul: "Tryout",
             brand: "by UjiAja",
             deskripsi:
-              "Persiapkan dirimu hadapi Tryout UTBK hingga ASPD dengan latihan Tryout yang akurat dan lengkap dengan fitur terbaik.",
+              "Persiapkan dirimu hadapi Tryout PAT, PAS, hingga UTBK melalui latihan Tryout yang akurat dan lengkap dengan fitur terbaik.",
             tambahan: "Gratis Tes Minat, Bakat & Potensi",
             url: "/produk/tryout"
           },

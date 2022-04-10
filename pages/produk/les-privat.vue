@@ -7,7 +7,7 @@
       src="/hero-lagi-person-7.png"
       title="Apa yang ingin kamu pelajari? Temukan guru privatmu di UjiAja."
       description="Lebih dari ratusan siswa telah memberikan rate dan ulasan yang baik dengan guru mereka."
-      href="/registrasi"
+      href="/app/student/courses"
       cta-text="Temukan Sekarang"
       button
     />
@@ -46,13 +46,13 @@ export default {
             gambar: "/icon/lesprivat1.png",
             judul: "Guru Les Privat Bersertifikat ",
             subjudul:
-              "Guru yang ada pada UjiAja telah bersertifikat dan mendapat banyak ulasan positif dengan rate",
+              "Guru yang ada pada UjiAja telah bersertifikat dan mendapat banyak ulasan positif dengan rate tinggi.",
           },
           {
             gambar: "/icon/lesprivat2.png",
             judul: "Guru Selalu Siap Menjawab Pertanyaan",
             subjudul:
-              "Guru memberi tanggapan siswa dengan cepat dan bisa kamu ajak diskusi",
+              "Guru memberi tanggapan siswa dengan cepat dan bisa kamu ajak diskusi.",
           },
           {
             gambar: "/icon/lesprivat3.png",
