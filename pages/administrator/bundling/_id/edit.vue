@@ -42,7 +42,7 @@
                 name="price"
                 v-model="form.price"
                 type="number"
-                placeholder="Tulis deskripsi bundle"
+                placeholder="Masukkan harga bundle"
               >
               </b-form-input>
             </div>
@@ -260,7 +260,7 @@ export default {
       if (
         !this.form.name ||
         !this.form.desc ||
-        !this.form.price
+        this.form.price < 0
       ) {
         this.$bvToast.toast("Mohon lengkapi form dengan benar!", {
           title: "Peringatan",

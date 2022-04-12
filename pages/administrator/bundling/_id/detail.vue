@@ -16,7 +16,8 @@
         >
           <div v-if="!loading">
             <h3 class="mb-0">{{ dataDetail.name }}</h3>
-            <h4 class="h5"><small>Rp</small> {{formatRupiah(dataDetail.price)}}</h4>
+            <h4 class="h5" v-if="dataDetail.price > 0"><small>Rp</small> {{formatRupiah(dataDetail.price)}}</h4>
+            <h4 class="h5" v-else><span class="badge badge-primary">GRATIS</span></h4>
           </div>
           <div v-if="!loading">
             <router-link

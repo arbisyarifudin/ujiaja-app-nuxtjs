@@ -87,7 +87,8 @@
                     class="d-flex justify-content-between mb-2"
                   >
                     <p class="mb-2">
-                      <i class="fas fa-tags fa-fw"></i> {{ formatRupiah(item.price) }}
+                      <i class="fas fa-tags fa-fw"></i>
+                       {{ item.price > 0 ? formatRupiah(item.price) : 'GRATIS' }}
                     </p>
                     <p class="mb-2">
                       <i class="fas fa-shopping-bag fa-fw"></i>
