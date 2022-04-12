@@ -59,7 +59,7 @@
               >
                 <b-spinner small class="mr-1" v-if="submitting"></b-spinner>
                 <i class="fas fa-fw fa-shopping-cart" v-else></i>
-                Klaim Tryout Gratis
+                Klaim Bundle Gratis
               </button>
             </div>
           </div>
@@ -205,7 +205,7 @@ export default {
         .$post(`/api/transaksi/create`, dataSave)
         .then(res => {
           if (res.success) {
-            this.showToastMessage("Tryout berhasil diklaim!", "success");
+            this.showToastMessage("Bundle berhasil diklaim!", "success");
             window.location.reload();
             return true;
           }
