@@ -122,6 +122,9 @@
               <p class="" v-if="dataDetail.tipe == 'Pihak Ketiga'">
                 Pembayaran Instan
               </p>
+              <p class="" v-if="dataDetail.tipe == 'Free Claim'">
+                Klaim GRATIS
+              </p>
               <p class="mb-1" style="color: #9490A4;">Status Pembayaran</p>
               <p class="" v-if="!loading">
                 {{ dataDetail.status }}

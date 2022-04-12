@@ -17,29 +17,51 @@
         >
           <div v-if="!loading">
             <h3 class="mb-0">{{ dataDetail.name }}</h3>
-            <h4 class="h5">
+            <h4 class="h5" v-if="dataDetail.price > 0">
               <small>Rp</small> {{ formatRupiah(dataDetail.price) }}
+            </h4>
+            <h4 class="h5" v-else>
+              <span class="badge badge-primary">GRATIS</span>
             </h4>
           </div>
           <div v-if="!loading">
             <router-link
               v-if="dataDetail.transaksi_user"
-              :to="`/app/payment/${dataDetail.transaksi_user.id}/detail?ref=${$route.path}`"
+              :to="
+                `/app/payment/${dataDetail.transaksi_user.id}/detail?ref=${$route.path}`
+              "
               role="button"
               class="btn btn-primary btn-sm square py-1 mr-2"
             >
-              <i class="far fa-credit-card mr-1"></i> 
+              <i class="far fa-credit-card mr-1"></i>
               Detail Pembayaran
             </router-link>
-            <router-link
-            v-else
-              :to="`/app/bundling/${dataDetail.id}/enroll?ref=${$route.path}`"
-              role="button"
-              class="btn btn-primary btn-sm square py-1 mr-2"
-            >
-              <b-icon icon="cart"></b-icon>
-              Beli Bundling
-            </router-link>
+            <div v-else>
+              <router-link
+                v-if="
+                  dataDetail.price > 0 ||
+                    (dataDetail.transaksi &&
+                      (dataDetail.transaksi.status == 'Kadaluarsa' ||
+                        dataDetail.transaksi.status == 'Dibatalkan'))
+                "
+                :to="`/app/bundling/${dataDetail.id}/enroll?ref=${$route.path}`"
+                role="button"
+                class="btn btn-primary btn-sm square py-1 mr-2"
+              >
+                <b-icon icon="cart"></b-icon>
+                Beli Bundling
+              </router-link>
+              <button
+                v-else
+                class="btn btn-primary btn-sm dashboard mb-4"
+                @click.prevent="claimFreeProduct"
+                :disabled="submitting"
+              >
+                <b-spinner small class="mr-1" v-if="submitting"></b-spinner>
+                <i class="fas fa-fw fa-shopping-cart" v-else></i>
+                Klaim Tryout Gratis
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -74,7 +96,7 @@
                   v-if="
                     bp.product.transaksi_user &&
                       bp.product.transaksi_user.status != 'Ditolak' &&
-                        bp.product.transaksi_user.status != 'Kadaluarsa'
+                      bp.product.transaksi_user.status != 'Kadaluarsa'
                   "
                   >Sudah Dibeli</small
                 >
@@ -108,6 +130,7 @@ export default {
   data() {
     return {
       loading: true,
+      submitting: false,
       dataDetail: {
         produk: {},
         tryout: []
@@ -127,6 +150,11 @@ export default {
       }
     ]);
     this.getDetail("bundling", this.$route.params.id);
+  },
+  computed: {
+    user() {
+      return this.$store.state.dataUser.user;
+    }
   },
   methods: {
     resetModal() {},
@@ -152,6 +180,45 @@ export default {
         return num.toLocaleString("ID-id");
       }
       return 0;
+    },
+    claimFreeProduct() {
+      this.submitting = true;
+      let dataSave;
+
+      dataSave = {
+        id_user: this.user.id,
+        id_produk: this.dataDetail.id,
+        id_bank: null,
+        tanggal_transaksi: new Date(),
+        tipe: "Free Claim",
+        harga_produk: 0,
+        kode_unik: null,
+        biaya_adm: null,
+        total_harga: 0,
+        jenis_transaksi: "Bundling"
+      };
+
+      // console.log(dataSave)
+      // return;
+
+      this.$axios
+        .$post(`/api/transaksi/create`, dataSave)
+        .then(res => {
+          if (res.success) {
+            this.showToastMessage("Tryout berhasil diklaim!", "success");
+            window.location.reload();
+            return true;
+          }
+        })
+        .then(() => {
+          this.getNotif();
+          return true;
+        })
+        .catch(err => {
+          console.log(err);
+          this.catchError(err);
+        });
+      // .finally(() => (this.submitting = false));
     }
   }
 };
