@@ -234,7 +234,7 @@ Vue.mixin({
       return process.env.baseUrl + "/" + param;
     },
     noImage(event) {
-      event.target.src = `${window.origin}/logo2.png`;
+      event.target.src = `${window.origin}/logo-baru.png`;
     },
     noAvatar(event) {
       event.target.src = `${window.origin}/avatar.jpg`;

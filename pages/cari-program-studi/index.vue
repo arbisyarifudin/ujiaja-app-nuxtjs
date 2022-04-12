@@ -73,7 +73,7 @@
                     ></b-form-select>
                   </b-input-group>
                 </div> -->
-                <div class="col-md-7">
+                <div class="col-md-4">
                   <h3 class="h6 text-dark mt-0 mb-3">Filter by</h3>
                   <!-- <b-input-group>
                     <template #prepend>
@@ -86,17 +86,17 @@
                       :options="dataMaster['mapel']"
                     ></b-form-select>
                   </b-input-group> -->
-                  <b-input-group class="d-flex">
+                  <!-- <b-input-group class="d-flex">
                     <template #prepend>
                       <b-input-group-text
                         ><i class="fas fa-filter"></i
                       ></b-input-group-text>
-                    </template>
-                    <!-- <b-form-select
+                    </template> -->
+                  <!-- <b-form-select
                       v-model="filter.mapel"
                       :options="dataMaster['mapel']"
                     ></b-form-select> -->
-                    <v-select
+                  <!-- <v-select
                       :options="dataPerguruan"
                       placeholder="- Perguruan Tinggi -"
                       v-model="filter.id_perguruan_tinggi"
@@ -117,13 +117,7 @@
                         </div>
                       </template>
                     </v-select>
-                  </b-input-group>
-                  <div class="small text-info mt-2" v-if="loading">
-                    Mengambil data...
-                  </div>
-                </div>
-                <div class="col-md-4">
-                  <h3 class="h6 text-dark mt-0 mb-lg-3 mb-0">&nbsp;</h3>
+                  </b-input-group> -->
                   <b-input-group>
                     <template #prepend>
                       <b-input-group-text
@@ -140,9 +134,30 @@
                     ></b-form-select>
                   </b-input-group>
                   <div class="small text-info mt-2" v-if="loading">
-                    &nbsp;
+                    Mengambil data...
                   </div>
                 </div>
+                <!-- <div class="col-md-4"> -->
+                <!-- <h3 class="h6 text-dark mt-0 mb-lg-3 mb-0">&nbsp;</h3>
+                  <b-input-group>
+                    <template #prepend>
+                      <b-input-group-text
+                        ><i class="fas fa-filter"></i
+                      ></b-input-group-text>
+                    </template> -->
+                <!-- <b-form-select
+                      v-model="filter.penjurusan"
+                      :options="dataMaster['penjurusan']"
+                    ></b-form-select> -->
+                <!-- <b-form-select
+                      v-model="filter.akreditasi_program_studi"
+                      :options="akreditasiOption"
+                    ></b-form-select>
+                  </b-input-group>
+                  <div class="small text-info mt-2" v-if="loading">
+                    &nbsp;
+                  </div> -->
+                <!-- </div> -->
                 <div class="col-md-1">
                   <div class="mt-0 mb-lg-3 mb-0">&nbsp;</div>
                   <button
@@ -212,8 +227,9 @@
                     style="border-bottom: 12px solid #D7D2F7; border-radius:0px 0px 12px 12px;"
                   >
                     <img
-                      :src="ApiUrl(item.icon_studi)"
+                      :src="ApiUrl(item.icon_prodi)"
                       @error="noImage"
+                      style="height: 50px; width: 50px; object-fit: contain"
                       class="img-fluid card-prodi__icon"
                     />
                   </div>
@@ -253,6 +269,17 @@
 #cari-prodi .vs__selected-options {
   overflow-x: hidden;
   white-space: nowrap;
+}
+#cari-prodi .vs__actions {
+  opacity: 0;
+}
+</style>
+
+<style scoped>
+.crud .crud-tools .input-group select {
+  background: #fff
+    url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='5'%3E%3Cpath fill='%23343a40' d='M2 0L0 2h4zm0 5L0 3h4z'/%3E%3C/svg%3E")
+    no-repeat right 0.75rem center/8px 10px;
 }
 </style>
 
@@ -323,7 +350,19 @@ export default {
       akreditasiOption: [
         {
           text: "-- Akreditasi --",
-          value: ""
+          value: null
+        },
+        {
+          text: "A",
+          value: "A"
+        },
+        {
+          text: "B",
+          value: "B"
+        },
+        {
+          text: "C",
+          value: "C"
         }
       ]
     };
