@@ -3,7 +3,8 @@
     <div class="col-md-12 dash-kelas p-0 text-left pos-relative">
       <h2 class="pb-0">Dashboard</h2>
       <UILoading v-if="loading"/>
-      <h5 class="mt-4 mb-4" v-if="isDisplayBatteries">
+      <h5 class="mt-2 mb-3">Halo {{userDetail.nama_lengkap}}, selamat datang!</h5>
+      <h5 class="mb-4" v-if="isDisplayBatteries">
         Yuk terus belajar, dan naikan score UTBK kamu untuk meningkatkan peluang masuk
         ke Perguruan Tinggi impianmu.
       </h5>
