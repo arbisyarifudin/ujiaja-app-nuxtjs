@@ -80,14 +80,14 @@
             <div class="card card-karir m-2 router-push" @click="$router.push(`/app/tryout/${item.id}/detail?ref=${$route.path}`)">
               <!-- style="width: 350px; max-width: 100%" -->
               <div class="card-body text-left p-0">
-                <!-- <div class="" style="display: flex; justify-content: flex-end;">
+                <div class="" style="display: flex; justify-content: flex-end;">
                   <p
                     class="label-event mb-2 px-4 py-1"
-                    :class="[item.status_produk == 'Aktif' ? '' : 'draft']"
+                    :class="[item.is_task_start ? '' : 'draft']"
                   >
-                    {{ item.status_produk == "Aktif" ? "Publish" : "Draft" }}
+                    {{ item.is_task_start ? "Dikerjakan" : "Belum Dikerjakan" }}
                   </p>
-                </div> -->
+                </div>
                 <div class="card-content px-4 mt-3">
                   <h3
                     class="card-judul card-program mb-4 mt-3"
