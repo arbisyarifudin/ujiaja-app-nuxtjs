@@ -648,7 +648,7 @@ export default {
       const encryptedTryoutId = this.encrypt(tryoutID);
       const encryptedTryoutIdSafe = encodeURIComponent(encryptedTryoutId);
       window.location.replace(
-        `/app/tryout/${encryptedProductIdSafe}/test/${encryptedTryoutIdSafe}`
+        `/app/tryout/${encryptedProductIdSafe}/test/${encryptedTryoutIdSafe}?kode=${this.$route.query.kode}`
       );
     },
     toWaitingTestPage(productID, tryoutID) {
@@ -777,7 +777,7 @@ export default {
               }
             } else {
               console.log("> Tryout sudah melewati waktu!");
-              return
+              // return
               this.isTimeout = true;
               this.goToNext();
             }
@@ -791,7 +791,7 @@ export default {
         );
       } else {
         console.log("> Tryout sudah melewati waktu!");
-        return
+        // return
         this.isTimeout = true;
         this.goToNext();
       }
