@@ -300,7 +300,10 @@
                       v-for="(doc, index) in userDocs"
                       :key="'docIn' + index"
                     >
-                      <label :for="doc.doc_type">{{ doc.doc_label }}</label>
+                      <label :for="doc.doc_type">{{ doc.doc_label }} 
+                        <code v-if="doc.doc_type == 'npwp'">[optional]</code>
+                        <code v-else>*</code>
+                      </label>
                       <input
                         :disabled="doc.doc_type == 'Approved'"
                         type="file"

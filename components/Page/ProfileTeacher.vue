@@ -84,7 +84,11 @@
           <nuxt-link to="/app/profile/edit" class="btn btn-info btn-sm"
             >Ubah Profil</nuxt-link
           >
-          <button class="btn btn-danger btn-sm" style="opacity: 80%" v-b-modal.modal-delete>
+          <button
+            class="btn btn-danger btn-sm"
+            style="opacity: 80%"
+            v-b-modal.modal-delete
+          >
             <i class="fas fa-fw mr-1 fa-trash"></i> Hapus Akun
           </button>
         </div>
@@ -110,17 +114,19 @@
                 >/5
               </div>
             </div>
-            <div class="level-honorarium text-left mb-2">
-              <div class="title">Honorarium Maksimum:</div>
-              <div v-if="user && formatRupiah">
-                Rp
-                {{
-                  user_detail.level
-                    ? formatRupiah(user_detail.level.honor_level)
-                    : 0
-                }}
+            <no-ssr>
+              <div class="level-honorarium text-left mb-2">
+                <div class="title">Honorarium Maksimum:</div>
+                <div v-if="user && formatRupiah">
+                  Rp
+                  {{
+                    user_detail.level
+                      ? formatRupiah(user_detail.level.honor_level)
+                      : 0
+                  }}
+                </div>
               </div>
-            </div>
+            </no-ssr>
             <div class="level-job text-left mb-2">
               <div class="title">Total Mengajar:</div>
               <div>{{ user_detail.total_mengajar }} sesi</div>
@@ -129,7 +135,7 @@
         </div>
       </div>
     </div>
-   <b-modal
+    <b-modal
       id="modal-delete"
       title="Konfirmasi Hapus Akun"
       hide-footer
@@ -138,7 +144,11 @@
     >
       <div>
         <p class="modal-text">
-          Apakah anda yakin ingin menghapus akun Tentor anda? <small class="text-danger"><b>Perhatian:</b> Dengan menghapus akun, Anda akan kehilangan saldo tersisa dan akun tidak dapat dikembalikan.</small>
+          Apakah anda yakin ingin menghapus akun Tentor anda?
+          <small class="text-danger"
+            ><b>Perhatian:</b> Dengan menghapus akun, Anda akan kehilangan saldo
+            tersisa dan akun tidak dapat dikembalikan.</small
+          >
         </p>
         <div class="modal-footer justify-content-end" style="border: 0px">
           <button
@@ -154,7 +164,8 @@
             :disabled="submitting"
             @click.prevent="deleteData"
           >
-            <b-spinner small v-if="submitting" class="mr-1"></b-spinner> Ya, Saya Yakin
+            <b-spinner small v-if="submitting" class="mr-1"></b-spinner> Ya,
+            Saya Yakin
           </button>
         </div>
       </div>
@@ -166,8 +177,8 @@
 export default {
   data() {
     return {
-      submitting: false,
-    }
+      submitting: false
+    };
   },
   computed: {
     user() {
@@ -217,22 +228,39 @@ export default {
       return element;
     },
     deleteData() {
-      this.submitting = true
-      this.$axios.$delete('/api/users/teacher/delete/' + this.user.id)
-      .then(response => {
-        console.log(response)
-        this.showToastMessage('Akun berhasil dihapus')
-        this.$cookiz.remove("_ujiaja");
-        this.$store.commit("SET_IS_AUTH", false);
-        this.$router.replace({path: '/masuk'})
-      })
-      .catch(error => {
-        this.catchError(error)
-      })
-      .finally(() => {
-        this.submitting = false
-      })
-    }
+      this.submitting = true;
+      this.$axios
+        .$delete("/api/users/teacher/delete/" + this.user.id)
+        .then(response => {
+          console.log(response);
+          this.showToastMessage("Akun berhasil dihapus");
+          this.$cookiz.remove("_ujiaja");
+          this.$store.commit("SET_IS_AUTH", false);
+          this.$router.replace({ path: "/masuk" });
+        })
+        .catch(error => {
+          this.catchError(error);
+        })
+        .finally(() => {
+          this.submitting = false;
+        });
+    },
+    formatRupiah(nominal) {
+      if (nominal) {
+        nominal = parseFloat(nominal);
+        return nominal.toLocaleString("id-ID");
+      }
+      return 0;
+    },
+    ApiUrl(param, no_separator = false) {
+      if(no_separator)  {
+        return process.env.apiUrl + param;
+      }
+      return process.env.apiUrl + "/" + param;
+    },
+    noImage(event) {
+      event.target.src = `${window.origin}/logo-baru.png`;
+    },
   }
 };
 </script>

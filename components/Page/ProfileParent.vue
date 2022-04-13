@@ -59,6 +59,17 @@ export default {
     isProfilLengkap() {
       return this.$store.state.isProfilLengkap
     }
+  },
+  methods: {
+    ApiUrl(param, no_separator = false) {
+      if(no_separator)  {
+        return process.env.apiUrl + param;
+      }
+      return process.env.apiUrl + "/" + param;
+    },
+    noImage(event) {
+      event.target.src = `${window.origin}/logo-baru.png`;
+    },
   }
 };
 </script>
