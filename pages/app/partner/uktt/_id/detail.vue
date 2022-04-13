@@ -170,7 +170,7 @@
       <nuxt-link
         v-if="dataDetail.is_task_done"
         class="btn btn-primary dashboard mb-4 ml-2"
-        :to="`/app/partner/uktt/${dataDetail.produk.id}/result`"
+        :to="`/app/partner/uktt/${dataDetail.produk.id}/result?code=${dataDetail.transaksi.kode}`"
       >
         <i class="fas fa-award mr-1"></i> Lihat Hasil
       </nuxt-link>
@@ -470,7 +470,7 @@ export default {
       // window.location.replace(
       //   `/app/tryout/${encryptedProductIdSafe}/test?tryout=${encryptedTryoutIdSafe}`
       // );
-      window.location.href = `/app/partner/uktt/${encryptedProductIdSafe}/test?tryout=${encryptedTryoutIdSafe}`;
+      window.location.href = `/app/partner/uktt/${encryptedProductIdSafe}/test?tryout=${encryptedTryoutIdSafe}&kode=${this.dataDetail.transaksi.kode}`;
     },
     formatRupiah(num) {
       if (num) {

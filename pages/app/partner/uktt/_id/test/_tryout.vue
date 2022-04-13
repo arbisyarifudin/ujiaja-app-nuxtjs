@@ -391,7 +391,7 @@
             class="btn btn-primary tambah px-4 py-2"
             type="button"
             :disabled="loading"
-            @click.prevent="navGoTo(`/app/partner/uktt/${productId}/result`)"
+            @click.prevent="navGoTo(`/app/partner/uktt/${productId}/result?code=${this.$route.query.kode}`)"
           >
             Lihat Hasil
           </button>
@@ -421,7 +421,8 @@ export default {
       currentNomor: {},
       jawabanUser: {},
       countdownTimer: null,
-      isTimeout: false
+      isTimeout: false,
+      lastSavedDataTime: null
     };
   },
   async mounted() {
@@ -514,7 +515,7 @@ export default {
       const encryptedTryoutId = this.encrypt(tryoutID);
       const encryptedTryoutIdSafe = encodeURIComponent(encryptedTryoutId);
       window.location.replace(
-        `/app/partner/uktt/${encryptedProductIdSafe}/test/${encryptedTryoutIdSafe}`
+        `/app/partner/uktt/${encryptedProductIdSafe}/test/${encryptedTryoutIdSafe}?kode=${this.$route.query.kode}`
       );
     },
     toWaitingTestPage(productID, tryoutID) {
@@ -523,14 +524,37 @@ export default {
       const encryptedTryoutId = this.encrypt(tryoutID);
       const encryptedTryoutIdSafe = encodeURIComponent(encryptedTryoutId);
       window.location.replace(
-        `/app/partner/uktt/${encryptedProductIdSafe}/waiting/${encryptedTryoutIdSafe}`
+        `/app/partner/uktt/${encryptedProductIdSafe}/waiting/${encryptedTryoutIdSafe}?kode=${this.$route.query.kode}`
       );
     },
+    // checkLastSaved() {
+    //   const lastSavedData = this.$cookiz.get("_ujiaja_temp_uktt_user_");
+    //   if (lastSavedData) {
+    //     this.jawabanUser = lastSavedData.data;
+    //     return lastSavedData;
+    //   }
+    //   return {};
+    // },
     checkLastSaved() {
-      const lastSavedData = this.$cookiz.get("_ujiaja_temp_uktt_user");
+      let lastSavedData = window.localStorage.getItem(
+        "_ujiaja_temp_uktt_user_" + this.$route.query.kode + "_" + this.tryout.id
+      );
+      // let lastSavedData = null;
       if (lastSavedData) {
+        lastSavedData = JSON.parse(lastSavedData);
         this.jawabanUser = lastSavedData.data;
         return lastSavedData;
+      } else if (!lastSavedData && this.lastSavedDataTime) {
+        const moment = require("moment");
+        moment.locale("id");
+        return {
+          kode: this.$route.query.kode,
+          id_user: this.user.id,
+          id_produk: this.detail.id,
+          id_tryout: this.tryout.id,
+          data: this.jawabanUser,
+          time: moment(this.lastSavedDataTime).valueOf()
+        };
       }
       return {};
     },
@@ -702,13 +726,25 @@ export default {
     },
     saveJawaban() {
       const dataSave = this.jawabanUser;
-      this.$cookiz.set("_ujiaja_temp_uktt_user", {
+      // this.$cookiz.set("_ujiaja_temp_uktt_user_", {
+      //   id_user: this.user.id,
+      //   id_produk: this.detail.id,
+      //   id_tryout: this.tryout.id,
+      //   data: dataSave,
+      //   time: new Date().getTime()
+      // });
+       const lsSave = JSON.stringify({
+        kode: this.$route.query.kode,
         id_user: this.user.id,
         id_produk: this.detail.id,
         id_tryout: this.tryout.id,
         data: dataSave,
         time: new Date().getTime()
       });
+      window.localStorage.setItem(
+        "_ujiaja_temp_uktt_user_" + this.$route.query.kode + "_" + this.tryout.id,
+        lsSave
+      );
     },
     async goToNext() {
       console.log("goToNext");
@@ -781,7 +817,8 @@ export default {
         .$get(`/api/tryout_user/per-tryout-produk`, {
           params: {
             id_produk: this.productId,
-            id_tryout: this.tryoutId
+            id_tryout: this.tryoutId,
+            referensi: this.$route.query.kode
           }
         })
         .then(res => {
@@ -827,6 +864,7 @@ export default {
             this.listNomorSoal = res.data.soal;
             this.currentNomor = res.data.soal[0];
             this.jawabanUser = res.data.jawaban_placeholder;
+            this.lastSavedDataTime = res.data.last_saved_data_time;
             // this.$store.commit("set", ["listNomorSoal", res.data.soal]);
             // this.$store.commit("set", ["currentNomor", res.data.soal[0]]);
           }
@@ -847,7 +885,7 @@ export default {
       const encryptedTryoutId = this.encrypt(this.tryoutId);
       const encryptedTryoutIdSafe = encodeURIComponent(encryptedTryoutId);
       window.location.replace(
-        `/app/partner/uktt/${encryptedProductIdSafe}/test?tryout=${encryptedTryoutIdSafe}`
+        `/app/partner/uktt/${encryptedProductIdSafe}/test?tryout=${encryptedTryoutIdSafe}&kode=${this.$route.query.kode}`
       );
     }
   },
