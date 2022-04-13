@@ -554,7 +554,8 @@ export default {
       currentNomor: {},
       jawabanUser: {},
       countdownTimer: null,
-      isTimeout: false
+      isTimeout: false,
+      lastSavedDataTime: null
     };
   },
   async mounted() {
@@ -663,13 +664,25 @@ export default {
       // const lastSavedData = this.$cookiz.get(
       //   "_ujiaja_temp_to_user_" + this.$route.query.kode + "_" + this.tryout.id
       // );
-      let lastSavedData = localStorage.getItem(
+      let lastSavedData = window.localStorage.getItem(
         "_ujiaja_temp_to_user_" + this.$route.query.kode + "_" + this.tryout.id
       );
+      // let lastSavedData = null;
       if (lastSavedData) {
         lastSavedData = JSON.parse(lastSavedData);
         this.jawabanUser = lastSavedData.data;
         return lastSavedData;
+      } else if (!lastSavedData && this.lastSavedDataTime) {
+        const moment = require("moment");
+        moment.locale("id");
+        return {
+          kode: this.$route.query.kode,
+          id_user: this.user.id,
+          id_produk: this.detail.id,
+          id_tryout: this.tryout.id,
+          data: this.jawabanUser,
+          time: moment(this.lastSavedDataTime).valueOf()
+        };
       }
       return {};
     },
@@ -681,7 +694,8 @@ export default {
       const waktuMulai = moment(this.detailUjian.waktu_mulai).valueOf();
       const waktuBatas = waktuMulai + this.tryout.alokasi_waktu * 1000 * 60;
 
-      // console.log(today);
+      // console.log(lastSavedData);
+      // return
       // cek batas waktu mulai dengan hari ini
       if (waktuBatas < today) {
         this.isTimeout = true;
@@ -699,6 +713,7 @@ export default {
       } else {
         diffTime = waktuBatas - waktuMulai;
       }
+        console.log(diffTime);
       let duration = moment.duration(diffTime, "milliseconds");
       const interval = 1000;
       // const boardTimer = document.querySelector(".board-timer");
@@ -762,6 +777,7 @@ export default {
               }
             } else {
               console.log("> Tryout sudah melewati waktu!");
+              return
               this.isTimeout = true;
               this.goToNext();
             }
@@ -775,6 +791,7 @@ export default {
         );
       } else {
         console.log("> Tryout sudah melewati waktu!");
+        return
         this.isTimeout = true;
         this.goToNext();
       }
@@ -850,7 +867,8 @@ export default {
         //     "_" +
         //     this.tryout.id
         // );
-        localStorage.removeItem("_ujiaja_temp_to_user_" +
+        window.localStorage.removeItem(
+          "_ujiaja_temp_to_user_" +
             this.$route.query.kode +
             "_" +
             this.tryout.id
@@ -901,7 +919,7 @@ export default {
         data: dataSave,
         time: new Date().getTime()
       });
-      localStorage.setItem(
+      window.localStorage.setItem(
         "_ujiaja_temp_to_user_" + this.$route.query.kode + "_" + this.tryout.id,
         lsSave
       );
@@ -1065,6 +1083,7 @@ export default {
             this.listNomorSoal = res.data.soal;
             this.currentNomor = res.data.soal[0];
             this.jawabanUser = res.data.jawaban_placeholder;
+            this.lastSavedDataTime = res.data.last_saved_data_time;
             // this.$store.commit("set", ["listNomorSoal", res.data.soal]);
             // this.$store.commit("set", ["currentNomor", res.data.soal[0]]);
           }
