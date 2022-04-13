@@ -10,7 +10,7 @@
       </div>
       <div class="col-md-12 text-right mt-4 crud-tools">
         <div class="row no-gutters justify-content-between">
-          <div class="col-md-6">
+          <div class="col-md-4">
             <div class="row justify-content-start">
               <div class="col-md-5">
                 <b-input-group>
@@ -30,7 +30,7 @@
                   ></b-form-select>
                 </b-input-group>
               </div>
-              <div class="col-md-6">
+              <div class="col-md-7">
                 <b-input-group>
                   <template #prepend>
                     <b-input-group-text
@@ -44,7 +44,7 @@
                       { text: 'UTBK Mandiri', value: 'UTBK Mandiri' },
                       { text: 'UTBK Akbar', value: 'UTBK Akbar' },
                       { text: 'ASPD', value: 'ASPD' },
-                      { text: 'Paket / Bundling', value: 'Paket' },
+                      { text: 'Paket / Bundling', value: 'Paket' }
                     ]"
                     @change="getData('produk')"
                   ></b-form-select>
@@ -53,7 +53,26 @@
             </div>
           </div>
 
-          <div class="col-md-5 d-flex align-items-center crud-tools">
+          <div class="col-md-3">
+            <b-input-group>
+              <template #prepend>
+                <b-input-group-text
+                  ><i class="fas fa-filter"></i
+                ></b-input-group-text>
+              </template>
+              <b-form-select
+                v-model="filter.is_archived"
+                :options="[
+                  { text: 'Semua Status', value: null },
+                  { text: 'Diarsipkan', value: true },
+                  { text: 'Tidak Diarsipkan', value: false },
+                ]"
+                @change="getData('produk')"
+              ></b-form-select>
+            </b-input-group>
+          </div>
+
+          <div class="col-md-4 d-flex align-items-center crud-tools">
             <b-input-group>
               <template #prepend>
                 <b-input-group-text
@@ -82,7 +101,10 @@
             v-for="(item, i) in items"
             :key="i"
           >
-            <div class="card card-karir m-2 router-push" @click="$router.push(`/administrator/product/${item.id}/detail`)">
+            <div
+              class="card card-karir m-2 router-push"
+              @click="$router.push(`/administrator/product/${item.id}/detail`)"
+            >
               <!-- style="width: 350px; max-width: 100%" -->
               <div class="card-body text-left p-0">
                 <div class="" style="display: flex; justify-content: flex-end;">
@@ -90,7 +112,7 @@
                     class="label-event mb-2 px-4 py-1"
                     :class="[item.status_produk == 'Aktif' ? '' : 'draft']"
                   >
-                    {{ item.status_produk == "Aktif" ? "Publish" : "Draft" }}
+                    {{ item.status_produk == "Aktif" ? "Aktif" : "Diarsipkan" }}
                   </p>
                 </div>
                 <div class="card-content px-4">
@@ -116,7 +138,7 @@
                   <div class="d-flex justify-content-between mb-2">
                     <p class="">
                       <i class="fas fa-tags fa-fw"></i>
-                      {{ item.harga_produk > 0 ? item.harga_label : 'GRATIS' }}
+                      {{ item.harga_produk > 0 ? item.harga_label : "GRATIS" }}
                     </p>
                     <p v-if="item.jenis_produk == 'Masal'">
                       {{ item.tanggal_mulai_label }}
@@ -130,11 +152,11 @@
                     >
                       {{ item.penjurusan[0] }}
                     </p>
-                     <p
+                    <p
                       class="beda"
                       v-if="
                         item.kategori_produk == 'UTBK' &&
-                        item.tipe_paket == 'Bundling'
+                          item.tipe_paket == 'Bundling'
                       "
                     >
                       Bundling
@@ -159,7 +181,12 @@
                     <h4 class="title">TRYOUT</h4>
                     <h5 class="subtitle">
                       <span class="mr-0">{{ item.kategori_produk }}</span
-                      ><span class="ml-0" v-if="item.jenis_tryout[0] && item.tipe_paket !== 'Bundling'">
+                      ><span
+                        class="ml-0"
+                        v-if="
+                          item.jenis_tryout[0] && item.tipe_paket !== 'Bundling'
+                        "
+                      >
                         - {{ item.jenis_tryout[0] }}</span
                       ><span
                         class="ml-0"
@@ -210,8 +237,9 @@
         class="crud-body kosong"
       >
         <h2 class="kosong-title">Oops!</h2>
-        <p class="kosong-subtitle">Belum ada produk</p>
+        <p class="kosong-subtitle">Belum ada produk {{filter.is_archived ? 'yang diarsipkan' : ''}}.</p>
         <nuxt-link
+        v-if="!filter.is_archived"
           class="btn btn-primary tambah-kelas px-4 py-3"
           to="/administrator/product/add"
         >
@@ -232,7 +260,8 @@ export default {
         page: 1,
         perPage: 9,
         keyword: "",
-        category: ""
+        category: "",
+        is_archived: false,
       },
       totalRows: 0,
       items: [],
@@ -252,39 +281,41 @@ export default {
     },
     "filter.category": function(value) {
       this.getData("produk");
+    },
+    "filter.is_archived": function(value) {
+      this.getData("produk");
     }
   },
   methods: {
     resetModal() {},
     getData(type) {
-
       let filterKategori, filterPaket, filterEvent;
-      
+
       switch (this.filter.category) {
-        case 'UTBK Mandiri':
-          filterKategori = 'UTBK'
-          filterPaket = 'Reguler'
-          filterEvent = 'Perorangan'
+        case "UTBK Mandiri":
+          filterKategori = "UTBK";
+          filterPaket = "Reguler";
+          filterEvent = "Perorangan";
           break;
-        case 'UTBK Akbar':
-          filterKategori = 'UTBK'
-          filterPaket = 'Reguler'
-          filterEvent = 'Masal'
+        case "UTBK Akbar":
+          filterKategori = "UTBK";
+          filterPaket = "Reguler";
+          filterEvent = "Masal";
           break;
-         case 'ASPD':
-          filterKategori = 'ASPD'
-          filterPaket = 'Reguler'
-          filterEvent = 'Perorangan'
+        case "ASPD":
+          filterKategori = "ASPD";
+          filterPaket = "Reguler";
+          filterEvent = "Perorangan";
           break;
-         case 'Paket':
-          filterKategori = ''
-          filterPaket = 'Bundling'
-          filterEvent = ''
+        case "Paket":
+          filterKategori = "";
+          filterPaket = "Bundling";
+          filterEvent = "";
           break;
         default:
-          filterKategori = ''
-          filterPaket = ''
-          filterEvent = ''
+          filterKategori = "";
+          filterPaket = "";
+          filterEvent = "";
           break;
       }
 
@@ -298,7 +329,8 @@ export default {
             kategori_produk: filterKategori,
             jenis_produk: filterEvent,
             tipe_paket: filterPaket,
-            excludes_kategori: ['UKTT']
+            status_produk: this.filter.is_archived == true ? 'Tidak' : this.filter.is_archived == false ? 'Aktif' : '',
+            excludes_kategori: ["UKTT"]
           }
         })
         .then(res => {

@@ -229,9 +229,8 @@
                       v-model="form.status_produk"
                       :options="[
                         { text: 'Aktif', value: 'Aktif' },
-                        { text: 'Nonaktif', value: 'Tidak' }
+                        { text: 'Nonaktif/Diarsipkan', value: 'Tidak' }
                       ]"
-                      :disabled="total_transaksi > 0"
                     ></b-form-radio-group>
                   </div>
                 </b-col>
@@ -544,7 +543,8 @@
           >
             Kembali
           </nuxt-link>
-          <button type="submit" class="btn btn-primary" :disabled="loading" v-if="total_pengerjaan < 1 && total_transaksi < 1">
+          <!-- <button type="submit" class="btn btn-primary" :disabled="loading" v-if="total_pengerjaan < 1 && total_transaksi < 1"> -->
+          <button type="submit" class="btn btn-primary" :disabled="loading" >
             <b-spinner small class="mr-1" v-if="loading"></b-spinner>
             Simpan
           </button>
@@ -674,13 +674,14 @@ export default {
     validateForm() {
       // console.log(this.form);
       if (
-        !this.form.nama_produk ||
+        this.total_pengerjaan < 1 && this.total_transaksi < 1 && 
+        (!this.form.nama_produk ||
         !this.form.kategori_produk ||
         !this.form.jenis_produk ||
         !this.form.tipe_paket ||
         !this.form.harga_produk ||
         !this.form.pakai_sertifikat ||
-        !this.form.status_produk
+        !this.form.status_produk)
         // ||
         // !this.form.perhitungan
       ) {
