@@ -111,7 +111,7 @@
                   <div class="d-flex justify-content-between mb-2">
                     <p class="">
                       <i class="fas fa-tags fa-fw"></i>
-                      {{ item.harga_label }}
+                      {{ item.harga_produk > 0 ? item.harga_label : "GRATIS" }}
                     </p>
                     <p
                       class=""
