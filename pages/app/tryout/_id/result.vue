@@ -233,6 +233,11 @@ export default {
     this.getResult(this.$route.params.id);
     this.getProfile();
   },
+  mounted() {
+    if (this.$route.query.code && this.$route.query.reset) {
+      this.resetTO();
+    }
+  },
   computed: {
     user() {
       return this.$store.state.dataUser.user;
@@ -346,6 +351,30 @@ export default {
             this.generating = false;
           }
         });
+    },
+    resetTO() {
+      console.log("resetting tryOut..");
+      const password = window.prompt('Masukkan password:')
+      this.$axios
+        .$post("/api/tryout_user/to-reset", {
+          referensi: this.$route.query.code,
+          id_user: this.user.id,
+          password
+        })
+        .then(res => {
+          console.log(res);
+          if (res.success) {
+            console.log("resetting tryOut success!");
+            window.alert("Reset TO berhasil!");
+            window.location.href = "/app/tryout/mine";
+          }
+          return true;
+        })
+        .catch(err => {
+          console.log(err);
+          this.catchError(err);
+        })
+        .finally(() => {});
     }
   }
 };
