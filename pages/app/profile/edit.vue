@@ -47,10 +47,8 @@
                       />
                     </div>
                     <div class="row" v-if="akun.role_user == 'siswa'">
-                      <div class="col-md-9">
-                        <div
-                          class="form-group reg-siswa"
-                        >
+                      <div class="col-md-8">
+                        <div class="form-group reg-siswa">
                           <label for="nama_sekolah">Nama Sekolah</label>
                           <input
                             type="text"
@@ -62,7 +60,7 @@
                           />
                         </div>
                       </div>
-                      <div class="col-md-3">
+                      <!-- <div class="col-md-3">
                         <div
                           class="form-group reg-siswa"
                         >
@@ -76,6 +74,18 @@
                             <option value="SMP">SMP Sederajat</option>
                             <option value="SMA">SMA Sederajat</option>
                           </select>
+                        </div>
+                      </div> -->
+                      <div class="col-md-4">
+                        <div class="form-group reg-siswa">
+                          <label for="jenjang">Jenjang</label>
+                          <b-form-select
+                            class="form-control"
+                            id="jenjang"
+                            v-model="formSiswa.id_jenjang"
+                            :options="dataOption['jenjang']"
+                          >
+                          </b-form-select>
                         </div>
                       </div>
                     </div>
@@ -193,7 +203,11 @@
                 </b-row>
                 <hr />
                 <!-- <h4>Pilihan Program Studi</h4> -->
-                <b-row v-if="akun.role_user == 'siswa' && formSiswa.nama_jenjang == 'SMA'">
+                <b-row
+                  v-if="
+                    akun.role_user == 'siswa' && (formSiswa.nama_jenjang == 'SMA' || ['SMA', 'SMK', 'MA'].includes(formSiswa.nama_jenjang))
+                  "
+                >
                   <b-col md="2">
                     <label
                       ><i class="fas fa-fw fa-graduation-cap"></i> Pilihan Prodi
@@ -218,7 +232,7 @@
                       >
                       </b-form-select> -->
                       <v-select
-                      id="id_program_studi"
+                        id="id_program_studi"
                         :options="dataOption['programStudi']"
                         v-model="id_program_studi"
                         label="nama_studi"
@@ -229,8 +243,14 @@
                         "
                         :getOptionKey="prodi => prodi.id"
                       />
-                          <!-- formSiswa.id_prodi_bind_perguruan = null; -->
-                      <div style="font-size: 14px" class="text-info" v-if="loading">Memuat...</div>
+                      <!-- formSiswa.id_prodi_bind_perguruan = null; -->
+                      <div
+                        style="font-size: 14px"
+                        class="text-info"
+                        v-if="loading"
+                      >
+                        Memuat...
+                      </div>
                     </div>
                   </b-col>
                   <b-col md="6">
@@ -243,11 +263,21 @@
                         label="textField"
                         :reduce="item => item.id"
                       />
-                      <div style="font-size: 14px" class="text-info" v-if="loading">Memuat...</div>
+                      <div
+                        style="font-size: 14px"
+                        class="text-info"
+                        v-if="loading"
+                      >
+                        Memuat...
+                      </div>
                     </div>
                   </b-col>
                 </b-row>
-                <b-row v-if="akun.role_user == 'siswa' && formSiswa.nama_jenjang == 'SMA'">
+                <b-row
+                  v-if="
+                    akun.role_user == 'siswa' && (formSiswa.nama_jenjang == 'SMA' || ['SMA', 'SMK', 'MA'].includes(formSiswa.nama_jenjang))
+                  "
+                >
                   <b-col md="2">
                     <label
                       ><i class="fas fa-fw fa-graduation-cap"></i> Pilihan Prodi
@@ -257,7 +287,8 @@
                   <b-col md="4">
                     <div class="form-group reg-siswa">
                       <label for="id_program_studi_2">Program Studi</label>
-                      <v-select id="id_program_studi_2"
+                      <v-select
+                        id="id_program_studi_2"
                         :options="dataOption['programStudi']"
                         v-model="id_program_studi_2"
                         label="nama_studi"
@@ -268,8 +299,14 @@
                         "
                         :getOptionKey="prodi => prodi.id"
                       />
-                          <!-- formSiswa.id_prodi_bind_perguruan_2 = null; -->
-                      <div style="font-size: 14px" class="text-info" v-if="loading">Memuat...</div>
+                      <!-- formSiswa.id_prodi_bind_perguruan_2 = null; -->
+                      <div
+                        style="font-size: 14px"
+                        class="text-info"
+                        v-if="loading"
+                      >
+                        Memuat...
+                      </div>
                     </div>
                   </b-col>
                   <b-col md="6">
@@ -284,7 +321,13 @@
                         label="textField"
                         :reduce="item => item.id"
                       />
-                      <div style="font-size: 14px" class="text-info" v-if="loading">Memuat...</div>
+                      <div
+                        style="font-size: 14px"
+                        class="text-info"
+                        v-if="loading"
+                      >
+                        Memuat...
+                      </div>
                     </div>
                   </b-col>
                 </b-row>
@@ -300,7 +343,8 @@
                       v-for="(doc, index) in userDocs"
                       :key="'docIn' + index"
                     >
-                      <label :for="doc.doc_type">{{ doc.doc_label }} 
+                      <label :for="doc.doc_type"
+                        >{{ doc.doc_label }}
                         <code v-if="doc.doc_type == 'npwp'">[optional]</code>
                         <code v-else>*</code>
                       </label>
@@ -367,7 +411,13 @@
                         :reduce="item => item.id"
                         :getOptionKey="item => item.id"
                       />
-                      <div style="font-size: 14px" class="text-info" v-if="loading">Memuat...</div>
+                      <div
+                        style="font-size: 14px"
+                        class="text-info"
+                        v-if="loading"
+                      >
+                        Memuat...
+                      </div>
                     </div>
                   </b-col>
                   <b-col>
@@ -387,7 +437,13 @@
                         :reduce="item => item.id"
                         :getOptionKey="item => item.id"
                       />
-                      <div style="font-size: 14px" class="text-info" v-if="loading">Memuat...</div>
+                      <div
+                        style="font-size: 14px"
+                        class="text-info"
+                        v-if="loading"
+                      >
+                        Memuat...
+                      </div>
                     </div>
                     <div class="form-group reg-siswa">
                       <label for="kecamatan">Kecamatan</label>
@@ -399,7 +455,13 @@
                         :reduce="item => item.id"
                         :getOptionKey="item => item.id"
                       />
-                      <div style="font-size: 14px" class="text-info" v-if="loading">Memuat...</div>
+                      <div
+                        style="font-size: 14px"
+                        class="text-info"
+                        v-if="loading"
+                      >
+                        Memuat...
+                      </div>
                     </div>
                   </b-col>
                 </b-row>
@@ -718,7 +780,8 @@ export default {
         repassword: "",
         pendidikan_terakhir: "", // tentor
         nama_sekolah: "", // siswa,
-        nama_jenjang: "SD" // siswa
+        id_jenjang: null, // siswa
+        nama_jenjang: "" // siswa
       },
       provinsi: {},
       kota: {},
@@ -731,7 +794,8 @@ export default {
         password: ""
       },
       dataMaster: {
-        penjurusan: []
+        penjurusan: [],
+        jenjang: []
       },
       dataAPI: {
         provinsi: [],
@@ -743,7 +807,8 @@ export default {
         provinsi: [],
         kota_kabupaten: [],
         kecamatan: [],
-        programStudi: []
+        programStudi: [],
+        jenjang: []
       },
       id_program_studi: null,
       id_program_studi_2: null,
@@ -766,8 +831,18 @@ export default {
     };
   },
   watch: {
+    "formSiswa.id_jenjang": function(value) {
+      if (value) {
+        const findNamaJenjang = this.dataMaster["jenjang"].find(
+          item => item.id == this.formSiswa.id_jenjang
+        );
+        if (findNamaJenjang) {
+          this.formSiswa.nama_jenjang = findNamaJenjang.nama_jenjang;
+        }
+      }
+    },
     "formSiswa.nama_jenjang": function(value) {
-      if(value && value === 'SMA') {
+      if (value && (['SMA', 'SMK', 'MA'].includes(value))) {
         this.getProdiBindPerguruan("");
         this.getProdiBindPerguruan("", 2);
       }
@@ -874,15 +949,21 @@ export default {
         this.isValidForm["repassword"] = true;
       }
     },
-    tabProfile (tab) {
-      console.log(tab)
-      if(tab) {
-        if(tab === 1) {
-          if(this.dataOption['kota_kabupaten'] && this.dataOption['kota_kabupaten'].length < 1) {
-            this.getAPI('kota_kabupaten')
+    tabProfile(tab) {
+      console.log(tab);
+      if (tab) {
+        if (tab === 1) {
+          if (
+            this.dataOption["kota_kabupaten"] &&
+            this.dataOption["kota_kabupaten"].length < 1
+          ) {
+            this.getAPI("kota_kabupaten");
           }
-          if(this.dataOption['kecamatan'] && this.dataOption['kecamatan'].length < 1) {
-            this.getAPI('kecamatan')
+          if (
+            this.dataOption["kecamatan"] &&
+            this.dataOption["kecamatan"].length < 1
+          ) {
+            this.getAPI("kecamatan");
           }
         }
       }
@@ -922,7 +1003,8 @@ export default {
       id_penjurusan: this.profil.id_penjurusan,
       nama_penjurusan: this.profil.nama_penjurusan,
       nama_sekolah: this.profil.nama_sekolah,
-      nama_jenjang: this.profil.nama_jenjang ?? 'SMA',
+      id_jenjang: this.profil.id_jenjang,
+      nama_jenjang: this.profil.nama_jenjang ?? "",
       id_prodi_bind_perguruan: this.profil.id_prodi_bind_perguruan,
       id_prodi_bind_perguruan_2: this.profil.id_prodi_bind_perguruan_2,
       password: "",
@@ -980,8 +1062,9 @@ export default {
     //   this.getAPI("provinsi");
     // }
     this.getAPI("provinsi");
-    this.getMaster("programStudi", {params: { paginate: 999 }});
-    if(this.profil.nama_jenjang === 'SMA') {
+    this.getMaster("programStudi", { params: { paginate: 999 } });
+    this.getMaster("jenjang", { params: { paginate: 999 } });
+    if (this.profil.nama_jenjang === "SMA" || ['SMA', 'SMK', 'MA'].includes(this.profil.nama_jenjang)) {
       this.getProdiBindPerguruan("");
       this.getProdiBindPerguruan("", 2);
     }
@@ -1067,6 +1150,14 @@ export default {
                 textField
               };
             });
+          } else if (type == "jenjang") {
+            this.dataOption[type] = this.dataMaster[type].map(item => {
+              let text = item.nama_jenjang;
+              return {
+                value: item.id,
+                text
+              };
+            });
           } else {
             this.dataOption[type] = res.data.data;
           }
@@ -1109,37 +1200,53 @@ export default {
         .finally(() => (this.loading = false));
     },
     getProdiBindPerguruan(id_program_studi_selected, nomor = 1) {
-      const id_program_studi = id_program_studi_selected ? id_program_studi_selected.id : ''
+      const id_program_studi = id_program_studi_selected
+        ? id_program_studi_selected.id
+        : "";
       this.loading = true;
       this.$axios.defaults.headers.Authorization =
         "Bearer " + this.$cookiz.get("_ujiaja");
       this.$axios.defaults.withCredentials = true;
-      console.log('this.formSiswa.id_prodi_bind_perguruan', this.formSiswa.id_prodi_bind_perguruan)
-      console.log('this.formSiswa.id_prodi_bind_perguruan_2', this.formSiswa.id_prodi_bind_perguruan_2)
-      const id_prodi_bind_perguruan = nomor == 1 ? this.formSiswa.id_prodi_bind_perguruan : this.formSiswa.id_prodi_bind_perguruan_2;
+      console.log(
+        "this.formSiswa.id_prodi_bind_perguruan",
+        this.formSiswa.id_prodi_bind_perguruan
+      );
+      console.log(
+        "this.formSiswa.id_prodi_bind_perguruan_2",
+        this.formSiswa.id_prodi_bind_perguruan_2
+      );
+      const id_prodi_bind_perguruan =
+        nomor == 1
+          ? this.formSiswa.id_prodi_bind_perguruan
+          : this.formSiswa.id_prodi_bind_perguruan_2;
       this.$axios
         .$get(`/api/tranStudiPerguruan`, {
-          params: { 
+          params: {
             paginate: 9999,
             id_program_studi: id_program_studi,
-            id_prodi_bind_perguruan: id_prodi_bind_perguruan,
-           }
+            id_prodi_bind_perguruan: id_prodi_bind_perguruan
+          }
         })
         .then(async res => {
           console.log(res);
           if (res.success) {
             if (nomor == 2) {
-              this.dataOptionProdiBindPerguruan_2 = await res.data.data.map(item => {
-                let textField = item.perguruan && item.perguruan.nama_perguruan ? item.perguruan.nama_perguruan : '';
-                textField += " - " + item.program_studi.nama_studi;
-                textField += " (" + item.akreditasi_program_studi + ")";
-                // textField += " - PG: " + item.passing_grade_prodi;
-                return {
-                  id: item.id,
-                  id_prodi: item.program_studi.id,
-                  textField
-                };
-              });
+              this.dataOptionProdiBindPerguruan_2 = await res.data.data.map(
+                item => {
+                  let textField =
+                    item.perguruan && item.perguruan.nama_perguruan
+                      ? item.perguruan.nama_perguruan
+                      : "";
+                  textField += " - " + item.program_studi.nama_studi;
+                  textField += " (" + item.akreditasi_program_studi + ")";
+                  // textField += " - PG: " + item.passing_grade_prodi;
+                  return {
+                    id: item.id,
+                    id_prodi: item.program_studi.id,
+                    textField
+                  };
+                }
+              );
               if (
                 !this.id_program_studi_2 &&
                 this.formSiswa.id_prodi_bind_perguruan_2
@@ -1152,26 +1259,35 @@ export default {
                   this.id_program_studi_2 = found.program_studi;
                 }
               }
-              if(this.id_program_studi_2 && this.formSiswa.id_prodi_bind_perguruan_2 && this.selectNew_2 === true) {
+              if (
+                this.id_program_studi_2 &&
+                this.formSiswa.id_prodi_bind_perguruan_2 &&
+                this.selectNew_2 === true
+              ) {
                 const searchFound = this.dataOptionProdiBindPerguruan_2.find(
                   item => item.id_prodi == id_program_studi_selected.id
                 );
-                if(searchFound) {
-                  this.formSiswa.id_prodi_bind_perguruan_2 = searchFound.id
+                if (searchFound) {
+                  this.formSiswa.id_prodi_bind_perguruan_2 = searchFound.id;
                 }
               }
             } else {
-              this.dataOptionProdiBindPerguruan = await res.data.data.map(item => {
-                let textField = item.perguruan && item.perguruan.nama_perguruan ? item.perguruan.nama_perguruan : '';
-                textField += " - " + item.program_studi.nama_studi;
-                textField += " (" + item.akreditasi_program_studi + ")";
-                // textField += " - PG: " + item.passing_grade_prodi;
-                return {
-                  id: item.id,
-                  id_prodi: item.program_studi.id,
-                  textField
-                };
-              });
+              this.dataOptionProdiBindPerguruan = await res.data.data.map(
+                item => {
+                  let textField =
+                    item.perguruan && item.perguruan.nama_perguruan
+                      ? item.perguruan.nama_perguruan
+                      : "";
+                  textField += " - " + item.program_studi.nama_studi;
+                  textField += " (" + item.akreditasi_program_studi + ")";
+                  // textField += " - PG: " + item.passing_grade_prodi;
+                  return {
+                    id: item.id,
+                    id_prodi: item.program_studi.id,
+                    textField
+                  };
+                }
+              );
               if (
                 !this.id_program_studi &&
                 this.formSiswa.id_prodi_bind_perguruan
@@ -1182,15 +1298,19 @@ export default {
                 if (found) {
                   // this.id_program_studi = found.id_program_studi;
                   this.id_program_studi = found.program_studi;
-                } 
-              } 
+                }
+              }
 
-              if(this.id_program_studi && this.formSiswa.id_prodi_bind_perguruan && this.selectNew === true) {
+              if (
+                this.id_program_studi &&
+                this.formSiswa.id_prodi_bind_perguruan &&
+                this.selectNew === true
+              ) {
                 const searchFound = this.dataOptionProdiBindPerguruan.find(
                   item => item.id_prodi == id_program_studi_selected.id
                 );
-                if(searchFound) {
-                  this.formSiswa.id_prodi_bind_perguruan = searchFound.id
+                if (searchFound) {
+                  this.formSiswa.id_prodi_bind_perguruan = searchFound.id;
                 }
               }
             }
@@ -1207,7 +1327,10 @@ export default {
       // console.log(this.formSiswa.id_prodi_bind_perguruan_2)
       // console.log(this.optionProdiBindPerguruanDisabled)
       // console.log(this.optionProdiBindPerguruanDisabled_2)
-      if (this.akun.role_user == "siswa" && this.formSiswa.nama_jenjang === 'SMA') {
+      if (
+        this.akun.role_user == "siswa" &&
+        (this.formSiswa.nama_jenjang === "SMA" || ['SMA', 'SMK', 'MA'].includes(this.profil.nama_jenjang))
+      ) {
         if (
           (!this.optionProdiBindPerguruanDisabled &&
             !this.formSiswa.id_prodi_bind_perguruan) ||
@@ -1384,7 +1507,7 @@ export default {
                 this.$router.app.refresh();
               }
             );
-            this.$bvModal.hide('modal-ortu')
+            this.$bvModal.hide("modal-ortu");
             window.location.reload();
           } else {
             this.$bvToast.toast("Permintaan gagal!", {
@@ -1394,7 +1517,6 @@ export default {
               autoHideDelay: 3000
             });
           }
-          
         })
         .catch(err => {
           console.log(err);
