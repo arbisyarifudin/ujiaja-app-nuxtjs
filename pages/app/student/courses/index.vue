@@ -218,7 +218,7 @@
       centered
     >
       <div class="row align-items-center mb-4">
-        <div class="col-md-6">
+        <div class="col-md-12">
           <div class="form-group">
             <label for="id_mapel">Mata Pelajaran</label>
             <b-form-select
@@ -229,7 +229,7 @@
             ></b-form-select>
           </div>
         </div>
-        <div class="col-md-6">
+        <!-- <div class="col-md-6">
           <div class="form-group">
             <label for="id_jenjang">Jenjang Sekolah</label>
             <b-form-select
@@ -239,7 +239,7 @@
               text-field="nama_jenjang"
             ></b-form-select>
           </div>
-        </div>
+        </div> -->
         <div class="col-md-6">
           <div class="form-group">
             <label for="model_belajar">Model Belajar</label>
@@ -384,6 +384,7 @@ export default {
     }
   },
   created() {
+    this.filter.id_jenjang = this.userDetail.id_jenjang
     this.getData();
     this.getMaster("mapel", { params: { paginate: 999 } });
     this.getMaster("jenjang", { params: { paginate: 999 } });
@@ -439,7 +440,7 @@ export default {
             } else {
               this.dataOption[type] = res.data.data;
             }
-            console.log(this.dataOption[type]);
+            // console.log(this.dataOption[type]);
           }
           return true;
         })
