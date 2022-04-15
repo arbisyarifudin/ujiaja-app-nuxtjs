@@ -27,6 +27,12 @@
           </div>
         </div>
         <div class="col-md-12 crud-body">
+          <UILoading
+            v-if="refetch"
+            text="Mohon menunggu. Sedang melakukan pembaruan nomor soal..."
+            style="position: fixed; bottom: 0; left: 0; z-index: 99"
+            :textStyle="{ backgroundColor: 'white', padding: '10px' }"
+          />
           <div class="row">
             <div class="col-md-12 buat-soal mt-4">
               <p>Panduan Pengerjaan <code>*</code></p>
@@ -942,6 +948,7 @@ export default {
   data() {
     return {
       loading: false,
+      refetch: false,
       tab: 0,
       editorOptions: {
         modules: {
@@ -1413,6 +1420,8 @@ export default {
             this.onSubmit.pertanyaan[pertanyaan.id].success = true;
             this.onSubmit.pertanyaan[pertanyaan.id].loading = false;
             pertanyaan.pertanyaan_child.push({ ...dataSave, id: res.data.id });
+            // re-fetch detail tryout
+            this.refecthSoal();
           }
           return true;
         })
@@ -1442,6 +1451,8 @@ export default {
         .then(res => {
           if (res.success) {
             items.splice(index, 1);
+            // re-fetch detail tryout
+            this.refecthSoal();
           }
           return true;
         })
@@ -1674,6 +1685,47 @@ export default {
         .finally(() => {
           this.onSubmit.pertanyaan[pertanyaan.id].loading = false;
         });
+    },
+    async refecthSoal() {
+      this.refetch = true;
+      await this.$axios
+        .$get(`/api/tryout/find/${this.$route.params.id}/soal`)
+        .then(async res => {
+          console.log(res);
+          if (res.success) {
+            // this.dataDetail = await res.data;
+            this.formSoal = res.data;
+            // this.formTryout = { ...this.dataDetail };
+            this.filter.totalNumber = res.totalNomor;
+            this.filter.numberInSubtest = 0;
+            this.numberSubtest = res.nomorSubtest;
+            this.refetch = false;
+          }
+        })
+        .catch(err => {
+          console.log(err);
+          this.catchError(err);
+          this.refetch = false;
+        });
+    },
+    letterLabel(index) {
+      const letters = [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M",
+        "O"
+      ];
+      return letters[index] ?? "-";
     }
   }
 };
