@@ -121,6 +121,59 @@ input:disabled,
   color: white;
 }
 
+.question-option-radio-group span.letter {
+  position: absolute;
+  color: #333;
+  font-weight: 600;
+  left: -18px;
+  top: 3px;
+}
+
+.question-option-radio-group .custom-radio {
+  margin-bottom: 5px;
+}
+
+.question-option-radio-group .custom-radio .custom-control-input ~ .custom-control-label::before {
+  font-size: 14px;
+  border: 1px solid #c5c5c5;
+  border-radius: 0px;
+  background-color: transparent;
+  color: #007bff;
+  width: 20px;
+  height: 20px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.question-option-radio-group .custom-radio.checked .custom-control-input ~ .custom-control-label::before {
+  font-size: 14px;
+  border: 1px solid #850769;
+  border-radius: 0px;
+  background-color: #850769;
+  color: white;
+}
+
+.question-option-radio-group .custom-radio.checked .custom-control-input ~ .custom-control-label::after {
+  background-image: unset;
+}
+
+.question-option-radio-group .custom-radio.checked span.letter {
+  color: white;
+}
+
+.question-option-radio-group .custom-control-label {
+  width: 100%;
+  padding-top: 3px;
+  padding-left: 10px;
+}
+
 .b-form-tags-input {
   color: #1a1a1a;
 }
@@ -1070,20 +1123,6 @@ input.form-control-success {
 input.form-control-info {
   border-color: #4a98ff;
   color: #4a98ff !important;
-}
-
-.question-option-radio-group .custom-radio.checked .custom-control-input ~ .custom-control-label::before {
-  color: #fff;
-  border-color: #007bff;
-  background-color: #007bff;
-}
-
-.question-option-radio-group .custom-radio.checked .custom-control-input ~ .custom-control-label::after {
-  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23fff'/%3e%3c/svg%3e");
-}
-
-.question-option-radio-group .custom-control-label {
-  width: 100%;
 }
 
 .nav-pills .nav-link {

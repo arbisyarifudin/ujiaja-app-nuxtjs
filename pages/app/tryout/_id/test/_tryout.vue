@@ -183,9 +183,10 @@
                         "
                         @change="saveJawaban"
                       >
-                        <div class="question-option-letter mb-2">
+                        <!-- <div class="question-option-letter mb-2">
                           {{ letterLabel(o) }}
-                        </div>
+                        </div> -->
+                        <span class="letter">{{ letterLabel(o) }}</span>
                         <div v-html="opsi.option"></div>
                       </b-form-radio>
                     </b-form-group>
@@ -1166,4 +1167,5 @@ export default {
   color: #baadff !important;
   border: 1px solid #f5f5f5;
 }
+
 </style>

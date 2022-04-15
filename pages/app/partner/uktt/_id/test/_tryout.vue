@@ -103,7 +103,7 @@
                       class="question-main-text"
                       v-html="currentNomor.soal_pertanyaan"
                     ></p>
-                    <ul class="list-unstyled option-list">
+                    <!-- <ul class="list-unstyled option-list">
                       <li
                         class="option-item"
                         v-for="(opsi, o) in currentNomor.opsi_pertanyaan"
@@ -122,7 +122,6 @@
                               jawabanUser[currentNomor.nomor].jawaban_user
                             "
                           />
-                          <!-- {{ opsi.option }} -->
                           <span v-html="opsi.option" class="option-text"></span>
                           </label
                         >
@@ -139,7 +138,33 @@
                           Batal Jawab
                         </button>
                       </li>
-                    </ul>
+                    </ul> -->
+                    <b-form-group
+                      v-slot="{ ariaDescribedby }"
+                      class="question-option-radio-group"
+                    >
+                      <b-form-radio
+                        v-for="(opsi, o) in currentNomor.opsi_pertanyaan"
+                        :key="'opsi' + o"
+                        v-model="jawabanUser[currentNomor.nomor].jawaban_user"
+                        :aria-describedby="ariaDescribedby"
+                        :name="'opsi_' + currentNomor.nomor"
+                        :value="opsi.uuid"
+                        :class="
+                          jawabanUser[currentNomor.nomor].jawaban_user ===
+                          opsi.uuid
+                            ? 'checked'
+                            : ''
+                        "
+                        @change="saveJawaban"
+                      >
+                        <!-- <div class="question-option-letter mb-2">
+                          {{ letterLabel(o) }}
+                        </div> -->
+                        <span class="letter">{{ letterLabel(o) }}</span>
+                        <div v-html="opsi.option"></div>
+                      </b-form-radio>
+                    </b-form-group>
                   </div>
                 </div>
               </div>
