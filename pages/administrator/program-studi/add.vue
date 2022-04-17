@@ -1,7 +1,10 @@
 <template>
   <div class="container-fluid crud">
     <form @submit.prevent="validateForm">
-      <div class="row d-flex no-gutters" style="position: relative; z-index; 10">
+      <div
+        class="row d-flex no-gutters"
+        style="position: relative; z-index; 10"
+      >
         <div class="col-md-12 dashboard">
           <h2 class="dash-label">Tambah Program Studi</h2>
           <p>
@@ -79,30 +82,26 @@
                     </template>
                   </b-form-select>
                 </div>
-                <!-- <div class="form-group reg-siswa">
-                  <label for="mapel"
-                    >Mata Pelajaran Terkait <code>*</code></label
-                  >
+                <div class="form-group reg-siswa">
+                  <label for="rumpun">Rumpun <code>*</code></label>
                   <b-form-select
                     class="form-control"
-                    id="mapel"
-                    v-model="form.id_mapel"
-                    :options="dataOption['mapel']"
-                    value-field="id"
-                    text-field="textField"
+                    id="rumpun"
+                    v-model="form.id_rumpun"
+                    :options="dataOption['rumpun']"
                   >
                     <template #first>
                       <b-form-select-option :value="null"
-                        >-- Pilih Mata Pelajaran --</b-form-select-option
+                        >-- Pilih Rumpun --</b-form-select-option
                       >
                     </template>
                   </b-form-select>
-                </div> -->
+                </div>
                 <div class="form-group reg-siswa">
                   <label for="mapel"
                     >Mata Pelajaran Terkait <code>*</code></label
                   >
-                 <b-form-tags
+                  <b-form-tags
                     id="tags-component-select"
                     v-model="mapelSelected"
                     size="md"
@@ -110,15 +109,31 @@
                     add-on-change
                     no-outer-focus
                   >
-                    <template v-slot="{ tags, inputAttrs, inputHandlers, disabled, removeTag }">
-                      <ul v-if="tags.length > 0" class="list-inline d-inline-block mb-2">
-                        <li v-for="tag in tags" :key="tag" class="list-inline-item">
+                    <template
+                      v-slot="{
+                        tags,
+                        inputAttrs,
+                        inputHandlers,
+                        disabled,
+                        removeTag
+                      }"
+                    >
+                      <ul
+                        v-if="tags.length > 0"
+                        class="list-inline d-inline-block mb-2"
+                      >
+                        <li
+                          v-for="tag in tags"
+                          :key="tag"
+                          class="list-inline-item"
+                        >
                           <b-form-tag
                             @remove="removeTag(tag)"
                             :title="tag"
                             :disabled="disabled"
                             variant="info"
-                          >{{ tag }}</b-form-tag>
+                            >{{ tag }}</b-form-tag
+                          >
                         </li>
                       </ul>
                       <b-form-select
@@ -323,12 +338,14 @@ export default {
       dataMaster: {
         perguruanTinggi: [],
         penjurusan: [],
-        mapel: []
+        mapel: [],
+        rumpun: []
       },
       dataOption: {
         perguruanTinggi: [],
         penjurusan: [],
-        mapel: []
+        mapel: [],
+        rumpun: []
       },
       form: {
         nama_studi: "",
@@ -345,13 +362,16 @@ export default {
             passing_grade_prodi: null
           }
         ],
-        mapels: []
+        mapels: [],
+        id_rumpun: null,
+        rumpun: "",
+        kelompok: ""
       },
       files: {
         icon_prodi: null
       },
       dataMapels: [],
-      mapelSelected: [],
+      mapelSelected: []
       // options: ['Apple', 'Orange', 'Banana', 'Lime', 'Peach', 'Chocolate', 'Strawberry'],
       // value: [],
     };
@@ -360,11 +380,14 @@ export default {
     this.getData("perguruanTinggi", { params: { paginate: 99 } });
     this.getData("penjurusan", { params: { paginate: 99 } });
     this.getData("mapel", { params: { paginate: 99 } });
+    this.getData("rumpun", { params: { paginate: 99 } });
   },
   computed: {
     availableMapels() {
-      return this.dataMapels.filter(opt => this.mapelSelected.indexOf(opt) === -1)
-    },
+      return this.dataMapels.filter(
+        opt => this.mapelSelected.indexOf(opt) === -1
+      );
+    }
   },
   methods: {
     onTest(range, oldRange, source) {
@@ -383,11 +406,13 @@ export default {
       //   }
     },
     changeMapel(mapel) {
-      const search = this.dataMaster.mapel.find(item => item.nama_mapel == mapel);
-      if(search) {
+      const search = this.dataMaster.mapel.find(
+        item => item.nama_mapel == mapel
+      );
+      if (search) {
         this.form.mapels.push({
           id_mapel: search.id
-        })
+        });
       }
     },
     validateForm() {
@@ -400,6 +425,7 @@ export default {
         !this.form.deskripsi ||
         !this.form.alasan ||
         !this.form.prospek ||
+        !this.form.id_rumpun ||
         !this.form.program_studi_dan_perguruan_tinggi[0].id_perguruan_tinggi ||
         !this.form.program_studi_dan_perguruan_tinggi[0]
           .akreditasi_program_studi ||
@@ -422,6 +448,17 @@ export default {
       );
       if (findPenjurusan) {
         this.form.kelompok = findPenjurusan == "IPA" ? "SAINTEK" : "SOSHUM";
+      }
+
+      const findRumpun = this.dataMaster["rumpun"].find(
+        item => item.id == this.form.id_rumpun
+      );
+      if (findRumpun) {
+        console.log(findRumpun);
+        this.form.rumpun = findRumpun.nama;
+        this.form.kelompok = findRumpun.kategori
+          ? findRumpun.kategori.kelompok
+          : null;
       }
 
       this.loading = true;
@@ -480,7 +517,7 @@ export default {
               // });
               this.dataMapels = this.dataMaster[type].map(item => {
                 let text = item.nama_mapel;
-                return text
+                return text;
               });
             } else if (type == "perguruanTinggi") {
               this.dataOption[type] = this.dataMaster[type].map(item => {
@@ -490,6 +527,33 @@ export default {
                   textField
                 };
               });
+            } else if (type == "rumpun") {
+              let dataRumpunOption = [];
+
+              for (let x = 0; x < this.dataMaster.rumpun.length; x++) {
+                const item = this.dataMaster.rumpun[x];
+                let text = item.nama;
+                if (item.kategori) {
+                  if (item.kategori.kategori) {
+                    text += " - " + item.kategori.kategori;
+                  }
+                  if (item.kategori.kelompok) {
+                    text += " - " + item.kategori.kelompok;
+                  }
+                  if (item.kategori.jenjang) {
+                    text += " - " + item.kategori.jenjang;
+                  }
+                  if (item.kategori.penjurusan) {
+                    text += " - " + item.kategori.penjurusan;
+                  }
+                }
+                dataRumpunOption.push({
+                  value: item.id,
+                  text: text
+                });
+              }
+              console.log(dataRumpunOption);
+              this.dataOption["rumpun"] = dataRumpunOption;
             }
             // console.log(this.dataOption[type]);
           }
