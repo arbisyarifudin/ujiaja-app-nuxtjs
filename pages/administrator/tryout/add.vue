@@ -454,7 +454,7 @@ export default {
                       autoHideDelay: 3000
                     }
                   );
-                  if (dataSoal[0]) {
+                  if (dataSoal && dataSoal[0]) {
                     this.$router.replace(
                       `/administrator/tryout/${dataSoal[0].id_tryout}/soal/create`
                     );
