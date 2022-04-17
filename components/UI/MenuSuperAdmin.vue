@@ -42,7 +42,8 @@
           class="nav-link mb-0 p-0 has-child-icon"
           :class="[
             $route.path.includes('master_perguruan_tinggi') ||
-            $route.path.includes('program-studi')
+            $route.path.includes('program-studi') ||
+            $route.path.includes('rumpun')
               ? 'nuxt-link-active'
               : ''
           ]"
@@ -54,6 +55,9 @@
       >
       <b-dropdown-item to="/administrator/program-studi"
         >Program Studi</b-dropdown-item
+      >
+      <b-dropdown-item to="/administrator/rumpun"
+        >Rumpun Ilmu</b-dropdown-item
       >
     </b-nav-item-dropdown>
     <b-nav-item-dropdown text="Modul Tryout" right>
