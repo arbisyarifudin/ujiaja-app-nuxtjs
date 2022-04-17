@@ -15,6 +15,18 @@
         <div class="col-md-12 crud-body">
           <div class="form-user mt-3">
             <div class="form-group reg-siswa">
+              <label for="kode">Kode Mata Pelajaran <code>*</code></label>
+              <input
+                type="text"
+                class="form-control"
+                id="kode"
+                placeholder="Tulis Kode Mata Pelajaran"
+                v-model="form.kode"
+              />
+            </div>
+          </div>
+          <div class="form-user mt-3">
+            <div class="form-group reg-siswa">
               <label for="text">Nama Mata Pelajaran <code>*</code></label>
               <input
                 type="text"
@@ -25,6 +37,17 @@
               />
             </div>
           </div>
+          <!-- <div class="form-user mt-3">
+            <div class="form-group reg-siswa">
+              <label for="kelompok">Kelompok/Kategori</label>
+              <b-form-select
+                class="form-control"
+                id="kelompok"
+                v-model="form.kelompok"
+                :options="kelompoks"
+              />
+            </div>
+          </div> -->
         </div>
         <div class="crud-footer d-flex justify-content-end mt-4">
           <nuxt-link
@@ -52,8 +75,15 @@ export default {
       selectedId: this.$route.params.id,
       dataDetail: {},
       form: {
-        nama_mapel: ""
-      }
+        nama_mapel: "",
+        kode: "",
+        // kelompok: null
+      },
+      kelompoks: [
+        { text: '-- Pilih --', value: null },
+        { text: 'SAINTEK', value: 'SAINTEK' },
+        { text: 'SOSHUM', value: 'SOSHUM' },
+      ]
     };
   },
   mounted() {
@@ -120,7 +150,9 @@ export default {
           if (res.success) {
             this.dataDetail = res.data;
             this.form = {
-              nama_mapel: this.dataDetail.nama_mapel
+              kode: this.dataDetail.kode,
+              nama_mapel: this.dataDetail.nama_mapel,
+              // kelompok: this.dataDetail.kelompok
             };
           }
           return true;

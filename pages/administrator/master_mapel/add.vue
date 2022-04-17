@@ -12,16 +12,39 @@
         <div class="col-md-12 crud-body">
           <div class="form-user mt-3">
             <div class="form-group reg-siswa">
-              <label for="text">Nama Mata Pelajaran <code>*</code></label>
+              <label for="kode">Kode Mata Pelajaran <code>*</code></label>
               <input
                 type="text"
                 class="form-control"
-                id="text"
-                placeholder="Isi Nama Mata Pelajaran"
+                id="kode"
+                placeholder="Tulis Kode Mata Pelajaran"
+                v-model="form.kode"
+              />
+            </div>
+          </div>
+          <div class="form-user mt-3">
+            <div class="form-group reg-siswa">
+              <label for="nama_mapel">Nama Mata Pelajaran <code>*</code></label>
+              <input
+                type="text"
+                class="form-control"
+                id="nama_mapel"
+                placeholder="Tulis Nama Mata Pelajaran"
                 v-model="form.nama_mapel"
               />
             </div>
           </div>
+          <!-- <div class="form-user mt-3">
+            <div class="form-group reg-siswa">
+              <label for="kelompok">Kelompok/Kategori</label>
+              <b-form-select
+                class="form-control"
+                id="kelompok"
+                v-model="form.kelompok"
+                :options="kelompoks"
+              />
+            </div>
+          </div> -->
         </div>
         <div class="crud-footer d-flex justify-content-end mt-4">
           <nuxt-link
@@ -47,8 +70,15 @@ export default {
     return {
       loading: false,
       form: {
-        nama_mapel: ""
-      }
+        kode: '',
+        nama_mapel: "",
+        // kelompok: null
+      },
+      kelompoks: [
+        { text: '-- Pilih --', value: null },
+        { text: 'SAINTEK', value: 'SAINTEK' },
+        { text: 'SOSHUM', value: 'SOSHUM' },
+      ]
     };
   },
   methods: {

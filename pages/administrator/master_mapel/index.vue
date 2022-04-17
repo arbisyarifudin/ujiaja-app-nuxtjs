@@ -58,7 +58,9 @@
             <thead class="thead-table">
               <tr>
                 <th class="no" width="100px">No</th>
+                <th>Kode</th>
                 <th>Mata Pelajaran</th>
+                <th>Kelompok</th>
                 <th width="100" class="aksi">Aksi</th>
               </tr>
             </thead>
@@ -66,7 +68,9 @@
               <template v-if="totalRows > 0">
                 <tr v-for="(item, index) in items" :key="index">
                   <td class="text-center">{{ (filter.page - 1) * filter.perPage + (index + 1) }}</td>
+                  <td>{{ item.kode ? item.kode : '-' }}</td>
                   <td>{{ item.nama_mapel }}</td>
+                  <td>{{ item.kelompok ? item.kelompok : '-' }}</td>
                   <td class="btn-table">
                     <nuxt-link
                       class="btn btn-light px-2"
@@ -194,7 +198,7 @@ export default {
           params: {
             q: this.filter.keyword,
             paginate: this.filter.perPage,
-            page: this.filter.page
+            page: this.filter.page,
           }
         })
         .then(res => {
