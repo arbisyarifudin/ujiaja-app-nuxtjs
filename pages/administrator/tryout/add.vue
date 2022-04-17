@@ -37,8 +37,7 @@
             <div class="row">
               <div class="col form-group reg-siswa">
                 <label for="alokasi_waktu"
-                  >Alokasi Waktu Pengerjaan (Menit)
-                  <code>*</code></label
+                  >Alokasi Waktu Pengerjaan (Menit) <code>*</code></label
                 >
                 <input
                   type="number"
@@ -77,7 +76,9 @@
                     :options="[
                       { text: '-- Pilih --', value: null },
                       { text: 'UTBK', value: 'UTBK' },
-                      { text: 'ASPD', value: 'ASPD' }
+                      { text: 'ASPD', value: 'ASPD' },
+                      { text: 'PAT', value: 'PAT' },
+                      { text: 'PAS', value: 'PAS' }
                     ]"
                     @change="
                       () => {
@@ -129,9 +130,25 @@
                   </b-form-select>
                 </div>
               </div>
-              <div class="col-md-6" v-else-if="form.kategori == 'Asmenas'">
+              <!-- <div class="col-md-6" v-else-if="form.kategori == 'Asmenas'">
                 <div class="form-group reg-siswa">
                   <label for="kelas">Kelas <code>*</code></label>
+                  <b-form-select
+                    id="kelas"
+                    name="kelas"
+                    class="form-control"
+                    v-model="form.id_penjurusan"
+                    :options="dataMaster.kelas"
+                  >
+                  </b-form-select>
+                </div>
+              </div> -->
+              <div
+                class="col-md-6"
+                v-else-if="form.kategori == 'PAT' || form.kategori == 'PAS'"
+              >
+                <div class="form-group reg-siswa">
+                  <label for="kelas">Jenjang <code>*</code></label>
                   <b-form-select
                     id="kelas"
                     name="kelas"
@@ -308,6 +325,7 @@ export default {
     submitData(type) {
       console.log(this.form);
       this.loading = true;
+      let tryoutCreated;
       this.$axios
         .$post(`/api/${type}/create`, this.form)
         .then(res => {
@@ -324,6 +342,7 @@ export default {
         .then(res => {
           if (res.success) {
             console.log("res.data", res.data);
+            tryoutCreated = res.data
             let dataSoal;
             if (this.form.kategori === "UTBK") {
               // if (this.form.kategori === "UTBK" && this.form.jenis_soal === "TKA") {
@@ -435,9 +454,15 @@ export default {
                       autoHideDelay: 3000
                     }
                   );
-                  this.$router.replace(
-                    `/administrator/tryout/${dataSoal[0].id_tryout}/soal/create`
-                  );
+                  if (dataSoal[0]) {
+                    this.$router.replace(
+                      `/administrator/tryout/${dataSoal[0].id_tryout}/soal/create`
+                    );
+                  } else {
+                    this.$router.replace(
+                      `/administrator/tryout/${tryoutCreated.id}/soal/create`
+                    );
+                  }
                 }
               })
               .catch(err => {
@@ -483,9 +508,13 @@ export default {
                     text: j
                   };
                 }
+                let pj =
+                  item.nama_penjurusan && item.nama_penjurusan != "-"
+                    ? " - " + item.nama_penjurusan
+                    : "";
                 kelass.push({
                   value: item.id,
-                  text: k + " - " + j
+                  text: k + " - " + j + pj
                 });
                 let textField = k + " - " + j;
                 textField = item.nama_penjurusan ? item.nama_penjurusan : "";
@@ -503,7 +532,6 @@ export default {
               }
             }
             // console.log(this.dataMaster.jenjang);
-            // console.log(this.dataMaster.kelas);
           }
           return true;
         })

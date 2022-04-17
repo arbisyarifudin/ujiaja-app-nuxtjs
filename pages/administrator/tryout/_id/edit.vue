@@ -72,7 +72,9 @@
                     :options="[
                       { text: '-- Pilih --', value: null },
                       { text: 'UTBK', value: 'UTBK' },
-                      { text: 'ASPD', value: 'ASPD' }
+                      { text: 'ASPD', value: 'ASPD' },
+                      { text: 'PAT', value: 'PAT' },
+                      { text: 'PAS', value: 'PAS' }
                     ]"
                     @change="
                       () => {
@@ -119,10 +121,27 @@
                   </b-form-select>
                 </div>
               </div>
-              <div class="col-md-6" v-else-if="form.kategori == 'Asmenas'">
+              <!-- <div class="col-md-6" v-else-if="form.kategori == 'Asmenas'">
                 <div class="form-group reg-siswa">
                   <label for="select">Kelas <code>*</code></label>
                   <b-form-select
+                    class="form-control"
+                    v-model="form.id_penjurusan"
+                    :options="dataMaster.kelas"
+                    :disabled="true"
+                  >
+                  </b-form-select>
+                </div>
+              </div> -->
+              <div
+                class="col-md-6"
+                v-else-if="form.kategori == 'PAT' || form.kategori == 'PAS'"
+              >
+                <div class="form-group reg-siswa">
+                  <label for="kelas">Jenjang <code>*</code></label>
+                  <b-form-select
+                    id="kelas"
+                    name="kelas"
                     class="form-control"
                     v-model="form.id_penjurusan"
                     :options="dataMaster.kelas"
@@ -335,9 +354,13 @@ export default {
                     text: j
                   };
                 }
+                let pj =
+                  item.nama_penjurusan && item.nama_penjurusan != "-"
+                    ? " - " + item.nama_penjurusan
+                    : "";
                 kelass.push({
                   value: item.id,
-                  text: k + " - " + j
+                  text: k + " - " + j + pj
                 });
                 let textField = k + " - " + j;
                 textField = item.nama_penjurusan ? item.nama_penjurusan : "";
