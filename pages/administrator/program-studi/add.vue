@@ -33,12 +33,15 @@
                     >
                     <div class="row">
                       <div class="col-md-3">
-                        <img
-                          src="/logo2.png"
-                          alt="icon prodi"
-                          class="img-fluid"
-                          id="icon_prodi_preview"
-                        />
+                        <client-only>
+                          <img
+                            v-if="ApiUrl && !loading"
+                            :src="ApiUrl(getSetting('logo'))"
+                            alt="icon prodi"
+                            class="img-fluid"
+                            id="icon_prodi_preview"
+                          />
+                        </client-only>
                       </div>
                       <div class="col-md-8">
                         <div class="custom-file mb-3">
@@ -334,7 +337,7 @@ export default {
       //     imageResize: {}
       //   }
       // },
-      loading: false,
+      loading: true,
       dataMaster: {
         perguruanTinggi: [],
         penjurusan: [],

@@ -37,8 +37,8 @@
                   <div class="col-md-6">
                     <div class="form-group reg-siswa">
                       <label for="icon_prodi"
-                        >Ikon Program Studi <code>*</code></label
-                      >
+                      >Ikon Program Studi <code>[opsional]</code></label
+                    >
                       <div class="row">
                         <div class="col-md-3">
                           <client-only>
