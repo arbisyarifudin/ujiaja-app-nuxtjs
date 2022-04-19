@@ -43,7 +43,8 @@
           :class="[
             $route.path.includes('master_perguruan_tinggi') ||
             $route.path.includes('program-studi') ||
-            $route.path.includes('rumpun')
+            $route.path.includes('rumpun') ||
+            $route.path.includes('klaster')
               ? 'nuxt-link-active'
               : ''
           ]"
@@ -58,6 +59,9 @@
       >
       <b-dropdown-item to="/administrator/rumpun"
         >Rumpun Ilmu</b-dropdown-item
+      >
+      <b-dropdown-item to="/administrator/klaster"
+        >Klaster Rumpun</b-dropdown-item
       >
     </b-nav-item-dropdown>
     <b-nav-item-dropdown text="Modul Tryout" right>
