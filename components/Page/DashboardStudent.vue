@@ -33,60 +33,94 @@
       </div>
 
       <div
-        class="row justify-content-around mb-5"
+        class="card mb-3 px-3 py-2 d-flex align-items-center justify-content-between flex-row"
+      >
+        <div class="d-flex align-items-center justify-content-between flex-row">
+          <h4 class="mb-0 mr-2">Filter :</h4>
+          <!-- <span class="badge badge-primary">UTBK</span> -->
+        </div>
+        <button type="button" class="btn btn-sm btn-primary px-2 square">
+          <i class="fas fa-fw fa-filter"></i> Filter
+        </button>
+      </div>
+
+      <div
+        class="card mb-5"
         v-if="isDisplayBatteries && prodiSatu && filter.kategori == 'UTBK'"
       >
-        <div class="col-12">
-          <h4><i class="fas fa-fw fa-award mr-1"></i> PERSENTASE NILAI UTBK</h4>
-        </div>
-        <div class="col-12">
-          <p class="mb-4 small">
-            Yuk terus belajar, dan naikan score UTBK kamu untuk meningkatkan
-            peluang masuk ke Perguruan Tinggi impianmu.
-          </p>
-        </div>
-        <div class="col-md-3 col-6 text-center">
-          <div class="h5">
-            {{
-              prodiSatu.program_studi ? prodiSatu.program_studi.nama_studi : "-"
-            }}
-          </div>
-          <div class="h6">
-            Passing Grade {{ prodiSatu.passing_grade_prodi }}
-          </div>
-          <div class="battery my-3">
-            <div class="battery-outline">
-              <div
-                class="battery-fill"
-                :style="{ height: 190 * (scoreData.pg1_percent / 100) + 'px' }"
-              >
-                {{ scoreData.pg1_percent }}%
+        <div class="card-body">
+          <div class="row justify-content-around ">
+            <div class="col-12">
+              <h4>
+                <i class="fas fa-fw fa-award mr-1"></i> PERSENTASE NILAI UTBK
+              </h4>
+            </div>
+            <div class="col-12">
+              <p class="mb-4 small">
+                Yuk terus belajar, dan naikan score UTBK kamu untuk meningkatkan
+                peluang masuk ke Perguruan Tinggi impianmu.
+              </p>
+            </div>
+            <div class="col-md-3 col-6 text-center">
+              <div class="h6">
+                {{
+                  prodiSatu.program_studi
+                    ? prodiSatu.program_studi.nama_studi
+                    : "-"
+                }}
+              </div>
+              <div class="h6">
+                Passing Grade {{ prodiSatu.passing_grade_prodi }}
+              </div>
+              <div class="battery my-3">
+                <div class="battery-outline">
+                  <div
+                    class="battery-fill"
+                    :class="bgColorClass(scoreData.pg1_percent)"
+                    :style="{
+                      height: 190 * (scoreData.pg1_percent / 100) + 'px'
+                    }"
+                  >
+                    {{ scoreData.pg1_percent }}%
+                  </div>
+                </div>
+              </div>
+              <div class="h6">
+                {{
+                  prodiSatu.perguruan ? prodiSatu.perguruan.nama_perguruan : "-"
+                }}
               </div>
             </div>
-          </div>
-          <div class="h6">
-            {{ prodiSatu.perguruan ? prodiSatu.perguruan.nama_perguruan : "-" }}
-          </div>
-        </div>
-        <div class="col-md-3 col-6 text-center">
-          <div class="h5">
-            {{
-              prodiDua.program_studi ? prodiDua.program_studi.nama_studi : "-"
-            }}
-          </div>
-          <div class="h6">Passing Grade {{ prodiDua.passing_grade_prodi }}</div>
-          <div class="battery my-3">
-            <div class="battery-outline">
-              <div
-                class="battery-fill"
-                :style="{ height: 190 * (scoreData.pg2_percent / 100) + 'px' }"
-              >
-                {{ scoreData.pg2_percent }}%
+            <div class="col-md-3 col-6 text-center">
+              <div class="h6">
+                {{
+                  prodiDua.program_studi
+                    ? prodiDua.program_studi.nama_studi
+                    : "-"
+                }}
+              </div>
+              <div class="h6">
+                Passing Grade {{ prodiDua.passing_grade_prodi }}
+              </div>
+              <div class="battery my-3">
+                <div class="battery-outline">
+                  <div
+                    class="battery-fill"
+                    :class="bgColorClass(scoreData.pg2_percent)"
+                    :style="{
+                      height: 190 * (scoreData.pg2_percent / 100) + 'px'
+                    }"
+                  >
+                    {{ scoreData.pg2_percent }}%
+                  </div>
+                </div>
+              </div>
+              <div class="h6">
+                {{
+                  prodiDua.perguruan ? prodiDua.perguruan.nama_perguruan : "-"
+                }}
               </div>
             </div>
-          </div>
-          <div class="h6">
-            {{ prodiDua.perguruan ? prodiDua.perguruan.nama_perguruan : "-" }}
           </div>
         </div>
       </div>
@@ -328,8 +362,16 @@ export default {
       totalTryout: 0,
       totalKursus: 0,
       filter: {
-        kategori: "UTBK"
+        kategori: "UTBK",
+        kelompok: "",
+        id_penjurusan: null,
+        id_jenjang: null,
+        id_kelas: null,
       },
+      filterList: [
+        kategori: ['UTBK', 'ASPD', 'PAS', 'PAT'],
+        // subKategori: ['ASPD SD'] 
+      ],
       grafikPerformaKenaikan: 0,
       grafikPerformaOptions: {
         title: {
@@ -449,13 +491,13 @@ export default {
               {
                 name: "Skor",
                 type: "column",
-                color: '#DDDDDD',
+                color: "#DDDDDD",
                 data: response.data.data
               },
               {
                 name: "Skor",
                 type: "spline",
-                color: '#5D5FEF',
+                color: "#5D5FEF",
                 data: response.data.data
               }
             ];
