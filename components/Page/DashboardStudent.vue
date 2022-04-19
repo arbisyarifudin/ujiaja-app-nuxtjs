@@ -6,7 +6,36 @@
       <h5 class="mt-2 mb-3">
         Halo {{ userDetail.nama_lengkap }}, selamat datang!
       </h5>
-      <div class="row justify-content-around" v-if="isDisplayBatteries">
+
+      <div class="col-md-12 dash-kelas p-0 text-left mb-5">
+        <div class="dash-content text-center">
+          <div class="row">
+            <div class="col-md-4 d-flex">
+              <div>
+                <img src="/dashboard/dashboard1.png" class="img-fluid mr-3" />
+              </div>
+              <div class="text-left">
+                <h4 class="list-dash mt-1">Tryout</h4>
+                <p class="total m-0">Total {{ totalTryout }}</p>
+              </div>
+            </div>
+            <div class="col-md-4 d-flex">
+              <div>
+                <img src="/dashboard/dashboard2.png" class="img-fluid mr-3" />
+              </div>
+              <div class="text-left">
+                <h4 class="list-dash mt-1">Kelas Kursus</h4>
+                <p class="total m-0">Total {{ totalKursus }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="row justify-content-around mb-5"
+        v-if="isDisplayBatteries && prodiSatu"
+      >
         <div class="col-12">
           <h4><i class="fas fa-fw fa-award mr-1"></i> PERSENTASE NILAI UTBK</h4>
         </div>
@@ -61,6 +90,7 @@
           </div>
         </div>
       </div>
+
       <div class="row justify-content-around" v-if="isDisplayASPDBatteries">
         <div class="col-12">
           <h4><i class="fas fa-fw fa-award mr-1"></i> PERSENTASE NILAI ASPD</h4>
@@ -89,7 +119,9 @@
               </div>
             </div>
           </div>
-          <div class="h6">Nilai Rata-rata Kamu : {{ scoreASPDData.avg_score }}</div>
+          <div class="h6">
+            Nilai Rata-rata Kamu : {{ scoreASPDData.avg_score }}
+          </div>
         </div>
       </div>
       <!-- <h5 class="mt-4">
@@ -245,15 +277,27 @@ export default {
       scoreData: {},
       scoreASPDData: {},
       prodiSatu: {},
-      prodiDua: {}
+      prodiDua: {},
+      totalTryout: 0,
+      totalKursus: 0,
     };
   },
   created() {
+    this.getDashboardData()
     this.getProfilLengkap();
     this.getPersentaseSkor();
     this.getPersentaseSkorASPD();
   },
   methods: {
+    getDashboardData() {
+      this.$axios.$get('/api/users/siswa/dashboard')
+      .then(response => {
+        if(response.success) {
+          this.totalTryout = response.data.total_tryout
+          this.totalKursus = response.data.total_kursus
+        }
+      })
+    },
     getPersentaseSkor() {
       this.loading = true;
       this.$axios
@@ -317,13 +361,13 @@ export default {
         });
     },
     bgColorClass(score) {
-      const _score = parseFloat(score)
+      const _score = parseFloat(score);
       if (_score >= 76) {
-        return 'bg-success'
-      } else if(_score >= 70) {
-        return 'bg-warning'
+        return "bg-success";
+      } else if (_score >= 70) {
+        return "bg-warning";
       } else {
-        return 'bg-danger'
+        return "bg-danger";
       }
     }
   },
