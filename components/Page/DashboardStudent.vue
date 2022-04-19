@@ -35,13 +35,17 @@
       <div
         class="card mb-3 px-3 py-2 d-flex align-items-center justify-content-between flex-row"
       >
+        <h4 class="mb-0 mr-2">Filter :</h4>
         <div class="d-flex align-items-center justify-content-between flex-row">
-          <h4 class="mb-0 mr-2">Filter :</h4>
-          <!-- <span class="badge badge-primary">UTBK</span> -->
+          <!-- <button type="button" class="btn btn-sm btn-primary px-2 square">
+            <i class="fas fa-fw fa-filter"></i> Filter
+          </button> -->
+          <b-form-select
+            :options="filterList.kategori"
+            v-model="filter.kategori"
+          ></b-form-select>
         </div>
-        <button type="button" class="btn btn-sm btn-primary px-2 square">
-          <i class="fas fa-fw fa-filter"></i> Filter
-        </button>
+        <!-- <span class="badge badge-primary">UTBK</span> -->
       </div>
 
       <div
@@ -126,38 +130,44 @@
       </div>
 
       <div
-        class="row justify-content-around"
+        class="card mb-5"
         v-if="isDisplayASPDBatteries && filter.kategori == 'ASPD'"
       >
-        <div class="col-12">
-          <h4><i class="fas fa-fw fa-award mr-1"></i> PERSENTASE NILAI ASPD</h4>
-        </div>
-        <div class="col-12">
-          <p class="mb-4 small">
-            Yuk terus belajar, dan naikan score ASPD kamu untuk meningkatkan
-            peluang masuk ke sekolah di Jenjang selanjutnya.
-          </p>
-        </div>
-        <div class="col-md-3 col-6 text-center">
-          <div class="h6">
-            Nilai Sempurna ASPD {{ userDetail.nama_jenjang }} :
-            {{ scoreASPDData.perpect_score }}
-          </div>
-          <div class="battery my-3">
-            <div class="battery-outline">
-              <div
-                class="battery-fill"
-                :class="bgColorClass(scoreASPDData.percent_score)"
-                :style="{
-                  height: 190 * (scoreASPDData.percent_score / 100) + 'px'
-                }"
-              >
-                {{ scoreASPDData.percent_score }}%
+        <div class="card-body">
+          <div class="row justify-content-around">
+            <div class="col-12">
+              <h4>
+                <i class="fas fa-fw fa-award mr-1"></i> PERSENTASE NILAI ASPD
+              </h4>
+            </div>
+            <div class="col-12">
+              <p class="mb-4 small">
+                Yuk terus belajar, dan naikan score ASPD kamu untuk meningkatkan
+                peluang masuk ke sekolah di Jenjang selanjutnya.
+              </p>
+            </div>
+            <div class="col-md-3 col-6 text-center">
+              <div class="h6">
+                Nilai Sempurna ASPD {{ userDetail.nama_jenjang }} :
+                {{ scoreASPDData.perpect_score }}
+              </div>
+              <div class="battery my-3">
+                <div class="battery-outline">
+                  <div
+                    class="battery-fill"
+                    :class="bgColorClass(scoreASPDData.percent_score)"
+                    :style="{
+                      height: 190 * (scoreASPDData.percent_score / 100) + 'px'
+                    }"
+                  >
+                    {{ scoreASPDData.percent_score }}%
+                  </div>
+                </div>
+              </div>
+              <div class="h6">
+                Nilai Rata-rata Kamu : {{ scoreASPDData.avg_score }}
               </div>
             </div>
-          </div>
-          <div class="h6">
-            Nilai Rata-rata Kamu : {{ scoreASPDData.avg_score }}
           </div>
         </div>
       </div>
@@ -366,12 +376,12 @@ export default {
         kelompok: "",
         id_penjurusan: null,
         id_jenjang: null,
-        id_kelas: null,
+        id_kelas: null
       },
-      filterList: [
-        kategori: ['UTBK', 'ASPD', 'PAS', 'PAT'],
-        // subKategori: ['ASPD SD'] 
-      ],
+      filterList: {
+        kategori: ["UTBK", "ASPD", "PAS", "PAT"]
+        // subKategori: ['ASPD SD']
+      },
       grafikPerformaKenaikan: 0,
       grafikPerformaOptions: {
         title: {
@@ -466,6 +476,13 @@ export default {
     this.getProfilLengkap();
     this.getPersentaseSkor();
     this.getPersentaseSkorASPD();
+  },
+  watch: {
+    "filter.kategori": function(value) {
+      if (value) {
+        this.getHasilSatuanPengerjaan();
+      }
+    }
   },
   methods: {
     getDashboardData() {
