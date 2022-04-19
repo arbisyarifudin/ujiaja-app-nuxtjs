@@ -34,7 +34,7 @@
 
       <div
         class="row justify-content-around mb-5"
-        v-if="isDisplayBatteries && prodiSatu"
+        v-if="isDisplayBatteries && prodiSatu && filter.kategori == 'UTBK'"
       >
         <div class="col-12">
           <h4><i class="fas fa-fw fa-award mr-1"></i> PERSENTASE NILAI UTBK</h4>
@@ -91,7 +91,10 @@
         </div>
       </div>
 
-      <div class="row justify-content-around" v-if="isDisplayASPDBatteries">
+      <div
+        class="row justify-content-around"
+        v-if="isDisplayASPDBatteries && filter.kategori == 'ASPD'"
+      >
         <div class="col-12">
           <h4><i class="fas fa-fw fa-award mr-1"></i> PERSENTASE NILAI ASPD</h4>
         </div>
@@ -124,10 +127,44 @@
           </div>
         </div>
       </div>
-      <!-- <h5 class="mt-4">
-        Halo {{ userDetail.nama_lengkap }}, selamat datang!<i class=""></i>
-      </h5>
-       -->
+
+      <div class="card mt-4" v-if="!loading">
+        <div class="card-body">
+          <h4 class="mb-3 d-flex justify-content-between">
+            Performa Kamu
+            <span class="ml-2 text-muted"
+              ><span
+                :class="[
+                  grafikPerformaKenaikan > 0
+                    ? 'text-success'
+                    : grafikPerformaKenaikan < 0
+                    ? 'text-danger'
+                    : 'text-primary'
+                ]"
+                ><i
+                  class="fas fa-fw"
+                  :class="
+                    grafikPerformaKenaikan > 0
+                      ? 'fa-arrow-up'
+                      : grafikPerformaKenaikan < 0
+                      ? 'fa-arrow-down'
+                      : 'fa-equal'
+                  "
+                ></i>
+                {{ grafikPerformaKenaikan }}%</span
+              >
+              vs tryout terakhir</span
+            >
+          </h4>
+          <!-- <div style="height: 300px"></div> -->
+          <highchart
+            :options="grafikPerformaOptions"
+            :update="['options.title', 'options.series']"
+            :exporting="true"
+          />
+        </div>
+      </div>
+
       <!-- <h5 class="info-kelas mt-5 mb-5">Kelas Les Privat</h5> -->
       <div class="kelas shadow-sm mt-5">
         <div class="col-md-8">
@@ -268,6 +305,16 @@
 </style>
 
 <script>
+const dataTanggal = [
+  "20-01-0000",
+  "20-01-0000",
+  "20-02-0000",
+  "20-03-0000",
+  "20-04-0000",
+  "20-05-0000",
+  "20-05-0000",
+  "20-07-0000"
+];
 export default {
   data() {
     return {
@@ -280,23 +327,149 @@ export default {
       prodiDua: {},
       totalTryout: 0,
       totalKursus: 0,
+      filter: {
+        kategori: "UTBK"
+      },
+      grafikPerformaKenaikan: 0,
+      grafikPerformaOptions: {
+        title: {
+          text: "Grafik Hasil Tryout"
+        },
+
+        // subtitle: {
+        //   text: "Tentor: Arbi Syarifudin"
+        // },
+
+        yAxis: {
+          title: {
+            text: "Skor"
+          }
+        },
+
+        xAxis: {
+          accessibility: {
+            rangeDescription: "Rentang: Januari s.d Desember"
+          },
+          categories: dataTanggal,
+          title: {
+            text: "Tanggal"
+          }
+        },
+
+        legend: {
+          layout: "vertical",
+          align: "right",
+          verticalAlign: "middle"
+        },
+
+        plotOptions: {
+          series: {
+            label: {
+              connectorAllowed: false
+            },
+            pointStart: 0
+          }
+        },
+
+        // tooltip: {
+        //   headerFormat: "<b>{series.name} Bln. {point.x}</b><br />",
+        //   // pointFormat: 'Rp {point.y}'
+        //   pointFormatter: function() {
+        //     return "Rp " + this.y.toLocaleString("id");
+        //   }
+        // },
+
+        series: [
+          {
+            name: "Skor",
+            type: "column",
+            data: [200, 500, 300, 450, 400, 200, 100, 250]
+          },
+          {
+            name: "Skor",
+            type: "spline",
+            data: [200, 500, 300, 450, 400, 200, 100, 250]
+          }
+          // {
+          //   data: [
+          //     ["Jan", 29.9],
+          //     ["Feb", 71.5],
+          //     ["Mar", 106.4]
+          //   ]
+          // }
+        ],
+
+        responsive: {
+          rules: [
+            {
+              condition: {
+                maxWidth: 500
+              },
+              chartOptions: {
+                legend: {
+                  layout: "horizontal",
+                  align: "center",
+                  verticalAlign: "bottom"
+                }
+              }
+            }
+          ]
+        }
+      }
     };
   },
   created() {
-    this.getDashboardData()
+    this.getDashboardData();
+    this.getHasilSatuanPengerjaan();
     this.getProfilLengkap();
     this.getPersentaseSkor();
     this.getPersentaseSkorASPD();
   },
   methods: {
     getDashboardData() {
-      this.$axios.$get('/api/users/siswa/dashboard')
-      .then(response => {
-        if(response.success) {
-          this.totalTryout = response.data.total_tryout
-          this.totalKursus = response.data.total_kursus
+      this.$axios.$get("/api/users/siswa/dashboard").then(response => {
+        if (response.success) {
+          this.totalTryout = response.data.total_tryout;
+          this.totalKursus = response.data.total_kursus;
         }
-      })
+      });
+    },
+    getHasilSatuanPengerjaan() {
+      this.loading = true;
+      this.$axios
+        .$get("/api/tryout_user/grafik-hasil-satuan-pengerjaan", {
+          params: {
+            kategori: this.filter.kategori
+          }
+        })
+        .then(response => {
+          if (response.success) {
+            this.grafikPerformaKenaikan = response.data.kenaikan;
+            this.grafikPerformaOptions.series = [
+              {
+                name: "Skor",
+                type: "column",
+                color: '#DDDDDD',
+                data: response.data.data
+              },
+              {
+                name: "Skor",
+                type: "spline",
+                color: '#5D5FEF',
+                data: response.data.data
+              }
+            ];
+            this.grafikPerformaOptions.xAxis.categories = response.data.label;
+          }
+        })
+        .catch(error => {
+          this.catchError(error);
+        })
+        .finally(() => {
+          this.grafikPerformaOptions.title.text =
+            "Grafik Hasil Tryout " + this.filter.kategori;
+          this.loading = false;
+        });
     },
     getPersentaseSkor() {
       this.loading = true;
