@@ -11,7 +11,7 @@
         </div>
         <div class="col-md-12 crud-body">
           <div class="form-user mt-3">
-            <div class="form-group reg-siswa">
+            <!-- <div class="form-group reg-siswa">
               <label for="select">Kategori <code>*</code></label>
               <b-form-select class="form-control" v-model="form.id_to_kategori">
                 <b-form-select-option :value="null"
@@ -37,15 +37,24 @@
                   <span v-if="item.kelas" v-text="' - ' + item.kelas"></span>
                 </b-form-select-option>
               </b-form-select>
-            </div>
+            </div> -->
             <div class="form-group reg-siswa">
-              <label for="text">Nama Rumpun <code>*</code></label>
+              <label for="nama">Nama Rumpun <code>*</code></label>
               <input
                 type="text"
                 class="form-control"
-                id="text"
+                id="nama"
                 placeholder="Tulis Nama Rumpun"
                 v-model="form.nama"
+              />
+            </div>
+            <div class="form-group reg-siswa">
+              <label for="kelompok">Kelompok/Kategori <code>*</code></label>
+              <b-form-select
+                class="form-control"
+                id="kelompok"
+                v-model="form.kelompok"
+                :options="['SAINTEK', 'SOSHUM']"
               />
             </div>
           </div>
@@ -77,18 +86,20 @@ export default {
         kategori: []
       },
       form: {
-        id_to_kategori: null,
-        nama: ""
+        // id_to_kategori: null,
+        nama: "",
+        kelompok: "SAINTEK"
       }
     };
   },
   mounted() {
-    this.getData("kategori-to");
+    // this.getData("kategori-to");
   },
   methods: {
     validateForm() {
       console.log(this.form);
-      if (!this.form.id_to_kategori || !this.form.nama) {
+      // if (!this.form.id_to_kategori || !this.form.nama) {
+      if (!this.form.kelompok || !this.form.nama) {
         this.$bvToast.toast("Mohon lengkapi form dengan benar!", {
           title: "Peringatan",
           variant: "warning",
@@ -122,29 +133,6 @@ export default {
         })
         .finally(() => (this.loading = false));
     },
-    getData(type) {
-      this.loading = true;
-      this.$axios
-        .$get(`/api/${type}`, {
-          params: { paginate: 999 }
-        })
-        .then(res => {
-          console.log(res);
-          if (res.success) {
-            if (type == "kategori-to") {
-              this.dataMaster["kategori"] = res.data.data;
-            } else {
-              this.dataMaster[type] = res.data.data;
-            }
-          }
-          return true;
-        })
-        .catch(err => {
-          console.log(err);
-          this.catchError(err);
-        })
-        .finally(() => (this.loading = false));
-    }
   }
 };
 </script>

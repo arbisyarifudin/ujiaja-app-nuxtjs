@@ -60,7 +60,7 @@
                 <th class="no" width="100px">No</th>
                 <th width="100" class="aksi">Aksi</th>
                 <th>Rumpun Ilmu</th>
-                <th>Kategori</th>
+                <th>Kelompok</th>
                 <th v-for="(kode, k) in mapelKodes" :key="'k-' + k">{{ kode }}</th>
               </tr>
             </thead>
@@ -98,7 +98,8 @@
                     >
                   </td>
                   <td>{{ item.nama }}</td>
-                  <td>
+                  <td>{{ item.kelompok }}</td>
+                  <!-- <td>
                     {{ item.kategori ? item.kategori.kategori : "-" }}
                     <span
                       v-if="item.kategori.kelompok"
@@ -116,7 +117,7 @@
                       v-if="item.kategori.kelas"
                       v-text="' - ' + item.kategori.kelas"
                     ></span>
-                  </td>
+                  </td> -->
                   <td v-for="(mapel, m) in item.mapel" :key="'m-' + m">{{ mapel.nilai }}</td>
                 </tr>
               </template>

@@ -58,7 +58,7 @@
               <tr>
                 <th class="no" width="100px">No</th>
                 <th>Nama Rumpun</th>
-                <th>Kategori</th>
+                <th>Kelompok</th>
                 <th width="100" class="aksi">Aksi</th>
               </tr>
             </thead>
@@ -67,12 +67,13 @@
                 <tr v-for="(item, index) in items" :key="index">
                   <td class="text-center">{{ (filter.page - 1) * filter.perPage + (index + 1) }}</td>
                   <td>{{ item.nama }}</td>
-                  <td>{{ item.kategori ? item.kategori.kategori : "-" }}
+                  <td>{{ item.kelompok }}</td>
+                  <!-- <td>{{ item.kategori ? item.kategori.kategori : "-" }}
                     <span v-if="item.kategori.kelompok" v-text="' - ' + item.kategori.kelompok"></span>
                     <span v-if="item.kategori.jenjang" v-text="' - ' + item.kategori.jenjang"></span>
                     <span v-if="item.kategori.penjurusan" v-text="' - ' + item.kategori.penjurusan"></span>
                     <span v-if="item.kategori.kelas" v-text="' - ' + item.kategori.kelas"></span>
-                  </td>
+                  </td> -->
                   <td class="btn-table">
                     <nuxt-link
                       class="btn btn-light px-2"
