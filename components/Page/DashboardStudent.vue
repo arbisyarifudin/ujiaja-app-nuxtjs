@@ -209,6 +209,45 @@
         </div>
       </div>
 
+      <div class="row" v-if="!loading">
+        <template v-if="filter.kategori == 'UTBK'">
+          <div
+            class="col-md-6"
+            v-for="(grafikData, gKey) in grafikNilaiMapel"
+            :key="'gNm-' + gKey"
+          >
+            <div class="card mt-4">
+              <div class="card-body">
+                <h4 class="mb-3 d-flex justify-content-between">
+                  Performa Kamu
+                </h4>
+                <highchart
+                  :options="grafikData"
+                  :update="['options.title', 'options.yAxis', 'options.series']"
+                  :exporting="true"
+                />
+              </div>
+            </div>
+          </div>
+        </template>
+        <template v-else>
+          <div class="col-md-6">
+            <div class="card mt-4">
+              <div class="card-body">
+                <h4 class="mb-3 d-flex justify-content-between">
+                  Performa Kamu
+                </h4>
+                <highchart
+                  :options="grafikNilaiMapelNonUTBK"
+                  :update="['options.title', 'options.yAxis', 'options.series']"
+                  :exporting="true"
+                />
+              </div>
+            </div>
+          </div>
+        </template>
+      </div>
+
       <!-- <h5 class="info-kelas mt-5 mb-5">Kelas Les Privat</h5> -->
       <div class="kelas shadow-sm mt-5">
         <div class="col-md-8">
@@ -359,6 +398,7 @@ const dataTanggal = [
   "20-05-0000",
   "20-07-0000"
 ];
+const dataMapelKode = ["PU", "PK", "PPU", "PBM", "BING"];
 export default {
   data() {
     return {
@@ -400,7 +440,7 @@ export default {
 
         xAxis: {
           accessibility: {
-            rangeDescription: "Rentang: Januari s.d Desember"
+            rangeDescription: ""
           },
           categories: dataTanggal,
           title: {
@@ -467,12 +507,243 @@ export default {
             }
           ]
         }
+      },
+      grafikNilaiMapel: {
+        TPS: {
+          title: {
+            text: "Grafik Nilai TPS"
+          },
+
+          yAxis: {
+            title: {
+              text: "Nilai"
+            }
+          },
+
+          xAxis: {
+            accessibility: {
+              rangeDescription: ""
+            },
+            categories: dataMapelKode,
+            title: {
+              text: "Mapel"
+            }
+          },
+
+          legend: {
+            layout: "vertical",
+            align: "right",
+            verticalAlign: "middle"
+          },
+
+          plotOptions: {
+            series: {
+              label: {
+                connectorAllowed: false
+              },
+              pointStart: 0
+            }
+          },
+
+          // tooltip: {
+          //   headerFormat: "<b>{series.name} Bln. {point.x}</b><br />",
+          //   // pointFormat: 'Rp {point.y}'
+          //   pointFormatter: function() {
+          //     return "Rp " + this.y.toLocaleString("id");
+          //   }
+          // },
+
+          series: [
+            {
+              name: "Capaian Tertinggi",
+              type: "column",
+              color: "#5D5FEF",
+              data: [100, 100, 50, 75, 80]
+            },
+            {
+              name: "Rata-rata",
+              type: "column",
+              color: "#DDDDDD",
+              data: [80, 75, 90, 60, 60]
+            }
+          ],
+
+          responsive: {
+            rules: [
+              {
+                condition: {
+                  maxWidth: 500
+                },
+                chartOptions: {
+                  legend: {
+                    layout: "horizontal",
+                    align: "center",
+                    verticalAlign: "bottom"
+                  }
+                }
+              }
+            ]
+          }
+        },
+        TKA: {
+          title: {
+            text: "Grafik Nilai TKA"
+          },
+
+          yAxis: {
+            title: {
+              text: "Nilai"
+            }
+          },
+
+          xAxis: {
+            accessibility: {
+              rangeDescription: ""
+            },
+            categories: dataMapelKode,
+            title: {
+              text: "Mapel"
+            }
+          },
+
+          legend: {
+            layout: "vertical",
+            align: "right",
+            verticalAlign: "middle"
+          },
+
+          plotOptions: {
+            series: {
+              label: {
+                connectorAllowed: false
+              },
+              pointStart: 0
+            }
+          },
+
+          // tooltip: {
+          //   headerFormat: "<b>{series.name} Bln. {point.x}</b><br />",
+          //   // pointFormat: 'Rp {point.y}'
+          //   pointFormatter: function() {
+          //     return "Rp " + this.y.toLocaleString("id");
+          //   }
+          // },
+
+          series: [
+            {
+              name: "Capaian Tertinggi",
+              type: "column",
+              color: "#5D5FEF",
+              data: [100, 100, 50, 75, 80]
+            },
+            {
+              name: "Rata-rata",
+              type: "column",
+              color: "#DDDDDD",
+              data: [80, 75, 90, 60, 60]
+            }
+          ],
+
+          responsive: {
+            rules: [
+              {
+                condition: {
+                  maxWidth: 500
+                },
+                chartOptions: {
+                  legend: {
+                    layout: "horizontal",
+                    align: "center",
+                    verticalAlign: "bottom"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      },
+      grafikNilaiMapelNonUTBK: {
+        title: {
+          text: "Grafik Nilai Mata Pelajaran"
+        },
+
+        yAxis: {
+          title: {
+            text: "Nilai"
+          }
+        },
+
+        xAxis: {
+          accessibility: {
+            rangeDescription: ""
+          },
+          categories: dataMapelKode,
+          title: {
+            text: "Mapel"
+          }
+        },
+
+        legend: {
+          layout: "vertical",
+          align: "right",
+          verticalAlign: "middle"
+        },
+
+        plotOptions: {
+          series: {
+            label: {
+              connectorAllowed: false
+            },
+            pointStart: 0
+          }
+        },
+
+        // tooltip: {
+        //   headerFormat: "<b>{series.name} Bln. {point.x}</b><br />",
+        //   // pointFormat: 'Rp {point.y}'
+        //   pointFormatter: function() {
+        //     return "Rp " + this.y.toLocaleString("id");
+        //   }
+        // },
+
+        series: [
+          {
+            name: "Capaian Tertinggi",
+            type: "column",
+            color: "#5D5FEF",
+            data: [100, 100, 50, 75, 80]
+          },
+          {
+            name: "Rata-rata",
+            type: "column",
+            color: "#DDDDDD",
+            data: [80, 75, 90, 60, 60]
+          }
+        ],
+
+        responsive: {
+          rules: [
+            {
+              condition: {
+                maxWidth: 500
+              },
+              chartOptions: {
+                legend: {
+                  layout: "horizontal",
+                  align: "center",
+                  verticalAlign: "bottom"
+                }
+              }
+            }
+          ]
+        }
       }
     };
   },
   created() {
     this.getDashboardData();
     this.getHasilSatuanPengerjaan();
+    this.getHasilNilaiPerMapel();
     this.getProfilLengkap();
     this.getPersentaseSkor();
     this.getPersentaseSkorASPD();
@@ -481,6 +752,7 @@ export default {
     "filter.kategori": function(value) {
       if (value) {
         this.getHasilSatuanPengerjaan();
+        this.getHasilNilaiPerMapel();
       }
     }
   },
@@ -527,6 +799,86 @@ export default {
         .finally(() => {
           this.grafikPerformaOptions.title.text =
             "Grafik Hasil Tryout " + this.filter.kategori;
+          this.loading = false;
+        });
+    },
+    getHasilNilaiPerMapel() {
+      this.loading = true;
+      this.$axios
+        .$get("/api/tryout_user/grafik-hasil-nilai-permapel", {
+          params: {
+            kategori: this.filter.kategori
+          }
+        })
+        .then(response => {
+          if (response.success) {
+            if (this.filter.kategori == "UTBK") {
+              for (const jenisKey in response.data) {
+                if (Object.hasOwnProperty.call(response.data, jenisKey)) {
+                  const data = response.data[jenisKey];
+                  this.grafikNilaiMapel[jenisKey].series = [
+                    {
+                      name: "Capaian Tertinggi",
+                      type: "column",
+                      color: "#5D5FEF",
+                      data: data.nilai_tertinggi
+                    },
+                    {
+                      name: "Rata-rata",
+                      type: "column",
+                      color: "#DDDDDD",
+                      data: data.rerata
+                    },
+                    {
+                      name: "Total Soal",
+                      type: "spline",
+                      color: "rgb(255, 29, 29)",
+                      data: data.total_soal
+                    }
+                  ];
+                  this.loading = true;
+                  this.grafikNilaiMapel[jenisKey].xAxis.categories = data.label;
+                  this.grafikNilaiMapel[jenisKey].title.text =
+                    "Grafik Nilai " + jenisKey;
+                  this.$nextTick(() => {
+                    this.loading = false;
+                  });
+                }
+              }
+            } else {
+              const data = response.data[0];
+              this.grafikNilaiMapelNonUTBK.series = [
+                {
+                  name: "Capaian Tertinggi",
+                  type: "column",
+                  color: "#5D5FEF",
+                  data: data.nilai_tertinggi
+                },
+                {
+                  name: "Rata-rata",
+                  type: "column",
+                  color: "#DDDDDD",
+                  data: data.rerata
+                },
+                {
+                  name: "Total Soal",
+                  type: "spline",
+                  color: "rgb(255, 29, 29)",
+                  data: data.total_soal
+                }
+              ];
+              this.loading = true;
+              this.grafikNilaiMapelNonUTBK.xAxis.categories = data.label;
+              this.$nextTick(() => {
+                this.loading = false;
+              });
+            }
+          }
+        })
+        .catch(error => {
+          this.catchError(error);
+        })
+        .finally(() => {
           this.loading = false;
         });
     },
