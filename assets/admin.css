@@ -696,6 +696,29 @@ input:disabled,
           box-shadow: none;
 }
 
+.circle-badge {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+}
+
+.circle-badge.bg-success {
+  background-color: #01C921 !important;
+}
+
+.circle-badge.bg-warning {
+  background-color: #FFCA80 !important;
+}
+
+.circle-badge.bg-danger {
+  background-color: #F7685A !important;
+}
+
+.circle-badge.bg-dark {
+  background-color: #47415B !important;
+}
+
 .data-tryout {
   margin-top: 30px;
 }

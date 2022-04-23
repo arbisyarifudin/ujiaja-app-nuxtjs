@@ -212,15 +212,15 @@
       <div class="row" v-if="!loading">
         <template v-if="filter.kategori == 'UTBK'">
           <div
-            class="col-md-6"
+            class="col-md-6 mb-4"
             v-for="(grafikData, gKey) in grafikNilaiMapel"
             :key="'gNm-' + gKey"
           >
             <div class="card mt-4">
               <div class="card-body">
-                <h4 class="mb-3 d-flex justify-content-between">
-                  Performa Kamu
-                </h4>
+                <!-- <h4 class="mb-3 d-flex justify-content-between">
+                  Grafik Nilai {{gKey}}
+                </h4> -->
                 <highchart
                   :options="grafikData"
                   :update="['options.title', 'options.yAxis', 'options.series']"
@@ -228,10 +228,44 @@
                 />
               </div>
             </div>
+
+            <h3 class="h5 mt-5 mb-4">
+              Tingkat Capaian Penguasan Mata Pelajaran
+            </h3>
+            <ul class="list-unstyled">
+              <li
+                v-for="(mapelLabel, m) in mapelLabelData[gKey]"
+                :key="'m-' + m"
+                class="mb-3 d-flex align-items-center"
+              >
+                <span :class="circleBagdeClass(mapelLabel.persentase)"></span>
+                {{ mapelLabel.nama }}
+              </li>
+            </ul>
+          </div>
+          <div class="col-md-6 mb-3">
+            <div style="background-color: #eee" class="px-3 py-3">
+              <ul
+                class="d-flex list-unstyled mb-0 text-muted justify-content-between"
+              >
+                <li class="d-flex align-items-center">
+                  <span :class="circleBagdeClass(80)"></span> &gt; 75%
+                </li>
+                <li class="d-flex align-items-center">
+                  <span :class="circleBagdeClass(60)"></span> &gt; 50% - 75%
+                </li>
+                <li class="d-flex align-items-center">
+                  <span :class="circleBagdeClass(40)"></span> &gt; 25% - 50%
+                </li>
+                <li class="d-flex align-items-center">
+                  <span :class="circleBagdeClass(10)"></span> &lt; 25%
+                </li>
+              </ul>
+            </div>
           </div>
         </template>
         <template v-else>
-          <div class="col-md-6">
+          <div class="col-md-6 mb-4">
             <div class="card mt-4">
               <div class="card-body">
                 <h4 class="mb-3 d-flex justify-content-between">
@@ -239,6 +273,76 @@
                 </h4>
                 <highchart
                   :options="grafikNilaiMapelNonUTBK"
+                  :update="['options.title', 'options.yAxis', 'options.series']"
+                  :exporting="true"
+                />
+              </div>
+            </div>
+            <h3 class="h5 mt-5 mb-4">
+              Tingkat Capaian Penguasan Mata Pelajaran
+            </h3>
+            <ul class="list-unstyled">
+              <li
+                v-for="(mapelLabel, m) in mapelLabelData[0]"
+                :key="'m-' + m"
+                class="mb-3 d-flex align-items-center"
+              >
+                <span :class="circleBagdeClass(mapelLabel.persentase)"></span>
+                {{ mapelLabel.nama }}
+              </li>
+            </ul>
+          </div>
+          <div class="col-md-6 mb-4">
+            <div class="card mt-4">
+              <div class="card-body">
+                <h4 class="mb-3 d-flex justify-content-between">
+                  Peringkat Nilai Mata Pelajaran
+                </h4>
+                <highchart
+                  :options="grafikRangkingNilaiNonUTBK"
+                  :update="['options.title', 'options.yAxis', 'options.series']"
+                  :exporting="true"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 mb-3">
+            <div style="background-color: #eee" class="px-3 py-3">
+              <ul
+                class="d-flex list-unstyled mb-0 text-muted justify-content-between"
+              >
+                <li class="d-flex align-items-center">
+                  <span :class="circleBagdeClass(80)"></span> &gt; 75%
+                </li>
+                <li class="d-flex align-items-center">
+                  <span :class="circleBagdeClass(60)"></span> &gt; 50% - 75%
+                </li>
+                <li class="d-flex align-items-center">
+                  <span :class="circleBagdeClass(40)"></span> &gt; 25% - 50%
+                </li>
+                <li class="d-flex align-items-center">
+                  <span :class="circleBagdeClass(10)"></span> &lt; 25%
+                </li>
+              </ul>
+            </div>
+          </div>
+        </template>
+      </div>
+
+      <div class="row" v-if="!loading">
+        <template v-if="filter.kategori == 'UTBK'">
+          <div
+            class="col-md-6 mb-4"
+            v-for="(grafikData, gKey) in grafikRangkingNilai"
+            :key="'gRn-' + gKey"
+          >
+            <div class="card mt-4">
+              <div class="card-body">
+                <h4 class="mb-3 d-flex justify-content-between">
+                  Peringkat Nilai {{ gKey }}
+                </h4>
+                <highchart
+                  :options="grafikData"
                   :update="['options.title', 'options.yAxis', 'options.series']"
                   :exporting="true"
                 />
@@ -511,7 +615,8 @@ export default {
       grafikNilaiMapel: {
         TPS: {
           title: {
-            text: "Grafik Nilai TPS"
+            // text: "Grafik Nilai TPS"
+            text: null
           },
 
           yAxis: {
@@ -544,6 +649,20 @@ export default {
               pointStart: 0
             }
           },
+
+          // plotOptions: {
+          //   series: {
+          //     label: {
+          //       connectorAllowed: false
+          //     },
+          //     pointStart: 0,
+          //     borderWidth: 0,
+          //     dataLabels: {
+          //       enabled: true,
+          //       format: "{point.y}"
+          //     }
+          //   }
+          // },
 
           // tooltip: {
           //   headerFormat: "<b>{series.name} Bln. {point.x}</b><br />",
@@ -587,7 +706,8 @@ export default {
         },
         TKA: {
           title: {
-            text: "Grafik Nilai TKA"
+            // text: "Grafik Nilai TKA"
+            text: null
           },
 
           yAxis: {
@@ -737,6 +857,231 @@ export default {
             }
           ]
         }
+      },
+
+      mapelLabelData: {
+        TKA: {},
+        TPS: {},
+        "0": {}
+      },
+
+      grafikRangkingNilai: {
+        TPS: {
+          chart: {
+            type: "column",
+            inverted: true
+          },
+          title: {
+            text: null
+          },
+          subtitle: {
+            text: null
+          },
+          accessibility: {
+            announceNewData: {
+              enabled: true
+            }
+          },
+          xAxis: {
+            type: "category"
+          },
+          yAxis: {
+            title: {
+              text: null
+            }
+          },
+          legend: {
+            enabled: false
+          },
+          plotOptions: {
+            series: {
+              borderWidth: 0,
+              dataLabels: {
+                enabled: true,
+                format: "{point.y:.1f}%"
+              }
+            }
+          },
+
+          // tooltip: {
+          //   headerFormat:
+          //     '<span style="font-size:11px">{series.name}</span><br>',
+          //   pointFormat:
+          //     '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b> of total<br/>'
+          // },
+
+          series: [
+            {
+              name: "Persentase",
+              // colorByPoint: true,
+              data: [
+                {
+                  name: "Chrome",
+                  y: 62.74
+                },
+                {
+                  name: "Firefox",
+                  y: 10.57
+                },
+                {
+                  name: "Internet Explorer",
+                  y: 7.23
+                },
+                {
+                  name: "Safari",
+                  y: 5.58
+                },
+                {
+                  name: "Edge",
+                  y: 4.02
+                },
+                {
+                  name: "Opera",
+                  y: 1.92
+                }
+              ]
+            }
+          ]
+        },
+        TKA: {
+          chart: {
+            type: "column",
+            inverted: true
+          },
+          title: {
+            text: null
+          },
+          subtitle: {
+            text: null
+          },
+          accessibility: {
+            announceNewData: {
+              enabled: true
+            }
+          },
+          xAxis: {
+            type: "category"
+          },
+          yAxis: {
+            title: {
+              text: null
+            }
+          },
+          legend: {
+            enabled: false
+          },
+          plotOptions: {
+            series: {
+              borderWidth: 0,
+              dataLabels: {
+                enabled: true,
+                format: "{point.y:.1f}%"
+              }
+            }
+          },
+
+          // tooltip: {
+          //   headerFormat:
+          //     '<span style="font-size:11px">{series.name}</span><br>',
+          //   pointFormat:
+          //     '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b> of total<br/>'
+          // },
+
+          series: [
+            {
+              name: "Persentase",
+              // colorByPoint: true,
+              data: [
+                {
+                  name: "Chrome",
+                  y: 62.74
+                },
+                {
+                  name: "Firefox",
+                  y: 10.57
+                },
+                {
+                  name: "Internet Explorer",
+                  y: 7.23
+                },
+                {
+                  name: "Safari",
+                  y: 5.58
+                },
+                {
+                  name: "Edge",
+                  y: 4.02
+                },
+                {
+                  name: "Opera",
+                  y: 1.92
+                }
+              ]
+            }
+          ]
+        }
+      },
+
+      grafikRangkingNilaiNonUTBK: {
+        chart: {
+          type: "column",
+          inverted: true
+        },
+        title: {
+          text: null
+        },
+        subtitle: {
+          text: null
+        },
+        accessibility: {
+          announceNewData: {
+            enabled: true
+          }
+        },
+        xAxis: {
+          type: "category"
+        },
+        yAxis: {
+          title: {
+            text: null
+          }
+        },
+        legend: {
+          enabled: false
+        },
+        plotOptions: {
+          series: {
+            borderWidth: 0,
+            dataLabels: {
+              enabled: true,
+              format: "{point.y:.1f}%"
+            }
+          }
+        },
+
+        // tooltip: {
+        //   headerFormat:
+        //     '<span style="font-size:11px">{series.name}</span><br>',
+        //   pointFormat:
+        //     '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b> of total<br/>'
+        // },
+
+        series: [
+          {
+            name: "Persentase",
+            // colorByPoint: true,
+            data: [
+              {
+                name: "Chrome",
+                y: 62.74
+              },
+              {
+                name: "Firefox",
+                y: 10.57
+              }
+            ]
+          }
+        ]
       }
     };
   },
@@ -814,8 +1159,20 @@ export default {
           if (response.success) {
             if (this.filter.kategori == "UTBK") {
               for (const jenisKey in response.data) {
+                if (!this.mapelLabelData[jenisKey]) {
+                  this.mapelLabelData[jenisKey] = {};
+                }
                 if (Object.hasOwnProperty.call(response.data, jenisKey)) {
                   const data = response.data[jenisKey];
+                  this.mapelLabelData[jenisKey] = data.mapels;
+                  this.grafikRangkingNilai[
+                    jenisKey
+                  ].series[0].data = data.mapels.map((item, index) => {
+                    return {
+                      y: item.persentase,
+                      name: item.kode == "N/A" ? "N/A" + index : item.kode
+                    };
+                  });
                   this.grafikNilaiMapel[jenisKey].series = [
                     {
                       name: "Capaian Tertinggi",
@@ -847,6 +1204,15 @@ export default {
               }
             } else {
               const data = response.data[0];
+              this.mapelLabelData[0] = response.data[0].mapels;
+              this.grafikRangkingNilaiNonUTBK.series[0].data = data.mapels.map(
+                (item, index) => {
+                  return {
+                    y: item.persentase,
+                    name: item.kode == "N/A" ? "N/A" + index : item.kode
+                  };
+                }
+              );
               this.grafikNilaiMapelNonUTBK.series = [
                 {
                   name: "Capaian Tertinggi",
@@ -952,6 +1318,18 @@ export default {
         return "bg-warning";
       } else {
         return "bg-danger";
+      }
+    },
+    circleBagdeClass(persentase) {
+      const _persentase = parseFloat(persentase);
+      if (persentase >= 75) {
+        return "mr-2 circle-badge bg-success";
+      } else if (persentase >= 50 && persentase < 75) {
+        return "mr-2 circle-badge bg-warning";
+      } else if (persentase >= 25 && persentase < 50) {
+        return "mr-2 circle-badge bg-danger";
+      } else {
+        return "mr-2 circle-badge bg-dark";
       }
     }
   },
