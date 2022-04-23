@@ -2,16 +2,16 @@
   <div class="container-fluid konten-editprofil">
     <div class="col-md-12 dash-kelas p-0 text-left pos-relative">
       <div class="row align-items-center justify-content-between">
-        <div class="col-md-8">
+        <div class="col-md-8 mb-3 mb-md-0 ">
           <h2 class="pb-0">Dashboard</h2>
           <UILoading v-if="loading" />
           <h5 class="mt-2 mb-3">
             Halo {{ userDetail.nama_lengkap }}, selamat datang!
           </h5>
         </div>
-        <div class="col-md-4 text-right">
+        <div class="col-md-4 mb-3 mb-md-0 text-right">
           <b-form-checkbox v-model="showAnalytics" name="check-button" switch>
-            Analitik</b-form-checkbox
+            Analitik Mode</b-form-checkbox
           >
         </div>
       </div>
@@ -680,6 +680,7 @@ export default {
 
           plotOptions: {
             series: {
+              lineWidth: 1,
               label: {
                 connectorAllowed: false
               },
@@ -771,6 +772,7 @@ export default {
 
           plotOptions: {
             series: {
+              lineWidth: 1,
               label: {
                 connectorAllowed: false
               },
@@ -848,6 +850,7 @@ export default {
 
         plotOptions: {
           series: {
+            lineWidth: 1,
             label: {
               connectorAllowed: false
             },
@@ -1102,7 +1105,7 @@ export default {
     this.getDashboardData();
     this.getProfilLengkap();
 
-    if (this.$route.query.analytics == true) {
+    if (this.$route.query.analytics == "true" || this.$route.query.analytics === true) {
       this.showAnalytics = true;
     }
 
@@ -1130,6 +1133,7 @@ export default {
     },
     showAnalytics: function(value) {
       if (value) {
+        this.$router.push({query: {analytics: true}})
         this.getHasilSatuanPengerjaan();
         this.getHasilNilaiPerMapel();
         if (this.filter.kategori == "UTBK") {
@@ -1137,6 +1141,8 @@ export default {
         } else {
           this.getPersentaseSkorASPD();
         }
+      } else {
+          this.$router.push({query: {}})
       }
     }
   },
@@ -1216,7 +1222,8 @@ export default {
                   ].series[0].data = data.mapels.map((item, index) => {
                     return {
                       y: item.persentase,
-                      name: item.kode == "N/A" ? "N/A" + index : item.kode
+                      name: item.kode == "N/A" ? "N/A" + index : item.kode,
+                      color: "#5D5FEF",
                     };
                   });
                   this.grafikNilaiMapel[jenisKey].series = [
@@ -1255,7 +1262,8 @@ export default {
                 ? data.mapels.map((item, index) => {
                     return {
                       y: item.persentase,
-                      name: item.kode == "N/A" ? "N/A" + index : item.kode
+                      name: item.kode == "N/A" ? "N/A" + index : item.kode,
+                      color: "#5D5FEF",
                     };
                   })
                 : [];
