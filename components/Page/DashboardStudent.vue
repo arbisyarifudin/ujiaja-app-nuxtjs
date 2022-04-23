@@ -1,16 +1,25 @@
 <template>
   <div class="container-fluid konten-editprofil">
     <div class="col-md-12 dash-kelas p-0 text-left pos-relative">
-      <h2 class="pb-0">Dashboard</h2>
-      <UILoading v-if="loading" />
-      <h5 class="mt-2 mb-3">
-        Halo {{ userDetail.nama_lengkap }}, selamat datang!
-      </h5>
+      <div class="row align-items-center justify-content-between">
+        <div class="col-md-8">
+          <h2 class="pb-0">Dashboard</h2>
+          <UILoading v-if="loading" />
+          <h5 class="mt-2 mb-3">
+            Halo {{ userDetail.nama_lengkap }}, selamat datang!
+          </h5>
+        </div>
+        <div class="col-md-4 text-right">
+          <b-form-checkbox v-model="showAnalytics" name="check-button" switch>
+            Analitik</b-form-checkbox
+          >
+        </div>
+      </div>
 
       <div class="col-md-12 dash-kelas p-0 text-left mb-5">
         <div class="dash-content text-center">
           <div class="row">
-            <div class="col-md-4 d-flex">
+            <div class="col-md-4 mb-3 mb-md-0 d-flex">
               <div>
                 <img src="/dashboard/dashboard1.png" class="img-fluid mr-3" />
               </div>
@@ -19,7 +28,7 @@
                 <p class="total m-0">Total {{ totalTryout }}</p>
               </div>
             </div>
-            <div class="col-md-4 d-flex">
+            <div class="col-md-4 mb-3 mb-md-0 d-flex">
               <div>
                 <img src="/dashboard/dashboard2.png" class="img-fluid mr-3" />
               </div>
@@ -32,428 +41,455 @@
         </div>
       </div>
 
-      <div
-        class="card mb-3 px-3 py-2 d-flex align-items-center justify-content-between flex-row"
-      >
-        <h4 class="mb-0 mr-2">Filter :</h4>
-        <div class="d-flex align-items-center justify-content-between flex-row">
-          <!-- <button type="button" class="btn btn-sm btn-primary px-2 square">
+      <div v-if="showAnalytics">
+        <div
+          class="card mb-3 px-3 py-2 d-flex align-items-center justify-content-between flex-row"
+        >
+          <h4 class="mb-0 mr-2">Filter :</h4>
+          <div
+            class="d-flex align-items-center justify-content-between flex-row"
+          >
+            <!-- <button type="button" class="btn btn-sm btn-primary px-2 square">
             <i class="fas fa-fw fa-filter"></i> Filter
           </button> -->
-          <b-form-select
-            :options="filterList.kategori"
-            v-model="filter.kategori"
-          ></b-form-select>
+            <b-form-select
+              :options="filterList.kategori"
+              v-model="filter.kategori"
+            ></b-form-select>
+          </div>
+          <!-- <span class="badge badge-primary">UTBK</span> -->
         </div>
-        <!-- <span class="badge badge-primary">UTBK</span> -->
-      </div>
 
-      <div
-        class="card mb-5"
-        v-if="isDisplayBatteries && prodiSatu && filter.kategori == 'UTBK'"
-      >
-        <div class="card-body">
-          <div class="row justify-content-around ">
-            <div class="col-12">
-              <h4>
-                <i class="fas fa-fw fa-award mr-1"></i> PERSENTASE NILAI UTBK
-              </h4>
-            </div>
-            <div class="col-12">
-              <p class="mb-4 small">
-                Yuk terus belajar, dan naikan score UTBK kamu untuk meningkatkan
-                peluang masuk ke Perguruan Tinggi impianmu.
-              </p>
-            </div>
-            <div class="col-md-3 col-6 text-center">
-              <div class="h6">
-                {{
-                  prodiSatu.program_studi
-                    ? prodiSatu.program_studi.nama_studi
-                    : "-"
-                }}
+        <div
+          class="card mb-5"
+          v-if="isDisplayBatteries && prodiSatu && filter.kategori == 'UTBK'"
+        >
+          <div class="card-body">
+            <div class="row justify-content-around ">
+              <div class="col-12">
+                <h4>
+                  <i class="fas fa-fw fa-award mr-1"></i> PERSENTASE NILAI UTBK
+                </h4>
               </div>
-              <div class="h6">
-                Passing Grade {{ prodiSatu.passing_grade_prodi }}
+              <div class="col-12">
+                <p class="mb-4 small">
+                  Yuk terus belajar, dan naikan score UTBK kamu untuk
+                  meningkatkan peluang masuk ke Perguruan Tinggi impianmu.
+                </p>
               </div>
-              <div class="battery my-3">
-                <div class="battery-outline">
-                  <div
-                    class="battery-fill"
-                    :class="bgColorClass(scoreData.pg1_percent)"
-                    :style="{
-                      height: 190 * (scoreData.pg1_percent / 100) + 'px'
-                    }"
-                  >
-                    {{ scoreData.pg1_percent }}%
+              <div class="col-md-3 col-6 text-center">
+                <div class="h6">
+                  {{
+                    prodiSatu.program_studi
+                      ? prodiSatu.program_studi.nama_studi
+                      : "-"
+                  }}
+                </div>
+                <div class="h6">
+                  Passing Grade {{ prodiSatu.passing_grade_prodi }}
+                </div>
+                <div class="battery my-3">
+                  <div class="battery-outline">
+                    <div
+                      class="battery-fill"
+                      :class="bgColorClass(scoreData.pg1_percent)"
+                      :style="{
+                        height: 190 * (scoreData.pg1_percent / 100) + 'px'
+                      }"
+                    >
+                      {{ scoreData.pg1_percent }}%
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div class="h6">
-                {{
-                  prodiSatu.perguruan ? prodiSatu.perguruan.nama_perguruan : "-"
-                }}
-              </div>
-            </div>
-            <div class="col-md-3 col-6 text-center">
-              <div class="h6">
-                {{
-                  prodiDua.program_studi
-                    ? prodiDua.program_studi.nama_studi
-                    : "-"
-                }}
-              </div>
-              <div class="h6">
-                Passing Grade {{ prodiDua.passing_grade_prodi }}
-              </div>
-              <div class="battery my-3">
-                <div class="battery-outline">
-                  <div
-                    class="battery-fill"
-                    :class="bgColorClass(scoreData.pg2_percent)"
-                    :style="{
-                      height: 190 * (scoreData.pg2_percent / 100) + 'px'
-                    }"
-                  >
-                    {{ scoreData.pg2_percent }}%
-                  </div>
+                <div class="h6">
+                  {{
+                    prodiSatu.perguruan
+                      ? prodiSatu.perguruan.nama_perguruan
+                      : "-"
+                  }}
                 </div>
               </div>
-              <div class="h6">
-                {{
-                  prodiDua.perguruan ? prodiDua.perguruan.nama_perguruan : "-"
-                }}
+              <div class="col-md-3 col-6 text-center">
+                <div class="h6">
+                  {{
+                    prodiDua.program_studi
+                      ? prodiDua.program_studi.nama_studi
+                      : "-"
+                  }}
+                </div>
+                <div class="h6">
+                  Passing Grade {{ prodiDua.passing_grade_prodi }}
+                </div>
+                <div class="battery my-3">
+                  <div class="battery-outline">
+                    <div
+                      class="battery-fill"
+                      :class="bgColorClass(scoreData.pg2_percent)"
+                      :style="{
+                        height: 190 * (scoreData.pg2_percent / 100) + 'px'
+                      }"
+                    >
+                      {{ scoreData.pg2_percent }}%
+                    </div>
+                  </div>
+                </div>
+                <div class="h6">
+                  {{
+                    prodiDua.perguruan ? prodiDua.perguruan.nama_perguruan : "-"
+                  }}
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <div
-        class="card mb-5"
-        v-if="isDisplayASPDBatteries && filter.kategori == 'ASPD'"
-      >
-        <div class="card-body">
-          <div class="row justify-content-around">
-            <div class="col-12">
-              <h4>
-                <i class="fas fa-fw fa-award mr-1"></i> PERSENTASE NILAI ASPD
-              </h4>
-            </div>
-            <div class="col-12">
-              <p class="mb-4 small">
-                Yuk terus belajar, dan naikan score ASPD kamu untuk meningkatkan
-                peluang masuk ke sekolah di Jenjang selanjutnya.
-              </p>
-            </div>
-            <div class="col-md-3 col-6 text-center">
-              <div class="h6">
-                Nilai Sempurna ASPD {{ userDetail.nama_jenjang }} :
-                {{ scoreASPDData.perpect_score }}
+        <div
+          class="card mb-5"
+          v-if="isDisplayASPDBatteries && filter.kategori == 'ASPD'"
+        >
+          <div class="card-body">
+            <div class="row justify-content-around">
+              <div class="col-12">
+                <h4>
+                  <i class="fas fa-fw fa-award mr-1"></i> PERSENTASE NILAI ASPD
+                </h4>
               </div>
-              <div class="battery my-3">
-                <div class="battery-outline">
-                  <div
-                    class="battery-fill"
-                    :class="bgColorClass(scoreASPDData.percent_score)"
-                    :style="{
-                      height: 190 * (scoreASPDData.percent_score / 100) + 'px'
-                    }"
-                  >
-                    {{ scoreASPDData.percent_score }}%
+              <div class="col-12">
+                <p class="mb-4 small">
+                  Yuk terus belajar, dan naikan score ASPD kamu untuk
+                  meningkatkan peluang masuk ke sekolah di Jenjang selanjutnya.
+                </p>
+              </div>
+              <div class="col-md-3 col-6 text-center">
+                <div class="h6">
+                  Nilai Sempurna ASPD {{ userDetail.nama_jenjang }} :
+                  {{ scoreASPDData.perpect_score }}
+                </div>
+                <div class="battery my-3">
+                  <div class="battery-outline">
+                    <div
+                      class="battery-fill"
+                      :class="bgColorClass(scoreASPDData.percent_score)"
+                      :style="{
+                        height: 190 * (scoreASPDData.percent_score / 100) + 'px'
+                      }"
+                    >
+                      {{ scoreASPDData.percent_score }}%
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div class="h6">
-                Nilai Rata-rata Kamu : {{ scoreASPDData.avg_score }}
+                <div class="h6">
+                  Nilai Rata-rata Kamu : {{ scoreASPDData.avg_score }}
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <div class="card mt-4" v-if="!loading">
-        <div class="card-body">
-          <h4 class="mb-3 d-flex justify-content-between">
-            Performa Kamu
-            <span class="ml-2 text-muted"
-              ><span
-                :class="[
-                  grafikPerformaKenaikan > 0
-                    ? 'text-success'
-                    : grafikPerformaKenaikan < 0
-                    ? 'text-danger'
-                    : 'text-primary'
-                ]"
-                ><i
-                  class="fas fa-fw"
-                  :class="
+        <div class="card mt-4" v-if="!loading">
+          <div class="card-body">
+            <h4 class="mb-3 d-flex justify-content-between">
+              Performa Kamu
+              <span class="ml-2 text-muted"
+                ><span
+                  :class="[
                     grafikPerformaKenaikan > 0
-                      ? 'fa-arrow-up'
+                      ? 'text-success'
                       : grafikPerformaKenaikan < 0
-                      ? 'fa-arrow-down'
-                      : 'fa-equal'
-                  "
-                ></i>
-                {{ grafikPerformaKenaikan }}%</span
+                      ? 'text-danger'
+                      : 'text-primary'
+                  ]"
+                  ><i
+                    class="fas fa-fw"
+                    :class="
+                      grafikPerformaKenaikan > 0
+                        ? 'fa-arrow-up'
+                        : grafikPerformaKenaikan < 0
+                        ? 'fa-arrow-down'
+                        : 'fa-equal'
+                    "
+                  ></i>
+                  {{ grafikPerformaKenaikan }}%</span
+                >
+                vs tryout terakhir</span
               >
-              vs tryout terakhir</span
-            >
-          </h4>
-          <!-- <div style="height: 300px"></div> -->
-          <highchart
-            :options="grafikPerformaOptions"
-            :update="['options.title', 'options.series']"
-            :exporting="true"
-          />
+            </h4>
+            <!-- <div style="height: 300px"></div> -->
+            <highchart
+              :options="grafikPerformaOptions"
+              :update="['options.title', 'options.series']"
+              :exporting="true"
+            />
+          </div>
         </div>
-      </div>
 
-      <div class="row" v-if="!loading">
-        <template v-if="filter.kategori == 'UTBK'">
-          <div
-            class="col-md-6 mb-4"
-            v-for="(grafikData, gKey) in grafikNilaiMapel"
-            :key="'gNm-' + gKey"
-          >
-            <div class="card mt-4">
-              <div class="card-body">
-                <!-- <h4 class="mb-3 d-flex justify-content-between">
+        <div class="row" v-if="!loading">
+          <template v-if="filter.kategori == 'UTBK'">
+            <div
+              class="col-md-6 mb-4"
+              v-for="(grafikData, gKey) in grafikNilaiMapel"
+              :key="'gNm-' + gKey"
+            >
+              <div class="card mt-4">
+                <div class="card-body">
+                  <!-- <h4 class="mb-3 d-flex justify-content-between">
                   Grafik Nilai {{gKey}}
                 </h4> -->
-                <highchart
-                  :options="grafikData"
-                  :update="['options.title', 'options.yAxis', 'options.series']"
-                  :exporting="true"
-                />
+                  <highchart
+                    :options="grafikData"
+                    :update="[
+                      'options.title',
+                      'options.yAxis',
+                      'options.series'
+                    ]"
+                    :exporting="true"
+                  />
+                </div>
               </div>
-            </div>
 
-            <h3 class="h5 mt-5 mb-4">
-              Tingkat Capaian Penguasan Mata Pelajaran
-            </h3>
-            <ul class="list-unstyled">
-              <li
-                v-for="(mapelLabel, m) in mapelLabelData[gKey]"
-                :key="'m-' + m"
-                class="mb-3 d-flex align-items-center"
-              >
-                <span :class="circleBagdeClass(mapelLabel.persentase)"></span>
-                {{ mapelLabel.nama }}
-              </li>
-            </ul>
-          </div>
-          <div class="col-md-6 mb-3">
-            <div style="background-color: #eee" class="px-3 py-3">
-              <ul
-                class="d-flex list-unstyled mb-0 text-muted justify-content-between"
-              >
-                <li class="d-flex align-items-center">
-                  <span :class="circleBagdeClass(80)"></span> &gt; 75%
-                </li>
-                <li class="d-flex align-items-center">
-                  <span :class="circleBagdeClass(60)"></span> &gt; 50% - 75%
-                </li>
-                <li class="d-flex align-items-center">
-                  <span :class="circleBagdeClass(40)"></span> &gt; 25% - 50%
-                </li>
-                <li class="d-flex align-items-center">
-                  <span :class="circleBagdeClass(10)"></span> &lt; 25%
+              <h3 class="h5 mt-5 mb-4">
+                Tingkat Capaian Penguasan Mata Pelajaran
+              </h3>
+              <ul class="list-unstyled">
+                <li
+                  v-for="(mapelLabel, m) in mapelLabelData[gKey]"
+                  :key="'m-' + m"
+                  class="mb-3 d-flex align-items-center"
+                >
+                  <span :class="circleBagdeClass(mapelLabel.persentase)"></span>
+                  {{ mapelLabel.nama }}
                 </li>
               </ul>
             </div>
-          </div>
-        </template>
-        <template v-else>
-          <div class="col-md-6 mb-4">
-            <div class="card mt-4">
-              <div class="card-body">
-                <h4 class="mb-3 d-flex justify-content-between">
-                  Performa Kamu
-                </h4>
-                <highchart
-                  :options="grafikNilaiMapelNonUTBK"
-                  :update="['options.title', 'options.yAxis', 'options.series']"
-                  :exporting="true"
-                />
+            <div class="col-md-6 mb-3">
+              <div style="background-color: #eee" class="px-3 py-3">
+                <ul
+                  class="d-flex list-unstyled mb-0 text-muted justify-content-between"
+                >
+                  <li class="d-flex align-items-center">
+                    <span :class="circleBagdeClass(80)"></span> &gt; 75%
+                  </li>
+                  <li class="d-flex align-items-center">
+                    <span :class="circleBagdeClass(60)"></span> &gt; 50% - 75%
+                  </li>
+                  <li class="d-flex align-items-center">
+                    <span :class="circleBagdeClass(40)"></span> &gt; 25% - 50%
+                  </li>
+                  <li class="d-flex align-items-center">
+                    <span :class="circleBagdeClass(10)"></span> &lt; 25%
+                  </li>
+                </ul>
               </div>
             </div>
-            <h3 class="h5 mt-5 mb-4">
-              Tingkat Capaian Penguasan Mata Pelajaran
-            </h3>
-            <ul class="list-unstyled">
-              <li
-                v-for="(mapelLabel, m) in mapelLabelData[0]"
-                :key="'m-' + m"
-                class="mb-3 d-flex align-items-center"
-              >
-                <span :class="circleBagdeClass(mapelLabel.persentase)"></span>
-                {{ mapelLabel.nama }}
-              </li>
-            </ul>
-          </div>
-          <div class="col-md-6 mb-4">
-            <div class="card mt-4">
-              <div class="card-body">
-                <h4 class="mb-3 d-flex justify-content-between">
-                  Peringkat Nilai Mata Pelajaran
-                </h4>
-                <highchart
-                  :options="grafikRangkingNilaiNonUTBK"
-                  :update="['options.title', 'options.yAxis', 'options.series']"
-                  :exporting="true"
-                />
+          </template>
+          <template v-else>
+            <div class="col-md-6 mb-4">
+              <div class="card mt-4">
+                <div class="card-body">
+                  <h4 class="mb-3 d-flex justify-content-between">
+                    Performa Kamu
+                  </h4>
+                  <highchart
+                    :options="grafikNilaiMapelNonUTBK"
+                    :update="[
+                      'options.title',
+                      'options.yAxis',
+                      'options.series'
+                    ]"
+                    :exporting="true"
+                  />
+                </div>
               </div>
-            </div>
-          </div>
-          <div class="col-md-6 mb-3">
-            <div style="background-color: #eee" class="px-3 py-3">
-              <ul
-                class="d-flex list-unstyled mb-0 text-muted justify-content-between"
-              >
-                <li class="d-flex align-items-center">
-                  <span :class="circleBagdeClass(80)"></span> &gt; 75%
-                </li>
-                <li class="d-flex align-items-center">
-                  <span :class="circleBagdeClass(60)"></span> &gt; 50% - 75%
-                </li>
-                <li class="d-flex align-items-center">
-                  <span :class="circleBagdeClass(40)"></span> &gt; 25% - 50%
-                </li>
-                <li class="d-flex align-items-center">
-                  <span :class="circleBagdeClass(10)"></span> &lt; 25%
+              <h3 class="h5 mt-5 mb-4">
+                Tingkat Capaian Penguasan Mata Pelajaran
+              </h3>
+              <ul class="list-unstyled" v-if="mapelLabelData && mapelLabelData.length > -1">
+                <li
+                  v-for="(mapelLabel, m) in mapelLabelData[0]"
+                  :key="'m-' + m"
+                  class="mb-3 d-flex align-items-center"
+                >
+                  <span :class="circleBagdeClass(mapelLabel.persentase)"></span>
+                  {{ mapelLabel.nama }}
                 </li>
               </ul>
+              <div class="" v-else>No data.</div>
             </div>
-          </div>
-        </template>
-      </div>
-
-      <div class="row" v-if="!loading">
-        <template v-if="filter.kategori == 'UTBK'">
-          <div
-            class="col-md-6 mb-4"
-            v-for="(grafikData, gKey) in grafikRangkingNilai"
-            :key="'gRn-' + gKey"
-          >
-            <div class="card mt-4">
-              <div class="card-body">
-                <h4 class="mb-3 d-flex justify-content-between">
-                  Peringkat Nilai {{ gKey }}
-                </h4>
-                <highchart
-                  :options="grafikData"
-                  :update="['options.title', 'options.yAxis', 'options.series']"
-                  :exporting="true"
-                />
-              </div>
-            </div>
-          </div>
-        </template>
-      </div>
-
-      <!-- <h5 class="info-kelas mt-5 mb-5">Kelas Les Privat</h5> -->
-      <div class="kelas shadow-sm mt-5">
-        <div class="col-md-8">
-          <h4 class="m-0">Ikut Les Yuk!</h4>
-          <p>Belajar asik, gurunya asik-asik.</p>
-          <a href="/app/student/courses" class="btn btn-primary dashboard px-4">
-            Temukan Guru Pilihanmu
-          </a>
-        </div>
-      </div>
-      <h5 class="info-kelas mt-5 mb-5">
-        Atau coba deh, kamu pilih salah satu Tryout di bawah ini!
-      </h5>
-      <div class="row">
-        <div class="col-md-6">
-          <div
-            class="card card-karir m-3 router-push"
-            @click="$router.push('/app/tryout')"
-          >
-            <div class="card-body text-left p-0">
-              <div class="card-content px-4">
-                <h3
-                  class="card-judul card-program mt-4 mb-2"
-                  style="overflow: hidden; height: 60px"
-                >
-                  Tryout UTBK
-                </h3>
-                <p
-                  class="card-text pb-0"
-                  style="overflow: hidden; height: 60px"
-                >
-                  Temukan tryout UTBK pilihanmu disini. Dari SAINTEK, SOSHUM,
-                  hingga CAMPURAN ada untukmu.
-                </p>
-
-                <a href="/app/tryout" class="karir-link"
-                  >Detail <i class="fa fa-chevron-right ml-1"></i
-                ></a>
-              </div>
-              <div class="d-flex justify-content-end pb-4 pr-4 m-0 bordered">
-                <div class="icon-footer">
-                  <h4 class="title">TRYOUT</h4>
-                  <h5 class="subtitle single">
-                    UTBK
-                  </h5>
-                  <img src="/icon/icon-card-bg.png" class="img-fluid image" />
+            <div class="col-md-6 mb-4">
+              <div class="card mt-4">
+                <div class="card-body">
+                  <h4 class="mb-3 d-flex justify-content-between">
+                    Peringkat Nilai Mata Pelajaran
+                  </h4>
+                  <highchart
+                    :options="grafikRangkingNilaiNonUTBK"
+                    :update="[
+                      'options.title',
+                      'options.yAxis',
+                      'options.series'
+                    ]"
+                    :exporting="true"
+                  />
                 </div>
               </div>
             </div>
+            <div class="col-md-6 mb-3">
+              <div style="background-color: #eee" class="px-3 py-3">
+                <ul
+                  class="d-flex list-unstyled mb-0 text-muted justify-content-between"
+                >
+                  <li class="d-flex align-items-center">
+                    <span :class="circleBagdeClass(80)"></span> &gt; 75%
+                  </li>
+                  <li class="d-flex align-items-center">
+                    <span :class="circleBagdeClass(60)"></span> &gt; 50% - 75%
+                  </li>
+                  <li class="d-flex align-items-center">
+                    <span :class="circleBagdeClass(40)"></span> &gt; 25% - 50%
+                  </li>
+                  <li class="d-flex align-items-center">
+                    <span :class="circleBagdeClass(10)"></span> &lt; 25%
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </template>
+        </div>
+
+        <div class="row" v-if="!loading">
+          <template v-if="filter.kategori == 'UTBK'">
+            <div
+              class="col-md-6 mb-4"
+              v-for="(grafikData, gKey) in grafikRangkingNilai"
+              :key="'gRn-' + gKey"
+            >
+              <div class="card mt-4">
+                <div class="card-body">
+                  <h4 class="mb-3 d-flex justify-content-between">
+                    Peringkat Nilai {{ gKey }}
+                  </h4>
+                  <highchart
+                    :options="grafikData"
+                    :update="[
+                      'options.title',
+                      'options.yAxis',
+                      'options.series'
+                    ]"
+                    :exporting="true"
+                  />
+                </div>
+              </div>
+            </div>
+          </template>
+        </div>
+      </div>
+      <div v-else>
+        <!-- <h5 class="info-kelas mt-5 mb-5">Kelas Les Privat</h5> -->
+        <div class="kelas shadow-sm mt-5">
+          <div class="col-md-8">
+            <h4 class="m-0">Ikut Les Yuk!</h4>
+            <p>Belajar asik, gurunya asik-asik.</p>
+            <a
+              href="/app/student/courses"
+              class="btn btn-primary dashboard px-4"
+            >
+              Temukan Guru Pilihanmu
+            </a>
           </div>
         </div>
-        <div class="col-md-6">
-          <div class="card card-karir m-3">
+        <h5 class="info-kelas mt-5 mb-5">
+          Atau coba deh, kamu pilih salah satu Tryout di bawah ini!
+        </h5>
+        <div class="row">
+          <div class="col-md-6">
             <div
-              class="card-body text-left p-0 router-push"
+              class="card card-karir m-3 router-push"
               @click="$router.push('/app/tryout')"
             >
-              <div class="card-content px-4">
-                <h3
-                  class="card-judul card-program mt-4 mb-2"
-                  style="overflow: hidden; height: 60px"
-                >
-                  Tryout ASPD
-                </h3>
-                <p
-                  class="card-text pb-0"
-                  style="overflow: hidden; height: 60px"
-                >
-                  Temukan tryout Asesmen Standar Pendidikan Daerah pilihanmu
-                  disini.
-                </p>
+              <div class="card-body text-left p-0">
+                <div class="card-content px-4">
+                  <h3
+                    class="card-judul card-program mt-4 mb-2"
+                    style="overflow: hidden; height: 60px"
+                  >
+                    Tryout UTBK
+                  </h3>
+                  <p
+                    class="card-text pb-0"
+                    style="overflow: hidden; height: 60px"
+                  >
+                    Temukan tryout UTBK pilihanmu disini. Dari SAINTEK, SOSHUM,
+                    hingga CAMPURAN ada untukmu.
+                  </p>
 
-                <a href="/app/tryout" class="karir-link"
-                  >Detail <i class="fa fa-chevron-right ml-1"></i
-                ></a>
+                  <a href="/app/tryout" class="karir-link"
+                    >Detail <i class="fa fa-chevron-right ml-1"></i
+                  ></a>
+                </div>
+                <div class="d-flex justify-content-end pb-4 pr-4 m-0 bordered">
+                  <div class="icon-footer">
+                    <h4 class="title">TRYOUT</h4>
+                    <h5 class="subtitle single">
+                      UTBK
+                    </h5>
+                    <img src="/icon/icon-card-bg.png" class="img-fluid image" />
+                  </div>
+                </div>
               </div>
-              <div class="d-flex justify-content-end pb-4 pr-4 m-0 bordered">
-                <div class="icon-footer">
-                  <h4 class="title">TRYOUT</h4>
-                  <h5 class="subtitle single">
-                    ASPD
-                  </h5>
-                  <img src="/icon/icon-card-bg.png" class="img-fluid image" />
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card card-karir m-3">
+              <div
+                class="card-body text-left p-0 router-push"
+                @click="$router.push('/app/tryout')"
+              >
+                <div class="card-content px-4">
+                  <h3
+                    class="card-judul card-program mt-4 mb-2"
+                    style="overflow: hidden; height: 60px"
+                  >
+                    Tryout ASPD
+                  </h3>
+                  <p
+                    class="card-text pb-0"
+                    style="overflow: hidden; height: 60px"
+                  >
+                    Temukan tryout Asesmen Standar Pendidikan Daerah pilihanmu
+                    disini.
+                  </p>
+
+                  <a href="/app/tryout" class="karir-link"
+                    >Detail <i class="fa fa-chevron-right ml-1"></i
+                  ></a>
+                </div>
+                <div class="d-flex justify-content-end pb-4 pr-4 m-0 bordered">
+                  <div class="icon-footer">
+                    <h4 class="title">TRYOUT</h4>
+                    <h5 class="subtitle single">
+                      ASPD
+                    </h5>
+                    <img src="/icon/icon-card-bg.png" class="img-fluid image" />
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <h5 class="info-kelas mt-5 mb-5">
-        Kamu Perlu Ketahui Minat dan Bakatmu Dengan Ikut Tes MBTI!
-      </h5>
-      <div class="kelas kelasdua mb-5 shadow-sm">
-        <div class="col-md-8">
-          <h4 class="m-0">Minatku Apa?</h4>
-          <p>
-            Siapa tau aku minat di<br />
-            kampus itu...
-          </p>
-          <a class="btn btn-primary dashboard px-4" href="/app/mbti"
-            >Ikuti Tes MBTI</a
-          >
+        <h5 class="info-kelas mt-5 mb-5">
+          Kamu Perlu Ketahui Minat dan Bakatmu Dengan Ikut Tes MBTI!
+        </h5>
+        <div class="kelas kelasdua mb-5 shadow-sm">
+          <div class="col-md-8">
+            <h4 class="m-0">Minatku Apa?</h4>
+            <p>
+              Siapa tau aku minat di<br />
+              kampus itu...
+            </p>
+            <a class="btn btn-primary dashboard px-4" href="/app/mbti"
+              >Ikuti Tes MBTI</a
+            >
+          </div>
         </div>
       </div>
     </div>
@@ -507,6 +543,7 @@ export default {
   data() {
     return {
       loading: true,
+      showAnalytics: false,
       isDisplayBatteries: false,
       isDisplayASPDBatteries: false,
       scoreData: {},
@@ -579,12 +616,12 @@ export default {
           {
             name: "Skor",
             type: "column",
-            data: [200, 500, 300, 450, 400, 200, 100, 250]
+            data: []
           },
           {
             name: "Skor",
             type: "spline",
-            data: [200, 500, 300, 450, 400, 200, 100, 250]
+            data: []
           }
           // {
           //   data: [
@@ -677,13 +714,13 @@ export default {
               name: "Capaian Tertinggi",
               type: "column",
               color: "#5D5FEF",
-              data: [100, 100, 50, 75, 80]
+              data: []
             },
             {
               name: "Rata-rata",
               type: "column",
               color: "#DDDDDD",
-              data: [80, 75, 90, 60, 60]
+              data: []
             }
           ],
 
@@ -754,13 +791,13 @@ export default {
               name: "Capaian Tertinggi",
               type: "column",
               color: "#5D5FEF",
-              data: [100, 100, 50, 75, 80]
+              data: []
             },
             {
               name: "Rata-rata",
               type: "column",
               color: "#DDDDDD",
-              data: [80, 75, 90, 60, 60]
+              data: []
             }
           ],
 
@@ -831,13 +868,13 @@ export default {
             name: "Capaian Tertinggi",
             type: "column",
             color: "#5D5FEF",
-            data: [100, 100, 50, 75, 80]
+            data: []
           },
           {
             name: "Rata-rata",
             type: "column",
             color: "#DDDDDD",
-            data: [80, 75, 90, 60, 60]
+            data: []
           }
         ],
 
@@ -993,28 +1030,8 @@ export default {
               // colorByPoint: true,
               data: [
                 {
-                  name: "Chrome",
-                  y: 62.74
-                },
-                {
-                  name: "Firefox",
-                  y: 10.57
-                },
-                {
-                  name: "Internet Explorer",
-                  y: 7.23
-                },
-                {
-                  name: "Safari",
-                  y: 5.58
-                },
-                {
-                  name: "Edge",
-                  y: 4.02
-                },
-                {
-                  name: "Opera",
-                  y: 1.92
+                  name: "No Data",
+                  y: 0
                 }
               ]
             }
@@ -1072,12 +1089,8 @@ export default {
             // colorByPoint: true,
             data: [
               {
-                name: "Chrome",
-                y: 62.74
-              },
-              {
-                name: "Firefox",
-                y: 10.57
+                name: "No Data",
+                y: 0
               }
             ]
           }
@@ -1087,28 +1100,61 @@ export default {
   },
   created() {
     this.getDashboardData();
-    this.getHasilSatuanPengerjaan();
-    this.getHasilNilaiPerMapel();
     this.getProfilLengkap();
-    this.getPersentaseSkor();
-    this.getPersentaseSkorASPD();
+
+    if (this.$route.query.analytics == true) {
+      this.showAnalytics = true;
+    }
+
+    if (this.showAnalytics) {
+      this.getHasilSatuanPengerjaan();
+      this.getHasilNilaiPerMapel();
+      if (this.filter.kategori == "UTBK") {
+        this.getPersentaseSkor();
+      } else {
+        this.getPersentaseSkorASPD();
+      }
+    }
   },
   watch: {
     "filter.kategori": function(value) {
       if (value) {
         this.getHasilSatuanPengerjaan();
         this.getHasilNilaiPerMapel();
+        if (value == "UTBK") {
+          this.getPersentaseSkor();
+        } else {
+          this.getPersentaseSkorASPD();
+        }
+      }
+    },
+    showAnalytics: function(value) {
+      if (value) {
+        this.getHasilSatuanPengerjaan();
+        this.getHasilNilaiPerMapel();
+        if (this.filter.kategori == "UTBK") {
+          this.getPersentaseSkor();
+        } else {
+          this.getPersentaseSkorASPD();
+        }
       }
     }
   },
   methods: {
     getDashboardData() {
-      this.$axios.$get("/api/users/siswa/dashboard").then(response => {
-        if (response.success) {
-          this.totalTryout = response.data.total_tryout;
-          this.totalKursus = response.data.total_kursus;
-        }
-      });
+      this.loading = true;
+      this.$axios
+        .$get("/api/users/siswa/dashboard")
+        .then(response => {
+          if (response.success) {
+            this.totalTryout = response.data.total_tryout;
+            this.totalKursus = response.data.total_kursus;
+          }
+        })
+        .catch(err => {})
+        .finally(() => {
+          this.loading = false;
+        });
     },
     getHasilSatuanPengerjaan() {
       this.loading = true;
@@ -1203,16 +1249,16 @@ export default {
                 }
               }
             } else {
-              const data = response.data[0];
-              this.mapelLabelData[0] = response.data[0].mapels;
-              this.grafikRangkingNilaiNonUTBK.series[0].data = data.mapels.map(
-                (item, index) => {
-                  return {
-                    y: item.persentase,
-                    name: item.kode == "N/A" ? "N/A" + index : item.kode
-                  };
-                }
-              );
+              const data = response.data[0] ?? [];
+              this.mapelLabelData[0] = data.mapels ?? [];
+              this.grafikRangkingNilaiNonUTBK.series[0].data = data.mapels
+                ? data.mapels.map((item, index) => {
+                    return {
+                      y: item.persentase,
+                      name: item.kode == "N/A" ? "N/A" + index : item.kode
+                    };
+                  })
+                : [];
               this.grafikNilaiMapelNonUTBK.series = [
                 {
                   name: "Capaian Tertinggi",
