@@ -4,7 +4,8 @@
       <div class="col-md-12">
         <div class="d-flex align-items-center justify-content-between">
           <h2 class="dash-label">
-            <b-spinner type="grow" class="mr-2" v-if="loading" /> Detail Bundling Produk
+            <b-spinner type="grow" class="mr-2" v-if="loading" /> Detail
+            Bundling Produk
           </h2>
           <BackUrl url="/administrator/bundling" />
         </div>
@@ -16,8 +17,12 @@
         >
           <div v-if="!loading">
             <h3 class="mb-0">{{ dataDetail.name }}</h3>
-            <h4 class="h5" v-if="dataDetail.price > 0"><small>Rp</small> {{formatRupiah(dataDetail.price)}}</h4>
-            <h4 class="h5" v-else><span class="badge badge-primary">GRATIS</span></h4>
+            <h4 class="h5" v-if="dataDetail.price > 0">
+              <small>Rp</small> {{ formatRupiah(dataDetail.price) }}
+            </h4>
+            <h4 class="h5" v-else>
+              <span class="badge badge-primary">GRATIS</span>
+            </h4>
           </div>
           <div v-if="!loading">
             <router-link
@@ -41,8 +46,15 @@
 
       <div class="col-md-12 my-4">
         <div class="bg-white p-5">
-          <h3 class="h5 mb-0">Status : <span class="badge" :class="dataDetail.show ? 'badge-success' : 'badge-secondary'">{{dataDetail.show ? 'Published' : 'Hidden'}}</span></h3>
-          <hr>
+          <h3 class="h5 mb-0">
+            Status :
+            <span
+              class="badge"
+              :class="dataDetail.show ? 'badge-success' : 'badge-secondary'"
+              >{{ dataDetail.show ? "Published" : "Hidden" }}</span
+            >
+          </h3>
+          <hr />
           <h3 class="h5 mb-0">Deskripsi</h3>
           <p class="mb-2" v-html="dataDetail.desc"></p>
         </div>
@@ -52,8 +64,8 @@
         <div class="card card-header bg-white pt-4 pb-3">
           <h3 class="h4 mb-0">Daftar Produk dari Bundling Ini</h3>
         </div>
-        <UILoading v-if="loading" />
-        <div
+        <!-- <UILoading v-if="loading" /> -->
+        <!-- <div
           v-else
           class="bg-white p-5"
           v-for="(bp, p) in dataDetail.bundling_products"
@@ -78,6 +90,138 @@
             <li class="mb-3">Pengerjaan : {{bp.product.jenis_produk}}</li>
             <li class="mb-3" v-if="bp.product.jenis_produk == 'Masal'">{{formatTanggal(bp.product.tanggal_mulai)}} s/d {{formatTanggal(bp.product.tanggal_berakhir)}}</li>
           </ul>
+        </div> -->
+        <div class="card-body bg-white">
+          <div class="row">
+            <div
+              class="col-xl-4 col-lg-6 col-md-6 col-sm-6"
+              v-for="(item, i) in dataDetail.products"
+              :key="i"
+            >
+              <div
+                class="card card-karir m-2 router-push"
+                @click="
+                  $router.push(
+                    `/app/tryout/${item.id}/detail?ref=${$route.path}`
+                  )
+                "
+              >
+                <!-- style="width: 350px; max-width: 100%" -->
+                <div class="card-body text-left p-0">
+                  <div class="card-content px-4">
+                    <h3
+                      class="card-judul card-program mb-4 mt-3"
+                      style="height: 60px"
+                    >
+                      {{ item.nama_produk }}
+                    </h3>
+                    <!-- <h5>TPS</h5> -->
+                    <div
+                      class="d-flex justify-content-between mb-2"
+                      v-if="item.tipe_paket == 'Reguler'"
+                    >
+                      <p class="mb-2">
+                        <i class="far fa-clock fa-fw"></i>
+                        {{ item.waktu }} Menit
+                      </p>
+                      <p class="mb-2">
+                        <i class="far fa-file-alt fa-fw"></i>
+                        {{ item.jumlah_soal }} Soal
+                      </p>
+                    </div>
+                    <div class="d-flex justify-content-between mb-2">
+                      <p class="">
+                        <i class="fas fa-tags fa-fw"></i>
+                        {{
+                          item.harga_produk > 0 ? item.harga_label : "GRATIS"
+                        }}
+                      </p>
+                       <p
+                      class="beda"
+                      v-if="
+                        item.kategori_produk == 'ASPD' ||
+                          item.kategori_produk == 'Asmenas'
+                      "
+                    >
+                      {{ item.penjurusan[0] }}
+                    </p>
+                      <p
+                        class="beda"
+                        v-if="
+                          item.kategori_produk == 'UTBK' &&
+                            item.tipe_paket == 'Bundling'
+                        "
+                      >
+                        Bundling
+                      </p>
+                    </div>
+                      <p v-if="item.jenis_produk == 'Masal'">
+                        <i class="fas fa-fw fa-calendar"></i>
+                        {{ item.tanggal_mulai_label }}
+                      </p>
+                    <div
+                      v-if="item.tipe_paket == 'Bundling'"
+                      class="package-getlist mb-3"
+                      v-html="item.deskripsi_produk"
+                    ></div>
+                  </div>
+                  <div
+                    class="card-bawah pb-3 px-4 m-0 bordered"
+                    style="border-bottom: 12px solid #D7D2F7; border-radius:0px 0px 12px 12px;"
+                  >
+                    <nuxt-link
+                      :to="`/administrator/product/${item.id}/detail`"
+                      class="karir-link"
+                      >Detail <i class="fas fa-chevron-right ml-1"></i
+                    ></nuxt-link>
+                    <div class="icon-footer center">
+                      <h4 class="title">TRYOUT</h4>
+                      <h5 class="subtitle">
+                        <span class="mr-0">{{ item.kategori_produk }}</span
+                        ><span
+                          class="ml-0"
+                          v-if="
+                            item.jenis_tryout &&
+                            item.jenis_tryout[0] &&
+                              item.tipe_paket !== 'Bundling'
+                          "
+                        >
+                          - {{ item.jenis_tryout[0] }}</span
+                        ><span
+                          class="ml-0"
+                          v-if="
+                            item.kategori_produk == 'UTBK' &&
+                              item.kelompok_soal[0]
+                          "
+                        >
+                          {{ item.kelompok_soal[0] }}</span
+                        >
+                        <span
+                          class="ml-0"
+                          v-if="
+                            item.kategori_produk == 'ASPD' ||
+                              item.kategori_produk == 'Asmenas'
+                          "
+                        >
+                          - {{ item.penjurusan[0] }}</span
+                        >
+                      </h5>
+                      <!-- <div>2021</div> -->
+                      <img
+                        src="/icon/icon-card-bg.png"
+                        class="img-fluid image"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <UILoading
+            tag="div"
+            style="position: static; width: 100%;"
+            v-if="loading"
+          />
         </div>
       </div>
     </div>
@@ -136,10 +280,10 @@ export default {
     this.$store.commit("modifyBreadcrumb", [
       {
         text: "Bundling Product",
-        href: "/administrator/bundling",
-       }, 
-      {                            
-        text: "Detail",    
+        href: "/administrator/bundling"
+      },
+      {
+        text: "Detail",
         active: true
       }
     ]);
@@ -150,7 +294,7 @@ export default {
     getDetail(type, id) {
       this.loading = true;
       this.$axios
-        .$get(`/api/${type}/find/${id}`)
+        .$get(`/api/${type}/find/${id}/detail`)
         .then(res => {
           console.log(res);
           if (res.success) {
