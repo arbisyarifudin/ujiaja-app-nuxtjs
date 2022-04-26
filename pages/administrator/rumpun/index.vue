@@ -80,7 +80,7 @@
                     <nuxt-link
                       class="btn btn-light px-2"
                       :to="`/administrator/rumpun/edit/${item.id}`"
-                      v-if="isHavePermission('Kelas', 'Edit')"
+                      v-if="isHavePermission('Rumpun', 'Edit')"
                     >
                       <i class="fa fa-edit"></i>
                     </nuxt-link>
@@ -127,14 +127,14 @@
           class="btn btn-primary tambah-kelas px-4 py-3"
           to="/administrator/rumpun/add"
         >
-          Tambah Kelas
+          Tambah Rumpun
         </nuxt-link>
       </div>
     </div>
 
     <b-modal
       id="modal-delete"
-      title="Konfirmasi Hapus Kelas"
+      title="Konfirmasi Hapus Rumpun"
       hide-footer
       centered
       modal-class="admin-modal"
