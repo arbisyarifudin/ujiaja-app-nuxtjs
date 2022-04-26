@@ -313,7 +313,7 @@ export default {
     getData(type) {
       this.fetching = true;
       this.$axios
-        .$get(`/api/${type}`, {
+        .$get(`/api/${type}/option-data`, {
            params: { excludes_kategori: ['UKTT'], paginate: 999 }
         })
         .then(res => {

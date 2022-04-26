@@ -117,7 +117,7 @@
           style="z-index: 5"
         >
           <nuxt-link
-            :to="`/administrator/bundling/${$route.params.id}/detail`"
+            :to="`/administrator/bundling`"
             class="btn btn-outline-secondary mr-2"
           >
             Kembali
@@ -232,7 +232,7 @@ export default {
     getData(type) {
       this.fetching = true;
       this.$axios
-        .$get(`/api/produk`, {
+        .$get(`/api/produk/option-data`, {
           params: { excludes_kategori: ["UKTT"], paginate: 999 }
         })
         .then(res => {
