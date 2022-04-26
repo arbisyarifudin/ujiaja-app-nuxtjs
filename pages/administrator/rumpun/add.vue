@@ -39,11 +39,23 @@
               </b-form-select>
             </div> -->
             <div class="form-group reg-siswa">
+              <label for="kode">Kode Rumpun <code>*</code></label>
+              <input
+                type="text"
+                class="form-control"
+                id="kode"
+                name="kode"
+                placeholder="Tulis Kode Rumpun"
+                v-model="form.kode"
+              />
+            </div>
+            <div class="form-group reg-siswa">
               <label for="nama">Nama Rumpun <code>*</code></label>
               <input
                 type="text"
                 class="form-control"
                 id="nama"
+                name="nama"
                 placeholder="Tulis Nama Rumpun"
                 v-model="form.nama"
               />
@@ -87,6 +99,7 @@ export default {
       },
       form: {
         // id_to_kategori: null,
+        kode: "",
         nama: "",
         kelompok: "SAINTEK"
       }
@@ -99,7 +112,7 @@ export default {
     validateForm() {
       console.log(this.form);
       // if (!this.form.id_to_kategori || !this.form.nama) {
-      if (!this.form.kelompok || !this.form.nama) {
+      if (!this.form.kode || !this.form.kelompok || !this.form.nama) {
         this.$bvToast.toast("Mohon lengkapi form dengan benar!", {
           title: "Peringatan",
           variant: "warning",

@@ -57,6 +57,7 @@
             <thead class="thead-table">
               <tr>
                 <th class="no" width="100px">No</th>
+                <th>Kode</th>
                 <th>Nama Rumpun</th>
                 <th>Kelompok</th>
                 <th width="100" class="aksi">Aksi</th>
@@ -66,6 +67,7 @@
               <template v-if="totalRows > 0">
                 <tr v-for="(item, index) in items" :key="index">
                   <td class="text-center">{{ (filter.page - 1) * filter.perPage + (index + 1) }}</td>
+                  <td>{{ item.kode }}</td>
                   <td>{{ item.nama }}</td>
                   <td>{{ item.kelompok }}</td>
                   <!-- <td>{{ item.kategori ? item.kategori.kategori : "-" }}

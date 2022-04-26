@@ -41,11 +41,21 @@
               </b-form-select>
             </div> -->
             <div class="form-group reg-siswa">
-              <label for="text">Nama Rumpun <code>*</code></label>
+              <label for="kode">Kode Rumpun <code>*</code></label>
               <input
-                type="text"
+                type="kode"
                 class="form-control"
-                id="text"
+                id="kode"
+                placeholder="Tulis Kode Rumpun"
+                v-model="form.kode"
+              />
+            </div>
+            <div class="form-group reg-siswa">
+              <label for="nama">Nama Rumpun <code>*</code></label>
+              <input
+                type="nama"
+                class="form-control"
+                id="nama"
                 placeholder="Tulis Nama Rumpun"
                 v-model="form.nama"
               />
@@ -90,6 +100,7 @@ export default {
       },
       form: {
          // id_to_kategori: null,
+        kode: "",
         nama: "",
         kelompok: "SAINTEK"
       }
@@ -183,6 +194,7 @@ export default {
             this.dataDetail = res.data;
             this.form = {
               // id_to_kategori: this.dataDetail.id_to_kategori,
+              kode: this.dataDetail.kode,
               kelompok: this.dataDetail.kelompok,
               nama: this.dataDetail.nama
             };
