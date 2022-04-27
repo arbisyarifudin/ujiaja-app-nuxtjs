@@ -1828,6 +1828,28 @@ input.form-control-info {
   font-size: 13px !important;
 }
 
+/* ANALITIK */
+.potency-item {
+  min-height: 150px;
+  background-color: #fff;
+  padding: 20px 30px;
+  border: 1px solid #cdcdcd;
+  border-radius: 10px;
+}
+
+.potency-item .title {
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.potency-item .title2 {
+  font-size: 16px;
+}
+
+.potency-item .subtitle {
+  font-size: 14px;
+}
+
 /* CSS on MOBILE */
 /* HAPE */
 /* TABLET */

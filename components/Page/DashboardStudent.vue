@@ -140,6 +140,81 @@
                 </div>
               </div>
             </div>
+
+            <div style="background-color: #eee" class="mt-3 px-3 py-3">
+              <div class="mb-2">Keterangan:</div>
+              <ul
+                class="d-flex list-unstyled mb-0 text-muted justify-content-start"
+              >
+                <li class="d-flex align-items-center mr-3">
+                  <span :class="circleBagdeSkorClass(80)"></span> Berpeluang Tinggi
+                </li>
+                <li class="d-flex align-items-center mr-3">
+                  <span :class="circleBagdeSkorClass(70)"></span> Berpeluang Sedang
+                </li>
+                <li class="d-flex align-items-center mr-3">
+                  <span :class="circleBagdeSkorClass(50)"></span> Berpeluang Rendah
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="card mb-5"
+          v-if="isDisplayBatteries && prodiSatu && filter.kategori == 'UTBK'"
+        >
+          <div class="card-body">
+            <div class="h4">Potensi Lain</div>
+            <div style="font-size: 16px">
+              Kamu juga memiliki potensi untuk masuk di
+              <select
+                class="form-control d-inline-block ml-2"
+                style="max-width: 200px"
+                v-model="filter.jenis_potensi"
+              >
+                <option value="Perguruan Tinggi">Perguruan Tinggi</option>
+                <option value="Program Studi">Program Studi</option>
+                <option value="Rumpun Ilmu">Rumpun Ilmu</option>
+              </select>
+            </div>
+
+            <div class="row potency mt-4">
+              <div
+                class="col-xl-3 col-lg-3 col-md-4 col-6 mb-3"
+                v-for="(potency, pIndex) in potencyData"
+                :key="'pot-' + pIndex"
+              >
+                <div
+                  class="potency-item"
+                  v-if="filter.jenis_potensi == 'Perguruan Tinggi'"
+                >
+                  <div class="title">{{ potency.nama_perguruan }}</div>
+                  <div class="subtitle">
+                    PG: {{ potency.passing_grade_prodi }}
+                  </div>
+                </div>
+                <div
+                  class="potency-item"
+                  v-if="filter.jenis_potensi == 'Program Studi'"
+                >
+                  <div class="title">{{ potency.nama_studi }}</div>
+                  <div class="subtitle">
+                    PG: {{ potency.passing_grade_prodi }}
+                  </div>
+                </div>
+                <div
+                  class="potency-item"
+                  v-if="filter.jenis_potensi == 'Rumpun Ilmu'"
+                >
+                  <div class="title">{{ potency.nama_perguruan }}</div>
+                  <div class="title2">- {{ potency.nama_studi }}</div>
+                  <div class="subtitle">
+                    PG: {{ potency.passing_grade_prodi }}
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -182,6 +257,23 @@
                   Nilai Rata-rata Kamu : {{ scoreASPDData.avg_score }}
                 </div>
               </div>
+            </div>
+
+            <div style="background-color: #eee" class="mt-3 px-3 py-3">
+              <div class="mb-2">Keterangan:</div>
+              <ul
+                class="d-flex list-unstyled mb-0 text-muted justify-content-start"
+              >
+                <li class="d-flex align-items-center mr-3">
+                  <span :class="circleBagdeSkorClass(80)"></span> Berpeluang Tinggi
+                </li>
+                <li class="d-flex align-items-center mr-3">
+                  <span :class="circleBagdeSkorClass(70)"></span> Berpeluang Sedang
+                </li>
+                <li class="d-flex align-items-center mr-3">
+                  <span :class="circleBagdeSkorClass(50)"></span> Berpeluang Rendah
+                </li>
+              </ul>
             </div>
           </div>
         </div>
@@ -413,7 +505,7 @@
                     :key="'npp-' + nppIndex"
                     class="mb-2"
                   >
-                    {{ nppData.kode + ' - ' + nppData.nama }}
+                    {{ nppData.kode + " - " + nppData.nama }}
                   </li>
                 </ol>
               </div>
@@ -593,6 +685,7 @@ export default {
       filter: {
         kategori: "UTBK",
         kelompok: "",
+        jenis_potensi: "Perguruan Tinggi",
         id_penjurusan: null,
         id_jenjang: null,
         id_kelas: null
@@ -1224,6 +1317,24 @@ export default {
         }
       }
     },
+    "filter.jenis_potensi": function(value) {
+      if (value) {
+        switch (value) {
+          case "Perguruan Tinggi":
+            this.potencyData = this.scoreData.potencies.univ;
+            break;
+          case "Program Studi":
+            this.potencyData = this.scoreData.potencies.prodi;
+            break;
+          case "Rumpun Ilmu":
+            this.potencyData = this.scoreData.potencies.rumpun;
+            break;
+          default:
+            this.potencyData = this.scoreData.potencies.univ;
+            break;
+        }
+      }
+    },
     showAnalytics: function(value) {
       if (value) {
         this.$router.push({ query: { analytics: true } });
@@ -1408,6 +1519,7 @@ export default {
               ["SMA", "SMK", "MA"].includes(this.userDetail.nama_jenjang))
           ) {
             this.scoreData = response.data;
+            this.potencyData = response.data.potencies.univ;
             this.isDisplayBatteries = true;
           }
         })
@@ -1501,6 +1613,14 @@ export default {
         return "bg-danger";
       }
     },
+    circleBagdeSkorClass(persentase) {
+      const _persentase = parseFloat(persentase);
+      if (persentase >= 76) {
+        return "mr-2 circle-badge bg-success";
+      } else if (persentase >= 70) {
+        return "mr-2 circle-badge bg-warning";
+      } else return "mr-2 circle-badge bg-danger";
+    },
     circleBagdeClass(persentase) {
       const _persentase = parseFloat(persentase);
       if (persentase >= 75) {
@@ -1512,7 +1632,7 @@ export default {
       } else {
         return "mr-2 circle-badge bg-dark";
       }
-    }
+    },
   },
   computed: {
     user() {

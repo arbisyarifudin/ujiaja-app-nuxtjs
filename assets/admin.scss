@@ -1691,6 +1691,27 @@ input.form {
     }
 }
 
+/* ANALITIK */
+.potency {
+  &-item {
+    min-height: 150px;
+    background-color: #fff;
+    padding: 20px 30px;
+    border: 1px solid #cdcdcd;
+    border-radius: 10px;
+    .title {
+      font-size: 18px;
+      font-weight: 500;
+    }
+    .title2 {
+      font-size: 16px;
+    }
+    .subtitle {
+      font-size: 14px;
+    }
+  }
+}
+
 /* CSS on MOBILE */
 /* HAPE */
 /* TABLET */
