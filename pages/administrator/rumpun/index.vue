@@ -57,6 +57,7 @@
             <thead class="thead-table">
               <tr>
                 <th class="no" width="100px">No</th>
+                <th>Kode</th>
                 <th>Nama Rumpun</th>
                 <th>Kelompok</th>
                 <th width="100" class="aksi">Aksi</th>
@@ -66,6 +67,7 @@
               <template v-if="totalRows > 0">
                 <tr v-for="(item, index) in items" :key="index">
                   <td class="text-center">{{ (filter.page - 1) * filter.perPage + (index + 1) }}</td>
+                  <td>{{ item.kode }}</td>
                   <td>{{ item.nama }}</td>
                   <td>{{ item.kelompok }}</td>
                   <!-- <td>{{ item.kategori ? item.kategori.kategori : "-" }}
@@ -78,7 +80,7 @@
                     <nuxt-link
                       class="btn btn-light px-2"
                       :to="`/administrator/rumpun/edit/${item.id}`"
-                      v-if="isHavePermission('Kelas', 'Edit')"
+                      v-if="isHavePermission('Rumpun', 'Edit')"
                     >
                       <i class="fa fa-edit"></i>
                     </nuxt-link>
@@ -125,14 +127,14 @@
           class="btn btn-primary tambah-kelas px-4 py-3"
           to="/administrator/rumpun/add"
         >
-          Tambah Kelas
+          Tambah Rumpun
         </nuxt-link>
       </div>
     </div>
 
     <b-modal
       id="modal-delete"
-      title="Konfirmasi Hapus Kelas"
+      title="Konfirmasi Hapus Rumpun"
       hide-footer
       centered
       modal-class="admin-modal"

@@ -303,7 +303,10 @@
               <h3 class="h5 mt-5 mb-4">
                 Tingkat Capaian Penguasan Mata Pelajaran
               </h3>
-              <ul class="list-unstyled" v-if="mapelLabelData && mapelLabelData.length > -1">
+              <ul
+                class="list-unstyled"
+                v-if="mapelLabelData && mapelLabelData.length > -1"
+              >
                 <li
                   v-for="(mapelLabel, m) in mapelLabelData[0]"
                   :key="'m-' + m"
@@ -381,6 +384,41 @@
               </div>
             </div>
           </template>
+        </div>
+
+        <div class="row mt-4" v-if="!loading && filter.kategori == 'UTBK'">
+          <div class="col-12 mb-4">
+            <div class="card">
+              <div class="card-body">
+                <h4 class="mb-3 d-flex justify-content-between">
+                  Grafik Nilai Perumpun
+                </h4>
+                <highchart
+                  :options="grafikNilaiPerumpunData"
+                  :update="['options.title', 'options.yAxis', 'options.series']"
+                  :exporting="true"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="col-12 mb-4">
+            <div class="card">
+              <div class="card-body">
+                <h4 class="mb-3 d-flex justify-content-between">
+                  Peringkat Rumpun
+                </h4>
+                <ol>
+                  <li
+                    v-for="(nppData, nppIndex) in nilaiPerumpunPeringkat"
+                    :key="'npp-' + nppIndex"
+                    class="mb-2"
+                  >
+                    {{ nppData.kode + ' - ' + nppData.nama }}
+                  </li>
+                </ol>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <div v-else>
@@ -1098,14 +1136,68 @@ export default {
             ]
           }
         ]
-      }
+      },
+
+      grafikNilaiPerumpunData: {
+        chart: {
+          type: "column"
+        },
+        title: {
+          text: null
+        },
+        subtitle: {
+          text: null
+        },
+        accessibility: {
+          announceNewData: {
+            enabled: true
+          }
+        },
+        xAxis: {
+          type: "category"
+        },
+        yAxis: {
+          title: {
+            text: null
+          }
+        },
+        legend: {
+          enabled: false
+        },
+        plotOptions: {
+          series: {
+            borderWidth: 0,
+            dataLabels: {
+              enabled: true,
+              format: "{point.y:.1f}"
+            }
+          }
+        },
+
+        series: [
+          {
+            name: "Nilai",
+            // colorByPoint: true,
+            data: [
+              {
+                name: "No Data",
+                y: 0
+              }
+            ]
+          }
+        ]
+      },
+      nilaiPerumpunPeringkat: []
     };
   },
   created() {
     this.getDashboardData();
     this.getProfilLengkap();
 
-    if (this.$route.query.analytics == "true" || this.$route.query.analytics === true) {
+    if (
+      this.$route.query.analytics == "true" ||
+      this.$route.query.analytics === true
+    ) {
       this.showAnalytics = true;
     }
 
@@ -1114,6 +1206,7 @@ export default {
       this.getHasilNilaiPerMapel();
       if (this.filter.kategori == "UTBK") {
         this.getPersentaseSkor();
+        this.getHasilNilaiPerumpun();
       } else {
         this.getPersentaseSkorASPD();
       }
@@ -1133,7 +1226,7 @@ export default {
     },
     showAnalytics: function(value) {
       if (value) {
-        this.$router.push({query: {analytics: true}})
+        this.$router.push({ query: { analytics: true } });
         this.getHasilSatuanPengerjaan();
         this.getHasilNilaiPerMapel();
         if (this.filter.kategori == "UTBK") {
@@ -1142,7 +1235,7 @@ export default {
           this.getPersentaseSkorASPD();
         }
       } else {
-          this.$router.push({query: {}})
+        this.$router.push({ query: {} });
       }
     }
   },
@@ -1223,7 +1316,7 @@ export default {
                     return {
                       y: item.persentase,
                       name: item.kode == "N/A" ? "N/A" + index : item.kode,
-                      color: "#5D5FEF",
+                      color: "#5D5FEF"
                     };
                   });
                   this.grafikNilaiMapel[jenisKey].series = [
@@ -1263,7 +1356,7 @@ export default {
                     return {
                       y: item.persentase,
                       name: item.kode == "N/A" ? "N/A" + index : item.kode,
-                      color: "#5D5FEF",
+                      color: "#5D5FEF"
                     };
                   })
                 : [];
@@ -1341,6 +1434,40 @@ export default {
           this.isDisplayASPDBatteries = false;
         })
         .finally(() => {
+          this.loading = false;
+        });
+    },
+    getHasilNilaiPerumpun() {
+      this.loading = true;
+      this.$axios
+        .$get("/api/tryout_user/grafik-hasil-nilai-perumpun")
+        .then(response => {
+          if (response.success) {
+            this.grafikNilaiPerumpunData.series = [
+              {
+                name: "Nilai",
+                type: "column",
+                color: "#5D5FEF",
+                data: response.data.grafik.value
+              }
+              // {
+              //   name: "Nilai",
+              //   type: "spline",
+              //   color: "#F7685A",
+              //   ddata: response.data.grafik.value
+              // }
+            ];
+            this.grafikNilaiPerumpunData.xAxis.categories =
+              response.data.grafik.code;
+            this.nilaiPerumpunPeringkat = response.data.rank;
+          }
+        })
+        .catch(error => {
+          this.catchError(error);
+        })
+        .finally(() => {
+          this.grafikPerformaOptions.title.text =
+            "Grafik Hasil Tryout " + this.filter.kategori;
           this.loading = false;
         });
     },
