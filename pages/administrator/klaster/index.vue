@@ -74,7 +74,7 @@
                     <nuxt-link
                       class="btn btn-light px-2"
                       :to="`/administrator/klaster/edit/${item.id}`"
-                      v-if="isHavePermission('Kelas', 'Edit')"
+                      v-if="isHavePermission('Klaster', 'Edit')"
                     >
                       <i class="fa fa-edit"></i>
                     </nuxt-link>
@@ -149,14 +149,14 @@
           class="btn btn-primary tambah-kelas px-4 py-3"
           to="/administrator/klaster/add"
         >
-          Tambah Kelas
+          Tambah Klaster
         </nuxt-link>
       </div>
     </div>
 
     <b-modal
       id="modal-delete"
-      title="Konfirmasi Hapus Kelas"
+      title="Konfirmasi Hapus Klaster"
       hide-footer
       centered
       modal-class="admin-modal"
