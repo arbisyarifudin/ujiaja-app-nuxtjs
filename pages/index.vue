@@ -105,18 +105,18 @@ export default {
         deskripsi: "Dengarkan apa kata mereka tentang UjiAja",
         item: [
           {
-            nama: "Danang Setiawan",
-            titel: "Ilmu Komputer - Universitas Gajah Mada",
+            nama: "Zabina Asfahani",
+            titel: "Teknik Industri - Universitas Gajah Mada",
             testimoni:
-              'Pertama kali ikut TO di UjiAja bulan Januari. First impression awalnya kayak, "Gila, soalnya sulit bener". Terus akhirnya jadi makin tertantang buat terus belajar dan ngejar materi-materi yang kurang. Terima kasih UjiAja, berkat ikut TO-mu, aku diterima di FIK UGM dengan skor UTBK yang menurutku lumayan memuaskan. Ayo yang belum pernah ikut TO di UjiAja, buruan gih ikutan!!',
-            foto: "danang.png"
+              'Bisa masuk Universitas Gadjah Mada adalah IMPIAN terbesarku. Belajar dan berlatih adalah ikhtiarku. Syukur alhamdulillah aku coba mendaftar platform pendidikan ujiaja yang didalamnya terdapat fasilitas tryout UTBK. Wuihhhh...yang tadinya udah MAGER buat ikutan tryout, sekali nyoba jadi ketagihan. Kerennnn....aksesnya mudah, soal-soalnya prediktif, durasi pengerjaannya juga disesuaikan dengan UTBK sebenarnya, dan hasil tryoutnya disuguhkan dalam bentuk sertifikat yang isinya lengkap. Karena rajin berlatih, akhirnya usahaku berbuah baik. Aku tembus TEKNIK INDUSTRI UGM.',
+            foto: "foto-gambar/zabina.png"
           },
           {
-            nama: "Rizky Ristanto",
-            titel: "Teknik Fisika - Universitas Gajah Mada",
+            nama: "Fadlan Azzam",
+            titel: "Manajemen  - UPN “VETERAN” YOGYAKARTA",
             testimoni:
-              "UjiAja dari zaman UTBK 2020 sampai sekarang tryout nya menampar banget buat aku yang males. Apalagi sekarang udah kuliah, kalo les juga bakal keluar uang banyak. Akhirnya aku join tryout di UjiAja lagi. Tiap habis tryout aku analisis kesalahanku di materi apa, aku pahami pembahasannya. Hasil monitoring tiap tryout di UjiAja, nilaiku meningkat karena belajar dari kesalahan. Terima kasih.",
-            foto: "rizky.png"
+              "Proses meraih impian itu penuh perjuangan. Karena aku mengambil rumpun Soshum, mau tidak mau habit gemar membaca kudu dibentuk dan dibiasakan. Syukur alhamdulillah aku didampingi oleh aplikasi ujiaja yang berperan besar dalam perjuanganku untuk bisa LOLOS PTN. Yang semula MALES kalau udah denger kata TRYOUT, sekarang SUKA BANGET ikut tryout. Tryout ujiaja beda dengan tryout lainnya. Di ujiaja gampang banget daftarnya, murah banget biayanya, dan tentunya akses masuk aplikasinya juga mudah dan praktis. Ga’ pake ribet dech... selain itu, soal dan pembahasannya bisa di download sehingga bisa jadi bahan untuk review materi. Dengan banyak berlatih di ujiaja akhirnya aku bisa masuk PTN dengan prodi Manajemen yang aku impikan. Terimakasih ujiaja... ujiaja emang The Best.",
+            foto: "foto-gambar/azzam.png"
           }
         ]
       }
