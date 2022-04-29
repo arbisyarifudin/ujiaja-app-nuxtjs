@@ -10,7 +10,7 @@
           </h5>
         </div>
         <div class="col-md-4 mb-3 mb-md-0 text-right">
-          <b-form-checkbox v-model="showAnalytics" name="check-button" switch>
+          <b-form-checkbox v-model="showAnalytics" name="check-button" switch :disabled="loading">
             Analitik Mode</b-form-checkbox
           >
         </div>
@@ -47,15 +47,46 @@
         >
           <h4 class="mb-0 mr-2">Filter :</h4>
           <div
-            class="d-flex align-items-center justify-content-between flex-row"
+            class="d-flex align-items-center justify-content-end flex-row"
+            style="min-width: 400px; max-width: 100%"
           >
             <!-- <button type="button" class="btn btn-sm btn-primary px-2 square">
             <i class="fas fa-fw fa-filter"></i> Filter
           </button> -->
             <b-form-select
+              class="mr-1"
+              style="width: 100px"
               :options="filterList.kategori"
               v-model="filter.kategori"
+              :disabled="loading"
             ></b-form-select>
+            <b-form-select
+              class="mr-1"
+              style="width: 150px"
+              v-if="filter.kategori != 'UTBK'"
+              :options="filterList.sub_kategori"
+              v-model="filter.id_jenjang"
+              :disabled="loading"
+            ></b-form-select>
+            <b-form-select
+              class="mr-1"
+              style="width: 150px"
+              v-if="!['UTBK', 'ASPD'].includes(filter.kategori) && filter.id_jenjang != ''"
+              :options="filterList.kelas"
+              v-model="filter.id_kelas"
+              :disabled="loading"
+            ></b-form-select>
+             <b-form-select
+              class="mr-1"
+              style="width: 150px"
+              v-if="!['UTBK', 'ASPD'].includes(filter.kategori) && filter.id_kelas != '' && filterList.penjurusan && filterList.penjurusan.length > 0"
+              :options="filterList.penjurusan"
+              v-model="filter.id_penjurusan"
+              :disabled="loading"
+            ></b-form-select>
+
+            <button class="btn btn-sm btn-primary square px-3 py-2 ml-2" @click.prevent="filterData"><i class="fas fa-search"></i></button>
+
           </div>
           <!-- <span class="badge badge-primary">UTBK</span> -->
         </div>
@@ -147,13 +178,16 @@
                 class="d-flex list-unstyled mb-0 text-muted justify-content-start"
               >
                 <li class="d-flex align-items-center mr-3">
-                  <span :class="circleBagdeSkorClass(80)"></span> Berpeluang Tinggi
+                  <span :class="circleBagdeSkorClass(80)"></span> Berpeluang
+                  Tinggi
                 </li>
                 <li class="d-flex align-items-center mr-3">
-                  <span :class="circleBagdeSkorClass(70)"></span> Berpeluang Sedang
+                  <span :class="circleBagdeSkorClass(70)"></span> Berpeluang
+                  Sedang
                 </li>
                 <li class="d-flex align-items-center mr-3">
-                  <span :class="circleBagdeSkorClass(50)"></span> Berpeluang Rendah
+                  <span :class="circleBagdeSkorClass(50)"></span> Berpeluang
+                  Rendah
                 </li>
               </ul>
             </div>
@@ -265,13 +299,16 @@
                 class="d-flex list-unstyled mb-0 text-muted justify-content-start"
               >
                 <li class="d-flex align-items-center mr-3">
-                  <span :class="circleBagdeSkorClass(80)"></span> Berpeluang Tinggi
+                  <span :class="circleBagdeSkorClass(80)"></span> Berpeluang
+                  Tinggi
                 </li>
                 <li class="d-flex align-items-center mr-3">
-                  <span :class="circleBagdeSkorClass(70)"></span> Berpeluang Sedang
+                  <span :class="circleBagdeSkorClass(70)"></span> Berpeluang
+                  Sedang
                 </li>
                 <li class="d-flex align-items-center mr-3">
-                  <span :class="circleBagdeSkorClass(50)"></span> Berpeluang Rendah
+                  <span :class="circleBagdeSkorClass(50)"></span> Berpeluang
+                  Rendah
                 </li>
               </ul>
             </div>
@@ -684,15 +721,22 @@ export default {
       totalKursus: 0,
       filter: {
         kategori: "UTBK",
+        sub_kategori: "",
+        kelas: "",
         kelompok: "",
         jenis_potensi: "Perguruan Tinggi",
         id_penjurusan: null,
         id_jenjang: null,
         id_kelas: null
       },
+      kategoriTOData: [],
       filterList: {
-        kategori: ["UTBK", "ASPD", "PAS", "PAT"]
+        kategori: ["UTBK", "ASPD", "PAS", "PAT"],
         // subKategori: ['ASPD SD']
+        // jenjang or jenjang + penjurusan
+        sub_kategori: [],
+        kelas: [],
+        penjurusan: []
       },
       grafikPerformaKenaikan: 0,
       grafikPerformaOptions: {
@@ -1294,27 +1338,139 @@ export default {
       this.showAnalytics = true;
     }
 
+    this.getKategoriTO();
     if (this.showAnalytics) {
-      this.getHasilSatuanPengerjaan();
-      this.getHasilNilaiPerMapel();
-      if (this.filter.kategori == "UTBK") {
-        this.getPersentaseSkor();
-        this.getHasilNilaiPerumpun();
-      } else {
-        this.getPersentaseSkorASPD();
-      }
+      this.filterData()
     }
   },
   watch: {
     "filter.kategori": function(value) {
+      this.filterList.penjurusan = []
+      this.filter.id_penjurusan = null
+      this.filterList.kelas = []
+      this.filter.id_kelas = null
+      this.filterList.sub_kategori = []
+      this.filter.id_jenjang = null
       if (value) {
-        this.getHasilSatuanPengerjaan();
-        this.getHasilNilaiPerMapel();
-        if (value == "UTBK") {
-          this.getPersentaseSkor();
-        } else {
-          this.getPersentaseSkorASPD();
+        // this.getHasilSatuanPengerjaan();
+        // this.getHasilNilaiPerMapel();
+        // if (value == "UTBK") {
+        //   this.getPersentaseSkor();
+        // } else {
+        //   this.getPersentaseSkorASPD();
+        // }
+
+        if (value == "ASPD") {
+          this.filterList.sub_kategori = this.kategoriTOData
+            .filter(item => {
+              return item.kategori == "ASPD";
+            })
+            .map(item => {
+              return {
+                value: item.id_jenjang,
+                text: `ASPD ${item.jenjang}`
+              };
+            });
+
+          if (
+            this.filterList.sub_kategori &&
+            this.filterList.sub_kategori.length > -1
+          ) {
+            // this.filter.id_jenjang = this.filterList.sub_kategori[0].value;
+          }
+        } else if (value == "PAT" || value == "PAS") {
+          let tempArray = this.kategoriTOData
+            .filter(item => {
+              return item.kategori == value;
+            })
+            .map(item => {
+              return {
+                value: item.id_jenjang,
+                // text: `${value} ${item.jenjang}${
+                //   item.penjurusan ? " " + item.penjurusan : ""
+                // }`
+                text: `${value} ${item.jenjang}`
+              };
+            });
+
+          // console.log(tempArray)
+          const key = "text";
+          this.filterList.sub_kategori = [
+            ...new Map(tempArray.map(item => [item[key], item])).values()
+          ];
+
+          if (
+            this.filterList.sub_kategori &&
+            this.filterList.sub_kategori.length > -1
+          ) {
+            // this.filter.id_jenjang = this.filterList.sub_kategori[0].value;
+          }
         }
+      }
+    },
+    "filter.id_jenjang": function(value) {
+      this.filterList.penjurusan = []
+      this.filter.id_penjurusan = ''
+      this.filterList.kelas = []
+      this.filter.id_kelas = ''
+      if (value) {
+        let tempArray = this.kategoriTOData
+            .filter(item => {
+              return item.kategori == this.filter.kategori && item.id_jenjang == value;
+            })
+            .map(item => {
+              return {
+                value: item.id_kelas,
+                text: item.kelas
+              };
+            });
+
+          const key = "text";
+          this.filterList.kelas = [
+            ...new Map(tempArray.map(item => [item[key], item])).values()
+          ];
+
+          if (
+            this.filterList.kelas &&
+            this.filterList.kelas.length > -1
+          ) {
+            // this.filter.id_kelas = this.filterList.kelas[0].value;
+          }
+      }
+    },
+    "filter.id_kelas": function(value) {
+      this.filterList.penjurusan = []
+      this.filter.id_penjurusan = null
+      if (value) {
+        let tempArray = this.kategoriTOData
+            .filter(item => {
+              return item.kategori == this.filter.kategori && item.id_jenjang == this.filter.id_jenjang && item.id_kelas == value;
+            })
+            .map(item => {
+              return {
+                value: item.id_penjurusan,
+                text: item.penjurusan
+              };
+            });
+
+            console.log(tempArray)
+
+          if(tempArray && tempArray.length > 0 && tempArray[0].text !== null) {
+            const key = "text";
+            this.filterList.penjurusan = [
+              ...new Map(tempArray.map(item => [item[key], item])).values()
+            ];
+
+            if (
+              this.filterList.penjurusan &&
+              this.filterList.penjurusan.length > -1
+            ) {
+              // this.filter.id_kelas = this.filterList.kelas[0].value;
+            }
+          } else {
+            this.filterList.penjurusan = []
+          }
+
       }
     },
     "filter.jenis_potensi": function(value) {
@@ -1338,19 +1494,46 @@ export default {
     showAnalytics: function(value) {
       if (value) {
         this.$router.push({ query: { analytics: true } });
-        this.getHasilSatuanPengerjaan();
-        this.getHasilNilaiPerMapel();
-        if (this.filter.kategori == "UTBK") {
-          this.getPersentaseSkor();
-        } else {
-          this.getPersentaseSkorASPD();
-        }
+        // this.getKategoriTO();
+        // this.getHasilSatuanPengerjaan();
+        // this.getHasilNilaiPerMapel();
+        // if (this.filter.kategori == "UTBK") {
+        //   this.getPersentaseSkor();
+        // } else {
+        //   this.getPersentaseSkorASPD();
+        // }
+        this.filterData()
       } else {
         this.$router.push({ query: {} });
       }
     }
   },
   methods: {
+    filterData() {
+      this.getHasilSatuanPengerjaan();
+      this.getHasilNilaiPerMapel();
+      if (this.filter.kategori == "UTBK") {
+        this.getPersentaseSkor();
+        this.getHasilNilaiPerumpun();
+      } else {
+        this.getPersentaseSkorASPD();
+      }
+    },
+    getKategoriTO() {
+      this.loading = true;
+      this.$axios
+        .$get("/api/kategori-to/list")
+        .then(response => {
+          // console.log(response)
+          if (response.success) {
+            this.kategoriTOData = response.data;
+          }
+        })
+        .catch(err => {})
+        .finally(() => {
+          this.loading = false;
+        });
+    },
     getDashboardData() {
       this.loading = true;
       this.$axios
@@ -1371,7 +1554,10 @@ export default {
       this.$axios
         .$get("/api/tryout_user/grafik-hasil-satuan-pengerjaan", {
           params: {
-            kategori: this.filter.kategori
+            kategori: this.filter.kategori,
+            id_jenjang: this.filter.id_jenjang,
+            id_kelas: this.filter.id_kelas,
+            id_penjurusan: this.filter.id_penjurusan
           }
         })
         .then(response => {
@@ -1408,7 +1594,10 @@ export default {
       this.$axios
         .$get("/api/tryout_user/grafik-hasil-nilai-permapel", {
           params: {
-            kategori: this.filter.kategori
+            kategori: this.filter.kategori,
+            id_jenjang: this.filter.id_jenjang,
+            id_kelas: this.filter.id_kelas,
+            id_penjurusan: this.filter.id_penjurusan
           }
         })
         .then(response => {
@@ -1510,7 +1699,11 @@ export default {
       this.loading = true;
       this.$axios
         .$get("/api/tryout_user/rerata-persentase-hasil", {
-          params: {}
+          params: {
+            id_jenjang: this.filter.id_jenjang,
+            id_kelas: this.filter.id_kelas,
+            id_penjurusan: this.filter.id_penjurusan
+          }
         })
         .then(response => {
           if (
@@ -1534,7 +1727,11 @@ export default {
       this.loading = true;
       this.$axios
         .$get("/api/tryout_user/rerata-persentase-hasil-aspd", {
-          params: {}
+          params: {
+            id_jenjang: this.filter.id_jenjang,
+            id_kelas: this.filter.id_kelas,
+            id_penjurusan: this.filter.id_penjurusan
+          }
         })
         .then(response => {
           if (response.success) {
@@ -1552,7 +1749,14 @@ export default {
     getHasilNilaiPerumpun() {
       this.loading = true;
       this.$axios
-        .$get("/api/tryout_user/grafik-hasil-nilai-perumpun")
+        .$get("/api/tryout_user/grafik-hasil-nilai-perumpun", {
+          params: {
+            kategori: this.filter.kategori,
+            id_jenjang: this.filter.id_jenjang,
+            id_kelas: this.filter.id_kelas,
+            id_penjurusan: this.filter.id_penjurusan
+          }
+        })
         .then(response => {
           if (response.success) {
             this.grafikNilaiPerumpunData.series = [
@@ -1632,7 +1836,7 @@ export default {
       } else {
         return "mr-2 circle-badge bg-dark";
       }
-    },
+    }
   },
   computed: {
     user() {
