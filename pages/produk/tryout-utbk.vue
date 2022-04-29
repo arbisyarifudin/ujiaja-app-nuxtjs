@@ -21,6 +21,17 @@
       </div>
     </div>
     <SectionKeunggulan :props="keunggulan" />
+    <!-- Banner tambahan untuk promo - client req -->
+     <div class="container mt-5 mb-5">
+       <div class="row">
+         <div class="col-3"></div>
+          <div class="col-6 center mt-2 mb-2">
+            <img class="" src="/foto-gambar/paket-bundling.jpeg" alt="Paket Bundling" />
+          </div>
+         <div class="col-3">
+         </div>
+       </div>
+      </div>
     <SectionLangkah :props="langkah" />
     <SectionPertanyaan :items="pertanyaan" style="margin-top: 80px" />
     <SectionCardHero
