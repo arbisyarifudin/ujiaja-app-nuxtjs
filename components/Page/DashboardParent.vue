@@ -49,18 +49,62 @@
         class="card mb-3 px-3 py-2 d-flex align-items-center justify-content-between flex-row"
       >
         <h4 class="mb-0 mr-2">Filter :</h4>
-        <div class="d-flex align-items-center justify-content-between flex-row">
+        <div
+          class="d-flex align-items-center justify-content-end flex-row"
+          style="min-width: 400px; max-width: 100%"
+        >
           <!-- <button type="button" class="btn btn-sm btn-primary px-2 square">
             <i class="fas fa-fw fa-filter"></i> Filter
           </button> -->
           <b-form-select
+            class="mr-1"
+            style="width: 100px"
             :options="filterList.kategori"
             v-model="filter.kategori"
+            :disabled="loading"
           ></b-form-select>
+          <b-form-select
+            class="mr-1"
+            style="width: 150px"
+            v-if="filter.kategori != 'UTBK'"
+            :options="filterList.sub_kategori"
+            v-model="filter.id_jenjang"
+            :disabled="loading"
+          ></b-form-select>
+          <b-form-select
+            class="mr-1"
+            style="width: 150px"
+            v-if="
+              !['UTBK', 'ASPD'].includes(filter.kategori) &&
+                filter.id_jenjang != ''
+            "
+            :options="filterList.kelas"
+            v-model="filter.id_kelas"
+            :disabled="loading"
+          ></b-form-select>
+          <b-form-select
+            class="mr-1"
+            style="width: 150px"
+            v-if="
+              !['UTBK', 'ASPD'].includes(filter.kategori) &&
+                filter.id_kelas != '' &&
+                filterList.penjurusan &&
+                filterList.penjurusan.length > 0
+            "
+            :options="filterList.penjurusan"
+            v-model="filter.id_penjurusan"
+            :disabled="loading"
+          ></b-form-select>
+
+          <button
+            class="btn btn-sm btn-primary square px-3 py-2 ml-2"
+            @click.prevent="filterData"
+          >
+            <i class="fas fa-search"></i>
+          </button>
         </div>
         <!-- <span class="badge badge-primary">UTBK</span> -->
       </div>
-
       <div
         class="card mb-5"
         v-if="isDisplayBatteries && prodiSatu && filter.kategori == 'UTBK'"
@@ -72,12 +116,12 @@
                 <i class="fas fa-fw fa-award mr-1"></i> PERSENTASE NILAI UTBK
               </h4>
             </div>
-            <div class="col-12">
+            <!-- <div class="col-12">
               <p class="mb-4 small">
                 Yuk terus belajar, dan naikan score UTBK kamu untuk meningkatkan
                 peluang masuk ke Perguruan Tinggi impianmu.
               </p>
-            </div>
+            </div> -->
             <div class="col-md-3 col-6 text-center">
               <div class="h6">
                 {{
@@ -139,6 +183,84 @@
               </div>
             </div>
           </div>
+
+          <div style="background-color: #eee" class="mt-3 px-3 py-3">
+            <div class="mb-2">Keterangan:</div>
+            <ul
+              class="d-flex list-unstyled mb-0 text-muted justify-content-start"
+            >
+              <li class="d-flex align-items-center mr-3">
+                <span :class="circleBagdeSkorClass(80)"></span> Berpeluang
+                Tinggi
+              </li>
+              <li class="d-flex align-items-center mr-3">
+                <span :class="circleBagdeSkorClass(70)"></span> Berpeluang
+                Sedang
+              </li>
+              <li class="d-flex align-items-center mr-3">
+                <span :class="circleBagdeSkorClass(50)"></span> Berpeluang
+                Rendah
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="card mb-5"
+        v-if="isDisplayBatteries && prodiSatu && filter.kategori == 'UTBK'"
+      >
+        <div class="card-body">
+          <div class="h4">Potensi Lain</div>
+          <div style="font-size: 16px">
+            Anak Anda juga memiliki potensi untuk masuk di
+            <select
+              class="form-control d-inline-block ml-2"
+              style="max-width: 200px"
+              v-model="filter.jenis_potensi"
+            >
+              <option value="Perguruan Tinggi">Perguruan Tinggi</option>
+              <option value="Program Studi">Program Studi</option>
+              <option value="Rumpun Ilmu">Rumpun Ilmu</option>
+            </select>
+          </div>
+
+          <div class="row potency mt-4">
+            <div
+              class="col-xl-3 col-lg-3 col-md-4 col-6 mb-3"
+              v-for="(potency, pIndex) in potencyData"
+              :key="'pot-' + pIndex"
+            >
+              <div
+                class="potency-item"
+                v-if="filter.jenis_potensi == 'Perguruan Tinggi'"
+              >
+                <div class="title">{{ potency.nama_perguruan }}</div>
+                <div class="subtitle">
+                  PG: {{ potency.passing_grade_prodi }}
+                </div>
+              </div>
+              <div
+                class="potency-item"
+                v-if="filter.jenis_potensi == 'Program Studi'"
+              >
+                <div class="title">{{ potency.nama_studi }}</div>
+                <div class="subtitle">
+                  PG: {{ potency.passing_grade_prodi }}
+                </div>
+              </div>
+              <div
+                class="potency-item"
+                v-if="filter.jenis_potensi == 'Rumpun Ilmu'"
+              >
+                <div class="title">{{ potency.nama_perguruan }}</div>
+                <div class="title2">- {{ potency.nama_studi }}</div>
+                <div class="subtitle">
+                  PG: {{ potency.passing_grade_prodi }}
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -153,12 +275,12 @@
                 <i class="fas fa-fw fa-award mr-1"></i> PERSENTASE NILAI ASPD
               </h4>
             </div>
-            <div class="col-12">
+            <!-- <div class="col-12">
               <p class="mb-4 small">
                 Yuk terus belajar, dan naikan score ASPD kamu untuk meningkatkan
                 peluang masuk ke sekolah di Jenjang selanjutnya.
               </p>
-            </div>
+            </div> -->
             <div class="col-md-3 col-6 text-center">
               <div class="h6">
                 Nilai Sempurna ASPD {{ userDetail.nama_jenjang }} :
@@ -181,6 +303,26 @@
                 Nilai Rata-rata Kamu : {{ scoreASPDData.avg_score }}
               </div>
             </div>
+          </div>
+
+          <div style="background-color: #eee" class="mt-3 px-3 py-3">
+            <div class="mb-2">Keterangan:</div>
+            <ul
+              class="d-flex list-unstyled mb-0 text-muted justify-content-start"
+            >
+              <li class="d-flex align-items-center mr-3">
+                <span :class="circleBagdeSkorClass(80)"></span> Berpeluang
+                Tinggi
+              </li>
+              <li class="d-flex align-items-center mr-3">
+                <span :class="circleBagdeSkorClass(70)"></span> Berpeluang
+                Sedang
+              </li>
+              <li class="d-flex align-items-center mr-3">
+                <span :class="circleBagdeSkorClass(50)"></span> Berpeluang
+                Rendah
+              </li>
+            </ul>
           </div>
         </div>
       </div>
@@ -368,6 +510,41 @@
           </div>
         </template>
       </div>
+
+      <div class="row mt-4" v-if="!loading && filter.kategori == 'UTBK'">
+        <div class="col-12 mb-4">
+          <div class="card">
+            <div class="card-body">
+              <h4 class="mb-3 d-flex justify-content-between">
+                Grafik Nilai Perumpun
+              </h4>
+              <highchart
+                :options="grafikNilaiPerumpunData"
+                :update="['options.title', 'options.yAxis', 'options.series']"
+                :exporting="true"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="col-12 mb-4">
+          <div class="card">
+            <div class="card-body">
+              <h4 class="mb-3 d-flex justify-content-between">
+                Peringkat Rumpun
+              </h4>
+              <ol>
+                <li
+                  v-for="(nppData, nppIndex) in nilaiPerumpunPeringkat"
+                  :key="'npp-' + nppIndex"
+                  class="mb-2"
+                >
+                  {{ nppData.kode + " - " + nppData.nama }}
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -439,14 +616,22 @@ export default {
       totalTransaksi: 0,
       filter: {
         kategori: "UTBK",
+        sub_kategori: "",
+        kelas: "",
         kelompok: "",
+        jenis_potensi: "Perguruan Tinggi",
         id_penjurusan: null,
         id_jenjang: null,
         id_kelas: null
       },
+      kategoriTOData: [],
       filterList: {
-        kategori: ["UTBK", "ASPD", "PAS", "PAT"]
+        kategori: ["UTBK", "ASPD", "PAS", "PAT"],
         // subKategori: ['ASPD SD']
+        // jenjang or jenjang + penjurusan
+        sub_kategori: [],
+        kelas: [],
+        penjurusan: []
       },
       grafikPerformaKenaikan: 0,
       grafikPerformaOptions: {
@@ -843,7 +1028,7 @@ export default {
                 {
                   name: "No Data",
                   y: 0
-                },
+                }
               ]
             }
           ]
@@ -963,86 +1148,249 @@ export default {
             ]
           }
         ]
-      }
+      },
+
+      grafikNilaiPerumpunData: {
+        chart: {
+          type: "column"
+        },
+        title: {
+          text: null
+        },
+        subtitle: {
+          text: null
+        },
+        accessibility: {
+          announceNewData: {
+            enabled: true
+          }
+        },
+        xAxis: {
+          type: "category"
+        },
+        yAxis: {
+          title: {
+            text: null
+          }
+        },
+        legend: {
+          enabled: false
+        },
+        plotOptions: {
+          series: {
+            borderWidth: 0,
+            dataLabels: {
+              enabled: true,
+              format: "{point.y:.1f}"
+            }
+          }
+        },
+
+        series: [
+          {
+            name: "Nilai",
+            // colorByPoint: true,
+            data: [
+              {
+                name: "No Data",
+                y: 0
+              }
+            ]
+          }
+        ]
+      },
+      nilaiPerumpunPeringkat: []
     };
   },
   created() {
     this.getDashboardData();
     this.getProfilLengkap();
-    this.getPersentaseSkor();
-    this.getPersentaseSkorASPD();
-    this.getHasilSatuanPengerjaan();
-    this.getHasilNilaiPerMapel();
+    this.getKategoriTO();
+    this.filterData();
   },
   watch: {
     "filter.kategori": function(value) {
+      this.filterList.penjurusan = [];
+      this.filter.id_penjurusan = null;
+      this.filterList.kelas = [];
+      this.filter.id_kelas = null;
+      this.filterList.sub_kategori = [];
+      this.filter.id_jenjang = null;
       if (value) {
-        this.getHasilSatuanPengerjaan();
-        this.getHasilNilaiPerMapel();
-        if (value == "UTBK") {
-          this.getPersentaseSkor();
+        // this.getHasilSatuanPengerjaan();
+        // this.getHasilNilaiPerMapel();
+        // if (value == "UTBK") {
+        //   this.getPersentaseSkor();
+        // } else {
+        //   this.getPersentaseSkorASPD();
+        // }
+
+        if (value == "ASPD") {
+          this.filterList.sub_kategori = this.kategoriTOData
+            .filter(item => {
+              return item.kategori == "ASPD";
+            })
+            .map(item => {
+              return {
+                value: item.id_jenjang,
+                text: `ASPD ${item.jenjang}`
+              };
+            });
+
+          if (
+            this.filterList.sub_kategori &&
+            this.filterList.sub_kategori.length > -1
+          ) {
+            // this.filter.id_jenjang = this.filterList.sub_kategori[0].value;
+          }
+        } else if (value == "PAT" || value == "PAS") {
+          let tempArray = this.kategoriTOData
+            .filter(item => {
+              return item.kategori == value;
+            })
+            .map(item => {
+              return {
+                value: item.id_jenjang,
+                // text: `${value} ${item.jenjang}${
+                //   item.penjurusan ? " " + item.penjurusan : ""
+                // }`
+                text: `${value} ${item.jenjang}`
+              };
+            });
+
+          // console.log(tempArray)
+          const key = "text";
+          this.filterList.sub_kategori = [
+            ...new Map(tempArray.map(item => [item[key], item])).values()
+          ];
+
+          if (
+            this.filterList.sub_kategori &&
+            this.filterList.sub_kategori.length > -1
+          ) {
+            // this.filter.id_jenjang = this.filterList.sub_kategori[0].value;
+          }
+        }
+      }
+    },
+    "filter.id_jenjang": function(value) {
+      this.filterList.penjurusan = [];
+      this.filter.id_penjurusan = "";
+      this.filterList.kelas = [];
+      this.filter.id_kelas = "";
+      if (value) {
+        let tempArray = this.kategoriTOData
+          .filter(item => {
+            return (
+              item.kategori == this.filter.kategori && item.id_jenjang == value
+            );
+          })
+          .map(item => {
+            return {
+              value: item.id_kelas,
+              text: item.kelas
+            };
+          });
+
+        const key = "text";
+        this.filterList.kelas = [
+          ...new Map(tempArray.map(item => [item[key], item])).values()
+        ];
+
+        if (this.filterList.kelas && this.filterList.kelas.length > -1) {
+          // this.filter.id_kelas = this.filterList.kelas[0].value;
+        }
+      }
+    },
+    "filter.id_kelas": function(value) {
+      this.filterList.penjurusan = [];
+      this.filter.id_penjurusan = null;
+      if (value) {
+        let tempArray = this.kategoriTOData
+          .filter(item => {
+            return (
+              item.kategori == this.filter.kategori &&
+              item.id_jenjang == this.filter.id_jenjang &&
+              item.id_kelas == value
+            );
+          })
+          .map(item => {
+            return {
+              value: item.id_penjurusan,
+              text: item.penjurusan
+            };
+          });
+
+        console.log(tempArray);
+
+        if (tempArray && tempArray.length > 0 && tempArray[0].text !== null) {
+          const key = "text";
+          this.filterList.penjurusan = [
+            ...new Map(tempArray.map(item => [item[key], item])).values()
+          ];
+
+          if (
+            this.filterList.penjurusan &&
+            this.filterList.penjurusan.length > -1
+          ) {
+            // this.filter.id_kelas = this.filterList.kelas[0].value;
+          }
         } else {
-          this.getPersentaseSkorASPD();
+          this.filterList.penjurusan = [];
         }
       }
     }
   },
   methods: {
+    filterData() {
+      this.getHasilSatuanPengerjaan();
+      this.getHasilNilaiPerMapel();
+      if (this.filter.kategori == "UTBK") {
+        this.getPersentaseSkor();
+        this.getHasilNilaiPerumpun();
+      } else {
+        this.getPersentaseSkorASPD();
+      }
+    },
+    getKategoriTO() {
+      this.loading = true;
+      this.$axios
+        .$get("/api/kategori-to/list")
+        .then(response => {
+          // console.log(response)
+          if (response.success) {
+            this.kategoriTOData = response.data;
+          }
+        })
+        .catch(err => {})
+        .finally(() => {
+          this.loading = false;
+        });
+    },
     getDashboardData() {
-      this.$axios.$get("/api/users/parent/dashboard").then(response => {
-        if (response.success) {
-          this.totalTryout = response.data.total_tryout;
-          this.totalKursus = response.data.total_kursus;
-          this.totalTransaksi = response.data.total_transaksi;
-        }
-      });
-    },
-    getPersentaseSkor() {
       this.loading = true;
       this.$axios
-        .$get("/api/tryout_user/rerata-persentase-hasil", {
-          params: {
-            id_user: this.userDetail.id_orang_tua
-          }
-        })
+        .$get("/api/users/siswa/dashboard")
         .then(response => {
           if (response.success) {
-            this.scoreData = response.data;
-            this.isDisplayBatteries = true;
+            this.totalTryout = response.data.total_tryout;
+            this.totalKursus = response.data.total_kursus;
           }
         })
-        .catch(error => {
-          this.isDisplayBatteries = false;
-        })
+        .catch(err => {})
         .finally(() => {
           this.loading = false;
         });
     },
-    getPersentaseSkorASPD() {
-      this.loading = true;
-      this.$axios
-        .$get("/api/tryout_user/rerata-persentase-hasil-aspd", {
-          params: {}
-        })
-        .then(response => {
-          if (response.success) {
-            this.scoreASPDData = response.data;
-            this.isDisplayASPDBatteries = true;
-          }
-        })
-        .catch(error => {
-          this.isDisplayASPDBatteries = false;
-        })
-        .finally(() => {
-          this.loading = false;
-        });
-    },
-     getHasilSatuanPengerjaan() {
+    getHasilSatuanPengerjaan() {
       this.loading = true;
       this.$axios
         .$get("/api/tryout_user/grafik-hasil-satuan-pengerjaan", {
           params: {
-            kategori: this.filter.kategori
+            kategori: this.filter.kategori,
+            id_jenjang: this.filter.id_jenjang,
+            id_kelas: this.filter.id_kelas,
+            id_penjurusan: this.filter.id_penjurusan
           }
         })
         .then(response => {
@@ -1079,7 +1427,10 @@ export default {
       this.$axios
         .$get("/api/tryout_user/grafik-hasil-nilai-permapel", {
           params: {
-            kategori: this.filter.kategori
+            kategori: this.filter.kategori,
+            id_jenjang: this.filter.id_jenjang,
+            id_kelas: this.filter.id_kelas,
+            id_penjurusan: this.filter.id_penjurusan
           }
         })
         .then(response => {
@@ -1098,7 +1449,7 @@ export default {
                     return {
                       y: item.persentase,
                       name: item.kode == "N/A" ? "N/A" + index : item.kode,
-                      color: "#5D5FEF",
+                      color: "#5D5FEF"
                     };
                   });
                   this.grafikNilaiMapel[jenisKey].series = [
@@ -1138,7 +1489,7 @@ export default {
                     return {
                       y: item.persentase,
                       name: item.kode == "N/A" ? "N/A" + index : item.kode,
-                      color: "#5D5FEF",
+                      color: "#5D5FEF"
                     };
                   })
                 : [];
@@ -1177,6 +1528,101 @@ export default {
           this.loading = false;
         });
     },
+    getPersentaseSkor() {
+      this.loading = true;
+      this.$axios
+        .$get("/api/tryout_user/rerata-persentase-hasil", {
+          params: {
+            id_jenjang: this.filter.id_jenjang,
+            id_kelas: this.filter.id_kelas,
+            id_penjurusan: this.filter.id_penjurusan,
+            id_user: this.userDetail.id_orang_tua
+          }
+        })
+        .then(response => {
+          if (
+            response.success
+            // &&
+            // (this.userDetail.nama_jenjang == "SMA" ||
+            //   ["SMA", "SMK", "MA"].includes(this.userDetail.nama_jenjang))
+          ) {
+            this.scoreData = response.data;
+            this.potencyData = response.data.potencies.univ;
+            this.isDisplayBatteries = true;
+          }
+        })
+        .catch(error => {
+          this.isDisplayBatteries = false;
+        })
+        .finally(() => {
+          this.loading = false;
+        });
+    },
+    getPersentaseSkorASPD() {
+      this.loading = true;
+      this.$axios
+        .$get("/api/tryout_user/rerata-persentase-hasil-aspd", {
+          params: {
+            id_jenjang: this.filter.id_jenjang,
+            id_kelas: this.filter.id_kelas,
+            id_penjurusan: this.filter.id_penjurusan,
+            id_user: this.userDetail.id_orang_tua
+          }
+        })
+        .then(response => {
+          if (response.success) {
+            this.scoreASPDData = response.data;
+            this.isDisplayASPDBatteries = true;
+          }
+        })
+        .catch(error => {
+          this.isDisplayASPDBatteries = false;
+        })
+        .finally(() => {
+          this.loading = false;
+        });
+    },
+    getHasilNilaiPerumpun() {
+      this.loading = true;
+      this.$axios
+        .$get("/api/tryout_user/grafik-hasil-nilai-perumpun", {
+          params: {
+            kategori: this.filter.kategori,
+            id_jenjang: this.filter.id_jenjang,
+            id_kelas: this.filter.id_kelas,
+            id_penjurusan: this.filter.id_penjurusan
+          }
+        })
+        .then(response => {
+          if (response.success) {
+            this.grafikNilaiPerumpunData.series = [
+              {
+                name: "Nilai",
+                type: "column",
+                color: "#5D5FEF",
+                data: response.data.grafik.value
+              }
+              // {
+              //   name: "Nilai",
+              //   type: "spline",
+              //   color: "#F7685A",
+              //   ddata: response.data.grafik.value
+              // }
+            ];
+            this.grafikNilaiPerumpunData.xAxis.categories =
+              response.data.grafik.code;
+            this.nilaiPerumpunPeringkat = response.data.rank;
+          }
+        })
+        .catch(error => {
+          this.catchError(error);
+        })
+        .finally(() => {
+          this.grafikPerformaOptions.title.text =
+            "Grafik Hasil Tryout " + this.filter.kategori;
+          this.loading = false;
+        });
+    },
     getProfilLengkap() {
       this.loading = true;
       this.$axios
@@ -1205,6 +1651,14 @@ export default {
       } else {
         return "bg-danger";
       }
+    },
+    circleBagdeSkorClass(persentase) {
+      const _persentase = parseFloat(persentase);
+      if (persentase >= 76) {
+        return "mr-2 circle-badge bg-success";
+      } else if (persentase >= 70) {
+        return "mr-2 circle-badge bg-warning";
+      } else return "mr-2 circle-badge bg-danger";
     },
     circleBagdeClass(persentase) {
       const _persentase = parseFloat(persentase);
