@@ -1707,9 +1707,10 @@ export default {
         })
         .then(response => {
           if (
-            response.success &&
-            (this.userDetail.nama_jenjang == "SMA" ||
-              ["SMA", "SMK", "MA"].includes(this.userDetail.nama_jenjang))
+            response.success
+            // &&
+            // (this.userDetail.nama_jenjang == "SMA" ||
+            //   ["SMA", "SMK", "MA"].includes(this.userDetail.nama_jenjang))
           ) {
             this.scoreData = response.data;
             this.potencyData = response.data.potencies.univ;
