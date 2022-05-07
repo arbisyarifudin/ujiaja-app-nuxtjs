@@ -176,7 +176,7 @@
                   id="harga_produk"
                   v-model="form.harga_produk"
                   type="number"
-                  min="1"
+                  min="0"
                   :disabled="total_transaksi > 0"
                 >
                 </b-form-input>

@@ -225,7 +225,7 @@ export default {
             "Media  belajar berbasis teknologi buat kamu-kamu dapetin metode dan partner belajar asyik guna ngadepin ujian sekolah,  seleksi sekolah lanjut  dan masuk perguruan tinggi favoritmu.",
           judul: "Tentang UjiAja",
           ctaButtonText: null,
-          image: "/banner-tentang.png",
+          image: "/tentang.png",
           isJudulFirst: false,
         },
       },

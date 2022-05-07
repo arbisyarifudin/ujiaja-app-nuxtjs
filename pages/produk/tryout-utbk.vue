@@ -26,7 +26,9 @@
        <div class="row">
          <div class="col-3"></div>
           <div class="col-6 center mt-2 mb-2">
-            <img class="" src="/foto-gambar/paket-bundling.jpeg" alt="Paket Bundling" />
+            <a href="/app/tryout/search?category&package=Bundling&event">
+              <img class="" src="/foto-gambar/paket-bundling.jpeg" alt="Paket Bundling" />
+            </a>
           </div>
          <div class="col-3">
          </div>

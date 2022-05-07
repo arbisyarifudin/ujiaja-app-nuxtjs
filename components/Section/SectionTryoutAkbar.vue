@@ -9,13 +9,17 @@
           <div class="container mt-5 mb-5">
           <div class="row">
             <div class="col-lg">
-              <img class="mt-5 mb-5" src="/foto-gambar/banner-1.jpeg" alt="Tryout Akbar" />
+               <a href="/produk/tryout-utbk">
+                  <img class="mt-5 mb-5" src="/foto-gambar/banner-1.jpeg" alt="Tryout Akbar UTBK"/>
+               </a>
             </div>
             <div class="col-sm">
-               <img class="mt-0 mb-0" src="/foto-gambar/banner-2.jpeg" alt="Tryout Akbar" />
+               <img class="mt-0 mb-0" src="/foto-gambar/banner-2.jpeg" alt="Cara Daftar Tryout"/>
             </div>
             <div class="col-sm">
-               <img class="mt-5" src="/foto-gambar/banner-3.jpeg" alt="Tryout Akbar" />
+               <a href="/produk/tryout-aspd">
+                 <img class="mt-5" src="/foto-gambar/banner-3.jpeg" alt="Tryout Akbar ASPD" />
+               </a>
             </div>
           </div>
         </div>
