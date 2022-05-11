@@ -438,8 +438,8 @@ export default {
     });
     this.getProduk("utbk_akbar", {
       kategori_produk: "UTBK",
-      jenis_produk: "Masal",
-      tipe_paket: "Reguler"
+      jenis_produk: "Masal"
+      // tipe_paket: ""
     });
     this.getProduk("aspd", {
       kategori_produk: "ASPD",

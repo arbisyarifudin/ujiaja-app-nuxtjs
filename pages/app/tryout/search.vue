@@ -270,9 +270,41 @@ export default {
   },
   methods: {
     resetModal() {},
+    // perubahan di sini, UTBK akbar bisa ada 2 tipe paket yaitu regular dan bundling. Filter sebelumnya hanya regular saja maka tidak muncul
     getData(type) {
       this.loading = true;
-      this.$axios
+      if (
+        this.$route.query.category == "UTBK" &&
+        this.$route.query.event == "Masal"
+      ) {
+        this.$axios
+        .$get(`/api/${type}`, {
+          params: {
+            q: this.filter.keyword,
+            paginate: this.filter.perPage,
+            page: this.filter.page,
+            kategori_produk: this.$route.query.category,
+            jenis_produk: this.$route.query.event,
+            status_produk: "Aktif",
+            
+          }
+        })
+        .then(res => {
+          console.log(res);
+          if (res.success) {
+            this.items = res.data.data;
+            this.totalRows = res.data.paginate.total;
+            this.filter.perPage = res.data.paginate.per_page;
+          }
+          return true;
+        })
+        .catch(err => {
+          console.log(err);
+          this.catchError(err);
+        })
+        .finally(() => (this.loading = false));
+      } else{
+        this.$axios
         .$get(`/api/${type}`, {
           params: {
             q: this.filter.keyword,
@@ -298,6 +330,8 @@ export default {
           this.catchError(err);
         })
         .finally(() => (this.loading = false));
+      }
+      
     },
     deleteData(type) {
       this.loading = true;
