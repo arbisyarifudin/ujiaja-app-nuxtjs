@@ -1,7 +1,9 @@
 # Created by .ignore support plugin (hsz.mobi)
 
+
 #nuxt config ignore for server
 .gitignore
+
 
 ### Node template
 # Logs
