@@ -225,6 +225,7 @@ export default {
         detail: {},
         tryout: []
       },
+      
       detailUser: {}
     };
   },
@@ -232,6 +233,7 @@ export default {
     if (!this.$route.params.id) return this.$router.go(-1);
     this.getResult(this.$route.params.id);
     this.getProfile();
+    
   },
   mounted() {
     if (this.$route.query.code && this.$route.query.reset) {
@@ -308,6 +310,8 @@ export default {
       }
     },
     generatePDF(is_send_to_email = false) {
+      console.log("ID Produk = ");
+      console.log(this.dataResult.detail.id_produk);
       if (is_send_to_email) {
         this.sending = true;
       } else {
