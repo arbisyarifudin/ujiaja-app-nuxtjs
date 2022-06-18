@@ -27,6 +27,7 @@
             <b-nav-item href="/untuk-tutor">Untuk Tutor</b-nav-item>
             <b-nav-item href="/untuk-siswa">Untuk Siswa</b-nav-item>
             <b-nav-item href="/untuk-orangtua">Untuk Orangtua</b-nav-item>
+            <b-nav-item href="/untuk-orangtua">Bantuan?</b-nav-item>
             <b-button
               href="/masuk"
               variant="outline-primary"
