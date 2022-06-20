@@ -41,7 +41,7 @@
               Hapus Event
             </button>
 
-            <button v-if="this.dataDetail.produk.kategori_produk == 'ASPD'"
+            <button v-if="this.dataDetail.produk.kategori_produk == 'ASPD' || this.dataDetail.produk.kategori_produk == 'PAT' || this.dataDetail.produk.kategori_produk == 'PAS'"
             class="btn btn-primary square"
             :disabled="generating"
             @click.prevent="generateCSV()"
