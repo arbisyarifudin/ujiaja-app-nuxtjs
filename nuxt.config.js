@@ -80,7 +80,7 @@ export default {
 
     axios: {
         baseURL: process.env.NODE_ENV !== "production" ?
-            "http://localhost:8000" : "http://54.251.180.39" // Used as fallback if no runtime config is provided
+            "http://localhost:8000" : "http://localhost:8000" // Used as fallback if no runtime config is provided
     },
 
     // server

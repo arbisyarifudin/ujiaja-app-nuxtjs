@@ -106,6 +106,7 @@
 </template>
 
 <script>
+
 export default {
   methods: {
     ApiUrl(param) {
@@ -114,6 +115,7 @@ export default {
   },
   props: {
     footerData: {
+     
       type: Object,
       default: () => {
         return {}
@@ -121,4 +123,5 @@ export default {
     }
   }
 }
+
 </script>

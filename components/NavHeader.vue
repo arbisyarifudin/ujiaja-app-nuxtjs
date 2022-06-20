@@ -23,6 +23,7 @@
           <b-nav-item href="/untuk-tutor">Untuk Tutor</b-nav-item>
           <b-nav-item href="/untuk-siswa">Untuk Siswa</b-nav-item>
           <b-nav-item href="/untuk-orangtua">Untuk Orangtua</b-nav-item>
+          <b-nav-item :href="`https://api.whatsapp.com/send?phone=6282328517779&text=Halo%20kak%2C%20saya%20memerlukan%20bantuan%20terkait%20ujiaja.com%3F%20`" target="_blank">Bantuan?</b-nav-item>
           <b-button href="/masuk" variant="outline-primary" class="mt-5 mt-lg-0"
             >Masuk</b-button
           >
@@ -41,6 +42,12 @@ export default {
   },
   props: {
     navData: {
+      type: Object,
+      default: () => {
+        return {}
+      }
+    },
+    footerData: {
       type: Object,
       default: () => {
         return {}

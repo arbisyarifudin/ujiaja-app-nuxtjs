@@ -1,6 +1,7 @@
 <template>
   <div>
     <Header :heroData="header.hero" :navData="navData"/>
+   
     <SectionKeunggulan :props="keunggulan" variant="with-bg"/>
     <SectionProduk :props="produk" />
     <SectionFitLayanan />
