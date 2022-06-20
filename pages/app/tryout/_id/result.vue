@@ -310,8 +310,7 @@ export default {
       }
     },
     generatePDF(is_send_to_email = false) {
-      console.log("ID Produk = ");
-      console.log(this.dataResult.detail.id_produk);
+     
       if (is_send_to_email) {
         this.sending = true;
       } else {
