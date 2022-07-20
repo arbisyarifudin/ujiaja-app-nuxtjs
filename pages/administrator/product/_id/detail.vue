@@ -297,14 +297,14 @@ export default {
         
         })
         .then(res => {
-          console.log(res);
+          //console.log(res);
           if (res.success) {
               const pdfUrl = res.data;
               let anchor = document.createElement("a");
               anchor.setAttribute("target", "_blank");
               anchor.setAttribute("href", pdfUrl);
               anchor.setAttribute("download", true);
-              // console.log(anchor);
+               console.log(anchor);
               anchor.click();
             
           }
