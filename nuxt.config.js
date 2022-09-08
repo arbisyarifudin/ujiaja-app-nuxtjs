@@ -52,7 +52,13 @@ export default {
     components: true,
 
     // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
-    buildModules: [],
+    buildModules: [
+        '@nuxtjs/auth-next'
+    ],
+
+    auth: {
+        // Options
+    },
 
     // Modules: https://go.nuxtjs.dev/config-modules
     modules: [
