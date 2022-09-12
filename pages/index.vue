@@ -25,7 +25,7 @@
       button
     />
     <Footer :footerData="footerData"/>
-    <WhatsAppFloating />
+    <WhatsAppFloating :wa="footerData.whatsapp"/>
   </div>
 </template>
 

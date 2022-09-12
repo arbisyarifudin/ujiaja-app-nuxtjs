@@ -1,8 +1,9 @@
 <template>
   <div class="container">
     <div class="floating">
-      <a href="https://api.whatsapp.com/send/?phone=6285773716731&text&type=phone_number&app_absent=0" target="_blank">
+      <a :href="`https://wa.me/${wa}`" target="_blank">
         <img src="icon/WhatsApp.png" alt="">
+
       </a>
     </div>
   </div>
@@ -24,6 +25,7 @@
 
 <script>
 export default {
-  props: ["props"],
+  name: "WhatsAppFloatingComponent",
+  props: ["wa"]
 };
 </script>
