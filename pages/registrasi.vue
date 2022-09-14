@@ -204,6 +204,7 @@
                     </button>
                   </div>
                 </form>
+                <div id="googleButton"></div>
                 <div class="text-center px-4 pt-2">
                   <p class="small">
                     Dengan masuk ke UjiAja, saya menyetujui <br />
@@ -383,6 +384,12 @@ export default {
     },
   },
   methods: {
+    handleCredentialResponse(response) {
+      console.log(response)
+    // call your backend API here
+
+    // the token can be accessed as: response.credential
+    },
     ApiUrl(param) {
       return process.env.apiUrl + "/" + param;
     },
@@ -584,6 +591,30 @@ export default {
       navData,
       footerData
     }
+  },
+
+  mounted() {
+    // initialize Google Sign in
+    google.accounts.id.initialize({
+      client_id: '153870988155-mtbua0puo9lg962ss8lemrv1n087u77a.apps.googleusercontent.com',
+      callback: this.handleCredentialResponse, //method to run after user clicks the Google sign in button
+      context: 'signup'
+    })
+
+    google.accounts.id.prompt()
+
+    // render button
+    google.accounts.id.renderButton(
+      document.getElementById('googleButton'),
+      {
+        type: 'standard',
+        size: 'large',
+        text: 'use',
+        shape: 'rectangular',
+        logo_alignment: 'center',
+        width: 250
+      }
+    )
   },
 };
 </script>

@@ -1,5 +1,6 @@
 <template>
   <div>
+    <HeaderCaraousel :heroData="header.hero" :navData="navData" />
     <Header :heroData="header.hero" :navData="navData"/>
 
     <SectionKeunggulan :props="keunggulan" variant="with-bg"/>
@@ -31,6 +32,7 @@
 
 <script>
 import WhatsAppFloating from '../components/WhatsAppFloating.vue';
+import HeaderCaraousel from '../components/HeaderCaraousel.vue';
 export default {
     head() {
         return {
@@ -153,6 +155,6 @@ export default {
             this.header.hero.cataButtonUrl = "/app/dashboard";
         }
     },
-    components: { WhatsAppFloating }
+    components: { WhatsAppFloating, HeaderCaraousel }
 };
 </script>
