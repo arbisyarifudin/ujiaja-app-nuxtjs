@@ -1,7 +1,7 @@
 <template>
   <div>
     <HeaderCaraousel :heroData="header.hero" :navData="navData" />
-    <Header :heroData="header.hero" :navData="navData"/>
+    <!-- <Header :heroData="header.hero" :navData="navData"/> -->
 
     <SectionKeunggulan :props="keunggulan" variant="with-bg"/>
     <SectionProduk :props="produk" />

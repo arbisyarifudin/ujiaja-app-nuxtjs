@@ -5,6 +5,10 @@
     <no-ssr>
       <vue-tiny-slider v-bind="tinySliderOptions" class="caraousel-image">
         <div>
+          <div class="container textBanner">
+            <h2 class="judul">{{ heroData.judul }}</h2>
+            <p class="subjudul">{{ heroData.subjudul }}</p>
+          </div>
           <img src="https://picsum.photos/1600/900" alt="" srcset="" />
         </div>
         <div>
@@ -37,6 +41,7 @@
     width: 100%;
     margin-left: 0 !important;
     z-index: 99;
+    background: #454545aa !important;
   }
   .caraousel-image {
     min-height: 480px;
@@ -46,6 +51,11 @@
 
   .caraousel-image img {
     width: 100%;
+  }
+
+  .caraousel-image .textBanner {
+    position: absolute;
+    color: #FFFFFF !important;
   }
 </style>
 
@@ -60,11 +70,11 @@ export default {
         autoplay: true,
         autoplayButtonOutput: false,
         controls: false,
-        lazyload: true,
         mouseDrag: true,
         loop: false,
         items: 1,
-        swipeAngle: 45
+        swipeAngle: 45,
+        nav: false
       }
     };
   },
