@@ -35,7 +35,7 @@ export default {
         ],
         script: [
             {
-                src: 'https://accounts.google.com/gsi/client',
+                src: 'https://apis.google.com/js/platform.js',
             },
         ],
     },
