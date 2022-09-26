@@ -37,6 +37,9 @@ export default {
             {
                 src: 'https://apis.google.com/js/platform.js',
             },
+            {
+              src: "https://accounts.google.com/gsi/client"
+            }
         ],
     },
 
@@ -90,9 +93,14 @@ export default {
     },
 
     axios: {
+      // proxy: true,
         baseURL: process.env.NODE_ENV !== "production" ?
             "http://localhost:8000" : "http://localhost:8000" // Used as fallback if no runtime config is provided
     },
+
+    // proxy: {
+    //   '/api/': { target: 'https://api.example.com/', pathRewrite: {'^/api/': ''}, changeOrigin: true }
+    // },
 
     // server
     server: {
