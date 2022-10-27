@@ -204,7 +204,13 @@
                     </button>
                   </div>
                 </form>
-                <div id="googleButton"></div>
+                <hr>
+              <button type="button" class="d-block text-center my-3 py-2 rounded-pill bg-white" style="border: 1px solid #B0A6EF; width: 100%;" @click.prevent="signUpWithGoogle()">
+                  <img src="/Google.svg" alt="" /> Registrasi Dengan Google
+                </button>
+                <a href="#" class="d-block text-center my-3 py-3 rounded-pill bg-white" style="border: 1px solid #B0A6EF">
+                  <img src="/Facebook.svg" alt="" /> Masuk Dengan Facebook
+                </a>
                 <div class="text-center px-4 pt-2">
                   <p class="small">
                     Dengan masuk ke UjiAja, saya menyetujui <br />
@@ -227,6 +233,8 @@
 
 <script>
 import ContentWrapper from "@/components/Layout/ContentWrapper";
+import jwt_decode from "jwt-decode";
+
 export default {
   middleware: "auth-guest",
   components: { ContentWrapper },
@@ -561,6 +569,50 @@ export default {
       // store.commit("set", ["loading", false]);
       // return "error";
     },
+    signUpWithGoogle() {
+      google.accounts.id.initialize({
+        client_id: "153870988155-mtbua0puo9lg962ss8lemrv1n087u77a.apps.googleusercontent.com",
+        scope: ['name', 'email'],
+        ux_mode: "redirect",
+        callback: (response) => {
+          console.log(response)
+
+          const payload = jwt_decode(response.credential);
+
+          this.$axios
+            .$post(`/api/users/google-signup/${this.tipe_user}`, payload)
+            .then((res) => {
+              if (res.success) {
+                this.$root.$bvToast.toast(
+                  "Registrasi berhasil!",
+                  {
+                    title: "Sukses",
+                    variant: "success",
+                    solid: true,
+                    autoHideDelay: 3000,
+                  }
+                );
+                this.$router.replace("/masuk");
+              } else {
+                this.$root.$bvToast.toast("Registrasi gagal!", {
+                  title: "Error",
+                  variant: "danger",
+                  solid: true,
+                  autoHideDelay: 3000,
+                });
+              }
+            })
+            .catch((err) => {
+              this.catchError(err);
+            })
+            .finally(() => {
+              this.loading = false;
+            });
+        }
+      });
+
+      google.accounts.id.prompt();
+    }
   },
   asyncData(context) {
     function getSetting(key) {

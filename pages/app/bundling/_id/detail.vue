@@ -94,6 +94,7 @@
                       item.transaksi_user_product_bundling.status != 'Ditolak' &&
                       item.transaksi_user_product_bundling.status != 'Kadaluarsa' ? '' : 'draft']"
                   >
+                  <!-- Labeling JSON -->
                     {{ item.transaksi_user_product_bundling &&
                       item.transaksi_user_product_bundling.status != 'Ditolak' &&
                       item.transaksi_user_product_bundling.status != 'Kadaluarsa' ? "Sudah Dibeli" : "Belum Dibeli" }}
