@@ -31,7 +31,7 @@
                         <img src="/login-siswa.png" />
                         <h4 class="judul">Belajar Efektif Bersama UjiAja</h4>
                         <p>
-                          Dapatkan layanan prima dari tutor yang profesional, ramah, bersahabat, asyik dan terpercaya. 
+                          Dapatkan layanan prima dari tutor yang profesional, ramah, bersahabat, asyik dan terpercaya.
                         </p>
                       </div>
                     </vue-tiny-slider>
@@ -122,6 +122,13 @@
                     </button>
                   </div>
                 </form>
+                <hr>
+                <button type="button" class="d-block text-center my-3 py-2 rounded-pill bg-white" style="border: 1px solid #B0A6EF; width: 100%;" @click.prevent="loginWithGoogle()">
+                  <img src="/Google.svg" alt="" /> Masuk Dengan Google
+                </button>
+                <a href="#" class="d-block text-center my-3 py-3 rounded-pill bg-white" style="border: 1px solid #B0A6EF">
+                  <img src="/Facebook.svg" alt="" /> Masuk Dengan Facebook
+                </a>
                 <!-- <div class="text-center px-4 pt-2">
                   <p class="small">
                     Dengan masuk ke UjiAja, saya menyetujui <br />
@@ -142,6 +149,8 @@
 
 <script>
 import ContentWrapper from "@/components/Layout/ContentWrapper";
+import jwt_decode from "jwt-decode";
+
 export default {
   middleware: "auth-guest",
   components: { ContentWrapper },
@@ -332,6 +341,7 @@ export default {
               this.$store.commit("set", ["dataUser", res.data]);
               // this.$router.replace(`/app/${role}/dashboard`);
               // this.$router.replace("/app/dashboard");
+
               window.location.href = window.origin + "/app/dashboard";
             }
           } else {
@@ -420,6 +430,68 @@ export default {
       // store.commit("set", ["loading", false]);
       // return "error";
     },
-  },
+    loginWithGoogle() {
+      google.accounts.id.initialize({
+        client_id: "153870988155-mtbua0puo9lg962ss8lemrv1n087u77a.apps.googleusercontent.com",
+        scope: ['name', 'email'],
+        ux_mode: "redirect",
+        callback: (response) => {
+          console.log(response)
+
+          const payload = jwt_decode(response.credential);
+
+          this.$axios
+            .$post(`/api/users/google-login`, payload)
+            .then((res) => {
+              console.log(res);
+              if (res.success) {
+                this.$bvToast.toast(
+                  res.message,
+                  {
+                    title: "Sukses",
+                    variant: "success",
+                    solid: true,
+                    autoHideDelay: 3000,
+                  }
+                );
+                if (res.data) {
+                  // let role = res.data.user.role_user;
+                  // if (role == "siswa") {
+                  //   role = "student";
+                  // } else if (role == "teacher") {
+                  //   role = "partner";
+                  // }
+                  this.$cookiz.set("_ujiaja", res.data.token, {
+                    path: "/",
+                    maxAge: 60 * 60 * 24 * 7,
+                  });
+                  this.$store.commit("SET_IS_AUTH", true);
+                  this.$store.commit("set", ["dataUser", res.data]);
+
+                  // this.$router.replace(`/app/${role}/dashboard`);
+                  // this.$router.replace("/app/dashboard");
+                  window.location.href = window.origin + "/app/dashboard";
+                }
+              } else {
+                this.$bvToast.toast(res.message, {
+                  title: "Error",
+                  variant: "danger",
+                  solid: true,
+                  autoHideDelay: 3000,
+                });
+              }
+            })
+            .catch((err) => {
+              this.catchError(err);
+            })
+            .finally(() => {
+              this.loading = false;
+            });
+        }
+      });
+
+      google.accounts.id.prompt();
+    }
+  }
 };
 </script>

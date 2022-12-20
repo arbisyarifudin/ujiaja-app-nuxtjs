@@ -9,13 +9,16 @@
     "generate": "nuxt generate"
   },
   "dependencies": {
+    "@nuxtjs/auth-next": "5.0.0-1648802546.c9880dc",
     "@nuxtjs/axios": "^5.13.6",
     "bootstrap": "^4.6.0",
     "bootstrap-vue": "^2.21.2",
     "cookie-universal-nuxt": "^2.1.5",
     "core-js": "^3.15.1",
     "crypto-js": "^4.1.1",
+    "google-signin-vue": "^1.2.2",
     "jquery": "^3.6.0",
+    "jwt-decode": "^3.1.2",
     "mathjax": "^3.2.0",
     "moment": "^2.29.1",
     "nuxt": "^2.15.7",

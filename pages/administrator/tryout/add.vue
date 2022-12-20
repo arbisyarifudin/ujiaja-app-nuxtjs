@@ -110,7 +110,9 @@
                     :options="[
                       { text: '-- Pilih --', value: null },
                       { text: 'TKA', value: 'TKA' },
-                      { text: 'TPS', value: 'TPS' }
+                      { text: 'TPS', value: 'TPS' },
+                      { text: 'LITERASI', value: 'LITERASI' },
+                      { text: 'NUMERISASI', value: 'NUMERISASI' },
                     ]"
                   >
                     <!-- { text: 'Campuran', value: 'Campuran' } -->

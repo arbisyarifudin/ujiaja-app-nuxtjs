@@ -80,7 +80,10 @@
             <div class="card card-karir m-2 router-push" @click="$router.push(`/app/tryout/${item.id}/detail?ref=${$route.path}`)">
               <!-- style="width: 350px; max-width: 100%" -->
               <div class="card-body text-left p-0">
-                <div class="" style="display: flex; justify-content: flex-end;">
+                <div class="" style="display: flex; justify-content: space-between;">
+                  <span style="padding: 8px; z-index: 99;" @click.stop.prevent="archiveTryOut(`${item.id}`)">
+                    <img :src="`${item.is_archive}` == '1' ? '/icon/archive-tick.svg' : '/icon/unarchive-tick.svg'" class="img-fluid image" />
+                  </span>
                   <p
                     class="label-event mb-2 px-4 py-1"
                     :class="[item.is_task_start ? '' : 'draft']"
@@ -263,6 +266,28 @@ export default {
     this.getData("produk");
   },
   methods: {
+    archiveTryOut(id) {
+      this.loading = true
+      this.$axios
+        .$put(`api/tryout_user/archived/${id}`)
+        .then(res => {
+          this.loading = false
+          console.log(res);
+          getData('produk')
+          // if (res.success) {
+          //   this.items = res.data.data;
+          //   this.totalRows = res.data.paginate.total;
+          //   this.filter.perPage = res.data.paginate.per_page;
+          // }
+          return true;
+        })
+        .catch(err => {
+          console.log(err);
+          this.catchError(err);
+        })
+        .finally(() => (this.loading = false));
+
+    },
     getData(type) {
       switch (this.filterCategory) {
         case "UTBK Mandiri":
@@ -312,6 +337,7 @@ export default {
         .then(res => {
           console.log(res);
           if (res.success) {
+            console.log(res.data.data)
             this.items = res.data.data;
             this.totalRows = res.data.paginate.total;
             this.filter.perPage = res.data.paginate.per_page;
