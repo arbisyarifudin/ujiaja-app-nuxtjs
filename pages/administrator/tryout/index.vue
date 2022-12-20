@@ -72,6 +72,12 @@
             >
               Tambah
             </nuxt-link>
+            <button 
+              class="btn btn-outline-primary tambah crud-btn__add px-4 ml-2"
+              @click.prevent="$bvModal.show('modal-import');"
+            >
+              Import
+            </button>
           </div>
         </div>
       </div>
@@ -173,6 +179,13 @@
                     >
                       Hapus Tryout
                     </button>
+                    <a
+                      target="_blank"
+                      class="btn btn-outline-warning warning px-3 py-1 px-4 mt-md-2"
+                      :href="apiUrl + '/export?soal_tryout_id=' + item.id"
+                    >
+                      Export Soal
+                    </a>
                   </template>
                 </div>
               </div>
@@ -240,6 +253,47 @@
         </div>
       </div>
     </b-modal>
+
+    <b-modal
+      id="modal-import"
+      title="Import Soal Try Out"
+      hide-footer
+      centered
+      modal-class="admin-modal"
+      @hidden="resetModal"
+    >
+      <div>
+        <p class="modal-text">
+          Import data soal TryOut berdasarkan format yang sudah ditentukan.
+        </p>
+        <div class="form-group mb-2">
+          <p class="text-weight-bold">
+            Unggah File
+          </p>
+          <input 
+            type="file" 
+            class=""
+            ref="file" />
+        </div>
+        <div class="modal-footer justify-content-end" style="border: 0px">
+          <button
+            class="btn btn-outline-secondary"
+            type="button"
+            @click="$bvModal.hide('modal-import')"
+          >
+            Tidak
+          </button>
+          <button
+            class="btn btn-primary tambah px-4 py-2"
+            type="button"
+            @click.prevent="importData()"
+          >
+            <b-spinner small v-if="loading" class="mr-1"></b-spinner> Ya
+          </button>
+        </div>
+      </div>
+    </b-modal>
+
   </div>
 </template>
 
@@ -258,7 +312,8 @@ export default {
       totalRows: 0,
       items: [],
       selectedId: null,
-      selectedIndex: null
+      selectedIndex: null,
+      apiUrl: process.env.apiUrl
     };
   },
   mounted() {
@@ -326,6 +381,44 @@ export default {
           console.log(err.response)
           if(err.response && err.response.status && err.response.status == 500 && err.response.data && err.response.data.message && err.response.data.message.includes('SQLSTATE[23000]')) {
             return this.showToastMessage('Data tidak dapat dihapus karena sudah terdaftar pada produk yang telah dibeli oleh Siswa!', 'danger', 4000);
+          }
+          this.catchError(err);
+        })
+        .finally(() => (this.loading = false));
+    },
+    importData() {
+      this.loading = true;
+
+      let file = this.$refs.file.files.item(0);
+
+      let formData = new FormData();
+      formData.append("file", file)
+
+      this.$axios
+        .$post('/api/import/soal_pertanyaan', formData, {
+          headers: {
+            "Content-Type": "multipart/form-data"
+          }
+        })
+        .then(res => {
+          console.log(res);
+          if (res.success) {
+            this.items.splice(this.selectedIndex, 1);
+            this.$bvToast.toast("Data berhasil dimport.", {
+              title: "Sukses",
+              variant: "success",
+              solid: true,
+              autoHideDelay: 3000
+            });
+            this.getData("tryout");
+            this.$bvModal.hide("modal-import");
+          }
+          return true;
+        })
+        .catch(err => {
+          console.log(err.response)
+          if(err.response && err.response.status && err.response.status == 500 && err.response.data && err.response.data.message && err.response.data.message.includes('SQLSTATE[23000]')) {
+            return this.showToastMessage('Data tidak dapat di import!', 'danger', 4000);
           }
           this.catchError(err);
         })
