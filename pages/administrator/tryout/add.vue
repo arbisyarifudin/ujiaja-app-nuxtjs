@@ -111,8 +111,7 @@
                       { text: '-- Pilih --', value: null },
                       { text: 'TKA', value: 'TKA' },
                       { text: 'TPS', value: 'TPS' },
-                      { text: 'LITERASI', value: 'LITERASI' },
-                      { text: 'NUMERISASI', value: 'NUMERISASI' },
+                      { text: 'LITERASI_PENALARAN', value: 'LITERASI DAN PENALARAN' },
                     ]"
                   >
                     <!-- { text: 'Campuran', value: 'Campuran' } -->
