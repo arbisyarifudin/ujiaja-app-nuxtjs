@@ -60,6 +60,19 @@
                   placeholder="Misal: 5"
                   v-model="form.jeda_waktu"
                 />
+                <div class="col form-group reg-siswa">
+                <label for="subexam_breaks"
+                  >Jeda Waktu Pengerjaan Antar Sub Test Ujian (Menit) <code>*</code></label
+                >
+                <input
+                  type="number"
+                  class="form-control"
+                  id="subexam_breaks"
+                  name="subexam_breaks"
+                  placeholder="Misal: 60"
+                  v-model="form.subexam_breaks"
+                />
+              </div>
               </div>
             </div>
             <div class="row">
@@ -247,7 +260,8 @@ export default {
         id_penjurusan: null,
         panduan_pengerjaan: null,
         alokasi_waktu: 0,
-        jeda_waktu: 0
+        jeda_waktu: 0,
+        subexam_breaks: 0
       }
     };
   },
@@ -309,8 +323,10 @@ export default {
       if (
         !this.form.alokasi_waktu ||
         !this.form.jeda_waktu ||
+        !this.form.subexam_breaks ||
         this.form.alokasi_waktu < 1 ||
-        this.form.jeda_waktu < 1
+        this.form.jeda_waktu < 1 ||
+        this.form.subexam_breaks < 1 ||
       ) {
         this.$bvToast.toast("Alokasi dan jeda waktu diperlukan!", {
           title: "Peringatan",
