@@ -326,7 +326,7 @@ export default {
         !this.form.subexam_breaks ||
         this.form.alokasi_waktu < 1 ||
         this.form.jeda_waktu < 1 ||
-        this.form.subexam_breaks < 1 ||
+        this.form.subexam_breaks < 1 
       ) {
         this.$bvToast.toast("Alokasi dan jeda waktu diperlukan!", {
           title: "Peringatan",
