@@ -230,7 +230,7 @@
             <UjianNumberList
               @update="updateNomor"
               :jawaban="jawabanUser"
-              :list="listNomorSoal"
+              :list="listSoal"
               :active="currentNomor.nomor"
             />
             <hr />
@@ -262,6 +262,15 @@
               </div>
             </div>
             <button
+              v-if="nextSubtestAvailable()"
+              type="button"
+              class="btn btn-danger btn-block square"
+              v-b-modal.modal-next-subtest
+            >
+              Ke Subtest Selanjutnya
+            </button>
+            <button
+              v-else
               type="button"
               class="btn btn-danger btn-block square"
               v-b-modal.modal-confirm-end
@@ -309,6 +318,15 @@
             </div>
             <div class="col-sm-6 col-12 mb-3">
               <button
+                v-if="nextSubtestAvailable()"
+                type="button"
+                class="btn btn-danger btn-block square"
+                v-b-modal.modal-next-subtest
+              >
+                Ke Subtest Selanjutnya
+              </button>
+              <button
+                v-else
                 type="button"
                 class="btn btn-danger btn-block square"
                 :disabled="loading"
@@ -343,7 +361,7 @@
           <UjianNumberList
             @update="updateNomor"
             :jawaban="jawabanUser"
-            :list="listNomorSoal"
+            :list="listSoal"
             :active="currentNomor.nomor"
           />
           <hr />
@@ -484,6 +502,41 @@
       </div>
     </b-modal>
     <b-modal
+      id="modal-next-subtest"
+      title="Konfirmasi Akhiri Tryout"
+      hide-footer
+      centered
+      :no-close-on-backdrop="loading"
+      :no-close-on-esc="loading"
+      modal-class="admin-modal"
+      @hidden="resetModal"
+    >
+      <div>
+        <p class="modal-text">
+          Apakah kamu yakin ingin melanjutkan ke subtest selanjutnya?
+        </p>
+        <div class="modal-footer justify-content-end" style="border: 0px">
+          <button
+            class="btn btn-outline-secondary"
+            type="button"
+            @click="$bvModal.hide('modal-next-subtest')"
+            v-if="!loading"
+          >
+            Batal
+          </button>
+          <button
+            class="btn btn-primary tambah px-4 py-2"
+            type="button"
+            :disabled="loading"
+            @click.prevent="onNextSubtest"
+          >
+            <b-spinner small v-if="loading" class="mr-1"></b-spinner>
+            <span>Ya, Lanjut</span>
+          </button>
+        </div>
+      </div>
+    </b-modal>
+    <b-modal
       id="modal-success-end"
       title="Kamu Berhasil Menyelesaikan"
       hide-footer
@@ -552,6 +605,8 @@ export default {
       tryout: {},
       detailUjian: {},
       listNomorSoal: [],
+      listSubtest: [],
+      listSoal: [],
       currentNomor: {},
       jawabanUser: {},
       countdownTimer: null,
@@ -566,7 +621,6 @@ export default {
     await this.getDetailProduk();
     await this.getDetailUjian();
 
-    console.log(this.detailUjian);
     // return;
 
     // jika data ujian sudah pernah dibuat
@@ -577,6 +631,16 @@ export default {
         await this.getDetailTryout();
         await this.getNomorSoal();
         document.addEventListener("keydown", this.onKeyDownNavigation);
+        if (!this.$route.query.id_mapel) {
+          this.$router.replace({
+            ...this.$route,
+            query: {
+              ...this.$route.query,
+              id_mapel: this.listSubtest[0].id
+            }
+          })
+        }
+        this.listSoal = this.listNomorSoal.filter(soal => soal.id_soal_tryout === parseInt(this.$route.query.id_mapel, 10))
         this.startTimer();
       }
     } else {
@@ -618,6 +682,9 @@ export default {
       }
       return data;
     },
+    subtestIndex() {
+      return this.listSubtest.findIndex(subtest => subtest.id === parseInt(this.$route.query.id_mapel, 10))
+    },
     totalJawaban() {
       let data = [];
       for (const key in this.jawabanUser) {
@@ -652,13 +719,13 @@ export default {
         `/app/tryout/${encryptedProductIdSafe}/test/${encryptedTryoutIdSafe}?kode=${this.$route.query.kode}`
       );
     },
-    toWaitingTestPage(productID, tryoutID) {
+    toWaitingTestPage(productID, tryoutID, mapelID = null) {
       const encryptedProductId = this.encrypt(productID);
       const encryptedProductIdSafe = encodeURIComponent(encryptedProductId);
       const encryptedTryoutId = this.encrypt(tryoutID);
       const encryptedTryoutIdSafe = encodeURIComponent(encryptedTryoutId);
       window.location.replace(
-        `/app/tryout/${encryptedProductIdSafe}/waiting/${encryptedTryoutIdSafe}?kode=${this.$route.query.kode}`
+        `/app/tryout/${encryptedProductIdSafe}/waiting/${encryptedTryoutIdSafe}?kode=${this.$route.query.kode}${mapelID ? '&id_mapel=' + mapelID : ''}`
       );
     },
     checkLastSaved() {
@@ -824,7 +891,7 @@ export default {
         default:
           break;
       }
-      foundSoal = this.listNomorSoal.find(item => item.nomor == targetNomor);
+      foundSoal = this.listSoal.find(item => item.nomor == targetNomor);
       if (foundSoal) {
         this.currentNomor = foundSoal;
       }
@@ -882,6 +949,9 @@ export default {
         }
         this.loading = false;
       }
+    },
+    async onNextSubtest() {
+      this.toWaitingTestPage(this.detailUjian.id_produk, this.tryoutId, this.listSubtest[this.subtestIndex + 1].id)
     },
     async submitJawabanUser() {
       console.log("submitJawaban", this.jawabanUser);
@@ -1065,6 +1135,11 @@ export default {
           console.log("tryout", res);
           if (res.success) {
             this.tryout = res.data;
+            this.listSubtest = res.data.soal.map((to) => ({
+              id: to.id,
+              mapel: to.mapel.nama_mapel,
+              jeda_waktu: to.jeda_waktu || res.data.jeda_waktu
+            }));
           }
           return true;
         })
@@ -1107,6 +1182,10 @@ export default {
       window.location.replace(
         `/app/tryout/${encryptedProductIdSafe}/test?tryout=${encryptedTryoutIdSafe}&kode=${this.$route.query.kode}`
       );
+    },
+    nextSubtestAvailable() {
+      if (this.listSubtest[this.subtestIndex + 1]) return true
+      return false
     },
     isAllowNext() {
       if (
