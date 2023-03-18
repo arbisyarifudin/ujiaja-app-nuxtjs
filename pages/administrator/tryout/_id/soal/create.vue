@@ -177,7 +177,7 @@
                         <div
                           class="col-md-12 form-user form-pilih-kelas p-0 mt-3"
                         >
-                          <div class="form-group reg-siswa mb-0">
+                          <div class="form-group reg-siswa">
                             <label for="id_mapel"
                               >Mata Pelajaran <code>*</code></label
                             >
@@ -196,6 +196,32 @@
                                 >{{ mapel.nama_mapel }}</option
                               >
                             </select>
+                          </div>
+                          <div class="form-group reg-siswa">
+                            <label for="jeda_waktu_antar_mapel"
+                              >Alokasi Waktu Per-Mata Pelajaran (Menit) <code>*</code></label
+                            >
+                            <input
+                              type="text"
+                              class="form-control pl-0"
+                              id="jeda_waktu_antar_mapel"
+                              placeholder="Ex: 80"
+                              v-model="newMapel.alokasi_waktu"
+                              :disabled="a != 0"
+                            />
+                          </div>
+                          <div class="form-group reg-siswa mb-0">
+                            <label for="jeda_waktu_antar_mapel"
+                              >Jeda Waktu Dengan Mata Pelajaran Berikutnya (Detik) <code>*</code></label
+                            >
+                            <input
+                              type="text"
+                              class="form-control pl-0"
+                              id="jeda_waktu_antar_mapel"
+                              placeholder="Ex: 30"
+                              v-model="newMapel.jeda_waktu"
+                              :disabled="a != 0"
+                            />
                           </div>
                           <UISaveStatus
                             :data="onSubmit.soal[soal.id]"
@@ -1042,10 +1068,7 @@
                         <button
                           type="button"
                           class="btn btn-outline-primary"
-                          @click.prevent="
-                            addNewMapel = false;
-                            resetNewMapel;
-                          "
+                          @click.prevent="addNewMapel = false; resetNewMapel()"
                         >
                           <b-icon icon="x" class="mr-1"></b-icon>
                           Batal
@@ -1142,7 +1165,8 @@ export default {
       newMapel: {
         id_mapel: null,
         // alokasi_waktu_per_mapel: null,
-        // jeda_waktu_antar_mapel: null,
+        jeda_waktu: null,
+        alokasi_waktu: null,
         jenis_soal: null,
         kelompok_soal: null,
         jumlah_soal: 25
