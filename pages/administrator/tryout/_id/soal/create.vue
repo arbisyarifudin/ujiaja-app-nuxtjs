@@ -199,14 +199,14 @@
                           </div>
                           <div class="form-group reg-siswa">
                             <label for="jeda_waktu_antar_mapel"
-                              >Alokasi Waktu Per-Mata Pelajaran (Menit) <code>*</code></label
+                              >Alokasi Waktu Per-Mata Pelajaran (Detik) <code>*</code></label
                             >
                             <input
                               type="text"
                               class="form-control pl-0"
                               id="jeda_waktu_antar_mapel"
                               placeholder="Ex: 80"
-                              v-model="newMapel.alokasi_waktu"
+                              v-model="newMapel.alokasi_waktu_second"
                               :disabled="a != 0"
                             />
                           </div>
@@ -219,7 +219,7 @@
                               class="form-control pl-0"
                               id="jeda_waktu_antar_mapel"
                               placeholder="Ex: 30"
-                              v-model="newMapel.jeda_waktu"
+                              v-model="newMapel.jeda_waktu_second"
                               :disabled="a != 0"
                             />
                           </div>
@@ -1165,8 +1165,8 @@ export default {
       newMapel: {
         id_mapel: null,
         // alokasi_waktu_per_mapel: null,
-        jeda_waktu: null,
-        alokasi_waktu: null,
+        jeda_waktu_second: null,
+        alokasi_waktu_second: null,
         jenis_soal: null,
         kelompok_soal: null,
         jumlah_soal: 25
