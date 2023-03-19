@@ -5,7 +5,7 @@ export default {
         baseUrl: process.env.NODE_ENV !== "production" ?
             "http://localhost:7000" : "http://ujiaja.com",
         apiUrl: process.env.NODE_ENV !== "production" ?
-            "http://localhost:8000" : "http://54.251.180.39"
+            "https://backendv12.ujiaja.com" : "http://54.251.180.39"
     },
 
     dev: process.env.NODE_ENV !== "production",
@@ -95,7 +95,7 @@ export default {
     axios: {
       // proxy: true,
         baseURL: process.env.NODE_ENV !== "production" ?
-            "http://localhost:8000" : "http://localhost:8000" // Used as fallback if no runtime config is provided
+            "https://backendv12.ujiaja.com" : "http://localhost:8000" // Used as fallback if no runtime config is provided
     },
 
     // proxy: {

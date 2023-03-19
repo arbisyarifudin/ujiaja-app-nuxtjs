@@ -1050,6 +1050,30 @@
                           </div>
                         </div>
                       </div>
+                          <div class="form-group reg-siswa">
+                            <label for="jeda_waktu_antar_mapel"
+                              >Alokasi Waktu Per-Mata Pelajaran (Detik) <code>*</code></label
+                            >
+                            <input
+                              type="text"
+                              class="form-control pl-0"
+                              id="jeda_waktu_antar_mapel"
+                              placeholder="Ex: 80"
+                              v-model="newMapel.alokasi_waktu_second"
+                            />
+                          </div>
+                          <div class="form-group reg-siswa">
+                            <label for="jeda_waktu_antar_mapel"
+                              >Jeda Waktu Dengan Mata Pelajaran Berikutnya (Detik) <code>*</code></label
+                            >
+                            <input
+                              type="text"
+                              class="form-control pl-0"
+                              id="jeda_waktu_antar_mapel"
+                              placeholder="Ex: 30"
+                              v-model="newMapel.jeda_waktu_second"
+                            />
+                          </div>
                       <div class="d-flex">
                         <button
                           type="button"
@@ -1225,6 +1249,13 @@ export default {
     }
   },
   methods: {
+    parseJSON(str) {
+      try {
+        return JSON.parse(str)
+      } catch (err) {
+        return str
+      }
+    },
     delay: ms =>
       new Promise(res => {
         setTimeout(res, ms);
@@ -1263,7 +1294,13 @@ export default {
           console.log(res);
           if (res.success) {
             this.dataDetail = await res.data;
-            this.formSoal = res.data.soal;
+            this.formSoal = res.data.soal.map(s => ({
+              ...s,
+              pertanyaan: s.pertanyaan.map(p => ({
+                ...p,
+                bab_mapel: this.parseJSON(p.bab_mapel)
+              }))
+            }));
             this.formTryout = { ...this.dataDetail };
             this.filter.totalNumber = res.totalNomor;
             this.filter.numberInSubtest = 0;
