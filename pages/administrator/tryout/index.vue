@@ -72,7 +72,7 @@
             >
               Tambah
             </nuxt-link>
-            <button 
+            <button
               class="btn btn-outline-primary tambah crud-btn__add px-4 ml-2"
               @click.prevent="$bvModal.show('modal-import');"
             >
@@ -168,6 +168,12 @@
                       :to="`/administrator/tryout/${item.id}/edit`"
                     >
                       Ubah Tryout
+                    </nuxt-link>
+                    <nuxt-link
+                      class="btn btn-outline-secondary secondary px-3 py-1 px-4 mt-md-2"
+                      :to="`/administrator/tryout/${item.id}/preview`"
+                    >
+                      Preview Tryout
                     </nuxt-link>
                     <button
                       class="btn btn-outline-danger danger px-3 py-1 mt-md-2"
@@ -270,8 +276,8 @@
           <p class="text-weight-bold">
             Unggah File
           </p>
-          <input 
-            type="file" 
+          <input
+            type="file"
             class=""
             ref="file" />
         </div>
