@@ -211,6 +211,13 @@
     <li class="nav-item">
       <nuxt-link
         class="nav-link d-flex align-items-center"
+        to="/administrator/edit-cms"
+        ><i class="fas fa-pencil-alt fa-fw mr-2"></i> Edit CMS</nuxt-link
+      >
+    </li>
+    <li class="nav-item">
+      <nuxt-link
+        class="nav-link d-flex align-items-center"
         to="/administrator/ticket"
         ><i class="fas fa-question-circle fa-fw mr-2"></i> Pengaduan</nuxt-link
       >
