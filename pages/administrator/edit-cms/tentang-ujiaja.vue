@@ -2,59 +2,9 @@
   <div class="col-md-12">
     <UIKonten>
       <template #title>Konten 1</template>
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-md-12">
-            <EditorImage v-model="contents[0].banner" :max-size="5">
-              <template #title>
-                Banner
-              </template>
-              <template #warn>
-                *Disarankan dengan Banner 1276 x 638 pixel, dan Maksimal 5 Mb
-              </template>
-            </EditorImage>
-          </div>
-          <div class="col-md-12">
-            <EditorImage v-model="contents[0].gambar" :max-size="5">
-              <template #title>
-                Gambar
-              </template>
-              <template #warn>
-                *Disarankan dengan Gambar atau Vektor 1276 x 638 pixel, dan Maksimal 5 Mb
-              </template>
-            </EditorImage>
-          </div>
-          <div class="form-user col-md-12">
-            <EditorText v-model="contents[0].judul" placeholder="Isi Judul baru">
-              <template #title>Judul</template>
-            </EditorText>
-          </div>
-          <div class="form-user col-md-12">
-            <EditorTextArea v-model="contents[0].text">
-              <template #title>Text</template>
-            </EditorTextArea>
-          </div>
-          <div class="col-md-12 border-top pt-3 mt-1">
-            <button @click="addSubContent" class="btn btn-outline-primary">+ Tambah Sub Konten</button>
-          </div>
-          <div v-for="(sc, i) in contents[0].subContents" :key="i" class="form-user col-md-12 pt-3">
-            <EditorText v-model="sc.tombol" placeholder="Isi nama tombol baru">
-              <template #title>Tombol</template>
-            </EditorText>
-            <p class="pt-3">Link</p>
-            <div class="form-group row justify-content-between px-3">
-              <input v-model="sc.link" placeholder="Isi Link yang ingin di tuju" class="form-control col-md-12" />
-            </div>
-          </div>
-          <div v-if="contents[0].subContents.length > 1" class="col-md-12">
-            <div class="row justify-content-end">
-              <button @click="deleteSubContent" class="btn btn-outline-danger col-md-3">Hapus Sub Konten</button>
-            </div>
-          </div>
-          <div class="col-md-12 pt-4">
-            <button class="btn btn-primary">Simpan</button>
-          </div>
-        </div>
+      <EditorContentMaster :content="master" />
+      <div class="col-md-12 pt-4">
+        <button @click="saveMasterContent" class="btn btn-primary">Simpan</button>
       </div>
     </UIKonten>
   </div>
@@ -64,20 +14,18 @@
 export default {
   data() {
     return {
-      contents: [
-        {
-          banner: null,
-          gambar: null,
-          judul: '',
-          text: '',
-          subContents: [
-            {
-              tombol: '',
-              link: ''
-            }
-          ]
-        }
-      ],
+      master: {
+        banner: null,
+        gambar: null,
+        judul: '',
+        text: '',
+        subContents: [
+          {
+            tombol: '',
+            link: ''
+          }
+        ]
+      },
     }
   },
   methods: {
@@ -89,7 +37,10 @@ export default {
     },
     deleteSubContent() {
       this.contents[0].subContents.pop()
-    }
+    },
+    saveMasterContent() {
+      console.log(this.master)
+    },
   }
 }
 </script>

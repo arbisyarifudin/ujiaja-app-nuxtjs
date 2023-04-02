@@ -69,7 +69,7 @@
         <span
           class="nav-link mb-0 p-0"
           :class="[
-            $route.path.includes('tryout') || $route.path.includes('product') && !$route.path.includes('uktt')
+            $route.path.includes('/administrator/tryout') || $route.path.includes('product') && !$route.path.includes('uktt')
               ? 'nuxt-link-active'
               : ''
           ]"
