@@ -219,7 +219,7 @@
                               class="form-control pl-0"
                               id="jeda_waktu_antar_mapel"
                               placeholder="Ex: 30"
-                              v-model="newMapel.jeda_waktu_second"
+                              v-model="newMapel.jeda_waktu_antar_mapel"
                               :disabled="a != 0"
                             />
                           </div>
@@ -1071,7 +1071,7 @@
                               class="form-control pl-0"
                               id="jeda_waktu_antar_mapel"
                               placeholder="Ex: 30"
-                              v-model="newMapel.jeda_waktu_second"
+                              v-model="newMapel.jeda_waktu_antar_mapel"
                             />
                           </div>
                       <div class="d-flex">
@@ -1189,7 +1189,7 @@ export default {
       newMapel: {
         id_mapel: null,
         // alokasi_waktu_per_mapel: null,
-        jeda_waktu_second: null,
+        jeda_waktu_antar_mapel: null,
         alokasi_waktu_second: null,
         jenis_soal: null,
         kelompok_soal: null,
