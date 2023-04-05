@@ -11,7 +11,7 @@
       <div class="col-md-12 text-right mt-4 crud-tools">
         <div class="row no-gutters justify-content-between">
           <div class="col-md-6">
-            <div class="row justify-content-start">
+            <div class="justify-content-start d-flex filter">
               <div class="col-md-5">
                 <b-input-group>
                   <template #prepend>
@@ -50,6 +50,24 @@
                       <!-- { text: 'Asesmen Nasional', value: 'Asmenas' } -->
                 </b-input-group>
               </div>
+              <div class="col-md-5">
+                <b-input-group>
+                  <template #prepend>
+                    <b-input-group-text
+                      ><i class="fas fa-filter"></i
+                    ></b-input-group-text>
+                  </template>
+                  <b-form-select
+                    v-model="filter.archive"
+                    :options="[
+                      { text: 'Semua', value: null },
+                      { text: 'Diarsipkan', value: true },
+                      { text: 'Tidak Diarsipkan', value: false },
+                    ]"
+                    @change="getData('tryout')"
+                  ></b-form-select>
+                </b-input-group>
+              </div>
             </div>
           </div>
 
@@ -84,7 +102,10 @@
       <div class="col-md-12 crud-body">
         <div class="overflow-auto">
           <div class="data-tryout" v-if="totalRows > 0">
-            <div class="card-data" v-for="(item, i) in items" :key="i">
+            <div class="card-data position-relative" v-for="(item, i) in items" :key="i">
+              <span style="top: 14px; left: 14px; z-index: 99; position: absolute;" @click.stop.prevent="archiveTryOut(`${item.id}`)">
+                <img :src="`${item.is_archive}` == '1' ? '/icon/archive-tick.svg' : '/icon/unarchive-tick.svg'" class="img-fluid image" />
+              </span>
               <div class="row d-flex align-items-start">
                 <div class="col-md-1 col-6 align-self-center">
                   <div class="text-center">
@@ -313,7 +334,8 @@ export default {
         page: 1,
         perPage: 5,
         keyword: "",
-        category: ""
+        category: "",
+        archive: null
       },
       totalRows: 0,
       items: [],
@@ -433,3 +455,9 @@ export default {
   }
 };
 </script>
+
+<style>
+.filter {
+  overflow-x: auto;
+}
+</style>

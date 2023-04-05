@@ -489,13 +489,23 @@
             Batal
           </button>
           <button
+            v-if="isAllowNext()"
+            class="btn btn-primary tambah px-4 py-2"
+            type="button"
+            :disabled="loading"
+            @click.prevent="onNextSubtest"
+          >
+            <b-spinner small v-if="loading" class="mr-1"></b-spinner>
+            <span v-else>Ya, Kirim & Lanjutkan</span>
+          </button>
+          <button
+            v-else
             class="btn btn-primary tambah px-4 py-2"
             type="button"
             :disabled="loading"
             @click.prevent="onConfirmEndTest"
           >
             <b-spinner small v-if="loading" class="mr-1"></b-spinner>
-            <span v-if="isAllowNext()">Ya, Kirim & Lanjutkan</span>
             <span v-else>Ya, Kirim Sekarang</span>
           </button>
         </div>
@@ -1138,7 +1148,7 @@ export default {
             this.listSubtest = res.data.soal.map((to) => ({
               id: to.id,
               mapel: to.mapel.nama_mapel,
-              jeda_waktu: to.jeda_waktu || res.data.jeda_waktu
+              jeda_waktu: to.jeda_waktu_antar_mapel || res.data.jeda_waktu
             }));
           }
           return true;

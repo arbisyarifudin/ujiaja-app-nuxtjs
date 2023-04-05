@@ -69,7 +69,7 @@
         <span
           class="nav-link mb-0 p-0"
           :class="[
-            $route.path.includes('tryout') || $route.path.includes('product') && !$route.path.includes('uktt')
+            $route.path.includes('/administrator/tryout') || $route.path.includes('product') && !$route.path.includes('uktt')
               ? 'nuxt-link-active'
               : ''
           ]"
@@ -208,6 +208,13 @@
         ><i class="fas fa-chart-bar fa-fw mr-2"></i> Statistik User</nuxt-link
       >
     </li> -->
+    <li class="nav-item">
+      <nuxt-link
+        class="nav-link d-flex align-items-center"
+        to="/administrator/edit-cms"
+        ><i class="fas fa-pencil-alt fa-fw mr-2"></i> Edit CMS</nuxt-link
+      >
+    </li>
     <li class="nav-item">
       <nuxt-link
         class="nav-link d-flex align-items-center"

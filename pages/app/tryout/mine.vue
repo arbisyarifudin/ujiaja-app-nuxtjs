@@ -34,7 +34,7 @@
                   ></b-form-select>
                 </b-input-group>
               </div>
-              <!-- <div class="col-md-5">
+              <div class="col-md-5">
                 <b-input-group>
                   <template #prepend>
                     <b-input-group-text
@@ -42,15 +42,15 @@
                     ></b-input-group-text>
                   </template>
                   <b-form-select
-                    v-model="filterStatus"
+                    v-model="filterArchive"
                     :options="[
                       { text: 'Semua', value: null },
-                      { text: 'Sudah Dikerjakan', value: 'Sudah Dikerjakan' },
-                      { text: 'Belum Dikerjakan', value: 'Belum Dikerjakan' }
+                      { text: 'Diarsipkan', value: true },
+                      { text: 'Tidak Diarsipkan', value: false }
                     ]"
                   ></b-form-select>
                 </b-input-group>
-              </div> -->
+              </div>
             </div>
           </div>
 
@@ -240,7 +240,7 @@ export default {
       totalRows: 0,
       items: [],
       filterCategory: null,
-      filterStatus: null
+      filterArchive: null,
     };
   },
   computed: {
@@ -260,6 +260,9 @@ export default {
     },
     filterCategory: function(value) {
       this.getData("produk");
+    },
+    filterArchive: function(value) {
+      this.getData("produk");
     }
   },
   created() {
@@ -273,7 +276,7 @@ export default {
         .then(res => {
           this.loading = false
           console.log(res);
-          getData('produk')
+          this.getData('produk')
           // if (res.success) {
           //   this.items = res.data.data;
           //   this.totalRows = res.data.paginate.total;
@@ -331,13 +334,12 @@ export default {
             status_produk: "Aktif",
             tipe_paket: this.filter.package,
             id_user: this.user.id,
-            excludes_kategori: ['UKTT']
+            excludes_kategori: ['UKTT'],
+            ...(this.filterArchive && { is_archive: this.filterArchive })
           }
         })
         .then(res => {
-          console.log(res);
           if (res.success) {
-            console.log(res.data.data)
             this.items = res.data.data;
             this.totalRows = res.data.paginate.total;
             this.filter.perPage = res.data.paginate.per_page;
