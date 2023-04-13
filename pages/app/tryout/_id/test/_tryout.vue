@@ -276,11 +276,7 @@
               v-b-modal.modal-confirm-end
               :disabled="loading"
             >
-              {{
-                isAllowNext()
-                  ? "Ke Subtest Selanjutnya"
-                  : "Selesai dan Serahkan"
-              }}
+              Selesai dan Serahkan
             </button>
             <!-- <h3 class="board-title mb-3">Panduan Pengerjaan:</h3>
     <div class="board-guide-text" v-html="dataTryout.panduan_pengerjaan"></div> -->
@@ -333,11 +329,7 @@
                 v-b-modal.modal-confirm-end
               >
                 <i class="fas fa-paper-plane"></i>
-                {{
-                  isAllowNext()
-                    ? "Ke Subtest Selanjutnya"
-                    : "Selesai dan Serahkan"
-                }}
+                Selesai dan Serahkan
               </button>
             </div>
           </div>
@@ -513,7 +505,7 @@
     </b-modal>
     <b-modal
       id="modal-next-subtest"
-      title="Konfirmasi Akhiri Tryout"
+      title="Lanjut Subtest Selanjutnya"
       hide-footer
       centered
       :no-close-on-backdrop="loading"
@@ -650,7 +642,7 @@ export default {
             }
           })
         }
-        this.listSoal = this.listNomorSoal.filter(soal => soal.id_soal_tryout === parseInt(this.$route.query.id_mapel, 10))
+        this.listSoal = this.listNomorSoal.filter(soal => soal.id_soal_tryout === (parseInt(this.$route.query.id_mapel, 10) || this.listSubtest[0].id))
         this.startTimer();
       }
     } else {

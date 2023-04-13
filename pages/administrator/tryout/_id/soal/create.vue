@@ -186,7 +186,6 @@
                               id="id_mapel"
                               v-model="soal.id_mapel"
                               @change="onUpdateSoal(soal)"
-                              :disabled="a != 0"
                             >
                               <option :value="null">-- Pilih --</option>
                               <option
@@ -207,7 +206,6 @@
                               id="jeda_waktu_antar_mapel"
                               placeholder="Ex: 80"
                               v-model="newMapel.alokasi_waktu_second"
-                              :disabled="a != 0"
                             />
                           </div>
                           <div class="form-group reg-siswa mb-0">
@@ -220,7 +218,6 @@
                               id="jeda_waktu_antar_mapel"
                               placeholder="Ex: 30"
                               v-model="newMapel.jeda_waktu_antar_mapel"
-                              :disabled="a != 0"
                             />
                           </div>
                           <UISaveStatus
