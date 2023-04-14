@@ -953,6 +953,7 @@ export default {
       }
     },
     async onNextSubtest() {
+      await this.saveJawabanToServer()
       this.toWaitingTestPage(this.detailUjian.id_produk, this.tryoutId, this.listSubtest[this.subtestIndex + 1].id)
     },
     async submitJawabanUser() {
@@ -1159,7 +1160,11 @@ export default {
           console.log("list soal", res);
           if (res.success) {
             this.listNomorSoal = res.data.soal;
-            this.currentNomor = res.data.soal[0];
+            if (this.$route.query.id_mapel) {
+              this.currentNomor = res.data.soal.find(s => s.id_soal_tryout === parseInt(this.$route.query.id_mapel, 10))
+            } else {
+              this.currentNomor = res.data.soal[0];
+            }
             this.jawabanUser = res.data.jawaban_placeholder;
             this.lastSavedDataTime = res.data.last_saved_data_time;
             // this.$store.commit("set", ["listNomorSoal", res.data.soal]);
