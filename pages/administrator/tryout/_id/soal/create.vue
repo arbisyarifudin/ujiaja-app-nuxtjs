@@ -205,7 +205,7 @@
                               class="form-control pl-0"
                               id="jeda_waktu_antar_mapel"
                               placeholder="Ex: 80"
-                              v-model="newMapel.alokasi_waktu_second"
+                              v-model="soal.alokasi_waktu_per_mapel"
                             />
                           </div>
                           <div class="form-group reg-siswa mb-0">
@@ -217,7 +217,7 @@
                               class="form-control pl-0"
                               id="jeda_waktu_antar_mapel"
                               placeholder="Ex: 30"
-                              v-model="newMapel.jeda_waktu_antar_mapel"
+                              v-model="soal.jeda_waktu_antar_mapel"
                             />
                           </div>
                           <UISaveStatus
@@ -1056,7 +1056,7 @@
                               class="form-control pl-0"
                               id="jeda_waktu_antar_mapel"
                               placeholder="Ex: 80"
-                              v-model="newMapel.alokasi_waktu_second"
+                              v-model="newMapel.alokasi_waktu_per_mapel"
                             />
                           </div>
                           <div class="form-group reg-siswa">
@@ -1187,7 +1187,7 @@ export default {
         id_mapel: null,
         // alokasi_waktu_per_mapel: null,
         jeda_waktu_antar_mapel: null,
-        alokasi_waktu_second: null,
+        alokasi_waktu_per_mapel: null,
         jenis_soal: null,
         kelompok_soal: null,
         jumlah_soal: 25
