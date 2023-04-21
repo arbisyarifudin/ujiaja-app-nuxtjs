@@ -762,7 +762,12 @@ export default {
       const today = moment.now();
       const lastSavedData = this.checkLastSaved();
       const waktuMulai = moment(this.detailUjian.waktu_mulai).valueOf();
-      const waktuBatas = waktuMulai + this.tryout.alokasi_waktu * 1000 * 60;
+      let waktuBatas
+      if (this.$route.query && this.listSubtest.length) {
+        waktuBatas = waktuMulai + (this.listSubtest.find(s => s.id === parseInt(this.$route.query.id_mapel, 10))).alokasi_waktu * 1000 * 60;
+      } else {
+        waktuBatas = waktuMulai + this.tryout.alokasi_waktu * 1000 * 60;
+      }
 
       // console.log(lastSavedData);
       // return
@@ -1141,7 +1146,8 @@ export default {
             this.listSubtest = res.data.soal.map((to) => ({
               id: to.id,
               mapel: to.mapel.nama_mapel,
-              jeda_waktu: to.jeda_waktu_antar_mapel || res.data.jeda_waktu
+              jeda_waktu: to.jeda_waktu_antar_mapel || res.data.jeda_waktu,
+              alokasi_waktu: to.alokasi_waktu_per_mapel || res.data.alokasi_waktu
             }));
           }
           return true;
