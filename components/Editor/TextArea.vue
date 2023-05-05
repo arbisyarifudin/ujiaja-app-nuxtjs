@@ -11,6 +11,7 @@
           ref="kontent-1-text"
           :value="modelValue"
           :editor-toolbar="customToolbar"
+          @input="updateValue"
         />
       </client-only>
     </div>
@@ -44,8 +45,8 @@ export default {
     }
   },
   methods: {
-    updateValue(e) {
-      this.$emit('update:modelValue', e.target.value)
+    updateValue(val) {
+      this.$emit('update:modelValue', val)
     }
   }
 }

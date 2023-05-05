@@ -73,7 +73,7 @@
             </EditorTextArea>
           </div>
           <div class="form-user col-md-12 pt-3">
-              <EditorText v-model="p.tombol" placeholder="Isi nama tombol baru">
+            <EditorText v-model="p.tombol" placeholder="Isi nama tombol baru">
               <template #title>Tombol</template>
             </EditorText>
             <p class="pt-3">Link</p>
@@ -124,7 +124,7 @@
             </EditorTextArea>
           </div>
           <div class="form-user col-md-12 pt-3">
-              <EditorText v-model="f.tombol" placeholder="Isi nama tombol baru">
+            <EditorText v-model="f.tombol" placeholder="Isi nama tombol baru">
               <template #title>Tombol</template>
             </EditorText>
             <p class="pt-3">Link</p>
@@ -359,6 +359,8 @@
 </template>
 
 <script>
+import objectToFormData from '../../../helpers/object-to-form-data'
+
 export default {
   data() {
     return {
@@ -367,7 +369,7 @@ export default {
         gambar: null,
         judul: '',
         text: '',
-        subContents: [
+        sub_content: [
           {
             tombol: '',
             link: ''
@@ -500,32 +502,102 @@ export default {
     deleteReview() {
       if (this.review.reviews.length) this.review.reviews.pop()
     },
-    saveMasterContent() {
-      console.log(this.master)
+    async saveMasterContent() {
+      try {
+        const payload = objectToFormData({ konten1: this.master })
+        const res = await this.$axios.post('/api/cms/halaman-utama', payload, {
+          headers: { 'Content-Type': 'multipart/form-data' }
+        })
+        if (res.status === 200) window.alert("berhasil mengubah kontent")
+      } catch (e) {
+        window.alert("gagal menyimpan konten")
+      }
     },
-    saveCarousel() {
-      console.log(this.carousel)
+    async saveCarousel() {
+      try {
+        const payload = objectToFormData({ konten2: this.carousel })
+        const res = await this.$axios.post('/api/cms/halaman-utama', payload, {
+          headers: { 'Content-Type': 'multipart/form-data' }
+        })
+        if (res.status === 200) window.alert("berhasil mengubah kontent")
+      } catch (e) {
+        window.alert("gagal menyimpan konten")
+      }
     },
-    saveProduct() {
-      console.log(this.product)
+    async saveProduct() {
+      try {
+        const res = await this.$axios.post('/api/cms/halaman-utama', {
+          konten3: this.product
+        })
+        if (res.status === 200) window.alert("berhasil menyimpan konten")
+      } catch (e) {
+        window.alert("gagal menyimpan konten")
+      }
     },
-    saveFeature() {
-      console.log(this.feature)
+    async saveFeature() {
+      try {
+        const payload = objectToFormData({ konten4: this.feature })
+        const res = await this.$axios.post('/api/cms/halaman-utama', payload, {
+          headers: { 'Content-Type': 'multipart/form-data' }
+        })
+        if (res.status === 200) window.alert("berhasil menyimpan konten")
+      } catch (e) {
+        window.alert("gagal menyimpan konten")
+      }
     },
-    saveTest() {
-      console.log(this.test)
+    async saveTest() {
+      try {
+        const payload = objectToFormData({ konten5: this.test })
+        const res = await this.$axios.post('/api/cms/halaman-utama', payload, {
+          headers: { 'Content-Type': 'multipart/form-data' }
+        })
+        if (res.status === 200) window.alert("berhasil menyimpan konten")
+      } catch (e) {
+        window.alert("gagal menyimpan konten")
+      }
     },
-    saveTryout() {
-      console.log(this.tryout)
+    async saveTryout() {
+      try {
+        const res = await this.$axios.post('/api/cms/halaman-utama', {
+          konten6: this.tryout
+        })
+        if (res.status === 200) window.alert("berhasil menyimpan konten")
+      } catch (e) {
+        window.alert("gagal menyimpan konten")
+      }
     },
-    saveDegree() {
-      console.log(this.degree)
+    async saveDegree() {
+      try {
+        const payload = objectToFormData({ konten7: this.degree })
+        const res = await this.$axios.post('/api/cms/halaman-utama', payload, {
+          headers: { 'Content-Type': 'multipart/form-data' }
+        })
+        if (res.status === 200) window.alert("berhasil menyimpan konten")
+      } catch (e) {
+        window.alert("gagal menyimpan konten")
+      }
     },
-    saveReview() {
-      console.log(this.review)
+    async saveReview() {
+      try {
+        const payload = objectToFormData({ konten8: this.review })
+        const res = await this.$axios.post('/api/cms/halaman-utama', payload, {
+          headers: { 'Content-Type': 'multipart/form-data' }
+        })
+        if (res.status === 200) window.alert("berhasil menyimpan konten")
+      } catch (e) {
+        window.alert("gagal menyimpan konten")
+      }
     },
-    saveRegister() {
-      console.log(this.register)
+    async saveRegister() {
+      try {
+        const payload = objectToFormData({ konten9: this.register })
+        const res = await this.$axios.post('/api/cms/halaman-utama', payload, {
+          headers: { 'Content-Type': 'multipart/form-data' }
+        })
+        if (res.status === 200) window.alert("berhasil menyimpan konten")
+      } catch (e) {
+        window.alert("gagal menyimpan konten")
+      }
     },
   }
 }

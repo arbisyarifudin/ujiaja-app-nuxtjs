@@ -34,7 +34,7 @@
       <div class="col-md-12 border-top pt-3 mt-1">
         <button @click="addSubContent" class="btn btn-outline-primary">+ Tambah Sub Konten</button>
       </div>
-      <div v-for="(sc, i) in content.subContents" :key="i" class="form-user col-md-12 pt-3">
+      <div v-for="(sc, i) in content.sub_content" :key="i" class="form-user col-md-12 pt-3">
         <EditorText v-model="sc.tombol" placeholder="Isi nama tombol baru">
           <template #title>Tombol</template>
         </EditorText>
@@ -43,7 +43,7 @@
           <input v-model="sc.link" placeholder="Isi Link yang ingin di tuju" class="form-control col-md-12" />
         </div>
       </div>
-      <div v-if="content.subContents.length > 1" class="col-md-12">
+      <div v-if="content.sub_content.length > 1" class="col-md-12">
         <div class="row justify-content-end">
           <button @click="deleteSubContent" class="btn btn-outline-danger col-md-3">Hapus Sub Konten</button>
         </div>
@@ -62,13 +62,13 @@ export default {
   },
   methods: {
     addSubContent() {
-      this.content.subContents.push({
+      this.content.sub_content.push({
         tombol: '',
         link: ''
       })
     },
     deleteSubContent() {
-      this.content.subContents.pop()
+      this.content.sub_content.pop()
     }
   }
 }

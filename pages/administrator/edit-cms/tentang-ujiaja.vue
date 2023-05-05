@@ -19,7 +19,7 @@ export default {
         gambar: null,
         judul: '',
         text: '',
-        subContents: [
+        sub_content: [
           {
             tombol: '',
             link: ''
