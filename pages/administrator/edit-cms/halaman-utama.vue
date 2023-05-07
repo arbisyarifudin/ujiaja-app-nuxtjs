@@ -1,8 +1,8 @@
 <template>
-  <div class="col-md-12">
+  <div v-if="isReady" class="col-md-12">
     <UIKonten>
       <template #title>Konten 1</template>
-      <EditorContentMaster :content="master" />
+      <EditorContentMaster :original="originalMaster" :content="master" />
       <div class="col-md-12 pt-4">
         <button @click="saveMasterContent" class="btn btn-primary">Simpan</button>
       </div>
@@ -364,7 +364,22 @@ import objectToFormData from '../../../helpers/object-to-form-data'
 export default {
   data() {
     return {
+      isReady: false,
+      originalMaster: {
+        id: '',
+        banner: null,
+        gambar: null,
+        judul: '',
+        text: '',
+        sub_content: [
+          {
+            tombol: '',
+            link: ''
+          }
+        ]
+      },
       master: {
+        id: '',
         banner: null,
         gambar: null,
         judul: '',
@@ -378,6 +393,7 @@ export default {
       },
       carousel: [
         {
+          id: '',
           gambar: null,
           judul: '',
           text: ''
@@ -385,11 +401,13 @@ export default {
       ],
       product: {
         master: {
+          id: '',
           judul: '',
           text: ''
         },
         products: [
           {
+            id: '',
             judul: '',
             subJudul: '',
             text: '',
@@ -397,6 +415,7 @@ export default {
             link: ''
           },
           {
+            id: '',
             judul: '',
             subJudul: '',
             text: '',
@@ -407,11 +426,13 @@ export default {
       },
       feature: {
         master: {
+          id: '',
           judul: '',
           text: ''
         },
         features: [
           {
+            id: '',
             gambar: null,
             judul: '',
             text: '',
@@ -419,6 +440,7 @@ export default {
             link: ''
           },
           {
+            id: '',
             gambar: null,
             judul: '',
             text: '',
@@ -426,6 +448,7 @@ export default {
             link: ''
           },
           {
+            id: '',
             gambar: null,
             judul: '',
             text: '',
@@ -435,6 +458,7 @@ export default {
         ]
       },
       test: {
+        id: '',
         gambar: null,
         judul: '',
         text: '',
@@ -442,6 +466,7 @@ export default {
         link: ''
       },
       tryout: {
+        id: '',
         judul: '',
         text: '',
         subJudul: '',
@@ -450,6 +475,7 @@ export default {
         link: ''
       },
       degree: {
+        id: '',
         judul: '',
         text: '',
         gambar: null,
@@ -460,11 +486,13 @@ export default {
       },
       review: {
         master: {
+          id: '',
           judul: '',
           text: '',
         },
         reviews: [
           {
+            id: '',
             gambar: null,
             nama: '',
             jurusan: '',
@@ -473,6 +501,7 @@ export default {
         ]
       },
       register: {
+        id: '',
         gambar: null,
         judul: '',
         text: '',
@@ -481,9 +510,29 @@ export default {
       },
     }
   },
+  async mounted() {
+    this.isReady = false
+    const { data } = await this.$axios.get('/api/cms/halaman-utama/get')
+    if (data.data instanceof Object) {
+      const masterContent =  data.data.dataContent1[0]
+    if (masterContent) {
+        masterContent.sub_content = JSON.parse(masterContent.sub_content)
+        this.originalMaster = masterContent
+        this.master.id= masterContent.id
+        this.master.banner = masterContent.banner
+        this.master.gambar = masterContent.gambar
+        this.master.sub_content = masterContent.sub_content.map(sc => ({
+          text: '',
+          link: sc.link
+        }))
+      }
+    }
+    this.isReady = true
+  },
   methods: {
     addCarousel() {
       this.carousel.push({
+        id: '',
         image: null,
         judul: '',
         text: ''
@@ -494,6 +543,7 @@ export default {
     },
     addReview() {
       this.review.reviews.push({
+        id: '',
         gambar: '',
         jurusan: '',
         text: ''
@@ -515,7 +565,7 @@ export default {
     },
     async saveCarousel() {
       try {
-        const payload = objectToFormData({ konten2: this.carousel })
+        const payload = objectToFormData({ konten2: {data: this.carousel} })
         const res = await this.$axios.post('/api/cms/halaman-utama', payload, {
           headers: { 'Content-Type': 'multipart/form-data' }
         })

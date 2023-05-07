@@ -2,7 +2,7 @@
   <div>
     <p><slot name="title" /></p>
     <div class="form-group row justify-content-between px-3 align-items-end">
-      <input :value="initialValue" type="text" class="form-control col-md-5" readonly>
+      <div v-html="initialValue" type="text" class="form-control col-md-5"></div>
       =
       <client-only>
         <VueEditor

@@ -22,12 +22,12 @@
         </EditorImage>
       </div>
       <div class="form-user col-md-12">
-        <EditorText v-model="content.judul" placeholder="Isi Judul baru">
+        <EditorText :initial-value="original.judul" v-model="content.judul" placeholder="Isi Judul baru">
           <template #title>Judul</template>
         </EditorText>
       </div>
       <div class="form-user col-md-12">
-        <EditorTextArea v-model="content.text">
+        <EditorTextArea :initial-value="original.text" v-model="content.text">
           <template #title>Text</template>
         </EditorTextArea>
       </div>
@@ -35,7 +35,7 @@
         <button @click="addSubContent" class="btn btn-outline-primary">+ Tambah Sub Konten</button>
       </div>
       <div v-for="(sc, i) in content.sub_content" :key="i" class="form-user col-md-12 pt-3">
-        <EditorText v-model="sc.tombol" placeholder="Isi nama tombol baru">
+        <EditorText :initial-value="original.sub_content[i].tombol" v-model="sc.tombol" placeholder="Isi nama tombol baru">
           <template #title>Tombol</template>
         </EditorText>
         <p class="pt-3">Link</p>
@@ -56,6 +56,10 @@
 export default {
   props: {
     content: {
+      type: Object,
+      default: () => ({})
+    },
+    original: {
       type: Object,
       default: () => ({})
     }
