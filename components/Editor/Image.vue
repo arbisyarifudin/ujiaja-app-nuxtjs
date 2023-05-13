@@ -40,6 +40,9 @@ export default {
   },
   mounted() {
     this.inputId = this.generateRandomId()
+    if (typeof this.$props.modelValue === 'string') {
+      this.fakePath = `${this.$axios.defaults.baseURL}/${this.$props.modelValue}`
+    }
   },
   methods: {
     generateRandomId() {

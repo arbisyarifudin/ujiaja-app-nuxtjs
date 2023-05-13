@@ -2,7 +2,7 @@
   <div>
     <p><slot name="title" /></p>
     <div class="form-group row justify-content-between px-3 align-items-end">
-      <input :value="initialValue" type="text" class="form-control col-md-5" readonly>
+      <div v-html="initialValue" type="text" class="form-control col-md-5"></div>
       =
       <client-only>
         <VueEditor
@@ -11,6 +11,7 @@
           ref="kontent-1-text"
           :value="modelValue"
           :editor-toolbar="customToolbar"
+          @input="updateValue"
         />
       </client-only>
     </div>
@@ -44,8 +45,8 @@ export default {
     }
   },
   methods: {
-    updateValue(e) {
-      this.$emit('update:modelValue', e.target.value)
+    updateValue(val) {
+      this.$emit('update:modelValue', val)
     }
   }
 }

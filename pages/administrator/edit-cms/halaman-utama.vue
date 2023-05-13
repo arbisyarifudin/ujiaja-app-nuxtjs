@@ -1,8 +1,8 @@
 <template>
-  <div class="col-md-12">
+  <div v-if="isReady" class="col-md-12">
     <UIKonten>
       <template #title>Konten 1</template>
-      <EditorContentMaster :content="master" />
+      <EditorContentMaster :original="originalMaster" :content="master" />
       <div class="col-md-12 pt-4">
         <button @click="saveMasterContent" class="btn btn-primary">Simpan</button>
       </div>
@@ -73,7 +73,7 @@
             </EditorTextArea>
           </div>
           <div class="form-user col-md-12 pt-3">
-              <EditorText v-model="p.tombol" placeholder="Isi nama tombol baru">
+            <EditorText v-model="p.tombol" placeholder="Isi nama tombol baru">
               <template #title>Tombol</template>
             </EditorText>
             <p class="pt-3">Link</p>
@@ -124,7 +124,7 @@
             </EditorTextArea>
           </div>
           <div class="form-user col-md-12 pt-3">
-              <EditorText v-model="f.tombol" placeholder="Isi nama tombol baru">
+            <EditorText v-model="f.tombol" placeholder="Isi nama tombol baru">
               <template #title>Tombol</template>
             </EditorText>
             <p class="pt-3">Link</p>
@@ -359,15 +359,32 @@
 </template>
 
 <script>
+import objectToFormData from '../../../helpers/object-to-form-data'
+
 export default {
   data() {
     return {
-      master: {
+      isReady: false,
+      originalMaster: {
+        id: '',
         banner: null,
         gambar: null,
         judul: '',
         text: '',
-        subContents: [
+        sub_content: [
+          {
+            tombol: '',
+            link: ''
+          }
+        ]
+      },
+      master: {
+        id: '',
+        banner: null,
+        gambar: null,
+        judul: '',
+        text: '',
+        sub_content: [
           {
             tombol: '',
             link: ''
@@ -376,6 +393,7 @@ export default {
       },
       carousel: [
         {
+          id: '',
           gambar: null,
           judul: '',
           text: ''
@@ -383,11 +401,13 @@ export default {
       ],
       product: {
         master: {
+          id: '',
           judul: '',
           text: ''
         },
         products: [
           {
+            id: '',
             judul: '',
             subJudul: '',
             text: '',
@@ -395,6 +415,7 @@ export default {
             link: ''
           },
           {
+            id: '',
             judul: '',
             subJudul: '',
             text: '',
@@ -405,11 +426,13 @@ export default {
       },
       feature: {
         master: {
+          id: '',
           judul: '',
           text: ''
         },
         features: [
           {
+            id: '',
             gambar: null,
             judul: '',
             text: '',
@@ -417,6 +440,7 @@ export default {
             link: ''
           },
           {
+            id: '',
             gambar: null,
             judul: '',
             text: '',
@@ -424,6 +448,7 @@ export default {
             link: ''
           },
           {
+            id: '',
             gambar: null,
             judul: '',
             text: '',
@@ -433,6 +458,7 @@ export default {
         ]
       },
       test: {
+        id: '',
         gambar: null,
         judul: '',
         text: '',
@@ -440,6 +466,7 @@ export default {
         link: ''
       },
       tryout: {
+        id: '',
         judul: '',
         text: '',
         subJudul: '',
@@ -448,6 +475,7 @@ export default {
         link: ''
       },
       degree: {
+        id: '',
         judul: '',
         text: '',
         gambar: null,
@@ -458,11 +486,13 @@ export default {
       },
       review: {
         master: {
+          id: '',
           judul: '',
           text: '',
         },
         reviews: [
           {
+            id: '',
             gambar: null,
             nama: '',
             jurusan: '',
@@ -471,6 +501,7 @@ export default {
         ]
       },
       register: {
+        id: '',
         gambar: null,
         judul: '',
         text: '',
@@ -479,9 +510,29 @@ export default {
       },
     }
   },
+  async mounted() {
+    this.isReady = false
+    const { data } = await this.$axios.get('/api/cms/halaman-utama/get')
+    if (data.data instanceof Object) {
+      const masterContent =  data.data.dataContent1[0]
+    if (masterContent) {
+        masterContent.sub_content = JSON.parse(masterContent.sub_content)
+        this.originalMaster = masterContent
+        this.master.id= masterContent.id
+        this.master.banner = masterContent.banner
+        this.master.gambar = masterContent.gambar
+        this.master.sub_content = masterContent.sub_content.map(sc => ({
+          text: '',
+          link: sc.link
+        }))
+      }
+    }
+    this.isReady = true
+  },
   methods: {
     addCarousel() {
       this.carousel.push({
+        id: '',
         image: null,
         judul: '',
         text: ''
@@ -492,6 +543,7 @@ export default {
     },
     addReview() {
       this.review.reviews.push({
+        id: '',
         gambar: '',
         jurusan: '',
         text: ''
@@ -500,32 +552,102 @@ export default {
     deleteReview() {
       if (this.review.reviews.length) this.review.reviews.pop()
     },
-    saveMasterContent() {
-      console.log(this.master)
+    async saveMasterContent() {
+      try {
+        const payload = objectToFormData({ konten1: this.master })
+        const res = await this.$axios.post('/api/cms/halaman-utama', payload, {
+          headers: { 'Content-Type': 'multipart/form-data' }
+        })
+        if (res.status === 200) window.alert("berhasil mengubah kontent")
+      } catch (e) {
+        window.alert("gagal menyimpan konten")
+      }
     },
-    saveCarousel() {
-      console.log(this.carousel)
+    async saveCarousel() {
+      try {
+        const payload = objectToFormData({ konten2: {data: this.carousel} })
+        const res = await this.$axios.post('/api/cms/halaman-utama', payload, {
+          headers: { 'Content-Type': 'multipart/form-data' }
+        })
+        if (res.status === 200) window.alert("berhasil mengubah kontent")
+      } catch (e) {
+        window.alert("gagal menyimpan konten")
+      }
     },
-    saveProduct() {
-      console.log(this.product)
+    async saveProduct() {
+      try {
+        const res = await this.$axios.post('/api/cms/halaman-utama', {
+          konten3: this.product
+        })
+        if (res.status === 200) window.alert("berhasil menyimpan konten")
+      } catch (e) {
+        window.alert("gagal menyimpan konten")
+      }
     },
-    saveFeature() {
-      console.log(this.feature)
+    async saveFeature() {
+      try {
+        const payload = objectToFormData({ konten4: this.feature })
+        const res = await this.$axios.post('/api/cms/halaman-utama', payload, {
+          headers: { 'Content-Type': 'multipart/form-data' }
+        })
+        if (res.status === 200) window.alert("berhasil menyimpan konten")
+      } catch (e) {
+        window.alert("gagal menyimpan konten")
+      }
     },
-    saveTest() {
-      console.log(this.test)
+    async saveTest() {
+      try {
+        const payload = objectToFormData({ konten5: this.test })
+        const res = await this.$axios.post('/api/cms/halaman-utama', payload, {
+          headers: { 'Content-Type': 'multipart/form-data' }
+        })
+        if (res.status === 200) window.alert("berhasil menyimpan konten")
+      } catch (e) {
+        window.alert("gagal menyimpan konten")
+      }
     },
-    saveTryout() {
-      console.log(this.tryout)
+    async saveTryout() {
+      try {
+        const res = await this.$axios.post('/api/cms/halaman-utama', {
+          konten6: this.tryout
+        })
+        if (res.status === 200) window.alert("berhasil menyimpan konten")
+      } catch (e) {
+        window.alert("gagal menyimpan konten")
+      }
     },
-    saveDegree() {
-      console.log(this.degree)
+    async saveDegree() {
+      try {
+        const payload = objectToFormData({ konten7: this.degree })
+        const res = await this.$axios.post('/api/cms/halaman-utama', payload, {
+          headers: { 'Content-Type': 'multipart/form-data' }
+        })
+        if (res.status === 200) window.alert("berhasil menyimpan konten")
+      } catch (e) {
+        window.alert("gagal menyimpan konten")
+      }
     },
-    saveReview() {
-      console.log(this.review)
+    async saveReview() {
+      try {
+        const payload = objectToFormData({ konten8: this.review })
+        const res = await this.$axios.post('/api/cms/halaman-utama', payload, {
+          headers: { 'Content-Type': 'multipart/form-data' }
+        })
+        if (res.status === 200) window.alert("berhasil menyimpan konten")
+      } catch (e) {
+        window.alert("gagal menyimpan konten")
+      }
     },
-    saveRegister() {
-      console.log(this.register)
+    async saveRegister() {
+      try {
+        const payload = objectToFormData({ konten9: this.register })
+        const res = await this.$axios.post('/api/cms/halaman-utama', payload, {
+          headers: { 'Content-Type': 'multipart/form-data' }
+        })
+        if (res.status === 200) window.alert("berhasil menyimpan konten")
+      } catch (e) {
+        window.alert("gagal menyimpan konten")
+      }
     },
   }
 }

@@ -344,7 +344,7 @@ export default {
         gambar: null,
         judul: '',
         text: '',
-        subContents: [
+        sub_content: [
           {
             tombol: '',
             link: ''
@@ -483,26 +483,80 @@ export default {
     deleteCardContent() {
       this.cards.pop()
     },
-    saveProduct() {
-      console.log(this.product)
+    async saveProduct() {
+      try {
+        const res = await this.$axios.post('/api/cms/tryout', {
+          konten3: this.product
+        })
+        if (res.status === 200) window.alert("berhasil menyimpan konten")
+      } catch (e) {
+        window.alert("gagal menyimpan konten")
+      }
     },
-    saveFeature() {
-      console.log(this.feature)
+    async saveFeature() {
+      try {
+        const payload = objectToFormData({ konten4: this.feature })
+        const res = await this.$axios.post('/api/cms/tryout', payload, {
+          headers: { 'Content-Type': 'multipart/form-data' }
+        })
+        if (res.status === 200) window.alert("berhasil menyimpan konten")
+      } catch (e) {
+        window.alert("gagal menyimpan konten")
+      }
     },
-    saveTest() {
-      console.log(this.test)
+    async saveTest() {
+      try {
+        const payload = objectToFormData({ konten5: this.test })
+        const res = await this.$axios.post('/api/cms/tryout', payload, {
+          headers: { 'Content-Type': 'multipart/form-data' }
+        })
+        if (res.status === 200) window.alert("berhasil menyimpan konten")
+      } catch (e) {
+        window.alert("gagal menyimpan konten")
+      }
     },
-    saveTryout() {
-      console.log(this.tryout)
+    async saveTryout() {
+      try {
+        const res = await this.$axios.post('/api/cms/tryout', {
+          konten6: this.tryout
+        })
+        if (res.status === 200) window.alert("berhasil menyimpan konten")
+      } catch (e) {
+        window.alert("gagal menyimpan konten")
+      }
     },
-    saveDegree() {
-      console.log(this.degree)
+    async saveDegree() {
+      try {
+        const payload = objectToFormData({ konten7: this.degree })
+        const res = await this.$axios.post('/api/cms/tryout', payload, {
+          headers: { 'Content-Type': 'multipart/form-data' }
+        })
+        if (res.status === 200) window.alert("berhasil menyimpan konten")
+      } catch (e) {
+        window.alert("gagal menyimpan konten")
+      }
     },
-    saveReview() {
-      console.log(this.review)
+    async saveReview() {
+      try {
+        const payload = objectToFormData({ konten8: this.review })
+        const res = await this.$axios.post('/api/cms/tryout', payload, {
+          headers: { 'Content-Type': 'multipart/form-data' }
+        })
+        if (res.status === 200) window.alert("berhasil menyimpan konten")
+      } catch (e) {
+        window.alert("gagal menyimpan konten")
+      }
     },
-    saveRegister() {
-      console.log(this.register)
+    async saveRegister() {
+      try {
+        const payload = objectToFormData({ konten9: this.register })
+        const res = await this.$axios.post('/api/cms/tryout', payload, {
+          headers: { 'Content-Type': 'multipart/form-data' }
+        })
+        if (res.status === 200) window.alert("berhasil menyimpan konten")
+      } catch (e) {
+        window.alert("gagal menyimpan konten")
+      }
     },
   }
 }

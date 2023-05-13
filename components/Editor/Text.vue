@@ -26,7 +26,7 @@ export default {
     placeholder: {
       type: String,
       default: ''
-    }
+    },
   },
   methods: {
     updateValue(e) {
