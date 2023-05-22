@@ -153,22 +153,22 @@
             </EditorImage>
           </div>
           <div class="form-user col-md-12">
-            <EditorText v-model="test.judul" placeholder="Isi Judul baru">
+            <EditorText v-model="test.judul" :initial-value="originalTest.judul" placeholder="Isi Judul baru">
               <template #title>Judul</template>
             </EditorText>
           </div>
           <div class="form-user col-md-12">
-            <EditorTextArea v-model="test.text">
+            <EditorTextArea v-model="test.text" :initial-value="originalTest.text">
               <template #title>Text</template>
             </EditorTextArea>
           </div>
           <div class="form-user col-md-12 pt-3">
-            <EditorText v-model="test.tombol" placeholder="Isi nama tombol baru">
+            <EditorText v-model="test.tombol" :initial-value="originalTest.tombol" placeholder="Isi nama tombol baru">
               <template #title>Tombol</template>
             </EditorText>
             <p class="pt-3">Link</p>
             <div class="form-group row justify-content-between px-3">
-              <input v-model="test.link" placeholder="Isi Link yang ingin di tuju" class="form-control col-md-12" />
+              <input v-model="test.link" :initial-value="originalTest.link" placeholder="Isi Link yang ingin di tuju" class="form-control col-md-12" />
             </div>
           </div>
         </div>
@@ -483,6 +483,14 @@ export default {
           },
         ]
       },
+      originalTest: {
+        id: '',
+        gambar: null,
+        judul: '',
+        text: '',
+        tombol: '',
+        link: ''
+      },
       test: {
         id: '',
         gambar: null,
@@ -564,6 +572,12 @@ export default {
         this.originalProduct = masterProduct;
         this.product = masterProduct;
       }
+
+      const masterTest = data.data.dataContent5;
+      if (masterTest.length > 0) {
+        this.originalTest = masterTest;
+        this.test = masterTest;
+      }
     }
     this.isReady = true
   },
@@ -639,7 +653,7 @@ export default {
         const res = await this.$axios.post('/api/cms/halaman-utama', payload, {
           headers: { 'Content-Type': 'multipart/form-data' }
         })
-        if (res.status === 200) window.alert("berhasil menyimpan konten")
+        if (res.status === 200) window.alert("Berhasil menyimpan konten")
       } catch (e) {
         window.alert("gagal menyimpan konten")
       }
