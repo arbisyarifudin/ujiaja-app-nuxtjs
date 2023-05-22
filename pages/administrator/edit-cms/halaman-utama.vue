@@ -270,12 +270,12 @@
       <div class="container-fluid">
         <div class="row border-bottom">
           <div class="form-user col-md-12">
-            <EditorText v-model="review.master.judul" placeholder="Isi Judul baru">
+            <EditorText v-model="review.master.judul" :initial-value="originalReview.master.judul" placeholder="Isi Judul baru">
               <template #title>Judul</template>
             </EditorText>
           </div>
           <div class="form-user col-md-12">
-            <EditorTextArea v-model="review.master.text">
+            <EditorTextArea v-model="review.master.text" :initial-value="originalReview.master.text">
               <template #title>Text</template>
             </EditorTextArea>
           </div>
@@ -292,17 +292,17 @@
             </EditorImage>
           </div>
           <div class="form-user col-md-12">
-            <EditorText v-model="r.nama" placeholder="Isi Nama baru">
+            <EditorText v-model="r.nama" :initial-value="originalReview.reviews[i].nama" placeholder="Isi Nama baru">
               <template #title>Nama</template>
             </EditorText>
           </div>
           <div class="form-user col-md-12">
-            <EditorText v-model="r.jurusan" placeholder="Isi Jurusan baru">
+            <EditorText v-model="r.jurusan" :initial-value="originalReview.reviews[i].jurusan" placeholder="Isi Jurusan baru">
               <template #title>Jurusan</template>
             </EditorText>
           </div>
           <div class="form-user col-md-12">
-            <EditorTextArea v-model="r.text">
+            <EditorTextArea v-model="r.text" :initial-value="originalReview.reviews[i].text">
               <template #title>Text</template>
             </EditorTextArea>
           </div>
@@ -313,7 +313,7 @@
         </div>
       </div>
       <div class="col-md-12 pt-4">
-        <button @click="saveFeature" class="btn btn-primary">Simpan</button>
+        <button @click="saveReview" class="btn btn-primary">Simpan</button>
       </div>
     </UIKonten>
     <UIKonten>
@@ -331,22 +331,22 @@
             </EditorImage>
           </div>
           <div class="form-user col-md-12">
-            <EditorText v-model="register.judul" placeholder="Isi Judul baru">
+            <EditorText v-model="register.judul" :initial-value="originalRegister.judul" placeholder="Isi Judul baru">
               <template #title>Judul</template>
             </EditorText>
           </div>
           <div class="form-user col-md-12">
-            <EditorTextArea v-model="register.text">
+            <EditorTextArea v-model="register.text" :initial-value="originalRegister.text">
               <template #title>Text</template>
             </EditorTextArea>
           </div>
           <div class="form-user col-md-12 pt-3">
-            <EditorText v-model="register.tombol" placeholder="Isi nama tombol baru">
+            <EditorText v-model="register.tombol" :initial-value="originalRegister.tombol" placeholder="Isi nama tombol baru">
               <template #title>Tombol</template>
             </EditorText>
             <p class="pt-3">Link</p>
             <div class="form-group row justify-content-between px-3">
-              <input v-model="register.link" placeholder="Isi Link yang ingin di tuju" class="form-control col-md-12" />
+              <input v-model="register.link" :initial-value="originalRegister.link" placeholder="Isi Link yang ingin di tuju" class="form-control col-md-12" />
             </div>
           </div>
         </div>
@@ -537,6 +537,22 @@ export default {
         tombol: '',
         link: ''
       },
+      originalReview: {
+        master: {
+          id: '',
+          judul: '',
+          text: '',
+        },
+        reviews: [
+          {
+            id: '',
+            gambar: null,
+            nama: '',
+            jurusan: '',
+            text: ''
+          },
+        ]
+      },
       review: {
         master: {
           id: '',
@@ -552,6 +568,14 @@ export default {
             text: ''
           },
         ]
+      },
+      originalRegister: {
+        id: '',
+        gambar: null,
+        judul: '',
+        text: '',
+        tombol: '',
+        link: ''
       },
       register: {
         id: '',
@@ -608,6 +632,18 @@ export default {
       if (masterDegree.length > 0) {
         this.originalDegree = masterDegree;
         this.degree = masterDegree;
+      }
+
+      const masterReview = data.data.dataContent7;
+      if (masterReview.length > 0) {
+        this.originalReview = masterReview;
+        this.review = masterReview;
+      }
+
+      const masterRegister = data.data.dataContent7;
+      if (masterRegister.length > 0) {
+        this.originalRegister = masterRegister;
+        this.register = masterRegister;
       }
     }
     this.isReady = true
