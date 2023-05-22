@@ -12,7 +12,7 @@
       <div class="container-fluid">
         <div v-for="(content, i) in carousel" :key="i" class="row border-bottom">
           <div class="col-md-12">
-            <EditorImage v-model="content.gambar" :max-size="5">
+            <EditorImage v-model="content.carousel" :max-size="5">
               <template #title>
                 Carousel Slider
               </template>
@@ -22,12 +22,12 @@
             </EditorImage>
           </div>
           <div class="form-user col-md-12">
-            <EditorText v-model="content.judul" placeholder="Isi Judul baru">
+            <EditorText v-model="content.judul" :initial-value="originalCarousel[i].judul" placeholder="Isi Judul baru">
               <template #title>Judul</template>
             </EditorText>
           </div>
           <div class="form-user col-md-12">
-            <EditorTextArea v-model="content.text">
+            <EditorTextArea v-model="content.text" :initial-value="originalCarousel[i].text">
               <template #title>Text</template>
             </EditorTextArea>
           </div>
@@ -391,6 +391,7 @@ export default {
           }
         ]
       },
+      originalCarousel: [],
       carousel: [
         {
           id: '',
@@ -515,7 +516,7 @@ export default {
     const { data } = await this.$axios.get('/api/cms/halaman-utama/get')
     if (data.data instanceof Object) {
       const masterContent =  data.data.dataContent1[0]
-    if (masterContent) {
+      if (masterContent) {
         masterContent.sub_content = JSON.parse(masterContent.sub_content)
         this.originalMaster = masterContent
         this.master.id= masterContent.id
@@ -526,6 +527,9 @@ export default {
           link: sc.link
         }))
       }
+
+      this.originalCarousel = data.data.dataContent2;
+      this.carousel = data.data.dataContent2;
     }
     this.isReady = true
   },
@@ -558,7 +562,7 @@ export default {
         const res = await this.$axios.post('/api/cms/halaman-utama', payload, {
           headers: { 'Content-Type': 'multipart/form-data' }
         })
-        if (res.status === 200) window.alert("berhasil mengubah kontent")
+        if (res.status === 200) window.alert("berhasil mengubah konten")
       } catch (e) {
         window.alert("gagal menyimpan konten")
       }
@@ -569,7 +573,7 @@ export default {
         const res = await this.$axios.post('/api/cms/halaman-utama', payload, {
           headers: { 'Content-Type': 'multipart/form-data' }
         })
-        if (res.status === 200) window.alert("berhasil mengubah kontent")
+        if (res.status === 200) window.alert("berhasil mengubah konten")
       } catch (e) {
         window.alert("gagal menyimpan konten")
       }
