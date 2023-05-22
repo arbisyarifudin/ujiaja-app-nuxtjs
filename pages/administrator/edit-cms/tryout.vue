@@ -2,7 +2,7 @@
   <div class="col-md-12">
     <UIKonten>
       <template #title>Konten 1</template>
-      <EditorContentMaster :content="master" />
+      <EditorContentMaster :content="master" :original="original" />
       <div class="col-md-12 pt-4">
         <button @click="saveMasterContent" class="btn btn-primary">Simpan</button>
       </div>
@@ -340,6 +340,18 @@ export default {
   data() {
     return {
       master:{
+        banner: null,
+        gambar: null,
+        judul: '',
+        text: '',
+        sub_content: [
+          {
+            tombol: '',
+            link: ''
+          }
+        ]
+      },
+      original:{
         banner: null,
         gambar: null,
         judul: '',
