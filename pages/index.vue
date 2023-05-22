@@ -33,6 +33,7 @@
 <script>
 import WhatsAppFloating from '../components/WhatsAppFloating.vue';
 import HeaderCaraousel from '../components/HeaderCaraousel.vue';
+
 export default {
     head() {
         return {
@@ -120,7 +121,7 @@ export default {
             }
         };
     },
-    asyncData(context) {
+    async asyncData(context) {
         function getSetting(key) {
             const settings = context.store.state.dataSetting;
             const foundSetting = settings.find(item => item.key == key);
@@ -148,6 +149,29 @@ export default {
             footerData
         };
     },
+    async fetch() {
+      try {
+        let token = null;
+        const res = await this.$axios.post('/api/users/login', {
+            "username":"superadmin",
+            "password":"123"
+        });
+        if (res.status == 200) {
+          token = res.data.data.token;
+          console.log(token);
+        }
+
+        const resContent = await this.$axios.get('/api/cms/halaman-utama/get', {
+          headers: { 'Authorization': 'Bearer ' + token }
+        })
+        if (resContent.data.success) {
+          // this.header = resContent.data.data.dataContent1;
+          console.log(this.header);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    },
     created() {
         // console.log(this.$store.getters['checkIsAuth'])
         if (this.$store.getters["checkIsAuth"]) {
@@ -155,6 +179,6 @@ export default {
             this.header.hero.cataButtonUrl = "/app/dashboard";
         }
     },
-    components: { WhatsAppFloating, HeaderCaraousel }
+    components: { WhatsAppFloating, HeaderCaraousel },
 };
 </script>

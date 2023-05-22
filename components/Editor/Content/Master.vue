@@ -35,7 +35,7 @@
         <button @click="addSubContent" class="btn btn-outline-primary">+ Tambah Sub Konten</button>
       </div>
       <div v-for="(sc, i) in content.sub_content" :key="i" class="form-user col-md-12 pt-3">
-        <EditorText :initial-value="original.sub_content[i].tombol" v-model="sc.tombol" placeholder="Isi nama tombol baru">
+        <EditorText :initial-value="original.sub_content[i]?.tombol" v-model="sc.tombol" placeholder="Isi nama tombol baru">
           <template #title>Tombol</template>
         </EditorText>
         <p class="pt-3">Link</p>
@@ -70,6 +70,7 @@ export default {
         tombol: '',
         link: ''
       })
+      console.log(this.content);
     },
     deleteSubContent() {
       this.content.sub_content.pop()
