@@ -182,32 +182,32 @@
       <div class="container-fluid">
         <div class="row border-bottom">
           <div class="form-user col-md-12">
-            <EditorText v-model="tryout.judul" placeholder="Isi Judul baru">
+            <EditorText v-model="tryout.judul" :initial-value="originalTryout.judul" placeholder="Isi Judul baru">
               <template #title>Judul</template>
             </EditorText>
           </div>
           <div class="form-user col-md-12">
-            <EditorTextArea v-model="tryout.text">
+            <EditorTextArea v-model="tryout.text1" :initial-value="originalTryout.text1">
               <template #title>Text</template>
             </EditorTextArea>
           </div>
           <div class="form-user col-md-12">
-            <EditorText v-model="tryout.subJudul" placeholder="Isi Judul baru">
+            <EditorText v-model="tryout.sub_judul" :initial-value="originalTryout.sub_judul" placeholder="Isi Judul baru">
               <template #title>Sub Judul</template>
             </EditorText>
           </div>
           <div class="form-user col-md-12">
-            <EditorTextArea v-model="tryout.subText">
+            <EditorTextArea v-model="tryout.text2" :initial-value="originalTryout.text2">
               <template #title>Text</template>
             </EditorTextArea>
           </div>
           <div class="form-user col-md-12 pt-3">
-            <EditorText v-model="tryout.tombol" placeholder="Isi nama tombol baru">
+            <EditorText v-model="tryout.tombol" :initial-value="originalTryout.tombol" placeholder="Isi nama tombol baru">
               <template #title>Tombol</template>
             </EditorText>
             <p class="pt-3">Link</p>
             <div class="form-group row justify-content-between px-3">
-              <input v-model="tryout.link" placeholder="Isi Link yang ingin di tuju" class="form-control col-md-12" />
+              <input v-model="tryout.link" :initial-value="originalTryout.link" placeholder="Isi Link yang ingin di tuju" class="form-control col-md-12" />
             </div>
           </div>
         </div>
@@ -499,12 +499,21 @@ export default {
         tombol: '',
         link: ''
       },
+      originalTryout: {
+        id: '',
+        judul: '',
+        text1: '',
+        sub_judul: '',
+        text2: '',
+        tombol: '',
+        link: ''
+      },
       tryout: {
         id: '',
         judul: '',
-        text: '',
-        subJudul: '',
-        subText: '',
+        text1: '',
+        sub_judul: '',
+        text2: '',
         tombol: '',
         link: ''
       },
@@ -577,6 +586,12 @@ export default {
       if (masterTest.length > 0) {
         this.originalTest = masterTest;
         this.test = masterTest;
+      }
+
+      const masterTryout = data.data.dataContent6;
+      if (masterTryout.length > 0) {
+        this.originalTryout = masterTryout;
+        this.tryout = masterTryout;
       }
     }
     this.isReady = true
