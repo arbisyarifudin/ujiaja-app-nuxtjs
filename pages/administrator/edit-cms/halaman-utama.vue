@@ -46,7 +46,7 @@
       <div class="container-fluid">
         <div class="row border-bottom">
           <div class="form-user col-md-12">
-            <EditorText v-model="product.master.judul" placeholder="Isi Judul baru">
+            <EditorText v-model="product.master.judul" :initial-value="originalProduct.master.judul" placeholder="Isi Judul baru">
               <template #title>Judul</template>
             </EditorText>
           </div>
@@ -58,27 +58,27 @@
         </div>
         <div v-for="(p, i) in product.products" :key="i" class="row border-bottom">
           <div class="form-user col-md-12">
-            <EditorText v-model="p.judul" placeholder="Isi Judul baru">
+            <EditorText v-model="p.judul" :initial-value="originalProduct.products[i].judul" placeholder="Isi Judul baru">
               <template #title>Judul</template>
             </EditorText>
           </div>
           <div class="form-user col-md-12">
-            <EditorText v-model="p.subJudul" placeholder="Isi Judul baru">
+            <EditorText v-model="p.subJudul" :initial-value="originalProduct.products[i].subJudul" placeholder="Isi Judul baru">
               <template #title>Sub Judul</template>
             </EditorText>
           </div>
           <div class="form-user col-md-12">
-            <EditorTextArea v-model="p.text">
+            <EditorTextArea v-model="p.text" :initial-value="originalProduct.products[i].text">
               <template #title>Text</template>
             </EditorTextArea>
           </div>
           <div class="form-user col-md-12 pt-3">
-            <EditorText v-model="p.tombol" placeholder="Isi nama tombol baru">
+            <EditorText v-model="p.tombol" :initial-value="originalProduct.products[i].tombol" placeholder="Isi nama tombol baru">
               <template #title>Tombol</template>
             </EditorText>
             <p class="pt-3">Link</p>
             <div class="form-group row justify-content-between px-3">
-              <input v-model="p.link" placeholder="Isi Link yang ingin di tuju" class="form-control col-md-12" />
+              <input v-model="p.link" :initial-value="originalProduct.products[i].link" placeholder="Isi Link yang ingin di tuju" class="form-control col-md-12" />
             </div>
           </div>
         </div>
@@ -400,6 +400,31 @@ export default {
           text: ''
         }
       ],
+      originalProduct: {
+        master: {
+          id: '',
+          judul: '',
+          text: ''
+        },
+        products: [
+          {
+            id: '',
+            judul: '',
+            subJudul: '',
+            text: '',
+            tombol: '',
+            link: ''
+          },
+          {
+            id: '',
+            judul: '',
+            subJudul: '',
+            text: '',
+            tombol: '',
+            link: ''
+          }
+        ]
+      },
       product: {
         master: {
           id: '',
@@ -528,8 +553,17 @@ export default {
         }))
       }
 
-      this.originalCarousel = data.data.dataContent2;
-      this.carousel = data.data.dataContent2;
+      const masterCarousel = data.data.dataContent2;
+      if (masterCarousel.length > 0) {
+        this.originalCarousel = masterCarousel;
+        this.carousel = masterCarousel;
+      }
+
+      const masterProduct = data.data.dataContent3;
+      if (masterProduct.length > 0) {
+        this.originalProduct = masterProduct;
+        this.product = masterProduct;
+      }
     }
     this.isReady = true
   },
@@ -562,7 +596,7 @@ export default {
         const res = await this.$axios.post('/api/cms/halaman-utama', payload, {
           headers: { 'Content-Type': 'multipart/form-data' }
         })
-        if (res.status === 200) window.alert("berhasil mengubah konten")
+        if (res.status === 200) window.alert("Berhasil mengubah konten")
       } catch (e) {
         window.alert("gagal menyimpan konten")
       }
@@ -573,7 +607,7 @@ export default {
         const res = await this.$axios.post('/api/cms/halaman-utama', payload, {
           headers: { 'Content-Type': 'multipart/form-data' }
         })
-        if (res.status === 200) window.alert("berhasil mengubah konten")
+        if (res.status === 200) window.alert("Berhasil mengubah konten")
       } catch (e) {
         window.alert("gagal menyimpan konten")
       }
@@ -583,7 +617,7 @@ export default {
         const res = await this.$axios.post('/api/cms/halaman-utama', {
           konten3: this.product
         })
-        if (res.status === 200) window.alert("berhasil menyimpan konten")
+        if (res.status === 200) window.alert("Berhasil menyimpan konten")
       } catch (e) {
         window.alert("gagal menyimpan konten")
       }
