@@ -221,12 +221,12 @@
       <div class="container-fluid">
         <div class="row border-bottom">
           <div class="form-user col-md-12">
-            <EditorText v-model="degree.judul" placeholder="Isi Judul baru">
+            <EditorText v-model="degree.judul" :initial-value="originalDegree.judul" placeholder="Isi Judul baru">
               <template #title>Judul</template>
             </EditorText>
           </div>
           <div class="form-user col-md-12">
-            <EditorTextArea v-model="degree.text">
+            <EditorTextArea v-model="degree.text1" :initial-value="originalDegree.text1">
               <template #title>Text</template>
             </EditorTextArea>
           </div>
@@ -241,22 +241,22 @@
             </EditorImage>
           </div>
           <div class="form-user col-md-12">
-            <EditorText v-model="degree.subJudul" placeholder="Isi Judul baru">
+            <EditorText v-model="degree.sub_judul" :initial-value="originalDegree.sub_judul" placeholder="Isi Judul baru">
               <template #title>Sub Judul</template>
             </EditorText>
           </div>
           <div class="form-user col-md-12">
-            <EditorTextArea v-model="degree.subText">
+            <EditorTextArea v-model="degree.text2" :initial-value="originalDegree.text2">
               <template #title>Text</template>
             </EditorTextArea>
           </div>
           <div class="form-user col-md-12 pt-3">
-            <EditorText v-model="degree.tombol" placeholder="Isi nama tombol baru">
+            <EditorText v-model="degree.tombol" :initial-value="originalDegree.tombol" placeholder="Isi nama tombol baru">
               <template #title>Tombol</template>
             </EditorText>
             <p class="pt-3">Link</p>
             <div class="form-group row justify-content-between px-3">
-              <input v-model="degree.link" placeholder="Isi Link yang ingin di tuju" class="form-control col-md-12" />
+              <input v-model="degree.link" :initial-value="originalDegree.link" placeholder="Isi Link yang ingin di tuju" class="form-control col-md-12" />
             </div>
           </div>
         </div>
@@ -517,13 +517,23 @@ export default {
         tombol: '',
         link: ''
       },
+      originalDegree: {
+        id: '',
+        judul: '',
+        text1: '',
+        gambar: null,
+        sub_judul: '',
+        text2: '',
+        tombol: '',
+        link: ''
+      },
       degree: {
         id: '',
         judul: '',
-        text: '',
+        text1: '',
         gambar: null,
-        subJudul: '',
-        subText: '',
+        sub_judul: '',
+        text2: '',
         tombol: '',
         link: ''
       },
@@ -592,6 +602,12 @@ export default {
       if (masterTryout.length > 0) {
         this.originalTryout = masterTryout;
         this.tryout = masterTryout;
+      }
+
+      const masterDegree = data.data.dataContent7;
+      if (masterDegree.length > 0) {
+        this.originalDegree = masterDegree;
+        this.degree = masterDegree;
       }
     }
     this.isReady = true
