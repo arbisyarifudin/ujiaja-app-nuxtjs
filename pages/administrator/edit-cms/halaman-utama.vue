@@ -44,9 +44,10 @@
     <UIKonten>
       <template #title>Konten 3</template>
       <div class="container-fluid">
-        <div class="row border-bottom">
+        <!-- <div class="row border-bottom">
           <div class="form-user col-md-12">
-            <EditorText v-model="product.master.judul" :initial-value="originalProduct.master.judul" placeholder="Isi Judul baru">
+            <EditorText v-model="product.master.judul" :initial-value="originalProduct.master.judul"
+              placeholder="Isi Judul baru">
               <template #title>Judul</template>
             </EditorText>
           </div>
@@ -55,30 +56,33 @@
               <template #title>Text</template>
             </EditorTextArea>
           </div>
-        </div>
-        <div v-for="(p, i) in product.products" :key="i" class="row border-bottom">
+        </div> -->
+        <div v-for="(p, i) in product" :key="i" class="row border-bottom">
           <div class="form-user col-md-12">
-            <EditorText v-model="p.judul" :initial-value="originalProduct.products[i].judul" placeholder="Isi Judul baru">
+            <EditorText v-model="p.judul" :initial-value="originalProduct[i].judul" placeholder="Isi Judul baru">
               <template #title>Judul</template>
             </EditorText>
           </div>
           <div class="form-user col-md-12">
-            <EditorText v-model="p.subJudul" :initial-value="originalProduct.products[i].subJudul" placeholder="Isi Judul baru">
+            <EditorText v-model="p.sub_judul" :initial-value="originalProduct[i].sub_judul"
+              placeholder="Isi Judul baru">
               <template #title>Sub Judul</template>
             </EditorText>
           </div>
           <div class="form-user col-md-12">
-            <EditorTextArea v-model="p.text" :initial-value="originalProduct.products[i].text">
+            <EditorTextArea v-model="p.text" :initial-value="originalProduct[i].text">
               <template #title>Text</template>
             </EditorTextArea>
           </div>
           <div class="form-user col-md-12 pt-3">
-            <EditorText v-model="p.tombol" :initial-value="originalProduct.products[i].tombol" placeholder="Isi nama tombol baru">
+            <EditorText v-model="p.tombol" :initial-value="originalProduct[i].tombol"
+              placeholder="Isi nama tombol baru">
               <template #title>Tombol</template>
             </EditorText>
             <p class="pt-3">Link</p>
             <div class="form-group row justify-content-between px-3">
-              <input v-model="p.link" :initial-value="originalProduct.products[i].link" placeholder="Isi Link yang ingin di tuju" class="form-control col-md-12" />
+              <input v-model="p.link"
+                placeholder="Isi Link yang ingin di tuju" class="form-control col-md-12" />
             </div>
           </div>
         </div>
@@ -90,7 +94,7 @@
     <UIKonten>
       <template #title>Konten 4</template>
       <div class="container-fluid">
-        <div class="row border-bottom">
+        <!-- <div class="row border-bottom">
           <div class="form-user col-md-12">
             <EditorText v-model="product.master.judul" placeholder="Isi Judul baru">
               <template #title>Judul</template>
@@ -101,7 +105,7 @@
               <template #title>Text</template>
             </EditorTextArea>
           </div>
-        </div>
+        </div> -->
         <div v-for="(f, i) in feature.features" :key="i" class="row border-bottom">
           <div class="col-md-12 pt-2">
             <EditorImage v-model="f.gambar" :max-size="5">
@@ -168,7 +172,8 @@
             </EditorText>
             <p class="pt-3">Link</p>
             <div class="form-group row justify-content-between px-3">
-              <input v-model="test.link" :initial-value="originalTest.link" placeholder="Isi Link yang ingin di tuju" class="form-control col-md-12" />
+              <input v-model="test.link" :initial-value="originalTest.link" placeholder="Isi Link yang ingin di tuju"
+                class="form-control col-md-12" />
             </div>
           </div>
         </div>
@@ -207,7 +212,8 @@
             </EditorText>
             <p class="pt-3">Link</p>
             <div class="form-group row justify-content-between px-3">
-              <input v-model="tryout.link" :initial-value="originalTryout.link" placeholder="Isi Link yang ingin di tuju" class="form-control col-md-12" />
+              <input v-model="tryout.link" :initial-value="originalTryout.link" placeholder="Isi Link yang ingin di tuju"
+                class="form-control col-md-12" />
             </div>
           </div>
         </div>
@@ -256,7 +262,8 @@
             </EditorText>
             <p class="pt-3">Link</p>
             <div class="form-group row justify-content-between px-3">
-              <input v-model="degree.link" :initial-value="originalDegree.link" placeholder="Isi Link yang ingin di tuju" class="form-control col-md-12" />
+              <input v-model="degree.link" :initial-value="originalDegree.link" placeholder="Isi Link yang ingin di tuju"
+                class="form-control col-md-12" />
             </div>
           </div>
         </div>
@@ -270,7 +277,8 @@
       <div class="container-fluid">
         <div class="row border-bottom">
           <div class="form-user col-md-12">
-            <EditorText v-model="review.master.judul" :initial-value="originalReview.master.judul" placeholder="Isi Judul baru">
+            <EditorText v-model="review.master.judul" :initial-value="originalReview.master.judul"
+              placeholder="Isi Judul baru">
               <template #title>Judul</template>
             </EditorText>
           </div>
@@ -297,7 +305,8 @@
             </EditorText>
           </div>
           <div class="form-user col-md-12">
-            <EditorText v-model="r.jurusan" :initial-value="originalReview.reviews[i].jurusan" placeholder="Isi Jurusan baru">
+            <EditorText v-model="r.jurusan" :initial-value="originalReview.reviews[i].jurusan"
+              placeholder="Isi Jurusan baru">
               <template #title>Jurusan</template>
             </EditorText>
           </div>
@@ -341,12 +350,14 @@
             </EditorTextArea>
           </div>
           <div class="form-user col-md-12 pt-3">
-            <EditorText v-model="register.tombol" :initial-value="originalRegister.tombol" placeholder="Isi nama tombol baru">
+            <EditorText v-model="register.tombol" :initial-value="originalRegister.tombol"
+              placeholder="Isi nama tombol baru">
               <template #title>Tombol</template>
             </EditorText>
             <p class="pt-3">Link</p>
             <div class="form-group row justify-content-between px-3">
-              <input v-model="register.link" :initial-value="originalRegister.link" placeholder="Isi Link yang ingin di tuju" class="form-control col-md-12" />
+              <input v-model="register.link" :initial-value="originalRegister.link"
+                placeholder="Isi Link yang ingin di tuju" class="form-control col-md-12" />
             </div>
           </div>
         </div>
@@ -359,10 +370,10 @@
 </template>
 
 <script>
-import objectToFormData from '../../../helpers/object-to-form-data'
+import objectToFormData from '../../../helpers/object-to-form-data';
 
 export default {
-  data() {
+  data () {
     return {
       isReady: false,
       originalMaster: {
@@ -395,61 +406,28 @@ export default {
       carousel: [
         {
           id: '',
-          gambar: null,
+          carousel: null,
           judul: '',
           text: ''
         }
       ],
-      originalProduct: {
-        master: {
-          id: '',
+      originalProduct: [],
+      product: [
+        {
           judul: '',
-          text: ''
+          sub_judul: '',
+          text: '',
+          tombol: '',
+          link: ''
         },
-        products: [
-          {
-            id: '',
-            judul: '',
-            subJudul: '',
-            text: '',
-            tombol: '',
-            link: ''
-          },
-          {
-            id: '',
-            judul: '',
-            subJudul: '',
-            text: '',
-            tombol: '',
-            link: ''
-          }
-        ]
-      },
-      product: {
-        master: {
-          id: '',
+        {
           judul: '',
-          text: ''
-        },
-        products: [
-          {
-            id: '',
-            judul: '',
-            subJudul: '',
-            text: '',
-            tombol: '',
-            link: ''
-          },
-          {
-            id: '',
-            judul: '',
-            subJudul: '',
-            text: '',
-            tombol: '',
-            link: ''
-          }
-        ]
-      },
+          sub_judul: '',
+          text: '',
+          tombol: '',
+          link: ''
+        }
+      ],
       feature: {
         master: {
           id: '',
@@ -585,35 +563,48 @@ export default {
         tombol: '',
         link: ''
       },
-    }
+    };
   },
-  async mounted() {
-    this.isReady = false
-    const { data } = await this.$axios.get('/api/cms/halaman-utama/get')
+  async mounted () {
+    this.isReady = false;
+    const { data } = await this.$axios.get('/api/cms/halaman-utama/get');
     if (data.data instanceof Object) {
-      const masterContent =  data.data.dataContent1[0]
+      const masterContent = data.data.dataContent1[0];
       if (masterContent) {
-        masterContent.sub_content = JSON.parse(masterContent.sub_content)
-        this.originalMaster = masterContent
-        this.master.id= masterContent.id
-        this.master.banner = masterContent.banner
-        this.master.gambar = masterContent.gambar
+        masterContent.sub_content = JSON.parse(masterContent.sub_content);
+        this.originalMaster = masterContent;
+        this.master.id = masterContent.id;
+        this.master.banner = masterContent.banner;
+        this.master.gambar = masterContent.gambar;
         this.master.sub_content = masterContent.sub_content.map(sc => ({
           text: '',
           link: sc.link
-        }))
+        }));
       }
 
       const masterCarousel = data.data.dataContent2;
       if (masterCarousel.length > 0) {
         this.originalCarousel = masterCarousel;
-        this.carousel = masterCarousel;
+        for (let i = 0; i < masterCarousel.length; i++) {
+          this.carousel[i].id = masterCarousel[i].id;
+          this.carousel[i].carousel = masterCarousel[i].carousel;
+          this.carousel[i].judul = masterCarousel[i].judul;
+          this.carousel[i].text = masterCarousel[i].text;
+        }
       }
 
       const masterProduct = data.data.dataContent3;
       if (masterProduct.length > 0) {
         this.originalProduct = masterProduct;
-        this.product = masterProduct;
+        for (let indexProd = 0; indexProd < masterProduct.length; indexProd++) {
+          this.product[indexProd].id = masterProduct[indexProd].id;
+          this.product[indexProd].id_content = masterProduct[indexProd].id_content;
+          this.product[indexProd].judul = masterProduct[indexProd].judul;
+          this.product[indexProd].sub_judul = masterProduct[indexProd].sub_judul;
+          this.product[indexProd].text = masterProduct[indexProd].text;
+          this.product[indexProd].tombol = masterProduct[indexProd].tombol;
+          this.product[indexProd].link = masterProduct[indexProd].link;
+        }
       }
 
       const masterTest = data.data.dataContent5;
@@ -646,128 +637,137 @@ export default {
         this.register = masterRegister;
       }
     }
-    this.isReady = true
+    this.isReady = true;
   },
   methods: {
-    addCarousel() {
+    addCarousel () {
       this.carousel.push({
-        id: '',
-        image: null,
+        carousel: null,
         judul: '',
         text: ''
-      })
+      });
+      this.originalCarousel.push({
+        carousel: null,
+        judul: '',
+        text: ''
+      });
     },
-    deleteCarousel() {
-      if (this.carousel.length) this.carousel.pop()
+    deleteCarousel () {
+      if (this.carousel.length) this.carousel.pop();
     },
-    addReview() {
+    addReview () {
       this.review.reviews.push({
         id: '',
         gambar: '',
         jurusan: '',
         text: ''
-      })
+      });
     },
-    deleteReview() {
-      if (this.review.reviews.length) this.review.reviews.pop()
+    deleteReview () {
+      if (this.review.reviews.length) this.review.reviews.pop();
     },
-    async saveMasterContent() {
+    async saveMasterContent () {
       try {
-        const payload = objectToFormData({ konten1: this.master })
+        const payload = objectToFormData({ konten1: this.master });
         const res = await this.$axios.post('/api/cms/halaman-utama', payload, {
           headers: { 'Content-Type': 'multipart/form-data' }
-        })
-        if (res.status === 200) window.alert("Berhasil mengubah konten")
+        });
+        if (res.status === 200) window.alert("Berhasil mengubah konten");
       } catch (e) {
-        window.alert("gagal menyimpan konten")
+        window.alert("gagal menyimpan konten");
       }
     },
-    async saveCarousel() {
+    async saveCarousel () {
+      for (let i = 0; i < this.carousel.length; i++) {
+        if (typeof this.carousel[i].carousel == 'string') {
+          this.carousel[i].carousel = '';
+        }
+      }
       try {
-        const payload = objectToFormData({ konten2: {data: this.carousel} })
+        const payload = objectToFormData({ konten2: { data: this.carousel } });
         const res = await this.$axios.post('/api/cms/halaman-utama', payload, {
           headers: { 'Content-Type': 'multipart/form-data' }
-        })
-        if (res.status === 200) window.alert("Berhasil mengubah konten")
+        });
+        if (res.data.success) window.alert("Berhasil mengubah konten");
       } catch (e) {
-        window.alert("gagal menyimpan konten")
+        window.alert("gagal menyimpan konten");
       }
     },
-    async saveProduct() {
+    async saveProduct () {
       try {
         const res = await this.$axios.post('/api/cms/halaman-utama', {
-          konten3: this.product
-        })
-        if (res.status === 200) window.alert("Berhasil menyimpan konten")
+          konten3: { data: this.product}
+        });
+        if (res.data.success) window.alert("Berhasil menyimpan konten");
       } catch (e) {
-        window.alert("gagal menyimpan konten")
+        window.alert("gagal menyimpan konten");
       }
     },
-    async saveFeature() {
+    async saveFeature () {
       try {
-        const payload = objectToFormData({ konten4: this.feature })
+        const payload = objectToFormData({ konten4: this.feature });
         const res = await this.$axios.post('/api/cms/halaman-utama', payload, {
           headers: { 'Content-Type': 'multipart/form-data' }
-        })
-        if (res.status === 200) window.alert("berhasil menyimpan konten")
+        });
+        if (res.status === 200) window.alert("berhasil menyimpan konten");
       } catch (e) {
-        window.alert("gagal menyimpan konten")
+        window.alert("gagal menyimpan konten");
       }
     },
-    async saveTest() {
+    async saveTest () {
       try {
-        const payload = objectToFormData({ konten5: this.test })
+        const payload = objectToFormData({ konten5: this.test });
         const res = await this.$axios.post('/api/cms/halaman-utama', payload, {
           headers: { 'Content-Type': 'multipart/form-data' }
-        })
-        if (res.status === 200) window.alert("Berhasil menyimpan konten")
+        });
+        if (res.status === 200) window.alert("Berhasil menyimpan konten");
       } catch (e) {
-        window.alert("gagal menyimpan konten")
+        window.alert("gagal menyimpan konten");
       }
     },
-    async saveTryout() {
+    async saveTryout () {
       try {
         const res = await this.$axios.post('/api/cms/halaman-utama', {
           konten6: this.tryout
-        })
-        if (res.status === 200) window.alert("berhasil menyimpan konten")
+        });
+        if (res.status === 200) window.alert("berhasil menyimpan konten");
       } catch (e) {
-        window.alert("gagal menyimpan konten")
+        window.alert("gagal menyimpan konten");
       }
     },
-    async saveDegree() {
+    async saveDegree () {
       try {
-        const payload = objectToFormData({ konten7: this.degree })
+        const payload = objectToFormData({ konten7: this.degree });
         const res = await this.$axios.post('/api/cms/halaman-utama', payload, {
           headers: { 'Content-Type': 'multipart/form-data' }
-        })
-        if (res.status === 200) window.alert("berhasil menyimpan konten")
+        });
+        if (res.status === 200) window.alert("berhasil menyimpan konten");
       } catch (e) {
-        window.alert("gagal menyimpan konten")
+        window.alert("gagal menyimpan konten");
       }
     },
-    async saveReview() {
+    async saveReview () {
       try {
-        const payload = objectToFormData({ konten8: this.review })
+        const payload = objectToFormData({ konten8: this.review });
         const res = await this.$axios.post('/api/cms/halaman-utama', payload, {
           headers: { 'Content-Type': 'multipart/form-data' }
-        })
-        if (res.status === 200) window.alert("berhasil menyimpan konten")
+        });
+        if (res.status === 200) window.alert("berhasil menyimpan konten");
       } catch (e) {
-        window.alert("gagal menyimpan konten")
+        window.alert("gagal menyimpan konten");
       }
     },
-    async saveRegister() {
+    async saveRegister () {
       try {
-        const payload = objectToFormData({ konten9: this.register })
+        const payload = objectToFormData({ konten9: this.register });
         const res = await this.$axios.post('/api/cms/halaman-utama', payload, {
           headers: { 'Content-Type': 'multipart/form-data' }
-        })
-        if (res.status === 200) window.alert("berhasil menyimpan konten")
+        });
+        if (res.status === 200) window.alert("berhasil menyimpan konten");
       } catch (e) {
-        window.alert("gagal menyimpan konten")
+        window.alert("gagal menyimpan konten");
       }
     },
   }
-}
+};
 </script>
