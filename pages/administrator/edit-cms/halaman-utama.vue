@@ -621,10 +621,17 @@ export default {
         this.test.link = masterTest.link;
       }
 
-      const masterTryout = data.data.dataContent6;
-      if (masterTryout.length > 0) {
+      // Konten 6
+      const masterTryout = data.data.dataContent6[0];
+      if (data.data.dataContent6.length > 0) {
         this.originalTryout = masterTryout;
-        this.tryout = masterTryout;
+        this.tryout.id = masterTryout.id;
+        this.tryout.judul = masterTryout.judul;
+        this.tryout.text1 = masterTryout.text1;
+        this.tryout.sub_judul = masterTryout.sub_judul;
+        this.tryout.text2 = masterTryout.text2;
+        this.tryout.tombol = masterTryout.tombol;
+        this.tryout.link = masterTryout.link;
       }
 
       const masterDegree = data.data.dataContent7;
