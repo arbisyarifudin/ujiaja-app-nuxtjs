@@ -582,6 +582,7 @@ export default {
         }));
       }
 
+      // Konten 2
       const masterCarousel = data.data.dataContent2;
       if (masterCarousel.length > 0) {
         this.originalCarousel = masterCarousel;
@@ -593,6 +594,7 @@ export default {
         }
       }
 
+      // Konten 3
       const masterProduct = data.data.dataContent3;
       if (masterProduct.length > 0) {
         this.originalProduct = masterProduct;
@@ -607,10 +609,16 @@ export default {
         }
       }
 
-      const masterTest = data.data.dataContent5;
-      if (masterTest.length > 0) {
+      // Konten 5
+      const masterTest = data.data.dataContent5[0];
+      if (data.data.dataContent5.length > 0) {
         this.originalTest = masterTest;
-        this.test = masterTest;
+        this.test.id = masterTest.id;
+        this.test.judul = masterTest.judul;
+        this.test.gambar = masterTest.gambar;
+        this.test.text = masterTest.text;
+        this.test.tombol = masterTest.tombol;
+        this.test.link = masterTest.link;
       }
 
       const masterTryout = data.data.dataContent6;
