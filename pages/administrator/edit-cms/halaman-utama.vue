@@ -2,15 +2,21 @@
   <div v-if="isReady" class="col-md-12">
     <UIKonten>
       <template #title>Konten 1</template>
-      <EditorContentMaster :original="originalMaster" :content="master" />
+      <EditorContentMaster :original="originalMaster" :contents="master" />
       <div class="col-md-12 pt-4">
-        <button @click="saveMasterContent" class="btn btn-primary">Simpan</button>
+        <button @click="saveMasterContent" class="btn btn-primary">
+          Simpan
+        </button>
       </div>
     </UIKonten>
     <UIKonten>
       <template #title>Konten 2</template>
       <div class="container-fluid">
-        <div v-for="(content, i) in carousel" :key="i" class="row border-bottom">
+        <div
+          v-for="(content, i) in carousel"
+          :key="i"
+          class="row border-bottom"
+        >
           <div class="col-md-12">
             <EditorImage v-model="content.carousel" :max-size="5">
               <template #title> Carousel Slider </template>
@@ -86,7 +92,10 @@
             </EditorText>
           </div>
           <div class="form-user col-md-12">
-            <EditorTextArea v-model="p.text" :initial-value="originalProduct[i].text">
+            <EditorTextArea
+              v-model="p.text"
+              :initial-value="originalProduct[i].text"
+            >
               <template #title>Text</template>
             </EditorTextArea>
           </div>
@@ -128,7 +137,11 @@
             </EditorTextArea>
           </div>
         </div> -->
-        <div v-for="(f, i) in feature.features" :key="i" class="row border-bottom">
+        <div
+          v-for="(f, i) in feature.features"
+          :key="i"
+          class="row border-bottom"
+        >
           <div class="col-md-12 pt-2">
             <EditorImage v-model="f.gambar" :max-size="5">
               <template #title> Gambar </template>
@@ -188,7 +201,10 @@
             </EditorText>
           </div>
           <div class="form-user col-md-12">
-            <EditorTextArea v-model="test.text" :initial-value="originalTest.text">
+            <EditorTextArea
+              v-model="test.text"
+              :initial-value="originalTest.text"
+            >
               <template #title>Text</template>
             </EditorTextArea>
           </div>
@@ -230,7 +246,10 @@
             </EditorText>
           </div>
           <div class="form-user col-md-12">
-            <EditorTextArea v-model="tryout.text1" :initial-value="originalTryout.text1">
+            <EditorTextArea
+              v-model="tryout.text1"
+              :initial-value="originalTryout.text1"
+            >
               <template #title>Text</template>
             </EditorTextArea>
           </div>
@@ -244,7 +263,10 @@
             </EditorText>
           </div>
           <div class="form-user col-md-12">
-            <EditorTextArea v-model="tryout.text2" :initial-value="originalTryout.text2">
+            <EditorTextArea
+              v-model="tryout.text2"
+              :initial-value="originalTryout.text2"
+            >
               <template #title>Text</template>
             </EditorTextArea>
           </div>
@@ -286,7 +308,10 @@
             </EditorText>
           </div>
           <div class="form-user col-md-12">
-            <EditorTextArea v-model="degree.text1" :initial-value="originalDegree.text1">
+            <EditorTextArea
+              v-model="degree.text1"
+              :initial-value="originalDegree.text1"
+            >
               <template #title>Text</template>
             </EditorTextArea>
           </div>
@@ -308,7 +333,10 @@
             </EditorText>
           </div>
           <div class="form-user col-md-12">
-            <EditorTextArea v-model="degree.text2" :initial-value="originalDegree.text2">
+            <EditorTextArea
+              v-model="degree.text2"
+              :initial-value="originalDegree.text2"
+            >
               <template #title>Text</template>
             </EditorTextArea>
           </div>
@@ -380,7 +408,10 @@
             </EditorText>
           </div>
           <div class="form-user col-md-12">
-            <EditorTextArea v-model="r.text" :initial-value="originalReview[i].text">
+            <EditorTextArea
+              v-model="r.text"
+              :initial-value="originalReview[i].text"
+            >
               <template #title>Text</template>
             </EditorTextArea>
           </div>
@@ -461,32 +492,28 @@ export default {
   data() {
     return {
       isReady: false,
-      originalMaster: {
-        id: "",
-        banner: null,
-        gambar: null,
-        judul: "",
-        text: "",
-        sub_content: [
-          {
-            tombol: "",
-            link: "",
-          },
-        ],
-      },
-      master: {
-        id: "",
-        banner: null,
-        gambar: null,
-        judul: "",
-        text: "",
-        sub_content: [
-          {
-            tombol: "",
-            link: "",
-          },
-        ],
-      },
+      originalMaster: [
+        {
+          id: "",
+          banner: "",
+          gambar: "",
+          judul: "",
+          text: "",
+          tombol: "",
+          link: "",
+        }
+      ],
+      master: [
+        {
+          id: "",
+          banner: "",
+          gambar: "",
+          judul: "",
+          text: "",
+          tombol: "",
+          link: "",
+        },
+      ],
       originalCarousel: [],
       carousel: [
         {
@@ -674,7 +701,7 @@ export default {
     },
     async saveMasterContent() {
       try {
-        const payload = objectToFormData({ konten1: this.master });
+        const payload = objectToFormData({ konten1: { data: this.master } });
         const res = await this.$axios.post("/api/cms/halaman-utama", payload, {
           headers: { "Content-Type": "multipart/form-data" },
         });
@@ -804,17 +831,29 @@ export default {
     async getMainPageData() {
       const { data } = await this.$axios.get("/api/cms/halaman-utama/get");
       if (data.data instanceof Object) {
-        const masterContent = data.data.dataContent1[0];
-        if (masterContent) {
-          masterContent.sub_content = JSON.parse(masterContent.sub_content);
+        // Konten 1
+        const masterContent = data.data.dataContent1;
+        if (masterContent.length > 0) {
           this.originalMaster = masterContent;
-          this.master.id = masterContent.id;
-          this.master.banner = masterContent.banner;
-          this.master.gambar = masterContent.gambar;
-          this.master.sub_content = masterContent.sub_content.map((sc) => ({
-            text: "",
-            link: sc.link,
-          }));
+          for (
+            let indexMaster = 0;
+            indexMaster < masterContent.length;
+            indexMaster++
+          ) {
+            this.master[indexMaster].id = this.originalMaster[indexMaster].id;
+            this.master[indexMaster].banner =
+              this.originalMaster[indexMaster].banner;
+            this.master[indexMaster].gambar =
+              this.originalMaster[indexMaster].gambar;
+            this.master[indexMaster].judul =
+              this.originalMaster[indexMaster].judul;
+            this.master[indexMaster].text =
+              this.originalMaster[indexMaster].text;
+            this.master[indexMaster].tombol = 
+              this.originalMaster[indexMaster].tombol;
+            this.master[indexMaster].link = 
+              this.originalMaster[indexMaster].link;
+          }
         }
 
         // Konten 2
@@ -833,11 +872,17 @@ export default {
         const masterProduct = data.data.dataContent3;
         if (masterProduct.length > 0) {
           this.originalProduct = masterProduct;
-          for (let indexProd = 0; indexProd < masterProduct.length; indexProd++) {
+          for (
+            let indexProd = 0;
+            indexProd < masterProduct.length;
+            indexProd++
+          ) {
             this.product[indexProd].id = masterProduct[indexProd].id;
-            this.product[indexProd].id_content = masterProduct[indexProd].id_content;
+            this.product[indexProd].id_content =
+              masterProduct[indexProd].id_content;
             this.product[indexProd].judul = masterProduct[indexProd].judul;
-            this.product[indexProd].sub_judul = masterProduct[indexProd].sub_judul;
+            this.product[indexProd].sub_judul =
+              masterProduct[indexProd].sub_judul;
             this.product[indexProd].text = masterProduct[indexProd].text;
             this.product[indexProd].tombol = masterProduct[indexProd].tombol;
             this.product[indexProd].link = masterProduct[indexProd].link;
@@ -881,7 +926,8 @@ export default {
           this.originalReview = masterReview;
           for (let indexRvw = 0; indexRvw < masterReview.length; indexRvw++) {
             this.review[indexRvw].id = masterReview[indexRvw].id;
-            this.review[indexRvw].id_content = masterReview[indexRvw].id_content;
+            this.review[indexRvw].id_content =
+              masterReview[indexRvw].id_content;
             this.review[indexRvw].foto = masterReview[indexRvw].foto;
             this.review[indexRvw].nama = masterReview[indexRvw].nama;
             this.review[indexRvw].jurusan = masterReview[indexRvw].jurusan;
