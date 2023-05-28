@@ -13,28 +13,37 @@
         <div v-for="(content, i) in carousel" :key="i" class="row border-bottom">
           <div class="col-md-12">
             <EditorImage v-model="content.carousel" :max-size="5">
-              <template #title>
-                Carousel Slider
-              </template>
+              <template #title> Carousel Slider </template>
               <template #warn>
                 *Disarankan dengan Banner 1276 x 638 pixel, dan Maksimal 5 Mb
               </template>
             </EditorImage>
           </div>
           <div class="form-user col-md-12">
-            <EditorText v-model="content.judul" :initial-value="originalCarousel[i].judul" placeholder="Isi Judul baru">
+            <EditorText
+              v-model="content.judul"
+              :initial-value="originalCarousel[i].judul"
+              placeholder="Isi Judul baru"
+            >
               <template #title>Judul</template>
             </EditorText>
           </div>
           <div class="form-user col-md-12">
-            <EditorTextArea v-model="content.text" :initial-value="originalCarousel[i].text">
+            <EditorTextArea
+              v-model="content.text"
+              :initial-value="originalCarousel[i].text"
+            >
               <template #title>Text</template>
             </EditorTextArea>
           </div>
         </div>
         <div class="row py-2 border-bottom">
-          <button @click="addCarousel" class="btn btn-outline-primary">+ Tambah Carousel Slider</button>
-          <button @click="deleteCarousel" class="btn btn-outline-danger ml-3">- Hapus Carousel Slider</button>
+          <button @click="addCarousel" class="btn btn-outline-primary">
+            + Tambah Carousel Slider
+          </button>
+          <button @click="deleteCarousel" class="btn btn-outline-danger ml-3">
+            - Hapus Carousel Slider
+          </button>
         </div>
       </div>
       <div class="col-md-12 pt-4">
@@ -59,13 +68,20 @@
         </div> -->
         <div v-for="(p, i) in product" :key="i" class="row border-bottom">
           <div class="form-user col-md-12">
-            <EditorText v-model="p.judul" :initial-value="originalProduct[i].judul" placeholder="Isi Judul baru">
+            <EditorText
+              v-model="p.judul"
+              :initial-value="originalProduct[i].judul"
+              placeholder="Isi Judul baru"
+            >
               <template #title>Judul</template>
             </EditorText>
           </div>
           <div class="form-user col-md-12">
-            <EditorText v-model="p.sub_judul" :initial-value="originalProduct[i].sub_judul"
-              placeholder="Isi Judul baru">
+            <EditorText
+              v-model="p.sub_judul"
+              :initial-value="originalProduct[i].sub_judul"
+              placeholder="Isi Judul baru"
+            >
               <template #title>Sub Judul</template>
             </EditorText>
           </div>
@@ -75,14 +91,20 @@
             </EditorTextArea>
           </div>
           <div class="form-user col-md-12 pt-3">
-            <EditorText v-model="p.tombol" :initial-value="originalProduct[i].tombol"
-              placeholder="Isi nama tombol baru">
+            <EditorText
+              v-model="p.tombol"
+              :initial-value="originalProduct[i].tombol"
+              placeholder="Isi nama tombol baru"
+            >
               <template #title>Tombol</template>
             </EditorText>
             <p class="pt-3">Link</p>
             <div class="form-group row justify-content-between px-3">
-              <input v-model="p.link"
-                placeholder="Isi Link yang ingin di tuju" class="form-control col-md-12" />
+              <input
+                v-model="p.link"
+                placeholder="Isi Link yang ingin di tuju"
+                class="form-control col-md-12"
+              />
             </div>
           </div>
         </div>
@@ -109,9 +131,7 @@
         <div v-for="(f, i) in feature.features" :key="i" class="row border-bottom">
           <div class="col-md-12 pt-2">
             <EditorImage v-model="f.gambar" :max-size="5">
-              <template #title>
-                Gambar
-              </template>
+              <template #title> Gambar </template>
               <template #warn>
                 *Disarankan dengan Banner 1276 x 638 pixel, dan Maksimal 5 Mb
               </template>
@@ -133,7 +153,11 @@
             </EditorText>
             <p class="pt-3">Link</p>
             <div class="form-group row justify-content-between px-3">
-              <input v-model="f.link" placeholder="Isi Link yang ingin di tuju" class="form-control col-md-12" />
+              <input
+                v-model="f.link"
+                placeholder="Isi Link yang ingin di tuju"
+                class="form-control col-md-12"
+              />
             </div>
           </div>
         </div>
@@ -148,16 +172,18 @@
         <div class="row border-bottom">
           <div class="form-user col-md-12">
             <EditorImage v-model="test.gambar" :max-size="5">
-              <template #title>
-                Gambar
-              </template>
+              <template #title> Gambar </template>
               <template #warn>
                 *Disarankan dengan Banner 1276 x 638 pixel, dan Maksimal 5 Mb
               </template>
             </EditorImage>
           </div>
           <div class="form-user col-md-12">
-            <EditorText v-model="test.judul" :initial-value="originalTest.judul" placeholder="Isi Judul baru">
+            <EditorText
+              v-model="test.judul"
+              :initial-value="originalTest.judul"
+              placeholder="Isi Judul baru"
+            >
               <template #title>Judul</template>
             </EditorText>
           </div>
@@ -167,13 +193,21 @@
             </EditorTextArea>
           </div>
           <div class="form-user col-md-12 pt-3">
-            <EditorText v-model="test.tombol" :initial-value="originalTest.tombol" placeholder="Isi nama tombol baru">
+            <EditorText
+              v-model="test.tombol"
+              :initial-value="originalTest.tombol"
+              placeholder="Isi nama tombol baru"
+            >
               <template #title>Tombol</template>
             </EditorText>
             <p class="pt-3">Link</p>
             <div class="form-group row justify-content-between px-3">
-              <input v-model="test.link" :initial-value="originalTest.link" placeholder="Isi Link yang ingin di tuju"
-                class="form-control col-md-12" />
+              <input
+                v-model="test.link"
+                :initial-value="originalTest.link"
+                placeholder="Isi Link yang ingin di tuju"
+                class="form-control col-md-12"
+              />
             </div>
           </div>
         </div>
@@ -187,7 +221,11 @@
       <div class="container-fluid">
         <div class="row border-bottom">
           <div class="form-user col-md-12">
-            <EditorText v-model="tryout.judul" :initial-value="originalTryout.judul" placeholder="Isi Judul baru">
+            <EditorText
+              v-model="tryout.judul"
+              :initial-value="originalTryout.judul"
+              placeholder="Isi Judul baru"
+            >
               <template #title>Judul</template>
             </EditorText>
           </div>
@@ -197,7 +235,11 @@
             </EditorTextArea>
           </div>
           <div class="form-user col-md-12">
-            <EditorText v-model="tryout.sub_judul" :initial-value="originalTryout.sub_judul" placeholder="Isi Judul baru">
+            <EditorText
+              v-model="tryout.sub_judul"
+              :initial-value="originalTryout.sub_judul"
+              placeholder="Isi Judul baru"
+            >
               <template #title>Sub Judul</template>
             </EditorText>
           </div>
@@ -207,13 +249,21 @@
             </EditorTextArea>
           </div>
           <div class="form-user col-md-12 pt-3">
-            <EditorText v-model="tryout.tombol" :initial-value="originalTryout.tombol" placeholder="Isi nama tombol baru">
+            <EditorText
+              v-model="tryout.tombol"
+              :initial-value="originalTryout.tombol"
+              placeholder="Isi nama tombol baru"
+            >
               <template #title>Tombol</template>
             </EditorText>
             <p class="pt-3">Link</p>
             <div class="form-group row justify-content-between px-3">
-              <input v-model="tryout.link" :initial-value="originalTryout.link" placeholder="Isi Link yang ingin di tuju"
-                class="form-control col-md-12" />
+              <input
+                v-model="tryout.link"
+                :initial-value="originalTryout.link"
+                placeholder="Isi Link yang ingin di tuju"
+                class="form-control col-md-12"
+              />
             </div>
           </div>
         </div>
@@ -227,7 +277,11 @@
       <div class="container-fluid">
         <div class="row border-bottom">
           <div class="form-user col-md-12">
-            <EditorText v-model="degree.judul" :initial-value="originalDegree.judul" placeholder="Isi Judul baru">
+            <EditorText
+              v-model="degree.judul"
+              :initial-value="originalDegree.judul"
+              placeholder="Isi Judul baru"
+            >
               <template #title>Judul</template>
             </EditorText>
           </div>
@@ -238,16 +292,18 @@
           </div>
           <div class="form-user col-md-12">
             <EditorImage v-model="degree.gambar" :max-size="5">
-              <template #title>
-                Gambar
-              </template>
+              <template #title> Gambar </template>
               <template #warn>
                 *Disarankan dengan Banner 1276 x 638 pixel, dan Maksimal 5 Mb
               </template>
             </EditorImage>
           </div>
           <div class="form-user col-md-12">
-            <EditorText v-model="degree.sub_judul" :initial-value="originalDegree.sub_judul" placeholder="Isi Judul baru">
+            <EditorText
+              v-model="degree.sub_judul"
+              :initial-value="originalDegree.sub_judul"
+              placeholder="Isi Judul baru"
+            >
               <template #title>Sub Judul</template>
             </EditorText>
           </div>
@@ -257,13 +313,21 @@
             </EditorTextArea>
           </div>
           <div class="form-user col-md-12 pt-3">
-            <EditorText v-model="degree.tombol" :initial-value="originalDegree.tombol" placeholder="Isi nama tombol baru">
+            <EditorText
+              v-model="degree.tombol"
+              :initial-value="originalDegree.tombol"
+              placeholder="Isi nama tombol baru"
+            >
               <template #title>Tombol</template>
             </EditorText>
             <p class="pt-3">Link</p>
             <div class="form-group row justify-content-between px-3">
-              <input v-model="degree.link" :initial-value="originalDegree.link" placeholder="Isi Link yang ingin di tuju"
-                class="form-control col-md-12" />
+              <input
+                v-model="degree.link"
+                :initial-value="originalDegree.link"
+                placeholder="Isi Link yang ingin di tuju"
+                class="form-control col-md-12"
+              />
             </div>
           </div>
         </div>
@@ -275,7 +339,7 @@
     <UIKonten>
       <template #title>Konten 8</template>
       <div class="container-fluid">
-        <div class="row border-bottom">
+        <!-- <div class="row border-bottom">
           <div class="form-user col-md-12">
             <EditorText v-model="review.master.judul" :initial-value="originalReview.master.judul"
               placeholder="Isi Judul baru">
@@ -287,38 +351,47 @@
               <template #title>Text</template>
             </EditorTextArea>
           </div>
-        </div>
-        <div v-for="(r, i) in review.reviews" :key="i" class="row border-bottom">
+        </div> -->
+        <div v-for="(r, i) in review" :key="i" class="row border-bottom">
           <div class="col-md-12 pt-2">
-            <EditorImage v-model="r.gambar" :max-size="5">
-              <template #title>
-                Gambar
-              </template>
+            <EditorImage v-model="r.foto" :max-size="5">
+              <template #title> Gambar </template>
               <template #warn>
                 *Disarankan dengan Banner 1276 x 638 pixel, dan Maksimal 5 Mb
               </template>
             </EditorImage>
           </div>
           <div class="form-user col-md-12">
-            <EditorText v-model="r.nama" :initial-value="originalReview.reviews[i].nama" placeholder="Isi Nama baru">
+            <EditorText
+              v-model="r.nama"
+              :initial-value="originalReview[i].nama"
+              placeholder="Isi Nama baru"
+            >
               <template #title>Nama</template>
             </EditorText>
           </div>
           <div class="form-user col-md-12">
-            <EditorText v-model="r.jurusan" :initial-value="originalReview.reviews[i].jurusan"
-              placeholder="Isi Jurusan baru">
+            <EditorText
+              v-model="r.jurusan"
+              :initial-value="originalReview[i].jurusan"
+              placeholder="Isi Jurusan baru"
+            >
               <template #title>Jurusan</template>
             </EditorText>
           </div>
           <div class="form-user col-md-12">
-            <EditorTextArea v-model="r.text" :initial-value="originalReview.reviews[i].text">
+            <EditorTextArea v-model="r.text" :initial-value="originalReview[i].text">
               <template #title>Text</template>
             </EditorTextArea>
           </div>
         </div>
         <div class="row py-2 border-bottom">
-          <button @click="addReview" class="btn btn-outline-primary">+ Tambah Review</button>
-          <button @click="deleteReview" class="btn btn-outline-danger ml-3">- Hapus Review</button>
+          <button @click="addReview" class="btn btn-outline-primary">
+            + Tambah Review
+          </button>
+          <button @click="deleteReview" class="btn btn-outline-danger ml-3">
+            - Hapus Review
+          </button>
         </div>
       </div>
       <div class="col-md-12 pt-4">
@@ -331,33 +404,45 @@
         <div class="row border-bottom">
           <div class="form-user col-md-12">
             <EditorImage v-model="register.gambar" :max-size="5">
-              <template #title>
-                Gambar
-              </template>
+              <template #title> Gambar </template>
               <template #warn>
                 *Disarankan dengan Banner 1276 x 638 pixel, dan Maksimal 5 Mb
               </template>
             </EditorImage>
           </div>
           <div class="form-user col-md-12">
-            <EditorText v-model="register.judul" :initial-value="originalRegister.judul" placeholder="Isi Judul baru">
+            <EditorText
+              v-model="register.judul"
+              :initial-value="originalRegister.judul"
+              placeholder="Isi Judul baru"
+            >
               <template #title>Judul</template>
             </EditorText>
           </div>
           <div class="form-user col-md-12">
-            <EditorTextArea v-model="register.text" :initial-value="originalRegister.text">
+            <EditorTextArea
+              v-model="register.text"
+              :initial-value="originalRegister.text"
+            >
               <template #title>Text</template>
             </EditorTextArea>
           </div>
           <div class="form-user col-md-12 pt-3">
-            <EditorText v-model="register.tombol" :initial-value="originalRegister.tombol"
-              placeholder="Isi nama tombol baru">
+            <EditorText
+              v-model="register.tombol"
+              :initial-value="originalRegister.tombol"
+              placeholder="Isi nama tombol baru"
+            >
               <template #title>Tombol</template>
             </EditorText>
             <p class="pt-3">Link</p>
             <div class="form-group row justify-content-between px-3">
-              <input v-model="register.link" :initial-value="originalRegister.link"
-                placeholder="Isi Link yang ingin di tuju" class="form-control col-md-12" />
+              <input
+                v-model="register.link"
+                :initial-value="originalRegister.link"
+                placeholder="Isi Link yang ingin di tuju"
+                class="form-control col-md-12"
+              />
             </div>
           </div>
         </div>
@@ -370,419 +455,454 @@
 </template>
 
 <script>
-import objectToFormData from '../../../helpers/object-to-form-data';
+import objectToFormData from "../../../helpers/object-to-form-data";
 
 export default {
-  data () {
+  data() {
     return {
       isReady: false,
       originalMaster: {
-        id: '',
+        id: "",
         banner: null,
         gambar: null,
-        judul: '',
-        text: '',
+        judul: "",
+        text: "",
         sub_content: [
           {
-            tombol: '',
-            link: ''
-          }
-        ]
+            tombol: "",
+            link: "",
+          },
+        ],
       },
       master: {
-        id: '',
+        id: "",
         banner: null,
         gambar: null,
-        judul: '',
-        text: '',
+        judul: "",
+        text: "",
         sub_content: [
           {
-            tombol: '',
-            link: ''
-          }
-        ]
+            tombol: "",
+            link: "",
+          },
+        ],
       },
       originalCarousel: [],
       carousel: [
         {
-          id: '',
+          id: "",
           carousel: null,
-          judul: '',
-          text: ''
-        }
+          judul: "",
+          text: "",
+        },
       ],
       originalProduct: [],
       product: [
         {
-          judul: '',
-          sub_judul: '',
-          text: '',
-          tombol: '',
-          link: ''
+          judul: "",
+          sub_judul: "",
+          text: "",
+          tombol: "",
+          link: "",
         },
         {
-          judul: '',
-          sub_judul: '',
-          text: '',
-          tombol: '',
-          link: ''
-        }
+          judul: "",
+          sub_judul: "",
+          text: "",
+          tombol: "",
+          link: "",
+        },
       ],
       feature: {
         master: {
-          id: '',
-          judul: '',
-          text: ''
+          id: "",
+          judul: "",
+          text: "",
         },
         features: [
           {
-            id: '',
+            id: "",
             gambar: null,
-            judul: '',
-            text: '',
-            tombol: '',
-            link: ''
+            judul: "",
+            text: "",
+            tombol: "",
+            link: "",
           },
           {
-            id: '',
+            id: "",
             gambar: null,
-            judul: '',
-            text: '',
-            tombol: '',
-            link: ''
+            judul: "",
+            text: "",
+            tombol: "",
+            link: "",
           },
           {
-            id: '',
+            id: "",
             gambar: null,
-            judul: '',
-            text: '',
-            tombol: '',
-            link: ''
+            judul: "",
+            text: "",
+            tombol: "",
+            link: "",
           },
-        ]
+        ],
       },
       originalTest: {
-        id: '',
+        id: "",
         gambar: null,
-        judul: '',
-        text: '',
-        tombol: '',
-        link: ''
+        judul: "",
+        text: "",
+        tombol: "",
+        link: "",
       },
       test: {
-        id: '',
+        id: "",
         gambar: null,
-        judul: '',
-        text: '',
-        tombol: '',
-        link: ''
+        judul: "",
+        text: "",
+        tombol: "",
+        link: "",
       },
       originalTryout: {
-        id: '',
-        judul: '',
-        text1: '',
-        sub_judul: '',
-        text2: '',
-        tombol: '',
-        link: ''
+        id: "",
+        judul: "",
+        text1: "",
+        sub_judul: "",
+        text2: "",
+        tombol: "",
+        link: "",
       },
       tryout: {
-        id: '',
-        judul: '',
-        text1: '',
-        sub_judul: '',
-        text2: '',
-        tombol: '',
-        link: ''
+        id: "",
+        judul: "",
+        text1: "",
+        sub_judul: "",
+        text2: "",
+        tombol: "",
+        link: "",
       },
       originalDegree: {
-        id: '',
-        judul: '',
-        text1: '',
+        id: "",
+        judul: "",
+        text1: "",
         gambar: null,
-        sub_judul: '',
-        text2: '',
-        tombol: '',
-        link: ''
+        sub_judul: "",
+        text2: "",
+        tombol: "",
+        link: "",
       },
       degree: {
-        id: '',
-        judul: '',
-        text1: '',
+        id: "",
+        judul: "",
+        text1: "",
         gambar: null,
-        sub_judul: '',
-        text2: '',
-        tombol: '',
-        link: ''
+        sub_judul: "",
+        text2: "",
+        tombol: "",
+        link: "",
       },
-      originalReview: {
-        master: {
-          id: '',
-          judul: '',
-          text: '',
+      originalReview: [
+        {
+          id: "",
+          id_content: "",
+          foto: null,
+          judul: "",
+          nama: "",
+          jurusan: "",
+          text: "",
         },
-        reviews: [
-          {
-            id: '',
-            gambar: null,
-            nama: '',
-            jurusan: '',
-            text: ''
-          },
-        ]
-      },
-      review: {
-        master: {
-          id: '',
-          judul: '',
-          text: '',
+      ],
+      review: [
+        {
+          id: "",
+          id_content: "0",
+          foto: null,
+          judul: "",
+          nama: "",
+          jurusan: "",
+          text: "",
         },
-        reviews: [
-          {
-            id: '',
-            gambar: null,
-            nama: '',
-            jurusan: '',
-            text: ''
-          },
-        ]
-      },
+      ],
       originalRegister: {
-        id: '',
+        id: "",
         gambar: null,
-        judul: '',
-        text: '',
-        tombol: '',
-        link: ''
+        judul: "",
+        text: "",
+        tombol: "",
+        link: "",
       },
       register: {
-        id: '',
+        id: "",
         gambar: null,
-        judul: '',
-        text: '',
-        tombol: '',
-        link: ''
+        judul: "",
+        text: "",
+        tombol: "",
+        link: "",
       },
     };
   },
-  async mounted () {
+  async mounted() {
     this.isReady = false;
-    const { data } = await this.$axios.get('/api/cms/halaman-utama/get');
-    if (data.data instanceof Object) {
-      const masterContent = data.data.dataContent1[0];
-      if (masterContent) {
-        masterContent.sub_content = JSON.parse(masterContent.sub_content);
-        this.originalMaster = masterContent;
-        this.master.id = masterContent.id;
-        this.master.banner = masterContent.banner;
-        this.master.gambar = masterContent.gambar;
-        this.master.sub_content = masterContent.sub_content.map(sc => ({
-          text: '',
-          link: sc.link
-        }));
-      }
-
-      // Konten 2
-      const masterCarousel = data.data.dataContent2;
-      if (masterCarousel.length > 0) {
-        this.originalCarousel = masterCarousel;
-        for (let i = 0; i < masterCarousel.length; i++) {
-          this.carousel[i].id = masterCarousel[i].id;
-          this.carousel[i].carousel = masterCarousel[i].carousel;
-          this.carousel[i].judul = masterCarousel[i].judul;
-          this.carousel[i].text = masterCarousel[i].text;
-        }
-      }
-
-      // Konten 3
-      const masterProduct = data.data.dataContent3;
-      if (masterProduct.length > 0) {
-        this.originalProduct = masterProduct;
-        for (let indexProd = 0; indexProd < masterProduct.length; indexProd++) {
-          this.product[indexProd].id = masterProduct[indexProd].id;
-          this.product[indexProd].id_content = masterProduct[indexProd].id_content;
-          this.product[indexProd].judul = masterProduct[indexProd].judul;
-          this.product[indexProd].sub_judul = masterProduct[indexProd].sub_judul;
-          this.product[indexProd].text = masterProduct[indexProd].text;
-          this.product[indexProd].tombol = masterProduct[indexProd].tombol;
-          this.product[indexProd].link = masterProduct[indexProd].link;
-        }
-      }
-
-      // Konten 5
-      const masterTest = data.data.dataContent5[0];
-      if (data.data.dataContent5.length > 0) {
-        this.originalTest = masterTest;
-        this.test.id = masterTest.id;
-        this.test.judul = masterTest.judul;
-        this.test.gambar = masterTest.gambar;
-        this.test.text = masterTest.text;
-        this.test.tombol = masterTest.tombol;
-        this.test.link = masterTest.link;
-      }
-
-      // Konten 6
-      const masterTryout = data.data.dataContent6[0];
-      if (data.data.dataContent6.length > 0) {
-        this.originalTryout = masterTryout;
-        this.tryout.id = masterTryout.id;
-        this.tryout.judul = masterTryout.judul;
-        this.tryout.text1 = masterTryout.text1;
-        this.tryout.sub_judul = masterTryout.sub_judul;
-        this.tryout.text2 = masterTryout.text2;
-        this.tryout.tombol = masterTryout.tombol;
-        this.tryout.link = masterTryout.link;
-      }
-
-      const masterDegree = data.data.dataContent7;
-      if (masterDegree.length > 0) {
-        this.originalDegree = masterDegree;
-        this.degree = masterDegree;
-      }
-
-      const masterReview = data.data.dataContent7;
-      if (masterReview.length > 0) {
-        this.originalReview = masterReview;
-        this.review = masterReview;
-      }
-
-      const masterRegister = data.data.dataContent7;
-      if (masterRegister.length > 0) {
-        this.originalRegister = masterRegister;
-        this.register = masterRegister;
-      }
-    }
+    await this.getMainPageData();
     this.isReady = true;
   },
   methods: {
-    addCarousel () {
+    addCarousel() {
       this.carousel.push({
         carousel: null,
-        judul: '',
-        text: ''
+        judul: "",
+        text: "",
       });
       this.originalCarousel.push({
         carousel: null,
-        judul: '',
-        text: ''
+        judul: "",
+        text: "",
       });
     },
-    deleteCarousel () {
+    deleteCarousel() {
       if (this.carousel.length) this.carousel.pop();
     },
-    addReview () {
+    addReview() {
       this.review.reviews.push({
-        id: '',
-        gambar: '',
-        jurusan: '',
-        text: ''
+        id: "",
+        gambar: "",
+        jurusan: "",
+        text: "",
       });
     },
-    deleteReview () {
+    deleteReview() {
       if (this.review.reviews.length) this.review.reviews.pop();
     },
-    async saveMasterContent () {
+    async saveMasterContent() {
       try {
         const payload = objectToFormData({ konten1: this.master });
-        const res = await this.$axios.post('/api/cms/halaman-utama', payload, {
-          headers: { 'Content-Type': 'multipart/form-data' }
+        const res = await this.$axios.post("/api/cms/halaman-utama", payload, {
+          headers: { "Content-Type": "multipart/form-data" },
         });
-        if (res.status === 200) window.alert("Berhasil mengubah konten");
+        if (res.data.success) {
+          this.getMainPageData();
+          window.alert("Berhasil mengubah konten");
+        }
       } catch (e) {
-        window.alert("gagal menyimpan konten");
+        window.alert("Gagal menyimpan konten");
       }
     },
-    async saveCarousel () {
+    async saveCarousel() {
       for (let i = 0; i < this.carousel.length; i++) {
-        if (typeof this.carousel[i].carousel == 'string') {
-          this.carousel[i].carousel = '';
+        if (typeof this.carousel[i].carousel == "string") {
+          this.carousel[i].carousel = "";
         }
       }
       try {
         const payload = objectToFormData({ konten2: { data: this.carousel } });
-        const res = await this.$axios.post('/api/cms/halaman-utama', payload, {
-          headers: { 'Content-Type': 'multipart/form-data' }
+        const res = await this.$axios.post("/api/cms/halaman-utama", payload, {
+          headers: { "Content-Type": "multipart/form-data" },
         });
-        if (res.data.success) window.alert("Berhasil mengubah konten");
+        if (res.data.success) {
+          this.getMainPageData();
+          window.alert("Berhasil mengubah konten");
+        }
       } catch (e) {
         window.alert("gagal menyimpan konten");
       }
     },
-    async saveProduct () {
+    async saveProduct() {
       try {
-        const res = await this.$axios.post('/api/cms/halaman-utama', {
-          konten3: { data: this.product}
+        const res = await this.$axios.post("/api/cms/halaman-utama", {
+          konten3: { data: this.product },
         });
-        if (res.data.success) window.alert("Berhasil menyimpan konten");
+        if (res.data.success) {
+          this.getMainPageData();
+          window.alert("Berhasil mengubah konten");
+        }
       } catch (e) {
         window.alert("gagal menyimpan konten");
       }
     },
-    async saveFeature () {
+    async saveFeature() {
       try {
         const payload = objectToFormData({ konten4: this.feature });
-        const res = await this.$axios.post('/api/cms/halaman-utama', payload, {
-          headers: { 'Content-Type': 'multipart/form-data' }
+        const res = await this.$axios.post("/api/cms/halaman-utama", payload, {
+          headers: { "Content-Type": "multipart/form-data" },
         });
-        if (res.status === 200) window.alert("berhasil menyimpan konten");
+        if (res.data.success) {
+          this.getMainPageData();
+          window.alert("Berhasil mengubah konten");
+        }
       } catch (e) {
         window.alert("gagal menyimpan konten");
       }
     },
-    async saveTest () {
+    async saveTest() {
       try {
         const payload = objectToFormData({ konten5: this.test });
-        const res = await this.$axios.post('/api/cms/halaman-utama', payload, {
-          headers: { 'Content-Type': 'multipart/form-data' }
+        const res = await this.$axios.post("/api/cms/halaman-utama", payload, {
+          headers: { "Content-Type": "multipart/form-data" },
         });
-        if (res.status === 200) window.alert("Berhasil menyimpan konten");
+        if (res.data.success) {
+          this.getMainPageData();
+          window.alert("Berhasil mengubah konten");
+        }
       } catch (e) {
         window.alert("gagal menyimpan konten");
       }
     },
-    async saveTryout () {
+    async saveTryout() {
       try {
-        const res = await this.$axios.post('/api/cms/halaman-utama', {
-          konten6: this.tryout
+        const res = await this.$axios.post("/api/cms/halaman-utama", {
+          konten6: this.tryout,
         });
-        if (res.status === 200) window.alert("berhasil menyimpan konten");
+        if (res.data.success) {
+          this.getMainPageData();
+          window.alert("Berhasil mengubah konten");
+        }
       } catch (e) {
         window.alert("gagal menyimpan konten");
       }
     },
-    async saveDegree () {
+    async saveDegree() {
       try {
         const payload = objectToFormData({ konten7: this.degree });
-        const res = await this.$axios.post('/api/cms/halaman-utama', payload, {
-          headers: { 'Content-Type': 'multipart/form-data' }
+        const res = await this.$axios.post("/api/cms/halaman-utama", payload, {
+          headers: { "Content-Type": "multipart/form-data" },
         });
-        if (res.status === 200) window.alert("berhasil menyimpan konten");
+        if (res.data.success) {
+          this.getMainPageData();
+          window.alert("Berhasil mengubah konten");
+        }
       } catch (e) {
         window.alert("gagal menyimpan konten");
       }
     },
-    async saveReview () {
+    async saveReview() {
       try {
-        const payload = objectToFormData({ konten8: this.review });
-        const res = await this.$axios.post('/api/cms/halaman-utama', payload, {
-          headers: { 'Content-Type': 'multipart/form-data' }
+        const payload = objectToFormData({ konten8: { data: this.review } });
+        const res = await this.$axios.post("/api/cms/halaman-utama", payload, {
+          headers: { "Content-Type": "multipart/form-data" },
         });
-        if (res.status === 200) window.alert("berhasil menyimpan konten");
+        if (res.data.success) {
+          this.getMainPageData();
+          window.alert("Berhasil mengubah konten");
+        }
       } catch (e) {
         window.alert("gagal menyimpan konten");
       }
     },
-    async saveRegister () {
+    async saveRegister() {
       try {
         const payload = objectToFormData({ konten9: this.register });
-        const res = await this.$axios.post('/api/cms/halaman-utama', payload, {
-          headers: { 'Content-Type': 'multipart/form-data' }
+        const res = await this.$axios.post("/api/cms/halaman-utama", payload, {
+          headers: { "Content-Type": "multipart/form-data" },
         });
-        if (res.status === 200) window.alert("berhasil menyimpan konten");
+        if (res.data.success) {
+          this.getMainPageData();
+          window.alert("Berhasil mengubah konten");
+        }
       } catch (e) {
         window.alert("gagal menyimpan konten");
       }
     },
-  }
+    async getMainPageData() {
+      const { data } = await this.$axios.get("/api/cms/halaman-utama/get");
+      if (data.data instanceof Object) {
+        const masterContent = data.data.dataContent1[0];
+        if (masterContent) {
+          masterContent.sub_content = JSON.parse(masterContent.sub_content);
+          this.originalMaster = masterContent;
+          this.master.id = masterContent.id;
+          this.master.banner = masterContent.banner;
+          this.master.gambar = masterContent.gambar;
+          this.master.sub_content = masterContent.sub_content.map((sc) => ({
+            text: "",
+            link: sc.link,
+          }));
+        }
+
+        // Konten 2
+        const masterCarousel = data.data.dataContent2;
+        if (masterCarousel.length > 0) {
+          this.originalCarousel = masterCarousel;
+          for (let i = 0; i < masterCarousel.length; i++) {
+            this.carousel[i].id = masterCarousel[i].id;
+            this.carousel[i].carousel = masterCarousel[i].carousel;
+            this.carousel[i].judul = masterCarousel[i].judul;
+            this.carousel[i].text = masterCarousel[i].text;
+          }
+        }
+
+        // Konten 3
+        const masterProduct = data.data.dataContent3;
+        if (masterProduct.length > 0) {
+          this.originalProduct = masterProduct;
+          for (let indexProd = 0; indexProd < masterProduct.length; indexProd++) {
+            this.product[indexProd].id = masterProduct[indexProd].id;
+            this.product[indexProd].id_content = masterProduct[indexProd].id_content;
+            this.product[indexProd].judul = masterProduct[indexProd].judul;
+            this.product[indexProd].sub_judul = masterProduct[indexProd].sub_judul;
+            this.product[indexProd].text = masterProduct[indexProd].text;
+            this.product[indexProd].tombol = masterProduct[indexProd].tombol;
+            this.product[indexProd].link = masterProduct[indexProd].link;
+          }
+        }
+
+        // Konten 5
+        const masterTest = data.data.dataContent5[0];
+        if (data.data.dataContent5.length > 0) {
+          this.originalTest = masterTest;
+          this.test.id = masterTest.id;
+          this.test.judul = masterTest.judul;
+          this.test.gambar = masterTest.gambar;
+          this.test.text = masterTest.text;
+          this.test.tombol = masterTest.tombol;
+          this.test.link = masterTest.link;
+        }
+
+        // Konten 6
+        const masterTryout = data.data.dataContent6[0];
+        if (data.data.dataContent6.length > 0) {
+          this.originalTryout = masterTryout;
+          this.tryout.id = masterTryout.id;
+          this.tryout.judul = masterTryout.judul;
+          this.tryout.text1 = masterTryout.text1;
+          this.tryout.sub_judul = masterTryout.sub_judul;
+          this.tryout.text2 = masterTryout.text2;
+          this.tryout.tombol = masterTryout.tombol;
+          this.tryout.link = masterTryout.link;
+        }
+
+        const masterDegree = data.data.dataContent7;
+        if (masterDegree.length > 0) {
+          this.originalDegree = masterDegree;
+          this.degree = masterDegree;
+        }
+
+        // Konten 8
+        const masterReview = data.data.dataContent8;
+        if (masterReview.length > 0) {
+          this.originalReview = masterReview;
+          for (let indexRvw = 0; indexRvw < masterReview.length; indexRvw++) {
+            this.review[indexRvw].id = masterReview[indexRvw].id;
+            this.review[indexRvw].id_content = masterReview[indexRvw].id_content;
+            this.review[indexRvw].foto = masterReview[indexRvw].foto;
+            this.review[indexRvw].nama = masterReview[indexRvw].nama;
+            this.review[indexRvw].jurusan = masterReview[indexRvw].jurusan;
+            this.review[indexRvw].text = masterReview[indexRvw].text;
+            this.review[indexRvw].judul = masterReview[indexRvw].judul;
+          }
+        }
+
+        // Konten 9
+        const masterRegister = data.data.dataContent9[0];
+        if (data.data.dataContent9.length > 0) {
+          this.originalRegister = masterRegister;
+          this.register.id = masterRegister.id;
+          this.register.gambar = masterRegister.gambar;
+          this.register.judul = masterRegister.judul;
+          this.register.text = masterRegister.text;
+          this.register.tombol = masterRegister.tombol;
+          this.register.link = masterRegister.link;
+        }
+      }
+    },
+  },
 };
 </script>

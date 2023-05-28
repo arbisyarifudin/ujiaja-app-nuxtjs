@@ -1,6 +1,6 @@
 <template>
   <div class="container-fluid">
-    <div class="row">
+    <!-- <div class="row">
       <div class="col-md-12">
         <EditorImage v-model="content.banner" :max-size="5">
           <template #title>
@@ -48,7 +48,7 @@
           <button @click="deleteSubContent" class="btn btn-outline-danger col-md-3">Hapus Sub Konten</button>
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -65,16 +65,16 @@ export default {
     }
   },
   methods: {
-    addSubContent() {
-      this.content.sub_content.push({
-        tombol: '',
-        link: ''
-      })
-      console.log(this.content);
-    },
-    deleteSubContent() {
-      this.content.sub_content.pop()
-    }
+    // addSubContent() {
+    //   this.content.sub_content.push({
+    //     tombol: '',
+    //     link: ''
+    //   })
+    //   console.log(this.content);
+    // },
+    // deleteSubContent() {
+    //   this.content.sub_content.pop()
+    // }
   }
 }
 </script>
