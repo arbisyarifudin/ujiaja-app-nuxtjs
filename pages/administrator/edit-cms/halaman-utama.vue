@@ -4,13 +4,19 @@
       <template #title>Konten 1</template>
       <EditorContentMaster :original="originalMaster" :contents="master" />
       <div class="col-md-12 pt-4">
-        <button @click="saveMasterContent" class="btn btn-primary">Simpan</button>
+        <button @click="saveMasterContent" class="btn btn-primary">
+          Simpan
+        </button>
       </div>
     </UIKonten>
     <UIKonten>
       <template #title>Konten 2</template>
       <div class="container-fluid">
-        <div v-for="(content, i) in carousel" :key="i" class="row border-bottom">
+        <div
+          v-for="(content, i) in carousel"
+          :key="i"
+          class="row border-bottom"
+        >
           <div class="col-md-12">
             <EditorImage v-model="content.carousel" :max-size="5">
               <template #title> Carousel Slider </template>
@@ -89,7 +95,10 @@
             </EditorText>
           </div>
           <div class="form-user col-md-12">
-            <EditorTextArea v-model="p.text" :initial-value="originalProduct[i].text">
+            <EditorTextArea
+              v-model="p.text"
+              :initial-value="originalProduct[i].text"
+            >
               <template #title>Text</template>
             </EditorTextArea>
           </div>
@@ -119,19 +128,26 @@
     <UIKonten>
       <template #title>Konten 4</template>
       <div class="container-fluid">
-        <!-- <div class="row border-bottom">
+        <div class="row border-bottom">
           <div class="form-user col-md-12">
-            <EditorText v-model="product.master.judul" placeholder="Isi Judul baru">
+            <EditorText
+              v-model="featuresTitle.judul"
+              :initial-value="originalFeaturesTitle.judul"
+              placeholder="Isi Judul baru"
+            >
               <template #title>Judul</template>
             </EditorText>
           </div>
           <div class="form-user col-md-12">
-            <EditorTextArea v-model="product.master.text">
+            <EditorTextArea
+              v-model="featuresTitle.text"
+              :initial-value="originalFeaturesTitle.text"
+            >
               <template #title>Text</template>
             </EditorTextArea>
           </div>
-        </div> -->
-        <div v-for="(f, i) in feature.features" :key="i" class="row border-bottom">
+        </div>
+        <div v-for="(f, i) in features" :key="i" class="row border-bottom">
           <div class="col-md-12 pt-2">
             <EditorImage v-model="f.gambar" :max-size="5">
               <template #title> Gambar </template>
@@ -141,17 +157,28 @@
             </EditorImage>
           </div>
           <div class="form-user col-md-12">
-            <EditorText v-model="f.judul" placeholder="Isi Judul baru">
+            <EditorText
+              v-model="f.judul"
+              :initial-value="originalFeatures[i].judul"
+              placeholder="Isi Judul baru"
+            >
               <template #title>Judul</template>
             </EditorText>
           </div>
           <div class="form-user col-md-12">
-            <EditorTextArea v-model="f.text">
+            <EditorTextArea
+              v-model="f.text"
+              :initial-value="originalFeatures[i].text"
+            >
               <template #title>Text</template>
             </EditorTextArea>
           </div>
           <div class="form-user col-md-12 pt-3">
-            <EditorText v-model="f.tombol" placeholder="Isi nama tombol baru">
+            <EditorText
+              v-model="f.tombol"
+              :initial-value="originalFeatures[i].tombol"
+              placeholder="Isi nama tombol baru"
+            >
               <template #title>Tombol</template>
             </EditorText>
             <p class="pt-3">Link</p>
@@ -163,6 +190,14 @@
               />
             </div>
           </div>
+        </div>
+        <div class="row py-2 border-bottom">
+          <button @click="addFeature" class="btn btn-outline-primary">
+            + Tambah Item
+          </button>
+          <button @click="" class="btn btn-outline-danger ml-3">
+            - Hapus Item
+          </button>
         </div>
       </div>
       <div class="col-md-12 pt-4">
@@ -191,7 +226,10 @@
             </EditorText>
           </div>
           <div class="form-user col-md-12">
-            <EditorTextArea v-model="test.text" :initial-value="originalTest.text">
+            <EditorTextArea
+              v-model="test.text"
+              :initial-value="originalTest.text"
+            >
               <template #title>Text</template>
             </EditorTextArea>
           </div>
@@ -233,7 +271,10 @@
             </EditorText>
           </div>
           <div class="form-user col-md-12">
-            <EditorTextArea v-model="tryout.text1" :initial-value="originalTryout.text1">
+            <EditorTextArea
+              v-model="tryout.text1"
+              :initial-value="originalTryout.text1"
+            >
               <template #title>Text</template>
             </EditorTextArea>
           </div>
@@ -247,7 +288,10 @@
             </EditorText>
           </div>
           <div class="form-user col-md-12">
-            <EditorTextArea v-model="tryout.text2" :initial-value="originalTryout.text2">
+            <EditorTextArea
+              v-model="tryout.text2"
+              :initial-value="originalTryout.text2"
+            >
               <template #title>Text</template>
             </EditorTextArea>
           </div>
@@ -289,7 +333,10 @@
             </EditorText>
           </div>
           <div class="form-user col-md-12">
-            <EditorTextArea v-model="degree.text1" :initial-value="originalDegree.text1">
+            <EditorTextArea
+              v-model="degree.text1"
+              :initial-value="originalDegree.text1"
+            >
               <template #title>Text</template>
             </EditorTextArea>
           </div>
@@ -311,7 +358,10 @@
             </EditorText>
           </div>
           <div class="form-user col-md-12">
-            <EditorTextArea v-model="degree.text2" :initial-value="originalDegree.text2">
+            <EditorTextArea
+              v-model="degree.text2"
+              :initial-value="originalDegree.text2"
+            >
               <template #title>Text</template>
             </EditorTextArea>
           </div>
@@ -383,7 +433,10 @@
             </EditorText>
           </div>
           <div class="form-user col-md-12">
-            <EditorTextArea v-model="r.text" :initial-value="originalReview[i].text">
+            <EditorTextArea
+              v-model="r.text"
+              :initial-value="originalReview[i].text"
+            >
               <template #title>Text</template>
             </EditorTextArea>
           </div>
@@ -534,7 +587,7 @@ export default {
       ],
       product: [
         {
-          id: '',
+          id: "",
           id_content: 1,
           judul: "",
           sub_judul: "",
@@ -543,7 +596,7 @@ export default {
           link: "",
         },
         {
-          id: '',
+          id: "",
           id_content: 1,
           judul: "",
           sub_judul: "",
@@ -552,39 +605,41 @@ export default {
           link: "",
         },
       ],
-      feature: {
-        master: {
+      originalFeaturesTitle: {
+        id: "",
+        id_content: 0,
+        judul: "",
+        text: "",
+      },
+      featuresTitle: {
+        id: "",
+        id_content: 0,
+        judul: "",
+        text: "",
+        gambar: "",
+      },
+      originalFeatures: [
+        {
           id: "",
+          id_content: 1,
+          gambar: null,
           judul: "",
           text: "",
+          tombol: "",
+          link: "",
         },
-        features: [
-          {
-            id: "",
-            gambar: null,
-            judul: "",
-            text: "",
-            tombol: "",
-            link: "",
-          },
-          {
-            id: "",
-            gambar: null,
-            judul: "",
-            text: "",
-            tombol: "",
-            link: "",
-          },
-          {
-            id: "",
-            gambar: null,
-            judul: "",
-            text: "",
-            tombol: "",
-            link: "",
-          },
-        ],
-      },
+      ],
+      features: [
+        {
+          id: "",
+          id_content: 1,
+          gambar: null,
+          judul: "",
+          text: "",
+          tombol: "",
+          link: "",
+        },
+      ],
       originalTest: {
         id: "",
         gambar: null,
@@ -687,7 +742,7 @@ export default {
   methods: {
     addCarousel() {
       this.carousel.push({
-        id: '',
+        id: "",
         carousel: null,
         judul: "",
         text: "",
@@ -699,6 +754,26 @@ export default {
     },
     deleteCarousel() {
       if (this.carousel.length) this.carousel.pop();
+    },
+    addFeature() {
+      this.features.push({
+        id: "",
+        id_content: 1,
+        gambar: null,
+        judul: "",
+        text: "",
+        tombol: "",
+        link: "",
+      });
+      this.originalFeatures.push({
+        id: "",
+        id_content: 1,
+        gambar: null,
+        judul: "",
+        text: "",
+        tombol: "",
+        link: "",
+      });
     },
     addReview() {
       this.review.reviews.push({
@@ -758,8 +833,15 @@ export default {
       }
     },
     async saveFeature() {
+      for (let i = 0; i < this.features.length; i++) {
+        if (typeof this.features[i].gambar == "string") {
+          this.features[i].gambar = "";
+        }
+      }
       try {
-        const payload = objectToFormData({ konten4: this.feature });
+        const payload = objectToFormData({
+          konten4: { data: [...this.features, this.featuresTitle] },
+        });
         const res = await this.$axios.post("/api/cms/halaman-utama", payload, {
           headers: { "Content-Type": "multipart/form-data" },
         });
@@ -847,15 +929,27 @@ export default {
         const masterContent = data.data.dataContent1;
         if (masterContent.length > 0) {
           this.originalMaster = masterContent;
-          this.master = masterContent;
-          for (let indexMaster = 0; indexMaster < masterContent.length; indexMaster++) {
+          for (
+            let indexMaster = 0;
+            indexMaster < masterContent.length;
+            indexMaster++
+          ) {
+            if (!this.master[indexMaster]) {
+              this.master[indexMaster] = {};
+            }
             this.master[indexMaster].id = this.originalMaster[indexMaster].id;
-            this.master[indexMaster].banner = this.originalMaster[indexMaster].banner;
-            this.master[indexMaster].gambar = this.originalMaster[indexMaster].gambar;
-            this.master[indexMaster].judul = this.originalMaster[indexMaster].judul;
-            this.master[indexMaster].text = this.originalMaster[indexMaster].text;
-            this.master[indexMaster].tombol = this.originalMaster[indexMaster].tombol;
-            this.master[indexMaster].link = this.originalMaster[indexMaster].link;
+            this.master[indexMaster].banner =
+              this.originalMaster[indexMaster].banner;
+            this.master[indexMaster].gambar =
+              this.originalMaster[indexMaster].gambar;
+            this.master[indexMaster].judul =
+              this.originalMaster[indexMaster].judul;
+            this.master[indexMaster].text =
+              this.originalMaster[indexMaster].text;
+            this.master[indexMaster].tombol =
+              this.originalMaster[indexMaster].tombol;
+            this.master[indexMaster].link =
+              this.originalMaster[indexMaster].link;
           }
         }
 
@@ -864,6 +958,9 @@ export default {
         if (masterCarousel.length > 0) {
           this.originalCarousel = masterCarousel;
           for (let i = 0; i < masterCarousel.length; i++) {
+            if (!this.carousel[i]) {
+              this.carousel[i] = {};
+            }
             this.carousel[i].id = masterCarousel[i].id;
             this.carousel[i].carousel = masterCarousel[i].carousel;
             this.carousel[i].judul = masterCarousel[i].judul;
@@ -881,15 +978,51 @@ export default {
           this.productTitle.judul = title.judul;
           this.productTitle.text = title.text;
 
-          for (let indexProd = 0; indexProd < masterProduct.length; indexProd++) {
+          for (
+            let indexProd = 0;
+            indexProd < masterProduct.length;
+            indexProd++
+          ) {
             if (masterProduct[indexProd].id != title.id) {
               this.product[indexProd].id = masterProduct[indexProd].id;
-              this.product[indexProd].id_content = masterProduct[indexProd].id_content;
+              this.product[indexProd].id_content =
+                masterProduct[indexProd].id_content;
               this.product[indexProd].judul = masterProduct[indexProd].judul;
-              this.product[indexProd].sub_judul = masterProduct[indexProd].sub_judul;
+              this.product[indexProd].sub_judul =
+                masterProduct[indexProd].sub_judul;
               this.product[indexProd].text = masterProduct[indexProd].text;
               this.product[indexProd].tombol = masterProduct[indexProd].tombol;
               this.product[indexProd].link = masterProduct[indexProd].link;
+            }
+          }
+        }
+
+        // Konten 4
+        const masterFeatures = data.data.dataContent4;
+        if (masterFeatures.length > 0) {
+          this.originalFeatures = masterFeatures;
+          const title = masterFeatures.find((prod) => prod.id_content == 0);
+          this.originalFeaturesTitle = title;
+          this.featuresTitle.id = title.id;
+          this.featuresTitle.judul = title.judul;
+          this.featuresTitle.text = title.text;
+
+          for (
+            let indexFeat = 0;
+            indexFeat < masterFeatures.length;
+            indexFeat++
+          ) {
+            if (masterFeatures[indexFeat].id != title.id) {
+              this.features[indexFeat].id = masterFeatures[indexFeat].id;
+              this.features[indexFeat].id_content =
+                masterFeatures[indexFeat].id_content;
+              this.features[indexFeat].judul = masterFeatures[indexFeat].judul;
+              this.features[indexFeat].sub_judul =
+                masterFeatures[indexFeat].sub_judul;
+              this.features[indexFeat].text = masterFeatures[indexFeat].text;
+              this.features[indexFeat].tombol =
+                masterFeatures[indexFeat].tombol;
+              this.features[indexFeat].link = masterFeatures[indexFeat].link;
             }
           }
         }
@@ -931,7 +1064,8 @@ export default {
           this.originalReview = masterReview;
           for (let indexRvw = 0; indexRvw < masterReview.length; indexRvw++) {
             this.review[indexRvw].id = masterReview[indexRvw].id;
-            this.review[indexRvw].id_content = masterReview[indexRvw].id_content;
+            this.review[indexRvw].id_content =
+              masterReview[indexRvw].id_content;
             this.review[indexRvw].foto = masterReview[indexRvw].foto;
             this.review[indexRvw].nama = masterReview[indexRvw].nama;
             this.review[indexRvw].jurusan = masterReview[indexRvw].jurusan;
