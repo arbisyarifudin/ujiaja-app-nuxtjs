@@ -2,7 +2,7 @@
   <div v-if="isReady" class="col-md-12">
     <UIKonten>
       <template #title>Konten 1</template>
-      <EditorContentMaster :original="originalMaster" :contents="master" />
+      <EditorContentMaster :original="originalMaster" :contents="master" @delete="deleteMasterContent" />
       <div class="col-md-12 pt-4">
         <button @click="saveMasterContent" class="btn btn-primary">
           Simpan
@@ -392,19 +392,19 @@
     <UIKonten>
       <template #title>Konten 8</template>
       <div class="container-fluid">
-        <!-- <div class="row border-bottom">
+        <div class="row border-bottom">
           <div class="form-user col-md-12">
-            <EditorText v-model="review.master.judul" :initial-value="originalReview.master.judul"
+            <EditorText v-model="reviewTitle.judul" :initial-value="originalReviewTitle.judul"
               placeholder="Isi Judul baru">
               <template #title>Judul</template>
             </EditorText>
           </div>
           <div class="form-user col-md-12">
-            <EditorTextArea v-model="review.master.text" :initial-value="originalReview.master.text">
+            <EditorTextArea v-model="reviewTitle.text" :initial-value="originalReviewTitle.text">
               <template #title>Text</template>
             </EditorTextArea>
           </div>
-        </div> -->
+        </div>
         <div v-for="(r, i) in review" :key="i" class="row border-bottom">
           <div class="col-md-12 pt-2">
             <EditorImage v-model="r.foto" :max-size="5">
@@ -616,7 +616,7 @@ export default {
         id_content: 0,
         judul: "",
         text: "",
-        gambar: "",
+        gambar: "-",
       },
       originalFeatures: [
         {
@@ -694,10 +694,22 @@ export default {
         tombol: "",
         link: "",
       },
+      originalReviewTitle: {
+        id: '',
+        id_content: 0,
+        judul: '',
+        text: ''
+      },
+      reviewTitle: {
+        id: '',
+        id_content: 0,
+        judul: '',
+        text: ''
+      },
       originalReview: [
         {
           id: "",
-          id_content: "",
+          id_content: 1,
           foto: null,
           judul: "",
           nama: "",
@@ -708,7 +720,7 @@ export default {
       review: [
         {
           id: "",
-          id_content: "0",
+          id_content: 1,
           foto: null,
           judul: "",
           nama: "",
@@ -778,7 +790,19 @@ export default {
     addReview() {
       this.review.reviews.push({
         id: "",
-        gambar: "",
+        id_content: 1,
+        foto: "",
+        judul: "",
+        nama: "",
+        jurusan: "",
+        text: "",
+      });
+      this.originalReview.reviews.push({
+        id: "",
+        id_content: 1,
+        foto: "",
+        judul: "",
+        nama: "",
         jurusan: "",
         text: "",
       });
@@ -798,6 +822,18 @@ export default {
         }
       } catch (e) {
         window.alert("Gagal menyimpan konten");
+      }
+    },
+    async deleteMasterContent() {
+      try {
+        const lastData = this.master[this.master.length - 1];
+        const res = await this.$axios.post(`/api/cms/halaman-utama/delete-content1/${lastData.id}`, {});
+        if (res.data.success) {
+          this.getMainPageData();
+          window.alert("Berhasil menghapus konten");
+        }
+      } catch (e) {
+        window.alert("Gagal menghapus konten");
       }
     },
     async saveCarousel() {
@@ -896,7 +932,7 @@ export default {
     },
     async saveReview() {
       try {
-        const payload = objectToFormData({ konten8: { data: this.review } });
+        const payload = objectToFormData({ konten8: { data: [...this.review, this.reviewTitle] } });
         const res = await this.$axios.post("/api/cms/halaman-utama", payload, {
           headers: { "Content-Type": "multipart/form-data" },
         });
@@ -1062,6 +1098,13 @@ export default {
         const masterReview = data.data.dataContent8;
         if (masterReview.length > 0) {
           this.originalReview = masterReview;
+
+          const title = masterReview.find((rev) => rev.id_content == 0);
+          this.originalReviewTitle = title;
+          this.reviewTitle.id = title.id;
+          this.reviewTitle.judul = title.judul;
+          this.reviewTitle.text = title.text;
+          
           for (let indexRvw = 0; indexRvw < masterReview.length; indexRvw++) {
             this.review[indexRvw].id = masterReview[indexRvw].id;
             this.review[indexRvw].id_content =
