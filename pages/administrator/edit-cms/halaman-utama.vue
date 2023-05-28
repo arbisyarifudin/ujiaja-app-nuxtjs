@@ -4,19 +4,13 @@
       <template #title>Konten 1</template>
       <EditorContentMaster :original="originalMaster" :contents="master" />
       <div class="col-md-12 pt-4">
-        <button @click="saveMasterContent" class="btn btn-primary">
-          Simpan
-        </button>
+        <button @click="saveMasterContent" class="btn btn-primary">Simpan</button>
       </div>
     </UIKonten>
     <UIKonten>
       <template #title>Konten 2</template>
       <div class="container-fluid">
-        <div
-          v-for="(content, i) in carousel"
-          :key="i"
-          class="row border-bottom"
-        >
+        <div v-for="(content, i) in carousel" :key="i" class="row border-bottom">
           <div class="col-md-12">
             <EditorImage v-model="content.carousel" :max-size="5">
               <template #title> Carousel Slider </template>
@@ -59,19 +53,22 @@
     <UIKonten>
       <template #title>Konten 3</template>
       <div class="container-fluid">
-        <!-- <div class="row border-bottom">
+        <div class="row border-bottom">
           <div class="form-user col-md-12">
-            <EditorText v-model="product.master.judul" :initial-value="originalProduct.master.judul"
-              placeholder="Isi Judul baru">
+            <EditorText
+              v-model="productTitle.judul"
+              :initial-value="originalProductTitle.judul"
+              placeholder="Isi Judul baru"
+            >
               <template #title>Judul</template>
             </EditorText>
           </div>
           <div class="form-user col-md-12">
-            <EditorTextArea v-model="product.master.text">
+            <EditorTextArea v-model="productTitle.text">
               <template #title>Text</template>
             </EditorTextArea>
           </div>
-        </div> -->
+        </div>
         <div v-for="(p, i) in product" :key="i" class="row border-bottom">
           <div class="form-user col-md-12">
             <EditorText
@@ -92,10 +89,7 @@
             </EditorText>
           </div>
           <div class="form-user col-md-12">
-            <EditorTextArea
-              v-model="p.text"
-              :initial-value="originalProduct[i].text"
-            >
+            <EditorTextArea v-model="p.text" :initial-value="originalProduct[i].text">
               <template #title>Text</template>
             </EditorTextArea>
           </div>
@@ -137,11 +131,7 @@
             </EditorTextArea>
           </div>
         </div> -->
-        <div
-          v-for="(f, i) in feature.features"
-          :key="i"
-          class="row border-bottom"
-        >
+        <div v-for="(f, i) in feature.features" :key="i" class="row border-bottom">
           <div class="col-md-12 pt-2">
             <EditorImage v-model="f.gambar" :max-size="5">
               <template #title> Gambar </template>
@@ -201,10 +191,7 @@
             </EditorText>
           </div>
           <div class="form-user col-md-12">
-            <EditorTextArea
-              v-model="test.text"
-              :initial-value="originalTest.text"
-            >
+            <EditorTextArea v-model="test.text" :initial-value="originalTest.text">
               <template #title>Text</template>
             </EditorTextArea>
           </div>
@@ -246,10 +233,7 @@
             </EditorText>
           </div>
           <div class="form-user col-md-12">
-            <EditorTextArea
-              v-model="tryout.text1"
-              :initial-value="originalTryout.text1"
-            >
+            <EditorTextArea v-model="tryout.text1" :initial-value="originalTryout.text1">
               <template #title>Text</template>
             </EditorTextArea>
           </div>
@@ -263,10 +247,7 @@
             </EditorText>
           </div>
           <div class="form-user col-md-12">
-            <EditorTextArea
-              v-model="tryout.text2"
-              :initial-value="originalTryout.text2"
-            >
+            <EditorTextArea v-model="tryout.text2" :initial-value="originalTryout.text2">
               <template #title>Text</template>
             </EditorTextArea>
           </div>
@@ -308,10 +289,7 @@
             </EditorText>
           </div>
           <div class="form-user col-md-12">
-            <EditorTextArea
-              v-model="degree.text1"
-              :initial-value="originalDegree.text1"
-            >
+            <EditorTextArea v-model="degree.text1" :initial-value="originalDegree.text1">
               <template #title>Text</template>
             </EditorTextArea>
           </div>
@@ -333,10 +311,7 @@
             </EditorText>
           </div>
           <div class="form-user col-md-12">
-            <EditorTextArea
-              v-model="degree.text2"
-              :initial-value="originalDegree.text2"
-            >
+            <EditorTextArea v-model="degree.text2" :initial-value="originalDegree.text2">
               <template #title>Text</template>
             </EditorTextArea>
           </div>
@@ -408,10 +383,7 @@
             </EditorText>
           </div>
           <div class="form-user col-md-12">
-            <EditorTextArea
-              v-model="r.text"
-              :initial-value="originalReview[i].text"
-            >
+            <EditorTextArea v-model="r.text" :initial-value="originalReview[i].text">
               <template #title>Text</template>
             </EditorTextArea>
           </div>
@@ -501,7 +473,7 @@ export default {
           text: "",
           tombol: "",
           link: "",
-        }
+        },
       ],
       master: [
         {
@@ -514,18 +486,36 @@ export default {
           link: "",
         },
       ],
-      originalCarousel: [],
-      carousel: [
+      originalCarousel: [
         {
           id: "",
-          carousel: null,
           judul: "",
           text: "",
         },
       ],
-      originalProduct: [],
-      product: [
+      carousel: [
         {
+          id: "",
+          judul: "",
+          text: "",
+        },
+      ],
+      originalProductTitle: {
+        id: "",
+        id_content: 0,
+        judul: "",
+        text: "",
+      },
+      productTitle: {
+        id: "",
+        id_content: 0,
+        judul: "",
+        text: "",
+      },
+      originalProduct: [
+        {
+          id: "",
+          id_content: 1,
           judul: "",
           sub_judul: "",
           text: "",
@@ -533,6 +523,28 @@ export default {
           link: "",
         },
         {
+          id: "",
+          id_content: 1,
+          judul: "",
+          sub_judul: "",
+          text: "",
+          tombol: "",
+          link: "",
+        },
+      ],
+      product: [
+        {
+          id: '',
+          id_content: 1,
+          judul: "",
+          sub_judul: "",
+          text: "",
+          tombol: "",
+          link: "",
+        },
+        {
+          id: '',
+          id_content: 1,
           judul: "",
           sub_judul: "",
           text: "",
@@ -680,7 +692,6 @@ export default {
         text: "",
       });
       this.originalCarousel.push({
-        carousel: null,
         judul: "",
         text: "",
       });
@@ -735,7 +746,7 @@ export default {
     async saveProduct() {
       try {
         const res = await this.$axios.post("/api/cms/halaman-utama", {
-          konten3: { data: this.product },
+          konten3: { data: [...this.product, this.productTitle] },
         });
         if (res.data.success) {
           this.getMainPageData();
@@ -835,24 +846,14 @@ export default {
         const masterContent = data.data.dataContent1;
         if (masterContent.length > 0) {
           this.originalMaster = masterContent;
-          for (
-            let indexMaster = 0;
-            indexMaster < masterContent.length;
-            indexMaster++
-          ) {
+          for (let indexMaster = 0; indexMaster < masterContent.length; indexMaster++) {
             this.master[indexMaster].id = this.originalMaster[indexMaster].id;
-            this.master[indexMaster].banner =
-              this.originalMaster[indexMaster].banner;
-            this.master[indexMaster].gambar =
-              this.originalMaster[indexMaster].gambar;
-            this.master[indexMaster].judul =
-              this.originalMaster[indexMaster].judul;
-            this.master[indexMaster].text =
-              this.originalMaster[indexMaster].text;
-            this.master[indexMaster].tombol = 
-              this.originalMaster[indexMaster].tombol;
-            this.master[indexMaster].link = 
-              this.originalMaster[indexMaster].link;
+            this.master[indexMaster].banner = this.originalMaster[indexMaster].banner;
+            this.master[indexMaster].gambar = this.originalMaster[indexMaster].gambar;
+            this.master[indexMaster].judul = this.originalMaster[indexMaster].judul;
+            this.master[indexMaster].text = this.originalMaster[indexMaster].text;
+            this.master[indexMaster].tombol = this.originalMaster[indexMaster].tombol;
+            this.master[indexMaster].link = this.originalMaster[indexMaster].link;
           }
         }
 
@@ -862,7 +863,7 @@ export default {
           this.originalCarousel = masterCarousel;
           for (let i = 0; i < masterCarousel.length; i++) {
             this.carousel[i].id = masterCarousel[i].id;
-            this.carousel[i].carousel = masterCarousel[i].carousel;
+            // this.carousel[i].carousel = masterCarousel[i].carousel;
             this.carousel[i].judul = masterCarousel[i].judul;
             this.carousel[i].text = masterCarousel[i].text;
           }
@@ -872,20 +873,22 @@ export default {
         const masterProduct = data.data.dataContent3;
         if (masterProduct.length > 0) {
           this.originalProduct = masterProduct;
-          for (
-            let indexProd = 0;
-            indexProd < masterProduct.length;
-            indexProd++
-          ) {
-            this.product[indexProd].id = masterProduct[indexProd].id;
-            this.product[indexProd].id_content =
-              masterProduct[indexProd].id_content;
-            this.product[indexProd].judul = masterProduct[indexProd].judul;
-            this.product[indexProd].sub_judul =
-              masterProduct[indexProd].sub_judul;
-            this.product[indexProd].text = masterProduct[indexProd].text;
-            this.product[indexProd].tombol = masterProduct[indexProd].tombol;
-            this.product[indexProd].link = masterProduct[indexProd].link;
+          const title = masterProduct.find((prod) => prod.id_content == 0);
+          this.originalProductTitle = title;
+          this.productTitle.id = title.id;
+          this.productTitle.judul = title.judul;
+          this.productTitle.text = title.text;
+
+          for (let indexProd = 0; indexProd < masterProduct.length; indexProd++) {
+            if (masterProduct[indexProd].id != title.id) {
+              this.product[indexProd].id = masterProduct[indexProd].id;
+              this.product[indexProd].id_content = masterProduct[indexProd].id_content;
+              this.product[indexProd].judul = masterProduct[indexProd].judul;
+              this.product[indexProd].sub_judul = masterProduct[indexProd].sub_judul;
+              this.product[indexProd].text = masterProduct[indexProd].text;
+              this.product[indexProd].tombol = masterProduct[indexProd].tombol;
+              this.product[indexProd].link = masterProduct[indexProd].link;
+            }
           }
         }
 
@@ -926,8 +929,7 @@ export default {
           this.originalReview = masterReview;
           for (let indexRvw = 0; indexRvw < masterReview.length; indexRvw++) {
             this.review[indexRvw].id = masterReview[indexRvw].id;
-            this.review[indexRvw].id_content =
-              masterReview[indexRvw].id_content;
+            this.review[indexRvw].id_content = masterReview[indexRvw].id_content;
             this.review[indexRvw].foto = masterReview[indexRvw].foto;
             this.review[indexRvw].nama = masterReview[indexRvw].nama;
             this.review[indexRvw].jurusan = masterReview[indexRvw].jurusan;
