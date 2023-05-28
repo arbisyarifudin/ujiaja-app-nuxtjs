@@ -687,6 +687,7 @@ export default {
   methods: {
     addCarousel() {
       this.carousel.push({
+        id: '',
         carousel: null,
         judul: "",
         text: "",
@@ -846,6 +847,7 @@ export default {
         const masterContent = data.data.dataContent1;
         if (masterContent.length > 0) {
           this.originalMaster = masterContent;
+          this.master = masterContent;
           for (let indexMaster = 0; indexMaster < masterContent.length; indexMaster++) {
             this.master[indexMaster].id = this.originalMaster[indexMaster].id;
             this.master[indexMaster].banner = this.originalMaster[indexMaster].banner;
@@ -863,7 +865,7 @@ export default {
           this.originalCarousel = masterCarousel;
           for (let i = 0; i < masterCarousel.length; i++) {
             this.carousel[i].id = masterCarousel[i].id;
-            // this.carousel[i].carousel = masterCarousel[i].carousel;
+            this.carousel[i].carousel = masterCarousel[i].carousel;
             this.carousel[i].judul = masterCarousel[i].judul;
             this.carousel[i].text = masterCarousel[i].text;
           }

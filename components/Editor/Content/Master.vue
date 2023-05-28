@@ -90,6 +90,19 @@ export default {
           }
         ],
       });
+      this.original.push({
+        id: "",
+        banner: "",
+        gambar: "",
+        judul: "",
+        text: "",
+        sub_content: [
+          {
+            link: '',
+            tombol: ''
+          }
+        ],
+      });
     },
     deleteCarousel() {
       this.contents.pop()
