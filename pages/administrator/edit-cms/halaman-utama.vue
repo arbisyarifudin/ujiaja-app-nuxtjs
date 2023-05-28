@@ -47,7 +47,7 @@
           <button @click="addCarousel" class="btn btn-outline-primary">
             + Tambah Carousel Slider
           </button>
-          <button @click="deleteCarousel" class="btn btn-outline-danger ml-3">
+          <button v-if="carousel.length > 1" @click="deleteCarousel" class="btn btn-outline-danger ml-3">
             - Hapus Carousel Slider
           </button>
         </div>
@@ -764,9 +764,6 @@ export default {
         text: "",
       });
     },
-    deleteCarousel() {
-      if (this.carousel.length) this.carousel.pop();
-    },
     addFeature() {
       this.features.push({
         id: "",
@@ -827,8 +824,13 @@ export default {
     async deleteMasterContent() {
       try {
         const lastData = this.master[this.master.length - 1];
+        if (lastData.id == '') {
+          this.master.pop();
+          return false;
+        }
         const res = await this.$axios.post(`/api/cms/halaman-utama/delete-content1/${lastData.id}`, {});
         if (res.data.success) {
+          this.master.pop();
           this.getMainPageData();
           window.alert("Berhasil menghapus konten");
         }
@@ -853,6 +855,23 @@ export default {
         }
       } catch (e) {
         window.alert("gagal menyimpan konten");
+      }
+    },    
+    async deleteCarousel() {
+      try {
+        const lastData = this.carousel[this.carousel.length - 1];
+        if (lastData.id == '') {
+          this.carousel.pop();
+          return false;
+        }
+        const res = await this.$axios.post(`/api/cms/halaman-utama/delete-content2/${lastData.id}`, {});
+        if (res.data.success) {
+          this.carousel.pop();
+          this.getMainPageData();
+          window.alert("Berhasil menghapus konten");
+        }
+      } catch (e) {
+        window.alert("Gagal menghapus konten");
       }
     },
     async saveProduct() {
