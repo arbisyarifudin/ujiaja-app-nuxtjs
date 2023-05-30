@@ -155,9 +155,13 @@
             </EditorTextArea>
           </div>
         </div>
-        <div v-for="(f, i) in features" :key="i" class="row border-bottom">
+        <div
+          v-for="(feature, indexFeature) in features"
+          :key="indexFeature"
+          class="row border-bottom"
+        >
           <div class="col-md-12 pt-2">
-            <EditorImage v-model="f.gambar" :max-size="5">
+            <EditorImage v-model="feature.gambar" :max-size="5">
               <template #title> Gambar </template>
               <template #warn>
                 *Disarankan dengan Banner 1276 x 638 pixel, dan Maksimal 5 Mb
@@ -166,8 +170,8 @@
           </div>
           <div class="form-user col-md-12">
             <EditorText
-              v-model="f.judul"
-              :initial-value="originalFeatures[i].judul"
+              v-model="feature.judul"
+              :initial-value="originalFeatures[indexFeature].judul"
               placeholder="Isi Judul baru"
             >
               <template #title>Judul</template>
@@ -175,16 +179,16 @@
           </div>
           <div class="form-user col-md-12">
             <EditorTextArea
-              v-model="f.text"
-              :initial-value="originalFeatures[i].text"
+              v-model="feature.text"
+              :initial-value="originalFeatures[indexFeature].text"
             >
               <template #title>Text</template>
             </EditorTextArea>
           </div>
           <div class="form-user col-md-12 pt-3">
             <EditorText
-              v-model="f.tombol"
-              :initial-value="originalFeatures[i].tombol"
+              v-model="feature.tombol"
+              :initial-value="originalFeatures[indexFeature].tombol"
               placeholder="Isi nama tombol baru"
             >
               <template #title>Tombol</template>
@@ -192,7 +196,7 @@
             <p class="pt-3">Link</p>
             <div class="form-group row justify-content-between px-3">
               <input
-                v-model="f.link"
+                v-model="feature.link"
                 placeholder="Isi Link yang ingin di tuju"
                 class="form-control col-md-12"
               />
@@ -200,10 +204,14 @@
           </div>
         </div>
         <div class="row py-2 border-bottom">
-          <button @click="addFeature" class="btn btn-outline-primary">
+          <button class="btn btn-outline-primary" @click="addFeature">
             + Tambah Item
           </button>
-          <button @click="" class="btn btn-outline-danger ml-3">
+          <button
+            v-if="features.length > 1"
+            class="btn btn-outline-danger ml-3"
+            @click="deleteFeature"
+          >
             - Hapus Item
           </button>
         </div>
@@ -630,7 +638,6 @@ export default {
         id_content: 0,
         judul: "",
         text: "",
-        gambar: "-",
       },
       originalFeatures: [
         {
@@ -647,7 +654,7 @@ export default {
         {
           id: "",
           id_content: 1,
-          gambar: null,
+          gambar: "",
           judul: "",
           text: "",
           tombol: "",
@@ -988,6 +995,36 @@ export default {
         });
       }
     },
+    async deleteFeature() {
+      try {
+        const lastData = this.features[this.features.length - 1];
+        if (lastData.id == "") {
+          this.features.pop();
+          return false;
+        }
+        const res = await this.$axios.post(
+          `/api/cms/halaman-utama/delete-content4/${lastData.id}`,
+          {}
+        );
+        if (res.data.success) {
+          this.features.pop();
+          this.getMainPageData();
+          this.$bvToast.toast("Berhasil menghapus konten", {
+            title: "Sukses",
+            variant: "success",
+            solid: true,
+            autoHideDelay: 3000,
+          });
+        }
+      } catch (e) {
+        this.$bvToast.toast("Gagal menghapus konten", {
+          title: "Error",
+          variant: "danger",
+          solid: true,
+          autoHideDelay: 3000,
+        });
+      }
+    },
     async saveTest() {
       try {
         const payload = objectToFormData({ konten5: this.test });
@@ -1185,32 +1222,39 @@ export default {
         }
 
         // Konten 4
-        const masterFeatures = data.data.dataContent4;
+        let masterFeatures = data.data.dataContent4;
         if (masterFeatures.length > 0) {
-          this.originalFeatures = masterFeatures;
           const title = masterFeatures.find((prod) => prod.id_content == 0);
           this.originalFeaturesTitle = title;
           this.featuresTitle.id = title.id;
           this.featuresTitle.judul = title.judul;
           this.featuresTitle.text = title.text;
+          masterFeatures.splice(
+            masterFeatures.findIndex((feat) => feat.id == title.id),
+            1
+          );
 
+          this.originalFeatures = masterFeatures;
           for (
             let indexFeat = 0;
             indexFeat < masterFeatures.length;
             indexFeat++
           ) {
-            if (masterFeatures[indexFeat].id != title.id) {
-              this.features[indexFeat].id = masterFeatures[indexFeat].id;
-              this.features[indexFeat].id_content =
-                masterFeatures[indexFeat].id_content;
-              this.features[indexFeat].judul = masterFeatures[indexFeat].judul;
-              this.features[indexFeat].sub_judul =
-                masterFeatures[indexFeat].sub_judul;
-              this.features[indexFeat].text = masterFeatures[indexFeat].text;
-              this.features[indexFeat].tombol =
-                masterFeatures[indexFeat].tombol;
-              this.features[indexFeat].link = masterFeatures[indexFeat].link;
+            if (!this.features[indexFeat]) {
+              this.features[indexFeat] = {};
             }
+            this.features[indexFeat].id = masterFeatures[indexFeat].id;
+            this.features[indexFeat].id_content =
+              masterFeatures[indexFeat].id_content;
+            this.features[indexFeat].judul = masterFeatures[indexFeat].judul;
+            this.features[indexFeat].text = masterFeatures[indexFeat].text;
+            this.features[indexFeat].gambar =
+              masterFeatures[indexFeat].gambar == ""
+                ? null
+                : masterFeatures[indexFeat].gambar;
+            this.features[indexFeat].tombol =
+              masterFeatures[indexFeat].tombol;
+            this.features[indexFeat].link = masterFeatures[indexFeat].link;
           }
         }
 
@@ -1256,7 +1300,7 @@ export default {
           this.reviewTitle.judul = title.judul;
           this.reviewTitle.text = title.text;
 
-          for (let indexRvw = 0; indexRvw < masterReview.length; indexRvw++) {            
+          for (let indexRvw = 0; indexRvw < masterReview.length; indexRvw++) {
             if (!this.review[indexRvw]) {
               this.review[indexRvw] = {};
             }
