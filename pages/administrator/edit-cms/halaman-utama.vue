@@ -2,7 +2,11 @@
   <div v-if="isReady" class="col-md-12">
     <UIKonten>
       <template #title>Konten 1</template>
-      <EditorContentMaster :original="originalMaster" :contents="master" @delete="deleteMasterContent" />
+      <EditorContentMaster
+        :original="originalMaster"
+        :contents="master"
+        @delete="deleteMasterContent"
+      />
       <div class="col-md-12 pt-4">
         <button @click="saveMasterContent" class="btn btn-primary">
           Simpan
@@ -47,7 +51,11 @@
           <button @click="addCarousel" class="btn btn-outline-primary">
             + Tambah Carousel Slider
           </button>
-          <button v-if="carousel.length > 1" @click="deleteCarousel" class="btn btn-outline-danger ml-3">
+          <button
+            v-if="carousel.length > 1"
+            @click="deleteCarousel"
+            class="btn btn-outline-danger ml-3"
+          >
             - Hapus Carousel Slider
           </button>
         </div>
@@ -394,13 +402,19 @@
       <div class="container-fluid">
         <div class="row border-bottom">
           <div class="form-user col-md-12">
-            <EditorText v-model="reviewTitle.judul" :initial-value="originalReviewTitle.judul"
-              placeholder="Isi Judul baru">
+            <EditorText
+              v-model="reviewTitle.judul"
+              :initial-value="originalReviewTitle.judul"
+              placeholder="Isi Judul baru"
+            >
               <template #title>Judul</template>
             </EditorText>
           </div>
           <div class="form-user col-md-12">
-            <EditorTextArea v-model="reviewTitle.text" :initial-value="originalReviewTitle.text">
+            <EditorTextArea
+              v-model="reviewTitle.text"
+              :initial-value="originalReviewTitle.text"
+            >
               <template #title>Text</template>
             </EditorTextArea>
           </div>
@@ -695,16 +709,16 @@ export default {
         link: "",
       },
       originalReviewTitle: {
-        id: '',
+        id: "",
         id_content: 0,
-        judul: '',
-        text: ''
+        judul: "",
+        text: "",
       },
       reviewTitle: {
-        id: '',
+        id: "",
         id_content: 0,
-        judul: '',
-        text: ''
+        judul: "",
+        text: "",
       },
       originalReview: [
         {
@@ -815,27 +829,50 @@ export default {
         });
         if (res.data.success) {
           this.getMainPageData();
-          window.alert("Berhasil mengubah konten");
+          this.$bvToast.toast("Berhasil mengubah konten", {
+            title: "Sukses",
+            variant: "success",
+            solid: true,
+            autoHideDelay: 3000,
+          });
         }
       } catch (e) {
-        window.alert("Gagal menyimpan konten");
+        this.$bvToast.toast("Gagal menyimpan konten", {
+          title: "Error",
+          variant: "danger",
+          solid: true,
+          autoHideDelay: 3000,
+        });
       }
     },
     async deleteMasterContent() {
       try {
         const lastData = this.master[this.master.length - 1];
-        if (lastData.id == '') {
+        if (lastData.id == "") {
           this.master.pop();
           return false;
         }
-        const res = await this.$axios.post(`/api/cms/halaman-utama/delete-content1/${lastData.id}`, {});
+        const res = await this.$axios.post(
+          `/api/cms/halaman-utama/delete-content1/${lastData.id}`,
+          {}
+        );
         if (res.data.success) {
           this.master.pop();
           this.getMainPageData();
-          window.alert("Berhasil menghapus konten");
+          this.$bvToast.toast("Berhasil menghapus konten", {
+            title: "Sukses",
+            variant: "success",
+            solid: true,
+            autoHideDelay: 3000,
+          });
         }
       } catch (e) {
-        window.alert("Gagal menghapus konten");
+        this.$bvToast.toast("Gagal menghapus konten", {
+          title: "Error",
+          variant: "danger",
+          solid: true,
+          autoHideDelay: 3000,
+        });
       }
     },
     async saveCarousel() {
@@ -851,27 +888,50 @@ export default {
         });
         if (res.data.success) {
           this.getMainPageData();
-          window.alert("Berhasil mengubah konten");
+          this.$bvToast.toast("Berhasil mengubah konten", {
+            title: "Sukses",
+            variant: "success",
+            solid: true,
+            autoHideDelay: 3000,
+          });
         }
       } catch (e) {
-        window.alert("gagal menyimpan konten");
+        this.$bvToast.toast("Gagal menyimpan konten", {
+          title: "Error",
+          variant: "danger",
+          solid: true,
+          autoHideDelay: 3000,
+        });
       }
-    },    
+    },
     async deleteCarousel() {
       try {
         const lastData = this.carousel[this.carousel.length - 1];
-        if (lastData.id == '') {
+        if (lastData.id == "") {
           this.carousel.pop();
           return false;
         }
-        const res = await this.$axios.post(`/api/cms/halaman-utama/delete-content2/${lastData.id}`, {});
+        const res = await this.$axios.post(
+          `/api/cms/halaman-utama/delete-content2/${lastData.id}`,
+          {}
+        );
         if (res.data.success) {
           this.carousel.pop();
           this.getMainPageData();
-          window.alert("Berhasil menghapus konten");
+          this.$bvToast.toast("Berhasil menghapus konten", {
+            title: "Sukses",
+            variant: "success",
+            solid: true,
+            autoHideDelay: 3000,
+          });
         }
       } catch (e) {
-        window.alert("Gagal menghapus konten");
+        this.$bvToast.toast("Gagal menghapus konten", {
+          title: "Error",
+          variant: "danger",
+          solid: true,
+          autoHideDelay: 3000,
+        });
       }
     },
     async saveProduct() {
@@ -881,10 +941,20 @@ export default {
         });
         if (res.data.success) {
           this.getMainPageData();
-          window.alert("Berhasil mengubah konten");
+          this.$bvToast.toast("Berhasil mengubah konten", {
+            title: "Sukses",
+            variant: "success",
+            solid: true,
+            autoHideDelay: 3000,
+          });
         }
       } catch (e) {
-        window.alert("gagal menyimpan konten");
+        this.$bvToast.toast("Gagal menyimpan konten", {
+          title: "Error",
+          variant: "danger",
+          solid: true,
+          autoHideDelay: 3000,
+        });
       }
     },
     async saveFeature() {
@@ -902,10 +972,20 @@ export default {
         });
         if (res.data.success) {
           this.getMainPageData();
-          window.alert("Berhasil mengubah konten");
+          this.$bvToast.toast("Berhasil mengubah konten", {
+            title: "Sukses",
+            variant: "success",
+            solid: true,
+            autoHideDelay: 3000,
+          });
         }
       } catch (e) {
-        window.alert("gagal menyimpan konten");
+        this.$bvToast.toast("Gagal menyimpan konten", {
+          title: "Error",
+          variant: "danger",
+          solid: true,
+          autoHideDelay: 3000,
+        });
       }
     },
     async saveTest() {
@@ -916,10 +996,20 @@ export default {
         });
         if (res.data.success) {
           this.getMainPageData();
-          window.alert("Berhasil mengubah konten");
+          this.$bvToast.toast("Berhasil mengubah konten", {
+            title: "Sukses",
+            variant: "success",
+            solid: true,
+            autoHideDelay: 3000,
+          });
         }
       } catch (e) {
-        window.alert("gagal menyimpan konten");
+        this.$bvToast.toast("Gagal menyimpan konten", {
+          title: "Error",
+          variant: "danger",
+          solid: true,
+          autoHideDelay: 3000,
+        });
       }
     },
     async saveTryout() {
@@ -929,10 +1019,20 @@ export default {
         });
         if (res.data.success) {
           this.getMainPageData();
-          window.alert("Berhasil mengubah konten");
+          this.$bvToast.toast("Berhasil mengubah konten", {
+            title: "Sukses",
+            variant: "success",
+            solid: true,
+            autoHideDelay: 3000,
+          });
         }
       } catch (e) {
-        window.alert("gagal menyimpan konten");
+        this.$bvToast.toast("Gagal menyimpan konten", {
+          title: "Error",
+          variant: "danger",
+          solid: true,
+          autoHideDelay: 3000,
+        });
       }
     },
     async saveDegree() {
@@ -943,24 +1043,46 @@ export default {
         });
         if (res.data.success) {
           this.getMainPageData();
-          window.alert("Berhasil mengubah konten");
+          this.$bvToast.toast("Berhasil mengubah konten", {
+            title: "Sukses",
+            variant: "success",
+            solid: true,
+            autoHideDelay: 3000,
+          });
         }
       } catch (e) {
-        window.alert("gagal menyimpan konten");
+        this.$bvToast.toast("Gagal menyimpan konten", {
+          title: "Error",
+          variant: "danger",
+          solid: true,
+          autoHideDelay: 3000,
+        });
       }
     },
     async saveReview() {
       try {
-        const payload = objectToFormData({ konten8: { data: [...this.review, this.reviewTitle] } });
+        const payload = objectToFormData({
+          konten8: { data: [...this.review, this.reviewTitle] },
+        });
         const res = await this.$axios.post("/api/cms/halaman-utama", payload, {
           headers: { "Content-Type": "multipart/form-data" },
         });
         if (res.data.success) {
           this.getMainPageData();
-          window.alert("Berhasil mengubah konten");
+          this.$bvToast.toast("Berhasil mengubah konten", {
+            title: "Sukses",
+            variant: "success",
+            solid: true,
+            autoHideDelay: 3000,
+          });
         }
       } catch (e) {
-        window.alert("gagal menyimpan konten");
+        this.$bvToast.toast("Gagal menyimpan konten", {
+          title: "Error",
+          variant: "danger",
+          solid: true,
+          autoHideDelay: 3000,
+        });
       }
     },
     async saveRegister() {
@@ -971,10 +1093,20 @@ export default {
         });
         if (res.data.success) {
           this.getMainPageData();
-          window.alert("Berhasil mengubah konten");
+          this.$bvToast.toast("Berhasil mengubah konten", {
+            title: "Sukses",
+            variant: "success",
+            solid: true,
+            autoHideDelay: 3000,
+          });
         }
       } catch (e) {
-        window.alert("gagal menyimpan konten");
+        this.$bvToast.toast("Gagal menyimpan konten", {
+          title: "Error",
+          variant: "danger",
+          solid: true,
+          autoHideDelay: 3000,
+        });
       }
     },
     async getMainPageData() {
@@ -1123,8 +1255,11 @@ export default {
           this.reviewTitle.id = title.id;
           this.reviewTitle.judul = title.judul;
           this.reviewTitle.text = title.text;
-          
-          for (let indexRvw = 0; indexRvw < masterReview.length; indexRvw++) {
+
+          for (let indexRvw = 0; indexRvw < masterReview.length; indexRvw++) {            
+            if (!this.review[indexRvw]) {
+              this.review[indexRvw] = {};
+            }
             this.review[indexRvw].id = masterReview[indexRvw].id;
             this.review[indexRvw].id_content =
               masterReview[indexRvw].id_content;
