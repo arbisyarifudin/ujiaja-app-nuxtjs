@@ -806,7 +806,7 @@ export default {
       });
     },
     addReview() {
-      this.review.reviews.push({
+      this.review.push({
         id: "",
         id_content: 1,
         foto: "",
@@ -815,7 +815,7 @@ export default {
         jurusan: "",
         text: "",
       });
-      this.originalReview.reviews.push({
+      this.originalReview.push({
         id: "",
         id_content: 1,
         foto: "",
@@ -824,9 +824,6 @@ export default {
         jurusan: "",
         text: "",
       });
-    },
-    deleteReview() {
-      if (this.review.reviews.length) this.review.reviews.pop();
     },
     async saveMasterContent() {
       try {
@@ -1122,6 +1119,36 @@ export default {
         });
       }
     },
+    async deleteReview() {
+      try {
+        const lastData = this.review[this.review.length - 1];
+        if (lastData.id == "") {
+          this.review.pop();
+          return false;
+        }
+        const res = await this.$axios.post(
+          `/api/cms/halaman-utama/delete-content8/${lastData.id}`,
+          {}
+        );
+        if (res.data.success) {
+          this.review.pop();
+          this.getMainPageData();
+          this.$bvToast.toast("Berhasil menghapus konten", {
+            title: "Sukses",
+            variant: "success",
+            solid: true,
+            autoHideDelay: 3000,
+          });
+        }
+      } catch (e) {
+        this.$bvToast.toast("Gagal menghapus konten", {
+          title: "Error",
+          variant: "danger",
+          solid: true,
+          autoHideDelay: 3000,
+        });
+      }
+    },
     async saveRegister() {
       try {
         const payload = objectToFormData({ konten9: this.register });
@@ -1252,8 +1279,7 @@ export default {
               masterFeatures[indexFeat].gambar == ""
                 ? null
                 : masterFeatures[indexFeat].gambar;
-            this.features[indexFeat].tombol =
-              masterFeatures[indexFeat].tombol;
+            this.features[indexFeat].tombol = masterFeatures[indexFeat].tombol;
             this.features[indexFeat].link = masterFeatures[indexFeat].link;
           }
         }
@@ -1290,15 +1316,19 @@ export default {
         }
 
         // Konten 8
-        const masterReview = data.data.dataContent8;
+        let masterReview = data.data.dataContent8;
         if (masterReview.length > 0) {
-          this.originalReview = masterReview;
-
           const title = masterReview.find((rev) => rev.id_content == 0);
           this.originalReviewTitle = title;
           this.reviewTitle.id = title.id;
           this.reviewTitle.judul = title.judul;
           this.reviewTitle.text = title.text;
+          masterReview.splice(
+            masterReview.findIndex((rvw) => rvw.id == title.id),
+            1
+          );
+
+          this.originalReview = masterReview;
 
           for (let indexRvw = 0; indexRvw < masterReview.length; indexRvw++) {
             if (!this.review[indexRvw]) {
