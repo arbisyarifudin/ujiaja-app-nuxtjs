@@ -11,12 +11,11 @@
     <SectionProduk v-if="produk.item.length > 0" :props="produk" />
     <SectionFitLayanan v-if="layanan.item.length > 0" :props="layanan" />
     <SectionCardHero
-      src="/fitur/layanan-3.png"
-      title="Nikmati kemudahan belajar
-    di UjiAja"
-      description="Uji Tes Minat Bakat, Latihan Soal Tryout, dan belajar Les Privat di UjiAja itu menyenangkan!  So, kamu dapat nikmati fitur-fitur UjiAja lebih lengkap tanpa batas dengan membeli Tryout Premium."
-      href="/app/tryout"
-      cta-text="Lihat Tryout"
+      :src="formatImageSource(konten5.gambar)"
+      :title="konten5.judul"
+      :description="konten5.text"
+      :href="konten5.link"
+      :cta-text="konten5.tombol"
     />
     <SectionTryoutAkbar />
     <SectionProgramStudi />
@@ -62,6 +61,7 @@ export default {
         deskripsi: "",
         item: [],
       },
+      konten5: {},
       testimoni: {
         judul: "Apa Kata Mereka Tentang UjiAja?",
         deskripsi: "Dengarkan apa kata mereka tentang UjiAja",
@@ -122,6 +122,7 @@ export default {
         this.keunggulan.item = res.data.dataContent2;
         this.setProductSection(res.data.dataContent3);
         this.setLayananSection(res.data.dataContent4);
+        this.konten5 = res.data.dataContent5.length == 0 ? {} : res.data.dataContent5[0];
       }
     } catch (error) {
       console.error(error);
@@ -136,6 +137,9 @@ export default {
   },
   components: { WhatsAppFloating, HeaderCaraousel },
   methods: {
+    formatImageSource(endpoint) {
+      return process.env.apiUrl + `/storage/${endpoint}`;
+    },
     setProductSection(contents) {
       for (let indexContent = 0; indexContent < contents.length; indexContent++) {
         if (contents[indexContent].id_content == 0) {
