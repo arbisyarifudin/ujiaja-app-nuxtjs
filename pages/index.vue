@@ -21,11 +21,11 @@
     <SectionProgramStudi :props="programStudi" />
     <!-- <SectionTestimoni :props="testimoni" /> -->
     <SectionCardHero
-      src="/hero-lagi-person.png"
-      title="Ribuan Pesaingmu Mulai Persiapkan Diri"
-      description="Tunggu apa lagi? Ayo bergabung dengan UjiAja dan belajar bareng bersama UjiAja!"
-      href="/registrasi"
-      cta-text="Daftar Sekarang"
+      :src="formatImageSource(konten9.gambar)"
+      :title="konten9.judul"
+      :description="konten9.text"
+      :href="konten9.link"
+      :cta-text="konten9.tombol"
       button
     />
     <Footer :footerData="footerData" />
@@ -84,6 +84,7 @@ export default {
           },
         ],
       },
+      konten9: {},
     };
   },
   async asyncData(context) {
@@ -127,6 +128,7 @@ export default {
         this.konten5 = res.data.dataContent5.length == 0 ? {} : res.data.dataContent5[0];
         this.tryOut = res.data.dataContent6.length == 0 ? {} : res.data.dataContent6[0];
         this.programStudi = res.data.dataContent7.length == 0 ? {} : res.data.dataContent7[0];
+        this.konten9 = res.data.dataContent9.length == 0 ? {} : res.data.dataContent9[0];
       }
     } catch (error) {
       console.error(error);
