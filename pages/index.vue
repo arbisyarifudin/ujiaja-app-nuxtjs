@@ -50,30 +50,7 @@ export default {
       heros: [],
       keunggulan: {
         judul: "Kenapa Harus Pakai UjiAja.com?",
-        item: [
-          {
-            gambar: "/icon/icon1_2.png",
-            judul: "200.000+",
-            subjudul: "Pelajar Indonesia yang sudah pakai aplikasi UjiAja",
-          },
-          {
-            gambar: "/icon/icon2_2.png",
-            judul: "150.000 soal+",
-            subjudul:
-              " Jumlah soal dan pembahasan Tryout terbaru sesuai kurikulum",
-          },
-          {
-            gambar: "/icon/icon3_2.png",
-            judul: "100.000 siswa+",
-            subjudul: "Peserta Tryout SSCI terbukti lolos PTN impian",
-          },
-          {
-            gambar: "/icon/icon4.png",
-            judul: "99%",
-            subjudul:
-              "99% pelajar merasa terbantu dan cocok dengan guru privat UjiAja",
-          },
-        ],
+        item: [],
       },
       produk: {
         judul: "Produk UjiAja",
@@ -156,6 +133,7 @@ export default {
       const res = resContent.data;
       if (resContent.data.success) {
         this.heros = res.data.dataContent1;
+        this.keunggulan.item = res.data.dataContent2;
       }
     } catch (error) {
       console.error(error);
