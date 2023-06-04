@@ -4,10 +4,10 @@
       <div class="row">
         <div class="col-md-12 text-center">
           <h2>{{ props.judul }}</h2>
-          <p v-html="props.deskripsi"></p>
+          <div v-html="props.deskripsi" />
         </div>
       </div>
-      <div class="row justify-content-around" v-if="props.item.length > 0">
+      <div class="row justify-content-around">
         <div
           class="col-lg-6 col-md-12 mb-4"
           v-for="(item, i) in props.item"
@@ -19,9 +19,9 @@
                 class="col-lg-7 col-md-8 mb-4 order-md-1 order-2 d-flex flex-column justify-content-between align-items-start"
               >
                 <div>
-                  <h4 v-html="item.judul"></h4>
+                  <h4>{{ item.judul }}</h4>
                   <h5>{{ item.sub_judul }}</h5>
-                  <p class="mb-2 p-0" v-html="item.text" />
+                  <div class="mb-2 p-0" v-html="item.text" />
                   <!-- <p class="tp mb-2 p-0" v-if="item.tambahan">
                     {{ item.tambahan }}
                   </p> -->

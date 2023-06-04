@@ -8,8 +8,8 @@
     <!-- <Header :heroData="heros" :navData="navData"/> -->
 
     <SectionKeunggulan :props="keunggulan" variant="with-bg" />
-    <SectionProduk :props="produk" />
-    <SectionFitLayanan />
+    <SectionProduk v-if="produk.item.length > 0" :props="produk" />
+    <SectionFitLayanan v-if="layanan.item.length > 0" :props="layanan" />
     <SectionCardHero
       src="/fitur/layanan-3.png"
       title="Nikmati kemudahan belajar
@@ -53,6 +53,11 @@ export default {
         item: [],
       },
       produk: {
+        judul: "",
+        deskripsi: "",
+        item: [],
+      },
+      layanan: {
         judul: "",
         deskripsi: "",
         item: [],
@@ -116,6 +121,7 @@ export default {
         this.heros = res.data.dataContent1;
         this.keunggulan.item = res.data.dataContent2;
         this.setProductSection(res.data.dataContent3);
+        this.setLayananSection(res.data.dataContent4);
       }
     } catch (error) {
       console.error(error);
@@ -141,6 +147,16 @@ export default {
       }
       this.produk.item[0].gambar = '/produk/produk1_2.png';
       this.produk.item[1].gambar = '/produk/produk2_2.png';
+    },
+    setLayananSection(contents) {
+      for (let indexContent = 0; indexContent < contents.length; indexContent++) {
+        if (contents[indexContent].id_content == 0) {
+          this.layanan.judul = contents[indexContent].judul;
+          this.layanan.deskripsi = contents[indexContent].text;
+        } else {
+          this.layanan.item.push(contents[indexContent]);
+        }
+      }
     }
   },
 };
