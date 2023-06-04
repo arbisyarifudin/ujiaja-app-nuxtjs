@@ -19,7 +19,7 @@
     />
     <SectionTryoutAkbar :props="tryOut" />
     <SectionProgramStudi :props="programStudi" />
-    <!-- <SectionTestimoni :props="testimoni" /> -->
+    <SectionTestimoni v-if="testimoni.item.length > 0" :props="testimoni" />
     <SectionCardHero
       :src="formatImageSource(konten9.gambar)"
       :title="konten9.judul"
@@ -65,24 +65,9 @@ export default {
       tryOut: {},
       programStudi: {},
       testimoni: {
-        judul: "Apa Kata Mereka Tentang UjiAja?",
-        deskripsi: "Dengarkan apa kata mereka tentang UjiAja",
-        item: [
-          {
-            nama: "Zabina Asfahani",
-            titel: "Teknik Industri - Universitas Gajah Mada",
-            testimoni:
-              "Bisa masuk Universitas Gadjah Mada adalah IMPIAN terbesarku. Belajar dan berlatih adalah ikhtiarku. Syukur alhamdulillah aku coba mendaftar platform pendidikan ujiaja yang didalamnya terdapat fasilitas tryout UTBK. Wuihhhh...yang tadinya udah MAGER buat ikutan tryout, sekali nyoba jadi ketagihan. Kerennnn....aksesnya mudah, soal-soalnya prediktif, durasi pengerjaannya juga disesuaikan dengan UTBK sebenarnya, dan hasil tryoutnya disuguhkan dalam bentuk sertifikat yang isinya lengkap. Karena rajin berlatih, akhirnya usahaku berbuah baik. Aku tembus TEKNIK INDUSTRI UGM.",
-            foto: "foto-gambar/zabina.png",
-          },
-          {
-            nama: "Fadlan Azzam",
-            titel: "Manajemen  - UPN “VETERAN” YOGYAKARTA",
-            testimoni:
-              "Proses meraih impian itu penuh perjuangan. Karena aku mengambil rumpun Soshum, mau tidak mau habit gemar membaca kudu dibentuk dan dibiasakan. Syukur alhamdulillah aku didampingi oleh aplikasi ujiaja yang berperan besar dalam perjuanganku untuk bisa LOLOS PTN. Yang semula MALES kalau udah denger kata TRYOUT, sekarang SUKA BANGET ikut tryout. Tryout ujiaja beda dengan tryout lainnya. Di ujiaja gampang banget daftarnya, murah banget biayanya, dan tentunya akses masuk aplikasinya juga mudah dan praktis. Ga’ pake ribet dech... selain itu, soal dan pembahasannya bisa di download sehingga bisa jadi bahan untuk review materi. Dengan banyak berlatih di ujiaja akhirnya aku bisa masuk PTN dengan prodi Manajemen yang aku impikan. Terimakasih ujiaja... ujiaja emang The Best.",
-            foto: "foto-gambar/azzam.png",
-          },
-        ],
+        judul: "",
+        deskripsi: "",
+        item: [],
       },
       konten9: {},
     };
@@ -128,6 +113,7 @@ export default {
         this.konten5 = res.data.dataContent5.length == 0 ? {} : res.data.dataContent5[0];
         this.tryOut = res.data.dataContent6.length == 0 ? {} : res.data.dataContent6[0];
         this.programStudi = res.data.dataContent7.length == 0 ? {} : res.data.dataContent7[0];
+        this.setTestimoniSection(res.data.dataContent8);
         this.konten9 = res.data.dataContent9.length == 0 ? {} : res.data.dataContent9[0];
       }
     } catch (error) {
@@ -165,6 +151,16 @@ export default {
           this.layanan.deskripsi = contents[indexContent].text;
         } else {
           this.layanan.item.push(contents[indexContent]);
+        }
+      }
+    },
+    setTestimoniSection(contents) {
+      for (let indexContent = 0; indexContent < contents.length; indexContent++) {
+        if (contents[indexContent].id_content == 0) {
+          this.testimoni.judul = contents[indexContent].judul;
+          this.testimoni.deskripsi = contents[indexContent].text;
+        } else {
+          this.testimoni.item.push(contents[indexContent]);
         }
       }
     }
