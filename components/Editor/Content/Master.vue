@@ -13,7 +13,8 @@
         <EditorImage v-model="content.gambar" :max-size="5">
           <template #title> Gambar </template>
           <template #warn>
-            *Disarankan dengan Gambar atau Vektor 1276 x 638 pixel, dan Maksimal 5 Mb
+            *Disarankan dengan Gambar atau Vektor 1276 x 638 pixel, dan Maksimal
+            5 Mb
           </template>
         </EditorImage>
       </div>
@@ -27,7 +28,10 @@
         </EditorText>
       </div>
       <div class="form-user col-md-12">
-        <EditorTextArea :initial-value="original[i]?.text" v-model="content.text">
+        <EditorTextArea
+          :initial-value="original[i]?.text"
+          v-model="content.text"
+        >
           <template #title>Text</template>
         </EditorTextArea>
       </div>
@@ -87,12 +91,8 @@ export default {
         gambar: "",
         judul: "",
         text: "",
-        sub_content: [
-          {
-            link: "",
-            tombol: "",
-          },
-        ],
+        tombol: "",
+        link: "",
       });
       this.original.push({
         id: "",
@@ -100,12 +100,8 @@ export default {
         gambar: "",
         judul: "",
         text: "",
-        sub_content: [
-          {
-            link: "",
-            tombol: "",
-          },
-        ],
+        tombol: "",
+        link: "",
       });
     },
     deleteCarousel() {

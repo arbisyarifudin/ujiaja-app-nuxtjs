@@ -825,7 +825,15 @@ export default {
         text: "",
       });
     },
-    async saveMasterContent() {
+    async saveMasterContent() {      
+      for (let i = 0; i < this.master.length; i++) {
+        if (typeof this.master[i].banner == "string") {
+          this.master[i].banner = "";
+        }        
+        if (typeof this.master[i].gambar == "string") {
+          this.master[i].gambar = "";
+        }
+      }
       try {
         const payload = objectToFormData({ konten1: { data: this.master } });
         const res = await this.$axios.post("/api/cms/halaman-utama", payload, {
