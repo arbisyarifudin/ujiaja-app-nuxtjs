@@ -20,7 +20,7 @@
     />
     <SectionTryoutAkbar />
     <SectionProgramStudi />
-    <SectionTestimoni :props="testimoni" />
+    <!-- <SectionTestimoni :props="testimoni" /> -->
     <SectionCardHero
       src="/hero-lagi-person.png"
       title="Ribuan Pesaingmu Mulai Persiapkan Diri"
@@ -53,29 +53,9 @@ export default {
         item: [],
       },
       produk: {
-        judul: "Produk UjiAja",
-        deskripsi:
-          "UjiAja menyediakan semua amunisi yang kamu butuhkan untuk menuju kampus impianmu!<br /> Belajar efektif dengan rangkuman lengkap serta ratusan soal yang variatif dan menantang.",
-        item: [
-          {
-            gambar: "/produk/produk1_2.png",
-            judul: "Tryout",
-            brand: "by UjiAja",
-            deskripsi:
-              "Persiapkan dirimu hadapi Tryout PAT, PAS, hingga UTBK melalui latihan Tryout yang akurat dan lengkap dengan fitur terbaik.",
-            tambahan: "Gratis Tes Minat, Bakat & Potensi",
-            url: "/produk/tryout",
-          },
-          {
-            gambar: "/produk/produk2_2.png",
-            judul: 'Les<span class="large">Privat</span>',
-            brand: "by UjiAja",
-            deskripsi:
-              "Temukan guru privat untuk belajar eksklusif 1 murid 1 guru. Semua pelajaran, semua usia!",
-            tambahan: null,
-            url: "/produk/les-privat",
-          },
-        ],
+        judul: "",
+        deskripsi: "",
+        item: [],
       },
       testimoni: {
         judul: "Apa Kata Mereka Tentang UjiAja?",
@@ -131,9 +111,11 @@ export default {
     try {
       const resContent = await this.$axios.get("/api/cms/halaman-utama/get");
       const res = resContent.data;
+      console.log(res.data);
       if (resContent.data.success) {
         this.heros = res.data.dataContent1;
         this.keunggulan.item = res.data.dataContent2;
+        this.setProductSection(res.data.dataContent3);
       }
     } catch (error) {
       console.error(error);
@@ -147,5 +129,19 @@ export default {
     }
   },
   components: { WhatsAppFloating, HeaderCaraousel },
+  methods: {
+    setProductSection(contents) {
+      for (let indexContent = 0; indexContent < contents.length; indexContent++) {
+        if (contents[indexContent].id_content == 0) {
+          this.produk.judul = contents[indexContent].judul;
+          this.produk.deskripsi = contents[indexContent].text;
+        } else {
+          this.produk.item.push(contents[indexContent]);
+        }
+      }
+      this.produk.item[0].gambar = '/produk/produk1_2.png';
+      this.produk.item[1].gambar = '/produk/produk2_2.png';
+    }
+  },
 };
 </script>
