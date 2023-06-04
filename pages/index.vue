@@ -18,7 +18,7 @@
       :cta-text="konten5.tombol"
     />
     <SectionTryoutAkbar :props="tryOut" />
-    <SectionProgramStudi />
+    <SectionProgramStudi :props="programStudi" />
     <!-- <SectionTestimoni :props="testimoni" /> -->
     <SectionCardHero
       src="/hero-lagi-person.png"
@@ -63,6 +63,7 @@ export default {
       },
       konten5: {},
       tryOut: {},
+      programStudi: {},
       testimoni: {
         judul: "Apa Kata Mereka Tentang UjiAja?",
         deskripsi: "Dengarkan apa kata mereka tentang UjiAja",
@@ -125,6 +126,7 @@ export default {
         this.setLayananSection(res.data.dataContent4);
         this.konten5 = res.data.dataContent5.length == 0 ? {} : res.data.dataContent5[0];
         this.tryOut = res.data.dataContent6.length == 0 ? {} : res.data.dataContent6[0];
+        this.programStudi = res.data.dataContent7.length == 0 ? {} : res.data.dataContent7[0];
       }
     } catch (error) {
       console.error(error);
