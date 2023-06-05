@@ -53,7 +53,7 @@
         </div>
       </div>
     </div>
-    <div class="row">
+    <div class="row" v-if="canAdd">
       <div class="col-md-12 border-top pt-3 mt-1 d-flex flex-row">
         <button class="btn btn-outline-primary" @click="addNewCarousel">
           + Tambah Carousel Banner
@@ -81,6 +81,11 @@ export default {
       type: Object,
       default: () => ({}),
     },
+    canAdd: {
+      type: Boolean,
+      required: false,
+      default: true
+    }
   },
   emits: ["delete"],
   methods: {
