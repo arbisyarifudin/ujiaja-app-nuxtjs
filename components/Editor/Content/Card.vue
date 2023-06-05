@@ -2,7 +2,7 @@
   <div class="container-fluid">
     <div class="row border-bottom">
       <div class="col-md-12">
-        <EditorImage v-model="content.card" :max-size="5">
+        <EditorImage v-model="content.carousel" :max-size="5">
           <template #title>
             Card
           </template>
@@ -12,12 +12,12 @@
         </EditorImage>
       </div>
       <div class="form-user col-md-12">
-        <EditorText v-model="content.judul" placeholder="Isi Judul baru">
+        <EditorText v-model="content.judul" :initial-value="original.judul" placeholder="Isi Judul baru">
           <template #title>Judul</template>
         </EditorText>
       </div>
       <div class="form-user col-md-12">
-        <EditorTextArea v-model="content.text">
+        <EditorTextArea v-model="content.text" :initial-value="original.text">
           <template #title>Text</template>
         </EditorTextArea>
       </div>
@@ -29,6 +29,10 @@
 export default {
   props: {
     content: {
+      type: Object,
+      default: () => ({})
+    },
+    original: {
       type: Object,
       default: () => ({})
     }

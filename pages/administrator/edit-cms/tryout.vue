@@ -15,17 +15,14 @@
     </UIKonten>
     <UIKonten>
       <template #title>Konten 2</template>
-      <EditorContentCard v-for="(card, i) in cards" :key="i" :content="card" />
-      <div class="col-md-12 pt-3 mt-1 row">
-        <button @click="addCardContent" class="btn btn-outline-primary">
-          + Tambah Sub Konten
-        </button>
-        <button @click="deleteCardContent" class="btn btn-outline-danger ml-3">
-          Hapus Sub Konten
-        </button>
-      </div>
+      <EditorContentCard
+        v-for="(crsl, i) in carousel"
+        :key="i"
+        :content="crsl"
+        :original="originalCarousel[i]"
+      />
       <div class="col-md-12 pt-4">
-        <button @click="saveCardContent" class="btn btn-primary">Simpan</button>
+        <button @click="saveCarousel" class="btn btn-primary">Simpan</button>
       </div>
     </UIKonten>
     <UIKonten>
@@ -424,11 +421,44 @@ export default {
           link: "",
         },
       ],
-      cards: [
+      originalCarousel: [
         {
+          id: "",
+          carousel: "",
           judul: "",
-          card: null,
-          posisiGambar: null,
+          text: "",
+        },
+        {
+          id: "",
+          carousel: "",
+          judul: "",
+          text: "",
+        },
+        {
+          id: "",
+          carousel: "",
+          judul: "",
+          text: "",
+        },
+      ],
+      carousel: [
+        {
+          id: "",
+          carousel: "",
+          judul: "",
+          text: "",
+        },
+        {
+          id: "",
+          carousel: "",
+          judul: "",
+          text: "",
+        },
+        {
+          id: "",
+          carousel: "",
+          judul: "",
+          text: "",
         },
       ],
       product: {
@@ -531,7 +561,6 @@ export default {
   },
   methods: {
     async saveMasterContent() {
-      console.log('test');
       if (typeof this.master[0].banner == "string") {
         this.master[0].banner = "";
       }
@@ -539,16 +568,11 @@ export default {
         this.master[0].gambar = "";
       }
       try {
-        
-      console.log('test2');
         const payload = objectToFormData({ konten1: { data: this.master } });
-      console.log('test3');
         const res = await this.$axios.post("/api/cms/tryout", payload, {
           headers: { "Content-Type": "multipart/form-data" },
         });
         if (res.data.success) {
-          
-      console.log('test4');
           this.getMainPageData();
           this.$bvToast.toast("Berhasil mengubah konten", {
             title: "Sukses",
@@ -567,15 +591,34 @@ export default {
         });
       }
     },
-    saveCardContent() {
-      console.log(this.cards);
-    },
-    addCardContent() {
-      this.cards.push({
-        judul: "",
-        card: null,
-        posisiGambar: null,
-      });
+    async saveCarousel() {
+      for (let i = 0; i < this.carousel.length; i++) {
+        if (typeof this.carousel[i].carousel == "string") {
+          this.carousel[i].carousel = "";
+        }
+      }
+      try {
+        const payload = objectToFormData({ konten2: { data: this.carousel } });
+        const res = await this.$axios.post("/api/cms/tryout", payload, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
+        if (res.data.success) {
+          this.getMainPageData();
+          this.$bvToast.toast("Berhasil mengubah konten", {
+            title: "Sukses",
+            variant: "success",
+            solid: true,
+            autoHideDelay: 3000,
+          });
+        }
+      } catch (e) {
+        this.$bvToast.toast("Gagal menyimpan konten", {
+          title: "Error",
+          variant: "danger",
+          solid: true,
+          autoHideDelay: 3000,
+        });
+      }
     },
     addReview() {
       this.review.reviews.push({
@@ -679,6 +722,21 @@ export default {
           this.master[0].text = this.originalMaster[0].text;
           this.master[0].tombol = this.originalMaster[0].tombol;
           this.master[0].link = this.originalMaster[0].link;
+        }
+
+        // Konten 2
+        const masterCarousel = data.data.dataContent2;
+        if (masterCarousel.length > 0) {
+          this.originalCarousel = masterCarousel;
+          for (let i = 0; i < masterCarousel.length; i++) {
+            if (!this.carousel[i]) {
+              this.carousel[i] = {};
+            }
+            this.carousel[i].id = masterCarousel[i].id;
+            this.carousel[i].carousel = masterCarousel[i].carousel;
+            this.carousel[i].judul = masterCarousel[i].judul;
+            this.carousel[i].text = masterCarousel[i].text;
+          }
         }
       }
     },
