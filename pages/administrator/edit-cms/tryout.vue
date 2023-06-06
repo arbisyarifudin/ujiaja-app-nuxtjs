@@ -39,35 +39,47 @@
             </EditorText>
           </div>
           <div class="form-user col-md-12">
-            <EditorTextArea 
+            <EditorTextArea
               v-model="konten3Title.text"
-              :initial-value="originalKonten3Title.text">
+              :initial-value="originalKonten3Title.text"
+            >
               <template #title>Text</template>
             </EditorTextArea>
           </div>
         </div>
-        <div
-          v-for="(p, i) in konten3"
-          :key="i"
-          class="row border-bottom"
-        >
+        <div v-for="(p, i) in konten3" :key="i" class="row border-bottom">
           <div class="form-user col-md-12">
-            <EditorText v-model="p.judul" :initial-value="originalKonten3[i].judul" placeholder="Isi Judul baru">
+            <EditorText
+              v-model="p.judul"
+              :initial-value="originalKonten3[i].judul"
+              placeholder="Isi Judul baru"
+            >
               <template #title>Judul</template>
             </EditorText>
           </div>
           <div class="form-user col-md-12">
-            <EditorText v-model="p.sub_judul" :initial-value="originalKonten3[i].sub_judul" placeholder="Isi Judul baru">
+            <EditorText
+              v-model="p.sub_judul"
+              :initial-value="originalKonten3[i].sub_judul"
+              placeholder="Isi Judul baru"
+            >
               <template #title>Sub Judul</template>
             </EditorText>
           </div>
           <div class="form-user col-md-12">
-            <EditorTextArea v-model="p.text" :initial-value="originalKonten3[i].text">
+            <EditorTextArea
+              v-model="p.text"
+              :initial-value="originalKonten3[i].text"
+            >
               <template #title>Text</template>
             </EditorTextArea>
           </div>
           <div class="form-user col-md-12 pt-3">
-            <EditorText v-model="p.tombol" :initial-value="originalKonten3[i].tombol" placeholder="Isi nama tombol baru">
+            <EditorText
+              v-model="p.tombol"
+              :initial-value="originalKonten3[i].tombol"
+              placeholder="Isi nama tombol baru"
+            >
               <template #title>Tombol</template>
             </EditorText>
             <p class="pt-3">Link</p>
@@ -90,86 +102,34 @@
       <div class="container-fluid">
         <div class="row border-bottom">
           <div class="form-user col-md-12">
+            <EditorImage v-model="konten4.gambar" :max-size="5">
+              <template #title> Gambar </template>
+              <template #warn>
+                *Disarankan dengan Banner 1276 x 638 pixel, dan Maksimal 5 Mb
+              </template>
+            </EditorImage>
+          </div>
+          <div class="form-user col-md-12">
             <EditorText
-              v-model="product.master.judul"
+              v-model="konten4.judul"
+              :initial-value="originalKonten4.judul"
               placeholder="Isi Judul baru"
             >
               <template #title>Judul</template>
             </EditorText>
           </div>
           <div class="form-user col-md-12">
-            <EditorTextArea v-model="product.master.text">
-              <template #title>Text</template>
-            </EditorTextArea>
-          </div>
-        </div>
-        <div
-          v-for="(f, i) in feature.features"
-          :key="i"
-          class="row border-bottom"
-        >
-          <div class="col-md-12 pt-2">
-            <EditorImage v-model="f.gambar" :max-size="5">
-              <template #title> Gambar </template>
-              <template #warn>
-                *Disarankan dengan Banner 1276 x 638 pixel, dan Maksimal 5 Mb
-              </template>
-            </EditorImage>
-          </div>
-          <div class="form-user col-md-12">
-            <EditorText v-model="f.judul" placeholder="Isi Judul baru">
-              <template #title>Judul</template>
-            </EditorText>
-          </div>
-          <div class="form-user col-md-12">
-            <EditorTextArea v-model="f.text">
-              <template #title>Text</template>
-            </EditorTextArea>
-          </div>
-          <div class="form-user col-md-12 pt-3">
-            <EditorText v-model="f.tombol" placeholder="Isi nama tombol baru">
-              <template #title>Tombol</template>
-            </EditorText>
-            <p class="pt-3">Link</p>
-            <div class="form-group row justify-content-between px-3">
-              <input
-                v-model="f.link"
-                placeholder="Isi Link yang ingin di tuju"
-                class="form-control col-md-12"
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-12 pt-4">
-        <button @click="saveFeature" class="btn btn-primary">Simpan</button>
-      </div>
-    </UIKonten>
-    <UIKonten>
-      <template #title>Konten 5</template>
-      <div class="container-fluid">
-        <div class="row border-bottom">
-          <div class="form-user col-md-12">
-            <EditorImage v-model="test.gambar" :max-size="5">
-              <template #title> Gambar </template>
-              <template #warn>
-                *Disarankan dengan Banner 1276 x 638 pixel, dan Maksimal 5 Mb
-              </template>
-            </EditorImage>
-          </div>
-          <div class="form-user col-md-12">
-            <EditorText v-model="test.judul" placeholder="Isi Judul baru">
-              <template #title>Judul</template>
-            </EditorText>
-          </div>
-          <div class="form-user col-md-12">
-            <EditorTextArea v-model="test.text">
+            <EditorTextArea
+              v-model="konten4.text"
+              :initial-value="originalKonten4.text"
+            >
               <template #title>Text</template>
             </EditorTextArea>
           </div>
           <div class="form-user col-md-12 pt-3">
             <EditorText
-              v-model="test.tombol"
+              v-model="konten4.tombol"
+              :initial-value="originalKonten4.tombol"
               placeholder="Isi nama tombol baru"
             >
               <template #title>Tombol</template>
@@ -177,7 +137,7 @@
             <p class="pt-3">Link</p>
             <div class="form-group row justify-content-between px-3">
               <input
-                v-model="test.link"
+                v-model="konten4.link"
                 placeholder="Isi Link yang ingin di tuju"
                 class="form-control col-md-12"
               />
@@ -186,7 +146,7 @@
         </div>
       </div>
       <div class="col-md-12 pt-4">
-        <button @click="saveTest" class="btn btn-primary">Simpan</button>
+        <button @click="saveKonten4" class="btn btn-primary">Simpan</button>
       </div>
     </UIKonten>
     <UIKonten>
@@ -346,7 +306,7 @@
         </div>
       </div>
       <div class="col-md-12 pt-4">
-        <button @click="saveFeature" class="btn btn-primary">Simpan</button>
+        <button class="btn btn-primary">Simpan</button>
       </div>
     </UIKonten>
     <UIKonten>
@@ -648,6 +608,22 @@ export default {
           text: "",
         },
       ],
+      originalKonten4: {
+        id: "",
+        gambar: null,
+        judul: "",
+        text: "",
+        tombol: "",
+        link: "",
+      },
+      konten4: {
+        id: "",
+        gambar: null,
+        judul: "",
+        text: "",
+        tombol: "",
+        link: "",
+      },
     };
   },
   methods: {
@@ -748,26 +724,28 @@ export default {
         });
       }
     },
-    async saveFeature() {
+    async saveKonten4() {
       try {
-        const payload = objectToFormData({ konten4: this.feature });
+        const payload = objectToFormData({ konten5: this.konten4 });
         const res = await this.$axios.post("/api/cms/tryout", payload, {
           headers: { "Content-Type": "multipart/form-data" },
         });
-        if (res.status === 200) window.alert("berhasil menyimpan konten");
+        if (res.data.success) {
+          this.getMainPageData();
+          this.$bvToast.toast("Berhasil mengubah konten", {
+            title: "Sukses",
+            variant: "success",
+            solid: true,
+            autoHideDelay: 3000,
+          });
+        }
       } catch (e) {
-        window.alert("gagal menyimpan konten");
-      }
-    },
-    async saveTest() {
-      try {
-        const payload = objectToFormData({ konten5: this.test });
-        const res = await this.$axios.post("/api/cms/tryout", payload, {
-          headers: { "Content-Type": "multipart/form-data" },
+        this.$bvToast.toast("Gagal menyimpan konten", {
+          title: "Error",
+          variant: "danger",
+          solid: true,
+          autoHideDelay: 3000,
         });
-        if (res.status === 200) window.alert("berhasil menyimpan konten");
-      } catch (e) {
-        window.alert("gagal menyimpan konten");
       }
     },
     async saveTryout() {
@@ -844,7 +822,7 @@ export default {
           }
         }
 
-        // Konten 8
+        // Konten 3
         let master3 = data.data.dataContent3;
         if (master3.length > 0) {
           const title = master3.find((rev) => rev.id_content == 0);
@@ -864,14 +842,25 @@ export default {
               this.konten3[indexCtn] = {};
             }
             this.konten3[indexCtn].id = master3[indexCtn].id;
-            this.konten3[indexCtn].id_content =
-              master3[indexCtn].id_content;
+            this.konten3[indexCtn].id_content = master3[indexCtn].id_content;
             this.konten3[indexCtn].judul = master3[indexCtn].judul;
             this.konten3[indexCtn].sub_judul = master3[indexCtn].sub_judul;
             this.konten3[indexCtn].text = master3[indexCtn].text;
             this.konten3[indexCtn].tombol = master3[indexCtn].tombol;
             this.konten3[indexCtn].link = master3[indexCtn].link;
           }
+        }
+
+        // Konten 4
+        const master4 = data.data.dataContent5[0];
+        if (data.data.dataContent5.length > 0) {
+          this.originalKonten4 = master4;
+          this.konten4.id = master4.id;
+          this.konten4.judul = master4.judul;
+          this.konten4.gambar = master4.gambar;
+          this.konten4.text = master4.text;
+          this.konten4.tombol = master4.tombol;
+          this.konten4.link = master4.link;
         }
       }
     },
