@@ -31,40 +31,43 @@
         <div class="row border-bottom">
           <div class="form-user col-md-12">
             <EditorText
-              v-model="product.master.judul"
+              v-model="konten3Title.judul"
+              :initial-value="originalKonten3Title.judul"
               placeholder="Isi Judul baru"
             >
               <template #title>Judul</template>
             </EditorText>
           </div>
           <div class="form-user col-md-12">
-            <EditorTextArea v-model="product.master.text">
+            <EditorTextArea 
+              v-model="konten3Title.text"
+              :initial-value="originalKonten3Title.text">
               <template #title>Text</template>
             </EditorTextArea>
           </div>
         </div>
         <div
-          v-for="(p, i) in product.products"
+          v-for="(p, i) in konten3"
           :key="i"
           class="row border-bottom"
         >
           <div class="form-user col-md-12">
-            <EditorText v-model="p.judul" placeholder="Isi Judul baru">
+            <EditorText v-model="p.judul" :initial-value="originalKonten3[i].judul" placeholder="Isi Judul baru">
               <template #title>Judul</template>
             </EditorText>
           </div>
           <div class="form-user col-md-12">
-            <EditorText v-model="p.subJudul" placeholder="Isi Judul baru">
+            <EditorText v-model="p.sub_judul" :initial-value="originalKonten3[i].sub_judul" placeholder="Isi Judul baru">
               <template #title>Sub Judul</template>
             </EditorText>
           </div>
           <div class="form-user col-md-12">
-            <EditorTextArea v-model="p.text">
+            <EditorTextArea v-model="p.text" :initial-value="originalKonten3[i].text">
               <template #title>Text</template>
             </EditorTextArea>
           </div>
           <div class="form-user col-md-12 pt-3">
-            <EditorText v-model="p.tombol" placeholder="Isi nama tombol baru">
+            <EditorText v-model="p.tombol" :initial-value="originalKonten3[i].tombol" placeholder="Isi nama tombol baru">
               <template #title>Tombol</template>
             </EditorText>
             <p class="pt-3">Link</p>
@@ -79,7 +82,7 @@
         </div>
       </div>
       <div class="col-md-12 pt-4">
-        <button @click="saveProduct" class="btn btn-primary">Simpan</button>
+        <button @click="saveKonten3" class="btn btn-primary">Simpan</button>
       </div>
     </UIKonten>
     <UIKonten>
@@ -557,6 +560,94 @@ export default {
         tombol: "",
         link: "",
       },
+      originalKonten3Title: {
+        id: "",
+        id_content: 0,
+        judul: "",
+        text: "",
+      },
+      konten3Title: {
+        id: "",
+        id_content: 0,
+        judul: "",
+        text: "",
+      },
+      originalKonten3: [
+        {
+          id: "",
+          id_content: 1,
+          judul: "",
+          sub_judul: "",
+          tombol: "",
+          link: "",
+          text: "",
+        },
+        {
+          id: "",
+          id_content: 1,
+          judul: "",
+          sub_judul: "",
+          tombol: "",
+          link: "",
+          text: "",
+        },
+        {
+          id: "",
+          id_content: 1,
+          judul: "",
+          sub_judul: "",
+          tombol: "",
+          link: "",
+          text: "",
+        },
+        {
+          id: "",
+          id_content: 1,
+          judul: "",
+          sub_judul: "",
+          tombol: "",
+          link: "",
+          text: "",
+        },
+      ],
+      konten3: [
+        {
+          id: "",
+          id_content: 1,
+          judul: "",
+          sub_judul: "",
+          tombol: "",
+          link: "",
+          text: "",
+        },
+        {
+          id: "",
+          id_content: 1,
+          judul: "",
+          sub_judul: "",
+          tombol: "",
+          link: "",
+          text: "",
+        },
+        {
+          id: "",
+          id_content: 1,
+          judul: "",
+          sub_judul: "",
+          tombol: "",
+          link: "",
+          text: "",
+        },
+        {
+          id: "",
+          id_content: 1,
+          judul: "",
+          sub_judul: "",
+          tombol: "",
+          link: "",
+          text: "",
+        },
+      ],
     };
   },
   methods: {
@@ -633,14 +724,28 @@ export default {
     deleteCardContent() {
       this.cards.pop();
     },
-    async saveProduct() {
+    async saveKonten3() {
       try {
-        const res = await this.$axios.post("/api/cms/tryout", {
-          konten3: this.product,
+        const payload = objectToFormData({
+          konten3: { data: [...this.konten3, this.konten3Title] },
         });
-        if (res.status === 200) window.alert("berhasil menyimpan konten");
+        const res = await this.$axios.post("/api/cms/tryout", payload);
+        if (res.data.success) {
+          this.getMainPageData();
+          this.$bvToast.toast("Berhasil mengubah konten", {
+            title: "Sukses",
+            variant: "success",
+            solid: true,
+            autoHideDelay: 3000,
+          });
+        }
       } catch (e) {
-        window.alert("gagal menyimpan konten");
+        this.$bvToast.toast("Gagal menyimpan konten", {
+          title: "Error",
+          variant: "danger",
+          solid: true,
+          autoHideDelay: 3000,
+        });
       }
     },
     async saveFeature() {
@@ -736,6 +841,36 @@ export default {
             this.carousel[i].carousel = masterCarousel[i].carousel;
             this.carousel[i].judul = masterCarousel[i].judul;
             this.carousel[i].text = masterCarousel[i].text;
+          }
+        }
+
+        // Konten 8
+        let master3 = data.data.dataContent3;
+        if (master3.length > 0) {
+          const title = master3.find((rev) => rev.id_content == 0);
+          this.originalKonten3 = title;
+          this.konten3Title.id = title.id;
+          this.konten3Title.judul = title.judul;
+          this.konten3Title.text = title.text;
+          master3.splice(
+            master3.findIndex((rvw) => rvw.id == title.id),
+            1
+          );
+
+          this.originalKonten3 = master3;
+
+          for (let indexCtn = 0; indexCtn < master3.length; indexCtn++) {
+            if (!this.konten3[indexCtn]) {
+              this.konten3[indexCtn] = {};
+            }
+            this.konten3[indexCtn].id = master3[indexCtn].id;
+            this.konten3[indexCtn].id_content =
+              master3[indexCtn].id_content;
+            this.konten3[indexCtn].judul = master3[indexCtn].judul;
+            this.konten3[indexCtn].sub_judul = master3[indexCtn].sub_judul;
+            this.konten3[indexCtn].text = master3[indexCtn].text;
+            this.konten3[indexCtn].tombol = master3[indexCtn].tombol;
+            this.konten3[indexCtn].link = master3[indexCtn].link;
           }
         }
       }
