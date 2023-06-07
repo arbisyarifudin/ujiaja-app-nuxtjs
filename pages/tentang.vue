@@ -4,19 +4,8 @@
 
     <div class="pb-4">
       <div class="container text-center">
-        <h2>Detail Tentang UjiAja</h2>
-        <p class="text-left">
-          UjiAja merupakan produk dari Lembaga Bimbingan Belajar yang sudah mengajar ratusan ribu siswa selama 25 tahun terakhir. Beralamat di Jalan Ipda Tut Harsono 12 Kota Yogyakarta dan menempati Gedung Utama Timoho Block, UjiAja memiliki pengalaman panjang yang pernah menempatkannya  sebagai pemain papan atas dalam industri konseling dan bimbingan belajar. Adanya perubahan zaman dengan perkembangan teknologi yang semakin cepat  mendorong semangat UjiAja untuk berbenah menjadi bimbel berbasis neoteknologi yang lebih baik lagi. </p>
-
-          <p  class="text-left">Tak hanya mendigitalkan apa yang sudah ada, namun UjiAja berusaha
-          mendobrak pasar baru dengan model bisnis baru sistem tryout dan les
-          private yang kali ini dikembangkan. Sistem yang didesain berbasis
-          digital ini harapanya mampu menghadirkan solusi yang lebih baik dan
-          tepat guna untuk membantu para siswa-siswa di seluruh Indonesia untuk
-          uji kemampuan dan minat bakat serta memberikan arahan fokus belajar
-          untuk menggapai mimpinya bisa masuk diperguruan tinggi tercinta.</p>
-
-          <p  class="text-left">Selain pengembangan sistem tryout, guna  mendorong kualitas serta tercapainya mimpi siswa/siswi maka dihadirkan pula platform les private yang dapat mempertemukan guru dan siswa dalam satu platform sesuai kebutuhan pembelajaran siswa.</p>
+        <h2>{{ content2.judul }}</h2>
+        <span class="text-left" v-html="content2.text" />
       </div>
     </div>
 
@@ -229,6 +218,10 @@ export default {
           isJudulFirst: false,
         },
       },
+      content2: {
+        judul: '',
+        text: ''
+      }
     };
   },
   asyncData(context) {
@@ -268,7 +261,8 @@ export default {
       console.log(res.data);
       if (resContent.data.success) {
         this.setHeroSection(res.data.dataContent1[0]);
-        // this.keunggulan.item = res.data.dataContent2;
+        this.content2.judul = res.data.dataContent2[0].judul;
+        this.content2.text = res.data.dataContent2[0].text;
         // this.setContent3Section(res.data.dataContent3);
         // this.content4 = res.data.dataContent5[0];
         // this.setTestimoniSection(res.data.dataContent8);

@@ -32,6 +32,33 @@
         <button @click="saveMasterContent" class="btn btn-primary">Simpan</button>
       </div>
     </UIKonten>
+    <UIKonten>
+      <template #title>Konten 2</template>
+      <div class="container-fluid">
+        <div class="row border-bottom">
+          <div class="form-user col-md-12">
+            <EditorText
+              v-model="content2.judul"
+              :initial-value="originalContent2.judul"
+              placeholder="Isi Judul baru"
+            >
+              <template #title>Judul</template>
+            </EditorText>
+          </div>
+          <div class="form-user col-md-12">
+            <EditorTextArea
+              v-model="content2.text"
+              :initial-value="originalContent2.text"
+            >
+              <template #title>Text</template>
+            </EditorTextArea>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12 pt-4">
+        <button @click="saveContent2" class="btn btn-primary">Simpan</button>
+      </div>
+    </UIKonten>
   </div>
 </template>
 
@@ -41,34 +68,62 @@ import objectToFormData from "../../../helpers/object-to-form-data";
 export default {
   data() {
     return {
-      originalMaster: [
-        {
-          id: "",
-          gambar: "",
-          judul: "",
-          text: "",
-        },
-      ],
-      master: [
-        {
-          id: "",
-          gambar: "",
-          judul: "",
-          text: "",
-        },
-      ],
+      originalMaster: {
+        id: "",
+        gambar: "",
+        judul: "",
+        text: "",
+      },
+      master: {
+        id: "",
+        gambar: "",
+        judul: "",
+        text: "",
+      },
+      originalContent2: {
+        id: "",
+        judul: "",
+        text: "",
+      },
+      content2: {
+        id: "",
+        judul: "",
+        text: "",
+      },
     };
   },
   methods: {
     async saveMasterContent() {
-      if (typeof this.master[0].banner == "string") {
-        this.master[0].banner = "";
-      }
-      if (typeof this.master[0].gambar == "string") {
-        this.master[0].gambar = "";
+      if (typeof this.master.gambar == "string") {
+        this.master.gambar = "";
       }
       try {
-        const payload = objectToFormData({ konten1: { data: this.master } });
+        const payload = objectToFormData({ konten1: { data: [this.master] } });
+        const res = await this.$axios.post("/api/cms/tentang-ujiaja", payload, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
+        if (res.data.success) {
+          this.getMainPageData();
+          this.$bvToast.toast("Berhasil mengubah konten", {
+            title: "Sukses",
+            variant: "success",
+            solid: true,
+            autoHideDelay: 3000,
+          });
+        }
+      } catch (e) {
+        console.log(e);
+        this.$bvToast.toast("Gagal menyimpan konten", {
+          title: "Error",
+          variant: "danger",
+          solid: true,
+          autoHideDelay: 3000,
+        });
+      }
+    },
+    async saveContent2() {
+      try {
+        const payload = objectToFormData({ konten2: { data: [this.content2] } });
         const res = await this.$axios.post("/api/cms/tentang-ujiaja", payload, {
           headers: { "Content-Type": "multipart/form-data" },
         });
@@ -95,13 +150,22 @@ export default {
       const { data } = await this.$axios.get("/api/cms/tentang-ujiaja/get");
       if (data.data instanceof Object) {
         // Konten 1
-        const masterContent = data.data.dataContent1;
-        if (masterContent.length > 0) {
+        const masterContent = data.data.dataContent1[0];
+        if (data.data.dataContent1.length > 0) {
           this.originalMaster = masterContent;
-          this.master[0].id = this.originalMaster[0].id;
-          this.master[0].gambar = this.originalMaster[0].gambar;
-          this.master[0].judul = this.originalMaster[0].judul;
-          this.master[0].text = this.originalMaster[0].text;
+          this.master.id = this.originalMaster.id;
+          this.master.gambar = this.originalMaster.gambar;
+          this.master.judul = this.originalMaster.judul;
+          this.master.text = this.originalMaster.text;
+        }
+
+        // Konten 2
+        const master2 = data.data.dataContent2[0];
+        if (data.data.dataContent2.length > 0) {
+          this.originalContent2 = master2;
+          this.content2.id = this.originalContent2.id;
+          this.content2.judul = this.originalContent2.judul;
+          this.content2.text = this.originalContent2.text;
         }
       }
     },
