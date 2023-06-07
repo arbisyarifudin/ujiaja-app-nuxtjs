@@ -261,10 +261,32 @@ export default {
       footerData
     }
   },
+  async fetch() {
+    try {
+      const resContent = await this.$axios.get("/api/cms/tentang-ujiaja/get");
+      const res = resContent.data;
+      console.log(res.data);
+      if (resContent.data.success) {
+        this.setHeroSection(res.data.dataContent1[0]);
+        // this.keunggulan.item = res.data.dataContent2;
+        // this.setContent3Section(res.data.dataContent3);
+        // this.content4 = res.data.dataContent5[0];
+        // this.setTestimoniSection(res.data.dataContent8);
+        // this.content6 = res.data.dataContent9[0];
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  },
   methods: {
     ApiUrl(param) {
       return process.env.apiUrl + "/" + param;
-    }
+    },
+    setHeroSection(content) {
+      this.header.hero.judul = content.judul;
+      this.header.hero.subjudul = content.text;
+      this.header.hero.image = content.gambar;
+    },
   }
 };
 </script>

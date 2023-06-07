@@ -405,5 +405,8 @@ export default {
       }
     },
   },
+  async mounted() {
+    await this.getMainPageData();
+  },
 };
 </script>
