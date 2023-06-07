@@ -51,24 +51,7 @@ export default {
       },
       keunggulan: {
         judul: "Mengapa Kamu harus mencoba tryout di UjiAja?",
-        item: [
-          {
-            gambar: "/icon/icon-tryout.png",
-            judul: "Soal Prediksi Yang Akurat",
-            subjudul: "Soal prediksi tryout yang akurat disertai pembahasan soal dan rekomendasi pendalaman materi."
-          },
-          {
-            gambar: "/icon/icon-tryout2.png",
-            judul: "Penilaian sama dengan sistem UTBK, ASPD, PAT/PAS",
-            subjudul:
-              "Penilaian Tryout di UjiAja menggunakan sistem yang riil dilakukan oleh Panitia SBMPTN dan Panitia PPDB berbagai  di Daerah."
-          },
-          {
-            gambar: "/icon/icon-tryout3.png",
-            judul: "Pemeringkatan secara Nasional",
-            subjudul: "Dilakukan pemeringkatan dan pemetaan secara nasional dan Daerah sesuai kepentingan pengguna."
-          }
-        ]
+        item: []
       },
       produk: {
         judul: "Ada berapa jenis tryout yang ada di UjiAja?",
@@ -180,6 +163,35 @@ export default {
     if(this.$store.getters['checkIsAuth']) {
       this.header.hero.ctaButtonText = 'Pergi ke Dashboard'
       this.header.hero.cataButtonUrl = '/app/dashboard'
+    }
+  },
+  async fetch() {
+    try {
+      const resContent = await this.$axios.get("/api/cms/tryout/get");
+      const res = resContent.data;
+      console.log(res.data);
+      if (resContent.data.success) {
+        this.setHeroSection(res.data.dataContent1[0]);
+        this.keunggulan.item = res.data.dataContent2;
+        // this.setProductSection(res.data.dataContent3);
+        // this.setLayananSection(res.data.dataContent4);
+        // this.konten5 = res.data.dataContent5.length == 0 ? {} : res.data.dataContent5[0];
+        // this.tryOut = res.data.dataContent6.length == 0 ? {} : res.data.dataContent6[0];
+        // this.programStudi = res.data.dataContent7.length == 0 ? {} : res.data.dataContent7[0];
+        // this.setTestimoniSection(res.data.dataContent8);
+        // this.konten9 = res.data.dataContent9.length == 0 ? {} : res.data.dataContent9[0];
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  },
+  methods: {
+    setHeroSection(content) {
+      this.header.hero.judul = content.judul;
+      this.header.hero.subjudul = content.text;
+      this.header.hero.ctaButtonText = content.tombol;
+      this.header.hero.ctaButtonUrl = content.link;
+      this.header.hero.image = content.gambar;
     }
   }
 };

@@ -4,12 +4,12 @@
       <div class="row">
         <div class="col-lg-6 col-md-8 col-12">
           <template v-if="props.isJudulFirst">
-            <p class="subjudul">{{ props.subjudul }}</p>
+            <span v-html="props.subjudul" class="subjudul" />
             <h2 class="judul">{{ props.judul }}</h2>
           </template>
           <template v-else>
             <h2 class="judul">{{ props.judul }}</h2>
-            <p class="subjudul">{{ props.subjudul }}</p>
+            <span v-html="props.subjudul" class="subjudul" />
           </template>
           <b-button
             v-if="props.ctaButtonText"
@@ -20,7 +20,7 @@
           >
         </div>
       </div>
-      <img :src="props.image" class="hero-image" />
+      <img :src="formatImageSource(props.image)" class="hero-image" />
     </div>
   </div>
 </template>
@@ -34,5 +34,10 @@
 <script>
 export default {
   props: ["props"],
+  methods: {
+    formatImageSource(endpoint) {
+      return process.env.apiUrl + `/storage/${endpoint}`;
+    },
+  }
 };
 </script>
