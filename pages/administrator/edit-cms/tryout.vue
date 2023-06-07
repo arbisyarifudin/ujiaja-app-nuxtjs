@@ -8,9 +8,7 @@
         :can-add="false"
       />
       <div class="col-md-12 pt-4">
-        <button @click="saveMasterContent" class="btn btn-primary">
-          Simpan
-        </button>
+        <button @click="saveMasterContent" class="btn btn-primary">Simpan</button>
       </div>
     </UIKonten>
     <UIKonten>
@@ -67,10 +65,7 @@
             </EditorText>
           </div>
           <div class="form-user col-md-12">
-            <EditorTextArea
-              v-model="p.text"
-              :initial-value="originalKonten3[i].text"
-            >
+            <EditorTextArea v-model="p.text" :initial-value="originalKonten3[i].text">
               <template #title>Text</template>
             </EditorTextArea>
           </div>
@@ -119,10 +114,7 @@
             </EditorText>
           </div>
           <div class="form-user col-md-12">
-            <EditorTextArea
-              v-model="konten4.text"
-              :initial-value="originalKonten4.text"
-            >
+            <EditorTextArea v-model="konten4.text" :initial-value="originalKonten4.text">
               <template #title>Text</template>
             </EditorTextArea>
           </div>
@@ -150,49 +142,71 @@
       </div>
     </UIKonten>
     <UIKonten>
-      <template #title>Konten 6</template>
+      <template #title>Konten 5</template>
       <div class="container-fluid">
         <div class="row border-bottom">
           <div class="form-user col-md-12">
-            <EditorText v-model="tryout.judul" placeholder="Isi Judul baru">
+            <EditorText
+              v-model="reviewTitle.judul"
+              :initial-value="originalReviewTitle.judul"
+              placeholder="Isi Judul baru"
+            >
               <template #title>Judul</template>
             </EditorText>
           </div>
           <div class="form-user col-md-12">
-            <EditorTextArea v-model="tryout.text">
-              <template #title>Text</template>
-            </EditorTextArea>
-          </div>
-          <div class="form-user col-md-12">
-            <EditorText v-model="tryout.subJudul" placeholder="Isi Judul baru">
-              <template #title>Sub Judul</template>
-            </EditorText>
-          </div>
-          <div class="form-user col-md-12">
-            <EditorTextArea v-model="tryout.subText">
-              <template #title>Text</template>
-            </EditorTextArea>
-          </div>
-          <div class="form-user col-md-12 pt-3">
-            <EditorText
-              v-model="tryout.tombol"
-              placeholder="Isi nama tombol baru"
+            <EditorTextArea
+              v-model="reviewTitle.text"
+              :initial-value="originalReviewTitle.text"
             >
-              <template #title>Tombol</template>
-            </EditorText>
-            <p class="pt-3">Link</p>
-            <div class="form-group row justify-content-between px-3">
-              <input
-                v-model="tryout.link"
-                placeholder="Isi Link yang ingin di tuju"
-                class="form-control col-md-12"
-              />
-            </div>
+              <template #title>Text</template>
+            </EditorTextArea>
           </div>
+        </div>
+        <div v-for="(r, i) in review" :key="i" class="row border-bottom">
+          <div class="col-md-12 pt-2">
+            <EditorImage v-model="r.foto" :max-size="5">
+              <template #title> Gambar </template>
+              <template #warn>
+                *Disarankan dengan Banner 1276 x 638 pixel, dan Maksimal 5 Mb
+              </template>
+            </EditorImage>
+          </div>
+          <div class="form-user col-md-12">
+            <EditorText
+              v-model="r.nama"
+              :initial-value="originalReview[i].nama"
+              placeholder="Isi Nama baru"
+            >
+              <template #title>Nama</template>
+            </EditorText>
+          </div>
+          <div class="form-user col-md-12">
+            <EditorText
+              v-model="r.jurusan"
+              :initial-value="originalReview[i].jurusan"
+              placeholder="Isi Jurusan baru"
+            >
+              <template #title>Jurusan</template>
+            </EditorText>
+          </div>
+          <div class="form-user col-md-12">
+            <EditorTextArea v-model="r.text" :initial-value="originalReview[i].text">
+              <template #title>Text</template>
+            </EditorTextArea>
+          </div>
+        </div>
+        <div class="row py-2 border-bottom">
+          <button @click="addReview" class="btn btn-outline-primary">
+            + Tambah Review
+          </button>
+          <button @click="deleteReview" class="btn btn-outline-danger ml-3">
+            - Hapus Review
+          </button>
         </div>
       </div>
       <div class="col-md-12 pt-4">
-        <button @click="saveTryout" class="btn btn-primary">Simpan</button>
+        <button @click="saveReview" class="btn btn-primary">Simpan</button>
       </div>
     </UIKonten>
     <UIKonten>
@@ -228,10 +242,7 @@
             </EditorTextArea>
           </div>
           <div class="form-user col-md-12 pt-3">
-            <EditorText
-              v-model="degree.tombol"
-              placeholder="Isi nama tombol baru"
-            >
+            <EditorText v-model="degree.tombol" placeholder="Isi nama tombol baru">
               <template #title>Tombol</template>
             </EditorText>
             <p class="pt-3">Link</p>
@@ -247,66 +258,6 @@
       </div>
       <div class="col-md-12 pt-4">
         <button @click="saveDegree" class="btn btn-primary">Simpan</button>
-      </div>
-    </UIKonten>
-    <UIKonten>
-      <template #title>Konten 8</template>
-      <div class="container-fluid">
-        <div class="row border-bottom">
-          <div class="form-user col-md-12">
-            <EditorText
-              v-model="review.master.judul"
-              placeholder="Isi Judul baru"
-            >
-              <template #title>Judul</template>
-            </EditorText>
-          </div>
-          <div class="form-user col-md-12">
-            <EditorTextArea v-model="review.master.text">
-              <template #title>Text</template>
-            </EditorTextArea>
-          </div>
-        </div>
-        <div
-          v-for="(r, i) in review.reviews"
-          :key="i"
-          class="row border-bottom"
-        >
-          <div class="col-md-12 pt-2">
-            <EditorImage v-model="r.gambar" :max-size="5">
-              <template #title> Gambar </template>
-              <template #warn>
-                *Disarankan dengan Banner 1276 x 638 pixel, dan Maksimal 5 Mb
-              </template>
-            </EditorImage>
-          </div>
-          <div class="form-user col-md-12">
-            <EditorText v-model="r.nama" placeholder="Isi Nama baru">
-              <template #title>Nama</template>
-            </EditorText>
-          </div>
-          <div class="form-user col-md-12">
-            <EditorText v-model="r.jurusan" placeholder="Isi Jurusan baru">
-              <template #title>Jurusan</template>
-            </EditorText>
-          </div>
-          <div class="form-user col-md-12">
-            <EditorTextArea v-model="r.text">
-              <template #title>Text</template>
-            </EditorTextArea>
-          </div>
-        </div>
-        <div class="row py-2 border-bottom">
-          <button @click="addReview" class="btn btn-outline-primary">
-            + Tambah Review
-          </button>
-          <button @click="deleteReview" class="btn btn-outline-danger ml-3">
-            - Hapus Review
-          </button>
-        </div>
-      </div>
-      <div class="col-md-12 pt-4">
-        <button class="btn btn-primary">Simpan</button>
       </div>
     </UIKonten>
     <UIKonten>
@@ -332,10 +283,7 @@
             </EditorTextArea>
           </div>
           <div class="form-user col-md-12 pt-3">
-            <EditorText
-              v-model="register.tombol"
-              placeholder="Isi nama tombol baru"
-            >
+            <EditorText v-model="register.tombol" placeholder="Isi nama tombol baru">
               <template #title>Tombol</template>
             </EditorText>
             <p class="pt-3">Link</p>
@@ -499,20 +447,6 @@ export default {
         tombol: "",
         link: "",
       },
-      review: {
-        master: {
-          judul: "",
-          text: "",
-        },
-        reviews: [
-          {
-            gambar: null,
-            nama: "",
-            jurusan: "",
-            text: "",
-          },
-        ],
-      },
       register: {
         gambar: null,
         judul: "",
@@ -624,9 +558,63 @@ export default {
         tombol: "",
         link: "",
       },
+      originalReviewTitle: {
+        id: "",
+        id_content: 0,
+        judul: "",
+        text: "",
+      },
+      reviewTitle: {
+        id: "",
+        id_content: 0,
+        judul: "",
+        text: "",
+      },
+      originalReview: [
+        {
+          id: "",
+          id_content: 1,
+          foto: null,
+          judul: "",
+          nama: "",
+          jurusan: "",
+          text: "",
+        },
+      ],
+      review: [
+        {
+          id: "",
+          id_content: 1,
+          foto: null,
+          judul: "",
+          nama: "",
+          jurusan: "",
+          text: "",
+        },
+      ],
     };
   },
   methods: {
+    addReview() {
+      this.review.push({
+        id: "",
+        id_content: 1,
+        foto: "",
+        judul: "",
+        nama: "",
+        jurusan: "",
+        text: "",
+      });
+      this.originalReview.push({
+        id: "",
+        id_content: 1,
+        foto: "",
+        judul: "",
+        nama: "",
+        jurusan: "",
+        text: "",
+      });
+    },
     async saveMasterContent() {
       if (typeof this.master[0].banner == "string") {
         this.master[0].banner = "";
@@ -686,16 +674,6 @@ export default {
           autoHideDelay: 3000,
         });
       }
-    },
-    addReview() {
-      this.review.reviews.push({
-        gambar: "",
-        jurusan: "",
-        text: "",
-      });
-    },
-    deleteReview() {
-      if (this.review.reviews.length) this.review.reviews.pop();
     },
     deleteCardContent() {
       this.cards.pop();
@@ -771,13 +749,58 @@ export default {
     },
     async saveReview() {
       try {
-        const payload = objectToFormData({ konten8: this.review });
+        const payload = objectToFormData({
+          konten8: { data: [...this.review, this.reviewTitle] },
+        });
         const res = await this.$axios.post("/api/cms/tryout", payload, {
           headers: { "Content-Type": "multipart/form-data" },
         });
-        if (res.status === 200) window.alert("berhasil menyimpan konten");
+        if (res.data.success) {
+          this.getMainPageData();
+          this.$bvToast.toast("Berhasil mengubah konten", {
+            title: "Sukses",
+            variant: "success",
+            solid: true,
+            autoHideDelay: 3000,
+          });
+        }
       } catch (e) {
-        window.alert("gagal menyimpan konten");
+        this.$bvToast.toast("Gagal menyimpan konten", {
+          title: "Error",
+          variant: "danger",
+          solid: true,
+          autoHideDelay: 3000,
+        });
+      }
+    },
+    async deleteReview() {
+      try {
+        const lastData = this.review[this.review.length - 1];
+        if (lastData.id == "") {
+          this.review.pop();
+          return false;
+        }
+        const res = await this.$axios.post(
+          `/api/cms/halaman-utama/delete-content8/${lastData.id}`,
+          {}
+        );
+        if (res.data.success) {
+          this.review.pop();
+          this.getMainPageData();
+          this.$bvToast.toast("Berhasil menghapus konten", {
+            title: "Sukses",
+            variant: "success",
+            solid: true,
+            autoHideDelay: 3000,
+          });
+        }
+      } catch (e) {
+        this.$bvToast.toast("Gagal menghapus konten", {
+          title: "Error",
+          variant: "danger",
+          solid: true,
+          autoHideDelay: 3000,
+        });
       }
     },
     async saveRegister() {
@@ -861,6 +884,35 @@ export default {
           this.konten4.text = master4.text;
           this.konten4.tombol = master4.tombol;
           this.konten4.link = master4.link;
+        }
+
+        // Konten 5
+        let masterReview = data.data.dataContent8;
+        if (masterReview.length > 0) {
+          const title = masterReview.find((rev) => rev.id_content == 0);
+          this.originalReviewTitle = title;
+          this.reviewTitle.id = title.id;
+          this.reviewTitle.judul = title.judul;
+          this.reviewTitle.text = title.text;
+          masterReview.splice(
+            masterReview.findIndex((rvw) => rvw.id == title.id),
+            1
+          );
+
+          this.originalReview = masterReview;
+
+          for (let indexRvw = 0; indexRvw < masterReview.length; indexRvw++) {
+            if (!this.review[indexRvw]) {
+              this.review[indexRvw] = {};
+            }
+            this.review[indexRvw].id = masterReview[indexRvw].id;
+            this.review[indexRvw].id_content = masterReview[indexRvw].id_content;
+            this.review[indexRvw].foto = masterReview[indexRvw].foto;
+            this.review[indexRvw].nama = masterReview[indexRvw].nama;
+            this.review[indexRvw].jurusan = masterReview[indexRvw].jurusan;
+            this.review[indexRvw].text = masterReview[indexRvw].text;
+            this.review[indexRvw].judul = masterReview[indexRvw].judul;
+          }
         }
       }
     },
