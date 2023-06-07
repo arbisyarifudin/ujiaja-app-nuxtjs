@@ -210,58 +210,7 @@
       </div>
     </UIKonten>
     <UIKonten>
-      <template #title>Konten 7</template>
-      <div class="container-fluid">
-        <div class="row border-bottom">
-          <div class="form-user col-md-12">
-            <EditorText v-model="degree.judul" placeholder="Isi Judul baru">
-              <template #title>Judul</template>
-            </EditorText>
-          </div>
-          <div class="form-user col-md-12">
-            <EditorTextArea v-model="degree.text">
-              <template #title>Text</template>
-            </EditorTextArea>
-          </div>
-          <div class="form-user col-md-12">
-            <EditorImage v-model="degree.gambar" :max-size="5">
-              <template #title> Gambar </template>
-              <template #warn>
-                *Disarankan dengan Banner 1276 x 638 pixel, dan Maksimal 5 Mb
-              </template>
-            </EditorImage>
-          </div>
-          <div class="form-user col-md-12">
-            <EditorText v-model="degree.subJudul" placeholder="Isi Judul baru">
-              <template #title>Sub Judul</template>
-            </EditorText>
-          </div>
-          <div class="form-user col-md-12">
-            <EditorTextArea v-model="degree.subText">
-              <template #title>Text</template>
-            </EditorTextArea>
-          </div>
-          <div class="form-user col-md-12 pt-3">
-            <EditorText v-model="degree.tombol" placeholder="Isi nama tombol baru">
-              <template #title>Tombol</template>
-            </EditorText>
-            <p class="pt-3">Link</p>
-            <div class="form-group row justify-content-between px-3">
-              <input
-                v-model="degree.link"
-                placeholder="Isi Link yang ingin di tuju"
-                class="form-control col-md-12"
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-12 pt-4">
-        <button @click="saveDegree" class="btn btn-primary">Simpan</button>
-      </div>
-    </UIKonten>
-    <UIKonten>
-      <template #title>Konten 9</template>
+      <template #title>Konten 6</template>
       <div class="container-fluid">
         <div class="row border-bottom">
           <div class="form-user col-md-12">
@@ -273,23 +222,35 @@
             </EditorImage>
           </div>
           <div class="form-user col-md-12">
-            <EditorText v-model="register.judul" placeholder="Isi Judul baru">
+            <EditorText
+              v-model="register.judul"
+              :initial-value="originalRegister.judul"
+              placeholder="Isi Judul baru"
+            >
               <template #title>Judul</template>
             </EditorText>
           </div>
           <div class="form-user col-md-12">
-            <EditorTextArea v-model="register.text">
+            <EditorTextArea
+              v-model="register.text"
+              :initial-value="originalRegister.text"
+            >
               <template #title>Text</template>
             </EditorTextArea>
           </div>
           <div class="form-user col-md-12 pt-3">
-            <EditorText v-model="register.tombol" placeholder="Isi nama tombol baru">
+            <EditorText
+              v-model="register.tombol"
+              :initial-value="originalRegister.tombol"
+              placeholder="Isi nama tombol baru"
+            >
               <template #title>Tombol</template>
             </EditorText>
             <p class="pt-3">Link</p>
             <div class="form-group row justify-content-between px-3">
               <input
                 v-model="register.link"
+                :initial-value="originalRegister.link"
                 placeholder="Isi Link yang ingin di tuju"
                 class="form-control col-md-12"
               />
@@ -592,6 +553,22 @@ export default {
           text: "",
         },
       ],
+      originalRegister: {
+        id: "",
+        gambar: null,
+        judul: "",
+        text: "",
+        tombol: "",
+        link: "",
+      },
+      register: {
+        id: "",
+        gambar: null,
+        judul: "",
+        text: "",
+        tombol: "",
+        link: "",
+      },
     };
   },
   methods: {
@@ -809,9 +786,22 @@ export default {
         const res = await this.$axios.post("/api/cms/tryout", payload, {
           headers: { "Content-Type": "multipart/form-data" },
         });
-        if (res.status === 200) window.alert("berhasil menyimpan konten");
+        if (res.data.success) {
+          this.getMainPageData();
+          this.$bvToast.toast("Berhasil mengubah konten", {
+            title: "Sukses",
+            variant: "success",
+            solid: true,
+            autoHideDelay: 3000,
+          });
+        }
       } catch (e) {
-        window.alert("gagal menyimpan konten");
+        this.$bvToast.toast("Gagal menyimpan konten", {
+          title: "Error",
+          variant: "danger",
+          solid: true,
+          autoHideDelay: 3000,
+        });
       }
     },
     async getMainPageData() {
@@ -913,6 +903,18 @@ export default {
             this.review[indexRvw].text = masterReview[indexRvw].text;
             this.review[indexRvw].judul = masterReview[indexRvw].judul;
           }
+        }
+
+        // Konten 6
+        const masterRegister = data.data.dataContent9[0];
+        if (data.data.dataContent9.length > 0) {
+          this.originalRegister = masterRegister;
+          this.register.id = masterRegister.id;
+          this.register.gambar = masterRegister.gambar;
+          this.register.judul = masterRegister.judul;
+          this.register.text = masterRegister.text;
+          this.register.tombol = masterRegister.tombol;
+          this.register.link = masterRegister.link;
         }
       }
     },
