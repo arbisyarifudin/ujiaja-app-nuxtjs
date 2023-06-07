@@ -333,88 +333,6 @@ export default {
           text: "",
         },
       ],
-      product: {
-        master: {
-          judul: "",
-          text: "",
-        },
-        products: [
-          {
-            judul: "",
-            subJudul: "",
-            text: "",
-            tombol: "",
-            link: "",
-          },
-          {
-            judul: "",
-            subJudul: "",
-            text: "",
-            tombol: "",
-            link: "",
-          },
-        ],
-      },
-      feature: {
-        master: {
-          judul: "",
-          text: "",
-        },
-        features: [
-          {
-            gambar: null,
-            judul: "",
-            text: "",
-            tombol: "",
-            link: "",
-          },
-          {
-            gambar: null,
-            judul: "",
-            text: "",
-            tombol: "",
-            link: "",
-          },
-          {
-            gambar: null,
-            judul: "",
-            text: "",
-            tombol: "",
-            link: "",
-          },
-        ],
-      },
-      test: {
-        gambar: null,
-        judul: "",
-        text: "",
-        tombol: "",
-        link: "",
-      },
-      tryout: {
-        judul: "",
-        text: "",
-        subJudul: "",
-        subText: "",
-        tombol: "",
-        link: "",
-      },
-      degree: {
-        judul: "",
-        text: "",
-        gambar: null,
-        subJudul: "",
-        subText: "",
-        tombol: "",
-        link: "",
-      },
-      register: {
-        gambar: null,
-        judul: "",
-        text: "",
-        tombol: "",
-        link: "",
-      },
       originalKonten3Title: {
         id: "",
         id_content: 0,
@@ -652,9 +570,6 @@ export default {
         });
       }
     },
-    deleteCardContent() {
-      this.cards.pop();
-    },
     async saveKonten3() {
       try {
         const payload = objectToFormData({
@@ -701,27 +616,6 @@ export default {
           solid: true,
           autoHideDelay: 3000,
         });
-      }
-    },
-    async saveTryout() {
-      try {
-        const res = await this.$axios.post("/api/cms/tryout", {
-          konten6: this.tryout,
-        });
-        if (res.status === 200) window.alert("berhasil menyimpan konten");
-      } catch (e) {
-        window.alert("gagal menyimpan konten");
-      }
-    },
-    async saveDegree() {
-      try {
-        const payload = objectToFormData({ konten7: this.degree });
-        const res = await this.$axios.post("/api/cms/tryout", payload, {
-          headers: { "Content-Type": "multipart/form-data" },
-        });
-        if (res.status === 200) window.alert("berhasil menyimpan konten");
-      } catch (e) {
-        window.alert("gagal menyimpan konten");
       }
     },
     async saveReview() {
