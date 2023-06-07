@@ -4,11 +4,11 @@
     <SectionKeunggulan :props="keunggulan" />
     <SectionProduk :props="produk" />
     <SectionCardHero
-      src="/hero-lagi-person2.png"
-      title="Siap untuk masuk kampus impian bersama UjiAja?"
-      description="Tunggu apa lagi? Mari bergabung dengan UjiAja dan menjadi pemenang di UTBK SBMPTN….!"
-      href="/registrasi"
-      cta-text="Daftar Sekarang"
+      :src="formatImageSource(content4.gambar)"
+      :title="content4.judul"
+      :description="content4.text"
+      :href="content4.link"
+      :cta-text="content4.tombol"
       button
     />
     <SectionTestimoni :props="testimoni" />
@@ -61,6 +61,7 @@ export default {
         "/produk/tryout3.png",
         "/produk/tryout4.jpg",
       ],
+      content4: {},
       testimoni: {
         judul: "Ratusan alumni UjiAja Berhasil mewujudkan kampus impian",
         deskripsi: "",
@@ -130,7 +131,7 @@ export default {
         this.setHeroSection(res.data.dataContent1[0]);
         this.keunggulan.item = res.data.dataContent2;
         this.setContent3Section(res.data.dataContent3);
-        // this.setLayananSection(res.data.dataContent4);
+        this.content4 = res.data.dataContent5[0];
         // this.konten5 = res.data.dataContent5.length == 0 ? {} : res.data.dataContent5[0];
         // this.tryOut = res.data.dataContent6.length == 0 ? {} : res.data.dataContent6[0];
         // this.programStudi = res.data.dataContent7.length == 0 ? {} : res.data.dataContent7[0];
@@ -142,6 +143,9 @@ export default {
     }
   },
   methods: {
+    formatImageSource(endpoint) {
+      return process.env.apiUrl + `/storage/${endpoint}`;
+    },
     setHeroSection(content) {
       this.header.hero.judul = content.judul;
       this.header.hero.subjudul = content.text;
