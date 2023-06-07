@@ -11,7 +11,7 @@
       :cta-text="content4.tombol"
       button
     />
-    <SectionTestimoni :props="testimoni" />
+    <SectionTestimoni v-if="testimoni.item.length > 0" :props="testimoni" />
     <SectionCardHero
       src="/hero-lagi-person3.png"
       title="Temukan keseruan latihan dan uji Tryout pilihanmu hanya di UjiAja"
@@ -63,25 +63,9 @@ export default {
       ],
       content4: {},
       testimoni: {
-        judul: "Ratusan alumni UjiAja Berhasil mewujudkan kampus impian",
+        judul: "",
         deskripsi: "",
-        // varian: 'secondary',
-        item: [
-          {
-            nama: "Carla Mango",
-            titel: "Kedokteran - Universitas Negeri Semarang",
-            testimoni:
-              "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Adipiscing odio id condimentum nisl. Vulputate consequat purus amet facilisis est, lectus non urna morbi. Cursus posuere donec congue velit vitae sit massa purus. Adipiscing at euismod morbi nisl, sit et risus. Eget aliquam lacus vel turpis tellus sed nulla.",
-            foto: "/carla.png",
-          },
-          {
-            nama: "Wilson Aminoff",
-            titel: "Ilmu Komputer - Universitas Gajah Mada",
-            testimoni:
-              "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fames sed nam eget aenean ultrices proin metus. Ut risus, sed dictumst viverra. Faucibus sed fermentum in eros mi in tellus. Varius consequat, amet ut nulla massa rhoncus. Nibh in adipiscing.",
-            foto: "/wilson.png",
-          },
-        ],
+        item: [],
       },
     };
   },
@@ -132,10 +116,7 @@ export default {
         this.keunggulan.item = res.data.dataContent2;
         this.setContent3Section(res.data.dataContent3);
         this.content4 = res.data.dataContent5[0];
-        // this.konten5 = res.data.dataContent5.length == 0 ? {} : res.data.dataContent5[0];
-        // this.tryOut = res.data.dataContent6.length == 0 ? {} : res.data.dataContent6[0];
-        // this.programStudi = res.data.dataContent7.length == 0 ? {} : res.data.dataContent7[0];
-        // this.setTestimoniSection(res.data.dataContent8);
+        this.setTestimoniSection(res.data.dataContent8);
         // this.konten9 = res.data.dataContent9.length == 0 ? {} : res.data.dataContent9[0];
       }
     } catch (error) {
@@ -165,6 +146,16 @@ export default {
 
       for (let indexItem = 0; indexItem < this.produk.item.length; indexItem++) {
         this.produk.item[indexItem].gambar = this.gambarProduk[indexItem];
+      }
+    },
+    setTestimoniSection(contents) {
+      for (let indexContent = 0; indexContent < contents.length; indexContent++) {
+        if (contents[indexContent].id_content == 0) {
+          this.testimoni.judul = contents[indexContent].judul;
+          this.testimoni.deskripsi = contents[indexContent].text;
+        } else {
+          this.testimoni.item.push(contents[indexContent]);
+        }
       }
     },
   },
