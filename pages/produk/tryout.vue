@@ -12,12 +12,12 @@
       button
     />
     <SectionTestimoni v-if="testimoni.item.length > 0" :props="testimoni" />
-    <SectionCardHero
-      src="/hero-lagi-person3.png"
-      title="Temukan keseruan latihan dan uji Tryout pilihanmu hanya di UjiAja"
-      description="Persiapkan materi ujianmu selengkap mungkin sesuai kebutuhanmu."
-      href="/registrasi"
-      cta-text="Daftar Sekarang"
+    <SectionCardHero    
+      :src="formatImageSource(content6.gambar)"
+      :title="content6.judul"
+      :description="content6.text"
+      :href="content6.link"
+      :cta-text="content6.tombol"
       button
     />
     <Footer :footerData="footerData" />
@@ -67,6 +67,7 @@ export default {
         deskripsi: "",
         item: [],
       },
+      content6: {},
     };
   },
   asyncData(context) {
@@ -117,7 +118,7 @@ export default {
         this.setContent3Section(res.data.dataContent3);
         this.content4 = res.data.dataContent5[0];
         this.setTestimoniSection(res.data.dataContent8);
-        // this.konten9 = res.data.dataContent9.length == 0 ? {} : res.data.dataContent9[0];
+        this.content6 = res.data.dataContent9[0];
       }
     } catch (error) {
       console.error(error);
