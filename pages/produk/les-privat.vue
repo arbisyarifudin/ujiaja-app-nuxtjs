@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Header variant="melengkung primary" :heroData="header.hero" :navData="navData"/>
+    <Header variant="melengkung primary" :heroData="header.hero" :navData="navData" />
     <SectionKeunggulan :props="keunggulan" variant="bg-transparent" />
     <SectionLangkah :props="langkah" />
     <SectionCardHero
@@ -22,8 +22,8 @@
 export default {
   head() {
     return {
-      title: 'Les Privat',
-    }
+      title: "Les Privat",
+    };
   },
   data() {
     return {
@@ -41,26 +41,7 @@ export default {
       },
       keunggulan: {
         judul: "Mengapa Kamu harus mencoba Temukan Guru Les Privat?",
-        item: [
-          {
-            gambar: "/icon/lesprivat1.png",
-            judul: "Guru Les Privat Bersertifikat ",
-            subjudul:
-              "Guru yang ada pada UjiAja telah bersertifikat dan mendapat banyak ulasan positif dengan rate tinggi.",
-          },
-          {
-            gambar: "/icon/lesprivat2.png",
-            judul: "Guru Selalu Siap Menjawab Pertanyaan",
-            subjudul:
-              "Guru memberi tanggapan siswa dengan cepat dan bisa kamu ajak diskusi.",
-          },
-          {
-            gambar: "/icon/lesprivat3.png",
-            judul: "Atur Jadwal Les-mu Sendiri",
-            subjudul:
-              "Atur pelaksanaan dan jadwal lesmu dengan guru yang kamu pilih.",
-          },
-        ],
+        item: [],
       },
       langkah: {
         judul: "Cara Temukan Guru Les Privat",
@@ -144,38 +125,67 @@ export default {
   asyncData(context) {
     function getSetting(key) {
       const settings = context.store.state.dataSetting;
-      const foundSetting = settings.find(item => item.key == key);
-      if(foundSetting) {
+      const foundSetting = settings.find((item) => item.key == key);
+      if (foundSetting) {
         return foundSetting.isi;
       }
-      return '';
+      return "";
     }
 
     const navData = {
-      logo: getSetting('logo'),
-    }
+      logo: getSetting("logo"),
+    };
 
     const footerData = {
-      logo: getSetting('logo'),
-      alamat_kantor: getSetting('alamat_kantor'),
-      telp: getSetting('telp'),
-      whatsapp: getSetting('whatsapp'),
-      instagram: getSetting('instagram'),
-      facebook: getSetting('facebook'),
-      youtube: getSetting('youtube'),
-      email: getSetting('email'),
-    }
+      logo: getSetting("logo"),
+      alamat_kantor: getSetting("alamat_kantor"),
+      telp: getSetting("telp"),
+      whatsapp: getSetting("whatsapp"),
+      instagram: getSetting("instagram"),
+      facebook: getSetting("facebook"),
+      youtube: getSetting("youtube"),
+      email: getSetting("email"),
+    };
 
     return {
       navData,
-      footerData
+      footerData,
+    };
+  },
+  async fetch() {
+    try {
+      const resContent = await this.$axios.get("/api/cms/les-privat/get");
+      const res = resContent.data;
+      console.log(res.data);
+      if (resContent.data.success) {
+        this.setHeroSection(res.data.dataContent1[0]);
+        this.keunggulan.item = res.data.dataContent2;
+        // this.setContent3Section(res.data.dataContent3);
+        // this.content4 = res.data.dataContent5[0];
+        // this.setTestimoniSection(res.data.dataContent8);
+        // this.content6 = res.data.dataContent9[0];
+      }
+    } catch (error) {
+      console.error(error);
     }
   },
   created() {
     // console.log(this.$store.getters['checkIsAuth'])
-    if(this.$store.getters['checkIsAuth']) {
-      this.header.hero.cataButtonUrl = '/app/student/courses'
+    if (this.$store.getters["checkIsAuth"]) {
+      this.header.hero.cataButtonUrl = "/app/student/courses";
     }
+  },
+  methods: {
+    formatImageSource(endpoint) {
+      return process.env.apiUrl + `/storage/${endpoint}`;
+    },
+    setHeroSection(content) {
+      this.header.hero.judul = content.judul;
+      this.header.hero.subjudul = content.text;
+      this.header.hero.ctaButtonText = content.tombol;
+      this.header.hero.ctaButtonUrl = content.link;
+      this.header.hero.image = content.gambar;
+    },
   }
 };
 </script>
