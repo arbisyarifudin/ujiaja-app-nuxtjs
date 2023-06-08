@@ -140,12 +140,41 @@ export default {
       footerData
     }
   },
+  async fetch() {
+    try {
+      const resContent = await this.$axios.get("/api/cms/tutor/get");
+      const res = resContent.data;
+      console.log(res.data);
+      if (resContent.data.success) {
+        this.setHeroSection(res.data.dataContent1[0]);
+        // this.keunggulan.item = res.data.dataContent2;
+        // this.setContent3Section(res.data.dataContent3);
+        // this.content4 = res.data.dataContent5[0];
+        // this.setTestimoniSection(res.data.dataContent8);
+        // this.content6 = res.data.dataContent9[0];
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  },
   created() {
     // console.log(this.$store.getters['checkIsAuth'])
     if(this.$store.getters['checkIsAuth']) {
       this.header.hero.ctaButtonText = 'Pergi ke Dashboard'
       this.header.hero.cataButtonUrl = '/app/dashboard'
     }
+  },
+  methods: {
+    formatImageSource(endpoint) {
+      return process.env.apiUrl + `/storage/${endpoint}`;
+    },
+    setHeroSection(content) {
+      this.header.hero.judul = content.judul;
+      this.header.hero.subjudul = content.text;
+      this.header.hero.ctaButtonText = content.tombol;
+      this.header.hero.ctaButtonUrl = content.link;
+      this.header.hero.image = content.gambar;
+    },
   }
 };
 </script>
