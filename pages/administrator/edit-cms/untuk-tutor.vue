@@ -122,6 +122,74 @@
         <button @click="saveLangkah" class="btn btn-primary">Simpan</button>
       </div>
     </UIKonten>
+    <UIKonten>
+      <template #title>Konten 5</template>
+      <div class="container-fluid">
+        <div class="row border-bottom">
+          <div class="form-user col-md-12">
+            <EditorText
+              v-model="reviewTitle.judul"
+              :initial-value="originalReviewTitle.judul"
+              placeholder="Isi Judul baru"
+            >
+              <template #title>Judul</template>
+            </EditorText>
+          </div>
+          <div class="form-user col-md-12">
+            <EditorTextArea
+              v-model="reviewTitle.text"
+              :initial-value="originalReviewTitle.text"
+            >
+              <template #title>Text</template>
+            </EditorTextArea>
+          </div>
+        </div>
+        <div v-for="(r, i) in review" :key="i" class="row border-bottom">
+          <div class="col-md-12 pt-2">
+            <EditorImage v-model="r.foto" :max-size="5">
+              <template #title> Gambar </template>
+              <template #warn>
+                *Disarankan dengan Banner 1276 x 638 pixel, dan Maksimal 5 Mb
+              </template>
+            </EditorImage>
+          </div>
+          <div class="form-user col-md-12">
+            <EditorText
+              v-model="r.nama"
+              :initial-value="originalReview[i].nama"
+              placeholder="Isi Nama baru"
+            >
+              <template #title>Nama</template>
+            </EditorText>
+          </div>
+          <div class="form-user col-md-12">
+            <EditorText
+              v-model="r.jurusan"
+              :initial-value="originalReview[i].jurusan"
+              placeholder="Isi Jurusan baru"
+            >
+              <template #title>Jurusan</template>
+            </EditorText>
+          </div>
+          <div class="form-user col-md-12">
+            <EditorTextArea v-model="r.text" :initial-value="originalReview[i].text">
+              <template #title>Text</template>
+            </EditorTextArea>
+          </div>
+        </div>
+        <div class="row py-2 border-bottom">
+          <button @click="addReview" class="btn btn-outline-primary">
+            + Tambah Review
+          </button>
+          <button @click="deleteReview" class="btn btn-outline-danger ml-3">
+            - Hapus Review
+          </button>
+        </div>
+      </div>
+      <div class="col-md-12 pt-4">
+        <button @click="saveReview" class="btn btn-primary">Simpan</button>
+      </div>
+    </UIKonten>
   </div>
 </template>
 
@@ -264,6 +332,40 @@ export default {
           text: "",
         },
       ],
+      originalReviewTitle: {
+        id: "",
+        id_content: 0,
+        judul: "",
+        text: "",
+      },
+      reviewTitle: {
+        id: "",
+        id_content: 0,
+        judul: "",
+        text: "",
+      },
+      originalReview: [
+        {
+          id: "",
+          id_content: 1,
+          foto: null,
+          judul: "",
+          nama: "",
+          jurusan: "",
+          text: "",
+        },
+      ],
+      review: [
+        {
+          id: "",
+          id_content: 1,
+          foto: null,
+          judul: "",
+          nama: "",
+          jurusan: "",
+          text: "",
+        },
+      ],
     };
   },
   methods: {
@@ -377,6 +479,82 @@ export default {
         });
       }
     },
+    addReview() {
+      this.review.push({
+        id: "",
+        id_content: 1,
+        foto: "",
+        judul: "",
+        nama: "",
+        jurusan: "",
+        text: "",
+      });
+      this.originalReview.push({
+        id: "",
+        id_content: 1,
+        foto: "",
+        judul: "",
+        nama: "",
+        jurusan: "",
+        text: "",
+      });
+    },
+    async saveReview() {
+      try {
+        const payload = objectToFormData({
+          konten5: { data: [...this.review, this.reviewTitle] },
+        });
+        const res = await this.$axios.post("/api/cms/tutor", payload, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
+        if (res.data.success) {
+          this.getMainPageData();
+          this.$bvToast.toast("Berhasil mengubah konten", {
+            title: "Sukses",
+            variant: "success",
+            solid: true,
+            autoHideDelay: 3000,
+          });
+        }
+      } catch (e) {
+        this.$bvToast.toast("Gagal menyimpan konten", {
+          title: "Error",
+          variant: "danger",
+          solid: true,
+          autoHideDelay: 3000,
+        });
+      }
+    },
+    async deleteReview() {
+      try {
+        const lastData = this.review[this.review.length - 1];
+        if (lastData.id == "") {
+          this.review.pop();
+          return false;
+        }
+        const res = await this.$axios.post(
+          `/api/cms/tutor/delete-content8/${lastData.id}`,
+          {}
+        );
+        if (res.data.success) {
+          this.review.pop();
+          this.getMainPageData();
+          this.$bvToast.toast("Berhasil menghapus konten", {
+            title: "Sukses",
+            variant: "success",
+            solid: true,
+            autoHideDelay: 3000,
+          });
+        }
+      } catch (e) {
+        this.$bvToast.toast("Gagal menghapus konten", {
+          title: "Error",
+          variant: "danger",
+          solid: true,
+          autoHideDelay: 3000,
+        });
+      }
+    },
     async getMainPageData() {
       const { data } = await this.$axios.get("/api/cms/tutor/get");
       if (data.data instanceof Object) {
@@ -439,6 +617,35 @@ export default {
             this.konten4[i].id_content = master4[i].id_content;
             this.konten4[i].judul = master4[i].judul;
             this.konten4[i].text = master4[i].text;
+          }
+        }
+
+        // Konten 5
+        let masterReview = data.data.dataContent5;
+        if (masterReview.length > 0) {
+          const title = masterReview.find((rev) => rev.id_content == 0);
+          this.originalReviewTitle = title;
+          this.reviewTitle.id = title.id;
+          this.reviewTitle.judul = title.judul;
+          this.reviewTitle.text = title.text;
+          masterReview.splice(
+            masterReview.findIndex((rvw) => rvw.id == title.id),
+            1
+          );
+
+          this.originalReview = masterReview;
+
+          for (let indexRvw = 0; indexRvw < masterReview.length; indexRvw++) {
+            if (!this.review[indexRvw]) {
+              this.review[indexRvw] = {};
+            }
+            this.review[indexRvw].id = masterReview[indexRvw].id;
+            this.review[indexRvw].id_content = masterReview[indexRvw].id_content;
+            this.review[indexRvw].foto = masterReview[indexRvw].foto;
+            this.review[indexRvw].nama = masterReview[indexRvw].nama;
+            this.review[indexRvw].jurusan = masterReview[indexRvw].jurusan;
+            this.review[indexRvw].text = masterReview[indexRvw].text;
+            this.review[indexRvw].judul = masterReview[indexRvw].judul;
           }
         }
       }

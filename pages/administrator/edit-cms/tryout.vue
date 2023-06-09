@@ -652,7 +652,7 @@ export default {
           return false;
         }
         const res = await this.$axios.post(
-          `/api/cms/halaman-utama/delete-content8/${lastData.id}`,
+          `/api/cms/tutor/delete-content8/${lastData.id}`,
           {}
         );
         if (res.data.success) {
