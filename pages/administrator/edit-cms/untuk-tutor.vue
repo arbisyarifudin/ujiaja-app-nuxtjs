@@ -91,6 +91,37 @@
         <button @click="saveKonten3" class="btn btn-primary">Simpan</button>
       </div>
     </UIKonten>
+    <UIKonten>
+      <template #title>Konten 4</template>
+      <div class="container-fluid">
+        <div
+          class="row border-bottom"
+          v-for="(langkah, indexLangkah) in konten4"
+          :key="indexLangkah"
+        >
+          <div class="form-user col-md-12">
+            <EditorText
+              v-model="langkah.judul"
+              :initial-value="originalLangkah[indexLangkah].judul"
+              placeholder="Isi Judul baru"
+            >
+              <template #title>Judul</template>
+            </EditorText>
+          </div>
+          <div class="form-user col-md-12">
+            <EditorTextArea
+              v-model="langkah.text"
+              :initial-value="originalLangkah[indexLangkah].text"
+            >
+              <template #title>Text</template>
+            </EditorTextArea>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12 pt-4">
+        <button @click="saveLangkah" class="btn btn-primary">Simpan</button>
+      </div>
+    </UIKonten>
   </div>
 </template>
 
@@ -193,6 +224,46 @@ export default {
         tombol: "",
         link: "",
       },
+      originalLangkah: [
+        {
+          id: "",
+          id_content: 1,
+          judul: "",
+          text: "",
+        },
+        {
+          id: "",
+          id_content: 1,
+          judul: "",
+          text: "",
+        },
+        {
+          id: "",
+          id_content: 1,
+          judul: "",
+          text: "",
+        },
+      ],
+      konten4: [
+        {
+          id: "",
+          id_content: 1,
+          judul: "",
+          text: "",
+        },
+        {
+          id: "",
+          id_content: 1,
+          judul: "",
+          text: "",
+        },
+        {
+          id: "",
+          id_content: 1,
+          judul: "",
+          text: "",
+        },
+      ],
     };
   },
   methods: {
@@ -281,6 +352,31 @@ export default {
         });
       }
     },
+    async saveLangkah() {
+      try {
+        const payload = objectToFormData({ konten4: { data: this.konten4 } });
+        const res = await this.$axios.post("/api/cms/tutor", payload, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
+        if (res.data.success) {
+          this.getMainPageData();
+          this.$bvToast.toast("Berhasil mengubah konten", {
+            title: "Sukses",
+            variant: "success",
+            solid: true,
+            autoHideDelay: 3000,
+          });
+        }
+      } catch (e) {
+        console.log(e);
+        this.$bvToast.toast("Gagal menyimpan konten", {
+          title: "Error",
+          variant: "danger",
+          solid: true,
+          autoHideDelay: 3000,
+        });
+      }
+    },
     async getMainPageData() {
       const { data } = await this.$axios.get("/api/cms/tutor/get");
       if (data.data instanceof Object) {
@@ -332,6 +428,18 @@ export default {
           this.konten3.text = master3.text;
           this.konten3.tombol = master3.tombol;
           this.konten3.link = master3.link;
+        }
+
+        // Konten 4
+        const master4 = data.data.dataContent2;
+        if (masterCarousel.length > 0) {
+          this.originalLangkah = master4;
+          for (let i = 0; i < master4.length; i++) {
+            this.konten4[i].id = master4[i].id;
+            this.konten4[i].id_content = master4[i].id_content;
+            this.konten4[i].judul = master4[i].judul;
+            this.konten4[i].text = master4[i].text;
+          }
         }
       }
     },
