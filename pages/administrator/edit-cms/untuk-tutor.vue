@@ -236,7 +236,7 @@
         </div>
       </div>
       <div class="col-md-12 pt-4">
-        <button @click="saveKonten3" class="btn btn-primary">Simpan</button>
+        <button @click="saveKonten6" class="btn btn-primary">Simpan</button>
       </div>
     </UIKonten>
   </div>
