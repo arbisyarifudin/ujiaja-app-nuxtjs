@@ -42,6 +42,55 @@
         <button @click="saveCardContent" class="btn btn-primary">Simpan</button>
       </div>
     </UIKonten>
+    <UIKonten>
+      <template #title>Konten 3</template>
+      <div class="container-fluid">
+        <div class="row border-bottom">
+          <div class="form-user col-md-12">
+            <EditorImage v-model="konten3.gambar" :max-size="5">
+              <template #title> Gambar </template>
+              <template #warn>
+                *Disarankan dengan Banner 1276 x 638 pixel, dan Maksimal 5 Mb
+              </template>
+            </EditorImage>
+          </div>
+          <div class="form-user col-md-12">
+            <EditorText
+              v-model="konten3.judul"
+              :initial-value="originalKonten3.judul"
+              placeholder="Isi Judul baru"
+            >
+              <template #title>Judul</template>
+            </EditorText>
+          </div>
+          <div class="form-user col-md-12">
+            <EditorTextArea v-model="konten3.text" :initial-value="originalKonten3.text">
+              <template #title>Text</template>
+            </EditorTextArea>
+          </div>
+          <div class="form-user col-md-12 pt-3">
+            <EditorText
+              v-model="konten3.tombol"
+              :initial-value="originalKonten3.tombol"
+              placeholder="Isi nama tombol baru"
+            >
+              <template #title>Tombol</template>
+            </EditorText>
+            <p class="pt-3">Link</p>
+            <div class="form-group row justify-content-between px-3">
+              <input
+                v-model="konten3.link"
+                placeholder="Isi Link yang ingin di tuju"
+                class="form-control col-md-12"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12 pt-4">
+        <button @click="saveKonten3" class="btn btn-primary">Simpan</button>
+      </div>
+    </UIKonten>
   </div>
 </template>
 
@@ -128,6 +177,22 @@ export default {
           text: "",
         },
       ],
+      originalKonten3: {
+        id: "",
+        gambar: null,
+        judul: "",
+        text: "",
+        tombol: "",
+        link: "",
+      },
+      konten3: {
+        id: "",
+        gambar: null,
+        judul: "",
+        text: "",
+        tombol: "",
+        link: "",
+      },
     };
   },
   methods: {
@@ -192,6 +257,30 @@ export default {
         });
       }
     },
+    async saveKonten3() {
+      try {
+        const payload = objectToFormData({ konten3: this.konten3 });
+        const res = await this.$axios.post("/api/cms/tutor", payload, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
+        if (res.data.success) {
+          this.getMainPageData();
+          this.$bvToast.toast("Berhasil mengubah konten", {
+            title: "Sukses",
+            variant: "success",
+            solid: true,
+            autoHideDelay: 3000,
+          });
+        }
+      } catch (e) {
+        this.$bvToast.toast("Gagal menyimpan konten", {
+          title: "Error",
+          variant: "danger",
+          solid: true,
+          autoHideDelay: 3000,
+        });
+      }
+    },
     async getMainPageData() {
       const { data } = await this.$axios.get("/api/cms/tutor/get");
       if (data.data instanceof Object) {
@@ -232,8 +321,23 @@ export default {
             this.carousel[i].text = masterCarousel[i].text;
           }
         }
+
+        // Konten 3
+        const master3 = data.data.dataContent3[0];
+        if (data.data.dataContent3.length > 0) {
+          this.originalKonten3 = master3;
+          this.konten3.id = master3.id;
+          this.konten3.judul = master3.judul;
+          this.konten3.gambar = master3.gambar;
+          this.konten3.text = master3.text;
+          this.konten3.tombol = master3.tombol;
+          this.konten3.link = master3.link;
+        }
       }
     },
+  },
+  async mounted() {
+    await this.getMainPageData();
   },
 };
 </script>
