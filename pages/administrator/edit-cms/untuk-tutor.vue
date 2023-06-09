@@ -190,6 +190,55 @@
         <button @click="saveReview" class="btn btn-primary">Simpan</button>
       </div>
     </UIKonten>
+    <UIKonten>
+      <template #title>Konten 6</template>
+      <div class="container-fluid">
+        <div class="row border-bottom">
+          <div class="form-user col-md-12">
+            <EditorImage v-model="konten6.gambar" :max-size="5">
+              <template #title> Gambar </template>
+              <template #warn>
+                *Disarankan dengan Banner 1276 x 638 pixel, dan Maksimal 5 Mb
+              </template>
+            </EditorImage>
+          </div>
+          <div class="form-user col-md-12">
+            <EditorText
+              v-model="konten6.judul"
+              :initial-value="originalKonten6.judul"
+              placeholder="Isi Judul baru"
+            >
+              <template #title>Judul</template>
+            </EditorText>
+          </div>
+          <div class="form-user col-md-12">
+            <EditorTextArea v-model="konten6.text" :initial-value="originalKonten6.text">
+              <template #title>Text</template>
+            </EditorTextArea>
+          </div>
+          <div class="form-user col-md-12 pt-3">
+            <EditorText
+              v-model="konten6.tombol"
+              :initial-value="originalKonten6.tombol"
+              placeholder="Isi nama tombol baru"
+            >
+              <template #title>Tombol</template>
+            </EditorText>
+            <p class="pt-3">Link</p>
+            <div class="form-group row justify-content-between px-3">
+              <input
+                v-model="konten6.link"
+                placeholder="Isi Link yang ingin di tuju"
+                class="form-control col-md-12"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12 pt-4">
+        <button @click="saveKonten3" class="btn btn-primary">Simpan</button>
+      </div>
+    </UIKonten>
   </div>
 </template>
 
@@ -366,6 +415,22 @@ export default {
           text: "",
         },
       ],
+      originalKonten6: {
+        id: "",
+        gambar: null,
+        judul: "",
+        text: "",
+        tombol: "",
+        link: "",
+      },
+      konten6: {
+        id: "",
+        gambar: null,
+        judul: "",
+        text: "",
+        tombol: "",
+        link: "",
+      },
     };
   },
   methods: {
@@ -555,6 +620,30 @@ export default {
         });
       }
     },
+    async saveKonten6() {
+      try {
+        const payload = objectToFormData({ konten6: this.konten6 });
+        const res = await this.$axios.post("/api/cms/tutor", payload, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
+        if (res.data.success) {
+          this.getMainPageData();
+          this.$bvToast.toast("Berhasil mengubah konten", {
+            title: "Sukses",
+            variant: "success",
+            solid: true,
+            autoHideDelay: 3000,
+          });
+        }
+      } catch (e) {
+        this.$bvToast.toast("Gagal menyimpan konten", {
+          title: "Error",
+          variant: "danger",
+          solid: true,
+          autoHideDelay: 3000,
+        });
+      }
+    },
     async getMainPageData() {
       const { data } = await this.$axios.get("/api/cms/tutor/get");
       if (data.data instanceof Object) {
@@ -648,6 +737,18 @@ export default {
             this.review[indexRvw].judul = masterReview[indexRvw].judul;
           }
         }
+
+        // Konten 6
+        // const master6 = data.data.dataContent6[0];
+        // if (data.data.dataContent6.length > 0) {
+        //   this.originalKonten6 = master6;
+        //   this.konten6.id = master6.id;
+        //   this.konten6.judul = master6.judul;
+        //   this.konten6.gambar = master6.gambar;
+        //   this.konten6.text = master6.text;
+        //   this.konten6.tombol = master6.tombol;
+        //   this.konten6.link = master6.link;
+        // }
       }
     },
   },
