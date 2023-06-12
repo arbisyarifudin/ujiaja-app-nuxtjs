@@ -49,16 +49,9 @@
     <UIKonten>
       <template #title>Konten 3</template>
       <div class="container-fluid">
-        <div class="row border-bottom">
-          <div class="form-user col-md-12">
-            <EditorText v-model="testimony.master.judul" placeholder="Isi Judul baru">
-              <template #title>Judul</template>
-            </EditorText>
-          </div>
-        </div>
-        <div v-for="(t, i) in testimony.testimonies" :key="i" class="row border-bottom">
+        <div v-for="(r, i) in review" :key="i" class="row border-bottom">
           <div class="col-md-12 pt-2">
-            <EditorImage v-model="t.gambar" :max-size="5">
+            <EditorImage v-model="r.foto" :max-size="5">
               <template #title> Gambar </template>
               <template #warn>
                 *Disarankan dengan Banner 1276 x 638 pixel, dan Maksimal 5 Mb
@@ -66,45 +59,49 @@
             </EditorImage>
           </div>
           <div class="form-user col-md-12">
-            <EditorText v-model="t.nama" placeholder="Isi Nama baru">
+            <EditorText
+              v-model="r.nama"
+              :initial-value="originalReview[i].nama"
+              placeholder="Isi Nama baru"
+            >
               <template #title>Nama</template>
             </EditorText>
           </div>
           <div class="form-user col-md-12">
-            <EditorText v-model="t.jurusan" placeholder="Isi Jurusan baru">
+            <EditorText
+              v-model="r.jurusan"
+              :initial-value="originalReview[i].jurusan"
+              placeholder="Isi Jurusan baru"
+            >
               <template #title>Jurusan</template>
             </EditorText>
           </div>
           <div class="form-user col-md-12">
-            <EditorTextArea v-model="t.text">
+            <EditorTextArea v-model="r.text" :initial-value="originalReview[i].text">
               <template #title>Text</template>
             </EditorTextArea>
-          </div>
+          </div>          
           <div class="form-user col-md-12 pt-3">
-            <EditorText v-model="t.tombol" placeholder="Isi nama tombol baru">
+            <EditorText
+              v-model="r.tombol"
+              :initial-value="originalReview[i].tombol"
+              placeholder="Isi nama tombol baru"
+            >
               <template #title>Tombol</template>
             </EditorText>
             <p class="pt-3">Link</p>
             <div class="form-group row justify-content-between px-3">
               <input
-                v-model="t.link"
+                v-model="r.link"
                 placeholder="Isi Link yang ingin di tuju"
                 class="form-control col-md-12"
               />
             </div>
           </div>
         </div>
-        <div class="row py-2 border-bottom">
-          <button @click="addTestimonyContent" class="btn btn-outline-primary">
-            + Tambah Testimoni
-          </button>
-          <button @click="deleteTestimonyContent" class="btn btn-outline-danger ml-3">
-            - Hapus Testimoni
-          </button>
-        </div>
       </div>
       <div class="col-md-12 pt-4">
-        <button @click="saveTestimonyContent" class="btn btn-primary">Simpan</button>
+        <button @click="saveReview" class="btn btn-primary">Simpan</button>
       </div>
     </UIKonten>
   </div>
@@ -170,21 +167,30 @@ export default {
           posisi: "",
         },
       ],
-      testimony: {
-        master: {
-          judul: "",
+      originalReview: [
+        {
+          id: "",
+          foto: null,
+          judul: "-",
+          nama: "",
+          jurusan: "",
+          text: "",
+          tombol: '',
+          link: ''
         },
-        testimonies: [
-          {
-            gambar: null,
-            nama: "",
-            jurusan: "",
-            text: "",
-            tombol: "",
-            link: "",
-          },
-        ],
-      },
+      ],
+      review: [
+        {
+          id: "",
+          foto: null,
+          judul: "-",
+          nama: "",
+          jurusan: "",
+          text: "",
+          tombol: '',
+          link: ''
+        },
+      ],
     };
   },
   methods: {
@@ -300,28 +306,30 @@ export default {
         });
       }
     },
-    addTestimonyContent() {
-      this.testimony.testimonies.push({
-        gambar: null,
-        nama: "",
-        jurusan: "",
-        text: "",
-        tombol: "",
-        link: "",
-      });
-    },
-    deleteTestimonyContent() {
-      this.testimony.testimonies.pop();
-    },
-    async saveTestimonyContent() {
+    async saveReview() {
       try {
-        const payload = objectToFormData({ konten3: this.testimony });
-        const res = await this.$axios.post("/api/cms/untuk-orangtua", payload, {
+        const payload = objectToFormData({
+          konten3: { data: this.review },
+        });
+        const res = await this.$axios.post("/api/cms/orang-tua", payload, {
           headers: { "Content-Type": "multipart/form-data" },
         });
-        if (res.status === 200) window.alert("berhasil mengubah kontent");
+        if (res.data.success) {
+          this.getMainPageData();
+          this.$bvToast.toast("Berhasil mengubah konten", {
+            title: "Sukses",
+            variant: "success",
+            solid: true,
+            autoHideDelay: 3000,
+          });
+        }
       } catch (e) {
-        window.alert("gagal menyimpan konten");
+        this.$bvToast.toast("Gagal menyimpan konten", {
+          title: "Error",
+          variant: "danger",
+          solid: true,
+          autoHideDelay: 3000,
+        });
       }
     },
     async getMainPageData() {
@@ -363,6 +371,26 @@ export default {
             this.carousel[i].judul = masterCarousel[i].judul;
             this.carousel[i].text = masterCarousel[i].text;
             this.carousel[i].posisi = masterCarousel[i].posisi;
+          }
+        }
+
+        // Konten 3
+        let masterReview = data.data.dataContent3;
+        if (masterReview.length > 0) {
+          this.originalReview = masterReview;
+
+          for (let indexRvw = 0; indexRvw < masterReview.length; indexRvw++) {
+            if (!this.review[indexRvw]) {
+              this.review[indexRvw] = {};
+            }
+            this.review[indexRvw].id = masterReview[indexRvw].id;
+            this.review[indexRvw].foto = masterReview[indexRvw].foto;
+            this.review[indexRvw].nama = masterReview[indexRvw].nama;
+            this.review[indexRvw].jurusan = masterReview[indexRvw].jurusan;
+            this.review[indexRvw].text = masterReview[indexRvw].text;
+            this.review[indexRvw].judul = masterReview[indexRvw].judul;
+            this.review[indexRvw].tombol = masterReview[indexRvw].tombol;
+            this.review[indexRvw].link = masterReview[indexRvw].link;
           }
         }
       }
