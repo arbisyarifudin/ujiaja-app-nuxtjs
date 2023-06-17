@@ -64,6 +64,14 @@
       <div class="container-fluid">
         <div class="row border-bottom">
           <div class="form-user col-md-12">
+            <EditorImage v-model="content4Title.gambar" :max-size="5">
+              <template #title> Gambar </template>
+              <template #warn>
+                *Disarankan dengan Gambar atau Vektor 1276 x 638 pixel, dan Maksimal 5 Mb
+              </template>
+            </EditorImage>
+          </div>
+          <div class="form-user col-md-12">
             <EditorText
               v-model="content4Title.judul"
               :initial-value="originalContent4Title.judul"
