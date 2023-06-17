@@ -8,7 +8,9 @@
         :can-add="false"
       />
       <div class="col-md-12 pt-4">
-        <button @click="saveMasterContent" class="btn btn-primary">Simpan</button>
+        <button @click="saveMasterContent" class="btn btn-primary">
+          Simpan
+        </button>
       </div>
     </UIKonten>
     <UIKonten>
@@ -25,31 +27,12 @@
     </UIKonten>
     <UIKonten>
       <template #title>Konten 3</template>
-      <div class="container-fluid">
-        <div
-          class="row border-bottom"
-          v-for="(langkah, indexLangkah) in content3"
-          :key="indexLangkah"
-        >
-          <div class="form-user col-md-12">
-            <EditorText
-              v-model="langkah.judul"
-              :initial-value="originalLangkah[indexLangkah].judul"
-              placeholder="Isi Judul baru"
-            >
-              <template #title>Judul</template>
-            </EditorText>
-          </div>
-          <div class="form-user col-md-12">
-            <EditorTextArea
-              v-model="langkah.text"
-              :initial-value="originalLangkah[indexLangkah].text"
-            >
-              <template #title>Text</template>
-            </EditorTextArea>
-          </div>
-        </div>
-      </div>
+      <EditorContentCard
+        v-for="(crsl, i) in content3"
+        :key="i"
+        :content="crsl"
+        :original="originalLangkah[i]"
+      />
       <div class="col-md-12 pt-4">
         <button @click="saveLangkah" class="btn btn-primary">Simpan</button>
       </div>
@@ -105,6 +88,61 @@
       </div>
       <div class="col-md-12 pt-4">
         <button @click="saveKonten4" class="btn btn-primary">Simpan</button>
+      </div>
+    </UIKonten>
+    <UIKonten>
+      <template #title>Konten 5</template>
+      <div class="container-fluid">
+        <div class="row border-bottom">
+          <div class="form-user col-md-12">
+            <EditorText
+              v-model="content5.judul"
+              :initial-value="originalContent5.judul"
+              placeholder="Isi Judul baru"
+            >
+              <template #title>Judul</template>
+            </EditorText>
+          </div>
+        </div>
+        <div
+          class="row border-bottom"
+          v-for="(q, indexQ) in content5.question"
+          :key="indexQ"
+        >
+          <div class="form-user col-md-12">
+            <EditorTextArea
+              v-model="q.text"
+              :initial-value="originalContent5.question[indexQ]?.text"
+            >
+              <template #title>Pertanyaan</template>
+            </EditorTextArea>
+          </div>
+          <div class="form-user col-md-12">
+            <EditorTextArea
+              v-model="content5.answer[indexQ].text"
+              :initial-value="originalContent5.answer[indexQ]?.text"
+            >
+              <template #title>Jawaban</template>
+            </EditorTextArea>
+          </div>
+        </div>
+      </div>
+      <div class="row py-3 border-bottom mt-3">
+        <div class="form-user col-md-12">
+          <button @click="addContent5" class="btn btn-outline-primary">
+            + Tambah Pertanyaan
+          </button>
+          <!-- <button
+          @click="deleteContent5"
+          class="btn btn-outline-danger ml-3"
+          :disabled="isLast"
+        >
+          - Hapus Pertanyaan
+        </button> -->
+        </div>
+      </div>
+      <div class="col-md-12 pt-4">
+        <button @click="saveKonten5" class="btn btn-primary">Simpan</button>
       </div>
     </UIKonten>
   </div>
@@ -202,18 +240,21 @@ export default {
         {
           id: "",
           id_content: 1,
+          carousel: "",
           judul: "",
           text: "",
         },
         {
           id: "",
           id_content: 1,
+          carousel: "",
           judul: "",
           text: "",
         },
         {
           id: "",
           id_content: 1,
+          carousel: "",
           judul: "",
           text: "",
         },
@@ -235,6 +276,43 @@ export default {
         text: "",
         tombol: "",
         link: "",
+      },
+      originalContent5: {
+        id: "",
+        judul: "",
+        question: [
+          {
+            text: "",
+          },
+        ],
+        answer: [
+          {
+            text: "",
+          },
+        ],
+      },
+      content5: {
+        id: "",
+        judul: "",
+        tipe: "1",
+        question: [
+          {
+            text: "",
+          },
+          {
+            text: "",
+          },
+        ],
+        answer: [
+          {
+            text: "",
+          },
+          {
+            text: "",
+          },
+        ],
+        pertanyaan: [],
+        text: [],
       },
     };
   },
@@ -300,6 +378,12 @@ export default {
       }
     },
     async saveLangkah() {
+      for (let i = 0; i < this.content3.length; i++) {
+        if (typeof this.content3[i].carousel == "string") {
+          this.content3[i].carousel = "";
+        }
+        this.content3[i].konten = this.content3[i].carousel;
+      }
       try {
         const payload = objectToFormData({ konten3: { data: this.content3 } });
         const res = await this.$axios.post("/api/cms/les-privat", payload, {
@@ -326,7 +410,7 @@ export default {
     },
     async saveKonten4() {
       try {
-        const payload = objectToFormData({ konten4: { data: [this.content4] } });
+        const payload = objectToFormData({ konten4: this.content4 });
         const res = await this.$axios.post("/api/cms/les-privat", payload, {
           headers: { "Content-Type": "multipart/form-data" },
         });
@@ -341,6 +425,88 @@ export default {
         }
       } catch (e) {
         this.$bvToast.toast("Gagal menyimpan konten", {
+          title: "Error",
+          variant: "danger",
+          solid: true,
+          autoHideDelay: 3000,
+        });
+      }
+    },
+    async saveKonten5() {
+      try {
+        for (let i = 0; i < this.content5.question.length; i++) {
+          let paramName = `pertanyaan${i + 1}`;
+          let paramName2 = `text${i + 1}`;
+          this.content5.pertanyaan.push({
+            [paramName]: this.content5.question[i].text,
+          });
+          this.content5.text.push({
+            [paramName2]: this.content5.answer[i].text,
+          });
+        }
+        const res = await this.$axios.post(
+          "/api/cms/les-privat",
+          { konten5: this.content5 },
+          {
+            headers: { "Content-Type": "multipart/form-data" },
+          }
+        );
+        if (res.data.success) {
+          this.getMainPageData();
+          this.$bvToast.toast("Berhasil mengubah konten", {
+            title: "Sukses",
+            variant: "success",
+            solid: true,
+            autoHideDelay: 3000,
+          });
+        }
+      } catch (e) {
+        console.log(e);
+        this.$bvToast.toast("Gagal menyimpan konten", {
+          title: "Error",
+          variant: "danger",
+          solid: true,
+          autoHideDelay: 3000,
+        });
+      }
+    },
+    addContent5() {
+      this.content5.push({
+        id: "",
+        judul: "",
+        text: "",
+        pertanyaan: "",
+      });
+      this.originalContent5.push({
+        id: "",
+        judul: "",
+        text: "",
+        pertanyaan: "",
+      });
+    },
+    async deleteContent5() {
+      try {
+        const lastData = this.content5[this.content5.length - 1];
+        if (lastData.id == "") {
+          this.content5.pop();
+          return false;
+        }
+        const res = await this.$axios.post(
+          `/api/cms/les-privat/delete-content5/${lastData.id}`,
+          {}
+        );
+        if (res.data.success) {
+          this.content5.pop();
+          this.getMainPageData();
+          this.$bvToast.toast("Berhasil menghapus konten", {
+            title: "Sukses",
+            variant: "success",
+            solid: true,
+            autoHideDelay: 3000,
+          });
+        }
+      } catch (e) {
+        this.$bvToast.toast("Gagal menghapus konten", {
           title: "Error",
           variant: "danger",
           solid: true,
@@ -380,7 +546,7 @@ export default {
         }
 
         // Konten 3
-        const master3 = data.data.dataContent2;
+        const master3 = data.data.dataContent3;
         if (masterCarousel.length > 0) {
           this.originalLangkah = master3;
           for (let i = 0; i < master3.length; i++) {
@@ -388,6 +554,7 @@ export default {
             this.content3[i].id_content = master3[i].id_content;
             this.content3[i].judul = master3[i].judul;
             this.content3[i].text = master3[i].text;
+            this.content3[i].carousel = master3[i].konten;
           }
         }
 
@@ -402,6 +569,18 @@ export default {
           this.content4.tombol = master4.tombol;
           this.content4.link = master4.link;
         }
+
+        // Konten 5
+        // const master5 = data.data.dataContent5;
+        // if (masterCarousel.length > 0) {
+        //   this.originalContent5 = master5;
+        //   for (let i = 0; i < master5.length; i++) {
+        //     this.content5[i].id = master5[i].id;
+        //     this.content5[i].pertanyaan = master5[i].pertanyaan;
+        //     this.content5[i].judul = master5[i].judul;
+        //     this.content5[i].text = master5[i].text;
+        //   }
+        // }
       }
     },
   },

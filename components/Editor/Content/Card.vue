@@ -39,7 +39,7 @@
         </b-form-select>
       </div>
     </div>    
-    <div class="row py-2 border-bottom mt-5">
+    <div class="row py-2 border-bottom mt-5" v-if="canAdd">
       <button @click="$emit('add', content)" class="btn btn-outline-primary">
         + Tambah Card
       </button>
