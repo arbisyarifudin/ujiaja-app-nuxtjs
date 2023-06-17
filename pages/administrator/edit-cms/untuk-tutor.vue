@@ -739,16 +739,16 @@ export default {
         }
 
         // Konten 6
-        // const master6 = data.data.dataContent6[0];
-        // if (data.data.dataContent6.length > 0) {
-        //   this.originalKonten6 = master6;
-        //   this.konten6.id = master6.id;
-        //   this.konten6.judul = master6.judul;
-        //   this.konten6.gambar = master6.gambar;
-        //   this.konten6.text = master6.text;
-        //   this.konten6.tombol = master6.tombol;
-        //   this.konten6.link = master6.link;
-        // }
+        const master6 = data.data.dataContent6[0];
+        if (data.data.dataContent6.length > 0) {
+          this.originalKonten6 = master6;
+          this.konten6.id = master6.id;
+          this.konten6.judul = master6.judul;
+          this.konten6.gambar = master6.gambar;
+          this.konten6.text = master6.text;
+          this.konten6.tombol = master6.tombol;
+          this.konten6.link = master6.link;
+        }
       }
     },
   },
