@@ -596,7 +596,7 @@ export default {
     },
     async saveKonten4() {
       try {
-        const payload = objectToFormData({ konten5: this.konten4 });
+        const payload = objectToFormData({ konten4: this.konten4 });
         const res = await this.$axios.post("/api/cms/tryout", payload, {
           headers: { "Content-Type": "multipart/form-data" },
         });
@@ -621,7 +621,7 @@ export default {
     async saveReview() {
       try {
         const payload = objectToFormData({
-          konten8: { data: [...this.review, this.reviewTitle] },
+          konten5: { data: [...this.review, this.reviewTitle] },
         });
         const res = await this.$axios.post("/api/cms/tryout", payload, {
           headers: { "Content-Type": "multipart/form-data" },
@@ -676,7 +676,7 @@ export default {
     },
     async saveRegister() {
       try {
-        const payload = objectToFormData({ konten9: this.register });
+        const payload = objectToFormData({ konten6: this.register });
         const res = await this.$axios.post("/api/cms/tryout", payload, {
           headers: { "Content-Type": "multipart/form-data" },
         });
@@ -759,7 +759,7 @@ export default {
         }
 
         // Konten 4
-        const master4 = data.data.dataContent5[0];
+        const master4 = data.data.dataContent4[0];
         if (data.data.dataContent5.length > 0) {
           this.originalKonten4 = master4;
           this.konten4.id = master4.id;
@@ -771,7 +771,7 @@ export default {
         }
 
         // Konten 5
-        let masterReview = data.data.dataContent8;
+        let masterReview = data.data.dataContent5;
         if (masterReview.length > 0) {
           const title = masterReview.find((rev) => rev.id_content == 0);
           this.originalReviewTitle = title;
@@ -800,8 +800,8 @@ export default {
         }
 
         // Konten 6
-        const masterRegister = data.data.dataContent9[0];
-        if (data.data.dataContent9.length > 0) {
+        const masterRegister = data.data.dataContent6[0];
+        if (data.data.dataContent6.length > 0) {
           this.originalRegister = masterRegister;
           this.register.id = masterRegister.id;
           this.register.gambar = masterRegister.gambar;
