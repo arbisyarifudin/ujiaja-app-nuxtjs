@@ -116,9 +116,9 @@ export default {
         this.setHeroSection(res.data.dataContent1[0]);
         this.keunggulan.item = res.data.dataContent2;
         this.setContent3Section(res.data.dataContent3);
-        this.content4 = res.data.dataContent5[0];
-        this.setTestimoniSection(res.data.dataContent8);
-        this.content6 = res.data.dataContent9[0];
+        this.content4 = res.data.dataContent4[0];
+        this.setTestimoniSection(res.data.dataContent5);
+        this.content6 = res.data.dataContent6[0];
       }
     } catch (error) {
       console.error(error);
