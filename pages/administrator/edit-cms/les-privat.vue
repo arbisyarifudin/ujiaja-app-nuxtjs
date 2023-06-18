@@ -8,9 +8,7 @@
         :can-add="false"
       />
       <div class="col-md-12 pt-4">
-        <button @click="saveMasterContent" class="btn btn-primary">
-          Simpan
-        </button>
+        <button @click="saveMasterContent" class="btn btn-primary">Simpan</button>
       </div>
     </UIKonten>
     <UIKonten>
@@ -379,7 +377,10 @@ export default {
     },
     async saveLangkah() {
       for (let i = 0; i < this.content3.length; i++) {
-        if (typeof this.content3[i].carousel == "string") {
+        if (
+          typeof this.content3[i].carousel == "string" ||
+          this.content3[i].carousel == undefined
+        ) {
           this.content3[i].carousel = "";
         }
         this.content3[i].konten = this.content3[i].carousel;
@@ -410,6 +411,12 @@ export default {
     },
     async saveKonten4() {
       try {
+        if (
+          typeof this.content4.gambar == "string" ||
+          this.content4.gambar == undefined
+        ) {
+          this.content4.gambar = "";
+        }
         const payload = objectToFormData({ konten4: this.content4 });
         const res = await this.$axios.post("/api/cms/les-privat", payload, {
           headers: { "Content-Type": "multipart/form-data" },
