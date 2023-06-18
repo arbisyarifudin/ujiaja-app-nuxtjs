@@ -11,183 +11,73 @@
 
     <div class="row">
       <div class="col-md-12 wrap-rmap text-center pt-5">
-        <div
-          class="
-            d-flex
-            rmap-header
-            align-items-center
-            justify-content-center
-            mb-3
-          "
-        >
+        <div class="d-flex rmap-header align-items-center justify-content-center mb-3">
           <!-- <img src="/logo1.png" class="img-fluid" style="width: 50px" /> -->
           <img :src="ApiUrl(navData.logo)" class="img-fluid" style="width: 90px" />
         </div>
         <h2 class="py-3 mb-4">Perjalanan Sejarah UjiAja</h2>
-        <div class="row align-flex-star justify-content-center">
+        <div
+          class="row align-flex-star justify-content-center"
+          v-for="(ctn, indexCtn) in content3"
+          :key="indexCtn"
+        >
+          <div class="col-md-5 col-8 ml-n4 mb-5 align-self-end">
+            <div class="text-left sejarah" v-if="ctn.posisi == 'kiri'">
+              <p style="color: #6560fd; font-weight: 500; font-size: 17px" class="pb-2">
+                {{ ctn.judul }}
+              </p>
+              <p class="pb-0" v-html="ctn.text" />
+            </div>
+          </div>
           <div
-            class="col-md-5 col rmap pb-4 d-flex justify-content-center"
-          ></div>
-          <div
-            class="
-              col-md-1 col-3
-              rmap-item
-              d-flex-important
-              flex-direction-column
-              align-items-center
-            "
+            class="col-md-1 col-3 rmap-item d-flex-important flex-direction-column align-items-center"
           >
             <div class="circle-rmap mx-auto"></div>
             <div class="timeline-rmap" style="height: 35px"></div>
-            <h2 class="large py-0 m-0">2020</h2>
+            <h2 class="large py-0 m-0">{{ ctn.tahun }}</h2>
             <div class="timeline-rmap" style="height: 65px"></div>
-            <p class="small p-0">Oktober</p>
+            <p class="small p-0">{{ ctn.bulan }}</p>
             <div class="timeline-rmap" style="height: 230px"></div>
           </div>
           <div class="col-md-5 col-8 ml-n4 mb-5 align-self-end">
-            <div class="text-left sejarah">
-              <p style="color: #6560FD; font-weight: 500; font-size: 17px" class="pb-2">Audit dan Evaluasi Strategik Perkembangan Bisnis UjiAja</p>
-              <p class="pb-0">
-                Dipengaruhi oleh mewabahnya virus corona (covid-19) yang menyebabkan adanya perubahan model belajar dari proses belajar di sekolah menjadi di rumah, dan kebutuhan penyesuaian pola belajar sejalan dengan percepatan perkembangan teknologi.
+            <div class="text-left sejarah" v-if="ctn.posisi == 'kanan'">
+              <p style="color: #6560fd; font-weight: 500; font-size: 17px" class="pb-2">
+                {{ ctn.judul }}
               </p>
+              <p class="pb-0" v-html="ctn.text" />
             </div>
           </div>
-
-          <div class="col-md-5 col-8 mr-n4 mb-5 align-self-end">
-            <div class="text-left sejarah-kiri">
-              <p style="color: #6560FD; font-weight: 500; font-size: 17px" class="pb-2">Rencana Pengembangan Bisnis Baru UjiAja</p>
-              <p class="pb-0">
-                Ditetapkan sebuah perencanaan tentang pengembangan bisnis baru UjiAja, dengan fokus dan arah kebijakan pada terciptanya layanan konseling dan bimbingan belajar berbasis neo teknologi, melalui pembuatan Platform Media Belajar UjiAja.
-              </p>
-            </div>
-          </div>
-          <div
-            class="
-              col-md-1 col-3
-              rmap-item
-              d-flex-important
-              flex-direction-column
-              align-items-center
-              mr-n5
-            "
-          >
-            <h2 class="large py-0 m-0">2021</h2>
-            <div class="timeline-rmap" style="height: 65px"></div>
-            <p class="small p-0">Januari</p>
-            <div class="timeline-rmap" style="height: 230px"></div>
-          </div>
-          <div class="col-md-5 col rmap d-flex justify-content-center"></div>
-
-          <div class="col-md-5 col rmap d-flex justify-content-center"></div>
-          <div
-            class="
-              col-md-1 col-3
-              rmap-item
-              d-flex-important
-              flex-direction-column
-              align-items-center
-            "
-          >
-            <h2 class="large py-0 m-0">2021</h2>
-            <div class="timeline-rmap" style="height: 65px"></div>
-            <p class="small p-0">April</p>
-            <div class="timeline-rmap" style="height: 200px"></div>
-          </div>
-          <div class="col-md-5 col-8 ml-n4 mb-4 align-self-end">
-            <div class="text-left sejarah">
-              <p style="color: #6560FD; font-weight: 500; font-size: 17px" class="pb-2">Implementasi Program Pengembangan Platform UjiAja</p>
-              <p class="pb-0">
-               Dimulai pembuatan Platform UjiAja dengan menunjuk salah satu penyedia jasa pembuatan platform teknologi informasi.
-              </p>
-            </div>
-          </div>
-
-          <div class="col-md-5 col-8 mr-n4 mb-5 align-self-end">
-            <div class="text-left sejarah-kiri">
-              <p style="color: #6560FD; font-weight: 500; font-size: 17px" class="pb-2">Uji Coba Sistem Platform UjiAja</p>
-              <p class="pb-0">
-                Dilakukan uji coba kepada siswa-siswi calon pengguna dan mitra untuk memperoleh umpan balik dari sistem try out yang dihadirkan. Ujicoba diikuti oleh lebih dari 500 orang peserta yang terdiri dari siswa-siswi Sekolah Dasar, Sekolah Menengah Pertama, dan Sekolah Menengah Atas. Hasil dari ujicoba ini diperoleh masukan antara lain  penambahan dan perbaikan beberapa fitur, terutama yang terkait dengan User Experience (UX).
-              </p>
-            </div>
-          </div>
-          <div
-            class="
-              col-md-1 col-3
-              rmap-item
-              d-flex-important
-              flex-direction-column
-              align-items-center
-              mr-n5
-            "
-          >
-            <h2 class="large py-0 m-0">2022</h2>
-            <div class="timeline-rmap" style="height: 65px"></div>
-            <p class="small p-0">Februari</p>
-            <div class="timeline-rmap" style="height: 230px"></div>
-          </div>
-          <div class="col-md-5 col rmap d-flex justify-content-center"></div>
-
-          <div class="col-md-5 col rmap d-flex justify-content-center"></div>
-
-          <div class="col-md-5 col rmap d-flex justify-content-center"></div>
-
-          <div class="col-md-5 col rmap d-flex justify-content-center"></div>
-          <div
-            class="
-              col-md-1 col-3
-              rmap-item
-              d-flex-important
-              flex-direction-column
-              align-items-center
-            "
-          >
-            <h2 class="large py-0 m-0">2022</h2>
-            <div class="timeline-rmap" style="height: 65px"></div>
-            <p class="small p-0">April</p>
-            <div class="timeline-rmap" style="height: 200px"></div>
-             <div class="circle-rmap mt-n3 mx-auto"></div>
-          </div>
-          <div class="col-md-5 col-8 ml-n4 mb-4 align-self-end">
-            <div class="text-left sejarah">
-              <p style="color: #6560FD; font-weight: 500; font-size: 17px" class="pb-2">Launching Produk UjiAja </p>
-              <p class="pb-0">
-               Platform UjiAja sebagai sebagai sebuah model bisnis baru yang memberikan layanan TryOut dan Les Privat mulai diperkenalkan dan ditawarkan kepada masyarakat umum.
-              </p>
-            </div>
-          </div>
-          
         </div>
       </div>
     </div>
 
     <div class="row">
       <div class="col-md-12 tujuan text-center">
-        <h2>Tujuan UjiAja</h2>
-        <p class="text-left">
-          Tujuan dari dibuatnya sistem TryOut adalah untuk membantu siswa-siswi melihat minat, bakat dan kemampuannya, serta mempersiapkan diri untuk masuk ke jenjang yang lebih tinggi melalui rekomendasi belajar yang diberikan. Dan untuk sistem les private dibuat dengan tujuan memfasilitasi siswa/siswi untuk belajar pada guru terbaik dimanapun dan kapanpun.
-        </p>
-        
+        <h2>{{ content4.judul }}</h2>
+        <p class="text-left" v-html="content4.text" />
+
         <div class="visimisi">
           <div class="row">
             <div class="col-md-6 text-left">
               <div class="visi">
-                <i class="fa fa-bullseye fa-5x"></i>
-                <h3>Visi Kami</h3>
-                <p>
-                  Menjadi Penyedia Layanan Konsultasi dan Bimbingan Belajar Berbasis Neo Teknologi yang Unggul dan Terpercaya.
-                </p>
+                <img
+                  :src="formatImageSource(content4.item[0].gambar)"
+                  class="img-fluid"
+                  style="width: 130px"
+                />
+                <h3>{{ content4.item[0].judul }}</h3>
+                <p v-html="content4.item[0].text" />
               </div>
             </div>
             <div class="col-md-6 text-left">
               <div class="misi">
-                <i class="fa fa-rocket fa-5x"></i>
-                <h3>Misi Kami</h3>
-                <ol>
-                  <li>Menyelenggarakan layanan TryOut untuk tes studi lanjut dan Les Privat yang profesional dan terpercaya.</li>
-                  <li>Mencetak dan menghadirkan sumber daya tutor yang profesional, handal, dan terpercaya dengan konsep kemitraan yang jujur, amanah, dan saling menguntungkan.</li>
-                  <li>Menciptakan hubungan dan komunikasi yang harmonis dengan berbagai pihak, terutama mitra tutor, siswa dan orangtua siswa pengguna platform.</li>
-                  <li>Menyelenggarakan riset dan pengembangan (R&D) produk dan layanan guna perbaikan/ penyempurnaan yang terus-menerus.</li>
-                </ol>
+                <img
+                  :src="formatImageSource(content4.item[1].gambar)"
+                  class="img-fluid"
+                  style="width: 130px"
+                />
+                <h3>{{ content4.item[1].judul }}</h3>
+                <p v-html="content4.item[1].text" />
               </div>
             </div>
           </div>
@@ -195,7 +85,7 @@
       </div>
     </div>
 
-    <Footer :footerData="footerData"/>
+    <Footer :footerData="footerData" />
   </div>
 </template>
 
@@ -203,8 +93,8 @@
 export default {
   head() {
     return {
-      title: 'Tentang',
-    }
+      title: "Tentang",
+    };
   },
   data() {
     return {
@@ -219,40 +109,65 @@ export default {
         },
       },
       content2: {
-        judul: '',
-        text: ''
-      }
+        judul: "",
+        text: "",
+      },
+      content3: [
+        {
+          judul: "",
+          text: "",
+          tahun: "",
+          bulan: "",
+          posisi: "",
+        },
+      ],
+      content4: {
+        judul: "",
+        text: "",
+        item: [
+          {
+            gambar: "",
+            judul: "",
+            text: "",
+          },
+          {
+            gambar: "",
+            judul: "",
+            text: "",
+          },
+        ],
+      },
     };
   },
   asyncData(context) {
     function getSetting(key) {
       const settings = context.store.state.dataSetting;
-      const foundSetting = settings.find(item => item.key == key);
-      if(foundSetting) {
+      const foundSetting = settings.find((item) => item.key == key);
+      if (foundSetting) {
         return foundSetting.isi;
       }
-      return '';
+      return "";
     }
 
     const navData = {
-      logo: getSetting('logo'),
-    }
+      logo: getSetting("logo"),
+    };
 
     const footerData = {
-      logo: getSetting('logo'),
-      alamat_kantor: getSetting('alamat_kantor'),
-      telp: getSetting('telp'),
-      whatsapp: getSetting('whatsapp'),
-      instagram: getSetting('instagram'),
-      facebook: getSetting('facebook'),
-      youtube: getSetting('youtube'),
-      email: getSetting('email'),
-    }
+      logo: getSetting("logo"),
+      alamat_kantor: getSetting("alamat_kantor"),
+      telp: getSetting("telp"),
+      whatsapp: getSetting("whatsapp"),
+      instagram: getSetting("instagram"),
+      facebook: getSetting("facebook"),
+      youtube: getSetting("youtube"),
+      email: getSetting("email"),
+    };
 
     return {
       navData,
-      footerData
-    }
+      footerData,
+    };
   },
   async fetch() {
     try {
@@ -263,16 +178,17 @@ export default {
         this.setHeroSection(res.data.dataContent1[0]);
         this.content2.judul = res.data.dataContent2[0].judul;
         this.content2.text = res.data.dataContent2[0].text;
-        // this.setContent3Section(res.data.dataContent3);
-        // this.content4 = res.data.dataContent5[0];
-        // this.setTestimoniSection(res.data.dataContent8);
-        // this.content6 = res.data.dataContent9[0];
+        this.setContent3Section(res.data.dataContent3);
+        this.setContent4Section(res.data.dataContent4);
       }
     } catch (error) {
       console.error(error);
     }
   },
   methods: {
+    formatImageSource(endpoint) {
+      return process.env.apiUrl + `/storage/${endpoint}`;
+    },
     ApiUrl(param) {
       return process.env.apiUrl + "/" + param;
     },
@@ -281,6 +197,35 @@ export default {
       this.header.hero.subjudul = content.text;
       this.header.hero.image = content.gambar;
     },
-  }
+    setContent4Section(contents) {
+      this.content4.item = [];
+      for (let indexCtn = 0; indexCtn < contents.length; indexCtn++) {
+        if (contents[indexCtn].id_content == 0) {
+          this.content4.judul = contents[indexCtn].judul;
+          this.content4.text = contents[indexCtn].text;
+        } else {
+          this.content4.item.push(contents[indexCtn]);
+        }
+      }
+    },
+    setContent3Section(contents) {
+      this.content3 = [];
+      for (let indexCtn = 0; indexCtn < contents.length; indexCtn++) {
+        const judul = JSON.parse(contents[indexCtn].judul)[0].judul1;
+        const text = JSON.parse(contents[indexCtn].text)[0].text1;
+        const tahun = JSON.parse(contents[indexCtn].tahun)[0].tahun1;
+        const bulan = JSON.parse(contents[indexCtn].bulan)[0].bulan1;
+        const posisi = JSON.parse(contents[indexCtn].posisi)[0].posisi1;
+
+        this.content3.push({
+          judul: judul,
+          text: text,
+          tahun: tahun,
+          bulan: bulan,
+          posisi: posisi,
+        });
+      }
+    },
+  },
 };
 </script>
