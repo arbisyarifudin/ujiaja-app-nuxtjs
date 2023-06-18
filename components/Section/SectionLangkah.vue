@@ -19,7 +19,7 @@
               </div>
               <div class="ml-2">
                 <h3 class="judul">{{ item.judul }}</h3>
-                <p>{{ item.deskripsi }}</p>
+                <p v-html="item.deskripsi" />
               </div>
             </div>
           </div>

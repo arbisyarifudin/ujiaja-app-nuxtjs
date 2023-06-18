@@ -4,11 +4,11 @@
     <SectionKeunggulan :props="keunggulan" variant="bg-transparent" />
     <SectionLangkah :props="langkah" />
     <SectionCardHero
-      src="/hero-lagi-person-7.png"
-      title="Apa yang ingin kamu pelajari? Temukan guru privatmu di UjiAja."
-      description="Lebih dari ratusan siswa telah memberikan rate dan ulasan yang baik dengan guru mereka."
-      href="/app/student/courses"
-      cta-text="Temukan Sekarang"
+      :src="formatImageSource(content4.gambar)"
+      :title="content4.judul"
+      :description="content4.text"
+      :href="content4.link"
+      :cta-text="content4.tombol"
       button
     />
 
@@ -45,23 +45,14 @@ export default {
       },
       langkah: {
         judul: "Cara Temukan Guru Les Privat",
-        langkah: [
-          {
-            judul: "Temukan Guru Les Privat",
-            deskripsi:
-              'Masuk ke Web UjiAja untuk Siswa, lalu pilih menu "Les Privat", cari guru les berdasarkan mata pelajaran. Pilih guru dan lihat informasi mengenai guru yang kamu pilih.',
-          },
-          {
-            judul: "Pesan Les Privat",
-            deskripsi:
-              "Tekan tombol “Pesan”, pilih jadwal dan tekan tombol “Lanjutkan” untuk proses pembayaran.",
-          },
-          {
-            judul: "Pembayaran dan Verifikasi Guru",
-            deskripsi:
-              "Lakukan pembayaran sesuai invoice, sistem akan memverifikasi pembayaran dan mengirimkan request ke guru. Tunggu hingga guru memverifikasi dan kamu dapat notifikasi les privat tersebut berhasil diterima guru.",
-          },
-        ],
+        langkah: [],
+      },
+      content4: {
+        judul: "",
+        text: "",
+        tombol: "",
+        link: "",
+        gambar: "",
       },
       pertanyaan: [
         {
@@ -160,8 +151,8 @@ export default {
       if (resContent.data.success) {
         this.setHeroSection(res.data.dataContent1[0]);
         this.keunggulan.item = res.data.dataContent2;
-        // this.setContent3Section(res.data.dataContent3);
-        // this.content4 = res.data.dataContent5[0];
+        this.setContent3Section(res.data.dataContent3);
+        this.content4 = res.data.dataContent4[0];
         // this.setTestimoniSection(res.data.dataContent8);
         // this.content6 = res.data.dataContent9[0];
       }
@@ -186,6 +177,14 @@ export default {
       this.header.hero.ctaButtonUrl = content.link;
       this.header.hero.image = content.gambar;
     },
-  }
+    setContent3Section(contents) {
+      for (let indexContent = 0; indexContent < contents.length; indexContent++) {
+        this.langkah.langkah.push({
+          judul: contents[indexContent].judul,
+          deskripsi: contents[indexContent].text,
+        });
+      }
+    },
+  },
 };
 </script>
