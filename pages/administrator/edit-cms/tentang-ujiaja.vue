@@ -542,6 +542,10 @@ export default {
           this.originalContent3 = master3;
 
           for (let indexCtn = 0; indexCtn < master3.length; indexCtn++) {
+            if (!this.content3[indexCtn]) {
+              this.content3[indexCtn] = {};
+            }
+
             const judul = JSON.parse(master3[indexCtn].judul);
             const subJudul = JSON.parse(master3[indexCtn].sub_judul);
             const tahun = JSON.parse(master3[indexCtn].tahun);
