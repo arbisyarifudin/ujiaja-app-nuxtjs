@@ -6,7 +6,7 @@
           <h2>{{ props.judul }}</h2>
           <span v-html="props.text" />
         </div>
-        <div class="row w-100 w-md-auto mx-auto">
+        <div class="row w-100 w-md-auto mx-auto justify-content-center">
           <div
             class="col-md-6 mb-md-0 mb-4"
             v-for="(item, i) in props.item"
