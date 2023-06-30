@@ -318,6 +318,7 @@ export default {
       }
       this.$axios
         .$post(`/api/tryout_user/generate-certificate`, {
+          
           id_produk: this.dataResult.detail.id_produk,
           id_user: this.dataResult.detail.id_user,
           referensi: this.$route.query.code,
@@ -325,6 +326,7 @@ export default {
           send_to_email: is_send_to_email
         })
         .then(res => {
+         
           console.log(res);
           if (res.success) {
             if (is_send_to_email == false) {

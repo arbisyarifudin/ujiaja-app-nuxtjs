@@ -126,9 +126,9 @@
                 <button type="button" class="d-block text-center my-3 py-2 rounded-pill bg-white" style="border: 1px solid #B0A6EF; width: 100%;" @click.prevent="loginWithGoogle()">
                   <img src="/Google.svg" alt="" /> Masuk Dengan Google
                 </button>
-                <a href="#" class="d-block text-center my-3 py-3 rounded-pill bg-white" style="border: 1px solid #B0A6EF">
+                <!-- <a href="#" class="d-block text-center my-3 py-3 rounded-pill bg-white" style="border: 1px solid #B0A6EF">
                   <img src="/Facebook.svg" alt="" /> Masuk Dengan Facebook
-                </a>
+                </a> -->
                 <!-- <div class="text-center px-4 pt-2">
                   <p class="small">
                     Dengan masuk ke UjiAja, saya menyetujui <br />
