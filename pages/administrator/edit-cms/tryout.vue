@@ -2,20 +2,25 @@
   <div class="col-md-12">
     <UIKonten>
       <template #title>Konten 1</template>
-      <EditorContentMaster :content="master" />
+      <EditorContentMaster
+        :original="originalMaster"
+        :contents="master"
+        :can-add="false"
+      />
       <div class="col-md-12 pt-4">
         <button @click="saveMasterContent" class="btn btn-primary">Simpan</button>
       </div>
     </UIKonten>
     <UIKonten>
       <template #title>Konten 2</template>
-      <EditorContentCard v-for="(card, i) in cards" :key="i" :content="card" />
-      <div class="col-md-12 pt-3 mt-1 row">
-        <button @click="addCardContent" class="btn btn-outline-primary">+ Tambah Sub Konten</button>
-        <button @click="deleteCardContent" class="btn btn-outline-danger ml-3">Hapus Sub Konten</button>
-      </div>
+      <EditorContentCard
+        v-for="(crsl, i) in carousel"
+        :key="i"
+        :content="crsl"
+        :original="originalCarousel[i]"
+      />
       <div class="col-md-12 pt-4">
-        <button @click="saveCardContent" class="btn btn-primary">Simpan</button>
+        <button @click="saveCarousel" class="btn btn-primary">Simpan</button>
       </div>
     </UIKonten>
     <UIKonten>
@@ -23,45 +28,68 @@
       <div class="container-fluid">
         <div class="row border-bottom">
           <div class="form-user col-md-12">
-            <EditorText v-model="product.master.judul" placeholder="Isi Judul baru">
+            <EditorText
+              v-model="konten3Title.judul"
+              :initial-value="originalKonten3Title.judul"
+              placeholder="Isi Judul baru"
+            >
               <template #title>Judul</template>
             </EditorText>
           </div>
           <div class="form-user col-md-12">
-            <EditorTextArea v-model="product.master.text">
+            <EditorTextArea
+              v-model="konten3Title.text"
+              :initial-value="originalKonten3Title.text"
+            >
               <template #title>Text</template>
             </EditorTextArea>
           </div>
         </div>
-        <div v-for="(p, i) in product.products" :key="i" class="row border-bottom">
+        <div v-for="(p, i) in konten3" :key="i" class="row border-bottom">
           <div class="form-user col-md-12">
-            <EditorText v-model="p.judul" placeholder="Isi Judul baru">
+            <EditorText
+              v-model="p.judul"
+              :initial-value="originalKonten3[i].judul"
+              placeholder="Isi Judul baru"
+            >
               <template #title>Judul</template>
             </EditorText>
           </div>
           <div class="form-user col-md-12">
-            <EditorText v-model="p.subJudul" placeholder="Isi Judul baru">
+            <EditorText
+              v-model="p.sub_judul"
+              :initial-value="originalKonten3[i].sub_judul"
+              placeholder="Isi Judul baru"
+            >
               <template #title>Sub Judul</template>
             </EditorText>
           </div>
           <div class="form-user col-md-12">
-            <EditorTextArea v-model="p.text">
+            <EditorTextArea v-model="p.text" :initial-value="originalKonten3[i].text">
               <template #title>Text</template>
             </EditorTextArea>
           </div>
           <div class="form-user col-md-12 pt-3">
-              <EditorText v-model="p.tombol" placeholder="Isi nama tombol baru">
+            <EditorText
+              v-model="p.tombol"
+              :initial-value="originalKonten3[i].tombol"
+              placeholder="Isi nama tombol baru"
+            >
               <template #title>Tombol</template>
             </EditorText>
             <p class="pt-3">Link</p>
             <div class="form-group row justify-content-between px-3">
-              <input v-model="p.link" placeholder="Isi Link yang ingin di tuju" class="form-control col-md-12" />
+              <input
+                v-model="p.link"
+                placeholder="Isi Link yang ingin di tuju"
+                class="form-control col-md-12"
+              />
             </div>
           </div>
         </div>
       </div>
       <div class="col-md-12 pt-4">
-        <button @click="saveProduct" class="btn btn-primary">Simpan</button>
+        <button @click="saveKonten3" class="btn btn-primary">Simpan</button>
       </div>
     </UIKonten>
     <UIKonten>
@@ -69,50 +97,48 @@
       <div class="container-fluid">
         <div class="row border-bottom">
           <div class="form-user col-md-12">
-            <EditorText v-model="product.master.judul" placeholder="Isi Judul baru">
-              <template #title>Judul</template>
-            </EditorText>
-          </div>
-          <div class="form-user col-md-12">
-            <EditorTextArea v-model="product.master.text">
-              <template #title>Text</template>
-            </EditorTextArea>
-          </div>
-        </div>
-        <div v-for="(f, i) in feature.features" :key="i" class="row border-bottom">
-          <div class="col-md-12 pt-2">
-            <EditorImage v-model="f.gambar" :max-size="5">
-              <template #title>
-                Gambar
-              </template>
+            <EditorImage v-model="konten4.gambar" :max-size="5">
+              <template #title> Gambar </template>
               <template #warn>
                 *Disarankan dengan Banner 1276 x 638 pixel, dan Maksimal 5 Mb
               </template>
             </EditorImage>
           </div>
           <div class="form-user col-md-12">
-            <EditorText v-model="f.judul" placeholder="Isi Judul baru">
+            <EditorText
+              v-model="konten4.judul"
+              :initial-value="originalKonten4.judul"
+              placeholder="Isi Judul baru"
+            >
               <template #title>Judul</template>
             </EditorText>
           </div>
           <div class="form-user col-md-12">
-            <EditorTextArea v-model="f.text">
+            <EditorTextArea v-model="konten4.text" :initial-value="originalKonten4.text">
               <template #title>Text</template>
             </EditorTextArea>
           </div>
           <div class="form-user col-md-12 pt-3">
-              <EditorText v-model="f.tombol" placeholder="Isi nama tombol baru">
+            <EditorText
+              v-model="konten4.tombol"
+              :initial-value="originalKonten4.tombol"
+              placeholder="Isi nama tombol baru"
+            >
               <template #title>Tombol</template>
             </EditorText>
             <p class="pt-3">Link</p>
             <div class="form-group row justify-content-between px-3">
-              <input v-model="f.link" placeholder="Isi Link yang ingin di tuju" class="form-control col-md-12" />
+              <input
+                v-model="konten4.link"
+                placeholder="Isi Link yang ingin di tuju"
+                class="form-control col-md-12"
+              />
             </div>
           </div>
         </div>
       </div>
       <div class="col-md-12 pt-4">
-        <button @click="saveFeature" class="btn btn-primary">Simpan</button>
+        <button @click="saveKonten4" class="btn btn-primary">Simpan</button>
       </div>
     </UIKonten>
     <UIKonten>
@@ -120,38 +146,67 @@
       <div class="container-fluid">
         <div class="row border-bottom">
           <div class="form-user col-md-12">
-            <EditorImage v-model="test.gambar" :max-size="5">
-              <template #title>
-                Gambar
-              </template>
+            <EditorText
+              v-model="reviewTitle.judul"
+              :initial-value="originalReviewTitle.judul"
+              placeholder="Isi Judul baru"
+            >
+              <template #title>Judul</template>
+            </EditorText>
+          </div>
+          <div class="form-user col-md-12">
+            <EditorTextArea
+              v-model="reviewTitle.text"
+              :initial-value="originalReviewTitle.text"
+            >
+              <template #title>Text</template>
+            </EditorTextArea>
+          </div>
+        </div>
+        <div v-for="(r, i) in review" :key="i" class="row border-bottom">
+          <div class="col-md-12 pt-2">
+            <EditorImage v-model="r.foto" :max-size="5">
+              <template #title> Gambar </template>
               <template #warn>
                 *Disarankan dengan Banner 1276 x 638 pixel, dan Maksimal 5 Mb
               </template>
             </EditorImage>
           </div>
           <div class="form-user col-md-12">
-            <EditorText v-model="test.judul" placeholder="Isi Judul baru">
-              <template #title>Judul</template>
+            <EditorText
+              v-model="r.nama"
+              :initial-value="originalReview[i].nama"
+              placeholder="Isi Nama baru"
+            >
+              <template #title>Nama</template>
             </EditorText>
           </div>
           <div class="form-user col-md-12">
-            <EditorTextArea v-model="test.text">
+            <EditorText
+              v-model="r.jurusan"
+              :initial-value="originalReview[i].jurusan"
+              placeholder="Isi Jurusan baru"
+            >
+              <template #title>Jurusan</template>
+            </EditorText>
+          </div>
+          <div class="form-user col-md-12">
+            <EditorTextArea v-model="r.text" :initial-value="originalReview[i].text">
               <template #title>Text</template>
             </EditorTextArea>
           </div>
-          <div class="form-user col-md-12 pt-3">
-            <EditorText v-model="test.tombol" placeholder="Isi nama tombol baru">
-              <template #title>Tombol</template>
-            </EditorText>
-            <p class="pt-3">Link</p>
-            <div class="form-group row justify-content-between px-3">
-              <input v-model="test.link" placeholder="Isi Link yang ingin di tuju" class="form-control col-md-12" />
-            </div>
-          </div>
+        </div>
+        <div class="row py-2 border-bottom">
+          <button @click="addReview" class="btn btn-outline-primary">
+            + Tambah Review
+          </button>
+          <button @click="deleteReview" class="btn btn-outline-danger ml-3">
+            - Hapus Review
+          </button>
         </div>
       </div>
       <div class="col-md-12 pt-4">
-        <button @click="saveTest" class="btn btn-primary">Simpan</button>
+        <button @click="saveReview" class="btn btn-primary">Simpan</button>
       </div>
     </UIKonten>
     <UIKonten>
@@ -159,171 +214,46 @@
       <div class="container-fluid">
         <div class="row border-bottom">
           <div class="form-user col-md-12">
-            <EditorText v-model="tryout.judul" placeholder="Isi Judul baru">
-              <template #title>Judul</template>
-            </EditorText>
-          </div>
-          <div class="form-user col-md-12">
-            <EditorTextArea v-model="tryout.text">
-              <template #title>Text</template>
-            </EditorTextArea>
-          </div>
-          <div class="form-user col-md-12">
-            <EditorText v-model="tryout.subJudul" placeholder="Isi Judul baru">
-              <template #title>Sub Judul</template>
-            </EditorText>
-          </div>
-          <div class="form-user col-md-12">
-            <EditorTextArea v-model="tryout.subText">
-              <template #title>Text</template>
-            </EditorTextArea>
-          </div>
-          <div class="form-user col-md-12 pt-3">
-            <EditorText v-model="tryout.tombol" placeholder="Isi nama tombol baru">
-              <template #title>Tombol</template>
-            </EditorText>
-            <p class="pt-3">Link</p>
-            <div class="form-group row justify-content-between px-3">
-              <input v-model="tryout.link" placeholder="Isi Link yang ingin di tuju" class="form-control col-md-12" />
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-12 pt-4">
-        <button @click="saveTryout" class="btn btn-primary">Simpan</button>
-      </div>
-    </UIKonten>
-    <UIKonten>
-      <template #title>Konten 7</template>
-      <div class="container-fluid">
-        <div class="row border-bottom">
-          <div class="form-user col-md-12">
-            <EditorText v-model="degree.judul" placeholder="Isi Judul baru">
-              <template #title>Judul</template>
-            </EditorText>
-          </div>
-          <div class="form-user col-md-12">
-            <EditorTextArea v-model="degree.text">
-              <template #title>Text</template>
-            </EditorTextArea>
-          </div>
-          <div class="form-user col-md-12">
-            <EditorImage v-model="degree.gambar" :max-size="5">
-              <template #title>
-                Gambar
-              </template>
-              <template #warn>
-                *Disarankan dengan Banner 1276 x 638 pixel, dan Maksimal 5 Mb
-              </template>
-            </EditorImage>
-          </div>
-          <div class="form-user col-md-12">
-            <EditorText v-model="degree.subJudul" placeholder="Isi Judul baru">
-              <template #title>Sub Judul</template>
-            </EditorText>
-          </div>
-          <div class="form-user col-md-12">
-            <EditorTextArea v-model="degree.subText">
-              <template #title>Text</template>
-            </EditorTextArea>
-          </div>
-          <div class="form-user col-md-12 pt-3">
-            <EditorText v-model="degree.tombol" placeholder="Isi nama tombol baru">
-              <template #title>Tombol</template>
-            </EditorText>
-            <p class="pt-3">Link</p>
-            <div class="form-group row justify-content-between px-3">
-              <input v-model="degree.link" placeholder="Isi Link yang ingin di tuju" class="form-control col-md-12" />
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-12 pt-4">
-        <button @click="saveDegree" class="btn btn-primary">Simpan</button>
-      </div>
-    </UIKonten>
-    <UIKonten>
-      <template #title>Konten 8</template>
-      <div class="container-fluid">
-        <div class="row border-bottom">
-          <div class="form-user col-md-12">
-            <EditorText v-model="review.master.judul" placeholder="Isi Judul baru">
-              <template #title>Judul</template>
-            </EditorText>
-          </div>
-          <div class="form-user col-md-12">
-            <EditorTextArea v-model="review.master.text">
-              <template #title>Text</template>
-            </EditorTextArea>
-          </div>
-        </div>
-        <div v-for="(r, i) in review.reviews" :key="i" class="row border-bottom">
-          <div class="col-md-12 pt-2">
-            <EditorImage v-model="r.gambar" :max-size="5">
-              <template #title>
-                Gambar
-              </template>
-              <template #warn>
-                *Disarankan dengan Banner 1276 x 638 pixel, dan Maksimal 5 Mb
-              </template>
-            </EditorImage>
-          </div>
-          <div class="form-user col-md-12">
-            <EditorText v-model="r.nama" placeholder="Isi Nama baru">
-              <template #title>Nama</template>
-            </EditorText>
-          </div>
-          <div class="form-user col-md-12">
-            <EditorText v-model="r.jurusan" placeholder="Isi Jurusan baru">
-              <template #title>Jurusan</template>
-            </EditorText>
-          </div>
-          <div class="form-user col-md-12">
-            <EditorTextArea v-model="r.text">
-              <template #title>Text</template>
-            </EditorTextArea>
-          </div>
-        </div>
-        <div class="row py-2 border-bottom">
-          <button @click="addReview" class="btn btn-outline-primary">+ Tambah Review</button>
-          <button @click="deleteReview" class="btn btn-outline-danger ml-3">- Hapus Review</button>
-        </div>
-      </div>
-      <div class="col-md-12 pt-4">
-        <button @click="saveFeature" class="btn btn-primary">Simpan</button>
-      </div>
-    </UIKonten>
-    <UIKonten>
-      <template #title>Konten 9</template>
-      <div class="container-fluid">
-        <div class="row border-bottom">
-          <div class="form-user col-md-12">
             <EditorImage v-model="register.gambar" :max-size="5">
-              <template #title>
-                Gambar
-              </template>
+              <template #title> Gambar </template>
               <template #warn>
                 *Disarankan dengan Banner 1276 x 638 pixel, dan Maksimal 5 Mb
               </template>
             </EditorImage>
           </div>
           <div class="form-user col-md-12">
-            <EditorText v-model="register.judul" placeholder="Isi Judul baru">
+            <EditorText
+              v-model="register.judul"
+              :initial-value="originalRegister.judul"
+              placeholder="Isi Judul baru"
+            >
               <template #title>Judul</template>
             </EditorText>
           </div>
           <div class="form-user col-md-12">
-            <EditorTextArea v-model="register.text">
+            <EditorTextArea
+              v-model="register.text"
+              :initial-value="originalRegister.text"
+            >
               <template #title>Text</template>
             </EditorTextArea>
           </div>
           <div class="form-user col-md-12 pt-3">
-            <EditorText v-model="register.tombol" placeholder="Isi nama tombol baru">
+            <EditorText
+              v-model="register.tombol"
+              :initial-value="originalRegister.tombol"
+              placeholder="Isi nama tombol baru"
+            >
               <template #title>Tombol</template>
             </EditorText>
             <p class="pt-3">Link</p>
             <div class="form-group row justify-content-between px-3">
-              <input v-model="register.link" placeholder="Isi Link yang ingin di tuju" class="form-control col-md-12" />
+              <input
+                v-model="register.link"
+                :initial-value="originalRegister.link"
+                placeholder="Isi Link yang ingin di tuju"
+                class="form-control col-md-12"
+              />
             </div>
           </div>
         </div>
@@ -336,228 +266,555 @@
 </template>
 
 <script>
+import objectToFormData from "../../../helpers/object-to-form-data";
+
 export default {
   data() {
     return {
-      master:{
-        banner: null,
-        gambar: null,
-        judul: '',
-        text: '',
-        sub_content: [
-          {
-            tombol: '',
-            link: ''
-          }
-        ]
-      },
-      cards: [
+      originalMaster: [
         {
-          judul: '',
-          card: null,
-          posisiGambar: null
-        }
+          id: "",
+          banner: "",
+          gambar: "",
+          judul: "",
+          text: "",
+          tombol: "",
+          link: "",
+        },
       ],
-      product: {
-        master: {
-          judul: '',
-          text: ''
+      master: [
+        {
+          id: "",
+          banner: "",
+          gambar: "",
+          judul: "",
+          text: "",
+          tombol: "",
+          link: "",
         },
-        products: [
-          {
-            judul: '',
-            subJudul: '',
-            text: '',
-            tombol: '',
-            link: ''
-          },
-          {
-            judul: '',
-            subJudul: '',
-            text: '',
-            tombol: '',
-            link: ''
-          }
-        ]
-      },
-      feature: {
-        master: {
-          judul: '',
-          text: ''
+      ],
+      originalCarousel: [
+        {
+          id: "",
+          carousel: "",
+          judul: "",
+          text: "",
         },
-        features: [
-          {
-            gambar: null,
-            judul: '',
-            text: '',
-            tombol: '',
-            link: ''
-          },
-          {
-            gambar: null,
-            judul: '',
-            text: '',
-            tombol: '',
-            link: ''
-          },
-          {
-            gambar: null,
-            judul: '',
-            text: '',
-            tombol: '',
-            link: ''
-          },
-        ]
+        {
+          id: "",
+          carousel: "",
+          judul: "",
+          text: "",
+        },
+        {
+          id: "",
+          carousel: "",
+          judul: "",
+          text: "",
+        },
+      ],
+      carousel: [
+        {
+          id: "",
+          carousel: "",
+          judul: "",
+          text: "",
+        },
+        {
+          id: "",
+          carousel: "",
+          judul: "",
+          text: "",
+        },
+        {
+          id: "",
+          carousel: "",
+          judul: "",
+          text: "",
+        },
+      ],
+      originalKonten3Title: {
+        id: "",
+        id_content: 0,
+        judul: "",
+        text: "",
       },
-      test: {
+      konten3Title: {
+        id: "",
+        id_content: 0,
+        judul: "",
+        text: "",
+      },
+      originalKonten3: [
+        {
+          id: "",
+          id_content: 1,
+          judul: "",
+          sub_judul: "",
+          tombol: "",
+          link: "",
+          text: "",
+        },
+        {
+          id: "",
+          id_content: 1,
+          judul: "",
+          sub_judul: "",
+          tombol: "",
+          link: "",
+          text: "",
+        },
+        {
+          id: "",
+          id_content: 1,
+          judul: "",
+          sub_judul: "",
+          tombol: "",
+          link: "",
+          text: "",
+        },
+        {
+          id: "",
+          id_content: 1,
+          judul: "",
+          sub_judul: "",
+          tombol: "",
+          link: "",
+          text: "",
+        },
+      ],
+      konten3: [
+        {
+          id: "",
+          id_content: 1,
+          judul: "",
+          sub_judul: "",
+          tombol: "",
+          link: "",
+          text: "",
+        },
+        {
+          id: "",
+          id_content: 1,
+          judul: "",
+          sub_judul: "",
+          tombol: "",
+          link: "",
+          text: "",
+        },
+        {
+          id: "",
+          id_content: 1,
+          judul: "",
+          sub_judul: "",
+          tombol: "",
+          link: "",
+          text: "",
+        },
+        {
+          id: "",
+          id_content: 1,
+          judul: "",
+          sub_judul: "",
+          tombol: "",
+          link: "",
+          text: "",
+        },
+      ],
+      originalKonten4: {
+        id: "",
         gambar: null,
-        judul: '',
-        text: '',
-        tombol: '',
-        link: ''
+        judul: "",
+        text: "",
+        tombol: "",
+        link: "",
       },
-      tryout: {
-        judul: '',
-        text: '',
-        subJudul: '',
-        subText: '',
-        tombol: '',
-        link: ''
-      },
-      degree: {
-        judul: '',
-        text: '',
+      konten4: {
+        id: "",
         gambar: null,
-        subJudul: '',
-        subText: '',
-        tombol: '',
-        link: ''
+        judul: "",
+        text: "",
+        tombol: "",
+        link: "",
       },
-      review: {
-        master: {
-          judul: '',
-          text: '',
+      originalReviewTitle: {
+        id: "",
+        id_content: 0,
+        judul: "",
+        text: "",
+      },
+      reviewTitle: {
+        id: "",
+        id_content: 0,
+        judul: "",
+        text: "",
+      },
+      originalReview: [
+        {
+          id: "",
+          id_content: 1,
+          foto: null,
+          judul: "",
+          nama: "",
+          jurusan: "",
+          text: "",
         },
-        reviews: [
-          {
-            gambar: null,
-            nama: '',
-            jurusan: '',
-            text: ''
-          },
-        ]
+      ],
+      review: [
+        {
+          id: "",
+          id_content: 1,
+          foto: null,
+          judul: "",
+          nama: "",
+          jurusan: "",
+          text: "",
+        },
+      ],
+      originalRegister: {
+        id: "",
+        gambar: null,
+        judul: "",
+        text: "",
+        tombol: "",
+        link: "",
       },
       register: {
+        id: "",
         gambar: null,
-        judul: '',
-        text: '',
-        tombol: '',
-        link: ''
+        judul: "",
+        text: "",
+        tombol: "",
+        link: "",
       },
-    }
+    };
   },
   methods: {
-    saveMasterContent() {
-      console.log(this.master)
-    },
-    saveCardContent() {
-      console.log(this.cards)
-    },
-    addCardContent() {
-      this.cards.push({
-        judul: '',
-        card: null,
-        posisiGambar: null
-      })
-    },
     addReview() {
-      this.review.reviews.push({
-        gambar: '',
-        jurusan: '',
-        text: ''
-      })
+      this.review.push({
+        id: "",
+        id_content: 1,
+        foto: "",
+        judul: "",
+        nama: "",
+        jurusan: "",
+        text: "",
+      });
+      this.originalReview.push({
+        id: "",
+        id_content: 1,
+        foto: "",
+        judul: "",
+        nama: "",
+        jurusan: "",
+        text: "",
+      });
     },
-    deleteReview() {
-      if (this.review.reviews.length) this.review.reviews.pop()
-    },
-    deleteCardContent() {
-      this.cards.pop()
-    },
-    async saveProduct() {
+    async saveMasterContent() {
+      if (typeof this.master[0].banner == "string") {
+        this.master[0].banner = "";
+      }
+      if (typeof this.master[0].gambar == "string") {
+        this.master[0].gambar = "";
+      }
       try {
-        const res = await this.$axios.post('/api/cms/tryout', {
-          konten3: this.product
-        })
-        if (res.status === 200) window.alert("berhasil menyimpan konten")
+        const payload = objectToFormData({ konten1: { data: this.master } });
+        const res = await this.$axios.post("/api/cms/tryout", payload, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
+        if (res.data.success) {
+          this.getMainPageData();
+          this.$bvToast.toast("Berhasil mengubah konten", {
+            title: "Sukses",
+            variant: "success",
+            solid: true,
+            autoHideDelay: 3000,
+          });
+        }
       } catch (e) {
-        window.alert("gagal menyimpan konten")
+        console.log(e);
+        this.$bvToast.toast("Gagal menyimpan konten", {
+          title: "Error",
+          variant: "danger",
+          solid: true,
+          autoHideDelay: 3000,
+        });
       }
     },
-    async saveFeature() {
+    async saveCarousel() {
+      for (let i = 0; i < this.carousel.length; i++) {
+        if (typeof this.carousel[i].carousel == "string") {
+          this.carousel[i].carousel = "";
+        }
+      }
       try {
-        const payload = objectToFormData({ konten4: this.feature })
-        const res = await this.$axios.post('/api/cms/tryout', payload, {
-          headers: { 'Content-Type': 'multipart/form-data' }
-        })
-        if (res.status === 200) window.alert("berhasil menyimpan konten")
+        const payload = objectToFormData({ konten2: { data: this.carousel } });
+        const res = await this.$axios.post("/api/cms/tryout", payload, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
+        if (res.data.success) {
+          this.getMainPageData();
+          this.$bvToast.toast("Berhasil mengubah konten", {
+            title: "Sukses",
+            variant: "success",
+            solid: true,
+            autoHideDelay: 3000,
+          });
+        }
       } catch (e) {
-        window.alert("gagal menyimpan konten")
+        this.$bvToast.toast("Gagal menyimpan konten", {
+          title: "Error",
+          variant: "danger",
+          solid: true,
+          autoHideDelay: 3000,
+        });
       }
     },
-    async saveTest() {
+    async saveKonten3() {
       try {
-        const payload = objectToFormData({ konten5: this.test })
-        const res = await this.$axios.post('/api/cms/tryout', payload, {
-          headers: { 'Content-Type': 'multipart/form-data' }
-        })
-        if (res.status === 200) window.alert("berhasil menyimpan konten")
+        const payload = objectToFormData({
+          konten3: { data: [...this.konten3, this.konten3Title] },
+        });
+        const res = await this.$axios.post("/api/cms/tryout", payload);
+        if (res.data.success) {
+          this.getMainPageData();
+          this.$bvToast.toast("Berhasil mengubah konten", {
+            title: "Sukses",
+            variant: "success",
+            solid: true,
+            autoHideDelay: 3000,
+          });
+        }
       } catch (e) {
-        window.alert("gagal menyimpan konten")
+        this.$bvToast.toast("Gagal menyimpan konten", {
+          title: "Error",
+          variant: "danger",
+          solid: true,
+          autoHideDelay: 3000,
+        });
       }
     },
-    async saveTryout() {
+    async saveKonten4() {
       try {
-        const res = await this.$axios.post('/api/cms/tryout', {
-          konten6: this.tryout
-        })
-        if (res.status === 200) window.alert("berhasil menyimpan konten")
+        const payload = objectToFormData({ konten4: this.konten4 });
+        const res = await this.$axios.post("/api/cms/tryout", payload, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
+        if (res.data.success) {
+          this.getMainPageData();
+          this.$bvToast.toast("Berhasil mengubah konten", {
+            title: "Sukses",
+            variant: "success",
+            solid: true,
+            autoHideDelay: 3000,
+          });
+        }
       } catch (e) {
-        window.alert("gagal menyimpan konten")
-      }
-    },
-    async saveDegree() {
-      try {
-        const payload = objectToFormData({ konten7: this.degree })
-        const res = await this.$axios.post('/api/cms/tryout', payload, {
-          headers: { 'Content-Type': 'multipart/form-data' }
-        })
-        if (res.status === 200) window.alert("berhasil menyimpan konten")
-      } catch (e) {
-        window.alert("gagal menyimpan konten")
+        this.$bvToast.toast("Gagal menyimpan konten", {
+          title: "Error",
+          variant: "danger",
+          solid: true,
+          autoHideDelay: 3000,
+        });
       }
     },
     async saveReview() {
       try {
-        const payload = objectToFormData({ konten8: this.review })
-        const res = await this.$axios.post('/api/cms/tryout', payload, {
-          headers: { 'Content-Type': 'multipart/form-data' }
-        })
-        if (res.status === 200) window.alert("berhasil menyimpan konten")
+        const payload = objectToFormData({
+          konten5: { data: [...this.review, this.reviewTitle] },
+        });
+        const res = await this.$axios.post("/api/cms/tryout", payload, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
+        if (res.data.success) {
+          this.getMainPageData();
+          this.$bvToast.toast("Berhasil mengubah konten", {
+            title: "Sukses",
+            variant: "success",
+            solid: true,
+            autoHideDelay: 3000,
+          });
+        }
       } catch (e) {
-        window.alert("gagal menyimpan konten")
+        this.$bvToast.toast("Gagal menyimpan konten", {
+          title: "Error",
+          variant: "danger",
+          solid: true,
+          autoHideDelay: 3000,
+        });
+      }
+    },
+    async deleteReview() {
+      try {
+        const lastData = this.review[this.review.length - 1];
+        if (lastData.id == "") {
+          this.review.pop();
+          return false;
+        }
+        const res = await this.$axios.post(
+          `/api/cms/tutor/delete-content8/${lastData.id}`,
+          {}
+        );
+        if (res.data.success) {
+          this.review.pop();
+          this.getMainPageData();
+          this.$bvToast.toast("Berhasil menghapus konten", {
+            title: "Sukses",
+            variant: "success",
+            solid: true,
+            autoHideDelay: 3000,
+          });
+        }
+      } catch (e) {
+        this.$bvToast.toast("Gagal menghapus konten", {
+          title: "Error",
+          variant: "danger",
+          solid: true,
+          autoHideDelay: 3000,
+        });
       }
     },
     async saveRegister() {
       try {
-        const payload = objectToFormData({ konten9: this.register })
-        const res = await this.$axios.post('/api/cms/tryout', payload, {
-          headers: { 'Content-Type': 'multipart/form-data' }
-        })
-        if (res.status === 200) window.alert("berhasil menyimpan konten")
+        const payload = objectToFormData({ konten6: this.register });
+        const res = await this.$axios.post("/api/cms/tryout", payload, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
+        if (res.data.success) {
+          this.getMainPageData();
+          this.$bvToast.toast("Berhasil mengubah konten", {
+            title: "Sukses",
+            variant: "success",
+            solid: true,
+            autoHideDelay: 3000,
+          });
+        }
       } catch (e) {
-        window.alert("gagal menyimpan konten")
+        this.$bvToast.toast("Gagal menyimpan konten", {
+          title: "Error",
+          variant: "danger",
+          solid: true,
+          autoHideDelay: 3000,
+        });
       }
     },
-  }
-}
+    async getMainPageData() {
+      const { data } = await this.$axios.get("/api/cms/tryout/get");
+      if (data.data instanceof Object) {
+        // Konten 1
+        const masterContent = data.data.dataContent1;
+        if (masterContent.length > 0) {
+          this.originalMaster = masterContent;
+          this.master[0].id = this.originalMaster[0].id;
+          this.master[0].banner = this.originalMaster[0].banner;
+          this.master[0].gambar = this.originalMaster[0].gambar;
+          this.master[0].judul = this.originalMaster[0].judul;
+          this.master[0].text = this.originalMaster[0].text;
+          this.master[0].tombol = this.originalMaster[0].tombol;
+          this.master[0].link = this.originalMaster[0].link;
+        }
+
+        // Konten 2
+        const masterCarousel = data.data.dataContent2;
+        if (masterCarousel.length > 0) {
+          this.originalCarousel = masterCarousel;
+          for (let i = 0; i < masterCarousel.length; i++) {
+            if (!this.carousel[i]) {
+              this.carousel[i] = {};
+            }
+            this.carousel[i].id = masterCarousel[i].id;
+            this.carousel[i].carousel = masterCarousel[i].carousel;
+            this.carousel[i].judul = masterCarousel[i].judul;
+            this.carousel[i].text = masterCarousel[i].text;
+          }
+        }
+
+        // Konten 3
+        let master3 = data.data.dataContent3;
+        if (master3.length > 0) {
+          const title = master3.find((rev) => rev.id_content == 0);
+          this.originalKonten3 = title;
+          this.konten3Title.id = title.id;
+          this.konten3Title.judul = title.judul;
+          this.konten3Title.text = title.text;
+          master3.splice(
+            master3.findIndex((rvw) => rvw.id == title.id),
+            1
+          );
+
+          this.originalKonten3 = master3;
+
+          for (let indexCtn = 0; indexCtn < master3.length; indexCtn++) {
+            if (!this.konten3[indexCtn]) {
+              this.konten3[indexCtn] = {};
+            }
+            this.konten3[indexCtn].id = master3[indexCtn].id;
+            this.konten3[indexCtn].id_content = master3[indexCtn].id_content;
+            this.konten3[indexCtn].judul = master3[indexCtn].judul;
+            this.konten3[indexCtn].sub_judul = master3[indexCtn].sub_judul;
+            this.konten3[indexCtn].text = master3[indexCtn].text;
+            this.konten3[indexCtn].tombol = master3[indexCtn].tombol;
+            this.konten3[indexCtn].link = master3[indexCtn].link;
+          }
+        }
+
+        // Konten 4
+        const master4 = data.data.dataContent4[0];
+        if (data.data.dataContent5.length > 0) {
+          this.originalKonten4 = master4;
+          this.konten4.id = master4.id;
+          this.konten4.judul = master4.judul;
+          this.konten4.gambar = master4.gambar;
+          this.konten4.text = master4.text;
+          this.konten4.tombol = master4.tombol;
+          this.konten4.link = master4.link;
+        }
+
+        // Konten 5
+        let masterReview = data.data.dataContent5;
+        if (masterReview.length > 0) {
+          const title = masterReview.find((rev) => rev.id_content == 0);
+          this.originalReviewTitle = title;
+          this.reviewTitle.id = title.id;
+          this.reviewTitle.judul = title.judul;
+          this.reviewTitle.text = title.text;
+          masterReview.splice(
+            masterReview.findIndex((rvw) => rvw.id == title.id),
+            1
+          );
+
+          this.originalReview = masterReview;
+
+          for (let indexRvw = 0; indexRvw < masterReview.length; indexRvw++) {
+            if (!this.review[indexRvw]) {
+              this.review[indexRvw] = {};
+            }
+            this.review[indexRvw].id = masterReview[indexRvw].id;
+            this.review[indexRvw].id_content = masterReview[indexRvw].id_content;
+            this.review[indexRvw].foto = masterReview[indexRvw].foto;
+            this.review[indexRvw].nama = masterReview[indexRvw].nama;
+            this.review[indexRvw].jurusan = masterReview[indexRvw].jurusan;
+            this.review[indexRvw].text = masterReview[indexRvw].text;
+            this.review[indexRvw].judul = masterReview[indexRvw].judul;
+          }
+        }
+
+        // Konten 6
+        const masterRegister = data.data.dataContent6[0];
+        if (data.data.dataContent6.length > 0) {
+          this.originalRegister = masterRegister;
+          this.register.id = masterRegister.id;
+          this.register.gambar = masterRegister.gambar;
+          this.register.judul = masterRegister.judul;
+          this.register.text = masterRegister.text;
+          this.register.tombol = masterRegister.tombol;
+          this.register.link = masterRegister.link;
+        }
+      }
+    },
+  },
+  async mounted() {
+    await this.getMainPageData();
+  },
+};
 </script>

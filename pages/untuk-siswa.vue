@@ -3,21 +3,21 @@
     <Header variant="melengkung" :heroData="header.hero" :navData="navData" />
     <SectionKeunggulan :props="keunggulan" />
     <SectionCardHero
-      src="/hero-lagi-siswa-1.png"
-      title="Ciptakan Impianmu dan Temukan Potensimu"
-      description="Saatnya gapai kuliah impianmu dengan temukan dan pahami potensi diri."
-      href="/registrasi"
-      cta-text="Tes Sekarang Juga"
+      :src="formatImageSource(content3.gambar)"
+      :title="content3.judul"
+      :description="content3.text"
+      :href="content3.link"
+      :cta-text="content3.tombol"
       button
     />
     <SectionLangkah :props="langkah" />
-    <SectionTestimoni :props="testimoni" />
+    <SectionTestimoni v-if="testimoni.item.length > 0" :props="testimoni" />
     <SectionCardHero
-      src="/hero-lagi-siswa-2.png"
-      title="Ketahui Program Studi yang Cocok Buatmu."
-      description="Lihat rekomendasi kecocokanmu diantara lebih dari 300 program studi di Indonesia."
-      href="/registrasi"
-      cta-text="Tes Sekarang Juga"
+      :src="formatImageSource(content6.gambar)"
+      :title="content6.judul"
+      :description="content6.text"
+      :href="content6.link"
+      :cta-text="content6.tombol"
       button
     />
     <Footer :footerData="footerData" />
@@ -28,8 +28,8 @@
 export default {
   head() {
     return {
-      title: 'Untuk Siswa',
-    }
+      title: "Untuk Siswa",
+    };
   },
   data() {
     return {
@@ -47,105 +47,122 @@ export default {
       },
       keunggulan: {
         judul: "Mengapa harus tes minat bakat di UjiAja?",
-        item: [
-          {
-            gambar: "/icon/untuksiswa1.png",
-            judul: "Melakukan beragam jenis tes",
-            subjudul: "Terdiri dari Kepribadian dan Tes Minat & Bakat.",
-          },
-          {
-            gambar: "/icon/untuksiswa2.png",
-            judul: "Memberikan rekomendasi Untukmu",
-            subjudul:
-              "Dapatkan program studi dan kampus yang cocok denganmu sesuai hasil tes.",
-          },
-          {
-            gambar: "/icon/untuksiswa3.png",
-            judul: "Rasionalisasi Nilai",
-            subjudul:
-              "Ketahui rasionalisasi nilaimu untuk masuk ke jurusan dan kampus impianmu",
-          },
-        ],
+        item: [],
       },
+      content3: {},
       langkah: {
         judul: "Langkah Mengerjakan Tes Minat & Bakat",
-        langkah: [
-          {
-            judul: "Login",
-            deskripsi:
-              "Masuk ke aplikasi web UjiAja untuk siswa, Pilih menu Tes Minat & Bakat.",
-          },
-          {
-            judul: "Mengerjakan Tes Minat & Bakat",
-            deskripsi:
-              'Daftar soal tes tampil dan tekan tombol “Mulai” untuk mengerjakan tes hingga selesai serta akhiri dengan tombol "Selesai".',
-          },
-          {
-            judul: "Hasil Tes Minat & Bakat",
-            deskripsi:
-              "Sistem menampilkan hasil tes minat & bakatmu. Kamu bisa mencetaknya.",
-          },
-        ],
+        langkah: [],
       },
       testimoni: {
         judul: "Apa Kata Mereka Tentang tes ini?",
         deskripsi: "",
         varian: "secondary",
-        item: [
-          {
-            nama: "Emerson Curtis",
-            titel: "SMAN 1 Yogyakarta",
-            testimoni:
-              "Sangat bermanfaat, disekolah ku memang ada bk tapi karena kesibukan jam pelajaran tidak sempat berkonsul oleh karena itu aplikasi ini sangat bermanfaat bagi siswa seperti saya. Terimakasih",
-            foto: "emerson.png",
-          },
-          {
-            nama: "Brandon Vaccaro",
-            titel: "SMAN 1 Sleman",
-            testimoni:
-              "Keren banget! Jadi bisa tau mana potensi diri yang  harus disesuaikan saat ambil jurusan kuliah nanti. Cakep parah deh UjiAja!",
-            foto: "brandon.png",
-          },
-        ],
+        item: [],
       },
+      content6: {},
     };
   },
   asyncData(context) {
     function getSetting(key) {
       const settings = context.store.state.dataSetting;
-      const foundSetting = settings.find(item => item.key == key);
-      if(foundSetting) {
+      const foundSetting = settings.find((item) => item.key == key);
+      if (foundSetting) {
         return foundSetting.isi;
       }
-      return '';
+      return "";
     }
 
     const navData = {
-      logo: getSetting('logo'),
-    }
+      logo: getSetting("logo"),
+    };
 
     const footerData = {
-      logo: getSetting('logo'),
-      alamat_kantor: getSetting('alamat_kantor'),
-      telp: getSetting('telp'),
-      whatsapp: getSetting('whatsapp'),
-      instagram: getSetting('instagram'),
-      facebook: getSetting('facebook'),
-      youtube: getSetting('youtube'),
-      email: getSetting('email'),
-    }
+      logo: getSetting("logo"),
+      alamat_kantor: getSetting("alamat_kantor"),
+      telp: getSetting("telp"),
+      whatsapp: getSetting("whatsapp"),
+      instagram: getSetting("instagram"),
+      facebook: getSetting("facebook"),
+      youtube: getSetting("youtube"),
+      email: getSetting("email"),
+    };
 
     return {
       navData,
-      footerData
+      footerData,
+    };
+  },
+  async fetch() {
+    try {
+      const resContent = await this.$axios.get("/api/cms/siswa/get");
+      const res = resContent.data;
+      console.log(res.data);
+      if (resContent.data.success) {
+        this.setHeroSection(res.data.dataContent1[0]);
+        this.setContent2Section(res.data.dataContent2);
+        this.content3 = res.data.dataContent3[0];
+        this.setContent4Section(res.data.dataContent4);
+        this.setTestimoniSection(res.data.dataContent5);
+        this.content6 = res.data.dataContent6[0];
+      }
+    } catch (error) {
+      console.error(error);
     }
   },
   created() {
     // console.log(this.$store.getters['checkIsAuth'])
-    if(this.$store.getters['checkIsAuth']) {
-      this.header.hero.ctaButtonText = 'Pergi ke Dashboard'
-      this.header.hero.cataButtonUrl = '/app/dashboard'
+    if (this.$store.getters["checkIsAuth"]) {
+      this.header.hero.ctaButtonText = "Pergi ke Dashboard";
+      this.header.hero.cataButtonUrl = "/app/dashboard";
     }
-  }
+  },
+  methods: {
+    formatImageSource(endpoint) {
+      return process.env.apiUrl + `/storage/${endpoint}`;
+    },
+    setHeroSection(content) {
+      this.header.hero.judul = content.judul;
+      this.header.hero.subjudul = content.text;
+      this.header.hero.ctaButtonText = content.tombol;
+      this.header.hero.ctaButtonUrl = content.link;
+      this.header.hero.image = content.gambar;
+    },
+    setContent2Section(content) {
+      for (let i = 0; i < content.length; i++) {
+        if (content[i].id_content == 0) {
+          this.keunggulan.judul = content[i].judul;
+        } else {
+          this.keunggulan.item.push(content[i]);
+        }
+      }
+    },
+    setContent4Section(contents) {
+      for (
+        let indexContent = 0;
+        indexContent < contents.length;
+        indexContent++
+      ) {
+        this.langkah.langkah.push({
+          judul: contents[indexContent].judul,
+          deskripsi: contents[indexContent].text,
+        });
+      }
+    },
+    setTestimoniSection(contents) {
+      for (
+        let indexContent = 0;
+        indexContent < contents.length;
+        indexContent++
+      ) {
+        if (contents[indexContent].id_content == 0) {
+          this.testimoni.judul = contents[indexContent].judul;
+          this.testimoni.deskripsi = contents[indexContent].text;
+        } else {
+          this.testimoni.item.push(contents[indexContent]);
+        }
+      }
+    },
+  },
 };
 </script>

@@ -4,18 +4,12 @@
 
     <no-ssr>
       <vue-tiny-slider v-bind="tinySliderOptions" class="caraousel-image">
-        <div>
+        <div v-for="(hero, indexHero) in heroData" :key="indexHero">
           <div class="container textBanner">
-            <h2 class="judul">{{ heroData.judul }}</h2>
-            <p class="subjudul">{{ heroData.subjudul }}</p>
+            <h2 class="judul">{{ hero.judul }}</h2>
+            <p class="subjudul" v-html="hero.text" />
           </div>
-          <img src="https://picsum.photos/1600/900" alt="" srcset="" />
-        </div>
-        <div>
-          <img src="https://picsum.photos/1600/900" alt="" srcset="" />
-        </div>
-        <div>
-          <img src="https://picsum.photos/1600/900" alt="" srcset="" />
+          <img :src="formatImageSource(hero.banner)" alt="hero-image" />
         </div>
       </vue-tiny-slider>
     </no-ssr>
@@ -85,6 +79,11 @@ export default {
       }
       return false;
     },
+  },
+  methods: {
+    formatImageSource(endpoint) {
+      return process.env.apiUrl + `/storage/${endpoint}`;
+    }
   },
 };
 </script>

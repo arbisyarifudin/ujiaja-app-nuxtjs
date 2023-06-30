@@ -1,27 +1,23 @@
 <template>
   <div>
-    <Header
-      variant="melengkung"
-      :heroData="header.hero"
-      :navData="navData"
-    />
+    <Header variant="melengkung" :heroData="header.hero" :navData="navData" />
     <SectionKeunggulan :props="keunggulan" />
     <SectionProduk :props="produk" />
     <SectionCardHero
-      src="/hero-lagi-person2.png"
-      title="Siap untuk masuk kampus impian bersama UjiAja?"
-      description="Tunggu apa lagi? Mari bergabung dengan UjiAja dan menjadi pemenang di UTBK SBMPTN….!"
-      href="/registrasi"
-      cta-text="Daftar Sekarang"
+      :src="formatImageSource(content4.gambar)"
+      :title="content4.judul"
+      :description="content4.text"
+      :href="content4.link"
+      :cta-text="content4.tombol"
       button
     />
-    <SectionTestimoni :props="testimoni" />
-    <SectionCardHero
-      src="/hero-lagi-person3.png"
-      title="Temukan keseruan latihan dan uji Tryout pilihanmu hanya di UjiAja"
-      description="Persiapkan materi ujianmu selengkap mungkin sesuai kebutuhanmu."
-      href="/registrasi"
-      cta-text="Daftar Sekarang"
+    <SectionTestimoni v-if="testimoni.item.length > 0" :props="testimoni" />
+    <SectionCardHero    
+      :src="formatImageSource(content6.gambar)"
+      :title="content6.judul"
+      :description="content6.text"
+      :href="content6.link"
+      :cta-text="content6.tombol"
       button
     />
     <Footer :footerData="footerData" />
@@ -32,7 +28,7 @@
 export default {
   head() {
     return {
-      title: "Tryout"
+      title: "Tryout",
     };
   },
   data() {
@@ -46,109 +42,38 @@ export default {
           ctaButtonVariant: "secondary",
           cataButtonUrl: "/registrasi",
           image: "/hero-tryout_3.png",
-          isJudulFirst: false
-        }
+          isJudulFirst: false,
+        },
       },
       keunggulan: {
         judul: "Mengapa Kamu harus mencoba tryout di UjiAja?",
-        item: [
-          {
-            gambar: "/icon/icon-tryout.png",
-            judul: "Soal Prediksi Yang Akurat",
-            subjudul: "Soal prediksi tryout yang akurat disertai pembahasan soal dan rekomendasi pendalaman materi."
-          },
-          {
-            gambar: "/icon/icon-tryout2.png",
-            judul: "Penilaian sama dengan sistem UTBK, ASPD, PAT/PAS",
-            subjudul:
-              "Penilaian Tryout di UjiAja menggunakan sistem yang riil dilakukan oleh Panitia SBMPTN dan Panitia PPDB berbagai  di Daerah."
-          },
-          {
-            gambar: "/icon/icon-tryout3.png",
-            judul: "Pemeringkatan secara Nasional",
-            subjudul: "Dilakukan pemeringkatan dan pemetaan secara nasional dan Daerah sesuai kepentingan pengguna."
-          }
-        ]
+        item: [],
       },
       produk: {
         judul: "Ada berapa jenis tryout yang ada di UjiAja?",
         deskripsi:
           "UjiAja menyediakan semua amunisi yang kamu butuhkan untuk menuju kampus impianmu!<br /> Belajar efektif dengan rangkuman lengkap serta ratusan soal yang variatif dan menantang.",
-        item: [
-          {
-            gambar: "/produk/tryout1.png",
-            judul: 'Tryout <span class="large">UTBK</span>',
-            brand: "by UjiAja",
-            deskripsi:
-              "Persiapkan dirimu hadapi ujian UTBK dengan latihan Tryout yang akurat, lengkap dengan fitur terbaik.",
-            tambahan: "Gratis Tes Minat, Bakat & Potensi",
-            url: "/produk/tryout-utbk"
-          },
-          // {
-          //   gambar: "/produk/tryout2.png",
-          //   judul: 'Tryout <span class="large">Asesmen Nasional</span>',
-          //   brand: "by UjiAja",
-          //   deskripsi:
-          //     "Persiapkan dirimu hadapi ujian Asesmen Kompetensi Minimum (Literasi & Numerasi) dengan latihan Tryout AKM yang akurat. Tryout ini ditujukan untuk jenjang SD hingga SMA.",
-          //   tambahan: null,
-          //   url: "/produk/tryout-asesmen-nasional",
-          // },
-          {
-            gambar: "/produk/tryout3.png",
-            judul: 'Tryout <span class="large">ASPD</span>',
-            brand: "by UjiAja",
-            deskripsi:
-              "Persiapkan dirimu hadapi ujian Asesmen Standar Pendidikan Daerah (Khusus DIY) dengan latihan Tryout ASPD yang akurat. Tryout ini ditujukan untuk jenjang SD hingga SMP.",
-            tambahan: null,
-            url: "/produk/tryout-aspd"
-          },
-          {
-            gambar: "/produk/tryout3.png",
-            judul: 'Tryout <span class="large">PAT/PAS</span>',
-            brand: "by UjiAja",
-            deskripsi:
-              "Persiapkan dirimu hadapi ujian Kenaikan Kelas dengan latihan Tryout PAT dan PAS yang akurat. Tryout ini ditujukan untuk jenjang siswa-siswi Kelas 4,5, dan 6 SD ; Kelas 7,8, dan 9 SMP; serta 10,11, dan 12 SMA.",
-            tambahan: null,
-            url: "#"
-          },
-          {
-            gambar: "/produk/tryout4.jpg",
-            judul: 'MB<span class="large">TI</span>',
-            brand: "by UjiAja",
-            deskripsi:
-              "Persiapkan kuliah, dan potensimu dengan pilihan yang tepat sesuai minat dan bakat dengan ikut MBTI. MBTI ini ditujukan untuk jenjang SD hingga SMA.",
-            tambahan: null,
-            url: "/produk/tes-mbti"
-          }
-        ]
+        item: [],
       },
+      gambarProduk: [
+        "/produk/tryout1.png",
+        "/produk/tryout2.png",
+        "/produk/tryout3.png",
+        "/produk/tryout4.jpg",
+      ],
+      content4: {},
       testimoni: {
-        judul: "Ratusan alumni UjiAja Berhasil mewujudkan kampus impian",
+        judul: "",
         deskripsi: "",
-        // varian: 'secondary',
-        item: [
-          {
-            nama: "Carla Mango",
-            titel: "Kedokteran - Universitas Negeri Semarang",
-            testimoni:
-              "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Adipiscing odio id condimentum nisl. Vulputate consequat purus amet facilisis est, lectus non urna morbi. Cursus posuere donec congue velit vitae sit massa purus. Adipiscing at euismod morbi nisl, sit et risus. Eget aliquam lacus vel turpis tellus sed nulla.",
-            foto: "/carla.png"
-          },
-          {
-            nama: "Wilson Aminoff",
-            titel: "Ilmu Komputer - Universitas Gajah Mada",
-            testimoni:
-              "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fames sed nam eget aenean ultrices proin metus. Ut risus, sed dictumst viverra. Faucibus sed fermentum in eros mi in tellus. Varius consequat, amet ut nulla massa rhoncus. Nibh in adipiscing.",
-            foto: "/wilson.png"
-          }
-        ]
-      }
+        item: [],
+      },
+      content6: {},
     };
   },
   asyncData(context) {
     function getSetting(key) {
       const settings = context.store.state.dataSetting;
-      const foundSetting = settings.find(item => item.key == key);
+      const foundSetting = settings.find((item) => item.key == key);
       if (foundSetting) {
         return foundSetting.isi;
       }
@@ -156,7 +81,7 @@ export default {
     }
 
     const navData = {
-      logo: getSetting("logo")
+      logo: getSetting("logo"),
     };
 
     const footerData = {
@@ -167,20 +92,73 @@ export default {
       instagram: getSetting("instagram"),
       facebook: getSetting("facebook"),
       youtube: getSetting("youtube"),
-      email: getSetting("email")
+      email: getSetting("email"),
     };
 
     return {
       navData,
-      footerData
+      footerData,
     };
   },
   created() {
     // console.log(this.$store.getters['checkIsAuth'])
-    if(this.$store.getters['checkIsAuth']) {
-      this.header.hero.ctaButtonText = 'Pergi ke Dashboard'
-      this.header.hero.cataButtonUrl = '/app/dashboard'
+    if (this.$store.getters["checkIsAuth"]) {
+      this.header.hero.ctaButtonText = "Pergi ke Dashboard";
+      this.header.hero.cataButtonUrl = "/app/dashboard";
     }
-  }
+  },
+  async fetch() {
+    try {
+      const resContent = await this.$axios.get("/api/cms/tryout/get");
+      const res = resContent.data;
+      console.log(res.data);
+      if (resContent.data.success) {
+        this.setHeroSection(res.data.dataContent1[0]);
+        this.keunggulan.item = res.data.dataContent2;
+        this.setContent3Section(res.data.dataContent3);
+        this.content4 = res.data.dataContent4[0];
+        this.setTestimoniSection(res.data.dataContent5);
+        this.content6 = res.data.dataContent6[0];
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  },
+  methods: {
+    formatImageSource(endpoint) {
+      return process.env.apiUrl + `/storage/${endpoint}`;
+    },
+    setHeroSection(content) {
+      this.header.hero.judul = content.judul;
+      this.header.hero.subjudul = content.text;
+      this.header.hero.ctaButtonText = content.tombol;
+      this.header.hero.ctaButtonUrl = content.link;
+      this.header.hero.image = content.gambar;
+    },
+    setContent3Section(contents) {
+      for (let indexContent = 0; indexContent < contents.length; indexContent++) {
+        if (contents[indexContent].id_content == 0) {
+          this.produk.judul = contents[indexContent].judul;
+          this.produk.deskripsi = contents[indexContent].text;
+        } else {
+          this.produk.item.push(contents[indexContent]);
+        }
+      }
+
+      for (let indexItem = 0; indexItem < this.produk.item.length; indexItem++) {
+        this.produk.item[indexItem].gambar = this.gambarProduk[indexItem];
+      }
+    },
+    setTestimoniSection(contents) {
+      for (let indexContent = 0; indexContent < contents.length; indexContent++) {
+        if (contents[indexContent].id_content == 0) {
+          this.testimoni.judul = contents[indexContent].judul;
+          this.testimoni.deskripsi = contents[indexContent].text;
+        } else {
+          this.testimoni.item.push(contents[indexContent]);
+        }
+      }
+    },
+  },
 };
 </script>
