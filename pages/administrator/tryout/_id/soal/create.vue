@@ -206,6 +206,7 @@
                               id="jeda_waktu_antar_mapel"
                               placeholder="Ex: 80"
                               v-model="soal.alokasi_waktu_per_mapel"
+                              @input="onUpdateSoal(soal)"
                             />
                           </div>
                           <div class="form-group reg-siswa mb-0">
@@ -218,6 +219,7 @@
                               id="jeda_waktu_antar_mapel"
                               placeholder="Ex: 30"
                               v-model="soal.jeda_waktu_antar_mapel"
+                              @input="onUpdateSoal(soal)"
                             />
                           </div>
                           <UISaveStatus
@@ -1057,6 +1059,7 @@
                               id="jeda_waktu_antar_mapel"
                               placeholder="Ex: 80"
                               v-model="newMapel.alokasi_waktu_per_mapel"
+                              
                             />
                           </div>
                           <div class="form-group reg-siswa">

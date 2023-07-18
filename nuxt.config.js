@@ -5,7 +5,7 @@ export default {
         baseUrl: process.env.NODE_ENV !== "production" ?
             "http://localhost:7000" : "http://ujiaja.com",
         apiUrl: process.env.NODE_ENV !== "production" ?
-            "https://backendv12.ujiaja.com" : "http://54.251.180.39"
+            "http://localhost:8000" : "http://54.251.180.39"
     },
 
     dev: process.env.NODE_ENV !== "production",
@@ -33,12 +33,11 @@ export default {
                 href: "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
             }
         ],
-        script: [
-            {
+        script: [{
                 src: 'https://apis.google.com/js/platform.js',
             },
             {
-              src: "https://accounts.google.com/gsi/client"
+                src: "https://accounts.google.com/gsi/client"
             }
         ],
     },
@@ -93,9 +92,9 @@ export default {
     },
 
     axios: {
-      // proxy: true,
+        // proxy: true,
         baseURL: process.env.NODE_ENV !== "production" ?
-            "https://backendv12.ujiaja.com" : "http://localhost:8000" // Used as fallback if no runtime config is provided
+            "http://localhost:8000" : "http://localhost:8000" // Used as fallback if no runtime config is provided
     },
 
     // proxy: {

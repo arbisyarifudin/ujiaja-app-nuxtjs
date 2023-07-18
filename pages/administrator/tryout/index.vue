@@ -209,7 +209,7 @@
                     <a
                       target="_blank"
                       class="btn btn-outline-warning warning px-3 py-1 px-4 mt-md-2"
-                      :href="apiUrl + '/export?soal_tryout_id=' + item.id"
+                      :href="apiUrl + '/api/tryout/export?soal_tryout_id=' + item.id"
                     >
                       Export Soal
                     </a>

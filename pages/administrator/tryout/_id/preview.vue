@@ -515,6 +515,7 @@ export default {
       loading: true,
       listSubtest: [],
       listPertanyaan: [],
+    
       currentNomor: {},
       tryout: {},
       subtestIndex: 0
