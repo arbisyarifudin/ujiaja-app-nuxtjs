@@ -335,11 +335,11 @@
               <hr />
               <div class="question-list">
                 <div class="question-item">
-                  <div
+                  <span
                     class="question-header-text mb-3"
                     v-if="currentNomor.penjelasan_pertanyaan"
-                    v-html="currentNomor.penjelasan_pertanyaan"
-                  ></div>
+                    v-html="parsedContent(currentNomor.penjelasan_pertanyaan)"
+                  />
                   <div class="question-child-item">
                     <h3 class="question-header-title" :id="'question-1'">
                       Pertanyaan
@@ -364,7 +364,7 @@
                         :value="opsi.uuid"
                       >
                         <span class="letter">{{ letterLabel(o) }}</span>
-                        <div v-html="opsi.option"></div>
+                        <div v-html="parsedContent(opsi.option)"></div>
                       </b-form-radio>
                     </b-form-group>
                   </div>
@@ -544,6 +544,10 @@ export default {
     }
   },
   methods: {
+    parsedContent(val) {
+      const replacedContent = val.replace(/<br>/g, '');
+      return replacedContent
+    },
     async getDetailTryout() {
       this.loading = true
       await this.$axios
@@ -637,4 +641,29 @@ export default {
 
 <style>
 @import url("@/assets/admin.css");
+
+.ql-align-justify {
+  padding-bottom: 0px;
+}
+
+.question-header-title {
+  margin-top: 0;
+}
+
+.question-main-text {
+  padding-bottom: 0;
+}
+
+.question-main-text > p {
+  padding-bottom: 0;
+}
+
+.question-main-text ol {
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.custom-control > div {
+  padding-bottom: 0;
+}
 </style>
