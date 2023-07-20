@@ -335,11 +335,11 @@
               <hr />
               <div class="question-list">
                 <div class="question-item">
-                  <div
+                  <span
                     class="question-header-text mb-3"
                     v-if="currentNomor.penjelasan_pertanyaan"
-                    v-html="currentNomor.penjelasan_pertanyaan"
-                  ></div>
+                    v-html="parsedContent(currentNomor.penjelasan_pertanyaan)"
+                  />
                   <div class="question-child-item">
                     <h3 class="question-header-title" :id="'question-1'">
                       Pertanyaan
@@ -350,7 +350,7 @@
                     </h3>
                     <p
                       class="question-main-text"
-                      v-html="currentNomor.soal"
+                      v-html="currentNomor.soal_pertanyaan"
                     ></p>
                     <b-form-group
                       v-slot="{ ariaDescribedby }"
@@ -364,7 +364,7 @@
                         :value="opsi.uuid"
                       >
                         <span class="letter">{{ letterLabel(o) }}</span>
-                        <div v-html="opsi.option"></div>
+                        <div v-html="parsedContent(opsi.option)"></div>
                       </b-form-radio>
                     </b-form-group>
                   </div>
@@ -515,13 +515,15 @@ export default {
       loading: true,
       listSubtest: [],
       listPertanyaan: [],
-    
+      listNomorSoal: [],
       currentNomor: {},
       tryout: {},
-      subtestIndex: 0
     }
   },
   computed: {
+    subtestIndex() {
+      return this.listSubtest.findIndex(subtest => subtest.id === parseInt(this.$route.query.id_mapel, 10))
+    },
     nextSubtestAvailable() {
       if (this.listSubtest[this.subtestIndex + 1]) return true
       return false
@@ -529,6 +531,7 @@ export default {
   },
   async mounted() {
     await this.getDetailTryout()
+    await this.getNomorSoal()
     if (!this.$route.query.id_mapel) {
       this.$router.replace({
         ...this.$route,
@@ -538,6 +541,7 @@ export default {
         }
       })
     }
+    this.listPertanyaan = this.listNomorSoal.filter(soal => soal.id_soal_tryout === (parseInt(this.$route.query.id_mapel, 10) || this.listSubtest[0].id))
   },
   watch: {
     "$route.query.id_mapel": async function() {
@@ -545,6 +549,14 @@ export default {
     }
   },
   methods: {
+    parsedContent(val) {
+      if (val) {
+        const replacedContent = val.replace(/<br>/g, '');
+        return replacedContent
+      } else {
+        return ''
+      }
+    },
     async getDetailTryout() {
       this.loading = true
       await this.$axios
@@ -554,11 +566,9 @@ export default {
             this.tryout = res.data;
             this.listSubtest = res.data.soal.map((to) => ({
               id: to.id,
-              mapel: to.mapel.nama_mapel,
+              mapel: to.mapel.nama_mapel
             }));
-            this.subtestIndex = this.listSubtest.findIndex(subtest => subtest.id === parseInt(this.$route.query.id_mapel, 10))
-            this.listPertanyaan = res.data.soal.find(to => to.id === this.listSubtest[this.subtestIndex].id).pertanyaan
-            this.currentNomor = this.listPertanyaan[0]
+            console.log(this.listSubtest)
           }
           return true;
         })
@@ -567,6 +577,26 @@ export default {
           this.catchError(err);
         })
         .finally(() => this.loading = false)
+    },
+    async getNomorSoal() {
+      this.loading = true;
+      await this.$axios
+        .$get(`/api/tryout/nomor-soal/${this.$route.params.id}`)
+        .then(res => {
+          if (res.success) {
+            this.listNomorSoal = res.data.soal;
+            if (this.$route.query.id_mapel) {
+              this.currentNomor = res.data.soal.find(s => s.id_soal_tryout === parseInt(this.$route.query.id_mapel, 10))
+            } else {
+              this.currentNomor = res.data.soal[0];
+            }
+          }
+        })
+        .catch(err => {
+          console.log(err);
+          this.catchError(err);
+        })
+        .finally(() => (this.loading = false));
     },
     onKeyDownNavigation(e) {
       const key = e.key; // "ArrowRight", "ArrowLeft", "ArrowUp", or "ArrowDown"
@@ -618,13 +648,16 @@ export default {
       return letters[index] ?? "-";
     },
     changeSubtest() {
-      this.$router.push({
-        ...this.$route,
-        query: {
-          ...this.$route.query,
-          id_mapel: this.listSubtest[this.subtestIndex + 1].id
-        }
-      })
+      // this.$router.push({
+      //   ...this.$route,
+      //   query: {
+      //     ...this.$route.query,
+      //     id_mapel: this.listSubtest[this.subtestIndex + 1].id
+      //   }
+      // })
+      window.location.replace(
+        `/administrator/tryout/${this.$route.params.id}/preview/?id_mapel=${this.listSubtest[this.subtestIndex + 1].id}`
+      );
     },
     toMenu() {
       this.$router.push({
@@ -638,4 +671,29 @@ export default {
 
 <style>
 @import url("@/assets/admin.css");
+
+.ql-align-justify {
+  padding-bottom: 0px;
+}
+
+.question-header-title {
+  margin-top: 0;
+}
+
+.question-main-text {
+  padding-bottom: 0;
+}
+
+.question-main-text > p {
+  padding-bottom: 0;
+}
+
+.question-main-text ol {
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.custom-control > div {
+  padding-bottom: 0;
+}
 </style>
