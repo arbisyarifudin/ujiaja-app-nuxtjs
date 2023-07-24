@@ -43,6 +43,7 @@
                   </template>
                   <b-form-select
                     v-model="filterArchive"
+                    
                     :options="[
                       { text: 'Semua', value: null },
                       { text: 'Diarsipkan', value: true },
@@ -74,7 +75,7 @@
         <div class="row mt-5" v-if="totalRows > 0">
           <div
             class="col-xl-4 col-lg-6 col-md-6 col-sm-6 mb-3"
-            v-for="(item, i) in items"
+            v-for="(item, i) in filteredItems"
             :key="i"
           >
             <div class="card card-karir m-2 router-push" @click="$router.push(`/app/tryout/${item.id}/detail?ref=${$route.path}`)">
@@ -249,7 +250,19 @@ export default {
     },
     userDetail() {
       return this.$store.state.dataUser.detail;
-    }
+    },
+    filteredItems() {
+      // Jika filterArchive null, tampilkan semua item
+      if (this.filterArchive === null) {
+        return this.items;
+      }
+      // Jika filterArchive true, tampilkan item dengan is_archive = 1
+      if (this.filterArchive) {
+        return this.items.filter(item => item.is_archive === 1);
+      }
+      // Jika filterArchive false, tampilkan item dengan is_archive = 0
+      return this.items.filter(item => item.is_archive === 0);
+    },
   },
   watch: {
     "filter.keyword": function(value) {
@@ -263,6 +276,7 @@ export default {
     },
     filterArchive: function(value) {
       this.getData("produk");
+
     }
   },
   created() {
@@ -352,6 +366,7 @@ export default {
         })
         .finally(() => (this.loading = false));
     }
-  }
+  },
+  
 };
 </script>
