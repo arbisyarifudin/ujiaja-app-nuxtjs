@@ -198,7 +198,7 @@
                           </div>
                           <div class="form-group reg-siswa">
                             <label for="jeda_waktu_antar_mapel"
-                              >Alokasi Waktu Per-Mata Pelajaran (Detik) <code>*</code></label
+                              >Alokasi Waktu Per-Mata Pelajaran (Menit) <code>*</code></label
                             >
                             <input
                               type="text"
@@ -1051,7 +1051,7 @@
                       </div>
                           <div class="form-group reg-siswa">
                             <label for="jeda_waktu_antar_mapel"
-                              >Alokasi Waktu Per-Mata Pelajaran (Detik) <code>*</code></label
+                              >Alokasi Waktu Per-Mata Pelajaran (Menit) <code>*</code></label
                             >
                             <input
                               type="text"
