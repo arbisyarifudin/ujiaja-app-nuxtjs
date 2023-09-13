@@ -797,13 +797,26 @@ export default {
       let duration = moment.duration(diffTime, "milliseconds");
       const interval = 1000;
       // const boardTimer = document.querySelector(".board-timer");
-      const boardTimer = document.getElementById("board-timer-1");
+      var countdownElement ;
+      var countdownElement2;
+      var boardTimer;
+      var boardTimer2;
+      try{
+       boardTimer = document.getElementById("board-timer-1");
       // console.log(boardTimer)
-      const boardTimer2 = document.getElementById("board-timer-2");
+       boardTimer2 = document.getElementById("board-timer-2");
+      
       // console.log(boardTimer2)
       // return
-      const countdownElement = boardTimer.children[1];
-      const countdownElement2 = boardTimer2.children[1];
+      countdownElement= boardTimer.children[1];
+      countdownElement2= boardTimer2.children[1];
+      }catch(error){
+      // Tangani kesalahan di sini.
+      console.error("Kesalahan web:", error.message);
+
+      // Setelah menangani kesalahan, arahkan ulang halaman web.
+      // window.location.reload();
+    }
 
       const isNotTimeout =
         duration.hours() >= 0 &&

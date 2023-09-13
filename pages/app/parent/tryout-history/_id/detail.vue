@@ -135,7 +135,8 @@
             path: `/app/parent/tryout-history/${dataResult.detail.referensi}/answer`,
             query: {
               idp: dataResult.detail.id_produk,
-              idu: dataResult.detail.id_user
+              idu: dataResult.detail.id_user,
+              referensi: dataResult.detail.referensi
             }
           }"
           ><i class="fas fa-file-alt fa-fw mr-1"></i> Review Tryout</nuxt-link
@@ -192,7 +193,7 @@ export default {
   },
   created() {
     if (!this.$route.params.id) return this.$router.go(-1);
-    this.getResult(this.$route.query.idp, this.$route.query.idu);
+    this.getResult(this.$route.query.idp, this.$route.query.idu, this.$route.query.referensi);
     this.getProfile();
   },
   computed: {
@@ -218,11 +219,11 @@ export default {
         })
         .finally(() => (this.loading = false));
     },
-    getResult(id_produk, id_user) {
+    getResult(id_produk, id_user, referensi) {
       this.loading = true;
       this.$axios
         .$get(
-          `/api/tryout_user/hasil-pengerjaan?id_produk=${id_produk}&id_user=${id_user}`
+          `/api/tryout_user/hasil-pengerjaan?id_produk=${id_produk}&id_user=${id_user}&referensi=${referensi}`
         )
         .then(res => {
           console.log(res);
@@ -258,6 +259,7 @@ export default {
         .$post(`/api/tryout_user/generate-certificate`, {
           id_produk: this.dataResult.detail.id_produk,
           id_user: this.dataResult.detail.id_user,
+          referensi: this.dataResult.detail.referensi,
         })
         .then(res => {
           console.log(res);

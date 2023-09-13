@@ -152,12 +152,11 @@ export default {
       console.log(value);
     },
     "form.password": function (value) {
-      var passwordRegex =
-        /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,20}$/;
+      var passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/
       var test = value.match(passwordRegex);
       if (value && test === null) {
         this.$set(this.dataError, "password", [
-          "Password minimal 8 - 20 karakter. Dengan setidaknya terdapat 1 huruf kapital, 1 angka dan 1 karakter spesial.",
+          "Password minimal 8 - 20 karakter. Dengan setidaknya terdapat 1 huruf kapital, dan 1 angka",
         ]);
         this.isValidForm["password"] = false;
       } else {

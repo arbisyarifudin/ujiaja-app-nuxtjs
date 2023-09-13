@@ -123,8 +123,8 @@
                       }}
                     </h4>
                     <div class="jenis" v-if="item.kategori == 'UTBK'">
-                      <div class="badge">{{ item.jenis_soal }}</div>
-                      <div class="badge" v-if="item.kelompok_soal">
+                      <div class="badge kelompok-soal">{{ item.jenis_soal }}</div>
+                      <div class="badge " v-if="item.kelompok_soal">
                         {{ item.kelompok_soal }}
                       </div>
                     </div>

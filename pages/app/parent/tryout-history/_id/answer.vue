@@ -110,7 +110,8 @@ export default {
   created() {
     if (!this.$route.query.idp) return this.$router.go(-1);
     this.getDetail("produk", this.$route.query.idp);
-    this.getResult(this.$route.query.idp, this.$route.query.idu)
+    this.getResult(this.$route.query.idp, this.$route.query.idu, this.$route.query.referensi);
+   
   },
   methods: {
     updateTab(tabIndex) {
@@ -135,10 +136,10 @@ export default {
         })
         .finally(() => (this.loading = false));
     },
-    getResult(id_produk, id_user) {
+    getResult(id_produk, id_user, referensi) {
       this.loading = true;
       this.$axios
-        .$get(`/api/tryout_user/riwayat-pengerjaan?id_produk=${id_produk}&id_user=${id_user}`)
+        .$get(`/api/tryout_user/riwayat-pengerjaan?id_produk=${id_produk}&id_user=${id_user}&referensi=${referensi}`)
         .then(res => {
           console.log(res);
           if (res.success) {
