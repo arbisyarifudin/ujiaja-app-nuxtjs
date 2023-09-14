@@ -52,7 +52,7 @@
           </div>
         </div>
       </div>
-      <div class="col-md-4" v-if="dataResult.detail.kategori_produk == 'ASPD'">
+      <div class="col-md-4" v-if="dataResult.detail.kategori_produk == 'ASPD' ||dataResult.detail.kategori_produk == 'PAT' ||dataResult.detail.kategori_produk == 'PAS'  ">
         <div class="text-center skor-box">
           <div class="mb-2">Skor</div>
           <div class="h3 skor-val">
@@ -92,7 +92,7 @@
             <td v-if="dataResult.detail.kategori_produk == 'UTBK'">
               {{ mapel.ceeb }}
             </td>
-            <td v-if="dataResult.detail.kategori_produk == 'ASPD'">
+            <td v-if="dataResult.detail.kategori_produk == 'ASPD' ||dataResult.detail.kategori_produk == 'PAT' ||dataResult.detail.kategori_produk == 'PAS' ">
               {{ mapel.nilai_label }}
             </td>
           </tr>
@@ -267,7 +267,13 @@ export default {
         .finally(() => (this.loading = false));
     },
     getResult(id) {
-      const kategori = this.$route.query.category == "ASPD" ? "-aspd" : "";
+      var kategori
+      if(this.$route.query.category == "ASPD"){
+        kategori = "-aspd"
+      }else if(this.$route.query.category == "PAT"|| this.$route.query.category == "PAS"){
+        kategori = "-pat-pas"
+      }
+      
       this.loading = true;
       this.$axios
         .$get(

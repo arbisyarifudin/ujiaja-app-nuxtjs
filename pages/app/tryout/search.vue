@@ -257,7 +257,11 @@ export default {
         title = " - UTBK Akbar";
       } else if (this.$route.query.category == "ASPD") {
         title = " - ASPD";
-      } else if (this.$route.query.category == "Asmenas") {
+      }else if (this.$route.query.category == "PAT") {
+        title = " - PAT";
+      }else if (this.$route.query.category == "PAS") {
+        title = " - PAS";
+      }else if (this.$route.query.category == "Asmenas") {
         title = " - Asesmen Nasional";
       } else if (
         !this.$route.query.category &&
