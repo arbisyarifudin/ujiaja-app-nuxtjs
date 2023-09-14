@@ -228,6 +228,35 @@
         <UILoading />
       </div>
     </b-modal>
+    <b-modal
+      id="modal-delete"
+      title="Konfirmasi Hapus Materi"
+      hide-footer
+      centered
+      modal-class="admin-modal"
+      @hidden="resetModal"
+    >
+      <div>
+        <p class="modal-text">Apakah anda yakin ingin menghapus materi ini?</p>
+        <div class="modal-footer justify-content-end" style="border: 0px">
+          <button
+            class="btn btn-outline-secondary"
+            type="button"
+            @click="$bvModal.hide('modal-delete')"
+          >
+            Tidak
+          </button>
+          <button
+            class="btn btn-primary tambah px-4 py-2"
+            type="button"
+            :disabled="loading"
+            @click.prevent="deleteData('material')"
+          >
+            <b-spinner small v-if="loading" class="mr-1"></b-spinner> Ya
+          </button>
+        </div>
+      </div>
+    </b-modal>
   </div>
 </template>
 
@@ -320,6 +349,30 @@ export default {
           console.log(res);
           if (res.success) {
             this.detail = res.data;
+          }
+          return true;
+        })
+        .catch(err => {
+          console.log(err);
+          this.catchError(err);
+        })
+        .finally(() => (this.loading = false));
+    },
+    deleteData(type) {
+      this.loading = true;
+      this.$axios
+        .$delete(`/api/${type}/delete/${this.selectedId}`)
+        .then(res => {
+          console.log(res);
+          if (res.success) {
+            this.items.splice(this.selectedIndex, 1);
+            this.$bvToast.toast("Data " + type + " berhasil dihapus.", {
+              title: "Sukses",
+              variant: "success",
+              solid: true,
+              autoHideDelay: 3000
+            });
+            this.$bvModal.hide("modal-delete");
           }
           return true;
         })

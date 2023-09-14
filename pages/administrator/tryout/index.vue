@@ -58,13 +58,12 @@
                     ></b-input-group-text>
                   </template>
                   <b-form-select
-                    v-model="filter.archive"
+                  v-model="filterArchive"
                     :options="[
                       { text: 'Semua', value: null },
                       { text: 'Diarsipkan', value: true },
                       { text: 'Tidak Diarsipkan', value: false },
                     ]"
-                    @change="getData('tryout')"
                   ></b-form-select>
                 </b-input-group>
               </div>
@@ -102,9 +101,9 @@
       <div class="col-md-12 crud-body">
         <div class="overflow-auto">
           <div class="data-tryout" v-if="totalRows > 0">
-            <div class="card-data position-relative" v-for="(item, i) in items" :key="i">
-              <span style="top: 14px; left: 14px; z-index: 99; position: absolute;" @click.stop.prevent="archiveTryOut(`${item.id}`)">
-                <img :src="`${item.is_archive}` == '1' ? '/icon/archive-tick.svg' : '/icon/unarchive-tick.svg'" class="img-fluid image" />
+            <div class="card-data position-relative" v-for="(item, i) in filteredItems" :key="i">
+              <span style="top: 14px; left: 14px; z-index: 99; position: absolute;cursor: pointer;" @click.stop.prevent="archiveSoalTryOut(`${item.id}`)">
+                <img :src="`${item.is_archived_admin}` == '1' ? '/icon/archive-tick.svg' : '/icon/unarchive-tick.svg'" class="img-fluid image" />
               </span>
               <div class="row d-flex align-items-start">
                 <div class="col-md-1 col-6 align-self-center">
@@ -341,11 +340,26 @@ export default {
       items: [],
       selectedId: null,
       selectedIndex: null,
-      apiUrl: process.env.apiUrl
+      apiUrl: process.env.apiUrl,
+      filterArchive:null
     };
   },
   mounted() {
     this.getData("tryout");
+  },
+  computed:{
+    filteredItems() {
+      // Jika filterArchive null, tampilkan semua item
+      if (this.filterArchive === null) {
+        return this.items;
+      }
+      // Jika filterArchive true, tampilkan item dengan is_archive = 1
+      if (this.filterArchive) {
+        return this.items.filter(item => item.is_archived_admin === 1);
+      }
+      // Jika filterArchive false, tampilkan item dengan is_archive = 0
+      return this.items.filter(item => item.is_archived_admin === 0);
+    },
   },
   watch: {
     "filter.keyword": function(value) {
@@ -359,6 +373,22 @@ export default {
     }
   },
   methods: {
+    archiveSoalTryOut(id) {
+      this.loading = true
+      this.$axios
+        .$put(`api/tryout/archived/${id}`)
+        .then(res => {
+          this.loading = false
+          this.getData('tryout')
+          return true;
+        })
+        .catch(err => {
+         
+          this.catchError(err);
+        })
+        .finally(() => (this.loading = false));
+
+    },
     resetModal() {},
     getData(type) {
       this.loading = true;
