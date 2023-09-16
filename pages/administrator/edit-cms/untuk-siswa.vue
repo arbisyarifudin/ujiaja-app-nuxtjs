@@ -281,6 +281,8 @@ export default {
         id_content: 0,
         judul: "",
         text: "",
+        carousel: "",
+        card: ""
       },
       originalCarousel: [
         {
@@ -309,6 +311,7 @@ export default {
           card: "",
           judul: "",
           text: "",
+          carousel: ""
         },
         {
           id: "",
@@ -316,6 +319,7 @@ export default {
           card: "",
           judul: "",
           text: "",
+          carousel: ""
         },
         {
           id: "",
@@ -323,6 +327,7 @@ export default {
           card: "",
           judul: "",
           text: "",
+          carousel: ""
         },
       ],
       originalKonten3: {
@@ -665,9 +670,9 @@ export default {
         if (masterCarousel.length > 0) {
           const title = masterCarousel.find((rev) => rev.id_content == 0);
           this.originalCarouselTitle = title;
-          this.reviewCarousel.id = title.id;
-          this.reviewCarousel.judul = title.judul;
-          this.reviewCarousel.text = title.text;
+          this.carouselTitle.id = title.id;
+          this.carouselTitle.judul = title.judul;
+          this.carouselTitle.text = title.text;
           masterCarousel.splice(
             masterCarousel.findIndex((crsl) => crsl.id == title.id),
             1
@@ -698,8 +703,8 @@ export default {
         }
 
         // Konten 4
-        const master4 = data.data.dataContent2;
-        if (masterCarousel.length > 0) {
+        const master4 = data.data.dataContent4;
+        if (data.data.dataContent4.length > 0) {
           this.originalLangkah = master4;
           for (let i = 0; i < master4.length; i++) {
             this.konten4[i].id = master4[i].id;
