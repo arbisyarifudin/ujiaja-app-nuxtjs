@@ -1258,7 +1258,7 @@ export default {
               };
             });
 
-          // console.log(tempArray)
+        
           const key = "text";
           this.filterList.sub_kategori = [
             ...new Map(tempArray.map(item => [item[key], item])).values()
@@ -1321,7 +1321,6 @@ export default {
             };
           });
 
-        console.log(tempArray);
 
         if (tempArray && tempArray.length > 0 && tempArray[0].text !== null) {
           const key = "text";
@@ -1357,7 +1356,7 @@ export default {
       this.$axios
         .$get("/api/kategori-to/list")
         .then(response => {
-          // console.log(response)
+       
           if (response.success) {
             this.kategoriTOData = response.data;
           }

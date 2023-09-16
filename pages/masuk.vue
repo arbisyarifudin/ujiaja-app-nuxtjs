@@ -461,11 +461,7 @@
               access_token: accessToken
             }, userData => {
               if (userData && !userData.error) {
-                const userId = userData.id;
-                const userName = userData.name;
-                const userEmail = userData.email;
-
-                console.log(' mendapatkan data profil pengguna:', userData);
+               
 
                 this.$axios
                   .$post(`/api/users/facebook-login`, userData)

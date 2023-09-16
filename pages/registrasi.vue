@@ -241,7 +241,7 @@ export default {
   },
   watch: {
     showPassword: function (value) {
-      console.log(value);
+      
     },
     "form.username": function (value) {
       var usernameRegex = /^[a-zA-Z0-9]+$/;
@@ -551,11 +551,7 @@ export default {
           // Buat permintaan ke API Facebook untuk mendapatkan data pengguna
           FB.api('/me', { fields: 'id,name,email', access_token: accessToken }, userData => {
             if (userData && !userData.error) {
-              const userId = userData.id;
-              const userName = userData.name;
-              const userEmail = userData.email;
-
-              console.log(' mendapatkan data profil pengguna:', userData);
+             
 
               this.$axios
             .$post(`/api/users/facebook-signup/${this.tipe_user}`, userData)
