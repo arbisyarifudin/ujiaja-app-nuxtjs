@@ -543,15 +543,57 @@ export default {
       google.accounts.id.prompt();
     },
     async signUpWithFacebook() {
+      this.loading = true;
       FB.login(response => {
-        if (response.authResponse) {
-          // Pengguna berhasil masuk dengan Facebook
-          const accessToken = response.authResponse.accessToken;
-          console.log('Token Akses Facebook:', accessToken);
+          if (response.status === 'connected') {
+            const accessToken = response.authResponse.accessToken;
+
+          // Buat permintaan ke API Facebook untuk mendapatkan data pengguna
+          FB.api('/me', { fields: 'id,name,email', access_token: accessToken }, userData => {
+            if (userData && !userData.error) {
+              const userId = userData.id;
+              const userName = userData.name;
+              const userEmail = userData.email;
+
+              console.log(' mendapatkan data profil pengguna:', userData);
+
+              this.$axios
+            .$post(`/api/users/facebook-signup/${this.tipe_user}`, userData)
+            .then((res) => {
+              if (res.success) {
+                this.$root.$bvToast.toast(
+                  "Registrasi berhasil!",
+                  {
+                    title: "Sukses",
+                    variant: "success",
+                    solid: true,
+                    autoHideDelay: 3000,
+                  }
+                );
+                this.$router.replace("/masuk");
+              } else {
+                this.$root.$bvToast.toast("Registrasi gagal!", {
+                  title: "Error",
+                  variant: "danger",
+                  solid: true,
+                  autoHideDelay: 3000,
+                });
+              }
+            })
+            .catch((err) => {
+              this.catchError(err);
+            })
+            .finally(() => {
+              this.loading = false;
+            });
+            } else {
+              this.catchError("Gagal Mendaftar dengan Facebook");
+            }
+          });
         } else {
-          // Masuk dengan Facebook gagal atau dibatalkan
-          console.error('Masuk dengan Facebook gagal atau dibatalkan.');
+          this.catchError('Gagal mendaftar dengan Facebook:', response);
         }
+       
       });
     },
   },
