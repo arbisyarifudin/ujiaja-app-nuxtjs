@@ -52,7 +52,9 @@ export default {
         { src: "~/plugins/custom-mixins.js", mode: "client" },
         { src: "~/plugins/star-rating.js", mode: "client" },
         { src: "~/plugins/editor.js", mode: "client" },
-        { src: "~/plugins/vue-select.js", mode: "client" }
+        { src: "~/plugins/vue-select.js", mode: "client" },
+        { src: "~/plugins/fb-sdk.js", mode: "client" },
+
     ],
 
     // Auto import components: https://go.nuxtjs.dev/config-components

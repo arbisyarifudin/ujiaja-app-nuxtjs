@@ -135,10 +135,10 @@
                 <hr>
                 <button type="button" class="d-block text-center my-3 py-2 rounded-pill bg-white"
                   style="border: 1px solid #B0A6EF; width: 100%;" @click.prevent="signUpWithGoogle()">
-                  <img src="/Google.svg" alt="" /> Registrasi Dengan Google
+                  <img src="/Google.svg" alt="" /> Daftar Dengan Google
                 </button>
-                <!-- <a href="#" class="d-block text-center my-3 py-3 rounded-pill bg-white" style="border: 1px solid #B0A6EF">
-                  <img src="/Facebook.svg" alt="" /> Masuk Dengan Facebook
+                <!-- <a href="#" class="d-block text-center my-3 py-3 rounded-pill bg-white" style="border: 1px solid #B0A6EF" @click.prevent="signUpWithFacebook()">
+                  <img src="/Facebook.svg" alt="" /> Daftar Dengan Facebook
                 </a> -->
                 <div class="text-center px-4 pt-2">
                   <p class="small">
@@ -541,7 +541,19 @@ export default {
       });
 
       google.accounts.id.prompt();
-    }
+    },
+    async signUpWithFacebook() {
+      FB.login(response => {
+        if (response.authResponse) {
+          // Pengguna berhasil masuk dengan Facebook
+          const accessToken = response.authResponse.accessToken;
+          console.log('Token Akses Facebook:', accessToken);
+        } else {
+          // Masuk dengan Facebook gagal atau dibatalkan
+          console.error('Masuk dengan Facebook gagal atau dibatalkan.');
+        }
+      });
+    },
   },
   asyncData(context) {
     function getSetting(key) {

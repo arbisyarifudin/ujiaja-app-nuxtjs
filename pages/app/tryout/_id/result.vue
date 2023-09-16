@@ -267,7 +267,7 @@ export default {
         .finally(() => (this.loading = false));
     },
     getResult(id) {
-      var kategori
+      var kategori = "";
       if(this.$route.query.category == "ASPD"){
         kategori = "-aspd"
       }else if(this.$route.query.category == "PAT"|| this.$route.query.category == "PAS"){
