@@ -1,42 +1,42 @@
 {
-  "name": "ujiaja-fe-bs",
-  "version": "1.0.0",
-  "private": true,
-  "scripts": {
-    "dev": "nuxt",
-    "build": "nuxt build",
-    "start": "nuxt start",
-    "generate": "nuxt generate"
-  },
-  "dependencies": {
-    "@nuxtjs/auth-next": "5.0.0-1648802546.c9880dc",
-    "@nuxtjs/axios": "^5.13.6",
-    "bootstrap": "^4.6.0",
-    "bootstrap-vue": "^2.21.2",
-    "cookie-universal-nuxt": "^2.1.5",
-    "core-js": "^3.15.1",
-    "crypto-js": "^4.1.1",
-    "facebook-login": "^1.4.1",
-    "google-signin-vue": "^1.2.2",
-    "jquery": "^3.6.0",
-    "jwt-decode": "^3.1.2",
-    "mathjax": "^3.2.0",
-    "moment": "^2.29.1",
-    "nuxt": "^2.15.7",
-    "nuxt-highcharts": "^2.0.2",
-    "quill-image-resize-module": "^3.0.0",
-    "uuid": "^8.3.2",
-    "v-money": "^0.8.1",
-    "vue-fab": "^2.3.1",
-    "vue-select": "^3.13.0",
-    "vue-star-rating": "^1.7.0",
-    "vue-tiny-slider": "^0.1.39",
-    "vue2-editor": "^2.10.3"
-  },
-  "devDependencies": {
-    "fibers": "^5.0.0",
-    "npm-prepare-dist": "^0.3.3",
-    "sass": "^1.39.2",
-    "sass-loader": "^10.2.0"
-  }
+    "name": "ujiaja-fe-bs",
+    "version": "1.0.0",
+    "private": true,
+    "scripts": {
+        "dev": "nuxt",
+        "build": "nuxt build",
+        "start": "nuxt start",
+        "generate": "nuxt generate"
+    },
+    "dependencies": {
+        "@nuxtjs/auth-next": "5.0.0-1648802546.c9880dc",
+        "@nuxtjs/axios": "^5.13.6",
+        "bootstrap": "^4.6.0",
+        "bootstrap-vue": "^2.21.2",
+        "cookie-universal-nuxt": "^2.1.5",
+        "core-js": "^3.15.1",
+        "crypto-js": "^4.1.1",
+        "facebook-login": "^1.4.1",
+        "google-signin-vue": "^1.2.2",
+        "jquery": "^3.6.0",
+        "jwt-decode": "^3.1.2",
+        "mathjax": "^3.2.0",
+        "moment": "^2.29.1",
+        "nuxt": "^2.15.7",
+        "nuxt-highcharts": "^2.0.2",
+        "quill-image-resize-module": "^3.0.0",
+        "uuid": "^8.3.2",
+        "v-money": "^0.8.1",
+        "vue-fab": "^2.3.1",
+        "vue-select": "^3.13.0",
+        "vue-star-rating": "^1.7.0",
+        "vue-tiny-slider": "^0.1.39",
+        "vue2-editor": "^2.10.3"
+    },
+    "devDependencies": {
+        "fibers": "^5.0.0",
+        "npm-prepare-dist": "^0.3.3",
+        "sass": "^1.39.2",
+        "sass-loader": "^10.2.0"
+    }
 }

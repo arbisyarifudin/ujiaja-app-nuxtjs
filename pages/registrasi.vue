@@ -137,9 +137,9 @@
                   style="border: 1px solid #B0A6EF; width: 100%;" @click.prevent="signUpWithGoogle()">
                   <img src="/Google.svg" alt="" /> Daftar Dengan Google
                 </button>
-                <!-- <a href="#" class="d-block text-center my-3 py-3 rounded-pill bg-white" style="border: 1px solid #B0A6EF" @click.prevent="signUpWithFacebook()">
+                <a href="#" class="d-block text-center my-3 py-3 rounded-pill bg-white" style="border: 1px solid #B0A6EF" @click.prevent="signUpWithFacebook()">
                   <img src="/Facebook.svg" alt="" /> Daftar Dengan Facebook
-                </a> -->
+                </a>
                 <div class="text-center px-4 pt-2">
                   <p class="small">
                     Dengan masuk ke UjiAja, saya menyetujui <br />
