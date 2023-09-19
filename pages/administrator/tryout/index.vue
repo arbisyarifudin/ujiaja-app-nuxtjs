@@ -89,12 +89,7 @@
             >
               Tambah
             </nuxt-link>
-            <button
-              class="btn btn-outline-primary tambah crud-btn__add px-4 ml-2"
-              @click.prevent="$bvModal.show('modal-import');"
-            >
-              Import
-            </button>
+           
           </div>
         </div>
       </div>
@@ -205,13 +200,23 @@
                     >
                       Hapus Tryout
                     </button>
-                    <a
-                      target="_blank"
-                      class="btn btn-outline-warning warning px-3 py-1 px-4 mt-md-2"
-                      :href="apiUrl + '/api/tryout/export?soal_tryout_id=' + item.id"
+                    <button
+                      class="btn btn-outline-info info px-3 py-1 px-4 mt-md-2"
+                      @click.prevent="
+                       selectedId = item.id;
+                       selectedIndex = i;
+                       $bvModal.show('modal-import');"
                     >
+                      Import Soal
+                    </button>
+                    <button
+                    :disabled="generating"
+                      class="btn btn-outline-warning warning px-3 py-1 px-4 mt-md-2"
+                      @click.prevent="exportSoal(item.id)"
+                      
+                    > <b-spinner v-if="generating" small></b-spinner>
                       Export Soal
-                    </a>
+                  </button>
                   </template>
                 </div>
               </div>
@@ -334,6 +339,7 @@ export default {
   data() {
     return {
       loading: true,
+      generating:false,
       filter: {
         page: 1,
         perPage: 5,
@@ -378,6 +384,27 @@ export default {
     }
   },
   methods: {
+    exportSoal(id) {
+      this.generating = true;
+      this.$axios
+        .$get(`/api/tryout/export?soal_tryout_id=` + id)
+        .then(res => {
+          console.log("iniresponsee" ,res);
+          if (res.success) {
+            const pdfUrl = res.data
+            let anchor = document.createElement('a');
+            anchor.setAttribute('target', '_blank')
+            anchor.setAttribute('href', pdfUrl);
+            // console.log(anchor);
+            anchor.click()
+          }
+        })
+        .catch(err => {
+          console.log(err);
+          this.catchError(err);
+        })
+        .finally(() => (this.generating = false));
+    },
     archiveSoalTryOut(id) {
       this.loading = true
       this.$axios
@@ -483,6 +510,8 @@ export default {
 
       let formData = new FormData();
       formData.append("file", file)
+      formData.append("id_tryout", this.selectedId)
+
 
       this.$axios
         .$post('/api/import/soal_pertanyaan', formData, {

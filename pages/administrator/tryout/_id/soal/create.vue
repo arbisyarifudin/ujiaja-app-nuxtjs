@@ -1108,6 +1108,7 @@
           </div>
         </div>
         <div class="crud-footer d-flex justify-content-end mt-4">
+          
           <nuxt-link
             to="/administrator/tryout"
             class="btn btn-outline-secondary mr-2"
