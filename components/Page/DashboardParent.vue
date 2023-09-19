@@ -1202,11 +1202,12 @@ export default {
       nilaiPerumpunPeringkat: []
     };
   },
-  created() {
-    this.getDashboardData();
-    this.getProfilLengkap();
-    this.getKategoriTO();
-    this.filterData();
+  created: async function() {
+    // await this.isUserHasProdi();
+    await this.getDashboardData();
+    await this.getProfilLengkap();
+    await this.getKategoriTO();
+    await this.filterData();
   },
   watch: {
     "filter.kategori": function(value) {
@@ -1341,17 +1342,18 @@ export default {
     }
   },
   methods: {
-    filterData() {
-      this.getHasilSatuanPengerjaan();
-      this.getHasilNilaiPerMapel();
+    
+    async filterData() {
+      await this.getHasilSatuanPengerjaan();
+      await this.getHasilNilaiPerMapel();
       if (this.filter.kategori == "UTBK") {
-        this.getPersentaseSkor();
+        await this.getPersentaseSkor();
         this.getHasilNilaiPerumpun();
       } else {
         this.getPersentaseSkorASPD();
       }
     },
-    getKategoriTO() {
+    async getKategoriTO() {
       this.loading = true;
       this.$axios
         .$get("/api/kategori-to/list")
@@ -1366,7 +1368,7 @@ export default {
           this.loading = false;
         });
     },
-    getDashboardData() {
+    async getDashboardData() {
       this.loading = true;
       this.$axios
         .$get("/api/users/siswa/dashboard")
@@ -1381,7 +1383,7 @@ export default {
           this.loading = false;
         });
     },
-    getHasilSatuanPengerjaan() {
+    async getHasilSatuanPengerjaan() {
       this.loading = true;
       this.$axios
         .$get("/api/tryout_user/grafik-hasil-satuan-pengerjaan", {
@@ -1421,7 +1423,7 @@ export default {
           this.loading = false;
         });
     },
-    getHasilNilaiPerMapel() {
+    async getHasilNilaiPerMapel() {
       this.loading = true;
       this.$axios
         .$get("/api/tryout_user/grafik-hasil-nilai-permapel", {
@@ -1527,7 +1529,7 @@ export default {
           this.loading = false;
         });
     },
-    getPersentaseSkor() {
+    async getPersentaseSkor() {
       this.loading = true;
       this.$axios
         .$get("/api/tryout_user/rerata-persentase-hasil", {
@@ -1622,7 +1624,7 @@ export default {
           this.loading = false;
         });
     },
-    getProfilLengkap() {
+    async getProfilLengkap() {
       this.loading = true;
       this.$axios
         .$get("/api/users/siswa/find/" + this.userDetail.id_orang_tua, {

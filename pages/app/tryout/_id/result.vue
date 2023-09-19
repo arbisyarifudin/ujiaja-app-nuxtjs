@@ -93,7 +93,7 @@
               {{ mapel.ceeb }}
             </td>
             <td v-if="dataResult.detail.kategori_produk == 'ASPD' ||dataResult.detail.kategori_produk == 'PAT' ||dataResult.detail.kategori_produk == 'PAS' ">
-              {{ mapel.nilai_label }}
+              {{ mapel.nilai }}
             </td>
           </tr>
         </tbody>

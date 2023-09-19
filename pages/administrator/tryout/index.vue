@@ -262,10 +262,15 @@
         </p>
         <div class="modal-footer justify-content-end" style="border: 0px">
           <button
+            class="btn btn-outline-danger danger"
+            type="button"
+            @click="$bvModal.hide('modal-delete')">
+            Hapus Paksa
+          </button>
+          <button
             class="btn btn-outline-secondary"
             type="button"
-            @click="$bvModal.hide('modal-delete')"
-          >
+            @click="$bvModal.hide('modal-delete')">
             Tidak
           </button>
           <button
@@ -421,6 +426,33 @@ export default {
       this.loading = true;
       this.$axios
         .$delete(`/api/${type}/delete/${this.selectedId}`)
+        .then(res => {
+          console.log(res);
+          if (res.success) {
+            this.items.splice(this.selectedIndex, 1);
+            this.$bvToast.toast("Data " + type + " berhasil dihapus.", {
+              title: "Sukses",
+              variant: "success",
+              solid: true,
+              autoHideDelay: 3000
+            });
+            this.$bvModal.hide("modal-delete");
+          }
+          return true;
+        })
+        .catch(err => {
+          console.log(err.response)
+          if(err.response && err.response.status && err.response.status == 500 && err.response.data && err.response.data.message && err.response.data.message.includes('SQLSTATE[23000]')) {
+            return this.showToastMessage('Data tidak dapat dihapus karena sudah terdaftar pada produk yang telah dibeli oleh Siswa!', 'danger', 4000);
+          }
+          this.catchError(err);
+        })
+        .finally(() => (this.loading = false));
+    },
+    deletePaksaData(type) {
+      this.loading = true;
+      this.$axios
+        .$delete(`/api/${type}/delete-paksa/${this.selectedId}`)
         .then(res => {
           console.log(res);
           if (res.success) {

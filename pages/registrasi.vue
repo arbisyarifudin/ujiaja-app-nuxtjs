@@ -499,18 +499,20 @@ export default {
       // return "error";
     },
     signUpWithGoogle() {
+      this.loading = true;
       google.accounts.id.initialize({
         client_id: "153870988155-mtbua0puo9lg962ss8lemrv1n087u77a.apps.googleusercontent.com",
         scope: ['name', 'email'],
         ux_mode: "redirect",
         callback: (response) => {
-          console.log(response)
+          
 
           const payload = jwt_decode(response.credential);
 
           this.$axios
             .$post(`/api/users/google-signup/${this.tipe_user}`, payload)
             .then((res) => {
+                   
               if (res.success) {
                 this.$root.$bvToast.toast(
                   "Registrasi berhasil!",
@@ -532,7 +534,13 @@ export default {
               }
             })
             .catch((err) => {
-              this.catchError(err);
+              
+              this.$root.$bvToast.toast("Terjadi kesalahan, email telah terdaftar di Ujiaja", {
+                  title: "Error",
+                  variant: "danger",
+                  solid: true,
+                  autoHideDelay: 3000,
+                });
             })
             .finally(() => {
               this.loading = false;
@@ -578,16 +586,19 @@ export default {
             })
             .catch((err) => {
               this.catchError(err);
+              
             })
             .finally(() => {
               this.loading = false;
             });
             } else {
               this.catchError("Gagal Mendaftar dengan Facebook");
+              this.loading = false;
             }
           });
         } else {
           this.catchError('Gagal mendaftar dengan Facebook:', response);
+          this.loading = false;
         }
        
       });

@@ -154,13 +154,14 @@ export default {
         keyword: ""
       },
       totalRows: 1,
+      namaTentor: "Candra",
       chartOptions: {
         title: {
-          text: "Data per Januari - Desember 2021"
+          text: "Data per Januari - Desember"
         },
 
         subtitle: {
-          text: "Tentor: Arbi Syarifudin"
+          text: this.$store.state.dataUser.detail.nama_lengkap
         },
 
         yAxis: {
@@ -240,6 +241,7 @@ export default {
     };
   },
   created() {
+    // this.getUser();
     this.getPendapatanTotal();
     this.getPendapatanGrafikBulan();
     this.getPendapatanPerKursus();
@@ -307,6 +309,27 @@ export default {
           this.loading = false;
         });
     },
+    // getUser() {
+    //   console.log("jalan nama")
+    //   this.loading = true;
+    //   this.$axios
+    //     .$get("/api/users", {
+    //     })
+    //     .then(response => {
+        
+    //       if (response.success) {
+    //         this.namaTentor = response.data.detail.nama_lengkap;
+    //         console.log("nama tentor" . this.namaTentor)
+    //       }
+    //     })
+    //     .catch(error => {
+    //       this.catchError(error);
+    //       console.log("jalan error" . error)
+    //     })
+    //     .finally(() => {
+    //       this.loading = false;
+    //     });
+    // },
     formatRupiah(nominal) {
       if (nominal) {
         nominal = parseFloat(nominal);
@@ -314,6 +337,12 @@ export default {
       }
       return 0;
     }
+  },
+  computed:{
+    userDetail() {
+      return this.$store.state.dataUser.detail;
+    },
+    
   }
 };
 </script>
