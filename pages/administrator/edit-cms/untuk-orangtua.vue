@@ -353,9 +353,9 @@ export default {
         if (masterCarousel.length > 0) {
           const title = masterCarousel.find((rev) => rev.id_content == 0);
           this.originalCarouselTitle = title;
-          this.reviewCarousel.id = title.id;
-          this.reviewCarousel.judul = title.judul;
-          this.reviewCarousel.text = title.text;
+          this.carouselTitle.id = title.id;
+          this.carouselTitle.judul = title.judul;
+          this.carouselTitle.text = title.text;
           masterCarousel.splice(
             masterCarousel.findIndex((crsl) => crsl.id == title.id),
             1

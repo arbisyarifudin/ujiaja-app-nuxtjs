@@ -10,9 +10,10 @@
       :cta-text="content3.tombol"
       button
     />
-    <SectionLangkah :props="langkah" />
+    <SectionLangkah v-if="langkah.langkah.length > 0" :props="langkah" />
     <SectionTestimoni v-if="testimoni.item.length > 0" :props="testimoni" />
     <SectionCardHero
+      v-if="content6 && Object.keys(content6).length != 0"
       :src="formatImageSource(content6.gambar)"
       :title="content6.judul"
       :description="content6.text"
@@ -126,40 +127,34 @@ export default {
       this.header.hero.subjudul = content.text;
       this.header.hero.ctaButtonText = content.tombol;
       this.header.hero.ctaButtonUrl = content.link;
-      this.header.hero.image = content.gambar;
+      if (content.gambar != undefined) {
+        this.header.hero.image = content.gambar;
+      }
     },
-    setContent2Section(content) {
-      for (let i = 0; i < content.length; i++) {
-        if (content[i].id_content == 0) {
-          this.keunggulan.judul = content[i].judul;
+    setContent2Section(contents) {
+      for (const content of contents) {
+        if (content.id_content == 0) {
+          this.keunggulan.judul = content.judul;
         } else {
-          this.keunggulan.item.push(content[i]);
+          this.keunggulan.item.push(content);
         }
       }
     },
     setContent4Section(contents) {
-      for (
-        let indexContent = 0;
-        indexContent < contents.length;
-        indexContent++
-      ) {
+      for (const content of contents) {
         this.langkah.langkah.push({
-          judul: contents[indexContent].judul,
-          deskripsi: contents[indexContent].text,
+          judul: content.judul,
+          deskripsi: content.text,
         });
       }
     },
     setTestimoniSection(contents) {
-      for (
-        let indexContent = 0;
-        indexContent < contents.length;
-        indexContent++
-      ) {
-        if (contents[indexContent].id_content == 0) {
-          this.testimoni.judul = contents[indexContent].judul;
-          this.testimoni.deskripsi = contents[indexContent].text;
+      for (const content of contents) {
+        if (content.id_content == 0) {
+          this.testimoni.judul = content.judul;
+          this.testimoni.deskripsi = content.text;
         } else {
-          this.testimoni.item.push(contents[indexContent]);
+          this.testimoni.item.push(content);
         }
       }
     },
