@@ -52,7 +52,9 @@
           <tr v-for="(mapel, m_index) in tryout.mapel" :key="'m'+m_index">
             <td>{{mapel.nama_mapel}}</td>
             <td v-if="dataResult.detail.kategori_produk == 'UTBK'">{{mapel.ceeb}}</td>
-            <td v-if="dataResult.detail.kategori_produk == 'ASPD'">{{mapel.nilai}}</td>
+            <td v-if="dataResult.detail.kategori_produk == 'ASPD' ||dataResult.detail.kategori_produk == 'PAT' ||dataResult.detail.kategori_produk == 'PAS' ">
+              {{ mapel.nilai }}
+            </td>
           </tr>
         </tbody>
       </table>
@@ -163,8 +165,12 @@ export default {
   },
   computed: {
    user() {
+    
      return this.$store.state.dataUser.user
-   }
+   },
+   userDetail() {
+      return this.$store.state.dataUser.detail;
+    }
   },  
   methods: {
     getProfile() {
@@ -185,10 +191,17 @@ export default {
         .finally(() => (this.loading = false));
     },
     getResult(id_produk, id_user) {
-      const kategori = this.$route.query.category == 'ASPD' ? '-aspd' : ''
+      var kategori = "";
+      if(this.$route.query.category == "ASPD"){
+        kategori = "-aspd"
+      }else if(this.$route.query.category == "PAT"|| this.$route.query.category == "PAS"){
+        kategori = "-pat-pas"
+      }
+
+
       this.loading = true;
       this.$axios
-        .$get(`/api/tryout_user/hasil-pengerjaan${kategori}?id_produk=${id_produk}&id_user=${id_user}`)
+        .$get(`/api/tryout_user/hasil-pengerjaan${kategori}?id_produk=${id_produk}&id_user=${id_user}&referensi=${this.$route.params.id}`)
         .then(res => {
           console.log(res);
           if (res.success) {
@@ -228,6 +241,8 @@ export default {
         .$post(`/api/tryout_user/generate-certificate`, {
             id_produk: this.dataResult.detail.id_produk,
             id_user: this.dataResult.detail.id_user,
+            referensi: this.$route.params.id,
+            kategori: this.dataResult.detail.kategori_produk,
           })
         .then(res => {
           console.log(res);

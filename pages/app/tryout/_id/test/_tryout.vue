@@ -485,7 +485,7 @@
             class="btn btn-primary tambah px-4 py-2"
             type="button"
             :disabled="loading"
-            @click.prevent="onNextSubtest"
+            @click.prevent="onNextTest"
           >
             <b-spinner small v-if="loading" class="mr-1"></b-spinner>
             <span v-else>Ya, Kirim & Lanjutkan</span>
@@ -721,13 +721,18 @@ export default {
         `/app/tryout/${encryptedProductIdSafe}/test/${encryptedTryoutIdSafe}?kode=${this.$route.query.kode}`
       );
     },
-    toWaitingTestPage(productID, tryoutID, mapelID = null) {
+    toWaitingTestPage(productID, tryoutID, mapelID = null, jedawaktu = null) {
       const encryptedProductId = this.encrypt(productID);
       const encryptedProductIdSafe = encodeURIComponent(encryptedProductId);
       const encryptedTryoutId = this.encrypt(tryoutID);
       const encryptedTryoutIdSafe = encodeURIComponent(encryptedTryoutId);
+      var encryptedJedaWaktuSafe = null;
+      if(jedawaktu!=null){
+        const encryptedJedaWaktu = this.encrypt(jedawaktu);
+        encryptedJedaWaktuSafe = encodeURIComponent(encryptedJedaWaktu);
+      };
       window.location.replace(
-        `/app/tryout/${encryptedProductIdSafe}/waiting/${encryptedTryoutIdSafe}?kode=${this.$route.query.kode}${mapelID ? '&id_mapel=' + mapelID : ''}`
+        `/app/tryout/${encryptedProductIdSafe}/waiting/${encryptedTryoutIdSafe}?kode=${this.$route.query.kode}${mapelID ? '&id_mapel=' + mapelID : ''}${jedawaktu ? '&jedasubtes=' + encryptedJedaWaktuSafe : ''}`
       );
     },
     checkLastSaved() {
@@ -792,13 +797,26 @@ export default {
       let duration = moment.duration(diffTime, "milliseconds");
       const interval = 1000;
       // const boardTimer = document.querySelector(".board-timer");
-      const boardTimer = document.getElementById("board-timer-1");
+      var countdownElement ;
+      var countdownElement2;
+      var boardTimer;
+      var boardTimer2;
+      try{
+       boardTimer = document.getElementById("board-timer-1");
       // console.log(boardTimer)
-      const boardTimer2 = document.getElementById("board-timer-2");
+       boardTimer2 = document.getElementById("board-timer-2");
+      
       // console.log(boardTimer2)
       // return
-      const countdownElement = boardTimer.children[1];
-      const countdownElement2 = boardTimer2.children[1];
+      countdownElement= boardTimer.children[1];
+      countdownElement2= boardTimer2.children[1];
+      }catch(error){
+      // Tangani kesalahan di sini.
+      console.error("Kesalahan web:", error.message);
+
+      // Setelah menangani kesalahan, arahkan ulang halaman web.
+      // window.location.reload();
+    }
 
       const isNotTimeout =
         duration.hours() >= 0 &&
@@ -959,7 +977,13 @@ export default {
     },
     async onNextSubtest() {
       await this.saveJawabanToServer()
-      this.toWaitingTestPage(this.detailUjian.id_produk, this.tryoutId, this.listSubtest[this.subtestIndex + 1].id)
+      const jeda_waktu = (this.listSubtest.find(s => s.id === parseInt(this.$route.query.id_mapel, 10))).jeda_waktu * 1000
+      console.log('jedanya adalah' . jeda_waktu)
+      this.toWaitingTestPage(this.detailUjian.id_produk, this.tryoutId, this.listSubtest[this.subtestIndex + 1].id, jeda_waktu)
+    },
+    async onNextTest(){
+      await this.saveJawabanToServer()
+      this.toWaitingTestPage(this.detailUjian.id_produk, this.tryoutId)
     },
     async submitJawabanUser() {
       console.log("submitJawaban", this.jawabanUser);

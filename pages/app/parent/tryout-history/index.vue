@@ -66,7 +66,7 @@
                     <nuxt-link
                       class="btn btn-light px-2 mt-n2"
                       title="Lihat Detail"
-                      :to="`/app/parent/tryout-history/${item.referensi}/detail?idp=${item.id_produk}&idu=${item.id_user}`"
+                      :to="`/app/parent/tryout-history/${item.referensi}/detail?idp=${item.id_produk}&idu=${item.id_user}&referensi=${item.referensi}`"
                     >
                       <i class="fa fa-search"></i>
                     </nuxt-link>

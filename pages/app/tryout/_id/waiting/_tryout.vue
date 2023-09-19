@@ -110,6 +110,7 @@ export default {
           console.log("tryout", res);
           if (res.success) {
             this.tryout = res.data;
+            console.log("hasil detail tryout", res);
           }
           return true;
         })
@@ -120,9 +121,16 @@ export default {
         .finally(() => (this.loading = false));
     },
     startTimer() {
+      // if(){
+
+      // }
+      
       const moment = require("moment");
       // const jeda_waktu = (this.tryout.jeda_waktu) * 1000 * 60; // Minute
-      const jeda_waktu = (this.tryout.jeda_waktu) * 1000; // Second
+      // const jeda_waktu = (this.tryout.jeda_waktu) * 1000; // Second
+      const encryptedJedaWaktuSafe = decodeURIComponent(this.$route.query.jedasubtes);
+      const encryptedJedaWaktu = this.decrypt(encryptedJedaWaktuSafe);
+      const jeda_waktu =  encryptedJedaWaktu;//second from query
       let duration = moment.duration(jeda_waktu, "milliseconds");
       console.log(jeda_waktu);
       const interval = 1000;

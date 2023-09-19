@@ -50,7 +50,9 @@
                   :options="[
                     { text: '-- Pilih --', value: null },
                     { text: 'UTBK', value: 'UTBK' },
-                    { text: 'ASPD', value: 'ASPD' }
+                    { text: 'ASPD', value: 'ASPD' },
+                    { text: 'PAT', value: 'PAT' },
+                    { text: 'PAS', value: 'PAS' }
                   ]"
                 >
                   <!-- { text: 'Asesmen Nasional', value: 'Asmenas' } -->

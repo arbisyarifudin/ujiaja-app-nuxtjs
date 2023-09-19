@@ -58,13 +58,12 @@
                     ></b-input-group-text>
                   </template>
                   <b-form-select
-                    v-model="filter.archive"
+                  v-model="filterArchive"
                     :options="[
                       { text: 'Semua', value: null },
                       { text: 'Diarsipkan', value: true },
                       { text: 'Tidak Diarsipkan', value: false },
                     ]"
-                    @change="getData('tryout')"
                   ></b-form-select>
                 </b-input-group>
               </div>
@@ -102,9 +101,9 @@
       <div class="col-md-12 crud-body">
         <div class="overflow-auto">
           <div class="data-tryout" v-if="totalRows > 0">
-            <div class="card-data position-relative" v-for="(item, i) in items" :key="i">
-              <span style="top: 14px; left: 14px; z-index: 99; position: absolute;" @click.stop.prevent="archiveTryOut(`${item.id}`)">
-                <img :src="`${item.is_archive}` == '1' ? '/icon/archive-tick.svg' : '/icon/unarchive-tick.svg'" class="img-fluid image" />
+            <div class="card-data position-relative" v-for="(item, i) in filteredItems" :key="i">
+              <span style="top: 14px; left: 14px; z-index: 99; position: absolute;cursor: pointer;" @click.stop.prevent="archiveSoalTryOut(`${item.id}`)">
+                <img :src="`${item.is_archived_admin}` == '1' ? '/icon/archive-tick.svg' : '/icon/unarchive-tick.svg'" class="img-fluid image" />
               </span>
               <div class="row d-flex align-items-start">
                 <div class="col-md-1 col-6 align-self-center">
@@ -123,8 +122,8 @@
                       }}
                     </h4>
                     <div class="jenis" v-if="item.kategori == 'UTBK'">
-                      <div class="badge">{{ item.jenis_soal }}</div>
-                      <div class="badge" v-if="item.kelompok_soal">
+                      <div class="badge kelompok-soal">{{ item.jenis_soal }}</div>
+                      <div class="badge " v-if="item.kelompok_soal">
                         {{ item.kelompok_soal }}
                       </div>
                     </div>
@@ -209,7 +208,7 @@
                     <a
                       target="_blank"
                       class="btn btn-outline-warning warning px-3 py-1 px-4 mt-md-2"
-                      :href="apiUrl + '/export?soal_tryout_id=' + item.id"
+                      :href="apiUrl + '/api/tryout/export?soal_tryout_id=' + item.id"
                     >
                       Export Soal
                     </a>
@@ -263,10 +262,15 @@
         </p>
         <div class="modal-footer justify-content-end" style="border: 0px">
           <button
+            class="btn btn-outline-danger danger"
+            type="button"
+            @click="$bvModal.hide('modal-delete')">
+            Hapus Paksa
+          </button>
+          <button
             class="btn btn-outline-secondary"
             type="button"
-            @click="$bvModal.hide('modal-delete')"
-          >
+            @click="$bvModal.hide('modal-delete')">
             Tidak
           </button>
           <button
@@ -341,11 +345,26 @@ export default {
       items: [],
       selectedId: null,
       selectedIndex: null,
-      apiUrl: process.env.apiUrl
+      apiUrl: process.env.apiUrl,
+      filterArchive:null
     };
   },
   mounted() {
     this.getData("tryout");
+  },
+  computed:{
+    filteredItems() {
+      // Jika filterArchive null, tampilkan semua item
+      if (this.filterArchive === null) {
+        return this.items;
+      }
+      // Jika filterArchive true, tampilkan item dengan is_archive = 1
+      if (this.filterArchive) {
+        return this.items.filter(item => item.is_archived_admin === 1);
+      }
+      // Jika filterArchive false, tampilkan item dengan is_archive = 0
+      return this.items.filter(item => item.is_archived_admin === 0);
+    },
   },
   watch: {
     "filter.keyword": function(value) {
@@ -359,6 +378,22 @@ export default {
     }
   },
   methods: {
+    archiveSoalTryOut(id) {
+      this.loading = true
+      this.$axios
+        .$put(`api/tryout/archived/${id}`)
+        .then(res => {
+          this.loading = false
+          this.getData('tryout')
+          return true;
+        })
+        .catch(err => {
+         
+          this.catchError(err);
+        })
+        .finally(() => (this.loading = false));
+
+    },
     resetModal() {},
     getData(type) {
       this.loading = true;
@@ -391,6 +426,33 @@ export default {
       this.loading = true;
       this.$axios
         .$delete(`/api/${type}/delete/${this.selectedId}`)
+        .then(res => {
+          console.log(res);
+          if (res.success) {
+            this.items.splice(this.selectedIndex, 1);
+            this.$bvToast.toast("Data " + type + " berhasil dihapus.", {
+              title: "Sukses",
+              variant: "success",
+              solid: true,
+              autoHideDelay: 3000
+            });
+            this.$bvModal.hide("modal-delete");
+          }
+          return true;
+        })
+        .catch(err => {
+          console.log(err.response)
+          if(err.response && err.response.status && err.response.status == 500 && err.response.data && err.response.data.message && err.response.data.message.includes('SQLSTATE[23000]')) {
+            return this.showToastMessage('Data tidak dapat dihapus karena sudah terdaftar pada produk yang telah dibeli oleh Siswa!', 'danger', 4000);
+          }
+          this.catchError(err);
+        })
+        .finally(() => (this.loading = false));
+    },
+    deletePaksaData(type) {
+      this.loading = true;
+      this.$axios
+        .$delete(`/api/${type}/delete-paksa/${this.selectedId}`)
         .then(res => {
           console.log(res);
           if (res.success) {

@@ -198,7 +198,7 @@
                           </div>
                           <div class="form-group reg-siswa">
                             <label for="jeda_waktu_antar_mapel"
-                              >Alokasi Waktu Per-Mata Pelajaran (Detik) <code>*</code></label
+                              >Alokasi Waktu Per-Mata Pelajaran (Menit) <code>*</code></label
                             >
                             <input
                               type="text"
@@ -206,6 +206,7 @@
                               id="jeda_waktu_antar_mapel"
                               placeholder="Ex: 80"
                               v-model="soal.alokasi_waktu_per_mapel"
+                              @input="onUpdateSoal(soal)"
                             />
                           </div>
                           <div class="form-group reg-siswa mb-0">
@@ -218,6 +219,7 @@
                               id="jeda_waktu_antar_mapel"
                               placeholder="Ex: 30"
                               v-model="soal.jeda_waktu_antar_mapel"
+                              @input="onUpdateSoal(soal)"
                             />
                           </div>
                           <UISaveStatus
@@ -1049,7 +1051,7 @@
                       </div>
                           <div class="form-group reg-siswa">
                             <label for="jeda_waktu_antar_mapel"
-                              >Alokasi Waktu Per-Mata Pelajaran (Detik) <code>*</code></label
+                              >Alokasi Waktu Per-Mata Pelajaran (Menit) <code>*</code></label
                             >
                             <input
                               type="text"
@@ -1057,6 +1059,7 @@
                               id="jeda_waktu_antar_mapel"
                               placeholder="Ex: 80"
                               v-model="newMapel.alokasi_waktu_per_mapel"
+                              
                             />
                           </div>
                           <div class="form-group reg-siswa">
