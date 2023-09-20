@@ -180,7 +180,7 @@
                   </b-form-select>
                 </div>
               </div>
-              <div class="col-md-6" v-if="form.kategori != 'Asmenas'">
+              <!-- <div class="col-md-6" v-if="form.kategori != 'Asmenas'">
                 <div class="form-group reg-siswa">
                   <label for="template_soal"
                     >Template Soal <code>*</code></label
@@ -205,7 +205,7 @@
                   >
                   </b-form-select>
                 </div>
-              </div>
+              </div> -->
             </div>
           </div>
         </div>

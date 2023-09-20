@@ -44,6 +44,8 @@
                       { text: 'Semua Kategori', value: '' },
                       { text: 'UTBK', value: 'UTBK' },
                       { text: 'ASPD', value: 'ASPD' },
+                      { text: 'PAT', value: 'PAT' },
+                      { text: 'PAS', value: 'PAS' },
                     ]"
                     @change="getData('tryout')"
                   ></b-form-select>
@@ -269,7 +271,7 @@
           <button
             class="btn btn-outline-danger danger"
             type="button"
-            @click="$bvModal.hide('modal-delete')">
+            @click="deletePaksaData('tryout')">
             Hapus Paksa
           </button>
           <button
@@ -520,7 +522,7 @@ export default {
           }
         })
         .then(res => {
-          console.log(res);
+          
           if (res.success) {
             this.items.splice(this.selectedIndex, 1);
             this.$bvToast.toast("Data berhasil dimport.", {
