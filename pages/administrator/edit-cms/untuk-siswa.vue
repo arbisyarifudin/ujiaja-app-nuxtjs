@@ -280,9 +280,7 @@ export default {
         id: "",
         id_content: 0,
         judul: "",
-        text: "",
-        carousel: "",
-        card: ""
+        text: ""
       },
       originalCarousel: [
         {
