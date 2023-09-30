@@ -698,7 +698,7 @@ export default {
         }
 
         // Konten 4
-        const master4 = data.data.dataContent2;
+        const master4 = data.data.dataContent4;
         if (masterCarousel.length > 0) {
           this.originalLangkah = master4;
           for (let i = 0; i < master4.length; i++) {

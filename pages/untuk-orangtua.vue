@@ -8,15 +8,13 @@
             <h2>Pantau kemajuan belajar anak Anda</h2>
           </div>
         </div>
-        <div v-for="(ung, indexUng) in keunggulan" :key="indexUng">
+        <div v-for="(ung, indexUng) in keunggulan.item" :key="indexUng">
           <div class="row mb-md-5" v-if="ung.posisi == 'kanan'">
             <div class="col-md-12 text-center">
               <div class="row">
                 <div class="col-md-6 text-left order-2 order-md-1">
                   <h3 class="h5">{{ ung.judul }}</h3>
-                  <p>
-                    {{ ung.text }}
-                  </p>
+                  <p v-html="ung.text" />
                 </div>
                 <div class="col-md-6 order-1 order-md-2">
                   <img
@@ -38,9 +36,7 @@
                 </div>
                 <div class="col-md-6 text-left">
                   <h3 class="h5">{{ ung.judul }}</h3>
-                  <p>
-                    {{ ung.text }}
-                  </p>
+                  <p v-html="ung.text" />
                 </div>
               </div>
             </div>
