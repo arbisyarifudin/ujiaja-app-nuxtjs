@@ -11,7 +11,6 @@
       :cta-text="content4.tombol"
       button
     />
-    <SectionTestimoni v-if="testimoni.item.length > 0" :props="testimoni" />
     <SectionCardHero    
       :src="formatImageSource(content6.gambar)"
       :title="content6.judul"
