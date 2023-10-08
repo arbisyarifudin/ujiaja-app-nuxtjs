@@ -408,72 +408,7 @@
     <UIKonten>
       <template #title>Konten 8</template>
       <div class="container-fluid">
-        <div class="row border-bottom">
-          <div class="form-user col-md-12">
-            <EditorText
-              v-model="reviewTitle.judul"
-              :initial-value="originalReviewTitle.judul"
-              placeholder="Isi Judul baru"
-            >
-              <template #title>Judul</template>
-            </EditorText>
-          </div>
-          <div class="form-user col-md-12">
-            <EditorTextArea
-              v-model="reviewTitle.text"
-              :initial-value="originalReviewTitle.text"
-            >
-              <template #title>Text</template>
-            </EditorTextArea>
-          </div>
-        </div>
-        <div v-for="(r, i) in review" :key="i" class="row border-bottom">
-          <div class="col-md-12 pt-2">
-            <EditorImage v-model="r.foto" :max-size="5">
-              <template #title> Gambar </template>
-              <template #warn>
-                *Disarankan dengan Banner 1276 x 638 pixel, dan Maksimal 5 Mb
-              </template>
-            </EditorImage>
-          </div>
-          <div class="form-user col-md-12">
-            <EditorText
-              v-model="r.nama"
-              :initial-value="originalReview[i].nama"
-              placeholder="Isi Nama baru"
-            >
-              <template #title>Nama</template>
-            </EditorText>
-          </div>
-          <div class="form-user col-md-12">
-            <EditorText
-              v-model="r.jurusan"
-              :initial-value="originalReview[i].jurusan"
-              placeholder="Isi Jurusan baru"
-            >
-              <template #title>Jurusan</template>
-            </EditorText>
-          </div>
-          <div class="form-user col-md-12">
-            <EditorTextArea
-              v-model="r.text"
-              :initial-value="originalReview[i].text"
-            >
-              <template #title>Text</template>
-            </EditorTextArea>
-          </div>
-        </div>
-        <div class="row py-2 border-bottom">
-          <button @click="addReview" class="btn btn-outline-primary">
-            + Tambah Review
-          </button>
-          <button @click="deleteReview" class="btn btn-outline-danger ml-3">
-            - Hapus Review
-          </button>
-        </div>
-      </div>
-      <div class="col-md-12 pt-4">
-        <button @click="saveReview" class="btn btn-primary">Simpan</button>
+        <h4>Content not available</h4>
       </div>
     </UIKonten>
     <UIKonten>

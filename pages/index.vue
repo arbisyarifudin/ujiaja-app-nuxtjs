@@ -19,7 +19,6 @@
     />
     <SectionTryoutAkbar :props="tryOut" />
     <SectionProgramStudi :props="programStudi" />
-    <SectionTestimoni v-if="testimoni.item.length > 0" :props="testimoni" />
     <SectionCardHero
       :src="formatImageSource(konten9.gambar)"
       :title="konten9.judul"

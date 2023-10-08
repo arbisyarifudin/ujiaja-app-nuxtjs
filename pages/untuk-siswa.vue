@@ -11,7 +11,6 @@
       button
     />
     <SectionLangkah v-if="langkah.langkah.length > 0" :props="langkah" />
-    <SectionTestimoni v-if="testimoni.item.length > 0" :props="testimoni" />
     <SectionCardHero
       v-if="content6 && Object.keys(content6).length != 0"
       :src="formatImageSource(content6.gambar)"
