@@ -1252,10 +1252,17 @@ export default {
           this.tryout.link = masterTryout.link;
         }
 
-        const masterDegree = data.data.dataContent7;
-        if (masterDegree.length > 0) {
+        const masterDegree = data.data.dataContent7[0];
+        if (data.data.dataContent7.length > 0) {
           this.originalDegree = masterDegree;
-          this.degree = masterDegree;
+          this.degree.id = masterDegree.id;
+          this.degree.judul = masterDegree.judul;
+          this.degree.text1 = masterDegree.text1;
+          this.degree.gambar = masterDegree.gambar;
+          this.degree.sub_judul = masterDegree.sub_judul;
+          this.degree.text2 = masterDegree.text2;
+          this.degree.tombol = masterDegree.tombol;
+          this.degree.link = masterDegree.link;
         }
 
         // Konten 8
