@@ -361,6 +361,7 @@ export default {
       ],
       originalKonten4: {
         id: "",
+        id_content: 0,
         gambar: null,
         judul: "",
         text: "",
@@ -369,6 +370,7 @@ export default {
       },
       konten4: {
         id: "",
+        id_content: 0,
         gambar: null,
         judul: "",
         text: "",
