@@ -700,7 +700,7 @@ export default {
 
         // Konten 4
         const master4 = data.data.dataContent4[0];
-        if (data.data.dataContent5.length > 0) {
+        if (data.data.dataContent4.length > 0) {
           this.originalKonten4 = master4;
           this.konten4.id = master4.id;
           this.konten4.judul = master4.judul;
