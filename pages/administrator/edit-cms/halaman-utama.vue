@@ -2,11 +2,18 @@
   <div v-if="isReady" class="col-md-12">
     <UIKonten>
       <template #title>Konten 1</template>
-      <EditorContentMaster
-        :original="originalMaster"
-        :contents="master"
-        @delete="deleteMasterContent"
-      />
+      <div class="container-fluid">
+        <div class="row border-top pt-4">
+          <div class="col-md-12">
+            <EditorImage v-model="contents[0].banner" :max-size="5">
+              <template #title> Banner </template>
+              <template #warn>
+                *Disarankan dengan Banner 1276 x 638 pixel, dan Maksimal 5 Mb
+              </template>
+            </EditorImage>
+          </div>
+        </div>
+      </div>
       <div class="col-md-12 pt-4">
         <button @click="saveMasterContent" class="btn btn-primary">
           Simpan
@@ -478,22 +485,12 @@ export default {
         {
           id: "",
           banner: "",
-          gambar: "",
-          judul: "",
-          text: "",
-          tombol: "",
-          link: "",
         },
       ],
       master: [
         {
           id: "",
           banner: "",
-          gambar: "",
-          judul: "",
-          text: "",
-          tombol: "",
-          link: "",
         },
       ],
       originalCarousel: [
@@ -764,9 +761,6 @@ export default {
       for (let i = 0; i < this.master.length; i++) {
         if (typeof this.master[i].banner == "string") {
           this.master[i].banner = "";
-        }        
-        if (typeof this.master[i].gambar == "string") {
-          this.master[i].gambar = "";
         }
       }
       try {
@@ -1134,16 +1128,6 @@ export default {
             this.master[indexMaster].id = this.originalMaster[indexMaster].id;
             this.master[indexMaster].banner =
               this.originalMaster[indexMaster].banner;
-            this.master[indexMaster].gambar =
-              this.originalMaster[indexMaster].gambar;
-            this.master[indexMaster].judul =
-              this.originalMaster[indexMaster].judul;
-            this.master[indexMaster].text =
-              this.originalMaster[indexMaster].text;
-            this.master[indexMaster].tombol =
-              this.originalMaster[indexMaster].tombol;
-            this.master[indexMaster].link =
-              this.originalMaster[indexMaster].link;
           }
         }
 
