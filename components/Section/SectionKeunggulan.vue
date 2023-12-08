@@ -19,7 +19,7 @@
               <i class="fas fa-chevron-right"></i>
             </button>
           </div>
-          <div id="keunggulan-slider">
+          <div id="keunggulan-slider" v-if="props.item.length > 0">
             <no-ssr>
               <vue-tiny-slider v-bind="tinySliderOptions">
                 <div
@@ -28,17 +28,14 @@
                   :key="'sk' + i"
                 >
                   <div
-                    class="
-                      d-flex
-                      flex-column
-                      justify-content-center
-                      align-items-center
-                      p-2
-                    "
+                    class="d-flex flex-column justify-content-center align-items-center p-2"
                   >
-                    <img :src="item.gambar" class="image" />
+                    <img
+                      :src="formatImageSource(item.carousel)"
+                      class="image"
+                    />
                     <h2 class="title">{{ item.judul }}</h2>
-                    <p class="caption">{{ item.subjudul }}</p>
+                    <p class="caption" v-html="item.text" />
                   </div>
                 </div>
               </vue-tiny-slider>
@@ -92,6 +89,10 @@ export default {
       },
     };
   },
+  methods: {
+    formatImageSource(endpoint) {
+      return process.env.apiUrl + `/storage/${endpoint}`;
+    },
+  },
 };
 </script>
-

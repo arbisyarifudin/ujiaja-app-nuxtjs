@@ -447,13 +447,16 @@ export default {
           sudahLewatAkhir = true;
         }
 
-        if (sudahLewatMulai && belumLewatAkhir) {
           this.toTryoutTestPage();
-        } else if (!sudahLewatMulai) {
-          window.alert("Mohon maaf. Event belum dimulai ya!");
-        } else if (sudahLewatMulai && sudahLewatAkhir) {
-          window.alert("Mohon maaf. Event sudah berlalu!");
-        }
+
+
+        // if (sudahLewatMulai && belumLewatAkhir) {
+        //   this.toTryoutTestPage();
+        // } else if (!sudahLewatMulai) {
+        //   window.alert("Mohon maaf. Event belum dimulai ya!");
+        // } else if (sudahLewatMulai && sudahLewatAkhir) {
+        //   window.alert("Mohon maaf. Event sudah berlalu!");
+        // }
       } else {
         this.toTryoutTestPage();
       }

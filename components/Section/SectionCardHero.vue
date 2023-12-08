@@ -36,9 +36,7 @@
           >
             {{ subtitle }}
           </div>
-          <p>
-            {{ description }}
-          </p>
+          <div v-html="description" />
           <a
             :href="href ? href : '#'"
             :class="isButton ? 'btn btn-outline-primary' : ''"

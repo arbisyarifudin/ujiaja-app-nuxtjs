@@ -1,23 +1,22 @@
 <template>
   <div>
-    <Header variant="melengkung" :heroData="header.hero" :navData="navData"/>
+    <Header variant="melengkung" :heroData="header.hero" :navData="navData" />
     <SectionKeunggulan :props="keunggulan" />
     <SectionCardHero
-      src="/hero-lagi-tutor1.png"
-      title="Bagikan keterampilan mengajar Anda dengan UjiAja"
-      description="Bergabunglah dengan kami dan Anda akan memiliki semua yang Anda butuhkan untuk mengajar dengan sukses."
-      href="/registrasi"
-      cta-text="Daftar Sekarang"
+      :src="formatImageSource(content3.gambar)"
+      :title="content3.judul"
+      :description="content3.text"
+      :href="content3.link"
+      :cta-text="content3.tombol"
       button
     />
     <SectionLangkah :props="langkah" />
-    <SectionTestimoni :props="testimoni" />
     <SectionCardHero
-      src="/hero-lagi-tutor2.png"
-      title="Dapatkan penghasilan dengan mengajar secara online maupun offline."
-      description="Jalin erat dengan ribuan siswa di seluruh Indonesia dengan penuh semangat dan ajari mereka dengan kemampuanmu."
-      href="/registrasi"
-      cta-text="Daftar Sekarang"
+      :src="formatImageSource(content6.gambar)"
+      :title="content6.judul"
+      :description="content6.text"
+      :href="content6.link"
+      :cta-text="content6.tombol"
       button
     />
     <Footer :footerData="footerData" />
@@ -28,8 +27,8 @@
 export default {
   head() {
     return {
-      title: 'Untuk Tutor',
-    }
+      title: "Untuk Tutor",
+    };
   },
   data() {
     return {
@@ -47,105 +46,122 @@ export default {
       },
       keunggulan: {
         judul: "Mengapa harus bergabung dengan Les privat",
-        item: [
-          {
-            gambar: "/icon/tutor1.png",
-            judul: "Tentukan Tarif Les Privatmu",
-            subjudul:
-              "Gabung menjadi tentor UjiAja (Baru, Super, Elite, Master atau Legend), kamu bisa menetukan tarifmu sesuai keahlian dan profesionalitasmu.",
-          },
-          {
-            gambar: "/icon/tutor2.png",
-            judul: "Mengajar Kapan Saja & Di Mana Saja",
-            subjudul: "Putuskan kapan dan dimana tempat  Anda akan mengajar, semua bisa dinegokan dengan klien (siswa/ortusiswa).",
-          },
-          {
-            gambar: "/icon/tutor3.png",
-            judul: "Fasilitas Pengembangan Soft Skill",
-            subjudul:
-              "Anda akan mendapatkan bantuan yang diperlukan dari tim kami.",
-          },
-        ],
+        item: [],
       },
+      content3: {},
       langkah: {
         judul: "Langkah Pendaftaran",
-        langkah: [
-          {
-            judul: "Registrasi",
-            deskripsi:
-              "Lakukan pendaftaran pada aplikasi web UjiAja untuk guru.",
-          },
-          {
-            judul: "Isi Form",
-            deskripsi:
-              'Lengkapi form yang tersedia pada form daftar. Kemudian tekan tombol "Daftar".',
-          },
-          {
-            judul: "Verifikasi Pendaftaran",
-            deskripsi:
-              'Buka email, cari email dari UjiAja, dan klik tombol "Aktivasi" untuk verifikasi pendaftaran.',
-          },
-        ],
+        langkah: [],
       },
       testimoni: {
         judul: "Apa Kata Mereka Saat Mengajar Di UjiAja?",
         deskripsi: "",
         varian: "secondary",
-        item: [
-          {
-            nama: "Chance Dokidis",
-            titel: "Guru Privat di UjiAja",
-            testimoni:
-              "Menjadi Mitra Pengajar di UjiAja memberikan kesempatan kepada saya untuk turut menjadi saksi dalam membangun peradaban bangsa melalui kemajuan teknologi. Menjadi pribadi yang baik itu suatu kewajiban,  namun menjadi pribadi yang bermanfaat itu adalah keharusan. Maju dan sukses UjiAja",
-            foto: "chance.png",
-          },
-          {
-            nama: "Randy Lubin",
-            titel: "Guru Privat di UjiAja",
-            testimoni:
-              "Tiga tahun menjadi Mitra Pengajar di UjiAja memberikan pengalaman yang berharga untuk saya. Selain itu, menyadarkan saya bahwa mengajar adalah seberapa banyak murid memahami materi, bukan seberapa banyak pengajar menyampaikan materi.",
-            foto: "randy_2.png",
-          },
-        ],
+        item: [],
       },
+      content6: {},
     };
   },
   asyncData(context) {
     function getSetting(key) {
       const settings = context.store.state.dataSetting;
-      const foundSetting = settings.find(item => item.key == key);
-      if(foundSetting) {
+      const foundSetting = settings.find((item) => item.key == key);
+      if (foundSetting) {
         return foundSetting.isi;
       }
-      return '';
+      return "";
     }
 
     const navData = {
-      logo: getSetting('logo'),
-    }
+      logo: getSetting("logo"),
+    };
 
     const footerData = {
-      logo: getSetting('logo'),
-      alamat_kantor: getSetting('alamat_kantor'),
-      telp: getSetting('telp'),
-      whatsapp: getSetting('whatsapp'),
-      instagram: getSetting('instagram'),
-      facebook: getSetting('facebook'),
-      youtube: getSetting('youtube'),
-      email: getSetting('email'),
-    }
+      logo: getSetting("logo"),
+      alamat_kantor: getSetting("alamat_kantor"),
+      telp: getSetting("telp"),
+      whatsapp: getSetting("whatsapp"),
+      instagram: getSetting("instagram"),
+      facebook: getSetting("facebook"),
+      youtube: getSetting("youtube"),
+      email: getSetting("email"),
+    };
 
     return {
       navData,
-      footerData
+      footerData,
+    };
+  },
+  async fetch() {
+    try {
+      const resContent = await this.$axios.get("/api/cms/tutor/get");
+      const res = resContent.data;
+      console.log(res.data);
+      if (resContent.data.success) {
+        this.setHeroSection(res.data.dataContent1[0]);
+        this.setContent2Section(res.data.dataContent2);
+        this.content3 = res.data.dataContent3[0];
+        this.setContent4Section(res.data.dataContent4);
+        this.setTestimoniSection(res.data.dataContent5);
+        this.content6 = res.data.dataContent6[0];
+      }
+    } catch (error) {
+      console.error(error);
     }
   },
   created() {
     // console.log(this.$store.getters['checkIsAuth'])
-    if(this.$store.getters['checkIsAuth']) {
-      this.header.hero.ctaButtonText = 'Pergi ke Dashboard'
-      this.header.hero.cataButtonUrl = '/app/dashboard'
+    if (this.$store.getters["checkIsAuth"]) {
+      this.header.hero.ctaButtonText = "Pergi ke Dashboard";
+      this.header.hero.cataButtonUrl = "/app/dashboard";
     }
-  }
+  },
+  methods: {
+    formatImageSource(endpoint) {
+      return process.env.apiUrl + `/storage/${endpoint}`;
+    },
+    setHeroSection(content) {
+      this.header.hero.judul = content.judul;
+      this.header.hero.subjudul = content.text;
+      this.header.hero.ctaButtonText = content.tombol;
+      this.header.hero.ctaButtonUrl = content.link;
+      this.header.hero.image = content.gambar;
+    },
+    setContent2Section(content) {
+      for (let i = 0; i < content.length; i++) {
+        if (content[i].id_content == 0) {
+          this.keunggulan.judul = content[i].judul;
+        } else {
+          this.keunggulan.item.push(content[i]);
+        }
+      }
+    },
+    setContent4Section(contents) {
+      for (
+        let indexContent = 0;
+        indexContent < contents.length;
+        indexContent++
+      ) {
+        this.langkah.langkah.push({
+          judul: contents[indexContent].judul,
+          deskripsi: contents[indexContent].text,
+        });
+      }
+    },
+    setTestimoniSection(contents) {
+      for (
+        let indexContent = 0;
+        indexContent < contents.length;
+        indexContent++
+      ) {
+        if (contents[indexContent].id_content == 0) {
+          this.testimoni.judul = contents[indexContent].judul;
+          this.testimoni.deskripsi = contents[indexContent].text;
+        } else {
+          this.testimoni.item.push(contents[indexContent]);
+        }
+      }
+    },
+  },
 };
 </script>

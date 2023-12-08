@@ -230,7 +230,7 @@
             <UjianNumberList
               @update="updateNomor"
               :jawaban="jawabanUser"
-              :list="listNomorSoal"
+              :list="listSoal"
               :active="currentNomor.nomor"
             />
             <hr />
@@ -262,16 +262,21 @@
               </div>
             </div>
             <button
+              v-if="nextSubtestAvailable()"
+              type="button"
+              class="btn btn-danger btn-block square"
+              v-b-modal.modal-next-subtest
+            >
+              Ke Subtest Selanjutnya
+            </button>
+            <button
+              v-else
               type="button"
               class="btn btn-danger btn-block square"
               v-b-modal.modal-confirm-end
               :disabled="loading"
             >
-              {{
-                isAllowNext()
-                  ? "Ke Subtest Selanjutnya"
-                  : "Selesai dan Serahkan"
-              }}
+              Selesai dan Serahkan
             </button>
             <!-- <h3 class="board-title mb-3">Panduan Pengerjaan:</h3>
     <div class="board-guide-text" v-html="dataTryout.panduan_pengerjaan"></div> -->
@@ -309,17 +314,22 @@
             </div>
             <div class="col-sm-6 col-12 mb-3">
               <button
+                v-if="nextSubtestAvailable()"
+                type="button"
+                class="btn btn-danger btn-block square"
+                v-b-modal.modal-next-subtest
+              >
+                Ke Subtest Selanjutnya
+              </button>
+              <button
+                v-else
                 type="button"
                 class="btn btn-danger btn-block square"
                 :disabled="loading"
                 v-b-modal.modal-confirm-end
               >
                 <i class="fas fa-paper-plane"></i>
-                {{
-                  isAllowNext()
-                    ? "Ke Subtest Selanjutnya"
-                    : "Selesai dan Serahkan"
-                }}
+                Selesai dan Serahkan
               </button>
             </div>
           </div>
@@ -343,7 +353,7 @@
           <UjianNumberList
             @update="updateNomor"
             :jawaban="jawabanUser"
-            :list="listNomorSoal"
+            :list="listSoal"
             :active="currentNomor.nomor"
           />
           <hr />
@@ -471,14 +481,59 @@
             Batal
           </button>
           <button
+            v-if="isAllowNext()"
+            class="btn btn-primary tambah px-4 py-2"
+            type="button"
+            :disabled="loading"
+            @click.prevent="onNextTest"
+          >
+            <b-spinner small v-if="loading" class="mr-1"></b-spinner>
+            <span v-else>Ya, Kirim & Lanjutkan</span>
+          </button>
+          <button
+            v-else
             class="btn btn-primary tambah px-4 py-2"
             type="button"
             :disabled="loading"
             @click.prevent="onConfirmEndTest"
           >
             <b-spinner small v-if="loading" class="mr-1"></b-spinner>
-            <span v-if="isAllowNext()">Ya, Kirim & Lanjutkan</span>
             <span v-else>Ya, Kirim Sekarang</span>
+          </button>
+        </div>
+      </div>
+    </b-modal>
+    <b-modal
+      id="modal-next-subtest"
+      title="Lanjut Subtest Selanjutnya"
+      hide-footer
+      centered
+      :no-close-on-backdrop="loading"
+      :no-close-on-esc="loading"
+      modal-class="admin-modal"
+      @hidden="resetModal"
+    >
+      <div>
+        <p class="modal-text">
+          Apakah kamu yakin ingin melanjutkan ke subtest selanjutnya?
+        </p>
+        <div class="modal-footer justify-content-end" style="border: 0px">
+          <button
+            class="btn btn-outline-secondary"
+            type="button"
+            @click="$bvModal.hide('modal-next-subtest')"
+            v-if="!loading"
+          >
+            Batal
+          </button>
+          <button
+            class="btn btn-primary tambah px-4 py-2"
+            type="button"
+            :disabled="loading"
+            @click.prevent="onNextSubtest"
+          >
+            <b-spinner small v-if="loading" class="mr-1"></b-spinner>
+            <span>Ya, Lanjut</span>
           </button>
         </div>
       </div>
@@ -552,6 +607,8 @@ export default {
       tryout: {},
       detailUjian: {},
       listNomorSoal: [],
+      listSubtest: [],
+      listSoal: [],
       currentNomor: {},
       jawabanUser: {},
       countdownTimer: null,
@@ -566,7 +623,6 @@ export default {
     await this.getDetailProduk();
     await this.getDetailUjian();
 
-    console.log(this.detailUjian);
     // return;
 
     // jika data ujian sudah pernah dibuat
@@ -577,6 +633,16 @@ export default {
         await this.getDetailTryout();
         await this.getNomorSoal();
         document.addEventListener("keydown", this.onKeyDownNavigation);
+        if (!this.$route.query.id_mapel) {
+          this.$router.replace({
+            ...this.$route,
+            query: {
+              ...this.$route.query,
+              id_mapel: this.listSubtest[0].id
+            }
+          })
+        }
+        this.listSoal = this.listNomorSoal.filter(soal => soal.id_soal_tryout === (parseInt(this.$route.query.id_mapel, 10) || this.listSubtest[0].id))
         this.startTimer();
       }
     } else {
@@ -618,6 +684,9 @@ export default {
       }
       return data;
     },
+    subtestIndex() {
+      return this.listSubtest.findIndex(subtest => subtest.id === parseInt(this.$route.query.id_mapel, 10))
+    },
     totalJawaban() {
       let data = [];
       for (const key in this.jawabanUser) {
@@ -652,13 +721,18 @@ export default {
         `/app/tryout/${encryptedProductIdSafe}/test/${encryptedTryoutIdSafe}?kode=${this.$route.query.kode}`
       );
     },
-    toWaitingTestPage(productID, tryoutID) {
+    toWaitingTestPage(productID, tryoutID, mapelID = null, jedawaktu = null) {
       const encryptedProductId = this.encrypt(productID);
       const encryptedProductIdSafe = encodeURIComponent(encryptedProductId);
       const encryptedTryoutId = this.encrypt(tryoutID);
       const encryptedTryoutIdSafe = encodeURIComponent(encryptedTryoutId);
+      var encryptedJedaWaktuSafe = null;
+      if(jedawaktu!=null){
+        const encryptedJedaWaktu = this.encrypt(jedawaktu);
+        encryptedJedaWaktuSafe = encodeURIComponent(encryptedJedaWaktu);
+      };
       window.location.replace(
-        `/app/tryout/${encryptedProductIdSafe}/waiting/${encryptedTryoutIdSafe}?kode=${this.$route.query.kode}`
+        `/app/tryout/${encryptedProductIdSafe}/waiting/${encryptedTryoutIdSafe}?kode=${this.$route.query.kode}${mapelID ? '&id_mapel=' + mapelID : ''}${jedawaktu ? '&jedasubtes=' + encryptedJedaWaktuSafe : ''}`
       );
     },
     checkLastSaved() {
@@ -693,7 +767,12 @@ export default {
       const today = moment.now();
       const lastSavedData = this.checkLastSaved();
       const waktuMulai = moment(this.detailUjian.waktu_mulai).valueOf();
-      const waktuBatas = waktuMulai + this.tryout.alokasi_waktu * 1000 * 60;
+      let waktuBatas
+      if (this.$route.query && this.listSubtest.length) {
+        waktuBatas = waktuMulai + (this.listSubtest.find(s => s.id === parseInt(this.$route.query.id_mapel, 10))).alokasi_waktu * 1000 * 60;
+      } else {
+        waktuBatas = waktuMulai + this.tryout.alokasi_waktu * 1000 * 60;
+      }
 
       // console.log(lastSavedData);
       // return
@@ -718,13 +797,26 @@ export default {
       let duration = moment.duration(diffTime, "milliseconds");
       const interval = 1000;
       // const boardTimer = document.querySelector(".board-timer");
-      const boardTimer = document.getElementById("board-timer-1");
+      var countdownElement ;
+      var countdownElement2;
+      var boardTimer;
+      var boardTimer2;
+      try{
+       boardTimer = document.getElementById("board-timer-1");
       // console.log(boardTimer)
-      const boardTimer2 = document.getElementById("board-timer-2");
+       boardTimer2 = document.getElementById("board-timer-2");
+      
       // console.log(boardTimer2)
       // return
-      const countdownElement = boardTimer.children[1];
-      const countdownElement2 = boardTimer2.children[1];
+      countdownElement= boardTimer.children[1];
+      countdownElement2= boardTimer2.children[1];
+      }catch(error){
+      // Tangani kesalahan di sini.
+      console.error("Kesalahan web:", error.message);
+
+      // Setelah menangani kesalahan, arahkan ulang halaman web.
+      // window.location.reload();
+    }
 
       const isNotTimeout =
         duration.hours() >= 0 &&
@@ -824,7 +916,7 @@ export default {
         default:
           break;
       }
-      foundSoal = this.listNomorSoal.find(item => item.nomor == targetNomor);
+      foundSoal = this.listSoal.find(item => item.nomor == targetNomor);
       if (foundSoal) {
         this.currentNomor = foundSoal;
       }
@@ -882,6 +974,16 @@ export default {
         }
         this.loading = false;
       }
+    },
+    async onNextSubtest() {
+      await this.saveJawabanToServer()
+      const jeda_waktu = (this.listSubtest.find(s => s.id === parseInt(this.$route.query.id_mapel, 10))).jeda_waktu * 1000
+      console.log('jedanya adalah' . jeda_waktu)
+      this.toWaitingTestPage(this.detailUjian.id_produk, this.tryoutId, this.listSubtest[this.subtestIndex + 1].id, jeda_waktu)
+    },
+    async onNextTest(){
+      await this.saveJawabanToServer()
+      this.toWaitingTestPage(this.detailUjian.id_produk, this.tryoutId)
     },
     async submitJawabanUser() {
       console.log("submitJawaban", this.jawabanUser);
@@ -1065,6 +1167,12 @@ export default {
           console.log("tryout", res);
           if (res.success) {
             this.tryout = res.data;
+            this.listSubtest = res.data.soal.map((to) => ({
+              id: to.id,
+              mapel: to.mapel.nama_mapel,
+              jeda_waktu: to.jeda_waktu_antar_mapel || res.data.jeda_waktu,
+              alokasi_waktu: to.alokasi_waktu_per_mapel || res.data.alokasi_waktu
+            }));
           }
           return true;
         })
@@ -1082,7 +1190,11 @@ export default {
           console.log("list soal", res);
           if (res.success) {
             this.listNomorSoal = res.data.soal;
-            this.currentNomor = res.data.soal[0];
+            if (this.$route.query.id_mapel) {
+              this.currentNomor = res.data.soal.find(s => s.id_soal_tryout === parseInt(this.$route.query.id_mapel, 10))
+            } else {
+              this.currentNomor = res.data.soal[0];
+            }
             this.jawabanUser = res.data.jawaban_placeholder;
             this.lastSavedDataTime = res.data.last_saved_data_time;
             // this.$store.commit("set", ["listNomorSoal", res.data.soal]);
@@ -1107,6 +1219,10 @@ export default {
       window.location.replace(
         `/app/tryout/${encryptedProductIdSafe}/test?tryout=${encryptedTryoutIdSafe}&kode=${this.$route.query.kode}`
       );
+    },
+    nextSubtestAvailable() {
+      if (this.listSubtest[this.subtestIndex + 1]) return true
+      return false
     },
     isAllowNext() {
       if (

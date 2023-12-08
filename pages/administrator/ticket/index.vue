@@ -13,16 +13,10 @@
           <div class="col-md-6">
             <b-input-group>
               <template #prepend>
-                <b-input-group-text class="pl-3"
-                  ><i class="fas fa-search"></i
-                ></b-input-group-text>
+                <b-input-group-text class="pl-3"><i class="fas fa-search"></i></b-input-group-text>
               </template>
-              <b-form-input
-                class="small px-2"
-                v-model="filter.keyword"
-                placeholder="Cari pengaduan"
-                debounce="300"
-              ></b-form-input>
+              <b-form-input class="small px-2" v-model="filter.keyword" placeholder="Cari pengaduan" debounce="300">
+              </b-form-input>
             </b-input-group>
           </div>
           <div class="col-md-6">
@@ -30,59 +24,38 @@
               <div class="col-md-4">
                 <b-input-group>
                   <template #prepend>
-                    <b-input-group-text
-                      ><i class="fas fa-filter"></i
-                    ></b-input-group-text>
+                    <b-input-group-text><i class="fas fa-filter"></i></b-input-group-text>
                   </template>
-                  <b-form-select
-                    class="small"
-                    v-model="sorting"
-                    :options="[
+                  <b-form-select class="small" v-model="sorting" :options="[
                       { text: '-- Urutkan --', value: '' },
                       { text: 'Terbaru', value: 'latest' },
                       { text: 'Terlama', value: 'oldest' }
-                    ]"
-                    @change="getData()"
-                  ></b-form-select>
+                    ]" @change="getData()"></b-form-select>
                 </b-input-group>
               </div>
               <div class="col-md-4">
                 <b-input-group>
                   <template #prepend>
-                    <b-input-group-text
-                      ><i class="fas fa-filter"></i
-                    ></b-input-group-text>
+                    <b-input-group-text><i class="fas fa-filter"></i></b-input-group-text>
                   </template>
-                  <b-form-select
-                    class="small"
-                    v-model="prioritas"
-                    :options="[
+                  <b-form-select class="small" v-model="prioritas" :options="[
                       { text: '-- Prioritas --', value: '' },
                       { text: 'Rendah', value: 'Rendah' },
                       { text: 'Sedang', value: 'Sedang' },
                       { text: 'Tinggi', value: 'Tinggi' }
-                    ]"
-                    @change="getData()"
-                  ></b-form-select>
+                    ]" @change="getData()"></b-form-select>
                 </b-input-group>
               </div>
               <div class="col-md-4">
                 <b-input-group>
                   <template #prepend>
-                    <b-input-group-text
-                      ><i class="fas fa-filter"></i
-                    ></b-input-group-text>
+                    <b-input-group-text><i class="fas fa-filter"></i></b-input-group-text>
                   </template>
-                  <b-form-select
-                    class="small"
-                    v-model="status"
-                    :options="[
+                  <b-form-select class="small" v-model="status" :options="[
                       { text: '-- Status --', value: '' },
                       { text: 'Buka', value: 'Buka' },
                       { text: 'Ditutup', value: 'Ditutup' }
-                    ]"
-                    @change="getData()"
-                  ></b-form-select>
+                    ]" @change="getData()"></b-form-select>
                 </b-input-group>
               </div>
             </div>
@@ -91,61 +64,40 @@
         <hr class="mb-0" />
         <div class="courses-review review pos-relative">
           <ul class="review-list list-unstyled">
-            <li
-              class="d-flex review-item"
-              v-for="(item, index) in list"
-              :key="'uls' + index"
-            >
-              <img
-                :src="ApiUrl(item.siswa ? item.siswa.foto : item.tentor.foto)"
-                @error="noImage"
-                alt="profile pic"
-                class="review-avatar"
-              />
+            <li class="d-flex review-item" v-for="(item, index) in list" :key="'uls' + index">
+              <img :src="ApiUrl(item.siswa ? item.siswa.foto : item.tentor ? item.tentor.foto : '')" @error="noImage"
+                alt="profile pic" class="review-avatar" />
               <div class="review-data ml-md-4">
                 <div>
-                  <span class="small"><b-icon icon="person"></b-icon> {{item.siswa ? item.siswa.nama_lengkap : item.tentor.nama_lengkap}}</span>
-                  <span
-                    class="badge badge-info"
-                    style="font-weight: normal; font-size: 10px"
-                    >{{ item.siswa ? "Siswa" : "Tentor" }}</span
-                  >
+                  <span class="small">
+                    <b-icon icon="person"></b-icon>
+                    {{ item.siswa ? item.siswa.nama_lengkap : (item.tentor ? item.tentor.nama_lengkap : 'Tidak ada nama') }}
+                  </span>
+                  <span class="badge badge-info" style="font-weight: normal; font-size: 10px">
+                    {{ item.siswa ? "Siswa" : (item.tentor ? "Tentor" : "Tidak ada kategori") }}
+                  </span>
                 </div>
                 <div class="d-flex justify-content-between">
                   <div class="review-data__author">
                     <b>#{{ item.kode }}</b> - {{ item.subjek }}
                   </div>
                   <div>
-                    <span :class="prioritasBadge(item.prioritas)">{{
-                      item.prioritas
-                    }}</span>
-                    <span :class="statusBadge(item.status)">{{
-                      item.status
-                    }}</span>
-                    <b-dropdown
-                      size="sm"
-                      variant="outline-primary"
-                      toggle-class="text-decoration-none square px-2 py-0 ml-2"
-                      no-caret
-                    >
+                    <span :class="prioritasBadge(item.prioritas)">{{ item.prioritas }}</span>
+                    <span :class="statusBadge(item.status)">{{ item.status }}</span>
+                    <b-dropdown size="sm" variant="outline-primary"
+                      toggle-class="text-decoration-none square px-2 py-0 ml-2" no-caret>
                       <template #button-content>
                         <b-icon icon="three-dots"></b-icon>
                       </template>
-                      <b-dropdown-item
-                        @click.prevent="
-                          selectedData = item;
-                          $bvModal.show('modal-status');
-                        "
-                        >Ubah Status</b-dropdown-item
-                      >
-                      <b-dropdown-item
-                        @click.prevent="
-                          selectedId = item.id;
-                          selectedIndex = index;
-                          $bvModal.show('modal-prioritas');
-                        "
-                        >Ubah Prioritas</b-dropdown-item
-                      >
+                      <b-dropdown-item @click.prevent="
+                    selectedData = item;
+                    $bvModal.show('modal-status');
+                  ">Ubah Status</b-dropdown-item>
+                      <b-dropdown-item @click.prevent="
+                    selectedId = item.id;
+                    selectedIndex = index;
+                    $bvModal.show('modal-prioritas');
+                  ">Ubah Prioritas</b-dropdown-item>
                     </b-dropdown>
                   </div>
                 </div>
@@ -162,36 +114,21 @@
             <UITableNotFound text="Belum ada data pengaduan." />
           </div>
           <UILoading v-if="loading" />
-          <b-pagination
-            class="pagination-table"
-            v-if="totalRows > 0 && totalRows > filter.perPage && !loading"
-            v-model="filter.page"
-            :total-rows="totalRows"
-            :per-page="filter.perPage"
-          >
+          <b-pagination class="pagination-table" v-if="totalRows > 0 && totalRows > filter.perPage && !loading"
+            v-model="filter.page" :total-rows="totalRows" :per-page="filter.perPage">
           </b-pagination>
         </div>
       </div>
     </div>
-    <b-modal
-      id="modal-status"
-      title="Ubah Status"
-      centered
-      hide-footer
-      class="admin-modal"
-    >
+    <b-modal id="modal-status" title="Ubah Status" centered hide-footer class="admin-modal">
       <div>
         <!-- <p class="modal-text">
           Apakah anda yakin ingin menghapus data tryout ini?
         </p> -->
-        <b-form-select
-          :options="[
+        <b-form-select :options="[
             { text: 'Buka', value: 'Buka' },
             { text: 'Tutup/Selesai', value: 'Ditutup' }
-          ]"
-          @change="updateStatus"
-          v-model="selectedData.status"
-        >
+          ]" @change="updateStatus" v-model="selectedData.status">
         </b-form-select>
         <div class="modal-footer justify-content-end" style="border: 0px">
           <!-- <button
@@ -212,23 +149,13 @@
         </div>
       </div>
     </b-modal>
-    <b-modal
-      id="modal-prioritas"
-      title="Ubah Prioritas"
-      centered
-      hide-footer
-      class="admin-modal"
-    >
+    <b-modal id="modal-prioritas" title="Ubah Prioritas" centered hide-footer class="admin-modal">
       <div>
-        <b-form-select
-          :options="[
+        <b-form-select :options="[
             { text: 'Rendah', value: 'Rendah' },
             { text: 'Sedang', value: 'Sedang' },
             { text: 'Tinggi', value: 'Tinggi' }
-          ]"
-          @change="updatePrioritas"
-          v-model="selectedData.prioritas"
-        >
+          ]" @change="updatePrioritas" v-model="selectedData.prioritas">
         </b-form-select>
         <div class="modal-footer justify-content-end" style="border: 0px">
           <!-- <button
@@ -245,150 +172,154 @@
 </template>
 
 <script>
-export default {
-  layout: "admin",
-  data() {
-    return {
-      submitting: false,
-      loading: true,
-      list: [],
-      totalRows: 10,
-      filter: {
-        sortBy: "created_at",
-        sortDir: "desc",
-        page: 1,
-        perPage: 10,
-        keyword: ""
+  export default {
+    layout: "admin",
+    data() {
+      return {
+        submitting: false,
+        loading: true,
+        list: [],
+        totalRows: 10,
+        filter: {
+          sortBy: "created_at",
+          sortDir: "desc",
+          page: 1,
+          perPage: 10,
+          keyword: ""
+        },
+        status: "",
+        prioritas: "",
+        sorting: "latest",
+        selectedId: null,
+        selectedIndex: null,
+        selectedData: {}
+      };
+    },
+    created() {
+      this.getData();
+    },
+    computed: {
+      tentor() {
+        return this.$store.state.dataUser.detail;
+      }
+    },
+    watch: {
+      "filter.page": function (value) {
+        if (value) {
+          this.getData();
+        }
       },
-      status: "",
-      prioritas: "",
-      sorting: "latest",
-      selectedId: null,
-      selectedIndex: null,
-      selectedData: {}
-    };
-  },
-  created() {
-    this.getData();
-  },
-  computed: {
-    tentor() {
-      return this.$store.state.dataUser.detail;
-    }
-  },
-  watch: {
-    "filter.page": function(value) {
-      if (value) {
+      "filter.keyword": function (value) {
         this.getData();
       }
     },
-    "filter.keyword": function(value) {
-      this.getData();
-    }
-  },
-  methods: {
-    getData() {
-      if (this.sorting == "latest") {
-        this.filter.sortBy = "created_at";
-        this.filter.sortDir = "desc";
-      } else if (this.sorting == "oldest") {
-        this.filter.sortBy = "created_at";
-        this.filter.sortDir = "asc";
-      }
+    methods: {
+      getData() {
+        if (this.sorting == "latest") {
+          this.filter.sortBy = "created_at";
+          this.filter.sortDir = "desc";
+        } else if (this.sorting == "oldest") {
+          this.filter.sortBy = "created_at";
+          this.filter.sortDir = "asc";
+        }
 
-      this.loading = true;
-      this.$axios
-        .$get("api/pengaduan", {
-          params: {
-            q: this.filter.keyword,
-            page: this.filter.page,
-            paginate: this.filter.perPage,
-            sortBy: this.filter.sortBy,
-            sortDir: this.filter.sortDir,
-            prioritas: this.prioritas,
-            status: this.status
-          }
-        })
-        .then(res => {
-          if (res.success) {
-            this.list = res.data.data;
-            this.totalRows = res.data.total;
-            this.filter.perPage = res.data.per_page;
-          }
-        })
-        .catch(err => {
-          console.log(err);
-          this.catchError(err);
-        })
-        .finally(() => (this.loading = false));
-    },
-    statusBadge(status) {
-      let statusClass = "badge badge-";
-      switch (status) {
-        case "Buka":
-          statusClass += "success";
-          break;
-        case "Ditutup":
-          statusClass += "secondary";
-          break;
-        default:
-          statusClass += "secondary";
-          break;
-      }
-      return statusClass;
-    },
-    prioritasBadge(prioritas) {
-      let prioritasClass = "badge badge-";
-      switch (prioritas) {
-        case "Rendah":
-          prioritasClass += "warning";
-          break;
-        case "Sedang":
-          prioritasClass += "info";
-          break;
-        case "Tinggi":
-          prioritasClass += "danger";
-          break;
-        default:
-          prioritasClass += "secondary";
-          break;
-      }
-      return prioritasClass;
-    },
-    updateStatus() {
-      if (this.selectedData && this.selectedData.status) {
+        this.loading = true;
         this.$axios
-          .$put(`api/pengaduan/update-status/${this.selectedData.id}`, {
-            status: this.selectedData.status
-          })
-          .then(response => {
-            if (response.success) {
-              this.showToastMessage(response.message, "success");
+          .$get("api/pengaduan", {
+            params: {
+              q: this.filter.keyword,
+              page: this.filter.page,
+              paginate: this.filter.perPage,
+              sortBy: this.filter.sortBy,
+              sortDir: this.filter.sortDir,
+              prioritas: this.prioritas,
+              status: this.status
             }
           })
-          .catch(error => {
-            // console.log(error)
-            this.catchError(error);
-          });
-      }
-    },
-    updatePrioritas() {
-      if (this.selectedData && this.selectedData.prioritas) {
-        this.$axios
-          .$put(`api/pengaduan/update-prioritas/${this.selectedData.id}`, {
-            prioritas: this.selectedData.prioritas
-          })
-          .then(response => {
-            if (response.success) {
-              this.showToastMessage(response.message, "success");
+          .then(res => {
+            console.log("getdata")
+            console.log("ini", res.data.data)
+            if (res.success) {
+              this.list = res.data.data;
+              this.totalRows = res.data.total;
+              this.filter.perPage = res.data.per_page;
+
             }
           })
-          .catch(error => {
-            // console.log(error)
-            this.catchError(error);
-          });
+          .catch(err => {
+            console.log(err);
+            this.catchError(err);
+          })
+          .finally(() => (this.loading = false));
+      },
+      statusBadge(status) {
+        let statusClass = "badge badge-";
+        switch (status) {
+          case "Buka":
+            statusClass += "success";
+            break;
+          case "Ditutup":
+            statusClass += "secondary";
+            break;
+          default:
+            statusClass += "secondary";
+            break;
+        }
+        return statusClass;
+      },
+      prioritasBadge(prioritas) {
+        let prioritasClass = "badge badge-";
+        switch (prioritas) {
+          case "Rendah":
+            prioritasClass += "warning";
+            break;
+          case "Sedang":
+            prioritasClass += "info";
+            break;
+          case "Tinggi":
+            prioritasClass += "danger";
+            break;
+          default:
+            prioritasClass += "secondary";
+            break;
+        }
+        return prioritasClass;
+      },
+      updateStatus() {
+        if (this.selectedData && this.selectedData.status) {
+          this.$axios
+            .$put(`api/pengaduan/update-status/${this.selectedData.id}`, {
+              status: this.selectedData.status
+            })
+            .then(response => {
+              if (response.success) {
+                this.showToastMessage(response.message, "success");
+              }
+            })
+            .catch(error => {
+              // console.log(error)
+              this.catchError(error);
+            });
+        }
+      },
+      updatePrioritas() {
+        if (this.selectedData && this.selectedData.prioritas) {
+          this.$axios
+            .$put(`api/pengaduan/update-prioritas/${this.selectedData.id}`, {
+              prioritas: this.selectedData.prioritas
+            })
+            .then(response => {
+              if (response.success) {
+                this.showToastMessage(response.message, "success");
+              }
+            })
+            .catch(error => {
+              // console.log(error)
+              this.catchError(error);
+            });
+        }
       }
     }
-  }
-};
+  };
+
 </script>

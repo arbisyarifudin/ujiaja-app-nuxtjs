@@ -48,7 +48,7 @@
                   v-model="form.alokasi_waktu"
                 />
               </div>
-              <div class="col form-group reg-siswa">
+              <!-- <div class="col form-group reg-siswa">
                 <label for="jeda_waktu"
                   >Jeda Waktu Perpindahan (Detik) <code>*</code></label
                 >
@@ -60,7 +60,8 @@
                   placeholder="Misal: 5"
                   v-model="form.jeda_waktu"
                 />
-              </div>
+                
+              </div> -->
             </div>
             <div class="row">
               <div class="col-md-6">
@@ -110,7 +111,8 @@
                     :options="[
                       { text: '-- Pilih --', value: null },
                       { text: 'TKA', value: 'TKA' },
-                      { text: 'TPS', value: 'TPS' }
+                      { text: 'TPS', value: 'TPS' },
+                      { text: 'LITERASI_PENALARAN', value: 'LITERASI DAN PENALARAN' },
                     ]"
                   >
                     <!-- { text: 'Campuran', value: 'Campuran' } -->
@@ -178,7 +180,7 @@
                   </b-form-select>
                 </div>
               </div>
-              <div class="col-md-6" v-if="form.kategori != 'Asmenas'">
+              <!-- <div class="col-md-6" v-if="form.kategori != 'Asmenas'">
                 <div class="form-group reg-siswa">
                   <label for="template_soal"
                     >Template Soal <code>*</code></label
@@ -203,7 +205,7 @@
                   >
                   </b-form-select>
                 </div>
-              </div>
+              </div> -->
             </div>
           </div>
         </div>
@@ -246,7 +248,8 @@ export default {
         id_penjurusan: null,
         panduan_pengerjaan: null,
         alokasi_waktu: 0,
-        jeda_waktu: 0
+        jeda_waktu: 0,
+        subexam_breaks: 0
       }
     };
   },
@@ -307,9 +310,11 @@ export default {
 
       if (
         !this.form.alokasi_waktu ||
-        !this.form.jeda_waktu ||
-        this.form.alokasi_waktu < 1 ||
-        this.form.jeda_waktu < 1
+        // !this.form.jeda_waktu ||
+        // !this.form.subexam_breaks ||
+        this.form.alokasi_waktu < 1 
+        // this.form.jeda_waktu < 1 
+        // this.form.subexam_breaks < 1 
       ) {
         this.$bvToast.toast("Alokasi dan jeda waktu diperlukan!", {
           title: "Peringatan",

@@ -458,8 +458,8 @@ export default {
           params: {
             q: this.filter.keyword,
             paginate: this.filter.perPage,
-            status: 1,
-            verifikasi: 1,
+            // status: 1,
+            status_verifikasi: 1,
             id_mapel: this.filter.id_mapel,
             id_jenjang: this.filter.id_jenjang,
             model_belajar: this.filter.model_belajar,

@@ -177,7 +177,7 @@
                         <div
                           class="col-md-12 form-user form-pilih-kelas p-0 mt-3"
                         >
-                          <div class="form-group reg-siswa mb-0">
+                          <div class="form-group reg-siswa">
                             <label for="id_mapel"
                               >Mata Pelajaran <code>*</code></label
                             >
@@ -186,7 +186,6 @@
                               id="id_mapel"
                               v-model="soal.id_mapel"
                               @change="onUpdateSoal(soal)"
-                              :disabled="a != 0"
                             >
                               <option :value="null">-- Pilih --</option>
                               <option
@@ -196,6 +195,32 @@
                                 >{{ mapel.nama_mapel }}</option
                               >
                             </select>
+                          </div>
+                          <div class="form-group reg-siswa">
+                            <label for="jeda_waktu_antar_mapel"
+                              >Alokasi Waktu Per-Mata Pelajaran (Menit) <code>*</code></label
+                            >
+                            <input
+                              type="text"
+                              class="form-control pl-0"
+                              id="jeda_waktu_antar_mapel"
+                              placeholder="Ex: 80"
+                              v-model="soal.alokasi_waktu_per_mapel"
+                              @input="onUpdateSoal(soal)"
+                            />
+                          </div>
+                          <div class="form-group reg-siswa mb-0">
+                            <label for="jeda_waktu_antar_mapel"
+                              >Jeda Waktu Dengan Mata Pelajaran Berikutnya (Detik) <code>*</code></label
+                            >
+                            <input
+                              type="text"
+                              class="form-control pl-0"
+                              id="jeda_waktu_antar_mapel"
+                              placeholder="Ex: 30"
+                              v-model="soal.jeda_waktu_antar_mapel"
+                              @input="onUpdateSoal(soal)"
+                            />
                           </div>
                           <UISaveStatus
                             :data="onSubmit.soal[soal.id]"
@@ -1024,6 +1049,31 @@
                           </div>
                         </div>
                       </div>
+                          <div class="form-group reg-siswa">
+                            <label for="jeda_waktu_antar_mapel"
+                              >Alokasi Waktu Per-Mata Pelajaran (Menit) <code>*</code></label
+                            >
+                            <input
+                              type="text"
+                              class="form-control pl-0"
+                              id="jeda_waktu_antar_mapel"
+                              placeholder="Ex: 80"
+                              v-model="newMapel.alokasi_waktu_per_mapel"
+                              
+                            />
+                          </div>
+                          <div class="form-group reg-siswa">
+                            <label for="jeda_waktu_antar_mapel"
+                              >Jeda Waktu Dengan Mata Pelajaran Berikutnya (Detik) <code>*</code></label
+                            >
+                            <input
+                              type="text"
+                              class="form-control pl-0"
+                              id="jeda_waktu_antar_mapel"
+                              placeholder="Ex: 30"
+                              v-model="newMapel.jeda_waktu_antar_mapel"
+                            />
+                          </div>
                       <div class="d-flex">
                         <button
                           type="button"
@@ -1042,10 +1092,7 @@
                         <button
                           type="button"
                           class="btn btn-outline-primary"
-                          @click.prevent="
-                            addNewMapel = false;
-                            resetNewMapel;
-                          "
+                          @click.prevent="addNewMapel = false; resetNewMapel()"
                         >
                           <b-icon icon="x" class="mr-1"></b-icon>
                           Batal
@@ -1061,6 +1108,7 @@
           </div>
         </div>
         <div class="crud-footer d-flex justify-content-end mt-4">
+          
           <nuxt-link
             to="/administrator/tryout"
             class="btn btn-outline-secondary mr-2"
@@ -1142,7 +1190,8 @@ export default {
       newMapel: {
         id_mapel: null,
         // alokasi_waktu_per_mapel: null,
-        // jeda_waktu_antar_mapel: null,
+        jeda_waktu_antar_mapel: null,
+        alokasi_waktu_per_mapel: null,
         jenis_soal: null,
         kelompok_soal: null,
         jumlah_soal: 25
@@ -1201,6 +1250,13 @@ export default {
     }
   },
   methods: {
+    parseJSON(str) {
+      try {
+        return JSON.parse(str)
+      } catch (err) {
+        return str
+      }
+    },
     delay: ms =>
       new Promise(res => {
         setTimeout(res, ms);
@@ -1239,7 +1295,13 @@ export default {
           console.log(res);
           if (res.success) {
             this.dataDetail = await res.data;
-            this.formSoal = res.data.soal;
+            this.formSoal = res.data.soal.map(s => ({
+              ...s,
+              pertanyaan: s.pertanyaan.map(p => ({
+                ...p,
+                bab_mapel: this.parseJSON(p.bab_mapel)
+              }))
+            }));
             this.formTryout = { ...this.dataDetail };
             this.filter.totalNumber = res.totalNomor;
             this.filter.numberInSubtest = 0;

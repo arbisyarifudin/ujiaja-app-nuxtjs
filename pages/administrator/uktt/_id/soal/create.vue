@@ -1546,7 +1546,7 @@ export default {
     onBlurPanduan(quill) {
       this.onSubmit.panduan.loading = true;
       this.$axios
-        .$put(`/api/tryout/update/${this.dataDetail.id}`, this.formTryout)
+        .$put(`/api/tryout/update/${this.dataDetail.id}/panduan`, this.formTryout)
         .then(res => {
           if (res.success) {
             this.onSubmit.panduan.submitted = true;

@@ -11,7 +11,7 @@
       <div class="col-md-12 text-right mt-4 crud-tools">
         <div class="row no-gutters justify-content-between">
           <div class="col-md-6">
-            <div class="row justify-content-start">
+            <div class="justify-content-start d-flex filter">
               <div class="col-md-5">
                 <b-input-group>
                   <template #prepend>
@@ -44,10 +44,29 @@
                       { text: 'Semua Kategori', value: '' },
                       { text: 'UTBK', value: 'UTBK' },
                       { text: 'ASPD', value: 'ASPD' },
+                      { text: 'PAT', value: 'PAT' },
+                      { text: 'PAS', value: 'PAS' },
                     ]"
                     @change="getData('tryout')"
                   ></b-form-select>
                       <!-- { text: 'Asesmen Nasional', value: 'Asmenas' } -->
+                </b-input-group>
+              </div>
+              <div class="col-md-5">
+                <b-input-group>
+                  <template #prepend>
+                    <b-input-group-text
+                      ><i class="fas fa-filter"></i
+                    ></b-input-group-text>
+                  </template>
+                  <b-form-select
+                  v-model="filterArchive"
+                    :options="[
+                      { text: 'Semua', value: null },
+                      { text: 'Diarsipkan', value: true },
+                      { text: 'Tidak Diarsipkan', value: false },
+                    ]"
+                  ></b-form-select>
                 </b-input-group>
               </div>
             </div>
@@ -72,13 +91,17 @@
             >
               Tambah
             </nuxt-link>
+           
           </div>
         </div>
       </div>
       <div class="col-md-12 crud-body">
         <div class="overflow-auto">
           <div class="data-tryout" v-if="totalRows > 0">
-            <div class="card-data" v-for="(item, i) in items" :key="i">
+            <div class="card-data position-relative" v-for="(item, i) in filteredItems" :key="i">
+              <span style="top: 14px; left: 14px; z-index: 99; position: absolute;cursor: pointer;" @click.stop.prevent="archiveSoalTryOut(`${item.id}`)">
+                <img :src="`${item.is_archived_admin}` == '1' ? '/icon/archive-tick.svg' : '/icon/unarchive-tick.svg'" class="img-fluid image" />
+              </span>
               <div class="row d-flex align-items-start">
                 <div class="col-md-1 col-6 align-self-center">
                   <div class="text-center">
@@ -96,8 +119,8 @@
                       }}
                     </h4>
                     <div class="jenis" v-if="item.kategori == 'UTBK'">
-                      <div class="badge">{{ item.jenis_soal }}</div>
-                      <div class="badge" v-if="item.kelompok_soal">
+                      <div class="badge kelompok-soal">{{ item.jenis_soal }}</div>
+                      <div class="badge " v-if="item.kelompok_soal">
                         {{ item.kelompok_soal }}
                       </div>
                     </div>
@@ -163,6 +186,12 @@
                     >
                       Ubah Tryout
                     </nuxt-link>
+                    <nuxt-link
+                      class="btn btn-outline-secondary secondary px-3 py-1 px-4 mt-md-2"
+                      :to="`/administrator/tryout/${item.id}/preview`"
+                    >
+                      Preview Tryout
+                    </nuxt-link>
                     <button
                       class="btn btn-outline-danger danger px-3 py-1 mt-md-2"
                       @click.prevent="
@@ -173,6 +202,23 @@
                     >
                       Hapus Tryout
                     </button>
+                    <button
+                      class="btn btn-outline-info info px-3 py-1 px-4 mt-md-2"
+                      @click.prevent="
+                       selectedId = item.id;
+                       selectedIndex = i;
+                       $bvModal.show('modal-import');"
+                    >
+                      Import Soal
+                    </button>
+                    <button
+                    :disabled="generating"
+                      class="btn btn-outline-warning warning px-3 py-1 px-4 mt-md-2"
+                      @click.prevent="exportSoal(item.id)"
+                      
+                    > <b-spinner v-if="generating" small></b-spinner>
+                      Export Soal
+                  </button>
                   </template>
                 </div>
               </div>
@@ -223,10 +269,15 @@
         </p>
         <div class="modal-footer justify-content-end" style="border: 0px">
           <button
+            class="btn btn-outline-danger danger"
+            type="button"
+            @click="deletePaksaData('tryout')">
+            Hapus Paksa
+          </button>
+          <button
             class="btn btn-outline-secondary"
             type="button"
-            @click="$bvModal.hide('modal-delete')"
-          >
+            @click="$bvModal.hide('modal-delete')">
             Tidak
           </button>
           <button
@@ -240,6 +291,47 @@
         </div>
       </div>
     </b-modal>
+
+    <b-modal
+      id="modal-import"
+      title="Import Soal Try Out"
+      hide-footer
+      centered
+      modal-class="admin-modal"
+      @hidden="resetModal"
+    >
+      <div>
+        <p class="modal-text">
+          Import data soal TryOut berdasarkan format yang sudah ditentukan.
+        </p>
+        <div class="form-group mb-2">
+          <p class="text-weight-bold">
+            Unggah File
+          </p>
+          <input
+            type="file"
+            class=""
+            ref="file" />
+        </div>
+        <div class="modal-footer justify-content-end" style="border: 0px">
+          <button
+            class="btn btn-outline-secondary"
+            type="button"
+            @click="$bvModal.hide('modal-import')"
+          >
+            Tidak
+          </button>
+          <button
+            class="btn btn-primary tambah px-4 py-2"
+            type="button"
+            @click.prevent="importData()"
+          >
+            <b-spinner small v-if="loading" class="mr-1"></b-spinner> Ya
+          </button>
+        </div>
+      </div>
+    </b-modal>
+
   </div>
 </template>
 
@@ -249,20 +341,38 @@ export default {
   data() {
     return {
       loading: true,
+      generating:false,
       filter: {
         page: 1,
         perPage: 5,
         keyword: "",
-        category: ""
+        category: "",
+        archive: null
       },
       totalRows: 0,
       items: [],
       selectedId: null,
-      selectedIndex: null
+      selectedIndex: null,
+      apiUrl: process.env.apiUrl,
+      filterArchive:null
     };
   },
   mounted() {
     this.getData("tryout");
+  },
+  computed:{
+    filteredItems() {
+      // Jika filterArchive null, tampilkan semua item
+      if (this.filterArchive === null) {
+        return this.items;
+      }
+      // Jika filterArchive true, tampilkan item dengan is_archive = 1
+      if (this.filterArchive) {
+        return this.items.filter(item => item.is_archived_admin === 1);
+      }
+      // Jika filterArchive false, tampilkan item dengan is_archive = 0
+      return this.items.filter(item => item.is_archived_admin === 0);
+    },
   },
   watch: {
     "filter.keyword": function(value) {
@@ -276,6 +386,43 @@ export default {
     }
   },
   methods: {
+    exportSoal(id) {
+      this.generating = true;
+      this.$axios
+        .$get(`/api/tryout/export?soal_tryout_id=` + id)
+        .then(res => {
+          console.log("iniresponsee" ,res);
+          if (res.success) {
+            const pdfUrl = res.data
+            let anchor = document.createElement('a');
+            anchor.setAttribute('target', '_blank')
+            anchor.setAttribute('href', pdfUrl);
+            // console.log(anchor);
+            anchor.click()
+          }
+        })
+        .catch(err => {
+          console.log(err);
+          this.catchError(err);
+        })
+        .finally(() => (this.generating = false));
+    },
+    archiveSoalTryOut(id) {
+      this.loading = true
+      this.$axios
+        .$put(`api/tryout/archived/${id}`)
+        .then(res => {
+          this.loading = false
+          this.getData('tryout')
+          return true;
+        })
+        .catch(err => {
+         
+          this.catchError(err);
+        })
+        .finally(() => (this.loading = false));
+
+    },
     resetModal() {},
     getData(type) {
       this.loading = true;
@@ -330,7 +477,80 @@ export default {
           this.catchError(err);
         })
         .finally(() => (this.loading = false));
+    },
+    deletePaksaData(type) {
+      this.loading = true;
+      this.$axios
+        .$delete(`/api/${type}/delete-paksa/${this.selectedId}`)
+        .then(res => {
+          console.log(res);
+          if (res.success) {
+            this.items.splice(this.selectedIndex, 1);
+            this.$bvToast.toast("Data " + type + " berhasil dihapus.", {
+              title: "Sukses",
+              variant: "success",
+              solid: true,
+              autoHideDelay: 3000
+            });
+            this.$bvModal.hide("modal-delete");
+          }
+          return true;
+        })
+        .catch(err => {
+          console.log(err.response)
+          if(err.response && err.response.status && err.response.status == 500 && err.response.data && err.response.data.message && err.response.data.message.includes('SQLSTATE[23000]')) {
+            return this.showToastMessage('Data tidak dapat dihapus karena sudah terdaftar pada produk yang telah dibeli oleh Siswa!', 'danger', 4000);
+          }
+          this.catchError(err);
+        })
+        .finally(() => (this.loading = false));
+    },
+    importData() {
+      this.loading = true;
+
+      let file = this.$refs.file.files.item(0);
+
+      let formData = new FormData();
+      formData.append("file", file)
+      formData.append("id_tryout", this.selectedId)
+
+
+      this.$axios
+        .$post('/api/import/soal_pertanyaan', formData, {
+          headers: {
+            "Content-Type": "multipart/form-data"
+          }
+        })
+        .then(res => {
+          
+          if (res.success) {
+            this.items.splice(this.selectedIndex, 1);
+            this.$bvToast.toast("Data berhasil dimport.", {
+              title: "Sukses",
+              variant: "success",
+              solid: true,
+              autoHideDelay: 3000
+            });
+            this.getData("tryout");
+            this.$bvModal.hide("modal-import");
+          }
+          return true;
+        })
+        .catch(err => {
+          console.log(err.response)
+          if(err.response && err.response.status && err.response.status == 500 && err.response.data && err.response.data.message && err.response.data.message.includes('SQLSTATE[23000]')) {
+            return this.showToastMessage('Data tidak dapat di import!', 'danger', 4000);
+          }
+          this.catchError(err);
+        })
+        .finally(() => (this.loading = false));
     }
   }
 };
 </script>
+
+<style>
+.filter {
+  overflow-x: auto;
+}
+</style>

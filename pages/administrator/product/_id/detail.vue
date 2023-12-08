@@ -221,7 +221,15 @@
         </p>
         <div class="modal-footer justify-content-end" style="border: 0px">
           <button
-            class="btn btnutline-secondary"
+            class="btn btn-outline-danger"
+            type="button"
+            @click="deletePaksaData('produk')"
+            :disabled="loadinghapuspaksa">
+            Hapus Paksa
+            <b-spinner small v-if="loadinghapuspaksa" class="mr-1"></b-spinner>
+          </button>
+          <button
+            class="btn btn-outline-secondary"
             type="button"
             @click="$bvModal.hide('modal-delete')"
           >
@@ -248,6 +256,7 @@ export default {
   data() {
     return {
       loading: true,
+      loadinghapuspaksa: false,
       dataDetail: {
         produk: {},
         tryout: []
@@ -271,6 +280,35 @@ export default {
   },
   methods: {
     resetModal() {},
+    deletePaksaData(type) {
+      this.loadinghapuspaksa = true;
+      this.$axios
+        .$delete(`/api/${type}/delete-paksa/${this.$route.params.id}`)
+        .then(res => {
+          console.log(res);
+          if (res.success) {
+           
+            
+            this.$bvModal.hide("modal-delete");
+            this.$router.replace("/administrator/product");
+            this.$bvToast.toast("Data " + type + " berhasil dihapus.", {
+              title: "Sukses",
+              variant: "success",
+              solid: true,
+              autoHideDelay: 3000
+            });
+          }
+          return true;
+        })
+        .catch(err => {
+          console.log(err.response)
+          if(err.response && err.response.status && err.response.status == 500 && err.response.data && err.response.data.message && err.response.data.message.includes('SQLSTATE[23000]')) {
+            return this.showToastMessage('Data tidak dapat dihapus karena sudah terdaftar pada produk yang telah dibeli oleh Siswa!', 'danger', 4000);
+          }
+          this.catchError(err);
+        })
+        .finally(() => (this.loadinghapuspaksa = false));
+    },
     getDetail(type, id) {
       this.loading = true;
       this.$axios

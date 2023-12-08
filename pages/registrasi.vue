@@ -4,28 +4,23 @@
 
     <ContentWrapper>
       <b-container>
-        <div
-          class="login-box"
-          style="
+        <div class="login-box" style="
             background: #fdfdfd;
             box-shadow: 0px 4px 10px 1px rgba(0, 0, 0, 0.08);
             border-radius: 4px;
-          "
-        >
+          ">
           <div class="row mb-5 mt-5 jus align-items-stretch">
             <div class="col-md-5">
               <div class="kiri h-100 d-flex align-items-center px-5">
                 <div id="kiri-slider" class="flex-none w-100">
                   <no-ssr>
-                    <vue-tiny-slider
-                      v-bind="tinySliderOptions"
-                      class="flex-none"
-                    >
+                    <vue-tiny-slider v-bind="tinySliderOptions" class="flex-none">
                       <div class="text-center">
                         <img src="/reg-siswa.png" />
                         <h4 class="judul">Belajar Efektif Bersama UjiAja</h4>
                         <p>
-                          Nikmati bebas akses dan bebas biaya untuk pembahasan soal tryout, kunci jawaban, analisa serta rekomendasi belajar dan pilihan jurusan.
+                          Nikmati bebas akses dan bebas biaya untuk pembahasan soal tryout, kunci jawaban, analisa serta
+                          rekomendasi belajar dan pilihan jurusan.
                         </p>
                       </div>
                       <div class="text-center">
@@ -43,11 +38,7 @@
             <div class="col-md-7">
               <div class="kanan mx-5 my-5">
                 <div class="d-flex align-items-center mb-4">
-                  <img
-                    :src="ApiUrl(navData.logo)"
-                    class="img-fluid my-4"
-                    style="width: 12%"
-                  />
+                  <img :src="ApiUrl(navData.logo)" class="img-fluid my-4" style="width: 12%" />
                   <!-- <img
                     src="/logo-text.png"
                     class="img-fluid"
@@ -61,107 +52,55 @@
                 <button class="btn btn-outline-primary" type="button">
                   Guru
                 </button> -->
-                <form
-                  action=""
-                  class="form-user"
-                  @submit.prevent="validateForm"
-                >
+                <form action="" class="form-user" @submit.prevent="validateForm">
                   <b-form-group class="mt-3">
-                    <b-form-radio-group
-                      id="tipe-user"
-                      :options="[
-                        { text: 'Siswa', value: 'siswa' },
-                        { text: 'Tentor', value: 'teacher' },
-                      ]"
-                      button-variant="outline-primary"
-                      name="radio-btn-outline"
-                      v-model="tipe_user"
-                      buttons
-                    ></b-form-radio-group>
+                    <b-form-radio-group id="tipe-user" :options="[
+                      { text: 'Siswa', value: 'siswa' },
+                      { text: 'Tentor', value: 'teacher' },
+                    ]" button-variant="outline-primary" name="radio-btn-outline" v-model="tipe_user"
+                      buttons></b-form-radio-group>
                   </b-form-group>
                   <div class="form-group">
                     <label for="name">Nama Lengkap</label>
-                    <input
-                      type="text"
-                      class="form-control pl-0"
-                      id="name"
-                      placeholder="Nama Lengkap"
-                      v-model="form.nama_lengkap"
-                    />
+                    <input type="text" class="form-control pl-0" id="name" placeholder="Nama Lengkap"
+                      v-model="form.nama_lengkap" />
                   </div>
                   <div class="form-group">
                     <label for="username">Username</label>
-                    <input
-                      type="text"
-                      class="form-control pl-0"
-                      id="Username"
-                      placeholder="Username"
-                      v-model="form.username"
-                    />
+                    <input type="text" class="form-control pl-0" id="Username" placeholder="Username"
+                      v-model="form.username" />
                     <div v-html="showError('username')"></div>
                   </div>
                   <div class="form-group">
                     <label for="password">Password</label>
                     <div class="input-group">
-                      <input
-                        :type="showPassword ? 'text' : 'password'"
-                        class="form-control pl-0"
-                        id="password"
-                        placeholder="Password"
-                        autocomplete="new-password"
-                        v-model="form.password"
-                      />
-                      <div
-                        class="input-group-append"
-                        @click.prevent="showPassword = !showPassword"
-                        style="cursor: pointer"
-                      >
-                        <span
-                          class="input-group-text bg-transparent"
-                          style="pointer-events: none"
-                          ><i
-                            :class="[
-                              'fa',
-                              showPassword ? 'fa-eye-slash' : 'fa-eye',
-                            ]"
-                            style="pointer-events: none"
-                          ></i
-                        ></span>
+                      <input :type="showPassword ? 'text' : 'password'" class="form-control pl-0" id="password"
+                        placeholder="Password" autocomplete="new-password" v-model="form.password" />
+                      <div class="input-group-append" @click.prevent="showPassword = !showPassword"
+                        style="cursor: pointer">
+                        <span class="input-group-text bg-transparent" style="pointer-events: none"><i :class="[
+                          'fa',
+                          showPassword ? 'fa-eye-slash' : 'fa-eye',
+                        ]" style="pointer-events: none"></i></span>
                       </div>
                     </div>
                     <div v-html="showError('password')"></div>
                   </div>
                   <div class="form-group">
                     <label for="repassword">Konfirmasi Password</label>
-                    <input
-                      type="password"
-                      class="form-control pl-0"
-                      id="repassword"
-                      placeholder="Password"
-                      autocomplete="new-password"
-                      v-model="repassword"
-                    />
+                    <input type="password" class="form-control pl-0" id="repassword" placeholder="Password"
+                      autocomplete="new-password" v-model="repassword" />
                     <div v-html="showError('repassword')"></div>
                   </div>
                   <div class="form-group">
                     <label for="email">Email</label>
-                    <input
-                      type="text"
-                      class="form-control pl-0"
-                      id="email"
-                      placeholder="Email"
-                      autocomplete="false"
-                      v-model="form.email"
-                    />
+                    <input type="text" class="form-control pl-0" id="email" placeholder="Email" autocomplete="false"
+                      v-model="form.email" />
                     <div v-html="showError('email')"></div>
                   </div>
                   <div class="form-group">
                     <label for="select">Mendapat Informasi UjiAja Dari</label>
-                    <select
-                      class="form-control pl-0"
-                      id="select"
-                      v-model="form.info"
-                    >
+                    <select class="form-control pl-0" id="select" v-model="form.info">
                       <option value="">Pilih Sumber</option>
                       <option value="Internet & Mesin Pencari">Internet & Mesin Pencari</option>
                       <option value="Teman/Saudara">Teman/Saudara</option>
@@ -178,32 +117,29 @@
                   </div>
                   <div class="form-group">
                     <label for="phone">No. HP/WA</label>
-                    <input
-                      type="text"
-                      class="form-control pl-0"
-                      id="phone"
-                      placeholder="No. HP/WA"
-                      v-model="form.nomor_telephone"
-                    />
+                    <input type="text" class="form-control pl-0" id="phone" placeholder="No. HP/WA"
+                      v-model="form.nomor_telephone" />
                     <div v-html="showError('nomor_telephone')"></div>
                   </div>
                   <div class="form-group">
-                    <label
-                      >Sudah Punya Akun?
-                      <a href="/masuk" class="masuk-daftar"> Masuk</a></label
-                    >
+                    <label>Sudah Punya Akun?
+                      <a href="/masuk" class="masuk-daftar"> Masuk</a></label>
                   </div>
                   <div class="button">
-                    <button
-                      class="btn btn-outline-primary py-2 my-3 btn-block"
-                      type="submit"
-                      :disabled="loading"
-                    >
+                    <button class="btn btn-outline-primary py-2 my-3 btn-block" type="submit" :disabled="loading">
                       <b-spinner small class="mr-2" v-if="loading"></b-spinner>
                       Registrasi
                     </button>
                   </div>
                 </form>
+                <hr>
+                <button type="button" class="d-block text-center my-3 py-2 rounded-pill bg-white"
+                  style="border: 1px solid #B0A6EF; width: 100%;" @click.prevent="signUpWithGoogle()">
+                  <img src="/Google.svg" alt="" /> Daftar Dengan Google
+                </button>
+                <a href="#" class="d-block text-center my-3 py-3 rounded-pill bg-white" style="border: 1px solid #B0A6EF" @click.prevent="signUpWithFacebook()">
+                  <img src="/Facebook.svg" alt="" /> Daftar Dengan Facebook
+                </a>
                 <div class="text-center px-4 pt-2">
                   <p class="small">
                     Dengan masuk ke UjiAja, saya menyetujui <br />
@@ -226,6 +162,8 @@
 
 <script>
 import ContentWrapper from "@/components/Layout/ContentWrapper";
+import jwt_decode from "jwt-decode";
+
 export default {
   middleware: "auth-guest",
   components: { ContentWrapper },
@@ -303,7 +241,7 @@ export default {
   },
   watch: {
     showPassword: function (value) {
-      console.log(value);
+      
     },
     "form.username": function (value) {
       var usernameRegex = /^[a-zA-Z0-9]+$/;
@@ -383,6 +321,12 @@ export default {
     },
   },
   methods: {
+    handleCredentialResponse(response) {
+      console.log(response)
+    // call your backend API here
+
+    // the token can be accessed as: response.credential
+    },
     ApiUrl(param) {
       return process.env.apiUrl + "/" + param;
     },
@@ -554,6 +498,111 @@ export default {
       // store.commit("set", ["loading", false]);
       // return "error";
     },
+    signUpWithGoogle() {
+      this.loading = true;
+      google.accounts.id.initialize({
+        client_id: "153870988155-mtbua0puo9lg962ss8lemrv1n087u77a.apps.googleusercontent.com",
+        scope: ['name', 'email'],
+        ux_mode: "redirect",
+        callback: (response) => {
+          
+
+          const payload = jwt_decode(response.credential);
+
+          this.$axios
+            .$post(`/api/users/google-signup/${this.tipe_user}`, payload)
+            .then((res) => {
+                   
+              if (res.success) {
+                this.$root.$bvToast.toast(
+                  "Registrasi berhasil!",
+                  {
+                    title: "Sukses",
+                    variant: "success",
+                    solid: true,
+                    autoHideDelay: 3000,
+                  }
+                );
+                this.$router.replace("/masuk");
+              } else {
+                this.$root.$bvToast.toast("Registrasi gagal!", {
+                  title: "Error",
+                  variant: "danger",
+                  solid: true,
+                  autoHideDelay: 3000,
+                });
+              }
+            })
+            .catch((err) => {
+              
+              this.$root.$bvToast.toast("Terjadi kesalahan, email telah terdaftar di Ujiaja", {
+                  title: "Error",
+                  variant: "danger",
+                  solid: true,
+                  autoHideDelay: 3000,
+                });
+            })
+            .finally(() => {
+              this.loading = false;
+            });
+        }
+      });
+
+      google.accounts.id.prompt();
+    },
+    async signUpWithFacebook() {
+      this.loading = true;
+      FB.login(response => {
+          if (response.status === 'connected') {
+            const accessToken = response.authResponse.accessToken;
+
+          // Buat permintaan ke API Facebook untuk mendapatkan data pengguna
+          FB.api('/me', { fields: 'id,name,email', access_token: accessToken }, userData => {
+            if (userData && !userData.error) {
+             
+
+              this.$axios
+            .$post(`/api/users/facebook-signup/${this.tipe_user}`, userData)
+            .then((res) => {
+              if (res.success) {
+                this.$root.$bvToast.toast(
+                  "Registrasi berhasil!",
+                  {
+                    title: "Sukses",
+                    variant: "success",
+                    solid: true,
+                    autoHideDelay: 3000,
+                  }
+                );
+                this.$router.replace("/masuk");
+              } else {
+                this.$root.$bvToast.toast("Registrasi gagal!", {
+                  title: "Error",
+                  variant: "danger",
+                  solid: true,
+                  autoHideDelay: 3000,
+                });
+              }
+            })
+            .catch((err) => {
+              this.catchError(err);
+              
+            })
+            .finally(() => {
+              this.loading = false;
+            });
+            } else {
+              this.catchError("Gagal Mendaftar dengan Facebook");
+              this.loading = false;
+            }
+          });
+        } else {
+          this.catchError('Gagal mendaftar dengan Facebook:', response);
+          this.loading = false;
+        }
+       
+      });
+    },
   },
   asyncData(context) {
     function getSetting(key) {
@@ -584,6 +633,10 @@ export default {
       navData,
       footerData
     }
+  },
+
+  mounted() {
+
   },
 };
 </script>

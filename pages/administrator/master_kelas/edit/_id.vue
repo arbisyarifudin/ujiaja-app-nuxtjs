@@ -103,7 +103,7 @@ export default {
     submitData(type) {
       this.loading = true;
       this.$axios
-        .$put(`/api/${type}/update/${this.$route.params.id}`, this.form)
+        .$patch(`/api/${type}/update/${this.$route.params.id}`, this.form)
         .then((res) => {
           console.log(res);
           if (res.success) {

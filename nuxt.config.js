@@ -32,7 +32,14 @@ export default {
                 rel: "stylesheet",
                 href: "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
             }
-        ]
+        ],
+        script: [{
+                src: 'https://apis.google.com/js/platform.js',
+            },
+            {
+                src: "https://accounts.google.com/gsi/client"
+            }
+        ],
     },
 
     // Global CSS: https://go.nuxtjs.dev/config-css
@@ -45,14 +52,22 @@ export default {
         { src: "~/plugins/custom-mixins.js", mode: "client" },
         { src: "~/plugins/star-rating.js", mode: "client" },
         { src: "~/plugins/editor.js", mode: "client" },
-        { src: "~/plugins/vue-select.js", mode: "client" }
+        { src: "~/plugins/vue-select.js", mode: "client" },
+        { src: "~/plugins/fb-sdk.js", mode: "client" },
+
     ],
 
     // Auto import components: https://go.nuxtjs.dev/config-components
     components: true,
 
     // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
-    buildModules: [],
+    buildModules: [
+        '@nuxtjs/auth-next'
+    ],
+
+    auth: {
+        // Options
+    },
 
     // Modules: https://go.nuxtjs.dev/config-modules
     modules: [
@@ -79,9 +94,14 @@ export default {
     },
 
     axios: {
+        // proxy: true,
         baseURL: process.env.NODE_ENV !== "production" ?
             "http://localhost:8000" : "http://localhost:8000" // Used as fallback if no runtime config is provided
     },
+
+    // proxy: {
+    //   '/api/': { target: 'https://api.example.com/', pathRewrite: {'^/api/': ''}, changeOrigin: true }
+    // },
 
     // server
     server: {

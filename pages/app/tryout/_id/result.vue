@@ -52,7 +52,7 @@
           </div>
         </div>
       </div>
-      <div class="col-md-4" v-if="dataResult.detail.kategori_produk == 'ASPD'">
+      <div class="col-md-4" v-if="dataResult.detail.kategori_produk == 'ASPD' ||dataResult.detail.kategori_produk == 'PAT' ||dataResult.detail.kategori_produk == 'PAS'  ">
         <div class="text-center skor-box">
           <div class="mb-2">Skor</div>
           <div class="h3 skor-val">
@@ -92,8 +92,8 @@
             <td v-if="dataResult.detail.kategori_produk == 'UTBK'">
               {{ mapel.ceeb }}
             </td>
-            <td v-if="dataResult.detail.kategori_produk == 'ASPD'">
-              {{ mapel.nilai_label }}
+            <td v-if="dataResult.detail.kategori_produk == 'ASPD' ||dataResult.detail.kategori_produk == 'PAT' ||dataResult.detail.kategori_produk == 'PAS' ">
+              {{ mapel.nilai }}
             </td>
           </tr>
         </tbody>
@@ -267,7 +267,13 @@ export default {
         .finally(() => (this.loading = false));
     },
     getResult(id) {
-      const kategori = this.$route.query.category == "ASPD" ? "-aspd" : "";
+      var kategori = "";
+      if(this.$route.query.category == "ASPD"){
+        kategori = "-aspd"
+      }else if(this.$route.query.category == "PAT"|| this.$route.query.category == "PAS"){
+        kategori = "-pat-pas"
+      }
+      
       this.loading = true;
       this.$axios
         .$get(
@@ -318,6 +324,7 @@ export default {
       }
       this.$axios
         .$post(`/api/tryout_user/generate-certificate`, {
+          
           id_produk: this.dataResult.detail.id_produk,
           id_user: this.dataResult.detail.id_user,
           referensi: this.$route.query.code,
@@ -325,6 +332,7 @@ export default {
           send_to_email: is_send_to_email
         })
         .then(res => {
+         
           console.log(res);
           if (res.success) {
             if (is_send_to_email == false) {

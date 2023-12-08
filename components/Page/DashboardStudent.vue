@@ -731,7 +731,7 @@ export default {
       },
       kategoriTOData: [],
       filterList: {
-        kategori: ["UTBK", "ASPD", "PAS", "PAT"],
+        kategori: null,
         // subKategori: ['ASPD SD']
         // jenjang or jenjang + penjurusan
         sub_kategori: [],
@@ -1327,7 +1327,8 @@ export default {
       nilaiPerumpunPeringkat: []
     };
   },
-  created() {
+  created: async function() {
+    await this.isUserHasProdi();
     this.getDashboardData();
     this.getProfilLengkap();
 
@@ -1340,7 +1341,7 @@ export default {
 
     this.getKategoriTO();
     if (this.showAnalytics) {
-      this.filterData()
+      await this.filterData()
     }
   },
   watch: {
@@ -1509,11 +1510,37 @@ export default {
     }
   },
   methods: {
-    filterData() {
-      this.getHasilSatuanPengerjaan();
-      this.getHasilNilaiPerMapel();
+    async isUserHasProdi(){
+      this.loading = true;
+      this.$axios
+        .$get("/api/users")
+        .then(response => {
+          if (response.success) {
+            if(response.data.detail.id_prodi_bind_perguruan == null || response.data.detail.id_prodi_bind_perguruan_2 == null){
+              this.filterList.kategori= ["ASPD", "PAS", "PAT"]
+              this.filter.kategori = "ASPD"
+         
+            }else{
+              this.filterList.kategori= ["UTBK", "ASPD", "PAS", "PAT"]
+              this.filter.kategori = "UTBK"
+            
+            }
+            // this.filterList.kategori= ["UTBK","ASPD", "PAS", "PAT"]
+          }
+        })
+        .catch(err => {
+          this.catchError(err);
+        })
+        .finally(() => {
+          this.loading = false;
+        });
+    },
+  
+    async filterData() {
+      await this.getHasilSatuanPengerjaan();
+      await this.getHasilNilaiPerMapel();
       if (this.filter.kategori == "UTBK") {
-        this.getPersentaseSkor();
+        await this.getPersentaseSkor();
         this.getHasilNilaiPerumpun();
       } else {
         this.getPersentaseSkorASPD();
@@ -1549,7 +1576,7 @@ export default {
           this.loading = false;
         });
     },
-    getHasilSatuanPengerjaan() {
+    async getHasilSatuanPengerjaan() {
       this.loading = true;
       this.$axios
         .$get("/api/tryout_user/grafik-hasil-satuan-pengerjaan", {
@@ -1589,7 +1616,7 @@ export default {
           this.loading = false;
         });
     },
-    getHasilNilaiPerMapel() {
+   async getHasilNilaiPerMapel() {
       this.loading = true;
       this.$axios
         .$get("/api/tryout_user/grafik-hasil-nilai-permapel", {
@@ -1695,7 +1722,7 @@ export default {
           this.loading = false;
         });
     },
-    getPersentaseSkor() {
+    async getPersentaseSkor() {
       this.loading = true;
       this.$axios
         .$get("/api/tryout_user/rerata-persentase-hasil", {
@@ -1719,6 +1746,7 @@ export default {
         })
         .catch(error => {
           this.isDisplayBatteries = false;
+          this.catchError(error);
         })
         .finally(() => {
           this.loading = false;

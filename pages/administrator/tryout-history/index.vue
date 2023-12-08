@@ -75,7 +75,7 @@
                   <td>{{ item.produk ? item.produk.nama_produk : '-' }}</td>
                   <td>{{ item.user && item.user.siswa ? item.user.siswa.nama_lengkap : '-' }}</td>
                   <td>
-                    {{formatTanggal(item.waktu_mulai)}}
+                    {{formatTanggal(item.updated_at)}}
                   </td>
                 </tr>
               </template>

@@ -34,7 +34,7 @@
                   ></b-form-select>
                 </b-input-group>
               </div>
-              <!-- <div class="col-md-5">
+              <div class="col-md-5">
                 <b-input-group>
                   <template #prepend>
                     <b-input-group-text
@@ -42,15 +42,16 @@
                     ></b-input-group-text>
                   </template>
                   <b-form-select
-                    v-model="filterStatus"
+                    v-model="filterArchive"
+                    
                     :options="[
                       { text: 'Semua', value: null },
-                      { text: 'Sudah Dikerjakan', value: 'Sudah Dikerjakan' },
-                      { text: 'Belum Dikerjakan', value: 'Belum Dikerjakan' }
+                      { text: 'Diarsipkan', value: true },
+                      { text: 'Tidak Diarsipkan', value: false }
                     ]"
                   ></b-form-select>
                 </b-input-group>
-              </div> -->
+              </div>
             </div>
           </div>
 
@@ -74,13 +75,16 @@
         <div class="row mt-5" v-if="totalRows > 0">
           <div
             class="col-xl-4 col-lg-6 col-md-6 col-sm-6 mb-3"
-            v-for="(item, i) in items"
+            v-for="(item, i) in filteredItems"
             :key="i"
           >
             <div class="card card-karir m-2 router-push" @click="$router.push(`/app/tryout/${item.id}/detail?ref=${$route.path}`)">
               <!-- style="width: 350px; max-width: 100%" -->
               <div class="card-body text-left p-0">
-                <div class="" style="display: flex; justify-content: flex-end;">
+                <div class="" style="display: flex; justify-content: space-between;">
+                  <span style="padding: 8px; z-index: 99;" @click.stop.prevent="archiveTryOut(`${item.id}`)">
+                    <img :src="`${item.is_archive}` == '1' ? '/icon/archive-tick.svg' : '/icon/unarchive-tick.svg'" class="img-fluid image" />
+                  </span>
                   <p
                     class="label-event mb-2 px-4 py-1"
                     :class="[item.is_task_start ? '' : 'draft']"
@@ -237,7 +241,7 @@ export default {
       totalRows: 0,
       items: [],
       filterCategory: null,
-      filterStatus: null
+      filterArchive: null,
     };
   },
   computed: {
@@ -246,7 +250,19 @@ export default {
     },
     userDetail() {
       return this.$store.state.dataUser.detail;
-    }
+    },
+    filteredItems() {
+      // Jika filterArchive null, tampilkan semua item
+      if (this.filterArchive === null) {
+        return this.items;
+      }
+      // Jika filterArchive true, tampilkan item dengan is_archive = 1
+      if (this.filterArchive) {
+        return this.items.filter(item => item.is_archive === 1);
+      }
+      // Jika filterArchive false, tampilkan item dengan is_archive = 0
+      return this.items.filter(item => item.is_archive === 0);
+    },
   },
   watch: {
     "filter.keyword": function(value) {
@@ -257,12 +273,38 @@ export default {
     },
     filterCategory: function(value) {
       this.getData("produk");
+    },
+    filterArchive: function(value) {
+      this.getData("produk");
+
     }
   },
   created() {
     this.getData("produk");
   },
   methods: {
+    archiveTryOut(id) {
+      this.loading = true
+      this.$axios
+        .$put(`api/tryout_user/archived/${id}`)
+        .then(res => {
+          this.loading = false
+          console.log(res);
+          this.getData('produk')
+          // if (res.success) {
+          //   this.items = res.data.data;
+          //   this.totalRows = res.data.paginate.total;
+          //   this.filter.perPage = res.data.paginate.per_page;
+          // }
+          return true;
+        })
+        .catch(err => {
+          console.log(err);
+          this.catchError(err);
+        })
+        .finally(() => (this.loading = false));
+
+    },
     getData(type) {
       switch (this.filterCategory) {
         case "UTBK Mandiri":
@@ -306,11 +348,11 @@ export default {
             status_produk: "Aktif",
             tipe_paket: this.filter.package,
             id_user: this.user.id,
-            excludes_kategori: ['UKTT']
+            excludes_kategori: ['UKTT'],
+            ...(this.filterArchive && { is_archive: this.filterArchive })
           }
         })
         .then(res => {
-          console.log(res);
           if (res.success) {
             this.items = res.data.data;
             this.totalRows = res.data.paginate.total;
@@ -324,6 +366,7 @@ export default {
         })
         .finally(() => (this.loading = false));
     }
-  }
+  },
+  
 };
 </script>

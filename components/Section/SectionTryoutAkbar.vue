@@ -2,10 +2,8 @@
   <div class="section tryout-akbar">
     <div class="tryout-akbar pb-3">
       <div class="col-md-12 hero-lagi tryout text-center">
-        <h2 class="m-0 pb-3">Try Out Akbar</h2>
-        <p class="p-0">
-          Yuk…, uji kemampuanmu dengan mengikuti TryOut Akbar ini!
-        </p>
+        <h2 class="m-0 pb-3">{{ props.judul }}</h2>
+        <div class="p-0" v-html="props.text1" />
           <div class="container mt-5 mb-5">
           <!-- <div class="row">
             <div class="col-lg">
@@ -25,15 +23,20 @@
         </div>
         
         <h4>
-          Persiapkan agenda TryOut-mu bersama TryOut Akbar di UjiAja.
+          {{  props.sub_judul }}
         </h4>
-        <p class="p-0">
-          Tryout berbasis sistem CAT, penilaian IRT dan sesuai kisi-kisi terbaru. Ayo, ikuti Tryout Akbar sekarang juga.
-        </p>
-        <a class="btn btn-outline-primary mt-5" href="/registrasi"
-          >Daftar Sekarang</a
+        <div class="p-0" v-html="props.text2" />
+        <a class="btn btn-outline-primary mt-5" :href="props.link"
+          >{{ props.tombol }}</a
         >
       </div>
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  name: "Section5",
+  props: ["props"],
+};
+</script>

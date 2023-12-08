@@ -416,7 +416,7 @@
             class="btn btn-primary tambah px-4 py-2"
             type="button"
             :disabled="loading"
-            @click.prevent="navGoTo(`/app/partner/uktt/${productId}/result?code=${this.$route.query.kode}`)"
+            @click.prevent="navGoTo(`/app/partner/uktt/${productId}/result?code=${$route.query.kode}`)"
           >
             Lihat Hasil
           </button>
@@ -912,6 +912,45 @@ export default {
       window.location.replace(
         `/app/partner/uktt/${encryptedProductIdSafe}/test?tryout=${encryptedTryoutIdSafe}&kode=${this.$route.query.kode}`
       );
+    },
+    nextSubtestAvailable() {
+      if (this.listSubtest[this.subtestIndex + 1]) return true
+      return false
+    },
+    isAllowNext() {
+      if (
+        this.detailUjian.list_tryout &&
+        this.detailUjian.list_tryout.length > 1
+      ) {
+        const find = this.detailUjian.list_tryout.find(
+          item => item.id === this.tryout.id
+        );
+        const lastNumber = this.detailUjian.list_tryout.length;
+        if (find && find.number < lastNumber) {
+          return true;
+        }
+        return false;
+      }
+      return false;
+    },
+    letterLabel(index) {
+      const letters = [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M",
+        "O"
+      ];
+      return letters[index] ?? "-";
     }
   },
   fetchOnServer: false

@@ -94,7 +94,7 @@ export default {
       const encryptedTryoutId = this.encrypt(tryoutID);
       const encryptedTryoutIdSafe = encodeURIComponent(encryptedTryoutId);
       window.location.replace(
-        `/app/tryout/${encryptedProductIdSafe}/test/${encryptedTryoutIdSafe}?kode=${this.$route.query.kode}`
+        `/app/tryout/${encryptedProductIdSafe}/test/${encryptedTryoutIdSafe}?kode=${this.$route.query.kode}${this.$route.query.id_mapel ? '&id_mapel=' + this.$route.query.id_mapel : ''}`
       );
     },
     onCloseWindow(event) {
@@ -110,6 +110,7 @@ export default {
           console.log("tryout", res);
           if (res.success) {
             this.tryout = res.data;
+            console.log("hasil detail tryout", res);
           }
           return true;
         })
@@ -120,9 +121,16 @@ export default {
         .finally(() => (this.loading = false));
     },
     startTimer() {
+      // if(){
+
+      // }
+      
       const moment = require("moment");
       // const jeda_waktu = (this.tryout.jeda_waktu) * 1000 * 60; // Minute
-      const jeda_waktu = (this.tryout.jeda_waktu) * 1000; // Second
+      // const jeda_waktu = (this.tryout.jeda_waktu) * 1000; // Second
+      const encryptedJedaWaktuSafe = decodeURIComponent(this.$route.query.jedasubtes);
+      const encryptedJedaWaktu = this.decrypt(encryptedJedaWaktuSafe);
+      const jeda_waktu =  encryptedJedaWaktu;//second from query
       let duration = moment.duration(jeda_waktu, "milliseconds");
       console.log(jeda_waktu);
       const interval = 1000;
@@ -165,14 +173,18 @@ export default {
       console.log("goToNext");
       this.loading = true;
       clearInterval(this.countdownTimer)
-      const newUjian = await this.createTryoutUser();
-      console.log(newUjian)
-      if(newUjian) {
-        window.removeEventListener("beforeunload", this.onCloseWindow);
-        this.toTryoutTestPage(this.productId, newUjian.id_tryout);
+      if (!this.$route.query.id_mapel) {
+        const newUjian = await this.createTryoutUser();
+        console.log(newUjian)
+        if(newUjian) {
+          window.removeEventListener("beforeunload", this.onCloseWindow);
+          this.toTryoutTestPage(this.productId, newUjian.id_tryout);
+        } else {
+          this.showToastMessage('Duplicate data!');
+          // window.location.replace('/app/tryout/' + this.productId + '/detail')
+        }
       } else {
-        this.showToastMessage('Duplicate data!');
-        // window.location.replace('/app/tryout/' + this.productId + '/detail')
+          this.toTryoutTestPage(this.productId, this.tryoutId); 
       }
     },
     async createTryoutUser() {

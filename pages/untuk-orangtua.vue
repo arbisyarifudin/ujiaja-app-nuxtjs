@@ -8,63 +8,44 @@
             <h2>Pantau kemajuan belajar anak Anda</h2>
           </div>
         </div>
-        <div class="row mb-md-5">
-          <div class="col-md-12 text-center">
-            <div class="row">
-              <div class="col-md-6 text-left order-2 order-md-1">
-                <h3 class="h5">Lihat Hasil Belajar Anak</h3>
-                <p>
-                  Lihat langsung perkembangan belajar anak kapan saja, di mana
-                  saja.
-                </p>
-              </div>
-              <div class="col-md-6 order-1 order-md-2">
-                <img
-                  src="/fitur/fiturortu1.png"
-                  class="img-fluid mb-3 mb-md-0"
-                />
+        <div v-for="(ung, indexUng) in keunggulan.item" :key="indexUng">
+          <div class="row mb-md-5" v-if="ung.posisi == 'kanan'">
+            <div class="col-md-12 text-center">
+              <div class="row">
+                <div class="col-md-6 text-left order-2 order-md-1">
+                  <h3 class="h5">{{ ung.judul }}</h3>
+                  <p v-html="ung.text" />
+                </div>
+                <div class="col-md-6 order-1 order-md-2">
+                  <img
+                    :src="formatImageSource(ung.card)"
+                    class="img-fluid mb-3 mb-md-0"
+                  />
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div class="row">
-          <div class="col-md-12 text-center">
-            <div class="row">
-              <div class="col-md-6">
-                <img
-                  src="/fitur/fiturortu2.png"
-                  class="img-fluid mb-3 mb-md-0"
-                />
-              </div>
-              <div class="col-md-6 text-left">
-                <h3 class="h5">Lihat Aktivitas Belajar anak</h3>
-                <p>
-                  Melihat akrivitas belajar anak melalui sistem yang
-                  terintegrasi
-                </p>
+          <div class="row" v-else>
+            <div class="col-md-12 text-center">
+              <div class="row">
+                <div class="col-md-6">
+                  <img
+                    :src="formatImageSource(ung.card)"
+                    class="img-fluid mb-3 mb-md-0"
+                  />
+                </div>
+                <div class="col-md-6 text-left">
+                  <h3 class="h5">{{ ung.judul }}</h3>
+                  <p v-html="ung.text" />
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <div class="row">
-      <div class="col-md-12 text-center">
-        <h2>Salah Satu Testimoni Orang Tua</h2>
-      </div>
-      <div class="col-md-12 mt-n5">
-        <SectionCardHero
-          src="/testimoniortu.png"
-          title="Mega ELanda"
-          subtitle="Orang tua Rahardian Era - Kelas 12"
-          description="“Saya sebagai orang tua merasa senang dan bangga karena anak saya menemukan solusi masalah belajarnya dan akhirnya semangat belajar anak saya semakin tinggi.”"
-          href="/registrasi"
-          cta-text="Masuk Sekarang"
-          button
-        />
-      </div>
-    </div>
-    <Footer :footerData="footerData"/>
+    <SectionTestimoni :props="testimoni" />
+    <Footer :footerData="footerData" />
   </div>
 </template>
 
@@ -72,14 +53,15 @@
 export default {
   head() {
     return {
-      title: 'Untuk Orangtua',
-    }
+      title: "Untuk Orangtua",
+    };
   },
   data() {
     return {
       header: {
         hero: {
-          judul: "Solusi Belajar Online di UjiAja, lebih mudah, detail dan fleksibel!",
+          judul:
+            "Solusi Belajar Online di UjiAja, lebih mudah, detail dan fleksibel!",
           subjudul:
             "Kini para orangtua dapat lebih mudah memantau perkembangan belajar anak, dan berkonsultasi dengan guru/tentor privat pendampingnya, dimana saja dan kapan saja.",
           ctaButtonText: "Pantau Perkembangan Anak",
@@ -91,85 +73,91 @@ export default {
       },
       keunggulan: {
         judul: "Mengapa harus bergabung dengan Les privat",
-        item: [
-          {
-            gambar: "/icon/tutor1.png",
-            judul: "Tentukan Tarif Les Privatmu",
-            subjudul:
-              "Tentukan sendiri tarifmu tanpa ada komisi yang kami ambil.",
-          },
-          {
-            gambar: "/icon/tutor2.png",
-            judul: "Mengajar Kapan Saja & Di Mana Saja",
-            subjudul: "Putuskan berapa lama dan berapa jam Anda akan mengajar.",
-          },
-          {
-            gambar: "/icon/tutor3.png",
-            judul: "Fasilitas Pengembangan Soft Skill",
-            subjudul:
-              "Anda akan mendapatkan bantuan yang diperlukan dari tim kami",
-          },
-        ],
+        item: [],
       },
       testimoni: {
-        judul: "Apa Kata Mereka Saat Mengajar Di UjiAja?",
+        judul: "Salah satu testimoni orang tua",
         deskripsi: "",
         varian: "secondary",
-        item: [
-          {
-            nama: "Chance Dokidis",
-            titel: "Guru Privat di UjiAja",
-            testimoni:
-              "Menjadi Mitra Pengajar di UjiAja memberikan kesempatan kepada saya untuk turut menjadi saksi dalam membangun peradaban bangsa melalui kemajuan teknologi. Menjadi pribadi yang baik itu suatu kewajiban,  namun menjadi pribadi yang bermanfaat itu adalah keharusan. Maju dan sukses UjiAja",
-            foto: "chance.png",
-          },
-          {
-            nama: "Randy Lubin",
-            titel: "Guru Privat di UjiAja",
-            testimoni:
-              "Tiga tahun menjadi Mitra Pengajar di UjiAja memberikan pengalaman yang berharga untuk saya. Selain itu, menyadarkan saya bahwa mengajar adalah seberapa banyak murid memahami materi, bukan seberapa banyak pengajar menyampaikan materi.",
-            foto: "randy.png",
-          },
-        ],
+        item: [],
       },
     };
   },
   asyncData(context) {
     function getSetting(key) {
       const settings = context.store.state.dataSetting;
-      const foundSetting = settings.find(item => item.key == key);
-      if(foundSetting) {
+      const foundSetting = settings.find((item) => item.key == key);
+      if (foundSetting) {
         return foundSetting.isi;
       }
-      return '';
+      return "";
     }
 
     const navData = {
-      logo: getSetting('logo'),
-    }
+      logo: getSetting("logo"),
+    };
 
     const footerData = {
-      logo: getSetting('logo'),
-      alamat_kantor: getSetting('alamat_kantor'),
-      telp: getSetting('telp'),
-      whatsapp: getSetting('whatsapp'),
-      instagram: getSetting('instagram'),
-      facebook: getSetting('facebook'),
-      youtube: getSetting('youtube'),
-      email: getSetting('email'),
-    }
+      logo: getSetting("logo"),
+      alamat_kantor: getSetting("alamat_kantor"),
+      telp: getSetting("telp"),
+      whatsapp: getSetting("whatsapp"),
+      instagram: getSetting("instagram"),
+      facebook: getSetting("facebook"),
+      youtube: getSetting("youtube"),
+      email: getSetting("email"),
+    };
 
     return {
       navData,
-      footerData
+      footerData,
+    };
+  },
+  async fetch() {
+    try {
+      const resContent = await this.$axios.get("/api/cms/orang-tua/get");
+      const res = resContent.data;
+      console.log(res.data);
+      if (resContent.data.success) {
+        this.setHeroSection(res.data.dataContent1[0]);
+        this.setContent2Section(res.data.dataContent2);
+        this.testimoni.item = [res.data.dataContent3[0]];
+      }
+    } catch (error) {
+      console.error(error);
     }
   },
   created() {
     // console.log(this.$store.getters['checkIsAuth'])
-    if(this.$store.getters['checkIsAuth']) {
-      this.header.hero.ctaButtonText = 'Pergi ke Dashboard'
-      this.header.hero.cataButtonUrl = '/app/dashboard'
+    if (this.$store.getters["checkIsAuth"]) {
+      this.header.hero.ctaButtonText = "Pergi ke Dashboard";
+      this.header.hero.cataButtonUrl = "/app/dashboard";
     }
-  }
+  },
+  methods: {
+    formatImageSource(endpoint) {
+      return process.env.apiUrl + `/storage/${endpoint}`;
+    },
+    setHeroSection(content) {
+      this.header.hero.judul = content.judul;
+      this.header.hero.subjudul = content.text;
+      this.header.hero.ctaButtonText = content.tombol;
+      this.header.hero.ctaButtonUrl = content.link;
+      this.header.hero.image = content.gambar;
+    },
+    setContent2Section(contents) {
+      for (
+        let indexContent = 0;
+        indexContent < contents.length;
+        indexContent++
+      ) {
+        if (contents[indexContent].id_content == 0) {
+          this.keunggulan.judul = contents[indexContent].judul;
+        } else {
+          this.keunggulan.item.push(contents[indexContent]);
+        }
+      }
+    },
+  },
 };
 </script>
