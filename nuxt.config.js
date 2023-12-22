@@ -3,9 +3,9 @@ var webpack = require('webpack')
 export default {
     env: {
         baseUrl: process.env.NODE_ENV !== "production" ?
-            "http://localhost:7000" : "http://ujiaja.com",
+            "https://ujiaja.com" : "https://ujiaja.com",
         apiUrl: process.env.NODE_ENV !== "production" ?
-            "http://localhost:8000" : "http://54.251.180.39"
+            "https://api.ujiaja.com" : "https://api.ujiaja.com"
     },
 
     dev: process.env.NODE_ENV !== "production",
@@ -96,7 +96,7 @@ export default {
     axios: {
         // proxy: true,
         baseURL: process.env.NODE_ENV !== "production" ?
-            "http://localhost:8000" : "http://localhost:8000" // Used as fallback if no runtime config is provided
+            "https://api.ujiaja.com" : "https://api.ujiaja.com" // Used as fallback if no runtime config is provided
     },
 
     // proxy: {
