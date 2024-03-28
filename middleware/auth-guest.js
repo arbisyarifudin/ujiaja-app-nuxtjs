@@ -5,13 +5,13 @@ export default function({ store, redirect }) {
     let path;
     switch (user.role_user) {
       case "siswa":
-        path = "/app/dashboard";
+        path = "/user/dashboard";
         break;
       case "parent":
-        path = "/app/dashboard";
+        path = "/user/dashboard";
         break;
       case "teacher":
-        path = "/app/dashboard";
+        path = "/user/dashboard";
         break;
       case "superAdmin":
         path = "/administrator/dashboard";
@@ -20,7 +20,7 @@ export default function({ store, redirect }) {
         path = "/administrator/dashboard";
         break;
       default:
-        path = "/app/dashboard";
+        path = "/user/dashboard";
         break;
     }
     return redirect(path);

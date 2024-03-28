@@ -1,6 +1,7 @@
 <template>
   <div>
-    <Header class="headerdua no-bg mx-lg-5" :navData="navData" />
+    <!-- <Header class="headerdua no-bg mx-lg-5" :navData="navData" /> -->
+    <HeaderV2 class="headerdua no-bg mx-lg-5" :navData="navData" />
     <ContentWrapper>
       <div class="container">
         <div class="row d-flex justify-content-center" v-if="!submited">
@@ -52,7 +53,8 @@
         </div>
       </div>
     </ContentWrapper>
-    <Footer :footerData="footerData" />
+    <!-- <Footer :footerData="footerData" /> -->
+    <FooterV2 :footerData="footerData" />
   </div>
 </template>
 

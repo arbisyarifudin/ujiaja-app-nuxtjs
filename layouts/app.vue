@@ -64,10 +64,10 @@
                   <template #button-content>
                     <img src="/icon-user.png" class="img-fluid" width="24" />
                   </template>
-                  <b-dropdown-item to="/app/profile">Profil</b-dropdown-item>
+                  <b-dropdown-item to="/user/profile">Profil</b-dropdown-item>
                   <b-dropdown-item
                     v-if="user.role_user == 'teacher'"
-                    to="/app/partner/earnings"
+                    to="/user/partner/earnings"
                     >Pendapatan</b-dropdown-item
                   >
                   <b-dropdown-item @click.prevent="appLogout"
@@ -135,7 +135,7 @@
                   aja!!
                 </p>
                 <nuxt-link
-                  to="/app/profile/edit"
+                  to="/user/profile/edit"
                   class="btn btn-light btn-slengkapnya"
                 >
                   Lengkapi Sekarang

@@ -36,7 +36,7 @@
           </p>
           <nuxt-link
             class="btn btn-primary dashboard px-4"
-            to="/app/mbti/enroll"
+            to="/user/mbti/enroll"
             v-if="
               (detail && !detail.transaksi) && !userDetail.bonus_mbti
             "
@@ -94,7 +94,7 @@ export default {
   },
   methods: {
     toTesPage() {
-      window.location.href = process.env.baseUrl + "/app/mbti/test";
+      window.location.href = process.env.baseUrl + "/user/mbti/test";
     }
   }
 };

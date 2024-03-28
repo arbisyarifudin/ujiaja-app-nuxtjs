@@ -41,7 +41,7 @@
         </tr>
       </tbody>
     </table>
-    <nuxt-link to="/app/profile/edit" class="btn btn-info btn-sm"
+    <nuxt-link to="/user/profile/edit" class="btn btn-info btn-sm"
       >Ubah Profil</nuxt-link
     >
   </b-card>

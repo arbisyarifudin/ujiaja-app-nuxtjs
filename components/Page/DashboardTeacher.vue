@@ -12,7 +12,7 @@
         <div class="col-md-8">
           <h4 class="m-0">Buat Kelas Yuk!</h4>
           <p>Kamu dapat kelola kelasmu</p>
-          <a href="/app/partner/courses" class="btn btn-primary dashboard px-4">
+          <a href="/user/partner/courses" class="btn btn-primary dashboard px-4">
             Buat Kelas
           </a>
         </div>
@@ -26,7 +26,7 @@
           <p>
            Lumayan kan,tarif les yang kubuat bisa naik.
           </p>
-          <a class="btn btn-primary dashboard px-4" href="/app/partner/uktt"
+          <a class="btn btn-primary dashboard px-4" href="/user/partner/uktt"
             >Ikuti Ujian UKTT</a
           >
         </div>
@@ -40,7 +40,7 @@
           <p>
             Kalau ngajar ke siswa, <br> baiknya kayak gimana ya?
           </p>
-          <a class="btn btn-primary dashboard px-4" href="/app/mbti"
+          <a class="btn btn-primary dashboard px-4" href="/user/mbti"
             >Ikuti Tes MBTI</a
           >
         </div>

@@ -1,12 +1,14 @@
 <template>
-  <div></div>
+  <div>
+    app to user
+  </div>
 </template>
+
 <script>
+// redirect to user page
 export default {
-  middleware: [
-    function({ redirect }) {
-      redirect("/app/dashboard");
-    }
-  ]
-};
+  async asyncData({ redirect }) {
+    redirect('/user')
+  }
+}
 </script>

@@ -1,6 +1,7 @@
 <template>
   <div>
-    <Header class="headerdua no-bg mx-lg-5" :navData="navData" />
+    <!-- <Header class="headerdua no-bg mx-lg-5" :navData="navData" /> -->
+    <HeaderV2 class="headerdua no-bg mx-lg-5" :navData="navData" />
 
     <ContentWrapper>
       <b-container>
@@ -156,7 +157,8 @@
       </b-container>
     </ContentWrapper>
 
-    <Footer :footerData="footerData" />
+    <!-- <Footer :footerData="footerData" /> -->
+    <FooterV2 :footerData="footerData" />
   </div>
 </template>
 
@@ -241,7 +243,7 @@ export default {
   },
   watch: {
     showPassword: function (value) {
-      
+
     },
     "form.username": function (value) {
       var usernameRegex = /^[a-zA-Z0-9]+$/;
@@ -505,14 +507,14 @@ export default {
         scope: ['name', 'email'],
         ux_mode: "redirect",
         callback: (response) => {
-          
+
 
           const payload = jwt_decode(response.credential);
 
           this.$axios
             .$post(`/api/users/google-signup/${this.tipe_user}`, payload)
             .then((res) => {
-                   
+
               if (res.success) {
                 this.$root.$bvToast.toast(
                   "Registrasi berhasil!",
@@ -534,7 +536,7 @@ export default {
               }
             })
             .catch((err) => {
-              
+
               this.$root.$bvToast.toast("Terjadi kesalahan, email telah terdaftar di Ujiaja", {
                   title: "Error",
                   variant: "danger",
@@ -559,7 +561,7 @@ export default {
           // Buat permintaan ke API Facebook untuk mendapatkan data pengguna
           FB.api('/me', { fields: 'id,name,email', access_token: accessToken }, userData => {
             if (userData && !userData.error) {
-             
+
 
               this.$axios
             .$post(`/api/users/facebook-signup/${this.tipe_user}`, userData)
@@ -586,7 +588,7 @@ export default {
             })
             .catch((err) => {
               this.catchError(err);
-              
+
             })
             .finally(() => {
               this.loading = false;
@@ -600,7 +602,7 @@ export default {
           this.catchError('Gagal mendaftar dengan Facebook:', response);
           this.loading = false;
         }
-       
+
       });
     },
   },

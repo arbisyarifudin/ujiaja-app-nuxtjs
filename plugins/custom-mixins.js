@@ -283,7 +283,7 @@ Vue.mixin({
         // this.appLogout();
         const userRole = this.$store.state.dataUser ? this.$store.state.dataUser.user.role_user : null;
         if(userRole.includes('teacher') || userRole.includes('siswa')) {
-          this.$router.replace("/app/dashboard");
+          this.$router.replace("/user/dashboard");
         } else {
           this.$router.replace("/administrator/dashboard");
         }

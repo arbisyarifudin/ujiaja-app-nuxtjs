@@ -242,7 +242,7 @@ export default {
         .delete(`/api/mbti-jawaban/delete/${this.detail.id}`)
         .then(response => {
           console.log(response);
-          this.$router.push("/app/mbti/enroll");
+          this.$router.push("/user/mbti/enroll");
         })
         .catch(error => {
           console.log(error);

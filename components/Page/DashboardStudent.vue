@@ -557,7 +557,7 @@
             <h4 class="m-0">Ikut Les Yuk!</h4>
             <p>Belajar asik, gurunya asik-asik.</p>
             <a
-              href="/app/student/courses"
+              href="/user/student/courses"
               class="btn btn-primary dashboard px-4"
             >
               Temukan Guru Pilihanmu
@@ -589,7 +589,7 @@
                     hingga CAMPURAN ada untukmu.
                   </p>
 
-                  <a href="/app/tryout" class="karir-link"
+                  <a href="/user/tryout" class="karir-link"
                     >Detail <i class="fa fa-chevron-right ml-1"></i
                   ></a>
                 </div>
@@ -626,7 +626,7 @@
                     disini.
                   </p>
 
-                  <a href="/app/tryout" class="karir-link"
+                  <a href="/user/tryout" class="karir-link"
                     >Detail <i class="fa fa-chevron-right ml-1"></i
                   ></a>
                 </div>
@@ -653,7 +653,7 @@
               Siapa tau aku minat di<br />
               kampus itu...
             </p>
-            <a class="btn btn-primary dashboard px-4" href="/app/mbti"
+            <a class="btn btn-primary dashboard px-4" href="/user/mbti"
               >Ikuti Tes MBTI</a
             >
           </div>

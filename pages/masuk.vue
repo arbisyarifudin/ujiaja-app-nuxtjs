@@ -1,6 +1,7 @@
 <template>
   <div>
-    <Header class="headerdua no-bg mx-lg-5" :navData="navData" />
+    <!-- <Header class="headerdua no-bg mx-lg-5" :navData="navData" /> -->
+    <HeaderV2 class="headerdua no-bg mx-lg-5" :navData="navData" />
     <ContentWrapper>
       <b-container>
         <div class="login-box" style="
@@ -99,7 +100,8 @@
         </div>
       </b-container>
     </ContentWrapper>
-    <Footer :footerData="footerData" />
+    <!-- <Footer :footerData="footerData" /> -->
+    <FooterV2 :footerData="footerData" />
   </div>
 </template>
 
@@ -297,9 +299,9 @@
                 this.$store.commit("SET_IS_AUTH", true);
                 this.$store.commit("set", ["dataUser", res.data]);
                 // this.$router.replace(`/app/${role}/dashboard`);
-                // this.$router.replace("/app/dashboard");
+                // this.$router.replace("/user/dashboard");
 
-                window.location.href = window.origin + "/app/dashboard";
+                window.location.href = window.origin + "/user/dashboard";
               }
             } else {
               this.$bvToast.toast("Login gagal! Kredensial tidak valid.", {
@@ -425,8 +427,8 @@
                     this.$store.commit("set", ["dataUser", res.data]);
 
                     // this.$router.replace(`/app/${role}/dashboard`);
-                    // this.$router.replace("/app/dashboard");
-                    window.location.href = window.origin + "/app/dashboard";
+                    // this.$router.replace("/user/dashboard");
+                    window.location.href = window.origin + "/user/dashboard";
                   }
                 } else {
                   this.$bvToast.toast(res.message, {
@@ -461,7 +463,7 @@
               access_token: accessToken
             }, userData => {
               if (userData && !userData.error) {
-               
+
 
                 this.$axios
                   .$post(`/api/users/facebook-login`, userData)
@@ -477,7 +479,7 @@
                         }
                       );
                       if (res.data) {
-                      
+
                         this.$cookiz.set("_ujiaja", res.data.token, {
                           path: "/",
                           maxAge: 60 * 60 * 24 * 7,
@@ -486,7 +488,7 @@
                         this.$store.commit("set", ["dataUser", res.data]);
 
 
-                        window.location.href = window.origin + "/app/dashboard";
+                        window.location.href = window.origin + "/user/dashboard";
                       }
                     } else {
                       this.$bvToast.toast(res.message, {

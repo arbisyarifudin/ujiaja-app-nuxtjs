@@ -65,14 +65,14 @@
                       style="border: 1px dashed #aaa; border-radius: 10px; padding: 10px 20px; display: inline-block"
                     ></h5>
                     <nuxt-link
-                      to="/app/mbti"
+                      to="/user/mbti"
                       class="btn btn-sm btn-light square"
                       >Lihat Hasil Tes Kepribadian</nuxt-link
                     >
                   </div>
                 </td>
                 <td v-else>
-                  <nuxt-link to="/app/mbti" class="btn btn-sm btn-light square"
+                  <nuxt-link to="/user/mbti" class="btn btn-sm btn-light square"
                     >Ikuti Tes Kepribadian</nuxt-link
                   >
                 </td>
@@ -81,7 +81,7 @@
           </table>
         </div>
         <div class="d-flex align-items-center justify-content-between">
-          <nuxt-link to="/app/profile/edit" class="btn btn-info btn-sm"
+          <nuxt-link to="/user/profile/edit" class="btn btn-info btn-sm"
             >Ubah Profil</nuxt-link
           >
           <button
