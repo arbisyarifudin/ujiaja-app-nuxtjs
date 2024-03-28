@@ -14,7 +14,7 @@
             <div class="col-md-5">
               <div class="kiri h-100 d-flex align-items-center px-5">
                 <div id="kiri-slider" class="flex-none w-100">
-                  <no-ssr>
+                  <client-only>
                     <vue-tiny-slider v-bind="tinySliderOptions" class="flex-none">
                       <div class="text-center">
                         <img src="/reg-siswa.png" />
@@ -32,7 +32,7 @@
                         </p>
                       </div>
                     </vue-tiny-slider>
-                  </no-ssr>
+                  </client-only>
                 </div>
               </div>
             </div>

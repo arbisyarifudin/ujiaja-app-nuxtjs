@@ -114,7 +114,7 @@
                 >/5
               </div>
             </div>
-            <no-ssr>
+            <client-only>
               <div class="level-honorarium text-left mb-2">
                 <div class="title">Honorarium Maksimum:</div>
                 <div v-if="user && formatRupiah">
@@ -126,7 +126,7 @@
                   }}
                 </div>
               </div>
-            </no-ssr>
+            </client-only>
             <div class="level-job text-left mb-2">
               <div class="title">Total Mengajar:</div>
               <div>{{ user_detail.total_mengajar }} sesi</div>

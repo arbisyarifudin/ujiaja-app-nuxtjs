@@ -20,7 +20,7 @@
             </button>
           </div>
           <div id="keunggulan-slider" v-if="props.item.length > 0">
-            <no-ssr>
+            <client-only>
               <vue-tiny-slider v-bind="tinySliderOptions">
                 <div
                   class="slider-item"
@@ -39,7 +39,7 @@
                   </div>
                 </div>
               </vue-tiny-slider>
-            </no-ssr>
+            </client-only>
           </div>
         </div>
       </div>

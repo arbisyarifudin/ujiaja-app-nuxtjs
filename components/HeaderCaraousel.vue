@@ -2,7 +2,7 @@
   <div>
     <NavHeader :navData="navData"/>
 
-    <no-ssr>
+    <client-only>
       <vue-tiny-slider v-bind="tinySliderOptions" class="caraousel-image">
         <div v-for="(hero, indexHero) in heroData" :key="indexHero">
           <div class="container textBanner">
@@ -12,7 +12,7 @@
           <img :src="formatImageSource(hero.banner)" alt="hero-image" />
         </div>
       </vue-tiny-slider>
-    </no-ssr>
+    </client-only>
 
     <!-- <div class="caraousel-image my-slider">
       <div>

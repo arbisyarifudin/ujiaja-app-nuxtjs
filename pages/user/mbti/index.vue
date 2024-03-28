@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid">
     <UILoading v-if="loading" />
-    <no-ssr>
+    <client-only>
       <SectionPersonalityTestResult
         :data="dataHasil"
         v-if="
@@ -14,7 +14,7 @@
         "
       />
       <SectionPersonalityTestEmpty :data="dataDetail" v-else-if="!loading" />
-    </no-ssr>
+    </client-only>
   </div>
 </template>
 

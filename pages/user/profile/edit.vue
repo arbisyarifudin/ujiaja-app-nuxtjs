@@ -3,7 +3,7 @@
     <div class="p-0 text-left">
       <h2 class="pb-0">Edit Profil</h2>
       <h5 class="mt-4">Lengkapi profilmu sekarang juga!</h5>
-      <no-ssr>
+      <client-only>
         <form action="" class="form-user" @submit.prevent="onSubmit">
           <div class="mt-4 mb-5">
             <b-tabs pills nav-wrapper-class="mb-4" v-model="tabProfile">
@@ -636,7 +636,7 @@
             >
           </div>
         </form>
-      </no-ssr>
+      </client-only>
     </div>
 
     <b-modal
