@@ -2,6 +2,7 @@
   <header
     id="header"
     :class="['header', haveVariant ? 'variant-' + this.variant : '']"
+    class="d-flex justify-content-center"
   >
     <NavHeader2 :navData="navData"/>
   </header>
