@@ -3,9 +3,9 @@ var webpack = require('webpack')
 export default {
     env: {
         baseUrl: process.env.NODE_ENV !== "production" ?
-            "https://ujiaja.com" : "https://ujiaja.com",
+            "http://localhost:7000" : "https://ujiaja.com",
         apiUrl: process.env.NODE_ENV !== "production" ?
-            "https://api.ujiaja.com" : "https://api.ujiaja.com"
+            "http://localhost:8000" : "https://api.ujiaja.com"
     },
 
     dev: process.env.NODE_ENV !== "production",
@@ -66,7 +66,26 @@ export default {
     ],
 
     auth: {
-        // Options
+        strategies: {
+          google: {
+            clientId: '563050428836-bvbrqscdcd756mkj15jr8vf765gngtie.apps.googleusercontent.com',
+            redirectUri: 'http://localhost:7000/auth/google-callback',
+            scope: ['openid', 'profile', 'email'],
+            codeChallengeMethod: '',
+            responseType: 'token id_token',
+            // endpoints: {
+            //   token: 'http://localhost:8000/api/user/google/', // your backend url to resolve your auth with google and give you the token back
+            //   userInfo: 'http://localhost:8000/users/' // your endpoint to get the user info after you received the token
+            // },
+          },
+          facebook: {
+            endpoints: {
+              userInfo: 'https://graph.facebook.com/v6.0/me?fields=id,name,picture{url}'
+            },
+            clientId: '1092346238057732',
+            scope: ['public_profile', 'email']
+          },
+        }
     },
 
     // Modules: https://go.nuxtjs.dev/config-modules
@@ -96,7 +115,7 @@ export default {
     axios: {
         // proxy: true,
         baseURL: process.env.NODE_ENV !== "production" ?
-            "https://api.ujiaja.com" : "https://api.ujiaja.com" // Used as fallback if no runtime config is provided
+            "http://localhost:8000" : "https://api.ujiaja.com" // Used as fallback if no runtime config is provided
     },
 
     // proxy: {

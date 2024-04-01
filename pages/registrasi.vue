@@ -502,55 +502,64 @@ export default {
     },
     signUpWithGoogle() {
       this.loading = true;
-      google.accounts.id.initialize({
-        client_id: "153870988155-mtbua0puo9lg962ss8lemrv1n087u77a.apps.googleusercontent.com",
-        scope: ['name', 'email'],
-        ux_mode: "redirect",
-        callback: (response) => {
+
+      // set role to local storage
+      localStorage.setItem("tipe_user", this.tipe_user);
+
+      this.$auth.loginWith('google', { params: { prompt: 'select_account' } })
+      .then((res) => {
+        console.log('signUpWithGoogle', res)
+      })
+
+      // google.accounts.id.initialize({
+      //   client_id: "153870988155-mtbua0puo9lg962ss8lemrv1n087u77a.apps.googleusercontent.com",
+      //   scope: ['name', 'email'],
+      //   ux_mode: "redirect",
+      //   callback: (response) => {
 
 
-          const payload = jwt_decode(response.credential);
+      //     const payload = jwt_decode(response.credential);
 
-          this.$axios
-            .$post(`/api/users/google-signup/${this.tipe_user}`, payload)
-            .then((res) => {
+      //     this.$axios
+      //       .$post(`/api/users/google-signup/${this.tipe_user}`, payload)
+      //       .then((res) => {
 
-              if (res.success) {
-                this.$root.$bvToast.toast(
-                  "Registrasi berhasil!",
-                  {
-                    title: "Sukses",
-                    variant: "success",
-                    solid: true,
-                    autoHideDelay: 3000,
-                  }
-                );
-                this.$router.replace("/masuk");
-              } else {
-                this.$root.$bvToast.toast("Registrasi gagal!", {
-                  title: "Error",
-                  variant: "danger",
-                  solid: true,
-                  autoHideDelay: 3000,
-                });
-              }
-            })
-            .catch((err) => {
+      //         if (res.success) {
+      //           this.$root.$bvToast.toast(
+      //             "Registrasi berhasil!",
+      //             {
+      //               title: "Sukses",
+      //               variant: "success",
+      //               solid: true,
+      //               autoHideDelay: 3000,
+      //             }
+      //           );
+      //           this.$router.replace("/masuk");
+      //         } else {
+      //           this.$root.$bvToast.toast("Registrasi gagal!", {
+      //             title: "Error",
+      //             variant: "danger",
+      //             solid: true,
+      //             autoHideDelay: 3000,
+      //           });
+      //         }
+      //       })
+      //       .catch((err) => {
 
-              this.$root.$bvToast.toast("Terjadi kesalahan, email telah terdaftar di Ujiaja", {
-                  title: "Error",
-                  variant: "danger",
-                  solid: true,
-                  autoHideDelay: 3000,
-                });
-            })
-            .finally(() => {
-              this.loading = false;
-            });
-        }
-      });
+      //         this.$root.$bvToast.toast("Terjadi kesalahan, email telah terdaftar di Ujiaja", {
+      //             title: "Error",
+      //             variant: "danger",
+      //             solid: true,
+      //             autoHideDelay: 3000,
+      //           });
+      //       })
+      //       .finally(() => {
+      //         this.loading = false;
+      //       });
+      //   }
+      // });
 
-      google.accounts.id.prompt();
+      // google.accounts.id.prompt();
     },
     async signUpWithFacebook() {
       this.loading = true;

@@ -79,11 +79,11 @@
                 </form>
                 <hr>
                 <button type="button" class="d-block text-center my-3 py-2 rounded-pill bg-white"
-                  style="border: 1px solid #B0A6EF; width: 100%;" @click.prevent="loginWithGoogle()">
+                  style="border: 1px solid #B0A6EF; width: 100%;" @click.prevent="loginWithGoogle">
                   <img src="/Google.svg" alt="" /> Masuk Dengan Google
                 </button>
                 <a href="#" class="d-block text-center my-3 py-3 rounded-pill bg-white"
-                  style="border: 1px solid #B0A6EF" @click.prevent="loginWithFacebook()">
+                  style="border: 1px solid #B0A6EF" @click.prevent="loginWithFacebook">
                   <img src="/Facebook.svg" alt="" /> Masuk Dengan Facebook
                 </a>
                 <div class="text-center px-4 pt-2">
@@ -391,7 +391,8 @@
       },
       loginWithGoogle() {
         google.accounts.id.initialize({
-          client_id: "153870988155-mtbua0puo9lg962ss8lemrv1n087u77a.apps.googleusercontent.com",
+          // client_id: "153870988155-mtbua0puo9lg962ss8lemrv1n087u77a.apps.googleusercontent.com",
+          client_id: "563050428836-bvbrqscdcd756mkj15jr8vf765gngtie.apps.googleusercontent.com",
           scope: ['name', 'email'],
           ux_mode: "redirect",
           callback: (response) => {
