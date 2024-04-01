@@ -23,13 +23,13 @@
                           rekomendasi belajar dan pilihan jurusan.
                         </p>
                       </div>
-                      <div class="text-center">
+                      <!-- <div class="text-center">
                         <img src="/login-siswa.png" />
                         <h4 class="judul">Belajar Efektif Bersama UjiAja</h4>
                         <p>
                           Dapatkan layanan prima dari tutor yang profesional, ramah, bersahabat, asyik dan terpercaya.
                         </p>
-                      </div>
+                      </div> -->
                     </vue-tiny-slider>
                   </client-only>
                 </div>

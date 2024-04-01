@@ -16,14 +16,14 @@
                 <div id="kiri-slider" class="flex-none w-100">
                   <client-only>
                     <vue-tiny-slider v-bind="tinySliderOptions" class="flex-none">
-                      <div class="text-center">
+                      <!-- <div class="text-center">
                         <img src="/reg-siswa.png" />
                         <h4 class="judul">Belajar Efektif Bersama UjiAja</h4>
                         <p>
                           Nikmati bebas akses dan bebas biaya untuk pembahasan soal tryout, kunci jawaban, analisa serta
                           rekomendasi belajar dan pilihan jurusan.
                         </p>
-                      </div>
+                      </div> -->
                       <div class="text-center">
                         <img src="/reg-siswa.png" />
                         <h4 class="judul">Belajar Efektif Bersama UjiAja</h4>
