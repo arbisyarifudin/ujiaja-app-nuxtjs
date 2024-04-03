@@ -27,13 +27,13 @@
             v-if="detail && detail.jenis_produk == 'Perorangan'"
             class="mt-3"
           >
-            <a class="btn btn-outline-primary " :href="`/app/tryout/mine`"
+            <a class="btn btn-outline-primary " :href="`/user/tryout/mine`"
               >Kembali</a
             >
             <a
               class="btn btn-primary ml-2"
               :href="
-                `/app/tryout/${detail.id}/result?code=${$route.query.kode}&category=${detail.kategori_produk}`
+                `/user/tryout/${detail.id}/result?code=${$route.query.kode}&category=${detail.kategori_produk}`
               "
               >Lihat Hasil</a
             >
@@ -51,14 +51,14 @@
             v-else-if="detail && detail.jenis_produk == 'Masal'"
             class="mt-3"
           >
-            <a class="btn btn-outline-primary " :href="`/app/tryout/mine`"
+            <a class="btn btn-outline-primary " :href="`/user/tryout/mine`"
               >Kembali</a
             >
             <a
               v-if="detail.is_result_openable === true"
               class="btn btn-primary ml-2"
               :href="
-                `/app/tryout/${detail.id}/result?code=${$route.query.kode}&category=${detail.kategori_produk}`
+                `/user/tryout/${detail.id}/result?code=${$route.query.kode}&category=${detail.kategori_produk}`
               "
               >Lihat Hasil</a
             >
@@ -396,14 +396,14 @@
       >
         <a
           class="btn btn-outline-primary "
-          :href="`/app/tryout/${detail.id}/detail`"
+          :href="`/user/tryout/${detail.id}/detail`"
           >Kembali</a
         >
         <a
           v-if="detail.is_result_openable === true"
           class="btn btn-primary ml-2"
           :href="
-            `/app/tryout/${detail.id}/result?code=${$route.query.kode}&category=${detail.kategori_produk}`
+            `/user/tryout/${detail.id}/result?code=${$route.query.kode}&category=${detail.kategori_produk}`
           "
           >Lihat Hasil</a
         >
@@ -411,7 +411,7 @@
       <div v-else class="mt-3 text-center">
         <a
           class="btn btn-outline-primary ml-2"
-          :href="`/app/tryout/${detail.id}/detail`"
+          :href="`/user/tryout/${detail.id}/detail`"
           >Lihat Detail Ujian</a
         >
       </div>
@@ -567,7 +567,7 @@
           <button
             class="btn btn-secondary"
             type="button"
-            @click="navGoTo(`/app/tryout/mine`)"
+            @click="navGoTo(`/user/tryout/mine`)"
           >
             Halaman Utama
           </button>
@@ -578,7 +578,7 @@
             :disabled="loading"
             @click.prevent="
               navGoTo(
-                `/app/tryout/${productId}/result?code=${$route.query.kode}&category=${detail.kategori_produk}`
+                `/user/tryout/${productId}/result?code=${$route.query.kode}&category=${detail.kategori_produk}`
               )
             "
           >
@@ -718,7 +718,7 @@ export default {
       const encryptedTryoutId = this.encrypt(tryoutID);
       const encryptedTryoutIdSafe = encodeURIComponent(encryptedTryoutId);
       window.location.replace(
-        `/app/tryout/${encryptedProductIdSafe}/test/${encryptedTryoutIdSafe}?kode=${this.$route.query.kode}`
+        `/user/tryout/${encryptedProductIdSafe}/test/${encryptedTryoutIdSafe}?kode=${this.$route.query.kode}`
       );
     },
     toWaitingTestPage(productID, tryoutID, mapelID = null, jedawaktu = null) {
@@ -732,7 +732,7 @@ export default {
         encryptedJedaWaktuSafe = encodeURIComponent(encryptedJedaWaktu);
       };
       window.location.replace(
-        `/app/tryout/${encryptedProductIdSafe}/waiting/${encryptedTryoutIdSafe}?kode=${this.$route.query.kode}${mapelID ? '&id_mapel=' + mapelID : ''}${jedawaktu ? '&jedasubtes=' + encryptedJedaWaktuSafe : ''}`
+        `/user/tryout/${encryptedProductIdSafe}/waiting/${encryptedTryoutIdSafe}?kode=${this.$route.query.kode}${mapelID ? '&id_mapel=' + mapelID : ''}${jedawaktu ? '&jedasubtes=' + encryptedJedaWaktuSafe : ''}`
       );
     },
     checkLastSaved() {
@@ -1217,7 +1217,7 @@ export default {
       const encryptedTryoutId = this.encrypt(this.tryoutId);
       const encryptedTryoutIdSafe = encodeURIComponent(encryptedTryoutId);
       window.location.replace(
-        `/app/tryout/${encryptedProductIdSafe}/test?tryout=${encryptedTryoutIdSafe}&kode=${this.$route.query.kode}`
+        `/user/tryout/${encryptedProductIdSafe}/test?tryout=${encryptedTryoutIdSafe}&kode=${this.$route.query.kode}`
       );
     },
     nextSubtestAvailable() {

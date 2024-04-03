@@ -8,7 +8,7 @@
           </h2>
           <BackUrl
             title="Kembali"
-            :url="!$route.query.ref ? `/app/student/courses` :  $route.query.ref"
+            :url="!$route.query.ref ? `/user/student/courses` :  $route.query.ref"
           />
         </div>
       </div>

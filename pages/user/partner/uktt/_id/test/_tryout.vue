@@ -18,10 +18,10 @@
             v-if="detail && detail.jenis_produk == 'Perorangan'"
             class="mt-3"
           >
-            <a class="btn btn-outline-primary " :href="`/app/partner/uktt/mine`"
+            <a class="btn btn-outline-primary " :href="`/user/partner/uktt/mine`"
               >Kembali</a
             >
-            <a class="btn btn-primary ml-2" :href="`/app/partner/uktt/mine`"
+            <a class="btn btn-primary ml-2" :href="`/user/partner/uktt/mine`"
               >Lihat Hasil</a
             >
             <!-- <button
@@ -408,7 +408,7 @@
           <button
             class="btn btn-secondary"
             type="button"
-            @click="navGoTo(`/app/partner/uktt/mine`)"
+            @click="navGoTo(`/user/partner/uktt/mine`)"
           >
             Halaman Utama
           </button>
@@ -416,7 +416,7 @@
             class="btn btn-primary tambah px-4 py-2"
             type="button"
             :disabled="loading"
-            @click.prevent="navGoTo(`/app/partner/uktt/${productId}/result?code=${$route.query.kode}`)"
+            @click.prevent="navGoTo(`/user/partner/uktt/${productId}/result?code=${$route.query.kode}`)"
           >
             Lihat Hasil
           </button>
@@ -540,7 +540,7 @@ export default {
       const encryptedTryoutId = this.encrypt(tryoutID);
       const encryptedTryoutIdSafe = encodeURIComponent(encryptedTryoutId);
       window.location.replace(
-        `/app/partner/uktt/${encryptedProductIdSafe}/test/${encryptedTryoutIdSafe}?kode=${this.$route.query.kode}`
+        `/user/partner/uktt/${encryptedProductIdSafe}/test/${encryptedTryoutIdSafe}?kode=${this.$route.query.kode}`
       );
     },
     toWaitingTestPage(productID, tryoutID) {
@@ -549,7 +549,7 @@ export default {
       const encryptedTryoutId = this.encrypt(tryoutID);
       const encryptedTryoutIdSafe = encodeURIComponent(encryptedTryoutId);
       window.location.replace(
-        `/app/partner/uktt/${encryptedProductIdSafe}/waiting/${encryptedTryoutIdSafe}?kode=${this.$route.query.kode}`
+        `/user/partner/uktt/${encryptedProductIdSafe}/waiting/${encryptedTryoutIdSafe}?kode=${this.$route.query.kode}`
       );
     },
     // checkLastSaved() {
@@ -910,7 +910,7 @@ export default {
       const encryptedTryoutId = this.encrypt(this.tryoutId);
       const encryptedTryoutIdSafe = encodeURIComponent(encryptedTryoutId);
       window.location.replace(
-        `/app/partner/uktt/${encryptedProductIdSafe}/test?tryout=${encryptedTryoutIdSafe}&kode=${this.$route.query.kode}`
+        `/user/partner/uktt/${encryptedProductIdSafe}/test?tryout=${encryptedTryoutIdSafe}&kode=${this.$route.query.kode}`
       );
     },
     nextSubtestAvailable() {

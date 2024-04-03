@@ -6,7 +6,7 @@
           <h2 class="dash-label">
             <b-spinner type="grow" class="mr-2" v-if="loading" /> Materi Kelas
           </h2>
-          <BackUrl :url="`/app/student/courses/${$route.params.id}/detail`" />
+          <BackUrl :url="`/user/student/courses/${$route.params.id}/detail`" />
         </div>
       </div>
       <div class="col-md-12">

@@ -571,7 +571,7 @@
           <div class="col-md-6">
             <div
               class="card card-karir m-3 router-push"
-              @click="$router.push('/app/tryout')"
+              @click="$router.push('/user/tryout')"
             >
               <div class="card-body text-left p-0">
                 <div class="card-content px-4">
@@ -609,7 +609,7 @@
             <div class="card card-karir m-3">
               <div
                 class="card-body text-left p-0 router-push"
-                @click="$router.push('/app/tryout')"
+                @click="$router.push('/user/tryout')"
               >
                 <div class="card-content px-4">
                   <h3

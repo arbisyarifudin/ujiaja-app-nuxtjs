@@ -118,7 +118,7 @@
             id="konten"
             class="konten px-3"
             :class="
-              !isProfilLengkap && $route.path != '/app/profile/edit'
+              !isProfilLengkap && $route.path != '/user/profile/edit'
                 ? 'konten-dashfirst'
                 : ''
             "
@@ -126,7 +126,7 @@
           >
             <div
               class="col-md-12 text-left"
-              v-if="!isProfilLengkap && $route.path != '/app/profile/edit'"
+              v-if="!isProfilLengkap && $route.path != '/user/profile/edit'"
             >
               <div class="alert-konten" style="opacity: 1">
                 <p class="text-alert">
@@ -279,7 +279,7 @@ export default {
     },
     getPath(item) {
       const data = JSON.parse(item.notification_data);
-      const basePath = this.layout == "admin" ? "administrator" : "app";
+      const basePath = this.layout == "admin" ? "administrator" : "user";
       if (this.userRole == "admin" || this.userRole == "superAdmin") {
         switch (item.notification_type) {
           case 0: // registration

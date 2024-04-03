@@ -4,7 +4,7 @@
       <h3>
         <BackUrl
           :title="null"
-          ::url="$route.query.ref ? $route.query.ref : `/app/tryout/${dataResult.detail.id_produk}/detail`"
+          ::url="$route.query.ref ? $route.query.ref : `/user/tryout/${dataResult.detail.id_produk}/detail`"
           class="py-1 px-2 mr-3"
         />
         Review Tryout
@@ -31,7 +31,7 @@
             <nuxt-link
               class="btn btn-primary square"
               :to="
-                `/app/tryout/${dataResult.detail.id_produk}/answers?tab=${tab}&code=${$route.query.code}`
+                `/user/tryout/${dataResult.detail.id_produk}/answers?tab=${tab}&code=${$route.query.code}`
               "
               ><b-icon icon="key" class="mr-2"></b-icon> Lihat Kunci Jawaban /
               Pembahasan</nuxt-link

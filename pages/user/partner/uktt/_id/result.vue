@@ -4,7 +4,7 @@
       <h3>
         <BackUrl
           :title="null"
-          :url="$route.query.ref ? $route.query.ref : '/app/partner/uktt'"
+          :url="$route.query.ref ? $route.query.ref : '/user/partner/uktt'"
           class="py-1 px-2 mr-3"
         />
         Hasil Ujian
@@ -233,7 +233,7 @@ export default {
         const encryptedProductIdSafe = encodeURIComponent(encryptedProductId);
         const encryptedTryoutId = this.encrypt(this.dataResult.detail.id_tryout);
         const encryptedTryoutIdSafe = encodeURIComponent(encryptedTryoutId);
-        window.location.href = `/app/partner/uktt/${encryptedProductIdSafe}/test?tryout=${encryptedTryoutIdSafe}`;
+        window.location.href = `/user/partner/uktt/${encryptedProductIdSafe}/test?tryout=${encryptedTryoutIdSafe}`;
       }).catch(err => {
         console.log(err);
         this.catchError(err);

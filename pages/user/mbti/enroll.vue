@@ -5,7 +5,7 @@
         <h2 class="pb-0 mb-5">
           <BackUrl
             :title="null"
-            :url="`/app/mbti`"
+            :url="`/user/mbti`"
             class="py-1 px-2 mr-3"
           />
           <b-spinner type="grow" class="mr-2" v-if="loading" /> Beli Tes MBTI
@@ -509,11 +509,11 @@ export default {
                 "_blank"
               );
               this.$router.replace({
-                path: `/app/payment/${response.transaksi.id}/detail`
+                path: `/user/payment/${response.transaksi.id}/detail`
               });
             } else {
               this.$router.replace({
-                path: `/app/payment/${response.id}/confirm?ref=${this.$route.path}`
+                path: `/user/payment/${response.id}/confirm?ref=${this.$route.path}`
               });
             }
           }

@@ -25,7 +25,7 @@
             <router-link
               v-if="dataDetail.transaksi_user"
               :to="
-                `/app/payment/${dataDetail.transaksi_user.id}/detail?ref=${$route.path}`
+                `/user/payment/${dataDetail.transaksi_user.id}/detail?ref=${$route.path}`
               "
               role="button"
               class="btn btn-primary btn-sm square py-1 mr-2"
@@ -35,7 +35,7 @@
             </router-link>
             <router-link
               v-else
-              :to="`/app/material/${dataDetail.id}/enroll?ref=${$route.path}`"
+              :to="`/user/material/${dataDetail.id}/enroll?ref=${$route.path}`"
               role="button"
               class="btn btn-primary btn-sm square py-1 mr-2"
             >

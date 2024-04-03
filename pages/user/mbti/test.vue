@@ -13,7 +13,7 @@
         </div>
         <div class="card-body" v-html="detail.panduan"></div>
         <div class="card-footer d-flex justify-content-end">
-          <a :href="`/app/mbti`" class="btn btn-outline-dark">Kembali</a>
+          <a :href="`/user/mbti`" class="btn btn-outline-dark">Kembali</a>
           <button class="btn btn-primary ml-3" v-b-modal.modal-confirm-start>
             Lanjutkan
           </button>
@@ -300,7 +300,7 @@
           <button
             class="btn btn-secondary"
             type="button"
-            @click="navGoTo(`/app/tryout/mine`)"
+            @click="navGoTo(`/user/tryout/mine`)"
           >
             Halaman Utama
           </button>
@@ -308,7 +308,7 @@
             class="btn btn-primary tambah px-4 py-2"
             type="button"
             :disabled="loading"
-            @click.prevent="navGoTo(`/app/tryout/${productId}/result`)"
+            @click.prevent="navGoTo(`/user/tryout/${productId}/result`)"
           >
             Lihat Hasil
           </button>

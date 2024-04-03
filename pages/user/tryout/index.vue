@@ -46,7 +46,7 @@
             v-for="(item, i) in list['utbk_mandiri']"
             :key="i"
           >
-            <div class="card card-karir m-2 router-push" @click="$router.push(`/app/tryout/${item.id}/detail`)">
+            <div class="card card-karir m-2 router-push" @click="$router.push(`/user/tryout/${item.id}/detail`)">
               <!-- style="width: 350px; max-width: 100%" -->
               <div class="card-body text-left p-0">
                 <div class="card-content px-4">
@@ -78,7 +78,7 @@
                   style="border-bottom: 12px solid #D7D2F7; border-radius:0px 0px 12px 12px;"
                 >
                   <nuxt-link
-                    :to="`/app/tryout/${item.id}/detail`"
+                    :to="`/user/tryout/${item.id}/detail`"
                     class="karir-link"
                     >Detail <i class="fas fa-chevron-right ml-1"></i
                   ></nuxt-link>
@@ -147,7 +147,7 @@
             v-for="(item, i) in list['utbk_akbar']"
             :key="i"
           >
-            <div class="card card-karir m-2 router-push" @click="$router.push(`/app/tryout/${item.id}/detail`)">
+            <div class="card card-karir m-2 router-push" @click="$router.push(`/user/tryout/${item.id}/detail`)">
               <!-- style="width: 350px; max-width: 100%" -->
               <div class="card-body text-left p-0">
                 <div class="card-content px-4">
@@ -184,7 +184,7 @@
                   style="border-bottom: 12px solid #D7D2F7; border-radius:0px 0px 12px 12px;"
                 >
                   <nuxt-link
-                    :to="`/app/tryout/${item.id}/detail`"
+                    :to="`/user/tryout/${item.id}/detail`"
                     class="karir-link"
                     >Detail <i class="fas fa-chevron-right ml-1"></i
                   ></nuxt-link>
@@ -237,7 +237,7 @@
             v-for="(item, i) in list['aspd']"
             :key="i"
           >
-            <div class="card card-karir m-2 router-push" @click="$router.push(`/app/tryout/${item.id}/detail`)">
+            <div class="card card-karir m-2 router-push" @click="$router.push(`/user/tryout/${item.id}/detail`)">
               <!-- style="width: 350px; max-width: 100%" -->
               <div class="card-body text-left p-0">
                 <div class="card-content px-4">
@@ -270,7 +270,7 @@
                   style="border-bottom: 12px solid #D7D2F7; border-radius:0px 0px 12px 12px;"
                 >
                   <nuxt-link
-                    :to="`/app/tryout/${item.id}/detail`"
+                    :to="`/user/tryout/${item.id}/detail`"
                     class="karir-link"
                     >Detail <i class="fas fa-chevron-right ml-1"></i
                   ></nuxt-link>
@@ -323,7 +323,7 @@
             v-for="(item, i) in list['pat']"
             :key="i"
           >
-            <div class="card card-karir m-2 router-push" @click="$router.push(`/app/tryout/${item.id}/detail`)">
+            <div class="card card-karir m-2 router-push" @click="$router.push(`/user/tryout/${item.id}/detail`)">
               <!-- style="width: 350px; max-width: 100%" -->
               <div class="card-body text-left p-0">
                 <div class="card-content px-4">
@@ -356,7 +356,7 @@
                   style="border-bottom: 12px solid #D7D2F7; border-radius:0px 0px 12px 12px;"
                 >
                   <nuxt-link
-                    :to="`/app/tryout/${item.id}/detail`"
+                    :to="`/user/tryout/${item.id}/detail`"
                     class="karir-link"
                     >Detail <i class="fas fa-chevron-right ml-1"></i
                   ></nuxt-link>
@@ -409,7 +409,7 @@
             v-for="(item, i) in list['pas']"
             :key="i"
           >
-            <div class="card card-karir m-2 router-push" @click="$router.push(`/app/tryout/${item.id}/detail`)">
+            <div class="card card-karir m-2 router-push" @click="$router.push(`/user/tryout/${item.id}/detail`)">
               <!-- style="width: 350px; max-width: 100%" -->
               <div class="card-body text-left p-0">
                 <div class="card-content px-4">
@@ -442,7 +442,7 @@
                   style="border-bottom: 12px solid #D7D2F7; border-radius:0px 0px 12px 12px;"
                 >
                   <nuxt-link
-                    :to="`/app/tryout/${item.id}/detail`"
+                    :to="`/user/tryout/${item.id}/detail`"
                     class="karir-link"
                     >Detail <i class="fas fa-chevron-right ml-1"></i
                   ></nuxt-link>
@@ -495,7 +495,7 @@
             v-for="(item, i) in list['bundling']"
             :key="i"
           >
-            <div class="card card-karir m-2 router-push" @click="$router.push(`/app/tryout/${item.id}/detail`)">
+            <div class="card card-karir m-2 router-push" @click="$router.push(`/user/tryout/${item.id}/detail`)">
               <!-- style="width: 350px; max-width: 100%" -->
               <div class="card-body text-left p-0">
                 <div class="card-content px-4">
@@ -532,7 +532,7 @@
                   style="border-bottom: 12px solid #D7D2F7; border-radius:0px 0px 12px 12px;"
                 >
                   <nuxt-link
-                    :to="`/app/tryout/${item.id}/detail`"
+                    :to="`/user/tryout/${item.id}/detail`"
                     class="karir-link"
                     >Detail <i class="fas fa-chevron-right ml-1"></i
                   ></nuxt-link>

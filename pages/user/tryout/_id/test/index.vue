@@ -14,7 +14,7 @@
         <div class="card-body" v-html="tryout.panduan_pengerjaan"></div>
         <div class="card-footer d-flex justify-content-end">
           <a
-            :href="`/app/tryout/${productId}/detail`"
+            :href="`/user/tryout/${productId}/detail`"
             class="btn btn-outline-dark"
             >Kembali</a
           >
@@ -190,7 +190,7 @@ export default {
       const encryptedTryoutId = this.encrypt(this.tryoutId);
       const encryptedTryoutIdSafe = encodeURIComponent(encryptedTryoutId);
       window.location.replace(
-        `/app/tryout/${encryptedProductIdSafe}/test/${encryptedTryoutIdSafe}?kode=${this.$route.query.kode}`
+        `/user/tryout/${encryptedProductIdSafe}/test/${encryptedTryoutIdSafe}?kode=${this.$route.query.kode}`
       );
     },
     onCloseWindow(event) {

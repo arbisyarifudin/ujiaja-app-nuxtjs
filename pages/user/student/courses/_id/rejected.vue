@@ -110,7 +110,7 @@
               </table>
               <div class="text-center">
                 <a
-                  :href="`/app/student/courses/${dataDetail.id}/detail`"
+                  :href="`/user/student/courses/${dataDetail.id}/detail`"
                   target="_blank"
                   class="btn btn-sm btn-outline-primary square"
                   >Lihat detail kelas lebih lengkap</a
@@ -129,7 +129,7 @@
                     <div class="h5">
                       {{ item.nama_kursus }}
                       <a
-                        :href="`/app/student/courses/${item.id}/detail`"
+                        :href="`/user/student/courses/${item.id}/detail`"
                         target="_blank"
                         class="btn btn-sm btn-light bg-transparent px-2"
                         ><i class="fas fa-search fa-fw"></i

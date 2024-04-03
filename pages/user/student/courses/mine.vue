@@ -81,7 +81,7 @@
               class="card card-karir m-2 router-push"
               @click="
                 $router.push(
-                  `/app/student/courses/${item.id}/detail?ref=${$route.path}`
+                  `/user/student/courses/${item.id}/detail?ref=${$route.path}`
                 )
               "
             >
@@ -177,7 +177,7 @@
                   <nuxt-link
                     v-if="item.menerima_peserta"
                     :to="{
-                      path: `/app/student/courses/${item.id}/detail`,
+                      path: `/user/student/courses/${item.id}/detail`,
                       params: {
                         ref: $route.path
                       }

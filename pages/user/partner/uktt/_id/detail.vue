@@ -4,7 +4,7 @@
       <h2 class="pb-0">
         <BackUrl
           :title="null"
-          :url="$route.query.ref ? $route.query.ref : '/app/partner/uktt'"
+          :url="$route.query.ref ? $route.query.ref : '/user/partner/uktt'"
           class="py-1 px-2 mr-3"
         />
         <b-spinner type="grow" class="mr-2" v-if="loading" />
@@ -118,7 +118,7 @@
           <router-link
             class="btn btn-primary dashboard mb-4"
             v-if="!dataDetail.transaksi"
-            :to="`/app/partner/uktt/${dataDetail.produk.id}/enroll`"
+            :to="`/user/partner/uktt/${dataDetail.produk.id}/enroll`"
             >Beli UKTT</router-link
           >
           <router-link
@@ -128,7 +128,7 @@
                 (dataDetail.transaksi.status == 'Kadaluarsa' ||
                   dataDetail.transaksi.status == 'Dibatalkan')
             "
-            :to="`/app/partner/uktt/${dataDetail.produk.id}/enroll`"
+            :to="`/user/partner/uktt/${dataDetail.produk.id}/enroll`"
             >Beli UKTT</router-link
           >
           <button
@@ -149,7 +149,7 @@
                 )
             "
             :to="
-              `/app/payment/${dataDetail.produk.transaksi_user.id}/detail?ref=${$route.path}`
+              `/user/payment/${dataDetail.produk.transaksi_user.id}/detail?ref=${$route.path}`
             "
             >Detail Pembayaran</router-link
           >
@@ -170,7 +170,7 @@
       <nuxt-link
         v-if="dataDetail.is_task_done"
         class="btn btn-primary dashboard mb-4 ml-2"
-        :to="`/app/partner/uktt/${dataDetail.produk.id}/result?code=${dataDetail.transaksi.kode}`"
+        :to="`/user/partner/uktt/${dataDetail.produk.id}/result?code=${dataDetail.transaksi.kode}`"
       >
         <i class="fas fa-award mr-1"></i> Lihat Hasil
       </nuxt-link>
@@ -466,11 +466,11 @@ export default {
       const encryptedProductIdSafe = encodeURIComponent(encryptedProductId);
       const encryptedTryoutId = this.encrypt(this.dataDetail.tryout[0].id);
       const encryptedTryoutIdSafe = encodeURIComponent(encryptedTryoutId);
-      // this.$router.replace(`/app/tryout/${encryptedProductIdSafe}/test`);
+      // this.$router.replace(`/user/tryout/${encryptedProductIdSafe}/test`);
       // window.location.replace(
-      //   `/app/tryout/${encryptedProductIdSafe}/test?tryout=${encryptedTryoutIdSafe}`
+      //   `/user/tryout/${encryptedProductIdSafe}/test?tryout=${encryptedTryoutIdSafe}`
       // );
-      window.location.href = `/app/partner/uktt/${encryptedProductIdSafe}/test?tryout=${encryptedTryoutIdSafe}&kode=${this.dataDetail.transaksi.kode}`;
+      window.location.href = `/user/partner/uktt/${encryptedProductIdSafe}/test?tryout=${encryptedTryoutIdSafe}&kode=${this.dataDetail.transaksi.kode}`;
     },
     formatRupiah(num) {
       if (num) {

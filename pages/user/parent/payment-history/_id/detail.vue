@@ -4,7 +4,7 @@
       <h2 class="pb-0 mb-5">
         <BackUrl
           :title="null"
-          :url="$route.query.ref ? $route.query.ref : '/app/parent/payment-history'"
+          :url="$route.query.ref ? $route.query.ref : '/user/parent/payment-history'"
           class="py-1 px-2 mr-3"
         />
         <b-spinner type="grow" class="mr-2" v-if="loading" /> Detail Pembayaran
@@ -111,11 +111,11 @@
             </div>
             <div class="col-12 px-0" v-if="!loading">
               <hr />
-              <router-link :to="`/app/tryout/${dataDetail.id_produk}/detail`" v-if="dataDetail.produk"
+              <router-link :to="`/user/tryout/${dataDetail.id_produk}/detail`" v-if="dataDetail.produk"
                 >Lihat Produk</router-link>
-              <router-link :to="`/app/mbti/`" v-else-if="dataDetail.mbti"
+              <router-link :to="`/user/mbti/`" v-else-if="dataDetail.mbti"
                 >Lihat Produk</router-link>
-              <router-link :to="`/app/student/courses/${dataDetail.id_produk}/detail`" v-else-if="dataDetail.kursus"
+              <router-link :to="`/user/student/courses/${dataDetail.id_produk}/detail`" v-else-if="dataDetail.kursus"
                 >Lihat Produk</router-link>
             </div>
             <div class="col-12" v-if="loading">
@@ -198,7 +198,7 @@
             >
               <router-link
                 class="btn btn-primary btn-block py-2"
-                :to="`/app/parent/payment-history/${dataDetail.id}/confirm`"
+                :to="`/user/parent/payment-history/${dataDetail.id}/confirm`"
               >
                 Konfirmasi Pembayaran
               </router-link>

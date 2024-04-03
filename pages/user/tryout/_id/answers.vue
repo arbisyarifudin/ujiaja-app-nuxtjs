@@ -4,7 +4,7 @@
       <h3>
         <BackUrl
           :title="null"
-          ::url="!$route.query.ref ? `/app/tryout/${dataResult.detail.id_produk}/review` :  $route.query.ref"
+          ::url="!$route.query.ref ? `/user/tryout/${dataResult.detail.id_produk}/review` :  $route.query.ref"
           class="py-1 px-2 mr-3"
         />
         Kunci Jawaban dan Pembahasan

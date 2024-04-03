@@ -5,7 +5,7 @@
         <BackUrl
           :title="null"
           :url="
-            $route.query.ref ? $route.query.ref : `/app/parent/tryout-history`
+            $route.query.ref ? $route.query.ref : `/user/parent/tryout-history`
           "
           class="py-1 px-2 mr-3"
         />
@@ -132,7 +132,7 @@
         <nuxt-link
           class="btn btn-outline-primary square ml-3"
           :to="{
-            path: `/app/parent/tryout-history/${dataResult.detail.referensi}/answer`,
+            path: `/user/parent/tryout-history/${dataResult.detail.referensi}/answer`,
             query: {
               idp: dataResult.detail.id_produk,
               idu: dataResult.detail.id_user,

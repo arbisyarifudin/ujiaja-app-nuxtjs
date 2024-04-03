@@ -6,7 +6,7 @@
       </h3>
       <div >
         <router-link
-          :to="`/app/partner/courses/${detail.id}/edit?ref=${$route.path}`"
+          :to="`/user/partner/courses/${detail.id}/edit?ref=${$route.path}`"
           role="button"
           class="btn btn-success square py-1 mr-2"
           title="Ubah Kelas"
@@ -15,7 +15,7 @@
         </router-link>
         <router-link
           v-if="detail.status_verifikasi"
-          :to="`/app/partner/courses/${detail.id}/students?ref=${$route.path}`"
+          :to="`/user/partner/courses/${detail.id}/students?ref=${$route.path}`"
           role="button"
           class="btn btn-info square py-1 px-2 mr-2"
           title="Lihat Siswa"
@@ -24,7 +24,7 @@
         </router-link>
         <router-link
           v-if="detail.status_verifikasi"
-          :to="`/app/partner/courses/${detail.id}/materials?ref=${$route.path}`"
+          :to="`/user/partner/courses/${detail.id}/materials?ref=${$route.path}`"
           role="button"
           class="btn btn-primary square py-1 px-2 mr-2"
           title="Lihat Materi"

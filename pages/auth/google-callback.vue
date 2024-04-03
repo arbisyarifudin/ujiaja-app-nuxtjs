@@ -16,6 +16,14 @@
 <script>
 
 export default {
+  head() {
+    return {
+      title: 'Authenticating...',
+      bodyAttrs: {
+        class: "bg-soft"
+      }
+    }
+  },
   async created() {
     const hash = this.$route.hash // #state=123&access_token=123
     let query = this.$route.query

@@ -297,7 +297,7 @@
           data-dismiss="modal"
           style="border-radius: 25px;"
           role="button"
-          :to="`/app/payment`"
+          :to="`/user/payment`"
         >
           Riwayat Pembelian
         </router-link>

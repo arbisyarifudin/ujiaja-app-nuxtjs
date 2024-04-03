@@ -28,7 +28,7 @@
             <router-link
               v-if="dataDetail.transaksi_user"
               :to="
-                `/app/payment/${dataDetail.transaksi_user.id}/detail?ref=${$route.path}`
+                `/user/payment/${dataDetail.transaksi_user.id}/detail?ref=${$route.path}`
               "
               role="button"
               class="btn btn-primary btn-sm square py-1 mr-2"
@@ -44,7 +44,7 @@
                       (dataDetail.transaksi.status == 'Kadaluarsa' ||
                         dataDetail.transaksi.status == 'Dibatalkan'))
                 "
-                :to="`/app/bundling/${dataDetail.id}/enroll?ref=${$route.path}`"
+                :to="`/user/bundling/${dataDetail.id}/enroll?ref=${$route.path}`"
                 role="button"
                 class="btn btn-primary btn-sm square py-1 mr-2"
               >
@@ -84,7 +84,7 @@
               v-for="(item, i) in dataDetail.products"
               :key="i"
             >
-              <div class="card card-karir m-2 router-push" @click="$router.push(`/app/tryout/${item.id}/detail?ref=${$route.path}`)">
+              <div class="card card-karir m-2 router-push" @click="$router.push(`/user/tryout/${item.id}/detail?ref=${$route.path}`)">
                 <!-- style="width: 350px; max-width: 100%" -->
                 <div class="card-body text-left p-0">
                   <div class="" style="display: flex; justify-content: flex-end;">
@@ -234,7 +234,7 @@
             <div>
               <router-link
                 class="btn btn-outline-primary btn-sm py-1 square"
-                :to="`/app/tryout/${bp.product.id}/detail`"
+                :to="`/user/tryout/${bp.product.id}/detail`"
                 >Lihat Produk</router-link
               >
             </div>

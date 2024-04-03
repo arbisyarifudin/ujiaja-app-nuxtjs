@@ -74,7 +74,7 @@
               class="card card-karir m-2 router-push"
               @click="
                 $router.push(
-                  `/app/student/courses/${item.id}/detail?ref=${$route.path}`
+                  `/user/student/courses/${item.id}/detail?ref=${$route.path}`
                 )
               "
             >
@@ -171,7 +171,7 @@
                 >
                   <nuxt-link
                     :to="
-                      `/app/student/courses/${item.id}/detail?ref=${$route.path}`
+                      `/user/student/courses/${item.id}/detail?ref=${$route.path}`
                     "
                     class="karir-link"
                     >Detail <i class="fas fa-chevron-right ml-1"></i

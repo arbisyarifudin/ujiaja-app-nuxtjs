@@ -4,7 +4,7 @@
       <h2 class="pb-0 mb-5">
         <BackUrl
           :title="null"
-          :url="$route.query.ref ? $route.query.ref : '/app/payment'"
+          :url="$route.query.ref ? $route.query.ref : '/user/payment'"
           class="py-1 px-2 mr-3"
         />
         <b-spinner type="grow" class="mr-2" v-if="loading" /> Detail Pembayaran
@@ -169,25 +169,25 @@
             <div class="col-12 px-0" v-if="!loading">
               <hr />
               <router-link
-                :to="`/app/tryout/${dataDetail.id_produk}/detail`"
+                :to="`/user/tryout/${dataDetail.id_produk}/detail`"
                 v-if="dataDetail.produk"
                 >Lihat Produk</router-link
               >
-              <router-link :to="`/app/mbti/`" v-else-if="dataDetail.mbti"
+              <router-link :to="`/user/mbti/`" v-else-if="dataDetail.mbti"
                 >Lihat Produk</router-link
               >
               <router-link
-                :to="`/app/student/courses/${dataDetail.id_produk}/detail`"
+                :to="`/user/student/courses/${dataDetail.id_produk}/detail`"
                 v-else-if="dataDetail.kursus"
                 >Lihat Produk</router-link
               >
               <router-link
-                :to="`/app/bundling/${dataDetail.id_produk}/detail`"
+                :to="`/user/bundling/${dataDetail.id_produk}/detail`"
                 v-else-if="dataDetail.bundling"
                 >Lihat Produk</router-link
               >
                <router-link
-                :to="`/app/material/${dataDetail.id_produk}/detail`"
+                :to="`/user/material/${dataDetail.id_produk}/detail`"
                 v-else-if="dataDetail.material"
                 >Lihat Produk</router-link
               >
@@ -272,7 +272,7 @@
             >
               <router-link
                 class="btn btn-primary btn-block py-2"
-                :to="`/app/payment/${dataDetail.id}/confirm`"
+                :to="`/user/payment/${dataDetail.id}/confirm`"
               >
                 Konfirmasi Pembayaran
               </router-link>

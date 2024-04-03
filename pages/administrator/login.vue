@@ -284,7 +284,7 @@ export default {
               });
               this.$store.commit("SET_IS_AUTH", true);
               this.$store.commit("set", ["dataUser", res.data]);
-              // this.$router.replace(`/app/${role}/dashboard`);
+              // this.$router.replace(`/user/${role}/dashboard`);
               // this.$router.replace("/administrator/dashboard");
               window.location.href = window.origin + "/administrator/dashboard";
             }

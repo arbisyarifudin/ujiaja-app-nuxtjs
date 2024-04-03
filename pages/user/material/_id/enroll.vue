@@ -5,7 +5,7 @@
         <h2 class="pb-0 mb-5">
           <BackUrl
             :title="null"
-            :url="`/app/bundling/${dataDetail.id}/detail`"
+            :url="`/user/bundling/${dataDetail.id}/detail`"
             class="py-1 px-2 mr-3"
           />
           <b-spinner type="grow" class="mr-2" v-if="loading" /> Detail Pesanan
@@ -449,7 +449,7 @@ export default {
             this.dataDetail = res.data;
             if(this.dataDetail.is_enrolled) {
               this.$router.replace({
-                path: `/app/payment/${this.dataDetail.transaksi_user.id}/detail`
+                path: `/user/payment/${this.dataDetail.transaksi_user.id}/detail`
               });
             }
             this.hargaProduk = this.dataDetail.price;
@@ -517,11 +517,11 @@ export default {
                 "_blank"
               );
               this.$router.replace({
-                path: `/app/payment/${response.transaksi.id}/detail`
+                path: `/user/payment/${response.transaksi.id}/detail`
               });
             } else {
               this.$router.replace({
-                path: `/app/payment/${response.id}/confirm`
+                path: `/user/payment/${response.id}/confirm`
               });
             }
           }

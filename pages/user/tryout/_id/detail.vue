@@ -4,7 +4,7 @@
       <h2 class="pb-0">
         <BackUrl
           :title="null"
-          :url="$route.query.ref ? $route.query.ref : '/app/tryout'"
+          :url="$route.query.ref ? $route.query.ref : '/user/tryout'"
           class="py-1 px-2 mr-3"
         />
         <b-spinner type="grow" class="mr-2" v-if="loading" />
@@ -119,7 +119,7 @@
               !dataDetail.transaksi &&
               dataDetail.is_expired_test == false
           "
-          :to="`/app/tryout/${dataDetail.produk.id}/enroll`"
+          :to="`/user/tryout/${dataDetail.produk.id}/enroll`"
           >Beli Tryout</router-link
         >
         <router-link
@@ -131,7 +131,7 @@
                 dataDetail.transaksi.status == 'Dibatalkan') &&
               dataDetail.is_expired_test == false
           "
-          :to="`/app/tryout/${dataDetail.produk.id}/enroll`"
+          :to="`/user/tryout/${dataDetail.produk.id}/enroll`"
           >Beli Tryout</router-link
         >
         <button
@@ -194,7 +194,7 @@
             dataDetail.is_expired_test == false
         "
         :to="
-          `/app/payment/${dataDetail.produk.transaksi_user.id}/detail?ref=${$route.path}`
+          `/user/payment/${dataDetail.produk.transaksi_user.id}/detail?ref=${$route.path}`
         "
         >Detail Pembayaran</router-link
       >
@@ -204,7 +204,7 @@
           !loading && dataDetail.is_task_done && dataDetail.is_result_openable
         "
         :to="
-          `/app/tryout/${dataDetail.produk.id}/result?category=${dataDetail.produk.kategori_produk}&code=${dataDetail.transaksi.kode}`
+          `/user/tryout/${dataDetail.produk.id}/result?category=${dataDetail.produk.kategori_produk}&code=${dataDetail.transaksi.kode}`
         "
         ><i class="fas fa-fw fa-award"></i> Lihat Hasil</router-link
       >
@@ -469,12 +469,12 @@ export default {
       const encryptedProductIdSafe = encodeURIComponent(encryptedProductId);
       const encryptedTryoutId = this.encrypt(this.dataDetail.tryout[0].id);
       const encryptedTryoutIdSafe = encodeURIComponent(encryptedTryoutId);
-      // this.$router.replace(`/app/tryout/${encryptedProductIdSafe}/test`);
+      // this.$router.replace(`/user/tryout/${encryptedProductIdSafe}/test`);
       // window.location.replace(
-      //   `/app/tryout/${encryptedProductIdSafe}/test?tryout=${encryptedTryoutIdSafe}`
+      //   `/user/tryout/${encryptedProductIdSafe}/test?tryout=${encryptedTryoutIdSafe}`
       // );
 
-      window.location.href = `/app/tryout/${encryptedProductIdSafe}/test?tryout=${encryptedTryoutIdSafe}&kode=${this.dataDetail.transaksi.kode}`;
+      window.location.href = `/user/tryout/${encryptedProductIdSafe}/test?tryout=${encryptedTryoutIdSafe}&kode=${this.dataDetail.transaksi.kode}`;
     },
     formatRupiah(num) {
       if (num) {

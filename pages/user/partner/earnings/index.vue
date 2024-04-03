@@ -82,7 +82,7 @@
                       {{ kursus.nama_kursus }}
                       <router-link
                         class="btn btn-sm btn-light px-2 ml-2"
-                        :to="`/app/partner/earnings/${kursus.id_kursus}`"
+                        :to="`/user/partner/earnings/${kursus.id_kursus}`"
                         title="Detail Pendapatan Kelas"
                         ><i class="fas fa-search"></i
                       ></router-link>

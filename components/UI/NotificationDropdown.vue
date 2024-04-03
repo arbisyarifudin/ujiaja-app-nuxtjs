@@ -95,7 +95,7 @@ export default {
     },
     getPath(item) {
       const data = JSON.parse(item.notification_data);
-      const basePath = this.layout == "admin" ? "administrator" : "app";
+      const basePath = this.layout == "admin" ? "administrator" : "user";
       if (this.userRole == "admin" || this.userRole == "superAdmin") {
         switch (item.notification_type) {
           case 0: // registration

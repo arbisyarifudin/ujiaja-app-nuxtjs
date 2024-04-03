@@ -45,7 +45,7 @@
           </nuxt-link>
           <nuxt-link
             class="btn btn-primary dashboard px-4"
-            :to="`/app/payment/${detail.transaksi.jenis_transaksi == 'Bonus MBTI' ? detail.transaksi.id_induk : detail.transaksi.id}/detail`"
+            :to="`/user/payment/${detail.transaksi.jenis_transaksi == 'Bonus MBTI' ? detail.transaksi.id_induk : detail.transaksi.id}/detail`"
             v-if="
               detail &&
                 detail.transaksi &&

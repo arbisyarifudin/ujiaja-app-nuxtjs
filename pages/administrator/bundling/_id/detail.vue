@@ -102,7 +102,7 @@
                 class="card card-karir m-2 router-push"
                 @click="
                   $router.push(
-                    `/app/tryout/${item.id}/detail?ref=${$route.path}`
+                    `/user/tryout/${item.id}/detail?ref=${$route.path}`
                   )
                 "
               >

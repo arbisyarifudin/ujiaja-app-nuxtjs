@@ -94,7 +94,7 @@ export default {
       const encryptedTryoutId = this.encrypt(tryoutID);
       const encryptedTryoutIdSafe = encodeURIComponent(encryptedTryoutId);
       window.location.replace(
-        `/app/tryout/${encryptedProductIdSafe}/test/${encryptedTryoutIdSafe}?kode=${this.$route.query.kode}${this.$route.query.id_mapel ? '&id_mapel=' + this.$route.query.id_mapel : ''}`
+        `/user/tryout/${encryptedProductIdSafe}/test/${encryptedTryoutIdSafe}?kode=${this.$route.query.kode}${this.$route.query.id_mapel ? '&id_mapel=' + this.$route.query.id_mapel : ''}`
       );
     },
     onCloseWindow(event) {
@@ -181,7 +181,7 @@ export default {
           this.toTryoutTestPage(this.productId, newUjian.id_tryout);
         } else {
           this.showToastMessage('Duplicate data!');
-          // window.location.replace('/app/tryout/' + this.productId + '/detail')
+          // window.location.replace('/user/tryout/' + this.productId + '/detail')
         }
       } else {
           this.toTryoutTestPage(this.productId, this.tryoutId); 

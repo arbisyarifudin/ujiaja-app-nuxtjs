@@ -58,7 +58,7 @@
             :key="i"
           >
             <div class="card card-karir m-2 router-push"
-              @click="$router.push(`/app/partner/uktt/${item.id}/detail`)">
+              @click="$router.push(`/user/partner/uktt/${item.id}/detail`)">
               <!-- style="width: 350px; max-width: 100%" -->
               <div class="card-body text-left p-0 pt-3">
                 <!-- <div class="" style="display: flex; justify-content: flex-end;">
@@ -119,7 +119,7 @@
                   style="border-bottom: 12px solid #D7D2F7; border-radius:0px 0px 12px 12px;"
                 >
                   <nuxt-link
-                    :to="`/app/partner/uktt/${item.id}/detail`"
+                    :to="`/user/partner/uktt/${item.id}/detail`"
                     class="karir-link"
                     >Detail <i class="fas fa-chevron-right ml-1"></i
                   ></nuxt-link>

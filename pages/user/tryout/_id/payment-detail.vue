@@ -4,7 +4,7 @@
       <h2 class="pb-0 mb-5">
         <!-- <BackUrl
           :title="null"
-          :url="`/app/tryout/${dataDetail.produk.id}/detail`"
+          :url="`/user/tryout/${dataDetail.produk.id}/detail`"
           class="py-1 px-2 mr-3"
         /> -->
         <b-spinner type="grow" class="mr-2" v-if="loading" /> Konfirmasi

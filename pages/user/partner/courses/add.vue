@@ -560,7 +560,7 @@ export default {
               solid: true,
               autoHideDelay: 3000
             });
-            this.$router.replace(`/app/partner/courses/${res.data.id}/detail`);
+            this.$router.replace(`/user/partner/courses/${res.data.id}/detail`);
           }
         })
         .catch(err => {

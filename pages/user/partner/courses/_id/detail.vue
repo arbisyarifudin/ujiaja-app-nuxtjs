@@ -347,14 +347,14 @@ export default {
               this.dataDetail.video_kursus
             );
             if(this.dataDetail.id_tentor !== this.user.id) {
-              return this.$router.replace('/app/partner/courses');
+              return this.$router.replace('/user/partner/courses');
             }
           }
         })
         .catch(err => {
           console.log(err);
           this.catchError(err);
-          return this.$router.replace('/app/partner/courses');
+          return this.$router.replace('/user/partner/courses');
         })
         .finally(() => (this.loading = false));
     },

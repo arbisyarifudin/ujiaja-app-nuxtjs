@@ -75,7 +75,7 @@
                     >
                       <i class="fa fa-search"></i>
                     </button> -->
-                    <router-link :to="`/app/payment/${item.id}/detail`"><i class="fa fa-search"></i></router-link>
+                    <router-link :to="`/user/payment/${item.id}/detail`"><i class="fa fa-search"></i></router-link>
                   </td>
                   <td><span :class="statusBadge(item.status)">{{item.status}}</span></td>
                   <td>

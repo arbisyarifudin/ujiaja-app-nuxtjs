@@ -7,7 +7,7 @@
           :url="
             $route.query.ref
               ? $route.query.ref
-              : `/app/tryout/${dataResult.detail.id_produk}/detail`
+              : `/user/tryout/${dataResult.detail.id_produk}/detail`
           "
           class="py-1 px-2 mr-3"
         />
@@ -173,7 +173,7 @@
         <nuxt-link
           class="btn btn-outline-primary square ml-3"
           :to="
-            `/app/tryout/${dataResult.detail.id_produk}/review?code=${$route.query.code}`
+            `/user/tryout/${dataResult.detail.id_produk}/review?code=${$route.query.code}`
           "
           ><i class="fas fa-file-alt fa-fw mr-1"></i> Review Tryout</nuxt-link
         >

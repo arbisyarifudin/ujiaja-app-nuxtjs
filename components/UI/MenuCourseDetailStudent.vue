@@ -11,7 +11,7 @@
               (detail.transaksi &&
                 detail.transaksi.status_dikelas == 'Sesi Selesai')
           "
-          :to="`/app/student/courses/${detail.id}/enroll?ref=${$route.path}`"
+          :to="`/user/student/courses/${detail.id}/enroll?ref=${$route.path}`"
           role="button"
           class="btn btn-primary square py-1 px-2 mr-2"
           title="Beli"
@@ -34,7 +34,7 @@
           <router-link
             v-if="detail.transaksi"
             :to="
-              `/app/payment/${detail.transaksi.id}/detail?ref=${$route.path}`
+              `/user/payment/${detail.transaksi.id}/detail?ref=${$route.path}`
             "
             role="button"
             class="btn btn-secondary square py-1 px-2 mr-2"
@@ -48,7 +48,7 @@
           </router-link>
           <router-link
             v-if="detail.transaksi && detail.transaksi.status == 'Dibatalkan'"
-            :to="`/app/student/courses/${detail.id}/enroll?ref=${$route.path}`"
+            :to="`/user/student/courses/${detail.id}/enroll?ref=${$route.path}`"
             role="button"
             class="btn btn-primary square py-1 px-2 mr-2"
             title="Beli"
@@ -63,7 +63,7 @@
                 detailStudent.status_dikelas != 'Ditolak'
             "
             :to="
-              `/app/student/courses/${detail.id}/materials?ref=${$route.path}`
+              `/user/student/courses/${detail.id}/materials?ref=${$route.path}`
             "
             role="button"
             class="btn btn-primary square py-1 px-2 mr-2"
