@@ -343,6 +343,6 @@ Vue.mixin({
       }
       // store.commit("set", ["loading", false]);
       // return "error";
-    }
+    },
   }
 });

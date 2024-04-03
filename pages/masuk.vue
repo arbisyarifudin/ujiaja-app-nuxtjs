@@ -301,6 +301,9 @@ export default {
               // this.$router.replace(`/user/${role}/dashboard`);
               // this.$router.replace("/user/dashboard");
 
+              this.$auth.setUser(res.data)
+              this.$auth.setUserToken(res.data.token)
+
               window.location.href = window.origin + "/user/dashboard";
             }
           } else {

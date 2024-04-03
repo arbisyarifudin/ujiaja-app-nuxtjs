@@ -58,11 +58,11 @@ export default {
           this.$bvToast.toast(
             'Otentikasi google berhasil',
             {
-            title: "Sukses",
-            variant: "success",
-            solid: true,
-            autoHideDelay: 3000,
-          }
+              title: "Sukses",
+              variant: "success",
+              solid: true,
+              autoHideDelay: 3000,
+            }
           );
 
           console.log('res.data', res.data)
@@ -73,6 +73,9 @@ export default {
             });
             this.$store.commit("SET_IS_AUTH", true);
             this.$store.commit("set", ["dataUser", res.data]);
+
+            this.$auth.setUser(res.data)
+            this.$auth.setUserToken(res.data.token)
           }
 
           // this.$router.replace("/user/dashboard");

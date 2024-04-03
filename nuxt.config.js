@@ -73,7 +73,7 @@ export default {
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
-    '@nuxtjs/auth-next'
+    // '@nuxtjs/auth-next'
   ],
 
   auth: {
@@ -105,6 +105,8 @@ export default {
     "bootstrap-vue/nuxt",
     // https://go.nuxtjs.dev/axios
     "@nuxtjs/axios",
+
+    '@nuxtjs/auth-next',
 
     // cookie
     ["cookie-universal-nuxt", { alias: "cookiz" }],

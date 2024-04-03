@@ -1131,9 +1131,6 @@ export default {
     },
     getMaster(type, params = {}) {
       this.loading = true;
-      this.$axios.defaults.headers.Authorization =
-        "Bearer " + this.$cookiz.get("_ujiaja");
-      this.$axios.defaults.withCredentials = true;
       this.$axios
         .$get(`/api/${type}`, params)
         .then(res => {
@@ -1181,9 +1178,6 @@ export default {
       }
       // console.log(type, params);
 
-      this.$axios.defaults.headers = {};
-      this.$axios.defaults.withCredentials = false;
-
       this.$axios
         .$get(`/api/${type}${params}`)
         .then(res => {
@@ -1205,9 +1199,7 @@ export default {
         ? id_program_studi_selected.id
         : "";
       this.loading = true;
-      this.$axios.defaults.headers.Authorization =
-        "Bearer " + this.$cookiz.get("_ujiaja");
-      this.$axios.defaults.withCredentials = true;
+      
       console.log(
         "this.formSiswa.id_prodi_bind_perguruan",
         this.formSiswa.id_prodi_bind_perguruan
@@ -1413,9 +1405,6 @@ export default {
         dataSave.user_docs = userDocs;
       }
 
-      this.$axios.defaults.headers.Authorization =
-        "Bearer " + this.$cookiz.get("_ujiaja");
-      this.$axios.defaults.withCredentials = true;
       const role_type = this.akun.role_user;
 
       this.loading = true;
@@ -1484,10 +1473,6 @@ export default {
     },
     onSubmitOrtu() {
       this.loading = true;
-
-      this.$axios.defaults.headers.Authorization =
-        "Bearer " + this.$cookiz.get("_ujiaja");
-      this.$axios.defaults.withCredentials = true;
       this.$axios
         .$post(`/api/users/parent/create`, this.formOrtu)
         .then(res => {

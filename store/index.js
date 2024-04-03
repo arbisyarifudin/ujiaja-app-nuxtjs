@@ -77,18 +77,23 @@ export const actions = {
       // }
     });
 
-    if (ujiajaToken) {
+    if (ujiajaToken && !app.$auth.loggedIn) {
       try {
         const res = await axiosInstance.get("api/users", {
           headers: {
             Authorization: "Bearer " + ujiajaToken
           }
         });
+        // console.log("nuxtInit getUser response", res.data);
         const responseData = res.data?.data;
         await commit("SET_IS_AUTH", true);
         await commit("set", ["dataUser", responseData]);
+
+        app.$auth.setUser(responseData)
+        app.$auth.setUserToken(ujiajaToken)
+
       } catch (error) {
-        // console.log("nuxtInitError", error);
+        console.log("nuxtInitError", error);
         // console.log("nuxtInitError", error.response);
         await commit("SET_IS_AUTH", false);
         await commit("set", ["dataUser", {}]);
@@ -96,7 +101,7 @@ export const actions = {
       }
     }
 
-    if (ujiajaToken) {
+    if (ujiajaToken && !app.$auth.loggedIn) {
       try {
         const res = await axiosInstance.get("api/public/pengaturan", {
           headers: {
@@ -110,7 +115,7 @@ export const actions = {
           await commit("set", ["dataSetting", responseData.data]);
         }
       } catch (error) {
-        // console.log('pengaturan err', error.response);
+        console.log('pengaturan err', error.response);
       }
     }
   }

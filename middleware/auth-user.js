@@ -1,4 +1,4 @@
-export default function({ store, redirect }) {
+export default function({ store, redirect, app }) {
   const roleAllowed = [
     "siswa",
     "guru",
@@ -7,6 +7,15 @@ export default function({ store, redirect }) {
     "parent",
     "student"
   ];
+
+  // console.log("store.state", store.state);
+
+  // If the user is not authenticated
+  if (store.state.auth && !store.state.auth.loggedIn) {
+    app.$cookiz.remove('_ujiaja')
+    return redirect("/masuk");
+  }
+  
   // If the user is not isAuth
   if (
     !store.state.isAuth ||
@@ -17,5 +26,5 @@ export default function({ store, redirect }) {
       !roleAllowed.includes(store.state.dataUser.user.role_user))
   ) {
     return redirect("/masuk");
-  }
+  } 
 }

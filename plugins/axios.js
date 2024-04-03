@@ -1,4 +1,5 @@
 // content of plugins/axios.js
+
 /* 
 // This is a global config declaration that works on any axios instance,
 // meaning that if you just import axios from 'axios' in any place, you will get those.
@@ -35,7 +36,18 @@ export default function({ $axios, $cookiz }) {
   // $axios.defaults.headers.put["X-XSRF-TOKEN"] = $cookiz.get("XSRF-TOKEN");
   // $axios.defaults.headers.delete["X-XSRF-TOKEN"] = $cookiz.get("XSRF-TOKEN");
   // $axios.defaults.headers.Authorization = "Bearer " + getCookie("_ujiaja");
-  $axios.defaults.headers.Authorization = "Bearer " + $cookiz.get("_ujiaja");
+
+  if ($cookiz.get("_ujiaja")) {
+    // $axios.defaults.headers.Authorization = "Bearer " + $cookiz.get("_ujiaja");
+    $axios.setHeader("Authorization", "Bearer " + $cookiz.get("_ujiaja"));
+  } else {
+    // $axios.defaults.headers.Authorization = null;
+    $axios.setHeader("Authorization", null);
+  }
+  
   $axios.defaults.withCredentials = true;
+
+
+  
   // console.log($axios.defaults.headers.Authorization);
 }

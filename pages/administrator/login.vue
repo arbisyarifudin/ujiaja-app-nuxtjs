@@ -286,6 +286,10 @@ export default {
               this.$store.commit("set", ["dataUser", res.data]);
               // this.$router.replace(`/user/${role}/dashboard`);
               // this.$router.replace("/administrator/dashboard");
+
+              this.$auth.setUser(res.data)
+              this.$auth.setUserToken(res.data.token)
+
               window.location.href = window.origin + "/administrator/dashboard";
             }
           } else {
