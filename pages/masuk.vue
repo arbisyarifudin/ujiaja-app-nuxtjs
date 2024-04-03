@@ -57,9 +57,9 @@
                       <div class="input-group-append" @click.prevent="showPassword = !showPassword"
                         style="cursor: pointer">
                         <span class="input-group-text bg-transparent" style="pointer-events: none"><i :class="[
-                              'fa',
-                              showPassword ? 'fa-eye-slash' : 'fa-eye',
-                            ]" style="pointer-events: none"></i></span>
+      'fa',
+      showPassword ? 'fa-eye-slash' : 'fa-eye',
+    ]" style="pointer-events: none"></i></span>
                       </div>
                     </div>
                     <div v-html="showError('password')"></div>
@@ -82,10 +82,10 @@
                   style="border: 1px solid #B0A6EF; width: 100%;" @click.prevent="loginWithGoogle">
                   <img src="/Google.svg" alt="" /> Masuk Dengan Google
                 </button>
-                <a href="#" class="d-block text-center my-3 py-3 rounded-pill bg-white"
-                  style="border: 1px solid #B0A6EF" @click.prevent="loginWithFacebook">
+                <!-- <button type="button" class="d-block text-center my-3 py-2 rounded-pill bg-white"
+                  style="border: 1px solid #B0A6EF; width: 100%;" @click.prevent="loginWithFacebook">
                   <img src="/Facebook.svg" alt="" /> Masuk Dengan Facebook
-                </a>
+                </button> -->
                 <div class="text-center px-4 pt-2">
                   <p class="small">
                     Dengan masuk ke UjiAja, saya menyetujui <br />
@@ -106,420 +106,307 @@
 </template>
 
 <script>
-  import ContentWrapper from "@/components/Layout/ContentWrapper";
-  import jwt_decode from "jwt-decode";
+import ContentWrapper from "@/components/Layout/ContentWrapper";
+import jwt_decode from "jwt-decode";
 
-  export default {
-    middleware: "auth-guest",
-    components: {
-      ContentWrapper
+export default {
+  middleware: "auth-guest",
+  components: {
+    ContentWrapper
+  },
+  head() {
+    return {
+      title: 'Masuk',
+      bodyAttrs: {
+        class: "bg-soft"
+      }
+    }
+  },
+  asyncData(context) {
+    function getSetting(key) {
+      const settings = context.store.state.dataSetting;
+      const foundSetting = settings.find(item => item.key == key);
+      if (foundSetting) {
+        return foundSetting.isi;
+      }
+      return '';
+    }
+
+    const navData = {
+      logo: getSetting('logo'),
+    }
+
+    const footerData = {
+      logo: getSetting('logo'),
+      alamat_kantor: getSetting('alamat_kantor'),
+      telp: getSetting('telp'),
+      whatsapp: getSetting('whatsapp'),
+      instagram: getSetting('instagram'),
+      facebook: getSetting('facebook'),
+      youtube: getSetting('youtube'),
+      email: getSetting('email'),
+    }
+
+    return {
+      navData,
+      footerData
+    }
+  },
+  data() {
+    return {
+      tinySliderOptions: {
+        mouseDrag: false,
+        autoplay: true,
+        autoplayButtonOutput: false,
+        loop: true,
+        nav: true,
+        controls: false,
+        gutter: 20,
+        swipeAngle: 45,
+        items: 1,
+      },
+      showPassword: false,
+      loading: false,
+      form: {
+        username: "",
+        email: "",
+        password: "",
+      },
+      dataError: [],
+      isValidForm: {},
+    };
+  },
+  watch: {
+    showPassword: function (value) {
+      console.log(value);
     },
-    head() {
-      return {
-        title: 'Masuk',
-        bodyAttrs: {
-          class: "bg-soft"
-        }
+    "form.username": function (value) {
+      return;
+      var usernameRegex = /^[a-zA-Z0-9]+$/;
+      var test = value.match(usernameRegex);
+      if (test === null) {
+        this.$set(this.dataError, "username", [
+          "Username hanya boleh mengandung huruf dan angka tanpa spasi.",
+        ]);
+        this.isValidForm["username"] = false;
+      } else {
+        this.$set(this.dataError, "username", [""]);
+        this.isValidForm["username"] = true;
       }
     },
-    asyncData(context) {
-      function getSetting(key) {
-        const settings = context.store.state.dataSetting;
-        const foundSetting = settings.find(item => item.key == key);
-        if (foundSetting) {
-          return foundSetting.isi;
-        }
-        return '';
-      }
+    "form.password": function (value) {
+      // if (value && value.length < 6) {
+      //   this.$set(this.dataError, "password", ["Password terlalu pendek."]);
+      //   this.isValidForm["password"] = false;
+      // } else {
+      //   this.$set(this.dataError, "password", [""]);
+      //   this.isValidForm["password"] = true;
+      // }
+    },
 
-      const navData = {
-        logo: getSetting('logo'),
-      }
-
-      const footerData = {
-        logo: getSetting('logo'),
-        alamat_kantor: getSetting('alamat_kantor'),
-        telp: getSetting('telp'),
-        whatsapp: getSetting('whatsapp'),
-        instagram: getSetting('instagram'),
-        facebook: getSetting('facebook'),
-        youtube: getSetting('youtube'),
-        email: getSetting('email'),
-      }
-
-      return {
-        navData,
-        footerData
+    "form.email": function (value) {
+      return;
+      var emailRegex =
+        /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      var test = value.match(emailRegex);
+      if (value && test === null) {
+        this.$set(this.dataError, "email", ["Mohon masukkan email valid."]);
+        this.isValidForm["email"] = false;
+      } else {
+        this.$set(this.dataError, "email", [""]);
+        this.isValidForm["email"] = true;
       }
     },
-    data() {
-      return {
-        tinySliderOptions: {
-          mouseDrag: false,
-          autoplay: true,
-          autoplayButtonOutput: false,
-          loop: true,
-          nav: true,
-          controls: false,
-          gutter: 20,
-          swipeAngle: 45,
-          items: 1,
-        },
-        showPassword: false,
-        loading: false,
-        form: {
-          username: "",
-          email: "",
-          password: "",
-        },
-        dataError: [],
-        isValidForm: {},
-      };
+  },
+  methods: {
+    ApiUrl(param) {
+      return process.env.apiUrl + "/" + param;
     },
-    watch: {
-      showPassword: function (value) {
-        console.log(value);
-      },
-      "form.username": function (value) {
-        return;
-        var usernameRegex = /^[a-zA-Z0-9]+$/;
-        var test = value.match(usernameRegex);
-        if (test === null) {
-          this.$set(this.dataError, "username", [
-            "Username hanya boleh mengandung huruf dan angka tanpa spasi.",
-          ]);
-          this.isValidForm["username"] = false;
-        } else {
-          this.$set(this.dataError, "username", [""]);
-          this.isValidForm["username"] = true;
-        }
-      },
-      "form.password": function (value) {
-        // if (value && value.length < 6) {
-        //   this.$set(this.dataError, "password", ["Password terlalu pendek."]);
-        //   this.isValidForm["password"] = false;
-        // } else {
-        //   this.$set(this.dataError, "password", [""]);
-        //   this.isValidForm["password"] = true;
-        // }
-      },
-
-      "form.email": function (value) {
-        return;
-        var emailRegex =
-          /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        var test = value.match(emailRegex);
-        if (value && test === null) {
-          this.$set(this.dataError, "email", ["Mohon masukkan email valid."]);
-          this.isValidForm["email"] = false;
-        } else {
-          this.$set(this.dataError, "email", [""]);
-          this.isValidForm["email"] = true;
-        }
-      },
-    },
-    methods: {
-      ApiUrl(param) {
-        return process.env.apiUrl + "/" + param;
-      },
-      showError(field) {
-        if (
-          this.dataError[field] !== undefined &&
-          this.dataError[field].length > 0
-        ) {
-          let html = `<div class="form-error__info">
+    showError(field) {
+      if (
+        this.dataError[field] !== undefined &&
+        this.dataError[field].length > 0
+      ) {
+        let html = `<div class="form-error__info">
                         ${this.dataError[field][0]}
                         </div>`;
-          return html;
-        }
-        return "";
-      },
-      inputError(field) {
-        if (
-          this.dataError[field] !== undefined &&
-          this.dataError[field].length > 0
-        ) {
-          return "form-control form-error";
-        }
-        return "form-control pl-0";
-      },
-      validateForm() {
-        this.dataError = [];
+        return html;
+      }
+      return "";
+    },
+    inputError(field) {
+      if (
+        this.dataError[field] !== undefined &&
+        this.dataError[field].length > 0
+      ) {
+        return "form-control form-error";
+      }
+      return "form-control pl-0";
+    },
+    validateForm() {
+      this.dataError = [];
 
-        if (!this.form.password || !this.form.username) {
-          this.$bvToast.toast("Mohon lengkapi form masuk!", {
-            title: "Peringatan",
-            variant: "warning",
-            solid: true,
-            autoHideDelay: 3000,
-          });
-          return;
-        }
+      if (!this.form.password || !this.form.username) {
+        this.$bvToast.toast("Mohon lengkapi form masuk!", {
+          title: "Peringatan",
+          variant: "warning",
+          solid: true,
+          autoHideDelay: 3000,
+        });
+        return;
+      }
 
-        if (Object.values(this.isValidForm).includes(false)) {
-          this.$bvToast.toast("Mohon lengkapi form masuk dengan benar!", {
-            title: "Peringatan",
-            variant: "warning",
-            solid: true,
-            autoHideDelay: 3000,
-          });
-          return;
-        }
+      if (Object.values(this.isValidForm).includes(false)) {
+        this.$bvToast.toast("Mohon lengkapi form masuk dengan benar!", {
+          title: "Peringatan",
+          variant: "warning",
+          solid: true,
+          autoHideDelay: 3000,
+        });
+        return;
+      }
 
-        this.onSubmit();
-      },
-      onSubmit() {
-        console.log(this.form);
-        this.loading = true;
+      this.onSubmit();
+    },
+    onSubmit() {
+      console.log(this.form);
+      this.loading = true;
 
-        this.$axios
-          .$post(`/api/users/login`, this.form)
-          .then((res) => {
-            console.log(res);
-            if (res.success) {
-              this.$bvToast.toast(
-                "Login berhasil! Anda akan segera dialihkan ke halaman dashboard aplikasi kami.", {
-                  title: "Sukses",
-                  variant: "success",
-                  solid: true,
-                  autoHideDelay: 3000,
-                }
-              );
-              if (res.data) {
-                // let role = res.data.user.role_user;
-                // if (role == "siswa") {
-                //   role = "student";
-                // } else if (role == "teacher") {
-                //   role = "partner";
-                // }
-                this.$cookiz.set("_ujiaja", res.data.token, {
-                  path: "/",
-                  maxAge: 60 * 60 * 24 * 7,
-                });
-                this.$store.commit("SET_IS_AUTH", true);
-                this.$store.commit("set", ["dataUser", res.data]);
-                // this.$router.replace(`/app/${role}/dashboard`);
-                // this.$router.replace("/user/dashboard");
-
-                window.location.href = window.origin + "/user/dashboard";
-              }
-            } else {
-              this.$bvToast.toast("Login gagal! Kredensial tidak valid.", {
-                title: "Error",
-                variant: "danger",
-                solid: true,
-                autoHideDelay: 3000,
-              });
-            }
-          })
-          .catch((err) => {
-            this.catchError(err);
-          })
-          .finally(() => {
-            this.loading = false;
-          });
-      },
-      catchError(error) {
-        console.log("catchError", error);
-        if (error.response && !error.response.data.success) {
-          if (
-            (error.response.status == 400 || error.response.status == 422) &&
-            error.response.data.message.includes("belum di verifikasi")
-          ) {
-            this.$bvToast.toast("Login gagal! Email belum diverifikasi.", {
-              title: "Error",
-              variant: "danger",
+      this.$axios
+        .$post(`/api/users/login`, this.form)
+        .then((res) => {
+          console.log(res);
+          if (res.success) {
+            this.$bvToast.toast(
+              "Login berhasil! Anda akan segera dialihkan ke halaman dashboard aplikasi kami.", {
+              title: "Sukses",
+              variant: "success",
               solid: true,
               autoHideDelay: 3000,
-            });
-            return;
-          } else if (error.response.status == 422) {
+            }
+            );
+            if (res.data) {
+              // let role = res.data.user.role_user;
+              // if (role == "siswa") {
+              //   role = "student";
+              // } else if (role == "teacher") {
+              //   role = "partner";
+              // }
+              this.$cookiz.set("_ujiaja", res.data.token, {
+                path: "/",
+                maxAge: 60 * 60 * 24 * 7,
+              });
+              this.$store.commit("SET_IS_AUTH", true);
+              this.$store.commit("set", ["dataUser", res.data]);
+              // this.$router.replace(`/app/${role}/dashboard`);
+              // this.$router.replace("/user/dashboard");
+
+              window.location.href = window.origin + "/user/dashboard";
+            }
+          } else {
             this.$bvToast.toast("Login gagal! Kredensial tidak valid.", {
               title: "Error",
               variant: "danger",
               solid: true,
               autoHideDelay: 3000,
             });
-            return;
           }
-        }
-        if (error.response && error.response.status == 401) {
-          this.$bvToast.toast("Akses dilarang!", {
-            title: "Error",
-            variant: "danger",
-            solid: true,
-            autoHideDelay: 3000,
-          });
-        } else if (
-          error.response &&
-          (error.response.status == 500 || error.response.status == 400)
+        })
+        .catch((err) => {
+          this.catchError(err);
+        })
+        .finally(() => {
+          this.loading = false;
+        });
+    },
+    catchError(error) {
+      console.log("catchError", error);
+      if (error.response && !error.response.data.success) {
+        if (
+          (error.response.status == 400 || error.response.status == 422) &&
+          error.response.data.message.includes("belum di verifikasi")
         ) {
-          this.$bvToast.toast("Ups! Terjadi kesalahan di sisi server.", {
+          this.$bvToast.toast("Login gagal! Email belum diverifikasi.", {
             title: "Error",
             variant: "danger",
             solid: true,
             autoHideDelay: 3000,
           });
-        } else if (error.response && error.response.status == 504) {
-          this.$bvToast.toast("Ups! Mohon periksa koneksi Anda.", {
+          return;
+        } else if (error.response.status == 422) {
+          this.$bvToast.toast("Login gagal! Kredensial tidak valid.", {
             title: "Error",
             variant: "danger",
             solid: true,
             autoHideDelay: 3000,
           });
-        } else if (error.response && error.response.status == 422) {
-          for (let key in error.response.data.messages) {
-            this.$set(this.dataError, key, [error.response.data.messages[key]]);
-            // store.commit("putError", [key, [error.response.data.messages[key]]]);
-            this.$bvToast.toast(error.response.data.messages[key][0], {
-              title: "Info",
-              variant: "info",
-              solid: true,
-              autoHideDelay: 3000,
-            });
-          }
-        } else {
-          this.$bvToast.toast("Ups! Terjadi kesalahan. Mohon ulangi kembali.", {
-            title: "Error",
-            variant: "warning",
+          return;
+        }
+      }
+      if (error.response && error.response.status == 401) {
+        this.$bvToast.toast("Akses dilarang!", {
+          title: "Error",
+          variant: "danger",
+          solid: true,
+          autoHideDelay: 3000,
+        });
+      } else if (
+        error.response &&
+        (error.response.status == 500 || error.response.status == 400)
+      ) {
+        this.$bvToast.toast("Ups! Terjadi kesalahan di sisi server.", {
+          title: "Error",
+          variant: "danger",
+          solid: true,
+          autoHideDelay: 3000,
+        });
+      } else if (error.response && error.response.status == 504) {
+        this.$bvToast.toast("Ups! Mohon periksa koneksi Anda.", {
+          title: "Error",
+          variant: "danger",
+          solid: true,
+          autoHideDelay: 3000,
+        });
+      } else if (error.response && error.response.status == 422) {
+        for (let key in error.response.data.messages) {
+          this.$set(this.dataError, key, [error.response.data.messages[key]]);
+          // store.commit("putError", [key, [error.response.data.messages[key]]]);
+          this.$bvToast.toast(error.response.data.messages[key][0], {
+            title: "Info",
+            variant: "info",
             solid: true,
             autoHideDelay: 3000,
           });
         }
-        // store.commit("set", ["loading", false]);
-        // return "error";
-      },
-      loginWithGoogle() {
-        google.accounts.id.initialize({
-          // client_id: "153870988155-mtbua0puo9lg962ss8lemrv1n087u77a.apps.googleusercontent.com",
-          client_id: "563050428836-bvbrqscdcd756mkj15jr8vf765gngtie.apps.googleusercontent.com",
-          scope: ['name', 'email'],
-          ux_mode: "redirect",
-          callback: (response) => {
-            console.log(response)
-
-            const payload = jwt_decode(response.credential);
-
-            this.$axios
-              .$post(`/api/users/google-login`, payload)
-              .then((res) => {
-                console.log(res);
-                if (res.success) {
-                  this.$bvToast.toast(
-                    res.message, {
-                      title: "Sukses",
-                      variant: "success",
-                      solid: true,
-                      autoHideDelay: 3000,
-                    }
-                  );
-                  if (res.data) {
-                    // let role = res.data.user.role_user;
-                    // if (role == "siswa") {
-                    //   role = "student";
-                    // } else if (role == "teacher") {
-                    //   role = "partner";
-                    // }
-                    this.$cookiz.set("_ujiaja", res.data.token, {
-                      path: "/",
-                      maxAge: 60 * 60 * 24 * 7,
-                    });
-                    this.$store.commit("SET_IS_AUTH", true);
-                    this.$store.commit("set", ["dataUser", res.data]);
-
-                    // this.$router.replace(`/app/${role}/dashboard`);
-                    // this.$router.replace("/user/dashboard");
-                    window.location.href = window.origin + "/user/dashboard";
-                  }
-                } else {
-                  this.$bvToast.toast(res.message, {
-                    title: "Error",
-                    variant: "danger",
-                    solid: true,
-                    autoHideDelay: 3000,
-                  });
-                }
-              })
-              .catch((err) => {
-                this.catchError(err);
-                this.loading = false;
-              })
-              .finally(() => {
-                this.loading = false;
-              });
-          }
+      } else {
+        this.$bvToast.toast("Ups! Terjadi kesalahan. Mohon ulangi kembali.", {
+          title: "Error",
+          variant: "warning",
+          solid: true,
+          autoHideDelay: 3000,
         });
+      }
+      // store.commit("set", ["loading", false]);
+      // return "error";
+    },
+    loginWithGoogle() {
+      this.loading = true;
+      this.$auth.loginWith('google', { params: { prompt: 'select_account' } })
+        .then((res) => {
+          console.log('signUpWithGoogle', res)
+        })
+    },
+    loginWithFacebook() {
+      this.loading = true;
+      // set role to local storage
+      localStorage.setItem("tipe_user", this.tipe_user);
 
-        google.accounts.id.prompt();
-      },
-      loginWithFacebook() {
-        this.loading = true;
-        FB.login(response => {
-          if (response.status === 'connected') {
-            const accessToken = response.authResponse.accessToken;
-
-            // Buat permintaan ke API Facebook untuk mendapatkan data pengguna
-            FB.api('/me', {
-              fields: 'id,name,email',
-              access_token: accessToken
-            }, userData => {
-              if (userData && !userData.error) {
-
-
-                this.$axios
-                  .$post(`/api/users/facebook-login`, userData)
-                  .then((res) => {
-                    console.log(res);
-                    if (res.success) {
-                      this.$bvToast.toast(
-                        res.message, {
-                          title: "Sukses",
-                          variant: "success",
-                          solid: true,
-                          autoHideDelay: 3000,
-                        }
-                      );
-                      if (res.data) {
-
-                        this.$cookiz.set("_ujiaja", res.data.token, {
-                          path: "/",
-                          maxAge: 60 * 60 * 24 * 7,
-                        });
-                        this.$store.commit("SET_IS_AUTH", true);
-                        this.$store.commit("set", ["dataUser", res.data]);
-
-
-                        window.location.href = window.origin + "/user/dashboard";
-                      }
-                    } else {
-                      this.$bvToast.toast(res.message, {
-                        title: "Terjadi masalah saat masuk",
-                        variant: "danger",
-                        solid: true,
-                        autoHideDelay: 3000,
-                      });
-                    }
-                  })
-                  .catch((err) => {
-                    this.catchError(err);
-                    this.loading = false;
-                  })
-                  .finally(() => {
-                    this.loading = false;
-                  });
-              } else {
-                this.catchError("Gagal Mendaftar dengan Facebook");
-                this.loading = false;
-              }
-            });
-          } else {
-            this.catchError('Gagal mendaftar dengan Facebook:', response);
-            this.loading = false;
-          }
-
-        });
-      },
-    }
-  };
+      this.$auth.loginWith('facebook')
+      .then((res) => {
+        console.log('signUpWithFacebook', res)
+      })
+    },
+  }
+};
 
 </script>

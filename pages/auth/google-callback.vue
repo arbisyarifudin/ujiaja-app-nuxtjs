@@ -42,7 +42,7 @@ export default {
       const tipe_user = localStorage.getItem('tipe_user')
       await this.$axios.$post('/api/users/google-auth', {
         token: token,
-        role: tipe_user
+        role: tipe_user || ''
       })
         .then((res) => {
           console.log('res', res)
@@ -57,6 +57,7 @@ export default {
           }
           );
 
+          console.log('res.data', res.data)
           if (res.data) {
             this.$cookiz.set("_ujiaja", res.data.token, {
               path: "/",

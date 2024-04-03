@@ -67,73 +67,51 @@ export const mutations = {
 };
 
 export const actions = {
-  async nuxtServerInit(
-    { commit, state, dispatch },
-    { app, store, route, req, res, error, redirect }
-  ) {
-    // console.log(app);
-    if (app.$cookiz.get("_ujiaja")) {
-      await app.$axios
-        .$get("api/users", {
+  async nuxtServerInit({ commit, state, dispatch }, { app, store, route, req, res, error, redirect }) {
+    const ujiajaToken = app.$cookiz.get("_ujiaja");
+
+    const axiosInstance = app.$axios.create({
+      baseURL: app.$config.apiUrl,
+      // headers: {
+      //   Authorization: 'Bearer ' + ujiajaToken
+      // }
+    });
+
+    if (ujiajaToken) {
+      try {
+        const res = await axiosInstance.get("api/users", {
           headers: {
-            Authorization: "Bearer " + app.$cookiz.get("_ujiaja")
+            Authorization: "Bearer " + ujiajaToken
           }
-        })
-        .then(async res => {
-          // console.log(res.data);
-          await commit("SET_IS_AUTH", true);
-          await commit("set", ["dataUser", res.data]);
-          return;
-        })
-        .catch(async error => {
-          console.log("nuxtInitError", error);
-          console.log("nuxtInitError", error.response);
-          await commit("SET_IS_AUTH", false);
-          await commit("set", ["dataUser", {}]);
-          app.$cookiz.remove("_ujiaja");
-          return;
         });
+        const responseData = res.data?.data;
+        await commit("SET_IS_AUTH", true);
+        await commit("set", ["dataUser", responseData]);
+      } catch (error) {
+        // console.log("nuxtInitError", error);
+        // console.log("nuxtInitError", error.response);
+        await commit("SET_IS_AUTH", false);
+        await commit("set", ["dataUser", {}]);
+        app.$cookiz.remove("_ujiaja");
+      }
     }
 
-    await app.$axios
-      .$get("api/public/pengaturan", {
-        headers: {
-          Authorization: "Bearer " + app.$cookiz.get("_ujiaja")
+    if (ujiajaToken) {
+      try {
+        const res = await axiosInstance.get("api/public/pengaturan", {
+          headers: {
+            Authorization: "Bearer " + ujiajaToken
+          }
+        });
+
+        const responseData = res.data?.data;
+
+        if (responseData.success) {
+          await commit("set", ["dataSetting", responseData.data]);
         }
-      })
-      .then(async response => {
-        // console.log('pengaturan', response.data)
-        if (response.success) {
-          await commit("set", ["dataSetting", response.data]);
-        }
-        return;
-      })
-      // .then(() => {
-      //   app.$axios
-      //     .$get("api/notification", {
-      //       headers: {
-      //         Authorization: "Bearer " + app.$cookiz.get("_ujiaja")
-      //       },
-      //       params: {
-      //         limit: 6
-      //       }
-      //     })
-      //     .then(async response => {
-      //       // console.log("notif", response.data);
-      //       if (response.success) {
-      //         await commit("set", ["notifData", response.data.data]);
-      //         await commit("set", ["notifTotal", response.data.total]);
-      //       }
-      //       return;
-      //     })
-      //     .catch(error => {
-      //       // console.log('pengaturan err',error.response)
-      //       return;
-      //     });
-      // })
-      .catch(error => {
-        // console.log('pengaturan err',error.response)
-        return;
-      });
+      } catch (error) {
+        // console.log('pengaturan err', error.response);
+      }
+    }
   }
 };

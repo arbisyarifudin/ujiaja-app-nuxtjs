@@ -7,7 +7,7 @@ export default async({ app }) => {
             window.fbAsyncInit = function() {
                 // Inisialisasi Facebook SDK
                 FB.init({
-                    appId: '1092346238057732', // Ganti dengan App ID Anda
+                    appId: app.$config.facebookAppId, // Ganti dengan App ID Anda
                     cookie: true,
                     xfbml: true,
                     version: 'v18.0', // Ganti dengan versi SDK yang sesuai

@@ -138,9 +138,10 @@
                   style="border: 1px solid #B0A6EF; width: 100%;" @click.prevent="signUpWithGoogle()">
                   <img src="/Google.svg" alt="" /> Daftar Dengan Google
                 </button>
-                <a href="#" class="d-block text-center my-3 py-3 rounded-pill bg-white" style="border: 1px solid #B0A6EF" @click.prevent="signUpWithFacebook()">
+                <!-- <button type="button" class="d-block text-center my-3 py-2 rounded-pill bg-white"
+                  style="border: 1px solid #B0A6EF; width: 100%;" @click.prevent="signUpWithFacebook()">
                   <img src="/Facebook.svg" alt="" /> Daftar Dengan Facebook
-                </a>
+                </button> -->
                 <div class="text-center px-4 pt-2">
                   <p class="small">
                     Dengan masuk ke UjiAja, saya menyetujui <br />
@@ -511,108 +512,16 @@ export default {
         console.log('signUpWithGoogle', res)
       })
 
-      // google.accounts.id.initialize({
-      //   client_id: "153870988155-mtbua0puo9lg962ss8lemrv1n087u77a.apps.googleusercontent.com",
-      //   scope: ['name', 'email'],
-      //   ux_mode: "redirect",
-      //   callback: (response) => {
-
-
-      //     const payload = jwt_decode(response.credential);
-
-      //     this.$axios
-      //       .$post(`/api/users/google-signup/${this.tipe_user}`, payload)
-      //       .then((res) => {
-
-      //         if (res.success) {
-      //           this.$root.$bvToast.toast(
-      //             "Registrasi berhasil!",
-      //             {
-      //               title: "Sukses",
-      //               variant: "success",
-      //               solid: true,
-      //               autoHideDelay: 3000,
-      //             }
-      //           );
-      //           this.$router.replace("/masuk");
-      //         } else {
-      //           this.$root.$bvToast.toast("Registrasi gagal!", {
-      //             title: "Error",
-      //             variant: "danger",
-      //             solid: true,
-      //             autoHideDelay: 3000,
-      //           });
-      //         }
-      //       })
-      //       .catch((err) => {
-
-      //         this.$root.$bvToast.toast("Terjadi kesalahan, email telah terdaftar di Ujiaja", {
-      //             title: "Error",
-      //             variant: "danger",
-      //             solid: true,
-      //             autoHideDelay: 3000,
-      //           });
-      //       })
-      //       .finally(() => {
-      //         this.loading = false;
-      //       });
-      //   }
-      // });
-
-      // google.accounts.id.prompt();
     },
     async signUpWithFacebook() {
       this.loading = true;
-      FB.login(response => {
-          if (response.status === 'connected') {
-            const accessToken = response.authResponse.accessToken;
+      // set role to local storage
+      localStorage.setItem("tipe_user", this.tipe_user);
 
-          // Buat permintaan ke API Facebook untuk mendapatkan data pengguna
-          FB.api('/me', { fields: 'id,name,email', access_token: accessToken }, userData => {
-            if (userData && !userData.error) {
-
-
-              this.$axios
-            .$post(`/api/users/facebook-signup/${this.tipe_user}`, userData)
-            .then((res) => {
-              if (res.success) {
-                this.$root.$bvToast.toast(
-                  "Registrasi berhasil!",
-                  {
-                    title: "Sukses",
-                    variant: "success",
-                    solid: true,
-                    autoHideDelay: 3000,
-                  }
-                );
-                this.$router.replace("/masuk");
-              } else {
-                this.$root.$bvToast.toast("Registrasi gagal!", {
-                  title: "Error",
-                  variant: "danger",
-                  solid: true,
-                  autoHideDelay: 3000,
-                });
-              }
-            })
-            .catch((err) => {
-              this.catchError(err);
-
-            })
-            .finally(() => {
-              this.loading = false;
-            });
-            } else {
-              this.catchError("Gagal Mendaftar dengan Facebook");
-              this.loading = false;
-            }
-          });
-        } else {
-          this.catchError('Gagal mendaftar dengan Facebook:', response);
-          this.loading = false;
-        }
-
-      });
+      this.$auth.loginWith('facebook')
+      .then((res) => {
+        console.log('signUpWithFacebook', res)
+      })
     },
   },
   asyncData(context) {
