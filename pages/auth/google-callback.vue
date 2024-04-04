@@ -61,7 +61,7 @@ export default {
               title: "Sukses",
               variant: "success",
               solid: true,
-              autoHideDelay: 3000,
+              autoHideDelay: 5000,
             }
           );
 
@@ -83,11 +83,12 @@ export default {
         })
         .catch((err) => {
           console.log('err', err)
-          this.$bvToast.toast('Otentikasi google gagal', {
+          const message = err.response?.data?.message || err.response?.message || 'Otentikasi google gagal'
+          this.$bvToast.toast(message, {
             title: "Error",
             variant: "danger",
             solid: true,
-            autoHideDelay: 3000,
+            autoHideDelay: 5000,
           });
           // redirect
           window.location.href = window.origin + "/masuk";
