@@ -101,22 +101,16 @@ export const actions = {
       }
     }
 
-    if (ujiajaToken && !app.$auth.loggedIn) {
-      try {
-        const res = await axiosInstance.get("api/public/pengaturan", {
-          headers: {
-            Authorization: "Bearer " + ujiajaToken
-          }
-        });
+    try {
+      const res = await axiosInstance.get("api/public/pengaturan");
+      const responseData = res.data?.data;
 
-        const responseData = res.data?.data;
-
-        if (responseData.success) {
-          await commit("set", ["dataSetting", responseData.data]);
-        }
-      } catch (error) {
-        console.log('pengaturan err', error.response);
+      if (res.data.success) {
+        // console.log("pengaturan", responseData);
+        await commit("set", ["dataSetting", responseData]);
       }
+    } catch (error) {
+      console.log('pengaturan err', error.response);
     }
   }
 };
