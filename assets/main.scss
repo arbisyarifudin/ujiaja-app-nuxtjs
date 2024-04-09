@@ -110,3 +110,48 @@ small,
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   // padding-bottom: 10px;
 }
+
+
+button {
+  position: relative;
+  .button-dropdown {
+    position: absolute;
+    display: none;
+    bottom: -2px;
+    right: 15px;
+    transform: translateY(100%);
+    max-width: 100%;
+    width: 100px;
+    height: auto;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border: 1px solid inherit;
+
+    &.show {
+      display: block;
+    }
+
+    span {
+      display: block;
+      padding: 10px 0;
+      font-size: 12px;
+      color: #6d6d6d;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      li {
+        cursor: pointer;
+        padding: 8px 10px;
+        font-size: 12px;
+
+        &:hover {
+          background-color: #f1f1f1;
+        }
+      }
+    }
+  }
+}

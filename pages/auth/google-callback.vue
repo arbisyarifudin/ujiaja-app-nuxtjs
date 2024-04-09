@@ -47,7 +47,12 @@ export default {
 
     if (token) {
       // get tipe_user from local storage
-      const tipe_user = localStorage.getItem('tipe_user')
+      let tipe_user = localStorage.getItem('tipe_user')
+
+      if (tipe_user === 'tentor') {
+        tipe_user = 'teacher'
+      }
+
       await this.$axios.$post('/api/users/google-auth', {
         token: token,
         role: tipe_user || ''

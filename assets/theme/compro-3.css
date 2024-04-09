@@ -1,13 +1,12 @@
 body {
   background-color: #c3bcf3;
 }
-
 body .bg-soft {
   background-color: #f5efff;
 }
 
 p {
-  color: #47415bcc;
+  color: rgba(71, 65, 91, 0.8);
 }
 
 h3 {
@@ -21,12 +20,10 @@ h3 {
   background-position-x: center;
   background-position-y: center;
 }
-
 #header.headerdua.no-bg {
   background: none;
   background: rgba(39, 13, 204, 0.75);
 }
-
 #header.variant-melengkung.primary::after {
   background-image: url(/background/vector-melengkung2_3.svg);
 }
@@ -34,28 +31,23 @@ h3 {
 #hero {
   position: relative;
 }
-
 #hero .judul {
   color: #f5efff;
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
-
 #hero .subjudul {
   color: #f5efff;
 }
 
 .lg-top-to-bottom {
-  background: url("/background/texture-1.png"), -webkit-gradient(linear, left top, left bottom, from(rgba(59, 31, 154, 0.91)), color-stop(47.92%, rgba(185, 71, 181, 0.520833)), to(rgba(255, 196, 144, 0.59)));
   background: url("/background/texture-1.png"), linear-gradient(180deg, rgba(59, 31, 154, 0.91) 0%, rgba(185, 71, 181, 0.520833) 47.92%, rgba(255, 196, 144, 0.59) 100%);
 }
 
 .lg-right-to-left {
-  background: url("/background/texture-1.png"), -webkit-gradient(linear, right top, left top, from(rgba(59, 31, 154, 0.91)), color-stop(47.92%, rgba(185, 71, 181, 0.520833)), to(rgba(255, 196, 144, 0.59)));
   background: url("/background/texture-1.png"), linear-gradient(270deg, rgba(59, 31, 154, 0.91) 0%, rgba(185, 71, 181, 0.520833) 47.92%, rgba(255, 196, 144, 0.59) 100%);
 }
 
 .lg-left-to-right {
-  background: url("/background/texture-1.png"), -webkit-gradient(linear, left top, right top, from(rgba(59, 31, 154, 0.91)), color-stop(47.92%, rgba(185, 71, 181, 0.520833)), to(rgba(255, 196, 144, 0.59)));
   background: url("/background/texture-1.png"), linear-gradient(90deg, rgba(59, 31, 154, 0.91) 0%, rgba(185, 71, 181, 0.520833) 47.92%, rgba(255, 196, 144, 0.59) 100%);
 }
 
@@ -64,103 +56,82 @@ h3 {
   padding-left: 25px;
   padding-right: 25px;
 }
-
 .btn.btn.square {
   border-radius: 4px;
 }
-
 .btn.btn:focus,
 .btn.btn .focus {
-  -webkit-box-shadow: none !important;
-          box-shadow: none !important;
+  box-shadow: none !important;
 }
-
 .btn.btn-primary {
   background-color: #270dcc;
   border-color: #270dcc;
 }
-
 .btn.btn-primary:hover {
   background-color: #4741e0;
   border-color: #4741e0;
   color: white;
 }
-
 .btn.btn-primary:active:not(.disabled), .btn.btn-primary:active:not(:disabled) {
   background-color: #4741e0;
   border-color: #4741e0;
   color: white;
 }
-
 .btn.btn-light {
   color: #270dcc;
 }
-
 .btn.btn-light:hover {
   background-color: transparent;
   color: #270dcc;
   border: 1px solid #f5f5f5;
 }
-
 .btn.btn-danger {
-  border-color: #ff1d1d;
+  border-color: rgb(255, 29, 29);
   color: #fff;
 }
-
 .btn.btn-danger.fill {
   border: 1px solid #ffb1b1;
   background-color: #ffddc7;
 }
-
 .btn.btn-danger.fill:hover {
   background-color: #ffb1b1;
 }
-
 .btn.btn-danger:hover {
-  background-color: #bd1313 !important;
+  background-color: rgb(189, 19, 19) !important;
 }
-
 .btn.btn-outline-primary {
   color: #270dcc;
   border: 1px solid #270dcc;
 }
-
 .btn.btn-outline-primary:disabled, .btn.btn-outline-primary.disabled {
   color: #270dcc;
 }
-
 .btn.btn-outline-primary:disabled:hover, .btn.btn-outline-primary.disabled:hover {
   color: #fff;
   border-color: #dddddd;
   background-color: #dddddd;
 }
-
 .btn.btn-outline-primary:hover {
   background-color: #270dcc;
   border-color: #270dcc;
   color: #fff;
 }
-
 .btn.btn-outline-primary:active {
   background-color: #270dcc !important;
   border-color: #270dcc !important;
   color: #fff;
 }
-
 .btn.btn-outline-warning {
   border: 1px solid #ff8706;
   color: #ff8706;
 }
-
 .btn.btn-outline-warning.fill {
   border: 1px solid #ffddc7;
   background-color: #ffddc7;
 }
-
 .btn.btn-outline-warning.fill:hover {
   background-color: #ffc49c;
 }
-
 .btn.btn:disabled, .btn.btn.disabled {
   cursor: not-allowed;
 }
@@ -169,7 +140,6 @@ h3 {
   position: relative;
   z-index: 10;
 }
-
 .button-cta.btn-secondary {
   background-color: #f5efff;
   border-color: #f5efff;
@@ -180,7 +150,6 @@ h3 {
   font-weight: 500;
   color: #270dcc;
 }
-
 .fitur-layanan .readmore {
   color: #3c1f9a;
 }
@@ -188,36 +157,29 @@ h3 {
 .section-produk .produk h4 {
   color: #270dcc;
 }
-
 .section-produk .produk .tp {
   color: #270dcc;
 }
-
 .section-produk .produk .large {
   color: #270dcc;
 }
-
 .section-produk .produk .btn-outline-primary {
   color: #270dcc;
   border: 1px solid #4741e0 !important;
 }
-
 .section-produk .produk .btn-outline-primary:disabled, .section-produk .produk .btn-outline-primary.disabled {
   color: #270dcc;
 }
-
 .section-produk .produk .btn-outline-primary:disabled:hover, .section-produk .produk .btn-outline-primary.disabled:hover {
   color: #fff;
   border-color: #dddddd;
   background-color: #dddddd;
 }
-
 .section-produk .produk .btn-outline-primary:hover {
   background-color: #270dcc;
   border-color: #270dcc;
   color: #fff;
 }
-
 .section-produk .produk .btn-outline-primary:active {
   background-color: #270dcc !important;
   border-color: #270dcc !important;
@@ -231,31 +193,27 @@ h3 {
 #keunggulan-slider.with-bg {
   background-color: #c3bcf3;
 }
-
 #keunggulan-slider.with-bg .slider-item .title {
   color: #f5efff;
   font-size: 30px;
 }
-
 #keunggulan-slider.with-bg .slider-item .caption {
-  color: #47415bcc;
+  color: rgba(71, 65, 91, 0.8);
 }
 
 .hero-lagi h4 {
   color: #270dcc;
 }
-
 .hero-lagi p {
-  color: #47415bcc;
+  color: rgba(71, 65, 91, 0.8);
 }
 
 .testimoni-content {
   background: linear-gradient(304.77deg, #ffc490 2.18%, #fdfdfd 99.02%) !important;
 }
-
 .testimoni-content h3,
 .testimoni-content h4 {
-  color: #47415bcc !important;
+  color: rgba(71, 65, 91, 0.8) !important;
 }
 
 #header.variant-melengkung {
@@ -277,10 +235,8 @@ h3 {
 }
 
 .login-box .kiri {
-  background: -webkit-gradient(linear, left top, left bottom, from(#FDFDFD), to(#857FFE));
   background: linear-gradient(180deg, #FDFDFD 0%, #857FFE 100%);
 }
-
 .login-box .kanan h3 {
   color: #270dcc;
 }
@@ -289,15 +245,7 @@ h3 {
   color: #270dcc;
 }
 
-.form-control::-webkit-input-placeholder {
-  color: rgba(38, 13, 204, 0.3) !important;
-}
-
-.form-control:-ms-input-placeholder {
-  color: rgba(38, 13, 204, 0.3) !important;
-}
-
-.form-control::-ms-input-placeholder {
+.form-control::-moz-placeholder {
   color: rgba(38, 13, 204, 0.3) !important;
 }
 
@@ -315,10 +263,8 @@ h3 {
     width: 80%;
   }
 }
-
 @media screen and (max-width: 500px) {
   #hero img.hero-image {
     width: 100%;
   }
-}
-/*# sourceMappingURL=compro-3.css.map */
+}/*# sourceMappingURL=compro-3.css.map */

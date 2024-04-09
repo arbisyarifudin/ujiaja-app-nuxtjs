@@ -19,17 +19,16 @@
                         <img src="/login-siswa.png" />
                         <h4 class="judul">Belajar Efektif Bersama UjiAja</h4>
                         <p>
-                          Nikmati bebas akses dan bebas biaya untuk pembahasan soal tryout, kunci jawaban, analisa serta
-                          rekomendasi belajar dan pilihan jurusan.
+                          Nikmati bebas akses dan bebas biaya untuk pembahasan soal tryout, kunci jawaban, analisa serta rekomendasi belajar dan pilihan jurusan.
                         </p>
                       </div>
-                      <!-- <div class="text-center">
+                      <div class="text-center">
                         <img src="/login-siswa.png" />
                         <h4 class="judul">Belajar Efektif Bersama UjiAja</h4>
                         <p>
                           Dapatkan layanan prima dari tutor yang profesional, ramah, bersahabat, asyik dan terpercaya.
                         </p>
-                      </div> -->
+                      </div>
                     </vue-tiny-slider>
                   </client-only>
                 </div>
@@ -79,8 +78,16 @@
                 </form>
                 <hr>
                 <button type="button" class="d-block text-center my-3 py-2 rounded-pill bg-white"
-                  style="border: 1px solid #B0A6EF; width: 100%;" @click.prevent="loginWithGoogle">
+                  style="border: 1px solid #B0A6EF; width: 100%;" @click.prevent="showLoginDropdown">
                   <img src="/Google.svg" alt="" /> Masuk Dengan Google
+
+                  <div class="button-dropdown" :class="showLoginGoogleDropdown ? 'show' : ''">
+                    <span>sebagai:</span>
+                    <ul>
+                      <li @click="loginWithGoogle('tentor')">Tentor</li>
+                      <li @click="loginWithGoogle('siswa')">Siswa</li>
+                    </ul>
+                  </div>
                 </button>
                 <!-- <button type="button" class="d-block text-center my-3 py-2 rounded-pill bg-white"
                   style="border: 1px solid #B0A6EF; width: 100%;" @click.prevent="loginWithFacebook">
@@ -174,6 +181,9 @@ export default {
       },
       dataError: [],
       isValidForm: {},
+      showLoginGoogleDropdown: false,
+      showLoginFacebookDropdown: false,
+      tipe_user: "siswa",
     };
   },
   watch: {
@@ -392,7 +402,14 @@ export default {
       // store.commit("set", ["loading", false]);
       // return "error";
     },
-    loginWithGoogle() {
+
+    showLoginDropdown () {
+      this.showLoginGoogleDropdown = !this.showLoginGoogleDropdown;
+    },
+    loginWithGoogle(tipeUser) {
+      // set role to local storage
+      localStorage.setItem("tipe_user", tipeUser);
+
       this.loading = true;
       this.$auth.loginWith('google', { params: { prompt: 'select_account' } })
         .then((res) => {
