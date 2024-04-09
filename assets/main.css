@@ -111,14 +111,16 @@ button .button-dropdown {
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   border: 1px solid inherit;
+  cursor: default;
 }
 button .button-dropdown.show {
   display: block;
 }
 button .button-dropdown span {
+  cursor: default;
   display: block;
-  padding: 10px 0;
-  font-size: 12px;
+  padding: 10px 0 5px;
+  font-size: 10px;
   color: #6d6d6d;
 }
 button .button-dropdown ul {
