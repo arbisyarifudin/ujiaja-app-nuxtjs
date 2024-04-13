@@ -78,10 +78,10 @@
                 </form>
                 <hr>
                 <button type="button" class="d-block text-center my-3 py-2 rounded-pill bg-white"
-                  style="border: 1px solid #B0A6EF; width: 100%;" @click.prevent="showLoginDropdown">
+                  style="border: 1px solid #B0A6EF; width: 100%;" @click.prevent="showLoginGoogleDropdown">
                   <img src="/Google.svg" alt="" /> Masuk Dengan Google
 
-                  <div class="button-dropdown" :class="showLoginGoogleDropdown ? 'show' : ''">
+                  <div class="button-dropdown" :class="isLoginGoogleDropdownOpen ? 'show' : ''">
                     <span>sebagai:</span>
                     <ul>
                       <li @click="loginWithGoogle('tentor')">Tentor</li>
@@ -93,6 +93,18 @@
                   style="border: 1px solid #B0A6EF; width: 100%;" @click.prevent="loginWithFacebook">
                   <img src="/Facebook.svg" alt="" /> Masuk Dengan Facebook
                 </button> -->
+                <button type="button" class="d-block text-center my-3 py-2 rounded-pill bg-white"
+                  style="border: 1px solid #B0A6EF; width: 100%;" @click.prevent="showLoginFacebookDropdown">
+                  <img src="/Facebook.svg" alt="" /> Masuk Dengan Facebook
+
+                  <div class="button-dropdown" :class="isLoginFacebookDropdownOpen ? 'show' : ''">
+                    <span>sebagai:</span>
+                    <ul>
+                      <li @click="loginWithFacebook('tentor')">Tentor</li>
+                      <li @click="loginWithFacebook('siswa')">Siswa</li>
+                    </ul>
+                  </div>
+                </button>
                 <div class="text-center px-4 pt-2">
                   <p class="small">
                     Dengan masuk ke UjiAja, saya menyetujui <br />
@@ -181,8 +193,8 @@ export default {
       },
       dataError: [],
       isValidForm: {},
-      showLoginGoogleDropdown: false,
-      showLoginFacebookDropdown: false,
+      isLoginGoogleDropdownOpen: false,
+      isLoginFacebookDropdownOpen: false,
       tipe_user: "siswa",
     };
   },
@@ -403,8 +415,13 @@ export default {
       // return "error";
     },
 
-    showLoginDropdown () {
-      this.showLoginGoogleDropdown = !this.showLoginGoogleDropdown;
+    showLoginGoogleDropdown () {
+      this.isLoginFacebookDropdownOpen = false;
+      this.isLoginGoogleDropdownOpen = !this.isLoginGoogleDropdownOpen;
+    },
+    showLoginFacebookDropdown () {
+      this.isLoginGoogleDropdownOpen = false;
+      this.isLoginFacebookDropdownOpen = !this.isLoginFacebookDropdownOpen;
     },
     loginWithGoogle(tipeUser) {
       // set role to local storage
@@ -413,17 +430,23 @@ export default {
       this.loading = true;
       this.$auth.loginWith('google', { params: { prompt: 'select_account' } })
         .then((res) => {
-          console.log('signUpWithGoogle', res)
+          console.log('loginWithGoogle', res)
+        })
+        .catch((err) => {
+          console.log('loginWithGoogle err', err)
         })
     },
-    loginWithFacebook() {
+    loginWithFacebook(tipeUser) {
       this.loading = true;
       // set role to local storage
-      localStorage.setItem("tipe_user", this.tipe_user);
+      localStorage.setItem("tipe_user", tipeUser);
 
       this.$auth.loginWith('facebook')
       .then((res) => {
-        console.log('signUpWithFacebook', res)
+        console.log('loginWithFacebook', res)
+      })
+      .catch((err) => {
+        console.log('loginWithFacebook err', err)
       })
     },
   }

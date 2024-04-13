@@ -135,13 +135,29 @@
                 </form>
                 <hr>
                 <button type="button" class="d-block text-center my-3 py-2 rounded-pill bg-white"
-                  style="border: 1px solid #B0A6EF; width: 100%;" @click.prevent="signUpWithGoogle()">
+                  style="border: 1px solid #B0A6EF; width: 100%;" @click.prevent="showSignupGoogleDropdown">
                   <img src="/Google.svg" alt="" /> Daftar Dengan Google
+
+                  <div class="button-dropdown" :class="isSignupGoogleDropdownOpen ? 'show' : ''">
+                    <span>sebagai:</span>
+                    <ul>
+                      <li @click="signUpWithGoogle('tentor')">Tentor</li>
+                      <li @click="signUpWithGoogle('siswa')">Siswa</li>
+                    </ul>
+                  </div>
                 </button>
-                <!-- <button type="button" class="d-block text-center my-3 py-2 rounded-pill bg-white"
-                  style="border: 1px solid #B0A6EF; width: 100%;" @click.prevent="signUpWithFacebook()">
+                <button type="button" class="d-block text-center my-3 py-2 rounded-pill bg-white"
+                  style="border: 1px solid #B0A6EF; width: 100%;" @click.prevent="showSignupFacebookDropdown">
                   <img src="/Facebook.svg" alt="" /> Daftar Dengan Facebook
-                </button> -->
+
+                  <div class="button-dropdown" :class="isSignupFacebookDropdownOpen ? 'show' : ''">
+                    <span>sebagai:</span>
+                    <ul>
+                      <li @click="signUpWithFacebook('tentor')">Tentor</li>
+                      <li @click="signUpWithFacebook('siswa')">Siswa</li>
+                    </ul>
+                  </div>
+                </button>
                 <div class="text-center px-4 pt-2">
                   <p class="small">
                     Dengan masuk ke UjiAja, saya menyetujui <br />
@@ -240,6 +256,9 @@ export default {
         nomor_telephone: null,
       },
       dataError: [],
+
+      isSignupGoogleDropdownOpen: false,
+      isSignupFacebookDropdownOpen: false
     };
   },
   watch: {
@@ -501,26 +520,41 @@ export default {
       // store.commit("set", ["loading", false]);
       // return "error";
     },
-    signUpWithGoogle() {
+    showSignupGoogleDropdown () {
+      this.isSignupFacebookDropdownOpen = false;
+      this.isSignupGoogleDropdownOpen = !this.isSignupGoogleDropdownOpen;
+    },
+    showSignupFacebookDropdown () {
+      this.isSignupGoogleDropdownOpen = false;
+      this.isSignupFacebookDropdownOpen = !this.isSignupFacebookDropdownOpen;
+    },
+    signUpWithGoogle(typeUser) {
       this.loading = true;
 
       // set role to local storage
-      localStorage.setItem("tipe_user", this.tipe_user);
+      localStorage.setItem("tipe_user", typeUser);
 
       this.$auth.loginWith('google', { params: { prompt: 'select_account' } })
       .then((res) => {
-        console.log('signUpWithGoogle', res)
-      })
+          console.log('signUpWithGoogle', res)
+        })
+        .catch((err) => {
+          console.log('signUpWithGoogle err', err)
+        })
 
     },
-    async signUpWithFacebook() {
+    signUpWithFacebook(typeUser) {
       this.loading = true;
+
       // set role to local storage
-      localStorage.setItem("tipe_user", this.tipe_user);
+      localStorage.setItem("tipe_user", typeUser);
 
       this.$auth.loginWith('facebook')
       .then((res) => {
         console.log('signUpWithFacebook', res)
+      })
+      .catch((err) => {
+        console.log('signUpWithFacebook err', err)
       })
     },
   },

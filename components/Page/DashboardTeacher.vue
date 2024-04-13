@@ -6,7 +6,7 @@
       <h5 class="mt-4">
         Halo {{ userDetail.nama_lengkap }}, selamat datang!
       </h5>
-      
+
       <h5 class="info-kelas mt-5 mb-5">Kelas Les Privat</h5>
       <div class="kelas shadow-sm mt-5 bg-buat-kelas">
         <div class="col-md-8">
@@ -18,7 +18,7 @@
         </div>
       </div>
       <h5 class="info-kelas mt-5 mb-5">
-        Ikuti Ujian Kenaikan Tingkat Tentor untuk naikan tarif mengajarmu! 
+        Ikuti Ujian Kenaikan Tingkat Tentor untuk naikan tarif mengajarmu!
       </h5>
       <div class="kelas kelasdua mb-5 shadow-sm bg-uktt">
         <div class="col-md-8">
@@ -118,7 +118,7 @@ export default {
     getProfilLengkap() {
       this.loading = true
       this.$axios
-        .$get("/api/users/siswa/find/" + this.user.id, {
+        .$get("/api/users/teacher/find/" + this.user.id, {
           params: {}
         })
         .then(response => {

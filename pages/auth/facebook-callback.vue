@@ -53,7 +53,7 @@ export default {
         tipe_user = 'teacher'
       }
 
-      await this.$axios.$post('/api/social/google-auth', {
+      await this.$axios.$post('/api/social/facebook-auth', {
         token: token,
         role: tipe_user || ''
       })
@@ -61,7 +61,7 @@ export default {
           console.log('res', res)
 
           this.$bvToast.toast(
-            'Otentikasi google berhasil',
+            'Otentikasi facebook berhasil',
             {
               title: "Sukses",
               variant: "success",
@@ -88,7 +88,7 @@ export default {
         })
         .catch((err) => {
           console.log('err', err)
-          const message = err.response?.data?.message || err.response?.message || 'Otentikasi google gagal'
+          const message = err.response?.data?.message || err.response?.message || 'Otentikasi facebook gagal'
           this.$bvToast.toast(message, {
             title: "Error",
             variant: "danger",

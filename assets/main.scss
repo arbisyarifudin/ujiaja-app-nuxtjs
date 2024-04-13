@@ -115,6 +115,7 @@ small,
 button {
   position: relative;
   .button-dropdown {
+    z-index: 10;
     position: absolute;
     display: none;
     bottom: -2px;

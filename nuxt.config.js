@@ -94,7 +94,9 @@ export default {
           userInfo: 'https://graph.facebook.com/v6.0/me?fields=id,name,picture{url}'
         },
         clientId: process.env.FACEBOOK_APP_ID,
-        scope: ['public_profile', 'email']
+        scope: ['public_profile', 'email'],
+        responseType: 'token',
+        redirectUri: `${process.env.BASE_URL}/auth/facebook-callback`,
       },
     }
   },
