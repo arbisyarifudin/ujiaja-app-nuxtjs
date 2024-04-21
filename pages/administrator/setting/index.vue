@@ -24,8 +24,8 @@
                   <div class="text-info mt-1" style="font-size: 13px">Ukuran gambar logo disarankan 1:1 ratio. Misal 150x150, 300x300, dst</div>
                 </div>
                 <div class="col-md-2">
+                  <!-- v-if="!loading" -->
                   <img
-                    v-if="!loading"
                     id="logo_preview"
                     :src="ApiUrl(form.logo)"
                     alt="logo"
@@ -34,6 +34,30 @@
                   />
                 </div>
               </div>
+
+              <div class="form-group mb-4 row">
+                <label class="form-label col-md-2">Favicon</label>
+                <div class="col-md-6">
+                  <input
+                    type="file"
+                    ref="favicon"
+                    class="form-control"
+                    @change="handleUploadedFile('favicon')"
+                  />
+                  <div class="text-info mt-1" style="font-size: 13px">Ukuran gambar favicon disarankan 1:1 ratio. Misal 16x16, 32x32, dst</div>
+                </div>
+                <div class="col-md-2">
+                  <!-- v-if="!loading" -->
+                  <img
+                    id="favicon_preview"
+                    :src="ApiUrl(form.favicon)"
+                    alt="favicon"
+                    class="img-fluid"
+                    style="max-height: 100px"
+                  />
+                </div>
+              </div>
+
               <div class="form-group mb-4 row">
                 <label class="form-label col-md-2">Nama website</label>
                 <div class="col-md-8">
@@ -400,11 +424,13 @@ export default {
       tab: 0,
       form: {
         logo: "",
+        favicon: "",
         seo_web_name: "",
         alamat_kantor: ""
       },
       files: {
-        logo: null
+        logo: null,
+        favicon: null
       },
       dataLevel: [],
       dataUKTT: [],
@@ -448,6 +474,7 @@ export default {
           if (response.success) {
             await this.$store.commit("set", ["dataSetting", response.data]);
             this.form.logo = this.getSetting("logo");
+            this.form.favicon = this.getSetting("favicon");
             this.form.telp = this.getSetting("telp");
             this.form.youtube = this.getSetting("youtube");
             this.form.facebook = this.getSetting("facebook");
@@ -472,7 +499,7 @@ export default {
           // if (this.isHavePermission('Pengaturan', 'List')) {
           //   console.log('hav pengaturan')
           //   this.getAllSetting();
-          // } else 
+          // } else
           if (!this.isHavePermission('Pengaturan', 'View') && this.isHavePermission('Level', 'View')) {
             // console.log('hav level')
             this.getAllLevel()
@@ -608,7 +635,11 @@ export default {
 
       let reader = new FileReader();
       reader.onload = function(e) {
-        document.getElementById(param + "_preview").src = e.target.result;
+        if (document.getElementById(param + "_preview")) {
+          document.getElementById(param + "_preview").src = e.target.result;
+        } else {
+          console.log("Element not found");
+        }
       };
       reader.readAsDataURL(this.files[param]); // convert to base64 string
 

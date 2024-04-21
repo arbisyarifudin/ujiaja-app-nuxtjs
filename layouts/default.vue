@@ -4,17 +4,23 @@
 
 <script>
 export default {
-  // head() {
-  //   return {
-  //     link: [
-  //       { rel: "stylesheet", href: "assets/css/compro.css" },
-  //       { rel: "stylesheet", href: "assets/compro.css" },
-  //     ],
-  //     bodyAttrs: {
-  //       class: "LayoutA",
-  //     },
-  //   };
-  // },
+  computed: {
+    favicon() {
+      return this.$store.state.dataSetting.find(item => item.key == 'favicon')?.isi;
+    }
+  },
+  head() {
+    return {
+      link: [
+        { rel: 'icon', type: 'image/x-icon', href: this.ApiUrl(this.favicon) }
+      ]
+    }
+  },
+  methods: {
+    ApiUrl(param) {
+      return process.env.apiUrl + "/" + param;
+    },
+  }
 };
 </script>
 

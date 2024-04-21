@@ -120,10 +120,16 @@ export default {
     userPermissions() {
       return this.$store.state.userPermissions;
     },
+    favicon() {
+      return this.$store.state.dataSetting.find(item => item.key == 'favicon')?.isi;
+    }
   },
   head() {
     return {
-      title: 'App',
+      title: 'Admin',
+      link: [
+        { rel: 'icon', type: 'image/x-icon', href: this.ApiUrl(this.favicon) }
+      ]
     }
   },
   data() {
@@ -306,7 +312,7 @@ export default {
       }
       return false;
     }
-  }
+  },
 };
 </script>
 

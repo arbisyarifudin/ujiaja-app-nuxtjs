@@ -18,10 +18,23 @@
 
 <script>
 export default {
+  computed: {
+    favicon() {
+      return this.$store.state.dataSetting.find(item => item.key == 'favicon')?.isi;
+    }
+  },
   head() {
     return {
       title: 'App',
+      link: [
+        { rel: 'icon', type: 'image/x-icon', href: this.ApiUrl(this.favicon) }
+      ]
     }
   },
-}
+  methods: {
+    ApiUrl(param) {
+      return process.env.apiUrl + "/" + param;
+    },
+  }
+};
 </script>

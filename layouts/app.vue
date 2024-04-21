@@ -159,7 +159,10 @@ export default {
   fetchOnServer: false,
   head() {
     return {
-      title: "App"
+      title: "App",
+      link: [
+        { rel: 'icon', type: 'image/x-icon', href: this.ApiUrl(this.favicon) }
+      ]
     };
   },
   data() {
@@ -188,6 +191,9 @@ export default {
     },
     notifData() {
       return this.$store.state.notifData;
+    },
+    favicon() {
+      return this.$store.state.dataSetting.find(item => item.key == 'favicon')?.isi;
     }
   },
   created() {
