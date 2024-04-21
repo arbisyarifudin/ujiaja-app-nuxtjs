@@ -173,9 +173,9 @@
                     v-model="form.kelompok_soal"
                     :options="[
                       { text: '-- Pilih --', value: null },
+                      { text: 'CAMPURAN', value: 'CAMPURAN' },
                       { text: 'SAINTEK', value: 'SAINTEK' },
                       { text: 'SOSHUM', value: 'SOSHUM' },
-                      { text: 'CAMPURAN', value: 'CAMPURAN' }
                     ]"
                   >
                   </b-form-select>
