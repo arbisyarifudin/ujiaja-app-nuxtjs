@@ -458,7 +458,7 @@ export default {
           console.log(res);
           if (res.success) {
             this.dataDetail = res.data;
-            if(this.dataDetail.is_enrolled && this.dataDetail.transaksi.status !== 'Dibatalkan') {
+            if(this.dataDetail.is_enrolled && !['Dibatalkan', 'Ditolak', 'Kadaluarsa'].includes(this.dataDetail.transaksi.status)) {
               this.$router.replace({
                 path: `/user/payment/${this.dataDetail.transaksi.id}/detail`
               });

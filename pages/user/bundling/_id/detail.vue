@@ -26,7 +26,9 @@
           </div>
           <div v-if="!loading">
             <router-link
-              v-if="dataDetail.transaksi_user"
+              v-if="dataDetail.transaksi_user &&
+                      (dataDetail.transaksi_user.status != 'Kadaluarsa' &&
+                        dataDetail.transaksi_user.status != 'Dibatalkan')"
               :to="
                 `/user/payment/${dataDetail.transaksi_user.id}/detail?ref=${$route.path}`
               "
@@ -40,9 +42,9 @@
               <router-link
                 v-if="
                   dataDetail.price > 0 ||
-                    (dataDetail.transaksi &&
-                      (dataDetail.transaksi.status == 'Kadaluarsa' ||
-                        dataDetail.transaksi.status == 'Dibatalkan'))
+                    (dataDetail.transaksi_user &&
+                      (dataDetail.transaksi_user.status == 'Kadaluarsa' ||
+                        dataDetail.transaksi_user.status == 'Dibatalkan'))
                 "
                 :to="`/user/bundling/${dataDetail.id}/enroll?ref=${$route.path}`"
                 role="button"
@@ -92,12 +94,14 @@
                     class="label-event mb-2 px-4 py-1"
                     :class="[item.transaksi_user_product_bundling &&
                       item.transaksi_user_product_bundling.status != 'Ditolak' &&
-                      item.transaksi_user_product_bundling.status != 'Kadaluarsa' ? '' : 'draft']"
+                      item.transaksi_user_product_bundling.status != 'Kadaluarsa' &&
+                      item.transaksi_user_product_bundling.status != 'Dibatalkan' ? '' : 'draft']"
                   >
                   <!-- Labeling JSON -->
                     {{ item.transaksi_user_product_bundling &&
                       item.transaksi_user_product_bundling.status != 'Ditolak' &&
-                      item.transaksi_user_product_bundling.status != 'Kadaluarsa' ? "Sudah Dibeli" : "Belum Dibeli" }}
+                      item.transaksi_user_product_bundling.status != 'Kadaluarsa' &&
+                      item.transaksi_user_product_bundling.status != 'Dibatalkan' ? "Sudah Dibeli" : "Belum Dibeli" }}
                   </p>
                 </div>
                   <div class="card-content px-4">

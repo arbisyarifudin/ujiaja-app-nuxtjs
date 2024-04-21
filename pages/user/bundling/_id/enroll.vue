@@ -458,10 +458,11 @@ export default {
           console.log(res);
           if (res.success) {
             this.dataDetail = res.data;
-            if(this.dataDetail.is_enrolled) {
+            if(this.dataDetail.is_enrolled && !['Dibatalkan', 'Ditolak', 'Kadaluarsa'].includes(this.dataDetail.transaksi.status)) {
               this.$router.replace({
                 path: `/user/payment/${this.dataDetail.transaksi_user.id}/detail`
               });
+              return
             }
             this.hargaProduk = this.dataDetail.price;
             this.kodeUnik = this.getRandomInt(100, 999);
