@@ -60,7 +60,7 @@
                   placeholder="Misal: 5"
                   v-model="form.jeda_waktu"
                 />
-                
+
               </div> -->
             </div>
             <div class="row">
@@ -112,7 +112,7 @@
                       { text: '-- Pilih --', value: null },
                       { text: 'TKA', value: 'TKA' },
                       { text: 'TPS', value: 'TPS' },
-                      { text: 'LITERASI_PENALARAN', value: 'LITERASI DAN PENALARAN' },
+                      { text: 'LITERASI DAN PENALARAN', value: 'LITERASI DAN PENALARAN' },
                     ]"
                   >
                     <!-- { text: 'Campuran', value: 'Campuran' } -->
@@ -174,7 +174,8 @@
                     :options="[
                       { text: '-- Pilih --', value: null },
                       { text: 'SAINTEK', value: 'SAINTEK' },
-                      { text: 'SOSHUM', value: 'SOSHUM' }
+                      { text: 'SOSHUM', value: 'SOSHUM' },
+                      { text: 'CAMPURAN', value: 'CAMPURAN' }
                     ]"
                   >
                   </b-form-select>
@@ -312,9 +313,9 @@ export default {
         !this.form.alokasi_waktu ||
         // !this.form.jeda_waktu ||
         // !this.form.subexam_breaks ||
-        this.form.alokasi_waktu < 1 
-        // this.form.jeda_waktu < 1 
-        // this.form.subexam_breaks < 1 
+        this.form.alokasi_waktu < 1
+        // this.form.jeda_waktu < 1
+        // this.form.subexam_breaks < 1
       ) {
         this.$bvToast.toast("Alokasi dan jeda waktu diperlukan!", {
           title: "Peringatan",
