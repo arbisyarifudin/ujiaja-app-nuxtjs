@@ -458,10 +458,11 @@ export default {
           console.log(res);
           if (res.success) {
             this.dataDetail = res.data;
-            if(this.dataDetail.is_enrolled) {
+            if(this.dataDetail.is_enrolled && this.dataDetail.transaksi.status !== 'Dibatalkan') {
               this.$router.replace({
                 path: `/user/payment/${this.dataDetail.transaksi.id}/detail`
               });
+              return
             }
             this.hargaProduk = this.dataDetail.produk.harga_produk;
             this.kodeUnik = this.getRandomInt(100, 999);
@@ -512,24 +513,22 @@ export default {
         jenis_transaksi: 'Tryout'
       };
 
-      // console.log(dataSave)
-      // return;
-
       this.$axios
         .$post(`/api/transaksi/create`, dataSave)
         .then(res => {
           console.log(res);
           if (res.success) {
             const response = res.data;
+            // console.log('response', response);
             this.showToastMessage("Transaksi berhasil dibuat!", "success");
             if (this.paymentMethod == "Pihak Ketiga") {
+              this.$router.replace({
+                path: `/user/payment/${response.transaksi.id}/detail`
+              });
               window.open(
                 response.xendit.invoice_url + "#" + this.xenditTerpilih.value,
                 "_blank"
               );
-              this.$router.replace({
-                path: `/user/payment/${response.transaksi.id}/detail`
-              });
             } else {
               this.$router.replace({
                 path: `/user/payment/${response.id}/confirm`

@@ -129,10 +129,12 @@
               dataDetail.transaksi &&
               (dataDetail.transaksi.status == 'Kadaluarsa' ||
                 dataDetail.transaksi.status == 'Dibatalkan') &&
-              dataDetail.is_expired_test == false
+              dataDetail.is_expired_test == false || dataDetail.is_task_done
           "
           :to="`/user/tryout/${dataDetail.produk.id}/enroll`"
-          >Beli Tryout</router-link
+          >Beli Tryout
+            {{ dataDetail.is_task_done ? 'Lagi' : '' }}
+          </router-link
         >
         <button
           v-else-if="!dataDetail.is_paid && dataDetail.is_expired_test == false"
