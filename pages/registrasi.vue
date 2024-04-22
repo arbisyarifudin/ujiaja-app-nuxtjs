@@ -66,7 +66,7 @@
                     <input type="text" class="form-control pl-0" id="name" placeholder="Nama Lengkap"
                       v-model="form.nama_lengkap" />
                   </div>
-                  <div class="form-group">
+                  <div class="form-group d-none">
                     <label for="username">Username</label>
                     <input type="text" class="form-control pl-0" id="Username" placeholder="Username"
                       v-model="form.username" />
@@ -99,7 +99,7 @@
                       v-model="form.email" />
                     <div v-html="showError('email')"></div>
                   </div>
-                  <div class="form-group">
+                  <div class="form-group d-none">
                     <label for="select">Mendapat Informasi UjiAja Dari</label>
                     <select class="form-control pl-0" id="select" v-model="form.info">
                       <option value="">Pilih Sumber</option>
@@ -129,7 +129,10 @@
                   <div class="button">
                     <button class="btn btn-outline-primary py-2 my-3 btn-block" type="submit" :disabled="loading">
                       <b-spinner small class="mr-2" v-if="loading"></b-spinner>
-                      Registrasi
+                      <div>
+                        <div>Registrasi Akun</div>
+                        <div style="font-size: 65%">sebagai <b>{{ tipe_user == 'siswa' ? 'Siswa' : 'Tentor' }}</b></div>
+                      </div>
                     </button>
                   </div>
                 </form>
@@ -161,9 +164,9 @@
                 <div class="text-center px-4 pt-2">
                   <p class="small">
                     Dengan masuk ke UjiAja, saya menyetujui <br />
-                    <a href="#" style="color: #6560FD">Ketentuan Pengguna</a>
+                    <a href="javascript:void(0)" style="color: #6560FD">Ketentuan Pengguna</a>
                     serta
-                    <a href="#" style="color: #6560FD">Kebijakan Privasi</a>
+                    <a href="javascript:void(0)" style="color: #6560FD">Kebijakan Privasi</a>
                     yang berlaku.
                   </p>
                 </div>
@@ -390,13 +393,19 @@ export default {
     validateForm() {
       this.dataError = [];
 
+      // if (
+      //   !this.form.nama_lengkap ||
+      //   !this.form.username ||
+      //   !this.form.password ||
+      //   !this.form.email ||
+      //   !this.form.nomor_telephone ||
+      //   !this.form.info
+      // ) {
       if (
         !this.form.nama_lengkap ||
-        !this.form.username ||
         !this.form.password ||
         !this.form.email ||
-        !this.form.nomor_telephone ||
-        !this.form.info
+        !this.form.nomor_telephone
       ) {
         this.$bvToast.toast("Mohon lengkapi form pendaftaran!", {
           title: "Peringatan",
