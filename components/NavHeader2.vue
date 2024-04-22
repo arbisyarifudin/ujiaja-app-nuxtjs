@@ -2,7 +2,7 @@
   <b-navbar toggleable="lg" type="dark" variant="transparent" class="mx-lg-5">
     <b-container>
       <!-- <b-navbar-brand to="/"><img src="/logo-ujiaja.png" /></b-navbar-brand> -->
-      <b-navbar-brand href="https://ujiaja.com"><img v-if="ApiUrl" :src="ApiUrl(navData.logo)" class="img-fluid" style="height: 80px; max-width: 150px!important; object-fit:contain;"/></b-navbar-brand>
+      <b-navbar-brand href="https://ujiaja.com"><img v-if="ApiUrl" :src="ApiUrl(navData.logo)" class="img-fluid" style="height: 30px; max-width: 150px!important; object-fit:contain;"/></b-navbar-brand>
 
       <b-navbar-toggle target="navbarheader" style="display: none !important;">
         MENU
