@@ -917,7 +917,7 @@ export default {
           if (res.success) {
             if (nomor == 2) {
               this.dataOptionProdiBindPerguruan_2 = await res.data.data
-                .filter(item => item.program_studi !== null && item.perguruan !== nul)
+                .filter(item => item.program_studi !== null && item.perguruan !== null)
                 .map(
                   item => {
                     let textField =
@@ -959,7 +959,9 @@ export default {
                 }
               }
             } else {
-              this.dataOptionProdiBindPerguruan = await res.data.data.map(
+              this.dataOptionProdiBindPerguruan = await res.data.data
+              .filter(item => item.program_studi !== null && item.perguruan !== null)
+              .map(
                 item => {
                   let textField =
                     item.perguruan && item.perguruan.nama_perguruan
