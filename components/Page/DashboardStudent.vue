@@ -6,7 +6,7 @@
           <h2 class="pb-0">Dashboard</h2>
           <UILoading v-if="loading" />
           <h5 class="mt-2 mb-3">
-            Halo {{ userDetail.nama_lengkap }}, selamat datang!
+            Halo {{ userDetail ? userDetail.nama_lengkap : '' }}, selamat datang!
           </h5>
         </div>
         <div class="col-md-4 mb-3 mb-md-0 text-right">
@@ -1519,11 +1519,11 @@ export default {
             if(response.data.detail.id_prodi_bind_perguruan == null || response.data.detail.id_prodi_bind_perguruan_2 == null){
               this.filterList.kategori= ["ASPD", "PAS", "PAT"]
               this.filter.kategori = "ASPD"
-         
+
             }else{
               this.filterList.kategori= ["UTBK", "ASPD", "PAS", "PAT"]
               this.filter.kategori = "UTBK"
-            
+
             }
             // this.filterList.kategori= ["UTBK","ASPD", "PAS", "PAT"]
           }
@@ -1535,7 +1535,7 @@ export default {
           this.loading = false;
         });
     },
-  
+
     async filterData() {
       await this.getHasilSatuanPengerjaan();
       await this.getHasilNilaiPerMapel();

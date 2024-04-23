@@ -3,7 +3,7 @@
     <div class="col-md-12 dash-kelas p-0 text-left">
       <h2 class="pb-0">Dashboard</h2>
       <h5 class="mt-4">
-        Halo {{ userDetail.nama_lengkap }}, selamat datang!<i class=""></i>
+        Halo {{ userDetail ? userDetail.nama_lengkap : '' }}, selamat datang!<i class=""></i>
       </h5>
     </div>
     <h3>Berikut ini adalah data analitik dari</h3>
@@ -1259,7 +1259,7 @@ export default {
               };
             });
 
-        
+
           const key = "text";
           this.filterList.sub_kategori = [
             ...new Map(tempArray.map(item => [item[key], item])).values()
@@ -1342,7 +1342,7 @@ export default {
     }
   },
   methods: {
-    
+
     async filterData() {
       await this.getHasilSatuanPengerjaan();
       await this.getHasilNilaiPerMapel();
@@ -1358,7 +1358,7 @@ export default {
       this.$axios
         .$get("/api/kategori-to/list")
         .then(response => {
-       
+
           if (response.success) {
             this.kategoriTOData = response.data;
           }

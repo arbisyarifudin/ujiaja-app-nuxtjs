@@ -4,7 +4,7 @@
       <h2 class="pb-0">Dashboard</h2>
       <UILoading v-if="loading"/>
       <h5 class="mt-4">
-        Halo {{ userDetail.nama_lengkap }}, selamat datang!
+        Halo {{ userDetail ? userDetail.nama_lengkap : '' }}, selamat datang!
       </h5>
 
       <h5 class="info-kelas mt-5 mb-5">Kelas Les Privat</h5>
