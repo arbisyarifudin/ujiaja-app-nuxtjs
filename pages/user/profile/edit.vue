@@ -11,53 +11,26 @@
                 <b-row>
                   <b-col>
                     <div class="form-group reg-siswa">
-                      <label for="nama_lengkap">Nama Lengkap</label>
-                      <input
-                        type="text"
-                        class="form-control pl-0"
-                        id="nama_lengkap"
-                        name="nama_lengkap"
-                        placeholder="Nama Lengkap"
-                        v-model="formSiswa.nama_lengkap"
-                      />
+                      <label for="nama_lengkap">Nama Lengkap <code class="text-danger text-small">*</code></label>
+                      <input type="text" class="form-control pl-0" id="nama_lengkap" name="nama_lengkap"
+                        placeholder="Nama Lengkap" v-model="formSiswa.nama_lengkap" />
                     </div>
-                    <div
-                      class="form-group reg-siswa"
-                      v-if="akun.role_user != 'parent'"
-                    >
-                      <label for="tempat_lahir">Tempat Lahir</label>
-                      <input
-                        type="text"
-                        class="form-control pl-0"
-                        id="tempat_lahir"
-                        name="tempat_lahir"
-                        placeholder="Tempat Lahir"
-                        v-model="formSiswa.tempat_lahir"
-                      />
+                    <div class="form-group reg-siswa" v-if="akun.role_user != 'parent'">
+                      <label for="tempat_lahir">Tempat Lahir <code class="text-danger text-small">*</code></label>
+                      <input type="text" class="form-control pl-0" id="tempat_lahir" name="tempat_lahir"
+                        placeholder="Tempat Lahir" v-model="formSiswa.tempat_lahir" />
                     </div>
                     <div class="form-group reg-siswa">
-                      <label for="nomor_handphone">No. Telp/WA</label>
-                      <input
-                        type="text"
-                        class="form-control pl-0"
-                        name="nomor_handphone"
-                        id="nomor_handphone"
-                        placeholder="No. Telp/WA"
-                        v-model="formSiswa.nomor_telephone"
-                      />
+                      <label for="nomor_handphone">No. Telp/WA <code class="text-danger text-small">*</code></label>
+                      <input type="text" class="form-control pl-0" name="nomor_handphone" id="nomor_handphone"
+                        placeholder="No. Telp/WA" v-model="formSiswa.nomor_telephone" />
                     </div>
                     <div class="row" v-if="akun.role_user == 'siswa'">
                       <div class="col-md-8">
                         <div class="form-group reg-siswa">
-                          <label for="nama_sekolah">Nama Sekolah</label>
-                          <input
-                            type="text"
-                            class="form-control pl-0"
-                            id="nama_sekolah"
-                            name="nama_sekolah"
-                            placeholder="Tulis nama sekolah kamu sekarang"
-                            v-model="formSiswa.nama_sekolah"
-                          />
+                          <label for="nama_sekolah">Nama Sekolah <code class="text-danger text-small">*</code></label>
+                          <input type="text" class="form-control pl-0" id="nama_sekolah" name="nama_sekolah"
+                            placeholder="Tulis nama sekolah kamu sekarang" v-model="formSiswa.nama_sekolah" />
                         </div>
                       </div>
                       <!-- <div class="col-md-3">
@@ -78,105 +51,48 @@
                       </div> -->
                       <div class="col-md-4">
                         <div class="form-group reg-siswa">
-                          <label for="jenjang">Jenjang</label>
-                          <b-form-select
-                            class="form-control"
-                            id="jenjang"
-                            v-model="formSiswa.id_jenjang"
-                            :options="dataOption['jenjang']"
-                          >
+                          <label for="jenjang">Jenjang <code class="text-danger text-small">*</code></label>
+                          <b-form-select class="form-control" id="jenjang" v-model="formSiswa.id_jenjang"
+                            :options="dataOption['jenjang']">
                           </b-form-select>
                         </div>
                       </div>
                     </div>
-                    <div
-                      class="form-group reg-siswa"
-                      v-if="akun.role_user == 'teacher'"
-                    >
-                      <label for="pendidikan_terakhir"
-                        >Pendidikan Terakhir</label
-                      >
-                      <input
-                        type="text"
-                        class="form-control pl-0 pr-0"
-                        id="pendidikan_terakhir"
-                        name="pendidikan_terakhir"
-                        placeholder="Misal: S1 Teknik Informatika - UGM"
-                        max="2020-01-01"
-                        v-model="formSiswa.pendidikan_terakhir"
-                      />
+                    <div class="form-group reg-siswa" v-if="akun.role_user == 'teacher'">
+                      <label for="pendidikan_terakhir">Pendidikan Terakhir</label>
+                      <input type="text" class="form-control pl-0 pr-0" id="pendidikan_terakhir"
+                        name="pendidikan_terakhir" placeholder="Misal: S1 Teknik Informatika - UGM" max="2020-01-01"
+                        v-model="formSiswa.pendidikan_terakhir" />
                     </div>
                   </b-col>
                   <b-col>
-                    <div
-                      class="form-group reg-siswa"
-                      v-if="akun.role_user != 'parent'"
-                    >
-                      <label for="jenis_kelamin">Jenis Kelamin</label>
-                      <select
-                        class="form-control"
-                        id="jenis_kelamin"
-                        v-model="formSiswa.jenis_kelamin"
-                      >
+                    <div class="form-group reg-siswa" v-if="akun.role_user != 'parent'">
+                      <label for="jenis_kelamin">Jenis Kelamin <code class="text-danger text-small">*</code></label>
+                      <select class="form-control" id="jenis_kelamin" v-model="formSiswa.jenis_kelamin">
                         <option value="">Pilih Jenis Kelamin</option>
                         <option value="Laki-laki">Laki-Laki</option>
                         <option value="Perempuan">Perempuan</option>
                       </select>
                     </div>
-                    <div
-                      class="form-group reg-siswa"
-                      v-if="akun.role_user != 'parent'"
-                    >
-                      <label for="tanggal_lahir">Tanggal Lahir</label>
-                      <input
-                        type="date"
-                        class="form-control pl-0 pr-0"
-                        id="tanggal_lahir"
-                        placeholder="DD-MM-YYYY"
-                        max="2020-01-01"
-                        v-model="formSiswa.tgl_lahir"
-                      />
+                    <div class="form-group reg-siswa" v-if="akun.role_user != 'parent'">
+                      <label for="tanggal_lahir">Tanggal Lahir <code class="text-danger text-small">*</code></label>
+                      <input type="date" class="form-control pl-0 pr-0" id="tanggal_lahir" placeholder="DD-MM-YYYY"
+                        max="2020-01-01" v-model="formSiswa.tgl_lahir" />
                     </div>
                     <div class="row">
-                      <div
-                        class="form-group col-md-3"
-                        v-if="akun.role_user != 'parent'"
-                      >
-                        <img
-                          v-if="apiUrl"
-                          :src="apiUrl(profil.foto)"
-                          @error="noImage"
-                          alt="foto"
-                          class="img-fluid"
-                          id="fotoprofil_preview"
-                          style="width: 100%; height: 80px; object-fit: contain"
-                        />
+                      <div class="form-group col-md-3" v-if="akun.role_user != 'parent'">
+                        <img v-if="apiUrl" :src="apiUrl(profil.foto)" @error="noImage" alt="foto" class="img-fluid"
+                          id="fotoprofil_preview" style="width: 100%; height: 80px; object-fit: contain" />
                       </div>
-                      <div
-                        class="col-md-8 form-group reg-siswa"
-                        v-if="akun.role_user != 'parent'"
-                      >
+                      <div class="col-md-8 form-group reg-siswa" v-if="akun.role_user != 'parent'">
                         <label>Unggah Foto</label>
-                        <input
-                          type="file"
-                          id="fotoprofil"
-                          ref="fotoprofil"
-                          @change="handleUploadedFile('fotoprofil')"
-                        />
+                        <input type="file" id="fotoprofil" ref="fotoprofil"
+                          @change="handleUploadedFile('fotoprofil')" />
                       </div>
                     </div>
-                    <div
-                      class="form-group reg-siswa"
-                      v-if="akun.role_user != 'parent'"
-                    >
-                      <label for="info"
-                        >Dapat informasi tentang UjiaAja melalui?</label
-                      >
-                      <select
-                        class="form-control"
-                        id="info"
-                        v-model="formSiswa.info"
-                      >
+                    <div class="form-group reg-siswa" v-if="akun.role_user != 'parent'">
+                      <label for="info">Dapat informasi tentang UjiaAja melalui?</label>
+                      <select class="form-control" id="info" v-model="formSiswa.info">
                         <option :value="null">--Pilih--</option>
                         <!-- <option value="Sosial Media">Sosial Media</option>
                         <option value="Mesin Pencari">Mesin Pencari</option>
@@ -184,9 +100,7 @@
                         <option value="Mesin Pencari">Mesin Pencari</option>
                         -->
                         <!-- <option value="">Pilih  Sumber</option> -->
-                        <option value="Internet & Mesin Pencari"
-                          >Internet & Mesin Pencari</option
-                        >
+                        <option value="Internet & Mesin Pencari">Internet & Mesin Pencari</option>
                         <option value="Teman/Saudara">Teman/Saudara</option>
                         <option value="Medsos (FB, IG, dll)">
                           Medsos (FB, IG, dll)
@@ -203,16 +117,12 @@
                 </b-row>
                 <hr />
                 <!-- <h4>Pilihan Program Studi</h4> -->
-                <b-row
-                  v-if="
-                    akun.role_user == 'siswa' && (formSiswa.nama_jenjang == 'SMA' || ['SMA', 'SMK', 'MA'].includes(formSiswa.nama_jenjang))
-                  "
-                >
+                <b-row v-if="
+                  akun.role_user == 'siswa' && (formSiswa.nama_jenjang == 'SMA' || ['SMA', 'SMK', 'MA'].includes(formSiswa.nama_jenjang))
+                ">
                   <b-col md="2">
-                    <label
-                      ><i class="fas fa-fw fa-graduation-cap"></i> Pilihan Prodi
-                      1</label
-                    >
+                    <label><i class="fas fa-fw fa-graduation-cap"></i> Pilihan Prodi
+                      1</label>
                   </b-col>
                   <b-col md="4">
                     <div class="form-group reg-siswa">
@@ -231,24 +141,14 @@
                         text-field="nama_studi"
                       >
                       </b-form-select> -->
-                      <v-select
-                        id="id_program_studi"
-                        :options="dataOption['programStudi']"
-                        v-model="id_program_studi"
-                        label="nama_studi"
-                        @input="
+                      <v-select id="id_program_studi" :options="dataOption['programStudi']" v-model="id_program_studi"
+                        label="nama_studi" @input="
                           optionProdiBindPerguruanDisabled = false;
-                          selectNew = true;
-                          getProdiBindPerguruan(id_program_studi);
-                        "
-                        :getOptionKey="prodi => prodi.id"
-                      />
+                        selectNew = true;
+                        getProdiBindPerguruan(id_program_studi);
+                        " :getOptionKey="prodi => prodi.id" />
                       <!-- formSiswa.id_prodi_bind_perguruan = null; -->
-                      <div
-                        style="font-size: 14px"
-                        class="text-info"
-                        v-if="loading"
-                      >
+                      <div style="font-size: 14px" class="text-info" v-if="loading">
                         Memuat...
                       </div>
                     </div>
@@ -256,123 +156,67 @@
                   <b-col md="6">
                     <div class="form-group reg-siswa">
                       <label for="prodi_bind_perguruan">Perguruan Tinggi</label>
-                      <v-select
-                        id="prodi_bind_perguruan"
-                        v-model="formSiswa.id_prodi_bind_perguruan"
-                        :options="dataOptionProdiBindPerguruan"
-                        label="textField"
-                        :reduce="item => item.id"
-                      />
-                      <div
-                        style="font-size: 14px"
-                        class="text-info"
-                        v-if="loading"
-                      >
+                      <v-select id="prodi_bind_perguruan" v-model="formSiswa.id_prodi_bind_perguruan"
+                        :options="dataOptionProdiBindPerguruan" label="textField" :reduce="item => item.id" />
+                      <div style="font-size: 14px" class="text-info" v-if="loading">
                         Memuat...
                       </div>
                     </div>
                   </b-col>
                 </b-row>
-                <b-row
-                  v-if="
-                    akun.role_user == 'siswa' && (formSiswa.nama_jenjang == 'SMA' || ['SMA', 'SMK', 'MA'].includes(formSiswa.nama_jenjang))
-                  "
-                >
+                <b-row v-if="
+                  akun.role_user == 'siswa' && (formSiswa.nama_jenjang == 'SMA' || ['SMA', 'SMK', 'MA'].includes(formSiswa.nama_jenjang))
+                ">
                   <b-col md="2">
-                    <label
-                      ><i class="fas fa-fw fa-graduation-cap"></i> Pilihan Prodi
-                      2</label
-                    >
+                    <label><i class="fas fa-fw fa-graduation-cap"></i> Pilihan Prodi
+                      2</label>
                   </b-col>
                   <b-col md="4">
                     <div class="form-group reg-siswa">
                       <label for="id_program_studi_2">Program Studi</label>
-                      <v-select
-                        id="id_program_studi_2"
-                        :options="dataOption['programStudi']"
-                        v-model="id_program_studi_2"
-                        label="nama_studi"
-                        @input="
+                      <v-select id="id_program_studi_2" :options="dataOption['programStudi']"
+                        v-model="id_program_studi_2" label="nama_studi" @input="
                           optionProdiBindPerguruanDisabled_2 = false;
-                          selectNew_2 = true;
-                          getProdiBindPerguruan(id_program_studi_2, 2);
-                        "
-                        :getOptionKey="prodi => prodi.id"
-                      />
+                        selectNew_2 = true;
+                        getProdiBindPerguruan(id_program_studi_2, 2);
+                        " :getOptionKey="prodi => prodi.id" />
                       <!-- formSiswa.id_prodi_bind_perguruan_2 = null; -->
-                      <div
-                        style="font-size: 14px"
-                        class="text-info"
-                        v-if="loading"
-                      >
+                      <div style="font-size: 14px" class="text-info" v-if="loading">
                         Memuat...
                       </div>
                     </div>
                   </b-col>
                   <b-col md="6">
                     <div class="form-group reg-siswa">
-                      <label for="prodi_bind_perguruan_2"
-                        >Perguruan Tinggi</label
-                      >
-                      <v-select
-                        id="prodi_bind_perguruan"
-                        v-model="formSiswa.id_prodi_bind_perguruan_2"
-                        :options="dataOptionProdiBindPerguruan_2"
-                        label="textField"
-                        :reduce="item => item.id"
-                      />
-                      <div
-                        style="font-size: 14px"
-                        class="text-info"
-                        v-if="loading"
-                      >
+                      <label for="prodi_bind_perguruan_2">Perguruan Tinggi</label>
+                      <v-select id="prodi_bind_perguruan" v-model="formSiswa.id_prodi_bind_perguruan_2"
+                        :options="dataOptionProdiBindPerguruan_2" label="textField" :reduce="item => item.id" />
+                      <div style="font-size: 14px" class="text-info" v-if="loading">
                         Memuat...
                       </div>
                     </div>
                   </b-col>
                 </b-row>
               </b-tab>
-              <b-tab
-                title="Dokumen Pendukung"
-                v-if="akun.role_user == 'teacher'"
-              >
+              <b-tab title="Dokumen Pendukung" v-if="akun.role_user == 'teacher'">
                 <b-row>
                   <b-col md="6">
-                    <div
-                      class="form-group reg-siswa"
-                      v-for="(doc, index) in userDocs"
-                      :key="'docIn' + index"
-                    >
-                      <label :for="doc.doc_type"
-                        >{{ doc.doc_label }}
+                    <div class="form-group reg-siswa" v-for="(doc, index) in userDocs" :key="'docIn' + index">
+                      <label :for="doc.doc_type">{{ doc.doc_label }}
                         <code v-if="doc.doc_type == 'npwp'">[optional]</code>
                         <code v-else>*</code>
                       </label>
-                      <input
-                        :disabled="doc.doc_type == 'Approved'"
-                        type="file"
-                        class="form-control pl-0"
-                        :id="doc.doc_type"
-                        :ref="doc.doc_type"
-                        :name="doc.doc_type"
-                        @change="handleUploadedFile(doc.doc_type)"
-                      />
+                      <input :disabled="doc.doc_type == 'Approved'" type="file" class="form-control pl-0"
+                        :id="doc.doc_type" :ref="doc.doc_type" :name="doc.doc_type"
+                        @change="handleUploadedFile(doc.doc_type)" />
                     </div>
                   </b-col>
                   <b-col md="6">
                     <b-row v-if="apiUrl && userDocs.length > 0">
-                      <b-col
-                        md="4"
-                        v-for="(doc, index) in userDocs"
-                        :key="'docIm' + index"
-                      >
-                        <b-img
-                          fluid
-                          :id="doc.doc_type + '_preview'"
-                          :src="apiUrl(doc.doc_file)"
-                        ></b-img>
+                      <b-col md="4" v-for="(doc, index) in userDocs" :key="'docIm' + index">
+                        <b-img fluid :id="doc.doc_type + '_preview'" :src="apiUrl(doc.doc_file)"></b-img>
                         <!-- <div class="text-center" v-if="doc.doc_file || (dataFiles[doc.doc_type] && dataFiles[doc.doc_type].file)">
-                          Status Approval : 
+                          Status Approval :
                           <span :class="badgeStatus(doc.doc_status)" v-text="doc.doc_status"></span>
                         </div> -->
                       </b-col>
@@ -385,37 +229,20 @@
                   <b-col>
                     <div class="form-group reg-siswa">
                       <label for="alamat">Alamat</label>
-                      <input
-                        type="text"
-                        class="form-control pl-0"
-                        id="alamat"
-                        placeholder="Klik Untuk Isi Alamat"
-                        v-model="formSiswa.alamat"
-                      />
+                      <input type="text" class="form-control pl-0" id="alamat" placeholder="Klik Untuk Isi Alamat"
+                        v-model="formSiswa.alamat" />
                     </div>
                     <div class="form-group reg-siswa">
                       <label for="provinsi">Provinsi</label>
-                      <v-select
-                        id="provinsi"
-                        v-model="formSiswa.id_provinsi"
-                        :options="dataOption['provinsi']"
-                        label="nama"
-                        @input="
-                          () => {
+                      <v-select id="provinsi" v-model="formSiswa.id_provinsi" :options="dataOption['provinsi']"
+                        label="nama" @input="() => {
                             formSiswa.id_kecamatan = null;
                             formSiswa.id_kota = null;
                             getAPI('kota_kabupaten');
                             dataOption['kecamatan'] = [];
                           }
-                        "
-                        :reduce="item => item.id"
-                        :getOptionKey="item => item.id"
-                      />
-                      <div
-                        style="font-size: 14px"
-                        class="text-info"
-                        v-if="loading"
-                      >
+                          " :reduce="item => item.id" :getOptionKey="item => item.id" />
+                      <div style="font-size: 14px" class="text-info" v-if="loading">
                         Memuat...
                       </div>
                     </div>
@@ -423,43 +250,21 @@
                   <b-col>
                     <div class="form-group reg-siswa">
                       <label for="kota">Kota</label>
-                      <v-select
-                        id="kota"
-                        v-model="formSiswa.id_kota"
-                        :options="dataOption['kota_kabupaten']"
-                        label="nama"
-                        @input="
-                          () => {
+                      <v-select id="kota" v-model="formSiswa.id_kota" :options="dataOption['kota_kabupaten']"
+                        label="nama" @input="() => {
                             formSiswa.id_kecamatan = null;
                             getAPI('kecamatan');
                           }
-                        "
-                        :reduce="item => item.id"
-                        :getOptionKey="item => item.id"
-                      />
-                      <div
-                        style="font-size: 14px"
-                        class="text-info"
-                        v-if="loading"
-                      >
+                          " :reduce="item => item.id" :getOptionKey="item => item.id" />
+                      <div style="font-size: 14px" class="text-info" v-if="loading">
                         Memuat...
                       </div>
                     </div>
                     <div class="form-group reg-siswa">
                       <label for="kecamatan">Kecamatan</label>
-                      <v-select
-                        id="kecamatan"
-                        v-model="formSiswa.id_kecamatan"
-                        :options="dataOption['kecamatan']"
-                        label="nama"
-                        :reduce="item => item.id"
-                        :getOptionKey="item => item.id"
-                      />
-                      <div
-                        style="font-size: 14px"
-                        class="text-info"
-                        v-if="loading"
-                      >
+                      <v-select id="kecamatan" v-model="formSiswa.id_kecamatan" :options="dataOption['kecamatan']"
+                        label="nama" :reduce="item => item.id" :getOptionKey="item => item.id" />
+                      <div style="font-size: 14px" class="text-info" v-if="loading">
                         Memuat...
                       </div>
                     </div>
@@ -475,59 +280,29 @@
                   <div class="col-md-6">
                     <div class="form-group reg-siswa">
                       <label for="Username">Username</label>
-                      <input
-                        type="text"
-                        class="form-control pl-0"
-                        id="Username"
-                        placeholder="Username"
-                        autocomplete="false"
-                        v-model="formSiswa.username"
-                        disabled
-                      />
+                      <input type="text" class="form-control pl-0" id="Username" placeholder="Username"
+                        autocomplete="false" v-model="formSiswa.username" disabled />
                     </div>
                   </div>
                   <div class="col-md-6">
                     <div class="form-group reg-siswa">
                       <label for="email">Email</label>
-                      <input
-                        type="text"
-                        class="form-control pl-0"
-                        id="email"
-                        placeholder="email"
-                        autocomplete="false"
-                        v-model="formSiswa.email"
-                        disabled
-                      />
+                      <input type="text" class="form-control pl-0" id="email" placeholder="email" autocomplete="false"
+                        v-model="formSiswa.email" disabled />
                     </div>
                   </div>
                   <div class="col-md-6">
                     <div class="form-group reg-siswa">
                       <label for="password">Password</label>
                       <div class="input-group">
-                        <input
-                          :type="showPassword ? 'text' : 'password'"
-                          class="form-control pl-0"
-                          id="password"
-                          placeholder="Password"
-                          autocomplete="new-password"
-                          v-model="formSiswa.password"
-                        />
-                        <div
-                          class="input-group-append"
-                          style="cursor: pointer"
-                          @click.prevent="showPassword = !showPassword"
-                        >
-                          <span
-                            class="input-group-text bg-transparent"
-                            style="pointer-events: none"
-                            ><i
-                              :class="[
-                                'fa',
-                                showPassword ? 'fa-eye-slash' : 'fa-eye'
-                              ]"
-                              style="pointer-events: none"
-                            ></i
-                          ></span>
+                        <input :type="showPassword ? 'text' : 'password'" class="form-control pl-0" id="password"
+                          placeholder="Password" autocomplete="new-password" v-model="formSiswa.password" />
+                        <div class="input-group-append" style="cursor: pointer"
+                          @click.prevent="showPassword = !showPassword">
+                          <span class="input-group-text bg-transparent" style="pointer-events: none"><i :class="[
+                            'fa',
+                            showPassword ? 'fa-eye-slash' : 'fa-eye'
+                          ]" style="pointer-events: none"></i></span>
                         </div>
                       </div>
                       <div v-html="showError('password')"></div>
@@ -537,14 +312,8 @@
                     <div class="form-group reg-siswa">
                       <label for="repassword">Konfirmasi Password</label>
                       <div class="input-group">
-                        <input
-                          type="password"
-                          class="form-control pl-0"
-                          id="repassword"
-                          placeholder="Ulangi Password"
-                          autocomplete="new-password"
-                          v-model="formSiswa.repassword"
-                        />
+                        <input type="password" class="form-control pl-0" id="repassword" placeholder="Ulangi Password"
+                          autocomplete="new-password" v-model="formSiswa.repassword" />
                         <!-- <div class="input-group-append">
                         <span class="input-group-text bg-transparent"
                           ><i class="fa fa-eye-slash"></i
@@ -554,15 +323,9 @@
                       <div v-html="showError('nomor_telephone')"></div>
                     </div>
                   </div>
-                  <div
-                    class="col-md-6 d-flex tambah-akun align-items-center mt-3"
-                    v-if="akun.role_user == 'siswa' && !profil.parent"
-                    v-b-modal.modal-ortu
-                  >
-                    <button
-                      class="btn btn-primary tambah-akun px-3"
-                      type="button"
-                    >
+                  <div class="col-md-6 d-flex tambah-akun align-items-center mt-3"
+                    v-if="akun.role_user == 'siswa' && !profil.parent" v-b-modal.modal-ortu>
+                    <button class="btn btn-primary tambah-akun px-3" type="button">
                       <i class="fa fa-plus"></i>
                     </button>
                     <p class="pb-0 pl-3 mb-0" style="font-size: 14px">
@@ -571,57 +334,30 @@
                   </div>
                 </div>
               </b-tab>
-              <b-tab
-                title="Data Orangtua"
-                v-if="profil && profil.parent && akun.role_user == 'siswa'"
-              >
+              <b-tab title="Data Orangtua" v-if="profil && profil.parent && akun.role_user == 'siswa'">
                 <b-row>
                   <b-col>
                     <div class="form-group reg-siswa">
                       <label for="ortu_name">Nama Lengkap</label>
-                      <input
-                        type="text"
-                        class="form-control"
-                        id="ortu_name"
-                        placeholder="Nama Lengkap"
-                        v-model="formOrtu.nama_lengkap"
-                      />
+                      <input type="text" class="form-control" id="ortu_name" placeholder="Nama Lengkap"
+                        v-model="formOrtu.nama_lengkap" />
                     </div>
                     <div class="form-group reg-siswa">
                       <label for="ortu_phone">No.Telp</label>
-                      <input
-                        type="text"
-                        class="form-control"
-                        id="ortu_phone"
-                        placeholder="No.Telp"
-                        v-model="formOrtu.nomor_telephone"
-                      />
+                      <input type="text" class="form-control" id="ortu_phone" placeholder="No.Telp"
+                        v-model="formOrtu.nomor_telephone" />
                     </div>
                   </b-col>
                   <b-col>
                     <div class="form-group reg-siswa">
                       <label for="ortu_email">Email</label>
-                      <input
-                        type="text"
-                        class="form-control"
-                        id="ortu_email"
-                        placeholder="Email"
-                        autocomplete="false"
-                        v-model="formOrtu.email"
-                        disabled
-                      />
+                      <input type="text" class="form-control" id="ortu_email" placeholder="Email" autocomplete="false"
+                        v-model="formOrtu.email" disabled />
                     </div>
                     <div class="form-group reg-siswa">
                       <label for="ortu_username">Username</label>
-                      <input
-                        type="text"
-                        class="form-control form-control-karir"
-                        id="ortu_username"
-                        placeholder="Username"
-                        autocomplete="false"
-                        v-model="formOrtu.username"
-                        disabled
-                      />
+                      <input type="text" class="form-control form-control-karir" id="ortu_username"
+                        placeholder="Username" autocomplete="false" v-model="formOrtu.username" disabled />
                     </div>
                   </b-col>
                 </b-row>
@@ -632,19 +368,13 @@
             <b-button type="submit" variant="primary" :disabled="loading">
               <b-spinner small class="mr-1" v-if="loading"></b-spinner>
               <i class="fas fa-save fa-fw mr-1" v-else></i>
-              Simpan Perubahan</b-button
-            >
+              Simpan Perubahan</b-button>
           </div>
         </form>
       </client-only>
     </div>
 
-    <b-modal
-      id="modal-ortu"
-      title="Tambah Orang Tua"
-      hide-footer
-      @hidden="resetForm"
-    >
+    <b-modal id="modal-ortu" title="Tambah Orang Tua" hide-footer @hidden="resetForm">
       <div class="p-3">
         <!-- <div class="text-center">
           <h3 class="modal-title mt-1 mb-3" id="exampleModalLongTitle">
@@ -654,74 +384,36 @@
         <form class="form-user" @submit.prevent="validateFormOrtu">
           <div class="form-group reg-siswa">
             <label for="ortu_name">Nama Lengkap</label>
-            <input
-              type="text"
-              class="form-control"
-              id="ortu_name"
-              placeholder="Nama Lengkap"
-              v-model="formOrtu.nama_lengkap"
-            />
+            <input type="text" class="form-control" id="ortu_name" placeholder="Nama Lengkap"
+              v-model="formOrtu.nama_lengkap" />
           </div>
           <div class="form-group reg-siswa">
             <label for="ortu_phone">No.Telp</label>
-            <input
-              type="text"
-              class="form-control"
-              id="ortu_phone"
-              placeholder="No.Telp"
-              v-model="formOrtu.nomor_telephone"
-            />
+            <input type="text" class="form-control" id="ortu_phone" placeholder="No.Telp"
+              v-model="formOrtu.nomor_telephone" />
             <div v-html="showError('nomor_telephone')"></div>
           </div>
           <div class="form-group reg-siswa">
             <label for="ortu_email">Email</label>
-            <input
-              type="text"
-              class="form-control"
-              id="ortu_email"
-              placeholder="Email"
-              autocomplete="false"
-              v-model="formOrtu.email"
-            />
+            <input type="text" class="form-control" id="ortu_email" placeholder="Email" autocomplete="false"
+              v-model="formOrtu.email" />
             <div v-html="showError('email')"></div>
           </div>
           <div class="form-group reg-siswa">
             <label for="ortu_username">Username</label>
-            <input
-              type="text"
-              class="form-control form-control-karir"
-              id="ortu_username"
-              placeholder="Username"
-              autocomplete="false"
-              v-model="formOrtu.username"
-            />
+            <input type="text" class="form-control form-control-karir" id="ortu_username" placeholder="Username"
+              autocomplete="false" v-model="formOrtu.username" />
             <div v-html="showError('username')"></div>
           </div>
 
           <div class="form-group reg-siswa">
             <label for="ortu_password">Password</label>
             <div class="input-group">
-              <input
-                :type="showPassword ? 'text' : 'password'"
-                class="form-control pl-0"
-                id="password"
-                placeholder="Password"
-                autocomplete="new-password"
-                v-model="formOrtu.password"
-              />
-              <div
-                class="input-group-append"
-                style="cursor: pointer"
-                @click.prevent="showPassword = !showPassword"
-              >
-                <span
-                  class="input-group-text bg-transparent"
-                  style="pointer-events: none"
-                  ><i
-                    :class="['fa', showPassword ? 'fa-eye-slash' : 'fa-eye']"
-                    style="pointer-events: none"
-                  ></i
-                ></span>
+              <input :type="showPassword ? 'text' : 'password'" class="form-control pl-0" id="password"
+                placeholder="Password" autocomplete="new-password" v-model="formOrtu.password" />
+              <div class="input-group-append" style="cursor: pointer" @click.prevent="showPassword = !showPassword">
+                <span class="input-group-text bg-transparent" style="pointer-events: none"><i
+                    :class="['fa', showPassword ? 'fa-eye-slash' : 'fa-eye']" style="pointer-events: none"></i></span>
               </div>
             </div>
             <div v-html="showError('password')"></div>
@@ -831,7 +523,7 @@ export default {
     };
   },
   watch: {
-    "formSiswa.id_jenjang": function(value) {
+    "formSiswa.id_jenjang": function (value) {
       if (value) {
         const findNamaJenjang = this.dataMaster["jenjang"].find(
           item => item.id == this.formSiswa.id_jenjang
@@ -841,13 +533,13 @@ export default {
         }
       }
     },
-    "formSiswa.nama_jenjang": function(value) {
+    "formSiswa.nama_jenjang": function (value) {
       if (value && (['SMA', 'SMK', 'MA'].includes(value))) {
         this.getProdiBindPerguruan("");
         this.getProdiBindPerguruan("", 2);
       }
     },
-    "formOrtu.username": function(value) {
+    "formOrtu.username": function (value) {
       if (!value) return;
       var usernameRegex = /^[a-zA-Z0-9]+$/;
       var test = value.match(usernameRegex);
@@ -861,9 +553,9 @@ export default {
         this.isValidForm["username"] = true;
       }
     },
-    "formOrtu.password": function(value) {
+    "formOrtu.password": function (value) {
       if (!value) return;
-      
+
       var passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/
       var test = value.match(passwordRegex);
       if (value && test === null) {
@@ -885,7 +577,7 @@ export default {
         this.isValidForm["repassword"] = true;
       }
     },
-    "formOrtu.repassword": function(value) {
+    "formOrtu.repassword": function (value) {
       if (!value) return;
       if (value && value !== this.form.password) {
         this.$set(this.dataError, "repassword", [
@@ -897,7 +589,7 @@ export default {
         this.isValidForm["repassword"] = true;
       }
     },
-    "formOrtu.email": function(value) {
+    "formOrtu.email": function (value) {
       if (!value) return;
       var emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       var test = value.match(emailRegex);
@@ -909,7 +601,7 @@ export default {
         this.isValidForm["email"] = true;
       }
     },
-    "formOrtu.nomor_telephone": function(value) {
+    "formOrtu.nomor_telephone": function (value) {
       if (!value) return;
       var phoneRegex = /\(?(?:\+62|62|0)(?:\d{2,3})?\)?[ .-]?\d{2,4}[ .-]?\d{2,4}[ .-]?\d{2,4}$/;
       var test = value.match(phoneRegex);
@@ -923,7 +615,7 @@ export default {
         this.isValidForm["nomor_telephone"] = true;
       }
     },
-    "formSiswa.password": function(value) {
+    "formSiswa.password": function (value) {
       if (!value) {
         this.$set(this.dataError, "password", [""]);
         this.$set(this.dataError, "repassword", [""]);
@@ -1199,7 +891,7 @@ export default {
         ? id_program_studi_selected.id
         : "";
       this.loading = true;
-      
+
       console.log(
         "this.formSiswa.id_prodi_bind_perguruan",
         this.formSiswa.id_prodi_bind_perguruan
@@ -1224,22 +916,24 @@ export default {
           console.log(res);
           if (res.success) {
             if (nomor == 2) {
-              this.dataOptionProdiBindPerguruan_2 = await res.data.data.map(
-                item => {
-                  let textField =
-                    item.perguruan && item.perguruan.nama_perguruan
-                      ? item.perguruan.nama_perguruan
-                      : "";
-                  textField += " - " + item.program_studi.nama_studi;
-                  textField += " (" + item.akreditasi_program_studi + ")";
-                  // textField += " - PG: " + item.passing_grade_prodi;
-                  return {
-                    id: item.id,
-                    id_prodi: item.program_studi.id,
-                    textField
-                  };
-                }
-              );
+              this.dataOptionProdiBindPerguruan_2 = await res.data.data
+                .filter(item => item.program_studi !== null && item.perguruan !== nul)
+                .map(
+                  item => {
+                    let textField =
+                      item.perguruan && item.perguruan.nama_perguruan
+                        ? item.perguruan.nama_perguruan
+                        : "";
+                    textField += " - " + item.program_studi.nama_studi;
+                    textField += " (" + item.akreditasi_program_studi + ")";
+                    // textField += " - PG: " + item.passing_grade_prodi;
+                    return {
+                      id: item.id,
+                      id_prodi: item.program_studi.id,
+                      textField
+                    };
+                  }
+                );
               if (
                 !this.id_program_studi_2 &&
                 this.formSiswa.id_prodi_bind_perguruan_2
@@ -1536,7 +1230,7 @@ export default {
       // ).children[1].textContent = this.files[param].name;
 
       let reader = new FileReader();
-      reader.onload = function(e) {
+      reader.onload = function (e) {
         document.getElementById(param + "_preview").src = e.target.result;
       };
       reader.readAsDataURL(this.files[param]); // convert to base64 string
