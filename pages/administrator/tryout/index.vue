@@ -10,9 +10,9 @@
       </div>
       <div class="col-md-12 text-right mt-4 crud-tools">
         <div class="row no-gutters justify-content-between">
-          <div class="col-md-6">
+          <div class="col-md-7">
             <div class="justify-content-start d-flex filter">
-              <div class="col-md-5">
+              <div class="col-md-4">
                 <b-input-group>
                   <template #prepend>
                     <b-input-group-text
@@ -31,7 +31,7 @@
                   ></b-form-select>
                 </b-input-group>
               </div>
-              <div class="col-md-6">
+              <div class="col-md-4">
                 <b-input-group>
                   <template #prepend>
                     <b-input-group-text
@@ -52,7 +52,7 @@
                       <!-- { text: 'Asesmen Nasional', value: 'Asmenas' } -->
                 </b-input-group>
               </div>
-              <div class="col-md-5">
+              <div class="col-md-4">
                 <b-input-group>
                   <template #prepend>
                     <b-input-group-text
@@ -72,7 +72,7 @@
             </div>
           </div>
 
-          <div class="col-md-5 d-flex align-items-center crud-tools">
+          <div class="col-md-4 d-flex align-items-center crud-tools">
             <b-input-group>
               <template #prepend>
                 <b-input-group-text
@@ -91,7 +91,7 @@
             >
               Tambah
             </nuxt-link>
-           
+
           </div>
         </div>
       </div>
@@ -215,7 +215,7 @@
                     :disabled="generating"
                       class="btn btn-outline-warning warning px-3 py-1 px-4 mt-md-2"
                       @click.prevent="exportSoal(item.id)"
-                      
+
                     > <b-spinner v-if="generating" small></b-spinner>
                       Export Soal
                   </button>
@@ -417,7 +417,7 @@ export default {
           return true;
         })
         .catch(err => {
-         
+
           this.catchError(err);
         })
         .finally(() => (this.loading = false));
@@ -522,7 +522,7 @@ export default {
           }
         })
         .then(res => {
-          
+
           if (res.success) {
             this.items.splice(this.selectedIndex, 1);
             this.$bvToast.toast("Data berhasil dimport.", {
