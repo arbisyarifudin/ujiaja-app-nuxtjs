@@ -70,6 +70,15 @@ input:disabled,
   background-color: rgba(202, 202, 202, 0.25) !important;
   color: rgba(163, 163, 163, 0.726) !important;
 }
+input::-moz-placeholder, .form-control::-moz-placeholder {
+  color: rgba(92, 92, 92, 0.4);
+  font-size: 85%;
+}
+input::placeholder,
+.form-control::placeholder {
+  color: rgba(92, 92, 92, 0.4);
+  font-size: 85%;
+}
 
 .question-option {
   display: flex;
@@ -1412,6 +1421,7 @@ input.form-control-info {
   color: #fff;
 }
 .letter-option label {
+  cursor: pointer;
   color: #9e8df3;
   min-width: 50%;
 }

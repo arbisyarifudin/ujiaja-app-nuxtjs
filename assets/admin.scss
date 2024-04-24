@@ -76,6 +76,11 @@ input,
         background-color: rgba(202, 202, 202, 0.25) !important;
         color: rgba(163, 163, 163, 0.726) !important;
     }
+
+    &::placeholder {
+      color: rgba($color: #5c5c5c, $alpha: 0.4);
+      font-size: 85%;
+    }
 }
 
 .question-option {
@@ -1636,6 +1641,7 @@ input.form {
         }
     }
     label {
+        cursor: pointer;
         color: #9e8df3;
         min-width: 50%;
     }

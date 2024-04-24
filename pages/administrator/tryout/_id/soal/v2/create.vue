@@ -2,10 +2,7 @@
   <div class="container-fluid crud">
     <form @submit.prevent>
       <div class="row d-flex no-gutters">
-        <div
-          class="col-md-12 dashboard"
-          style="position: relative; z-index: 10"
-        >
+        <div class="col-md-12 dashboard" style="position: relative; z-index: 10">
           <div class="d-flex align-items-center justify-content-between">
             <h2 class="dash-label">
               <b-spinner type="grow" class="mr-2" v-if="loading" /> Buat Soal
@@ -31,19 +28,16 @@
             <span v-if="dataDetail.kelompok_soal">{{
               dataDetail.kelompok_soal
             }}</span>
-            <span
-              v-if="
-                dataDetail.penjurusan &&
-                  dataDetail.penjurusan.kelas &&
-                  dataDetail.penjurusan.kelas.jenjang
-              "
-              >{{ dataDetail.penjurusan.kelas.jenjang.nama_jenjang }}
+            <span v-if="
+              dataDetail.penjurusan &&
+              dataDetail.penjurusan.kelas &&
+              dataDetail.penjurusan.kelas.jenjang
+            ">{{ dataDetail.penjurusan.kelas.jenjang.nama_jenjang }}
               {{
                 dataDetail.kategori == "Asmenas"
                   ? "- " + dataDetail.penjurusan.kelas.nama_kelas
                   : ""
-              }}</span
-            >
+              }}</span>
           </p>
           <div class="alert small alert-light border-1">
             <h3 class="h6 small">Tentang:</h3>
@@ -51,12 +45,9 @@
           </div>
         </div>
         <div class="col-md-12 crud-body">
-          <UILoading
-            v-if="refetch"
-            text="Mohon menunggu. Sedang melakukan pembaruan nomor soal..."
+          <UILoading v-if="refetch" text="Mohon menunggu. Sedang melakukan pembaruan nomor soal..."
             style="position: fixed; bottom: 0; left: 0; z-index: 99"
-            :textStyle="{ backgroundColor: 'white', padding: '10px' }"
-          />
+            :textStyle="{ backgroundColor: 'white', padding: '10px' }" />
           <div class="row">
             <div class="col-md-12 buat-soal mt-4">
               <p>Panduan Pengerjaan <code>*</code></p>
@@ -69,19 +60,12 @@
                 v-model="formTryout.panduan_pengerjaan"
               ></textarea> -->
               <client-only>
-                <VueEditor
-                  id="panduan_pengerjaan"
-                  ref="panduan_pengerjaan"
-                  @blur="onBlurPanduan"
-                  :editorOptions="editorOptions"
-                  v-model="formTryout.panduan_pengerjaan"
-                />
+                <VueEditor id="panduan_pengerjaan" ref="panduan_pengerjaan" @blur="onBlurPanduan"
+                  :editorOptions="editorOptions" v-model="formTryout.panduan_pengerjaan" />
                 <div class="d-flex justify-content-end">
-                  <button
-                    class="btn btn-primary btn-sm square btn-add-mathjax"
-                    @click="addMathJax('panduan_pengerjaan')"
-                  >
-                    Add Formula
+                  <button class="btn btn-primary btn-sm square btn-add-mathjax"
+                    @click="addMathJaxToEditor('panduan_pengerjaan')">
+                    Tambah Rumus
                   </button>
                 </div>
               </client-only>
@@ -90,19 +74,9 @@
             <div class="col-md-12 accordion">
               <UILoading v-if="loading" />
               <div id="accordion" role="tab-list">
-                <b-card
-                  no-body
-                  class="mb-4"
-                  v-for="(soal, a) in formSoal"
-                  :key="'A' + a"
-                >
+                <b-card no-body class="mb-4" v-for="(soal, a) in formSoal" :key="'A' + a">
                   <b-card-header header-tag="header" role="tab" class="p-0">
-                    <a
-                      class="card-link"
-                      href="#"
-                      style="padding: 30px;"
-                      @click.prevent="updateAccordion(a)"
-                    >
+                    <a class="card-link" href="#" style="padding: 30px;" @click.prevent="updateAccordion(a)">
                       <p class="text-card m-0 text-h5">
                         Soal
                         <span v-if="dataDetail.kategori != 'ASPD'">{{
@@ -112,136 +86,70 @@
                           soal.mapel.nama_mapel
                         }}</span> -->
                         <span v-if="soal.mapel">
-                          - {{ soal.mapel.nama_mapel }}</span
-                        >
+                          - {{ soal.mapel.nama_mapel }}</span>
                         <span v-if="dataDetail.kategori == 'Asmenas'">
-                          - Bagian {{ a + 1 }}</span
-                        >
-                        <span
-                          v-if="
-                            dataDetail.jenis_soal == 'Campuran' &&
-                              soal.kelompok_soal
-                          "
-                          >- {{ soal.kelompok_soal }}</span
-                        >
+                          - Bagian {{ a + 1 }}</span>
+                        <span v-if="
+                          dataDetail.jenis_soal == 'Campuran' &&
+                          soal.kelompok_soal
+                        ">- {{ soal.kelompok_soal }}</span>
                       </p>
-                      <span class="collapsed" v-if="tab != a && !visible"
-                        ><i class="fas fa-plus"></i
-                      ></span>
-                      <span class="collapsed" v-else-if="tab == a && !visible"
-                        ><i class="fas fa-plus"></i
-                      ></span>
-                      <span class="collapsed" v-else-if="tab != a && visible"
-                        ><i class="fas fa-plus"></i
-                      ></span>
-                      <span class="expanded" v-else-if="tab == a && visible"
-                        ><i class="fas fa-minus"></i> Minimize</span
-                      ></a
-                    >
+                      <span class="collapsed" v-if="tab != a && !visible"><i class="fas fa-plus"></i></span>
+                      <span class="collapsed" v-else-if="tab == a && !visible"><i class="fas fa-plus"></i></span>
+                      <span class="collapsed" v-else-if="tab != a && visible"><i class="fas fa-plus"></i></span>
+                      <span class="expanded" v-else-if="tab == a && visible"><i class="fas fa-minus"></i>
+                        Minimize</span>
+                    </a>
                   </b-card-header>
-                  <b-collapse
-                    :id="'accordion-' + a"
-                    :visible="tab == a && visible"
-                    accordion="my-accordion"
-                    role="tabpanel"
-                  >
+                  <b-collapse :id="'accordion-' + a" :visible="tab == a && visible" accordion="my-accordion"
+                    role="tabpanel">
                     <div class="card-body">
-                      <div
-                        :class="[
-                          dataDetail.kategori != 'ASPD'
-                            ? 'card-body-content'
-                            : 'mt-n3 px-3'
-                        ]"
-                      >
+                      <div :class="[
+                        dataDetail.kategori != 'ASPD'
+                          ? 'card-body-content'
+                          : 'mt-n3 px-3'
+                      ]">
                         <div class="col-md-12 text-right p-0">
                           <!-- v-if="
                               soal.pertanyaan.length > 0 &&
                                 a != 0 &&
                                 dataDetail.kategori != 'ASPD'
                             " -->
-                          <button
-                            type="button"
-                            class="btn btn-danger py-1"
-                            @click.prevent="deleteMapel(soal.id, a)"
-                            :disabled="loading"
-                          >
-                            <b-spinner
-                              v-if="loading"
-                              type="grow"
-                              small
-                              class="mr-1"
-                            ></b-spinner>
+                          <button type="button" class="btn btn-danger py-1" @click.prevent="deleteMapel(soal.id, a)"
+                            :disabled="loading">
+                            <b-spinner v-if="loading" type="grow" small class="mr-1"></b-spinner>
                             Hapus Mata Pelajaran
                           </button>
                         </div>
-                        <div
-                          class="col-md-12 form-user form-pilih-kelas p-0 mt-3"
-                        >
+                        <div class="col-md-12 form-user form-pilih-kelas p-0 mt-3">
                           <div class="form-group reg-siswa">
-                            <label for="id_mapel"
-                              >Mata Pelajaran <code>*</code></label
-                            >
-                            <select
-                              class="form-control pl-0"
-                              id="id_mapel"
-                              v-model="soal.id_mapel"
-                              @change="onUpdateSoal(soal)"
-                            >
+                            <label for="id_mapel">Mata Pelajaran <code>*</code></label>
+                            <select class="form-control pl-0" id="id_mapel" v-model="soal.id_mapel"
+                              @change="onUpdateSoal(soal)">
                               <option :value="null">-- Pilih --</option>
-                              <option
-                                :value="mapel.id"
-                                v-for="(mapel, m) in dataMaster['mapel']"
-                                :key="m"
-                                >{{ mapel.nama_mapel }}</option
-                              >
+                              <option :value="mapel.id" v-for="(mapel, m) in dataMaster['mapel']" :key="m">{{
+                                mapel.nama_mapel }}</option>
                             </select>
                           </div>
                           <div class="form-group reg-siswa">
-                            <label for="jeda_waktu_antar_mapel"
-                              >Alokasi Waktu Per-Mata Pelajaran (Menit) <code>*</code></label
-                            >
-                            <input
-                              type="text"
-                              class="form-control pl-0"
-                              id="jeda_waktu_antar_mapel"
-                              placeholder="Ex: 80"
-                              v-model="soal.alokasi_waktu_per_mapel"
-                              @input="onUpdateSoal(soal)"
-                            />
+                            <label for="jeda_waktu_antar_mapel">Alokasi Waktu Per-Mata Pelajaran (Menit)
+                              <code>*</code></label>
+                            <input type="text" class="form-control pl-0" id="jeda_waktu_antar_mapel"
+                              placeholder="Ex: 80" v-model="soal.alokasi_waktu_per_mapel" @input="onUpdateSoal(soal)" />
                           </div>
                           <div class="form-group reg-siswa mb-0">
-                            <label for="jeda_waktu_antar_mapel"
-                              >Jeda Waktu Dengan Mata Pelajaran Berikutnya (Detik) <code>*</code></label
-                            >
-                            <input
-                              type="text"
-                              class="form-control pl-0"
-                              id="jeda_waktu_antar_mapel"
-                              placeholder="Ex: 30"
-                              v-model="soal.jeda_waktu_antar_mapel"
-                              @input="onUpdateSoal(soal)"
-                            />
+                            <label for="jeda_waktu_antar_mapel">Jeda Waktu Dengan Mata Pelajaran Berikutnya (Detik)
+                              <code>*</code></label>
+                            <input type="text" class="form-control pl-0" id="jeda_waktu_antar_mapel"
+                              placeholder="Ex: 30" v-model="soal.jeda_waktu_antar_mapel" @input="onUpdateSoal(soal)" />
                           </div>
-                          <UISaveStatus
-                            :data="onSubmit.soal[soal.id]"
-                            v-if="
-                              onSubmit.soal[soal.id] &&
-                                dataDetail.panduan_pengerjaan
-                            "
-                          />
-                          <button
-                            v-if="soal.pertanyaan.length == 0"
-                            type="button"
-                            class="btn btn-primary mt-4"
-                            @click.prevent="createBab(soal.id, soal)"
-                            :disabled="loading"
-                          >
-                            <b-spinner
-                              v-if="loading"
-                              type="grow"
-                              small
-                              class="mr-1"
-                            ></b-spinner>
+                          <UISaveStatus :data="onSubmit.soal[soal.id]" v-if="
+                            onSubmit.soal[soal.id] &&
+                            dataDetail.panduan_pengerjaan
+                          " />
+                          <button v-if="soal.pertanyaan.length == 0" type="button" class="btn btn-primary mt-4"
+                            @click.prevent="createBab(soal.id, soal)" :disabled="loading">
+                            <b-spinner v-if="loading" type="grow" small class="mr-1"></b-spinner>
                             Buat Pertanyaan
                           </button>
                         </div>
@@ -252,21 +160,11 @@
                             <div class="col-md-12 dashboard soal mt-2">
                               <div class="header-soal">
                                 <label>Bab Mata Pelajaran <code>*</code></label>
-                                <button
-                                  type="button"
-                                  class="btn btn-danger py-1"
-                                  v-if="b != 0"
-                                  :disabled="loading"
+                                <button type="button" class="btn btn-danger py-1" v-if="b != 0" :disabled="loading"
                                   @click.prevent="
                                     deleteBabMapel(soal.pertanyaan, b)
-                                  "
-                                >
-                                  <b-spinner
-                                    v-if="loading"
-                                    type="grow"
-                                    small
-                                    class="mr-1"
-                                  ></b-spinner>
+                                    ">
+                                  <b-spinner v-if="loading" type="grow" small class="mr-1"></b-spinner>
                                   Hapus Bab Mata Pelajaran
                                 </button>
                               </div>
@@ -278,89 +176,83 @@
                                   id="text"
                                   placeholder="Isi Bab Mata Pelajaran"
                                 /> -->
-                                  <b-form-tags
-                                    :input-id="'bab-' + soalp.id + '-' + b"
-                                    separator=","
-                                    remove-on-delete
-                                    placeholder="Isi Bab Mata Pelajaran"
-                                    v-model="soalp.bab_mapel"
-                                    duplicate-tag-text="Bab sudah ada"
-                                    @input="onUpdatePertanyaan(soalp)"
-                                  ></b-form-tags>
-                                  <UISaveStatus
-                                    :data="onSubmit.pertanyaan[soalp.id]"
-                                    v-if="onSubmit.pertanyaan[soalp.id]"
-                                  />
+                                  <b-form-tags :input-id="'bab-' + soalp.id + '-' + b" separator="," remove-on-delete
+                                    placeholder="Isi Bab Mata Pelajaran" v-model="soalp.bab_mapel"
+                                    duplicate-tag-text="Bab sudah ada" @input="onUpdatePertanyaan(soalp)"></b-form-tags>
+                                  <UISaveStatus :data="onSubmit.pertanyaan[soalp.id]"
+                                    v-if="onSubmit.pertanyaan[soalp.id]" />
                                 </div>
                               </div>
-                              <label
-                                >Teks Untuk Beberapa Soal <code>*</code></label
-                              >
-                              <div
-                                class="small text-danger mb-3"
-                                style="font-size: 15px"
-                              >
+                              <label>Teks Untuk Beberapa Soal <code>*</code></label>
+                              <div class="small text-danger mb-3" style="font-size: 15px">
                                 Kosongkan jika tidak diperlukan penjelasan
                                 pertanyaan.
                               </div>
-                              <VueEditor
-                                :id="
-                                  'penjelasan_pertanyaan-' + soalp.id + '-' + b
-                                "
-                                :ref="
-                                  'penjelasan_pertanyaan-' + soalp.id + '-' + b
-                                "
-                                :editorOptions="editorOptions"
-                                v-model="soalp.penjelasan_pertanyaan"
-                                @blur="onUpdatePertanyaan(soalp)"
-                              />
+                              <VueEditor :id="'penjelasan_pertanyaan-' + soalp.id + '-' + b
+                                " :ref="'penjelasan_pertanyaan-' + soalp.id + '-' + b
+                                  " :editorOptions="editorOptions" v-model="soalp.penjelasan_pertanyaan"
+                                @blur="onUpdatePertanyaan(soalp)" />
                               <div class="d-flex justify-content-end">
-                                <button
-                                  class="btn btn-primary btn-sm square btn-add-mathjax"
-                                  @click="
-                                    addMathJax(
-                                      'penjelasan_pertanyaan-' +
-                                        soalp.id +
-                                        '-' +
-                                        b
-                                    )
-                                  "
-                                >
-                                  Add Formula
+                                <button class="btn btn-primary btn-sm square btn-add-mathjax" @click="
+                                  addMathJaxToEditor(
+                                    'penjelasan_pertanyaan-' +
+                                    soalp.id +
+                                    '-' +
+                                    b
+                                  )
+                                  ">
+                                  Tambah Rumus
                                 </button>
                               </div>
-                              <UISaveStatus
-                                :data="onSubmit.pertanyaan[soalp.id]"
-                                v-if="onSubmit.pertanyaan[soalp.id]"
-                              />
+                              <UISaveStatus :data="onSubmit.pertanyaan[soalp.id]"
+                                v-if="onSubmit.pertanyaan[soalp.id]" />
                             </div>
-                            <div
-                              class="card-body-content-dua dua"
-                              :id="'pertanyaan-' + soalp.nomor"
-                            >
+                            <div class="card-body-content-dua dua" :id="'pertanyaan-' + soalp.nomor">
                               <div class="col-md-12 px-4 py-2 soal mt-2">
                                 <div class="header-soal">
                                   <p style="font-weight: bold">
-                                    Pertanyaan {{ soalp.nomor }} <code>*</code>
+                                    Pertanyaan {{ soalp.nomor }}
                                   </p>
-                                  <button
-                                    type="button"
-                                    class="btn btn-danger dua py-1"
-                                    v-if="b + 1 != 1"
+                                  <button type="button" class="btn btn-danger dua py-1" v-if="b + 1 != 1"
                                     @click.prevent="
                                       deleteQuestion(soal.pertanyaan, b)
-                                    "
-                                    :disabled="loading"
-                                  >
-                                    <b-spinner
-                                      v-if="loading"
-                                      type="grow"
-                                      small
-                                      class="mr-1"
-                                    ></b-spinner>
+                                      " :disabled="loading">
+                                    <b-spinner v-if="loading" type="grow" small class="mr-1"></b-spinner>
                                     Hapus Pertanyaan
                                   </button>
                                 </div>
+
+                                <div class="form-user mt-2">
+                                <!-- v-if="dataDetail.kategori == 'Asmenas'" -->
+                                <div class="form-group reg-siswa">
+                                  <label for="template_soal">Jenis Soal <code>*</code></label>
+                                  <b-form-select class="form-control pl-3" id="template_soal"
+                                    v-model="soalp.template_pertanyaan" @change="onUpdatePertanyaan(soalp)" :options="[
+                                      {
+                                        text: 'Pilihan Ganda',
+                                        value: 'Pilihan Ganda'
+                                      },
+                                      // { text: 'Essay', value: 'Essay' },
+                                      {
+                                        text: 'Pilihan Ganda Kompleks (Model 1)',
+                                        value: 'Pilihan Ganda Kompleks (Model 1)'
+                                      },
+                                      {
+                                        text: 'Pilihan Ganda Kompleks (Model 2)',
+                                        value: 'Pilihan Ganda Kompleks (Model 2)'
+                                      },
+                                      {
+                                        text: 'Isian Singkat',
+                                        value: 'Isian Singkat'
+                                      },
+                                      // {
+                                      //   text: 'Menjodohkan',
+                                      //   value: 'Menjodohkan'
+                                      // }
+                                    ]">
+                                  </b-form-select>
+                                </div>
+                              </div>
 
                                 <!-- <textarea
                                   name=""
@@ -371,78 +263,33 @@
                                   v-model="soalp.soal"
                                 ></textarea> -->
                                 <client-only>
-                                  <VueEditor
-                                    :id="'soal-' + soalp.id + '-' + b"
-                                    :ref="'soal-' + soalp.id + '-' + b"
-                                    v-model="soalp.soal"
-                                    :editorOptions="editorOptions"
-                                    @blur="onUpdatePertanyaan(soalp)"
-                                  />
+                                  <VueEditor :id="'soal-' + soalp.id + '-' + b" :ref="'soal-' + soalp.id + '-' + b"
+                                    v-model="soalp.soal" :editorOptions="editorOptions"
+                                    @blur="onUpdatePertanyaan(soalp)" />
                                   <div class="d-flex justify-content-end">
-                                    <button
-                                      class="btn btn-primary btn-sm square btn-add-mathjax"
-                                      @click="
-                                        addMathJax('soal-' + soalp.id + '-' + b)
-                                      "
-                                    >
-                                      Add Formula
+                                    <button v-if="soalp.template_pertanyaan === 'Isian Singkat'" class="btn btn-primary btn-sm square btn-add-input mr-3" @click="
+                                      addInputFieldToEditor('soal-' + soalp.id + '-' + b)
+                                      ">
+                                      Tambah Input Isian
+                                    </button>
+                                    <button class="btn btn-primary btn-sm square btn-add-mathjax" @click="
+                                      addMathJaxToEditor('soal-' + soalp.id + '-' + b)
+                                      ">
+                                      Tambah Rumus
                                     </button>
                                   </div>
                                 </client-only>
 
-                                <UISaveStatus
-                                  :data="onSubmit.pertanyaan[soalp.id]"
-                                  v-if="onSubmit.pertanyaan[soalp.id]"
-                                />
+                                <UISaveStatus :data="onSubmit.pertanyaan[soalp.id]"
+                                  v-if="onSubmit.pertanyaan[soalp.id]" />
                               </div>
-                              <div class="form-user px-4 mt-4">
-                                <div
-                                  class="form-group reg-siswa"
-                                  v-if="dataDetail.kategori == 'Asmenas'"
-                                >
-                                  <label for="template_soal"
-                                    >Template Pertanyaan <code>*</code></label
-                                  >
-                                  <b-form-select
-                                    class="form-control pl-0"
-                                    id="template_soal"
-                                    v-model="soalp.template_pertanyaan"
-                                    @change="onUpdatePertanyaan(soalp)"
-                                    :options="[
-                                      {
-                                        text: 'Pilihan Ganda',
-                                        value: 'Pilihan Ganda'
-                                      },
-                                      { text: 'Essay', value: 'Essay' },
-                                      {
-                                        text: 'Pilihan Ganda Kompleks',
-                                        value: 'Pilihan Ganda Kompleks'
-                                      },
-                                      {
-                                        text: 'Isian Singkat',
-                                        value: 'Isian Singkat'
-                                      },
-                                      {
-                                        text: 'Menjodohkan',
-                                        value: 'Menjodohkan'
-                                      }
-                                    ]"
-                                  >
-                                  </b-form-select>
-                                </div>
-                              </div>
-                              <div
-                                v-if="
-                                  soalp.template_pertanyaan == 'Pilihan Ganda'
-                                "
-                                class="opsi px-4 d-flex align-items-center py-4"
-                              >
+                              <div v-if="
+                                soalp.template_pertanyaan == 'Pilihan Ganda' ||
+                                soalp.template_pertanyaan.includes('Pilihan Ganda Kompleks')
+                              " class="opsi px-4 d-flex align-items-center py-4">
                                 <p class="mb-0">Opsi Jawaban <code>*</code></p>
-                                <button
-                                  type="button"
-                                  class="btn btn-primary py-1 ml-4"
-                                  @click.prevent="addOption(soalp)"
-                                >
+                                <button type="button" class="btn btn-primary py-1 ml-4"
+                                  @click.prevent="addOption(soalp)">
                                   Tambah Opsi
                                 </button>
                               </div>
@@ -451,130 +298,193 @@
                               <div class="px-4 soal">
                                 <!-- {{ soalp.opsi_pertanyaan }} -->
                                 <!-- {{ soalp.jawaban_pertanyaan }} -->
-                                <div
-                                  v-if="
-                                    soalp.template_pertanyaan == 'Pilihan Ganda'
-                                  "
-                                >
-                                  <!-- <div class="text-danger mb-4 mt-n2">
-                                    Jika ingin mengunggah gambar, sebisa mungkin
-                                    gunakan gambar berukuran kecil untuk
-                                    menghemat resource.
-                                  </div> -->
-                                  <div
-                                    class="row mb-3"
-                                    v-for="(opsi, c) in soalp.opsi_pertanyaan"
-                                    :key="'C' + c"
-                                  >
+                                <!-- <div class="text-info text-small mb-4 mt-n2">
+                                  Jika ingin mengunggah gambar, sebisa mungkin
+                                  gunakan gambar berukuran kecil untuk
+                                  menghemat resource dan mempermudah gambar dimuat.
+                                </div> -->
+                                <div v-if="
+                                  soalp.template_pertanyaan == 'Pilihan Ganda' ||
+                                  soalp.template_pertanyaan.includes('Pilihan Ganda Kompleks (Model 1)')
+                                ">
+                                  <div class="row mb-3" v-for="(opsi, c) in soalp.opsi_pertanyaan" :key="'C' + c">
                                     <div class="col">
-                                      <div
-                                        class="letter-option"
-                                        :class="[
-                                          soalp.jawaban_pertanyaan == opsi.uuid
-                                            ? 'active'
-                                            : ''
-                                        ]"
-                                      >
-                                        <label
-                                          :for="
-                                            'opsi' +
+                                      <div class="letter-option" :class="[
+                                        soalp.jawaban_pertanyaan == opsi.uuid
+                                          ? 'active'
+                                          : '',
+                                        soalp.jawaban_pertanyaan?.length > 0 && soalp.jawaban_pertanyaan.includes(opsi.uuid) ? 'active' : ''
+                                      ]">
+                                        <label :for="'opsi' +
+                                          soalp.id +
+                                          '-' +
+                                          b +
+                                          '-' +
+                                          c
+                                          " class="mb-0">{{ letterLabel(c) }}</label>
+                                        <input :type="soalp.template_pertanyaan ==
+                                          'Pilihan Ganda'
+                                          ? 'radio'
+                                          : 'checkbox'" :id="'opsi' +
                                               soalp.id +
                                               '-' +
                                               b +
                                               '-' +
                                               c
-                                          "
-                                          class="mb-0"
-                                          >{{ letterLabel(c) }}</label
-                                        >
-                                        <input
-                                          type="radio"
-                                          :id="
-                                            'opsi' +
-                                              soalp.id +
-                                              '-' +
-                                              b +
-                                              '-' +
-                                              c
-                                          "
-                                          :ref="
-                                            'opsi' +
-                                              soalp.id +
-                                              '-' +
-                                              b +
-                                              '-' +
-                                              c
-                                          "
-                                          :name="'opsi' + soalp.id + '-' + b"
-                                          :value="opsi.uuid"
-                                          v-model="soalp.jawaban_pertanyaan"
-                                          @change="
-                                            onUpdatePertanyaanOpsi(soalp, c)
-                                          "
-                                        />
-                                      </div>
-                                    </div>
-                                    <div class="col-md-10">
-                                      <client-only>
-                                        <VueEditor
-                                          :id="
-                                            'opsi-text-' +
-                                              soalp.id +
-                                              '-' +
-                                              b +
-                                              '-' +
-                                              c
-                                          "
-                                          :ref="
-                                            'opsi-text-' +
-                                              soalp.id +
-                                              '-' +
-                                              b +
-                                              '-' +
-                                              c
-                                          "
-                                          v-model="opsi.option"
-                                          :editorOptions="editorOptions"
-                                          @blur="onUpdatePertanyaan(soalp)"
-                                        />
-                                        <div class="d-flex justify-content-end">
-                                          <button
-                                            class="btn btn-primary btn-sm square btn-add-mathjax"
-                                            @click="
-                                              addMathJax(
-                                                'opsi-text-' +
+                                              " :ref="'opsi' +
                                                   soalp.id +
                                                   '-' +
                                                   b +
                                                   '-' +
                                                   c
-                                              )
-                                            "
-                                          >
-                                            Add Formula
+                                                  " :name="'opsi' + soalp.id + '-' + b" :value="opsi.uuid"
+                                          v-model="soalp.jawaban_pertanyaan" @change="
+                                            onUpdatePertanyaanOpsi(soalp, c)
+                                            " />
+                                      </div>
+                                    </div>
+                                    <div class="col-md-10">
+                                      <client-only>
+                                        <VueEditor :id="'opsi-text-' +
+                                          soalp.id +
+                                          '-' +
+                                          b +
+                                          '-' +
+                                          c
+                                          " :ref="'opsi-text-' +
+                                            soalp.id +
+                                            '-' +
+                                            b +
+                                            '-' +
+                                            c
+                                            " v-model="opsi.option" :editorOptions="editorOptions"
+                                          @blur="onUpdatePertanyaan(soalp)" />
+                                        <div class="d-flex justify-content-end">
+                                          <button class="btn btn-primary btn-sm square btn-add-mathjax" @click="
+                                            addMathJaxToEditor(
+                                              'opsi-text-' +
+                                              soalp.id +
+                                              '-' +
+                                              b +
+                                              '-' +
+                                              c
+                                            )
+                                            ">
+                                            Tambah Rumus
                                           </button>
                                         </div>
                                       </client-only>
                                     </div>
                                     <div class="col-1 text-left">
-                                      <button
-                                        type="button"
-                                        class="btn btn-danger"
-                                        v-if="
-                                          c > 3 &&
-                                            opsi.uuid !==
-                                              soalp.jawaban_pertanyaan
-                                        "
-                                        @click.prevent="deleteOption(soalp, c)"
-                                      >
+                                      <button type="button" class="btn btn-danger" v-if="soalp.template_pertanyaan === 'Pilihan Ganda' &&
+                                        soalp.opsi_pertanyaan?.length > 3 &&
+                                        opsi.uuid !==
+                                        soalp.jawaban_pertanyaan
+                                      " @click.prevent="deleteOption(soalp, c)">
+                                        <i class="fa fa-times"></i>
+                                      </button>
+                                      <button type="button" class="btn btn-danger" v-else-if="soalp.template_pertanyaan === 'Pilihan Ganda Kompleks (Model 1)' &&
+                                        soalp.opsi_pertanyaan?.length > 3 &&
+                                        soalp.jawaban_pertanyaan?.length > 0 && !soalp.jawaban_pertanyaan.includes(opsi.uuid)
+                                      " @click.prevent="deleteOption(soalp, c)">
+                                        <i class="fa fa-times"></i>
+                                      </button>
+                                      <button type="button" class="btn btn-danger" v-else-if="soalp.template_pertanyaan === 'Pilihan Ganda Kompleks (Model 2)' &&
+                                        soalp.opsi_pertanyaan?.length > 3
+                                      " @click.prevent="deleteOption(soalp, c)">
                                         <i class="fa fa-times"></i>
                                       </button>
                                     </div>
                                   </div>
-                                  <UISaveStatus
-                                    :data="onSubmit.pertanyaan[soalp.id]"
-                                    v-if="onSubmit.pertanyaan[soalp.id]"
-                                  />
+                                  <UISaveStatus :data="onSubmit.pertanyaan[soalp.id]"
+                                    v-if="onSubmit.pertanyaan[soalp.id]" />
+                                </div>
+
+                                <div v-else-if="soalp.template_pertanyaan === 'Pilihan Ganda Kompleks (Model 2)'">
+                                  <div class="mb-3">
+                                    <div class="mb-2">Pilihan:</div>
+                                    <div class="row">
+                                      <div class="col-md-6">
+                                        <input placeholder="Pilihan 1" class="form-control" />
+                                      </div>
+                                      <div class="col-md-6">
+                                        <input placeholder="Pilihan 2" class="form-control" />
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                  <div class="row mb-3" v-for="(opsi, c) in soalp.opsi_pertanyaan" :key="'C' + c">
+                                    <div class="col">
+                                      <div>
+                                        <div class="letter-option mb-1" v-for="number in 2" :key="'op' + c + '-' + number">
+                                          <label :for="'opsi' +
+                                            soalp.id +
+                                            '-' +
+                                            b +
+                                            '-' +
+                                            c + '-' + number
+                                            " class="mb-0">{{ number }}</label>
+                                          <input v-if="soalp.jawaban_pertanyaan[c]" type="radio" :id="'opsi' +
+                                            soalp.id +
+                                            '-' +
+                                            b +
+                                            '-' +
+                                            c + '-' + number
+                                            " :ref="'opsi' +
+                                                    soalp.id +
+                                                    '-' +
+                                                    b +
+                                                    '-' +
+                                                    c + '-' + number
+                                                    " :name="'opsi' + soalp.id + '-' + b + '-' + c" :value="opsi.uuid + '___' + number"
+                                            v-model="soalp.jawaban_pertanyaan[c]" @change="onUpdatePertanyaan(soalp)" />
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="col-md-10">
+                                      <client-only>
+                                        <VueEditor :id="'opsi-text-' +
+                                          soalp.id +
+                                          '-' +
+                                          b +
+                                          '-' +
+                                          c
+                                          " :ref="'opsi-text-' +
+                                              soalp.id +
+                                              '-' +
+                                              b +
+                                              '-' +
+                                              c
+                                              " v-model="opsi.option" :editorOptions="editorOptions"
+                                          @blur=" (soalp)" />
+                                        <div class="d-flex justify-content-end">
+                                          <button class="btn btn-primary btn-sm square btn-add-mathjax" @click="
+                                            addMathJaxToEditor(
+                                              'opsi-text-' +
+                                              soalp.id +
+                                              '-' +
+                                              b +
+                                              '-' +
+                                              c
+                                            )
+                                            ">
+                                            Tambah Rumus
+                                          </button>
+                                        </div>
+                                      </client-only>
+                                    </div>
+                                    <div class="col-1 text-left">
+                                      <button type="button" class="btn btn-danger" v-if="
+                                        c > 3 &&
+                                        opsi.uuid !==
+                                        soalp.jawaban_pertanyaan
+                                      " @click.prevent="deleteOption(soalp, c)">
+                                        <i class="fa fa-times"></i>
+                                      </button>
+                                    </div>
+                                  </div>
+                                  <UISaveStatus :data="onSubmit.pertanyaan[soalp.id]"
+                                    v-if="onSubmit.pertanyaan[soalp.id]" />
                                 </div>
 
                                 <p class="mt-4">Pembahasan <code>*</code></p>
@@ -587,44 +497,26 @@
                                   v-model="soalp.pembahasan_pertanyaan"
                                 ></textarea> -->
                                 <client-only>
-                                  <VueEditor
-                                    :id="'pembahasan-' + soalp.id + '-' + b"
-                                    :ref="'pembahasan-' + soalp.id + '-' + b"
-                                    v-model="soalp.pembahasan_pertanyaan"
-                                    :editorOptions="editorOptions"
-                                    @blur="onUpdatePertanyaan(soalp)"
-                                  />
+                                  <VueEditor :id="'pembahasan-' + soalp.id + '-' + b"
+                                    :ref="'pembahasan-' + soalp.id + '-' + b" v-model="soalp.pembahasan_pertanyaan"
+                                    :editorOptions="editorOptions" @blur="onUpdatePertanyaan(soalp)" />
                                   <div class="d-flex justify-content-end">
-                                    <button
-                                      class="btn btn-primary btn-sm square btn-add-mathjax"
-                                      @click="
-                                        addMathJax(
-                                          'pembahasan-' + soalp.id + '-' + b
-                                        )
-                                      "
-                                    >
-                                      Add Formula
+                                    <button class="btn btn-primary btn-sm square btn-add-mathjax" @click="
+                                      addMathJaxToEditor(
+                                        'pembahasan-' + soalp.id + '-' + b
+                                      )
+                                      ">
+                                      Tambah Rumus
                                     </button>
                                   </div>
                                 </client-only>
-                                <UISaveStatus
-                                  :data="onSubmit.pertanyaan[soalp.id]"
-                                  v-if="onSubmit.pertanyaan[soalp.id]"
-                                />
+                                <UISaveStatus :data="onSubmit.pertanyaan[soalp.id]"
+                                  v-if="onSubmit.pertanyaan[soalp.id]" />
 
-                                <button
-                                  type="button"
-                                  class="btn btn-success py-1 mt-3"
-                                  @click.prevent="addQuestion(soalp)"
-                                  v-if="soalp.pertanyaan_child.length == 0"
-                                  :disabled="loading"
-                                >
-                                  <b-spinner
-                                    small
-                                    type="grow"
-                                    class="mr-1"
-                                    v-if="loading"
-                                  ></b-spinner>
+                                <button type="button" class="btn btn-success py-1 mt-3"
+                                  @click.prevent="addQuestion(soalp)" v-if="soalp.pertanyaan_child.length == 0"
+                                  :disabled="loading">
+                                  <b-spinner small type="grow" class="mr-1" v-if="loading"></b-spinner>
                                   Tambah Pertanyaan
                                 </button>
                               </div>
@@ -632,12 +524,8 @@
                             </div>
 
                             <!-- SOAL PERTANYAAN - CHILD -->
-                            <div
-                              class="card-body-content-dua dua"
-                              v-for="(child, d) in soalp.pertanyaan_child"
-                              :key="'D' + d"
-                              :id="'pertanyaan-' + child.nomor"
-                            >
+                            <div class="card-body-content-dua dua" v-for="(child, d) in soalp.pertanyaan_child"
+                              :key="'D' + d" :id="'pertanyaan-' + child.nomor">
                               <div class="col-md-12 px-4 py-2 soal mt-2">
                                 <div class="header-soal">
                                   <p style="font-weight: bold">
@@ -649,20 +537,10 @@
                                   >
                                     Hapus Pertanyaan
                                   </button> -->
-                                  <button
-                                    type="button"
-                                    class="btn btn-danger dua py-1"
-                                    @click.prevent="
-                                      deleteQuestion(soalp.pertanyaan_child, d)
-                                    "
-                                    :disabled="loading"
-                                  >
-                                    <b-spinner
-                                      v-if="loading"
-                                      type="grow"
-                                      small
-                                      class="mr-1"
-                                    ></b-spinner>
+                                  <button type="button" class="btn btn-danger dua py-1" @click.prevent="
+                                    deleteQuestion(soalp.pertanyaan_child, d)
+                                    " :disabled="loading">
+                                    <b-spinner v-if="loading" type="grow" small class="mr-1"></b-spinner>
                                     Hapus Pertanyaan
                                   </button>
                                 </div>
@@ -675,168 +553,107 @@
                                   v-model="child.soal"
                                 ></textarea> -->
                                 <client-only>
-                                  <VueEditor
-                                    :id="
-                                      'soal-' + child.id + '-' + b + ' - ' + d
-                                    "
-                                    :ref="
-                                      'soal-' + child.id + '-' + b + ' - ' + d
-                                    "
-                                    v-model="child.soal"
-                                    :editorOptions="editorOptions"
-                                    @blur="onUpdatePertanyaanChild(child)"
-                                  />
+                                  <VueEditor :id="'soal-' + child.id + '-' + b + ' - ' + d
+                                    " :ref="'soal-' + child.id + '-' + b + ' - ' + d
+                                      " v-model="child.soal" :editorOptions="editorOptions"
+                                    @blur="onUpdatePertanyaanChild(child)" />
                                   <div class="d-flex justify-content-end">
-                                    <button
-                                      class="btn btn-primary btn-sm square btn-add-mathjax"
-                                      @click="
-                                        addMathJax(
-                                          'soal-' +
-                                            child.id +
-                                            '-' +
-                                            b +
-                                            ' - ' +
-                                            d
-                                        )
-                                      "
-                                    >
-                                      Add Formula
+                                    <button class="btn btn-primary btn-sm square btn-add-mathjax" @click="
+                                      addMathJaxToEditor(
+                                        'soal-' +
+                                        child.id +
+                                        '-' +
+                                        b +
+                                        ' - ' +
+                                        d
+                                      )
+                                      ">
+                                      Tambah Rumus
                                     </button>
                                   </div>
                                 </client-only>
-                                <UISaveStatus
-                                  :data="onSubmit.perchild[child.id]"
-                                  v-if="onSubmit.perchild[child.id]"
-                                />
+                                <UISaveStatus :data="onSubmit.perchild[child.id]" v-if="onSubmit.perchild[child.id]" />
                               </div>
 
                               <!-- CHILD OPSI JAWABAN -->
-                              <div
-                                class="opsi px-4 d-flex align-items-center py-4"
-                              >
+                              <div class="opsi px-4 d-flex align-items-center py-4">
                                 <p class="mb-0">Opsi Jawaban <code>*</code></p>
-                                <button
-                                  type="button"
-                                  class="btn btn-primary py-1 ml-4"
-                                  @click.prevent="addChildOption(child)"
-                                >
+                                <button type="button" class="btn btn-primary py-1 ml-4"
+                                  @click.prevent="addChildOption(child)">
                                   Tambah Opsi
                                 </button>
                               </div>
 
                               <div class="px-4 soal">
-                                <div
-                                  class="row mb-3"
-                                  v-for="(opsi_child,
-                                  d) in child.opsi_pertanyaan"
-                                  :key="'D' + d"
-                                >
+                                <div class="row mb-3" v-for="(opsi_child,
+                                  d) in child.opsi_pertanyaan" :key="'D' + d">
                                   <div class="col-md-1">
-                                    <div
-                                      class="letter-option"
-                                      :class="[
-                                        child.jawaban_pertanyaan ==
+                                    <div class="letter-option" :class="[
+                                      child.jawaban_pertanyaan ==
                                         opsi_child.uuid
-                                          ? 'active'
-                                          : ''
-                                      ]"
-                                    >
-                                      <label
-                                        :for="
-                                          'opsi-' + child.id + '-' + b + '-' + d
-                                        "
-                                        class="mb-0"
-                                        >{{ letterLabel(d) }}</label
-                                      >
-                                      <input
-                                        type="radio"
-                                        :id="
-                                          'opsi-' + child.id + '-' + b + '-' + d
-                                        "
-                                        :ref="
-                                          'opsi-' + child.id + '-' + b + '-' + d
-                                        "
-                                        :name="
-                                          'opsi-' + child.id + '-' + b + '-' + d
-                                        "
-                                        :value="opsi_child.uuid"
-                                        v-model="child.jawaban_pertanyaan"
-                                        @change="
-                                          onUpdatePertanyaanOpsi(child, d)
-                                        "
-                                      />
+                                        ? 'active'
+                                        : ''
+                                    ]">
+                                      <label :for="'opsi-' + child.id + '-' + b + '-' + d
+                                        " class="mb-0">{{ letterLabel(d) }}</label>
+                                      <input type="radio" :id="'opsi-' + child.id + '-' + b + '-' + d
+                                        " :ref="'opsi-' + child.id + '-' + b + '-' + d
+                                          " :name="'opsi-' + child.id + '-' + b + '-' + d
+                                            " :value="opsi_child.uuid" v-model="child.jawaban_pertanyaan" @change="
+                                            onUpdatePertanyaanOpsi(child, d)
+                                            " />
                                     </div>
                                   </div>
                                   <div class="col-md-10">
                                     <client-only>
-                                      <VueEditor
-                                        :id="
-                                          'opsi-text-' +
+                                      <VueEditor :id="'opsi-text-' +
+                                        child.id +
+                                        '-' +
+                                        b +
+                                        '-' +
+                                        d
+                                        " :ref="'opsi-text-' +
+                                          child.id +
+                                          '-' +
+                                          b +
+                                          '-' +
+                                          d
+                                          " :name="'opsi-text-' +
                                             child.id +
                                             '-' +
                                             b +
                                             '-' +
                                             d
-                                        "
-                                        :ref="
-                                          'opsi-text-' +
-                                            child.id +
-                                            '-' +
-                                            b +
-                                            '-' +
-                                            d
-                                        "
-                                        :name="
-                                          'opsi-text-' +
-                                            child.id +
-                                            '-' +
-                                            b +
-                                            '-' +
-                                            d
-                                        "
-                                        v-model="opsi_child.option"
-                                        :editorOptions="editorOptions"
-                                        @blur="onUpdatePertanyaan(child)"
-                                      />
+                                            " v-model="opsi_child.option" :editorOptions="editorOptions"
+                                        @blur="onUpdatePertanyaan(child)" />
                                       <div class="d-flex justify-content-end">
-                                        <button
-                                          class="btn btn-primary btn-sm square btn-add-mathjax"
-                                          @click="
-                                            addMathJax(
-                                              'opsi-text-' +
-                                                child.id +
-                                                '-' +
-                                                b +
-                                                '-' +
-                                                d
-                                            )
-                                          "
-                                        >
-                                          Add Formula
+                                        <button class="btn btn-primary btn-sm square btn-add-mathjax" @click="
+                                          addMathJaxToEditor(
+                                            'opsi-text-' +
+                                            child.id +
+                                            '-' +
+                                            b +
+                                            '-' +
+                                            d
+                                          )
+                                          ">
+                                          Tambah Rumus
                                         </button>
                                       </div>
                                     </client-only>
                                   </div>
                                   <div class="col-md-1 text-left">
-                                    <button
-                                      type="button"
-                                      class="btn btn-danger"
-                                      v-if="
-                                        d > 3 &&
-                                          opsi_child.correct !==
-                                            child.jawaban_pertanyaan
-                                      "
-                                      @click.prevent="deleteOption(child, d)"
-                                    >
+                                    <button type="button" class="btn btn-danger" v-if="
+                                      d > 3 &&
+                                      opsi_child.correct !==
+                                      child.jawaban_pertanyaan
+                                    " @click.prevent="deleteOption(child, d)">
                                       <i class="fa fa-times"></i>
                                     </button>
                                   </div>
                                 </div>
 
-                                <UISaveStatus
-                                  :data="onSubmit.perchild[child.id]"
-                                  v-if="onSubmit.perchild[child.id]"
-                                />
+                                <UISaveStatus :data="onSubmit.perchild[child.id]" v-if="onSubmit.perchild[child.id]" />
 
                                 <p class="mt-4">Pembahasan <code>*</code></p>
                                 <!-- <textarea
@@ -848,63 +665,41 @@
                                   v-model="child.pembahasan_pertanyaan"
                                 ></textarea> -->
                                 <client-only>
-                                  <VueEditor
-                                    :id="
-                                      'pembahasan-' +
-                                        child.id +
-                                        '-' +
-                                        b +
-                                        '-' +
-                                        d
-                                    "
-                                    :ref="
-                                      'pembahasan-' +
-                                        child.id +
-                                        '-' +
-                                        b +
-                                        '-' +
-                                        d
-                                    "
-                                    v-model="child.pembahasan_pertanyaan"
-                                    :editorOptions="editorOptions"
-                                    @blur="onUpdatePertanyaan(child)"
-                                  />
+                                  <VueEditor :id="'pembahasan-' +
+                                    child.id +
+                                    '-' +
+                                    b +
+                                    '-' +
+                                    d
+                                    " :ref="'pembahasan-' +
+                                      child.id +
+                                      '-' +
+                                      b +
+                                      '-' +
+                                      d
+                                      " v-model="child.pembahasan_pertanyaan" :editorOptions="editorOptions"
+                                    @blur="onUpdatePertanyaan(child)" />
                                   <div class="d-flex justify-content-end">
-                                    <button
-                                      class="btn btn-primary btn-sm square btn-add-mathjax"
-                                      @click="
-                                        addMathJax(
-                                          'pembahasan-' +
-                                            child.id +
-                                            '-' +
-                                            b +
-                                            '-' +
-                                            d
-                                        )
-                                      "
-                                    >
-                                      Add Formula
+                                    <button class="btn btn-primary btn-sm square btn-add-mathjax" @click="
+                                      addMathJaxToEditor(
+                                        'pembahasan-' +
+                                        child.id +
+                                        '-' +
+                                        b +
+                                        '-' +
+                                        d
+                                      )
+                                      ">
+                                      Tambah Rumus
                                     </button>
                                   </div>
                                 </client-only>
-                                <UISaveStatus
-                                  :data="onSubmit.perchild[child.id]"
-                                  v-if="onSubmit.perchild[child.id]"
-                                />
+                                <UISaveStatus :data="onSubmit.perchild[child.id]" v-if="onSubmit.perchild[child.id]" />
 
-                                <button
-                                  type="button"
-                                  class="btn btn-success py-1 mt-3"
-                                  v-if="soalp.pertanyaan_child.length == d + 1"
-                                  @click.prevent="addQuestion(soalp)"
-                                  :disabled="loading"
-                                >
-                                  <b-spinner
-                                    small
-                                    type="grow"
-                                    class="mr-1"
-                                    v-if="loading"
-                                  ></b-spinner>
+                                <button type="button" class="btn btn-success py-1 mt-3"
+                                  v-if="soalp.pertanyaan_child.length == d + 1" @click.prevent="addQuestion(soalp)"
+                                  :disabled="loading">
+                                  <b-spinner small type="grow" class="mr-1" v-if="loading"></b-spinner>
                                   Tambah Pertanyaan
                                 </button>
                               </div>
@@ -913,21 +708,10 @@
                             <!-- / SOAL PERTANYAAN - CHILD -->
 
                             <div class="dashboard soal pt-0">
-                              <button
-                                type="button"
-                                class="btn btn-info py-1 mt-4"
-                                @click.prevent="
-                                  addBabMapel(soalp, soal.pertanyaan)
-                                "
-                                v-if="b == soal.pertanyaan.length - 1"
-                                :disabled="loading"
-                              >
-                                <b-spinner
-                                  small
-                                  type="grow"
-                                  class="mr-1"
-                                  v-if="loading"
-                                ></b-spinner>
+                              <button type="button" class="btn btn-info py-1 mt-4" @click.prevent="
+                                addBabMapel(soalp, soal.pertanyaan)
+                                " v-if="b == soal.pertanyaan.length - 1" :disabled="loading">
+                                <b-spinner small type="grow" class="mr-1" v-if="loading"></b-spinner>
 
                                 Tambah Bab Mata Pelajaran
                               </button>
@@ -936,48 +720,26 @@
                         </template>
                         <!-- ./SOAL PERTANYAAN -->
 
-                        <button
-                          type="button"
-                          class="btn btn-warning tambah py-1 mt-4"
-                          v-if="
-                            a == formSoal.length - 1 &&
-                              soal.pertanyaan.length > 0
-                          "
-                          :disabled="loading"
-                          @click.prevent="
-                            addNewMapel = true;
-                            newMapel.jenis_soal = soal.jenis_soal;
-                            newMapel.kelompok_soal = soal.kelompok_soal;
-                          "
-                        >
-                          <b-spinner
-                            small
-                            type="grow"
-                            class="mr-1"
-                            v-if="loading"
-                          ></b-spinner>
+                        <button type="button" class="btn btn-warning tambah py-1 mt-4" v-if="
+                          a == formSoal.length - 1 &&
+                          soal.pertanyaan.length > 0
+                        " :disabled="loading" @click.prevent="
+                          addNewMapel = true;
+                        newMapel.jenis_soal = soal.jenis_soal;
+                        newMapel.kelompok_soal = soal.kelompok_soal;
+                        ">
+                          <b-spinner small type="grow" class="mr-1" v-if="loading"></b-spinner>
                           Tambah Mata Pelajaran
                         </button>
-                        <button
-                          type="button"
-                          class="btn btn-warning tambah py-1 mt-4"
-                          v-if="
-                            dataDetail.jenis_soal == 'Campuran' &&
-                              soal.pertanyaan.length > 0
-                          "
-                          :disabled="loading"
-                          @click.prevent="
-                            addNewMapel = true;
-                            newMapel.jenis_soal = soal.jenis_soal;
-                            newMapel.kelompok_soal = soal.kelompok_soal;
-                          "
-                        >
-                          <b-spinner
-                            small
-                            type="grow"
-                            class="mr-1"
-                            v-if="loading"
-                          ></b-spinner>
+                        <button type="button" class="btn btn-warning tambah py-1 mt-4" v-if="
+                          dataDetail.jenis_soal == 'Campuran' &&
+                          soal.pertanyaan.length > 0
+                        " :disabled="loading" @click.prevent="
+                          addNewMapel = true;
+                        newMapel.jenis_soal = soal.jenis_soal;
+                        newMapel.kelompok_soal = soal.kelompok_soal;
+                        ">
+                          <b-spinner small type="grow" class="mr-1" v-if="loading"></b-spinner>
                           Tambah Mata Pelajaran
                         </button>
                       </div>
@@ -986,22 +748,12 @@
                 </b-card>
 
                 <b-card class="mt-4" body-class="pb-4">
-                  <button
-                    type="button"
-                    class="btn btn-warning tambah py-1 mt-4"
-                    :disabled="loading"
-                    @click.prevent="
-                      addNewMapel = true;
-                      newMapel.jenis_soal = dataDetail.jenis_soal;
-                      newMapel.kelompok_soal = dataDetail.kelompok_soal;
-                    "
-                  >
-                    <b-spinner
-                      small
-                      type="grow"
-                      class="mr-1"
-                      v-if="loading"
-                    ></b-spinner>
+                  <button type="button" class="btn btn-warning tambah py-1 mt-4" :disabled="loading" @click.prevent="
+                    addNewMapel = true;
+                  newMapel.jenis_soal = dataDetail.jenis_soal;
+                  newMapel.kelompok_soal = dataDetail.kelompok_soal;
+                  ">
+                    <b-spinner small type="grow" class="mr-1" v-if="loading"></b-spinner>
                     Tambah Mata Pelajaran
                   </button>
                 </b-card>
@@ -1015,85 +767,43 @@
                   <div class="card-body-content">
                     <div class="col-md-12 form-user form-pilih-kelas p-0 mt-3">
                       <div class="form-group reg-siswa">
-                        <label for="id_mapel"
-                          >Mata Pelajaran <code>*</code></label
-                        >
-                        <select
-                          class="form-control pl-0"
-                          id="id_mapel"
-                          v-model="newMapel.id_mapel"
-                        >
+                        <label for="id_mapel">Mata Pelajaran <code>*</code></label>
+                        <select class="form-control pl-0" id="id_mapel" v-model="newMapel.id_mapel">
                           <option :value="null">-- Pilih --</option>
-                          <option
-                            :value="mapel.id"
-                            v-for="(mapel, m) in dataMaster['mapel']"
-                            :key="m"
-                            >{{ mapel.nama_mapel }}</option
-                          >
+                          <option :value="mapel.id" v-for="(mapel, m) in dataMaster['mapel']" :key="m">{{
+                            mapel.nama_mapel }}</option>
                         </select>
                       </div>
                       <div class="form-group reg-siswa">
                         <div class="row">
                           <div class="col-md-2">
-                            <label for="jumlah_soal"
-                              >Jumlah Soal <code>*</code></label
-                            >
+                            <label for="jumlah_soal">Jumlah Soal <code>*</code></label>
                           </div>
                           <div class="col-md-8">
-                            <input
-                              type="text"
-                              class="form-control"
-                              id="jumlah_soal"
-                              v-model="newMapel.jumlah_soal"
-                            />
+                            <input type="text" class="form-control" id="jumlah_soal" v-model="newMapel.jumlah_soal" />
                           </div>
                         </div>
                       </div>
-                          <div class="form-group reg-siswa">
-                            <label for="jeda_waktu_antar_mapel"
-                              >Alokasi Waktu Per-Mata Pelajaran (Menit) <code>*</code></label
-                            >
-                            <input
-                              type="text"
-                              class="form-control pl-0"
-                              id="jeda_waktu_antar_mapel"
-                              placeholder="Ex: 80"
-                              v-model="newMapel.alokasi_waktu_per_mapel"
-
-                            />
-                          </div>
-                          <div class="form-group reg-siswa">
-                            <label for="jeda_waktu_antar_mapel"
-                              >Jeda Waktu Dengan Mata Pelajaran Berikutnya (Detik) <code>*</code></label
-                            >
-                            <input
-                              type="text"
-                              class="form-control pl-0"
-                              id="jeda_waktu_antar_mapel"
-                              placeholder="Ex: 30"
-                              v-model="newMapel.jeda_waktu_antar_mapel"
-                            />
-                          </div>
+                      <div class="form-group reg-siswa">
+                        <label for="jeda_waktu_antar_mapel">Alokasi Waktu Per-Mata Pelajaran (Menit)
+                          <code>*</code></label>
+                        <input type="text" class="form-control pl-0" id="jeda_waktu_antar_mapel" placeholder="Ex: 80"
+                          v-model="newMapel.alokasi_waktu_per_mapel" />
+                      </div>
+                      <div class="form-group reg-siswa">
+                        <label for="jeda_waktu_antar_mapel">Jeda Waktu Dengan Mata Pelajaran Berikutnya (Detik)
+                          <code>*</code></label>
+                        <input type="text" class="form-control pl-0" id="jeda_waktu_antar_mapel" placeholder="Ex: 30"
+                          v-model="newMapel.jeda_waktu_antar_mapel" />
+                      </div>
                       <div class="d-flex">
-                        <button
-                          type="button"
-                          class="btn btn-primary mr-2"
-                          @click.prevent="addMapel()"
-                          :disabled="loading"
-                        >
-                          <b-spinner
-                            v-if="loading"
-                            type="grow"
-                            small
-                            class="mr-1"
-                          ></b-spinner>
+                        <button type="button" class="btn btn-primary mr-2" @click.prevent="addMapel()"
+                          :disabled="loading">
+                          <b-spinner v-if="loading" type="grow" small class="mr-1"></b-spinner>
                           Tambah Mata Pelajaran
                         </button>
-                        <button
-                          type="button"
-                          class="btn btn-outline-primary"
-                          @click.prevent="addNewMapel = false; resetNewMapel()"
-                        >
+                        <button type="button" class="btn btn-outline-primary"
+                          @click.prevent="addNewMapel = false; resetNewMapel()">
                           <b-icon icon="x" class="mr-1"></b-icon>
                           Batal
                         </button>
@@ -1109,10 +819,7 @@
         </div>
         <div class="crud-footer d-flex justify-content-end mt-4">
 
-          <nuxt-link
-            to="/administrator/tryout"
-            class="btn btn-outline-secondary mr-2"
-          >
+          <nuxt-link to="/administrator/tryout" class="btn btn-outline-secondary mr-2">
             Kembali
           </nuxt-link>
           <!-- <button type="submit" class="btn btn-primary" :disabled="loading">
@@ -1125,13 +832,8 @@
     <div class="floating-pagination">
       <div class="text-center small mb-1">Navigation:</div>
       <!-- v-if="totalRows > 0 && totalRows > filter.perPage && !loading" -->
-      <b-pagination
-        class="pagination-table"
-        v-if="!loading"
-        v-model="filter.page"
-        :total-rows="filter.totalNumber"
-        :per-page="filter.perPage"
-      >
+      <b-pagination class="pagination-table" v-if="!loading" v-model="filter.page" :total-rows="filter.totalNumber"
+        :per-page="filter.perPage">
       </b-pagination>
     </div>
   </div>
@@ -1228,7 +930,7 @@ export default {
     this.getData("mapel");
   },
   watch: {
-    "filter.page": async function(number) {
+    "filter.page": async function (number) {
       if (number) {
         const baseUrl = window.location.origin + window.location.pathname;
 
@@ -1272,7 +974,7 @@ export default {
       console.log(this.tab);
       console.log(this.visible);
     },
-    addMathJax(ref) {
+    addMathJaxToEditor(ref) {
       console.log(this.$refs[ref]);
       let refElement = this.$refs[ref];
       if (!refElement) return;
@@ -1286,6 +988,22 @@ export default {
       editor.insertEmbed(range.index, "mathjax", latex);
       editor.insertText(range.index + range.length + 1, " ");
       editor.setSelection(range.index + range.length + 1);
+    },
+    addInputFieldToEditor(ref) {
+      console.log(this.$refs[ref]);
+      let refElement = this.$refs[ref];
+      if (!refElement) return;
+      let editor = refElement.quill;
+      if (!editor) {
+        editor = refElement[0].quill;
+      }
+
+      const range = editor.getSelection(true);
+      editor.deleteText(range.index, range.length);
+      editor.insertEmbed(range.index, "inputfield", "<input type='text' name='"+ref+"' disable style='max-width:80px' />");
+      editor.insertText(range.index + range.length + 1, " ");
+      editor.setSelection(range.index + range.length + 1);
+
     },
     async getDetail(type, id) {
       this.loading = true;
@@ -1593,6 +1311,12 @@ export default {
         uuid: uuidv4(),
         option: "Opsi Baru"
       });
+
+      if (pertanyaan.template_pertanyaan === 'Pilihan Ganda Kompleks (Model 2)') {
+        const opsiPertanyaanLastIndex = pertanyaan.opsi_pertanyaan.length - 1
+        pertanyaan.jawaban_pertanyaan[opsiPertanyaanLastIndex] = pertanyaan.opsi_pertanyaan[opsiPertanyaanLastIndex].option + '___1'
+      }
+
       this.onSubmit.pertanyaan[pertanyaan.id].loading = true;
       this.$axios
         .$put(`/api/soal/pertanyaan/update/${pertanyaan.id}`, pertanyaan)
@@ -1644,6 +1368,7 @@ export default {
       if (!this.onSubmit.pertanyaan[pertanyaan.id]) {
         this.onSubmit.pertanyaan[pertanyaan.id] = {};
       }
+
       this.onSubmit.pertanyaan[pertanyaan.id].loading = true;
       this.$axios
         .$put(`/api/soal/pertanyaan/update/${pertanyaan.id}`, pertanyaan)
@@ -1897,17 +1622,49 @@ export default {
         });
     },
     onUpdatePertanyaan(pertanyaan) {
-      // console.log(pertanyaan);
-      // if (
-      //   pertanyaan.template_pertanyaan == "Pilihan Ganda Kompleks" &&
-      //   !Array.isArray(pertanyaan.jawaban_pertanyaan)
-      // ) {
-      //   pertanyaan.jawaban_pertanyaan = [pertanyaan.jawaban_pertanyaan];
-      // } else {
-      //   pertanyaan.jawaban_pertanyaan = pertanyaan.opsi_pertanyaan[0]
-      //     ? pertanyaan.opsi_pertanyaan[0].uuid
-      //     : pertanyaan.jawaban_pertanyaan;
-      // }
+      if (
+        pertanyaan.template_pertanyaan.includes("Pilihan Ganda Kompleks")
+      ) {
+        if (pertanyaan.template_pertanyaan === 'Pilihan Ganda Kompleks (Model 1)') {
+          if (Array.isArray(pertanyaan.jawaban_pertanyaan)) {
+            pertanyaan.jawaban_pertanyaan = pertanyaan.jawaban_pertanyaan.filter(v => !!v)
+          } else {
+            pertanyaan.jawaban_pertanyaan = []
+          }
+
+          // min jawaban = 2
+          if (pertanyaan.jawaban_pertanyaan.length < 2) {
+            for (let x=0; x < pertanyaan.opsi_pertanyaan.length; x++) {
+              const opsi = pertanyaan.opsi_pertanyaan[x]
+              if (pertanyaan.jawaban_pertanyaan.length < 2) {
+                pertanyaan.jawaban_pertanyaan.push(opsi.uuid)
+              }
+            }
+          }
+
+        } else if (pertanyaan.template_pertanyaan === 'Pilihan Ganda Kompleks (Model 2)') {
+          // pertanyaan.jawaban_pertanyaan = []
+          if (Array.isArray(pertanyaan.jawaban_pertanyaan)) {
+            pertanyaan.jawaban_pertanyaan = pertanyaan.jawaban_pertanyaan.filter(v => v.includes('___'))
+          } else {
+            pertanyaan.jawaban_pertanyaan = []
+          }
+
+          if (pertanyaan.jawaban_pertanyaan.length !== pertanyaan.opsi_pertanyaan.length) {
+            for (let x=0; x < pertanyaan.opsi_pertanyaan.length; x++) {
+              const opsi = pertanyaan.opsi_pertanyaan[x]
+              if (!pertanyaan.jawaban_pertanyaan[x]) {
+                pertanyaan.jawaban_pertanyaan[x] = opsi.uuid + '___1'
+              }
+            }
+          }
+        }
+      } else {
+        pertanyaan.jawaban_pertanyaan = pertanyaan.opsi_pertanyaan[0]
+          ? pertanyaan.opsi_pertanyaan[0].uuid
+          : pertanyaan.jawaban_pertanyaan;
+      }
+      console.log('pertanyaan', pertanyaan);
 
       if (!this.onSubmit.pertanyaan[pertanyaan.id]) {
         this.onSubmit.pertanyaan[pertanyaan.id] = {};

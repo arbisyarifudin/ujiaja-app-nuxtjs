@@ -158,6 +158,7 @@
                     v-model="form.kelompok_soal"
                     :options="[
                       { text: '-- Pilih --', value: null },
+                      { text: 'CAMPURAN', value: 'CAMPURAN' },
                       { text: 'SAINTEK', value: 'SAINTEK' },
                       { text: 'SOSHUM', value: 'SOSHUM' }
                     ]"
@@ -167,7 +168,7 @@
                   </b-form-select>
                 </div>
               </div>
-              <div class="col-md-6">
+              <div class="col-md-6 d-none">
                 <div class="form-group reg-siswa">
                   <label for="select">Template Soal <code>*</code></label>
                   <b-form-select
@@ -239,7 +240,7 @@ export default {
     this.getData("penjurusan");
     if (!this.$route.params.id)
       return this.$router.push("/administrator/tryout");
-    
+
     this.$store.commit("modifyBreadcrumb", [
       {
         text: "Tryout",
