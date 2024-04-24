@@ -121,17 +121,17 @@ input:disabled,
   box-shadow: none !important;
 }
 .btn.btn-primary {
-  background-color: #8781FF;
-  border-color: #8781FF;
+  background-color: #8781FF !important;
+  border-color: #8781FF !important;
 }
 .btn.btn-primary:hover {
-  background-color: #9e8df3;
-  border-color: #9e8df3;
+  background-color: #8781FF !important;
+  border-color: #8781FF !important;
   color: white;
 }
 .btn.btn-primary:active:not(.disabled), .btn.btn-primary:active:not(:disabled) {
-  background-color: #9e8df3;
-  border-color: #9e8df3;
+  background-color: #8781FF !important;
+  border-color: #8781FF !important;
   color: white;
 }
 .btn.btn-light {
@@ -223,7 +223,7 @@ input:disabled,
 .sidebar-col {
   box-shadow: 3px 0px 10px 0px rgba(207, 207, 207, 0.5) !important;
   z-index: 11;
-  background-color: #8781FF;
+  background-color: #8781FF !important;
   color: #fff;
 }
 .sidebar-col .navbar-light .navbar-nav .nav-link {
@@ -318,7 +318,7 @@ input:disabled,
   z-index: 5;
 }
 #menu.sidebar .dropdown-item.active, #menu.sidebar .dropdown-item.nuxt-link-exact-active {
-  background-color: rgba(176, 166, 239, 0.5);
+  background-color: rgba(135, 129, 255, 0.75) !important;
   color: #fff;
 }
 
@@ -416,7 +416,8 @@ input:disabled,
   background-color: #fff;
   border-right: none;
   color: #8781FF;
-  padding-left: 25px;
+  padding-left: 15px;
+  font-size: 12px;
 }
 .crud .crud-body {
   z-index: 10;
