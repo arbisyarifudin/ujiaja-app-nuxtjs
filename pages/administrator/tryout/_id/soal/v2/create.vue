@@ -155,8 +155,8 @@
                         </div>
 
                         <!-- SOAL PERTANYAAN -->
-                        <template v-for="(soalp, b) in soal.pertanyaan">
-                          <div class="card-body-content-dua" :key="'B' + b">
+                        <template v-for="(soalp, b) in soal.pertanyaan" :key="'B' + b">
+                          <div class="card-body-content-dua">
                             <div class="col-md-12 dashboard soal mt-2">
                               <div class="header-soal">
                                 <label>Bab Mata Pelajaran <code>*</code></label>
@@ -223,36 +223,36 @@
                                 </div>
 
                                 <div class="form-user mt-2">
-                                <!-- v-if="dataDetail.kategori == 'Asmenas'" -->
-                                <div class="form-group reg-siswa">
-                                  <label for="template_soal">Jenis Soal <code>*</code></label>
-                                  <b-form-select class="form-control pl-3" id="template_soal"
-                                    v-model="soalp.template_pertanyaan" @change="onUpdatePertanyaan(soalp)" :options="[
-                                      {
-                                        text: 'Pilihan Ganda',
-                                        value: 'Pilihan Ganda'
-                                      },
-                                      // { text: 'Essay', value: 'Essay' },
-                                      {
-                                        text: 'Pilihan Ganda Kompleks (Model 1)',
-                                        value: 'Pilihan Ganda Kompleks (Model 1)'
-                                      },
-                                      {
-                                        text: 'Pilihan Ganda Kompleks (Model 2)',
-                                        value: 'Pilihan Ganda Kompleks (Model 2)'
-                                      },
-                                      {
-                                        text: 'Isian Singkat',
-                                        value: 'Isian Singkat'
-                                      },
-                                      // {
-                                      //   text: 'Menjodohkan',
-                                      //   value: 'Menjodohkan'
-                                      // }
-                                    ]">
-                                  </b-form-select>
+                                  <!-- v-if="dataDetail.kategori == 'Asmenas'" -->
+                                  <div class="form-group reg-siswa">
+                                    <label for="template_soal">Jenis Soal <code>*</code></label>
+                                    <b-form-select class="form-control pl-3" id="template_soal"
+                                      v-model="soalp.template_pertanyaan" @change="onUpdatePertanyaan(soalp)" :options="[
+                                        {
+                                          text: 'Pilihan Ganda',
+                                          value: 'Pilihan Ganda'
+                                        },
+                                        // { text: 'Essay', value: 'Essay' },
+                                        {
+                                          text: 'Pilihan Ganda Kompleks (Model 1)',
+                                          value: 'Pilihan Ganda Kompleks (Model 1)'
+                                        },
+                                        {
+                                          text: 'Pilihan Ganda Kompleks (Model 2)',
+                                          value: 'Pilihan Ganda Kompleks (Model 2)'
+                                        },
+                                        {
+                                          text: 'Isian Singkat',
+                                          value: 'Isian Singkat'
+                                        },
+                                        // {
+                                        //   text: 'Menjodohkan',
+                                        //   value: 'Menjodohkan'
+                                        // }
+                                      ]">
+                                    </b-form-select>
+                                  </div>
                                 </div>
-                              </div>
 
                                 <!-- <textarea
                                   name=""
@@ -267,9 +267,10 @@
                                     v-model="soalp.soal" :editorOptions="editorOptions"
                                     @blur="onUpdatePertanyaan(soalp)" />
                                   <div class="d-flex justify-content-end">
-                                    <button v-if="soalp.template_pertanyaan === 'Isian Singkat'" class="btn btn-primary btn-sm square btn-add-input mr-3" @click="
-                                      addInputFieldToEditor('soal-' + soalp.id + '-' + b)
-                                      ">
+                                    <button v-if="soalp.template_pertanyaan === 'Isian Singkat'"
+                                      class="btn btn-primary btn-sm square btn-add-input mr-3" @click="
+                                        addInputFieldToEditor('soal-' + soalp.id + '-' + b)
+                                        ">
                                       Tambah Input Isian
                                     </button>
                                     <button class="btn btn-primary btn-sm square btn-add-mathjax" @click="
@@ -326,18 +327,18 @@
                                           'Pilihan Ganda'
                                           ? 'radio'
                                           : 'checkbox'" :id="'opsi' +
+                                            soalp.id +
+                                            '-' +
+                                            b +
+                                            '-' +
+                                            c
+                                            " :ref="'opsi' +
                                               soalp.id +
                                               '-' +
                                               b +
                                               '-' +
                                               c
-                                              " :ref="'opsi' +
-                                                  soalp.id +
-                                                  '-' +
-                                                  b +
-                                                  '-' +
-                                                  c
-                                                  " :name="'opsi' + soalp.id + '-' + b" :value="opsi.uuid"
+                                              " :name="'opsi' + soalp.id + '-' + b" :value="opsi.uuid"
                                           v-model="soalp.jawaban_pertanyaan" @change="
                                             onUpdatePertanyaanOpsi(soalp, c)
                                             " />
@@ -416,7 +417,8 @@
                                   <div class="row mb-3" v-for="(opsi, c) in soalp.opsi_pertanyaan" :key="'C' + c">
                                     <div class="col">
                                       <div>
-                                        <div class="letter-option mb-1" v-for="number in 2" :key="'op' + c + '-' + number">
+                                        <div class="letter-option mb-1" v-for="number in 2"
+                                          :key="'op' + c + '-' + number">
                                           <label :for="'opsi' +
                                             soalp.id +
                                             '-' +
@@ -431,13 +433,14 @@
                                             '-' +
                                             c + '-' + number
                                             " :ref="'opsi' +
-                                                    soalp.id +
-                                                    '-' +
-                                                    b +
-                                                    '-' +
-                                                    c + '-' + number
-                                                    " :name="'opsi' + soalp.id + '-' + b + '-' + c" :value="opsi.uuid + '___' + number"
-                                            v-model="soalp.jawaban_pertanyaan[c]" @change="onUpdatePertanyaan(soalp)" />
+                                              soalp.id +
+                                              '-' +
+                                              b +
+                                              '-' +
+                                              c + '-' + number
+                                              " :name="'opsi' + soalp.id + '-' + b + '-' + c"
+                                            :value="opsi.uuid + '___' + number" v-model="soalp.jawaban_pertanyaan[c]"
+                                            @change="onUpdatePertanyaan(soalp)" />
                                         </div>
                                       </div>
                                     </div>
@@ -450,13 +453,12 @@
                                           '-' +
                                           c
                                           " :ref="'opsi-text-' +
-                                              soalp.id +
-                                              '-' +
-                                              b +
-                                              '-' +
-                                              c
-                                              " v-model="opsi.option" :editorOptions="editorOptions"
-                                          @blur=" (soalp)" />
+                                            soalp.id +
+                                            '-' +
+                                            b +
+                                            '-' +
+                                            c
+                                            " v-model="opsi.option" :editorOptions="editorOptions" @blur=" (soalp)" />
                                         <div class="d-flex justify-content-end">
                                           <button class="btn btn-primary btn-sm square btn-add-mathjax" @click="
                                             addMathJaxToEditor(
@@ -600,8 +602,8 @@
                                         " :ref="'opsi-' + child.id + '-' + b + '-' + d
                                           " :name="'opsi-' + child.id + '-' + b + '-' + d
                                             " :value="opsi_child.uuid" v-model="child.jawaban_pertanyaan" @change="
-                                            onUpdatePertanyaanOpsi(child, d)
-                                            " />
+                                              onUpdatePertanyaanOpsi(child, d)
+                                              " />
                                     </div>
                                   </div>
                                   <div class="col-md-10">
@@ -1000,7 +1002,7 @@ export default {
 
       const range = editor.getSelection(true);
       editor.deleteText(range.index, range.length);
-      editor.insertEmbed(range.index, "inputfield", "<input type='text' name='"+ref+"' disable style='max-width:80px' />");
+      editor.insertEmbed(range.index, "inputfield", "<input type='text' name='" + ref + "' disable style='max-width:80px' />");
       editor.insertText(range.index + range.length + 1, " ");
       editor.setSelection(range.index + range.length + 1);
 
@@ -1634,7 +1636,7 @@ export default {
 
           // min jawaban = 2
           if (pertanyaan.jawaban_pertanyaan.length < 2) {
-            for (let x=0; x < pertanyaan.opsi_pertanyaan.length; x++) {
+            for (let x = 0; x < pertanyaan.opsi_pertanyaan.length; x++) {
               const opsi = pertanyaan.opsi_pertanyaan[x]
               if (pertanyaan.jawaban_pertanyaan.length < 2) {
                 pertanyaan.jawaban_pertanyaan.push(opsi.uuid)
@@ -1651,7 +1653,7 @@ export default {
           }
 
           if (pertanyaan.jawaban_pertanyaan.length !== pertanyaan.opsi_pertanyaan.length) {
-            for (let x=0; x < pertanyaan.opsi_pertanyaan.length; x++) {
+            for (let x = 0; x < pertanyaan.opsi_pertanyaan.length; x++) {
               const opsi = pertanyaan.opsi_pertanyaan[x]
               if (!pertanyaan.jawaban_pertanyaan[x]) {
                 pertanyaan.jawaban_pertanyaan[x] = opsi.uuid + '___1'
