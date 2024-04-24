@@ -16,6 +16,7 @@
         "cookie-universal-nuxt": "^2.1.5",
         "core-js": "^3.15.1",
         "crypto-js": "^4.1.1",
+        "eslint": "^9.1.1",
         "facebook-login": "^1.4.1",
         "google-signin-vue": "^1.2.2",
         "jquery": "^3.6.0",

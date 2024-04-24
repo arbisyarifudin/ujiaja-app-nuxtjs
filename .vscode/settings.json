@@ -12,6 +12,11 @@
     "typescript",
     "vue"
   ],
+  "eslint.workingDirectories": [
+    {
+      "mode": "auto"
+    }
+  ],
   "[vue]": {
     "editor.defaultFormatter": "Vue.volar"
   },
@@ -23,6 +28,12 @@
     "editor.defaultFormatter": "vscode.css-language-features"
   },
   "[json]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  },
+  "[jsonc]": {
     "editor.defaultFormatter": "vscode.json-language-features"
   }
 }
