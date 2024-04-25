@@ -155,8 +155,8 @@
                         </div>
 
                         <!-- SOAL PERTANYAAN -->
-                        <template v-for="(soalp, b) in soal.pertanyaan" :key="'B' + b">
-                          <div class="card-body-content-dua">
+                        <template v-for="(soalp, b) in soal.pertanyaan">
+                          <div class="card-body-content-dua" :key="'B' + b">
                             <div class="col-md-12 dashboard soal mt-2">
                               <div class="header-soal">
                                 <label>Bab Mata Pelajaran <code>*</code></label>
@@ -201,7 +201,7 @@
                                     b
                                   )
                                   ">
-                                  Tambah Rumus
+                                  <i class="fa fa-plus me-1"></i> Rumus
                                 </button>
                               </div>
                               <UISaveStatus :data="onSubmit.pertanyaan[soalp.id]"
@@ -269,14 +269,14 @@
                                   <div class="d-flex justify-content-end">
                                     <button v-if="soalp.template_pertanyaan === 'Isian Singkat'"
                                       class="btn btn-primary btn-sm square btn-add-input mr-3" @click="
-                                        addInputFieldToEditor('soal-' + soalp.id + '-' + b)
+                                        addInputFieldToEditor('soal-' + soalp.id + '-' + b, soalp)
                                         ">
-                                      Tambah Input Isian
+                                      <i class="fa fa-plus me-1"></i> Input Isian
                                     </button>
                                     <button class="btn btn-primary btn-sm square btn-add-mathjax" @click="
                                       addMathJaxToEditor('soal-' + soalp.id + '-' + b)
                                       ">
-                                      Tambah Rumus
+                                      <i class="fa fa-plus me-1"></i> Rumus
                                     </button>
                                   </div>
                                 </client-only>
@@ -977,7 +977,7 @@ export default {
       console.log(this.visible);
     },
     addMathJaxToEditor(ref) {
-      console.log(this.$refs[ref]);
+      // console.log(this.$refs[ref]);
       let refElement = this.$refs[ref];
       if (!refElement) return;
       let editor = refElement.quill;
@@ -991,8 +991,8 @@ export default {
       editor.insertText(range.index + range.length + 1, " ");
       editor.setSelection(range.index + range.length + 1);
     },
-    addInputFieldToEditor(ref) {
-      console.log(this.$refs[ref]);
+    addInputFieldToEditor(ref, pertanyaan) {
+      // console.log(this.$refs[ref]);
       let refElement = this.$refs[ref];
       if (!refElement) return;
       let editor = refElement.quill;
@@ -1000,9 +1000,18 @@ export default {
         editor = refElement[0].quill;
       }
 
+      const opsi = {
+        uuid: uuidv4(),
+        option: null
+      }
+      pertanyaan.opsi_pertanyaan.push(opsi)
+
+      const currentIndex = pertanyaan.opsi_pertanyaan.length - 1
+      const currentNumber = this.letterLabel(currentIndex)
+
       const range = editor.getSelection(true);
       editor.deleteText(range.index, range.length);
-      editor.insertEmbed(range.index, "inputfield", "<input type='text' name='" + ref + "' disable style='max-width:80px' />");
+      editor.insertEmbed(range.index, "inputfield", "<input type='text' name='" + ref + "' data-soal-id="+pertanyaan.id+" data-index="+currentIndex+" style='max-width:100px; margin: 0 5px' placeholder='' />");
       editor.insertText(range.index + range.length + 1, " ");
       editor.setSelection(range.index + range.length + 1);
 
@@ -1666,6 +1675,24 @@ export default {
           ? pertanyaan.opsi_pertanyaan[0].uuid
           : pertanyaan.jawaban_pertanyaan;
       }
+
+      if (pertanyaan.template_pertanyaan === 'Isian Singkat') {
+        pertanyaan.jawaban_pertanyaan = null
+        if (pertanyaan.opsi_pertanyaan.filter(v => v.option === null).length < 1) {
+          pertanyaan.opsi_pertanyaan = []
+        }
+      } else {
+        pertanyaan.opsi_pertanyaan = pertanyaan.opsi_pertanyaan.filter(v => v.option !== null)
+      }
+
+      if (pertanyaan.template_pertanyaan !== 'Isian Singkat') {
+        // jika template pertanyaan / jenis soal bukan Isian Singkat,
+        // maka hapus input field dari pertanyaan.soal
+        pertanyaan.soal = pertanyaan.soal.replace(/<input[^>]*>/g, '').trim()
+        // dan hapus <span> dengan class 'ql-inputfield'
+        pertanyaan.soal = pertanyaan.soal.replace(/<span[^>]*class="ql-inputfield"[^>]*>[^<]*<\/span>/g, '').trim()
+      }
+
       console.log('pertanyaan', pertanyaan);
 
       if (!this.onSubmit.pertanyaan[pertanyaan.id]) {
