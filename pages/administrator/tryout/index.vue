@@ -169,14 +169,14 @@
                           item.panduan_pengerjaan
                       "
                       class="btn btn-outline-success success px-3 py-1 px-4 mt-md-2"
-                      :to="`/administrator/tryout/${item.id}/soal/create`"
+                      :to="`/administrator/tryout/${item.id}/soal/v2/create`"
                     >
                       Ubah Soal
                     </nuxt-link>
                     <nuxt-link
                       v-else
                       class="btn btn-outline-primary px-3 py-1"
-                      :to="`/administrator/tryout/${item.id}/soal/create`"
+                      :to="`/administrator/tryout/${item.id}/soal/v2/create`"
                     >
                       Buat Soal
                     </nuxt-link>

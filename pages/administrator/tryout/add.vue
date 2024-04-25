@@ -462,11 +462,11 @@ export default {
                   );
                   if (dataSoal && dataSoal[0]) {
                     this.$router.replace(
-                      `/administrator/tryout/${dataSoal[0].id_tryout}/soal/create`
+                      `/administrator/tryout/${dataSoal[0].id_tryout}/soal/v2/create`
                     );
                   } else {
                     this.$router.replace(
-                      `/administrator/tryout/${tryoutCreated.id}/soal/create`
+                      `/administrator/tryout/${tryoutCreated.id}/soal/v2/create`
                     );
                   }
                 }
