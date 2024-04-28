@@ -805,7 +805,7 @@ export default {
        boardTimer = document.getElementById("board-timer-1");
       // console.log(boardTimer)
        boardTimer2 = document.getElementById("board-timer-2");
-      
+
       // console.log(boardTimer2)
       // return
       countdownElement= boardTimer.children[1];

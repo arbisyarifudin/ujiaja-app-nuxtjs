@@ -27,7 +27,7 @@
             }}</span>
             <span v-if="dataDetail.kelompok_soal">{{
               dataDetail.kelompok_soal
-            }}</span>
+              }}</span>
             <span v-if="
               dataDetail.penjurusan &&
               dataDetail.penjurusan.kelas &&
@@ -81,7 +81,7 @@
                         Soal
                         <span v-if="dataDetail.kategori != 'ASPD'">{{
                           soal.jenis_soal
-                        }}</span>
+                          }}</span>
                         <!-- <span v-else-if="dataDetail.kategori == 'ASPD'">{{
                           soal.mapel.nama_mapel
                         }}</span> -->
@@ -426,7 +426,7 @@
                                             '-' +
                                             c + '-' + number
                                             " class="mb-0">{{ number }}</label>
-                                          <input v-if="soalp.jawaban_pertanyaan[c]" type="radio" :id="'opsi' +
+                                          <input v-if="soalp.jawaban_pertanyaan && soalp.jawaban_pertanyaan[c]" type="radio" :id="'opsi' +
                                             soalp.id +
                                             '-' +
                                             b +
@@ -458,7 +458,8 @@
                                             b +
                                             '-' +
                                             c
-                                            " v-model="opsi.option" :editorOptions="editorOptions" @blur=" (soalp)" />
+                                            " v-model="opsi.option" :editorOptions="editorOptions"
+                                          @blur="onUpdatePertanyaan(soalp)" />
                                         <div class="d-flex justify-content-end">
                                           <button class="btn btn-primary btn-sm square btn-add-mathjax" @click="
                                             addMathJaxToEditor(
@@ -476,10 +477,21 @@
                                       </client-only>
                                     </div>
                                     <div class="col-1 text-left">
-                                      <button type="button" class="btn btn-danger" v-if="
-                                        c > 3 &&
+                                      <button type="button" class="btn btn-danger" v-if="soalp.template_pertanyaan === 'Pilihan Ganda' &&
+                                        soalp.opsi_pertanyaan?.length > 3 &&
                                         opsi.uuid !==
                                         soalp.jawaban_pertanyaan
+                                      " @click.prevent="deleteOption(soalp, c)">
+                                        <i class="fa fa-times"></i>
+                                      </button>
+                                      <button type="button" class="btn btn-danger" v-else-if="soalp.template_pertanyaan === 'Pilihan Ganda Kompleks (Model 1)' &&
+                                        soalp.opsi_pertanyaan?.length > 3 &&
+                                        soalp.jawaban_pertanyaan?.length > 0 && !soalp.jawaban_pertanyaan.includes(opsi.uuid)
+                                      " @click.prevent="deleteOption(soalp, c)">
+                                        <i class="fa fa-times"></i>
+                                      </button>
+                                      <button type="button" class="btn btn-danger" v-else-if="soalp.template_pertanyaan === 'Pilihan Ganda Kompleks (Model 2)' &&
+                                        soalp.opsi_pertanyaan?.length > 3
                                       " @click.prevent="deleteOption(soalp, c)">
                                         <i class="fa fa-times"></i>
                                       </button>
@@ -488,6 +500,7 @@
                                   <UISaveStatus :data="onSubmit.pertanyaan[soalp.id]"
                                     v-if="onSubmit.pertanyaan[soalp.id]" />
                                 </div>
+
 
                                 <p class="mt-4">Pembahasan <code>*</code></p>
                                 <!-- <textarea
@@ -546,6 +559,40 @@
                                     Hapus Pertanyaan
                                   </button>
                                 </div>
+
+                                <div class="form-user mt-2">
+                                  <!-- v-if="dataDetail.kategori == 'Asmenas'" -->
+                                  <div class="form-group reg-siswa">
+                                    <label for="template_soal">Jenis Soal <code>*</code></label>
+                                    <b-form-select class="form-control pl-3" id="template_soal"
+                                      v-model="child.template_pertanyaan" @change="onUpdatePertanyaanChild(child)"
+                                      :options="[
+                                        {
+                                          text: 'Pilihan Ganda',
+                                          value: 'Pilihan Ganda'
+                                        },
+                                        // { text: 'Essay', value: 'Essay' },
+                                        {
+                                          text: 'Pilihan Ganda Kompleks (Model 1)',
+                                          value: 'Pilihan Ganda Kompleks (Model 1)'
+                                        },
+                                        {
+                                          text: 'Pilihan Ganda Kompleks (Model 2)',
+                                          value: 'Pilihan Ganda Kompleks (Model 2)'
+                                        },
+                                        {
+                                          text: 'Isian Singkat',
+                                          value: 'Isian Singkat'
+                                        },
+                                        // {
+                                        //   text: 'Menjodohkan',
+                                        //   value: 'Menjodohkan'
+                                        // }
+                                      ]">
+                                    </b-form-select>
+                                  </div>
+                                </div>
+
                                 <!-- <textarea
                                   name=""
                                   id="textarea"
@@ -560,6 +607,17 @@
                                       " v-model="child.soal" :editorOptions="editorOptions"
                                     @blur="onUpdatePertanyaanChild(child)" />
                                   <div class="d-flex justify-content-end">
+                                    <button v-if="child.template_pertanyaan === 'Isian Singkat'"
+                                      class="btn btn-primary btn-sm square btn-add-input mr-3" @click="
+                                        addInputFieldToEditor('soal-' +
+                                          child.id +
+                                          '-' +
+                                          b +
+                                          ' - ' +
+                                          d, child)
+                                        ">
+                                      <i class="fa fa-plus me-1"></i> Input Isian
+                                    </button>
                                     <button class="btn btn-primary btn-sm square btn-add-mathjax" @click="
                                       addMathJaxToEditor(
                                         'soal-' +
@@ -578,7 +636,10 @@
                               </div>
 
                               <!-- CHILD OPSI JAWABAN -->
-                              <div class="opsi px-4 d-flex align-items-center py-4">
+                              <div v-if="
+                                child.template_pertanyaan == 'Pilihan Ganda' ||
+                                child.template_pertanyaan.includes('Pilihan Ganda Kompleks')
+                              " class="opsi px-4 d-flex align-items-center py-4">
                                 <p class="mb-0">Opsi Jawaban <code>*</code></p>
                                 <button type="button" class="btn btn-primary py-1 ml-4"
                                   @click.prevent="addChildOption(child)">
@@ -587,75 +648,203 @@
                               </div>
 
                               <div class="px-4 soal">
-                                <div class="row mb-3" v-for="(opsi_child,
-                                  d) in child.opsi_pertanyaan" :key="'D' + d">
-                                  <div class="col-md-1">
-                                    <div class="letter-option" :class="[
-                                      child.jawaban_pertanyaan ==
-                                        opsi_child.uuid
-                                        ? 'active'
-                                        : ''
-                                    ]">
-                                      <label :for="'opsi-' + child.id + '-' + b + '-' + d
-                                        " class="mb-0">{{ letterLabel(d) }}</label>
-                                      <input type="radio" :id="'opsi-' + child.id + '-' + b + '-' + d
-                                        " :ref="'opsi-' + child.id + '-' + b + '-' + d
-                                          " :name="'opsi-' + child.id + '-' + b + '-' + d
-                                            " :value="opsi_child.uuid" v-model="child.jawaban_pertanyaan" @change="
-                                              onUpdatePertanyaanOpsi(child, d)
-                                              " />
+
+                                <div v-if="
+                                  child.template_pertanyaan == 'Pilihan Ganda' ||
+                                  child.template_pertanyaan.includes('Pilihan Ganda Kompleks (Model 1)')
+                                ">
+                                  <div class="row mb-3" v-for="(opsi_child,
+                                    d) in child.opsi_pertanyaan" :key="'D' + d">
+                                    <div class="col-md-1">
+                                      <div class="letter-option" :class="[
+                                        child.jawaban_pertanyaan == opsi_child.uuid
+                                          ? 'active'
+                                          : '',
+                                        child.jawaban_pertanyaan?.length > 0 && child.jawaban_pertanyaan.includes(opsi_child.uuid) ? 'active' : ''
+                                      ]">
+                                        <label :for="'opsi-' + child.id + '-' + b + '-' + d
+                                          " class="mb-0">{{ letterLabel(d) }}</label>
+                                        <input :type="child.template_pertanyaan ==
+                                          'Pilihan Ganda'
+                                          ? 'radio'
+                                          : 'checkbox'" :id="'opsi-' + child.id + '-' + b + '-' + d
+                                                " :ref="'opsi-' + child.id + '-' + b + '-' + d
+                                              " :name="'opsi-' + child.id + '-' + b + '-' + d
+                                                " :value="opsi_child.uuid" v-model="child.jawaban_pertanyaan" @change="
+                                                  onUpdatePertanyaanChild(child, d)
+                                                  " />
+                                      </div>
                                     </div>
-                                  </div>
-                                  <div class="col-md-10">
-                                    <client-only>
-                                      <VueEditor :id="'opsi-text-' +
-                                        child.id +
-                                        '-' +
-                                        b +
-                                        '-' +
-                                        d
-                                        " :ref="'opsi-text-' +
+                                    <div class="col-md-10">
+                                      <client-only>
+                                        <VueEditor :id="'opsi-text-' +
                                           child.id +
                                           '-' +
                                           b +
                                           '-' +
                                           d
-                                          " :name="'opsi-text-' +
-                                            child.id +
-                                            '-' +
-                                            b +
-                                            '-' +
-                                            d
-                                            " v-model="opsi_child.option" :editorOptions="editorOptions"
-                                        @blur="onUpdatePertanyaan(child)" />
-                                      <div class="d-flex justify-content-end">
-                                        <button class="btn btn-primary btn-sm square btn-add-mathjax" @click="
-                                          addMathJaxToEditor(
-                                            'opsi-text-' +
-                                            child.id +
-                                            '-' +
-                                            b +
-                                            '-' +
-                                            d
-                                          )
-                                          ">
-                                          Tambah Rumus
-                                        </button>
+                                          " :ref="'opsi-text-' +
+                                              child.id +
+                                              '-' +
+                                              b +
+                                              '-' +
+                                              d
+                                              " :name="'opsi-text-' +
+                                                child.id +
+                                                '-' +
+                                                b +
+                                                '-' +
+                                                d
+                                                " v-model="opsi_child.option" :editorOptions="editorOptions"
+                                          @blur="onUpdatePertanyaanChild(child)" />
+                                        <div class="d-flex justify-content-end">
+                                          <button class="btn btn-primary btn-sm square btn-add-mathjax" @click="
+                                            addMathJaxToEditor(
+                                              'opsi-text-' +
+                                              child.id +
+                                              '-' +
+                                              b +
+                                              '-' +
+                                              d
+                                            )
+                                            ">
+                                            Tambah Rumus
+                                          </button>
+                                        </div>
+                                      </client-only>
+                                    </div>
+                                    <div class="col-md-1 text-left">
+                                      <button type="button" class="btn btn-danger" v-if="child.template_pertanyaan === 'Pilihan Ganda' &&
+                                        child.opsi_pertanyaan?.length > 3 &&
+                                        opsi_child.uuid !==
+                                        child.jawaban_pertanyaan
+                                      " @click.prevent="deleteOption(child, d)">
+                                        <i class="fa fa-times"></i>
+                                      </button>
+                                      <button type="button" class="btn btn-danger" v-else-if="child.template_pertanyaan === 'Pilihan Ganda Kompleks (Model 1)' &&
+                                        child.opsi_pertanyaan?.length > 3 &&
+                                        child.jawaban_pertanyaan?.length > 0 && !child.jawaban_pertanyaan.includes(opsi_child.uuid)
+                                      " @click.prevent="deleteOption(child, d)">
+                                        <i class="fa fa-times"></i>
+                                      </button>
+                                      <button type="button" class="btn btn-danger" v-else-if="child.template_pertanyaan === 'Pilihan Ganda Kompleks (Model 2)' &&
+                                        child.opsi_pertanyaan?.length > 3
+                                      " @click.prevent="deleteOption(child, d)">
+                                        <i class="fa fa-times"></i>
+                                      </button>
+                                    </div>
+                                  </div>
+                                  <UISaveStatus :data="onSubmit.perchild[child.id]"
+                                    v-if="onSubmit.perchild[child.id]" />
+                                </div>
+                                <div v-if="child.template_pertanyaan == 'Pilihan Ganda Kompleks (Model 2)'">
+                                  <div class="mb-3">
+                                    <div class="mb-2">Pilihan:</div>
+                                    <div class="row">
+                                      <div class="col-md-6">
+                                        <input placeholder="Pilihan 1" class="form-control" />
                                       </div>
-                                    </client-only>
+                                      <div class="col-md-6">
+                                        <input placeholder="Pilihan 2" class="form-control" />
+                                      </div>
+                                    </div>
                                   </div>
-                                  <div class="col-md-1 text-left">
-                                    <button type="button" class="btn btn-danger" v-if="
-                                      d > 3 &&
-                                      opsi_child.correct !==
-                                      child.jawaban_pertanyaan
-                                    " @click.prevent="deleteOption(child, d)">
-                                      <i class="fa fa-times"></i>
-                                    </button>
+
+                                  <div class="row mb-3" v-for="(opsi_child,
+                                    d) in child.opsi_pertanyaan" :key="'D' + d">
+                                    <div class="col-md-1">
+                                      <div>
+                                        <div class="letter-option mb-1" v-for="number in 2"
+                                          :key="'op' + d + '-' + number">
+                                          <label :for="'opsi' +
+                                            child.id +
+                                            '-' +
+                                            b +
+                                            '-' +
+                                            d + '-' + number
+                                            " class="mb-0">{{ number }}</label>
+                                          <input v-if="child.jawaban_pertanyaan && child.jawaban_pertanyaan[d]" type="radio" :id="'opsi' +
+                                            child.id +
+                                            '-' +
+                                            b +
+                                            '-' +
+                                            d + '-' + number
+                                            " :ref="'opsi' +
+                                              child.id +
+                                              '-' +
+                                              b +
+                                              '-' +
+                                              d + '-' + number
+                                              " :name="'opsi' + child.id + '-' + b + '-' + d"
+                                            :value="opsi_child.uuid + '___' + number"
+                                            v-model="child.jawaban_pertanyaan[d]"
+                                            @change="onUpdatePertanyaanChild(child)" />
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="col-md-10">
+                                      <client-only>
+                                        <VueEditor :id="'opsi-text-' +
+                                          child.id +
+                                          '-' +
+                                          b +
+                                          '-' +
+                                          d
+                                          " :ref="'opsi-text-' +
+                                            child.id +
+                                            '-' +
+                                            b +
+                                            '-' +
+                                            d
+                                            " :name="'opsi-text-' +
+                                              child.id +
+                                              '-' +
+                                              b +
+                                              '-' +
+                                              d
+                                              " v-model="opsi_child.option" :editorOptions="editorOptions"
+                                          @blur="onUpdatePertanyaanChild(child)" />
+                                        <div class="d-flex justify-content-end">
+                                          <button class="btn btn-primary btn-sm square btn-add-mathjax" @click="
+                                            addMathJaxToEditor(
+                                              'opsi-text-' +
+                                              child.id +
+                                              '-' +
+                                              b +
+                                              '-' +
+                                              d
+                                            )
+                                            ">
+                                            Tambah Rumus
+                                          </button>
+                                        </div>
+                                      </client-only>
+                                    </div>
+                                    <div class="col-md-1 text-left">
+                                      <button type="button" class="btn btn-danger" v-if="child.template_pertanyaan === 'Pilihan Ganda' &&
+                                        child.opsi_pertanyaan?.length > 3 &&
+                                        opsi.uuid !==
+                                        child.jawaban_pertanyaan
+                                      " @click.prevent="deleteOption(child, d)">
+                                        <i class="fa fa-times"></i>
+                                      </button>
+                                      <button type="button" class="btn btn-danger" v-else-if="child.template_pertanyaan === 'Pilihan Ganda Kompleks (Model 1)' &&
+                                        child.opsi_pertanyaan?.length > 3 &&
+                                        child.jawaban_pertanyaan?.length > 0 && !child.jawaban_pertanyaan.includes(opsi_child.uuid)
+                                      " @click.prevent="deleteOption(child, d)">
+                                        <i class="fa fa-times"></i>
+                                      </button>
+                                      <button type="button" class="btn btn-danger" v-else-if="child.template_pertanyaan === 'Pilihan Ganda Kompleks (Model 2)' &&
+                                        child.opsi_pertanyaan?.length > 3
+                                      " @click.prevent="deleteOption(child, d)">
+                                        <i class="fa fa-times"></i>
+                                      </button>
+                                    </div>
                                   </div>
+                                  <UISaveStatus :data="onSubmit.perchild[child.id]"
+                                    v-if="onSubmit.perchild[child.id]" />
                                 </div>
 
-                                <UISaveStatus :data="onSubmit.perchild[child.id]" v-if="onSubmit.perchild[child.id]" />
 
                                 <p class="mt-4">Pembahasan <code>*</code></p>
                                 <!-- <textarea
@@ -1011,7 +1200,7 @@ export default {
 
       const range = editor.getSelection(true);
       editor.deleteText(range.index, range.length);
-      editor.insertEmbed(range.index, "inputfield", "<input type='text' name='" + ref + "' data-soal-id="+pertanyaan.id+" data-index="+currentIndex+" style='max-width:100px; margin: 0 5px' placeholder='' />");
+      editor.insertEmbed(range.index, "inputfield", "<input type='text' name='" + ref + "' data-soal-id=" + pertanyaan.id + " data-index=" + currentIndex + " style='max-width:100px; margin: 0 5px' placeholder='' />");
       editor.insertText(range.index + range.length + 1, " ");
       editor.setSelection(range.index + range.length + 1);
 
@@ -1719,6 +1908,69 @@ export default {
         });
     },
     onUpdatePertanyaanChild(perchild) {
+
+      if (
+        perchild.template_pertanyaan.includes("Pilihan Ganda Kompleks")
+      ) {
+        if (perchild.template_pertanyaan === 'Pilihan Ganda Kompleks (Model 1)') {
+          if (Array.isArray(perchild.jawaban_pertanyaan)) {
+            perchild.jawaban_pertanyaan = perchild.jawaban_pertanyaan.filter(v => !!v)
+          } else {
+            perchild.jawaban_pertanyaan = []
+          }
+
+          // min jawaban = 2
+          if (perchild.jawaban_pertanyaan.length < 2) {
+            for (let x = 0; x < perchild.opsi_pertanyaan.length; x++) {
+              const opsi = perchild.opsi_pertanyaan[x]
+              if (perchild.jawaban_pertanyaan.length < 2) {
+                perchild.jawaban_pertanyaan.push(opsi.uuid)
+              }
+            }
+          }
+
+        } else if (perchild.template_pertanyaan === 'Pilihan Ganda Kompleks (Model 2)') {
+          // perchild.jawaban_pertanyaan = []
+          if (Array.isArray(perchild.jawaban_pertanyaan)) {
+            perchild.jawaban_pertanyaan = perchild.jawaban_pertanyaan.filter(v => v.includes('___'))
+          } else {
+            perchild.jawaban_pertanyaan = []
+          }
+
+          if (perchild.jawaban_pertanyaan.length !== perchild.opsi_pertanyaan.length) {
+            for (let x = 0; x < perchild.opsi_pertanyaan.length; x++) {
+              const opsi = perchild.opsi_pertanyaan[x]
+              if (!perchild.jawaban_pertanyaan[x]) {
+                perchild.jawaban_pertanyaan[x] = opsi.uuid + '___1'
+              }
+            }
+          }
+        }
+      } else {
+        perchild.jawaban_pertanyaan = perchild.opsi_pertanyaan[0]
+          ? perchild.opsi_pertanyaan[0].uuid
+          : perchild.jawaban_pertanyaan;
+      }
+
+      if (perchild.template_pertanyaan === 'Isian Singkat') {
+        perchild.jawaban_pertanyaan = null
+        if (perchild.opsi_pertanyaan.filter(v => v.option === null).length < 1) {
+          perchild.opsi_pertanyaan = []
+        }
+      } else {
+        perchild.opsi_pertanyaan = perchild.opsi_pertanyaan.filter(v => v.option !== null)
+      }
+
+      if (perchild.template_pertanyaan !== 'Isian Singkat') {
+        // jika template pertanyaan / jenis soal bukan Isian Singkat,
+        // maka hapus input field dari perchild.soal
+        perchild.soal = perchild.soal.replace(/<input[^>]*>/g, '').trim()
+        // dan hapus <span> dengan class 'ql-inputfield'
+        perchild.soal = perchild.soal.replace(/<span[^>]*class="ql-inputfield"[^>]*>[^<]*<\/span>/g, '').trim()
+      }
+
+      console.log('perchild', perchild);
+
       if (!this.onSubmit.perchild[perchild.id]) {
         this.onSubmit.perchild[perchild.id] = {};
       }

@@ -152,7 +152,7 @@ export default {
     getDetailTryout() {
       this.loading = true;
       this.$axios
-        .$get(`/api/tryout/find/${this.tryoutId}/detail`)
+        .$get(`/api/tryout/find/${this.tryoutId}`)
         .then(res => {
           console.log("tryout", res);
           if (res.success) {

@@ -12,31 +12,19 @@
             Kamu sudah selesai mengerjakan Tryout ini.
             <span v-if="detail.jenis_produk == 'Masal'">
               Dan dapat melihat hasil pada
-              <b
-                >{{
-                  formatTanggal(detail.tanggal_berakhir, "Do MMMM YYYY HH:mm")
-                }}
-                WIB.</b
-              >
+              <b>{{
+                formatTanggal(detail.tanggal_berakhir, "Do MMMM YYYY HH:mm")
+              }}
+                WIB.</b>
             </span>
           </p>
           <p v-else>
             Mohon maaf! Waktu untuk mengerjakan Tryout Ini sudah habis.
           </p>
-          <div
-            v-if="detail && detail.jenis_produk == 'Perorangan'"
-            class="mt-3"
-          >
-            <a class="btn btn-outline-primary " :href="`/user/tryout/mine`"
-              >Kembali</a
-            >
-            <a
-              class="btn btn-primary ml-2"
-              :href="
-                `/user/tryout/${detail.id}/result?code=${$route.query.kode}&category=${detail.kategori_produk}`
-              "
-              >Lihat Hasil</a
-            >
+          <div v-if="detail && detail.jenis_produk == 'Perorangan'" class="mt-3">
+            <a class="btn btn-outline-primary " :href="`/user/tryout/mine`">Kembali</a>
+            <a class="btn btn-primary ml-2" :href="`/user/tryout/${detail.id}/result?code=${$route.query.kode}&category=${detail.kategori_produk}`
+              ">Lihat Hasil</a>
             <!-- <button
             class="btn btn-primary"
             v-if="detail && detail.jenis_produk == 'Perorangan'"
@@ -47,31 +35,17 @@
             Ulangi Tryout
           </button> -->
           </div>
-          <div
-            v-else-if="detail && detail.jenis_produk == 'Masal'"
-            class="mt-3"
-          >
-            <a class="btn btn-outline-primary " :href="`/user/tryout/mine`"
-              >Kembali</a
-            >
-            <a
-              v-if="detail.is_result_openable === true"
-              class="btn btn-primary ml-2"
-              :href="
-                `/user/tryout/${detail.id}/result?code=${$route.query.kode}&category=${detail.kategori_produk}`
-              "
-              >Lihat Hasil</a
-            >
+          <div v-else-if="detail && detail.jenis_produk == 'Masal'" class="mt-3">
+            <a class="btn btn-outline-primary " :href="`/user/tryout/mine`">Kembali</a>
+            <a v-if="detail.is_result_openable === true" class="btn btn-primary ml-2" :href="`/user/tryout/${detail.id}/result?code=${$route.query.kode}&category=${detail.kategori_produk}`
+              ">Lihat Hasil</a>
           </div>
         </div>
       </div>
     </div>
-    <div
-      class="ujian-wrapper"
-      v-else-if="
-        !loading && detailUjian.waktu_mulai && !detailUjian.waktu_selesai
-      "
-    >
+    <div class="ujian-wrapper" v-else-if="
+      !loading && detailUjian.waktu_mulai && !detailUjian.waktu_selesai
+    ">
       <div class="row">
         <div class="col-md-8">
           <div class="question-board bg-white p-4">
@@ -97,11 +71,7 @@
                     <th width="130">Bab Mapel</th>
                     <td width="10">:</td>
                     <td>
-                      <span
-                        v-for="(bab, b) in currentNomor.bab"
-                        :key="'bab' + b"
-                        v-text="bab"
-                      ></span>
+                      <span v-for="(bab, b) in currentNomor.bab" :key="'bab' + b" v-text="bab"></span>
                     </td>
                   </tr>
                   <tr>
@@ -114,23 +84,14 @@
               <hr />
               <div class="question-list">
                 <div class="question-item">
-                  <div
-                    class="question-header-text mb-3"
-                    v-if="currentNomor.penjelasan_pertanyaan"
-                    v-html="currentNomor.penjelasan_pertanyaan"
-                  ></div>
+                  <div class="question-header-text mb-3" v-if="currentNomor.penjelasan_pertanyaan"
+                    v-html="currentNomor.penjelasan_pertanyaan"></div>
                   <div class="question-child-item">
                     <h3 class="question-header-title" :id="'question-1'">
                       Pertanyaan
-                      <b-badge
-                        variant="primary"
-                        v-text="currentNomor.nomor"
-                      ></b-badge>
+                      <b-badge variant="primary" v-text="currentNomor.nomor"></b-badge>
                     </h3>
-                    <p
-                      class="question-main-text"
-                      v-html="currentNomor.soal_pertanyaan"
-                    ></p>
+                    <p class="question-main-text" v-html="currentNomor.soal_pertanyaan"></p>
                     <!-- <ul class="list-unstyled option-list">
                       <li
                         class="option-item"
@@ -164,25 +125,14 @@
                         </button>
                       </li>
                     </ul> -->
-                    <b-form-group
-                      v-slot="{ ariaDescribedby }"
-                      class="question-option-radio-group"
-                    >
-                      <b-form-radio
-                        v-for="(opsi, o) in currentNomor.opsi_pertanyaan"
-                        :key="'opsi' + o"
-                        v-model="jawabanUser[currentNomor.nomor].jawaban_user"
-                        :aria-describedby="ariaDescribedby"
-                        :name="'opsi_' + currentNomor.nomor"
-                        :value="opsi.uuid"
-                        :class="
-                          jawabanUser[currentNomor.nomor].jawaban_user ===
-                          opsi.uuid
+                    <b-form-group v-slot="{ ariaDescribedby }" class="question-option-radio-group">
+                      <b-form-radio v-for="(opsi, o) in currentNomor.opsi_pertanyaan" :key="'opsi' + o"
+                        v-model="jawabanUser[currentNomor.nomor].jawaban_user" :aria-describedby="ariaDescribedby"
+                        :name="'opsi_' + currentNomor.nomor" :value="opsi.uuid" :class="jawabanUser[currentNomor.nomor].jawaban_user ===
+                            opsi.uuid
                             ? 'checked'
                             : ''
-                        "
-                        @change="saveJawaban"
-                      >
+                          " @change="saveJawaban">
                         <!-- <div class="question-option-letter mb-2">
                           {{ letterLabel(o) }}
                         </div> -->
@@ -190,13 +140,9 @@
                         <div v-html="opsi.option"></div>
                       </b-form-radio>
                     </b-form-group>
-                    <button
-                      type="button"
-                      class="btn btn-sm btn-light px-3 square"
-                      @click.prevent="
-                        jawabanUser[currentNomor.nomor].jawaban_user = ''
-                      "
-                    >
+                    <button type="button" class="btn btn-sm btn-light px-3 square" @click.prevent="
+                      jawabanUser[currentNomor.nomor].jawaban_user = ''
+                      ">
                       <i class="fas fa-fa fa-times mr-1"></i>
                       Batal Jawab
                     </button>
@@ -204,11 +150,7 @@
                 </div>
               </div>
               <div class="d-block d-md-none">
-                <h2
-                  class="board-timer d-flex align-items-center"
-                  id="board-timer-2"
-                  style="font-size: 25px"
-                >
+                <h2 class="board-timer d-flex align-items-center" id="board-timer-2" style="font-size: 25px">
                   <i class="far fa-clock fa-fw mr-1 small"></i>
                   <span class="countdown">00:00:00</span>
                 </h2>
@@ -218,21 +160,14 @@
         </div>
         <div class="col-md-4 d-md-block d-none">
           <div class="info-board bg-white p-4">
-            <h2
-              class="board-timer d-flex align-items-center"
-              id="board-timer-1"
-            >
+            <h2 class="board-timer d-flex align-items-center" id="board-timer-1">
               <i class="far fa-clock fa-fw mr-1 small"></i>
               <span class="countdown">00:00:00</span>
             </h2>
             <hr />
             <h2 class="board-title mb-3">Nomor Soal</h2>
-            <UjianNumberList
-              @update="updateNomor"
-              :jawaban="jawabanUser"
-              :list="listSoal"
-              :active="currentNomor.nomor"
-            />
+            <UjianNumberList @update="updateNomor" :jawaban="jawabanUser" :list="listSoal"
+              :active="currentNomor.nomor" />
             <hr />
             <h2 class="board-title mb-3">Keterangan</h2>
             <ul class="list-unstyled board-legend">
@@ -243,39 +178,24 @@
             <hr />
             <div class="row">
               <div class="col-6 mb-3">
-                <button
-                  type="button"
-                  class="btn btn-primary btn-block square"
-                  @click="onKeyDownNavigation({ key: 'ArrowLeft' })"
-                >
+                <button type="button" class="btn btn-primary btn-block square"
+                  @click="onKeyDownNavigation({ key: 'ArrowLeft' })">
                   <i class="fas fa-arrow-left"></i>
                 </button>
               </div>
               <div class="col-6 mb-3">
-                <button
-                  type="button"
-                  class="btn btn-primary btn-block square"
-                  @click="onKeyDownNavigation({ key: 'ArrowRight' })"
-                >
+                <button type="button" class="btn btn-primary btn-block square"
+                  @click="onKeyDownNavigation({ key: 'ArrowRight' })">
                   <i class="fas fa-arrow-right"></i>
                 </button>
               </div>
             </div>
-            <button
-              v-if="nextSubtestAvailable()"
-              type="button"
-              class="btn btn-danger btn-block square"
-              v-b-modal.modal-next-subtest
-            >
+            <button v-if="nextSubtestAvailable()" type="button" class="btn btn-danger btn-block square"
+              v-b-modal.modal-next-subtest>
               Ke Subtest Selanjutnya
             </button>
-            <button
-              v-else
-              type="button"
-              class="btn btn-danger btn-block square"
-              v-b-modal.modal-confirm-end
-              :disabled="loading"
-            >
+            <button v-else type="button" class="btn btn-danger btn-block square" v-b-modal.modal-confirm-end
+              :disabled="loading">
               Selesai dan Serahkan
             </button>
             <!-- <h3 class="board-title mb-3">Panduan Pengerjaan:</h3>
@@ -285,49 +205,30 @@
         <div class="col-12 d-md-none mt-3">
           <div class="row">
             <div class="col-6 mb-3">
-              <button
-                type="button"
-                class="btn btn-primary btn-block square"
-                @click="onKeyDownNavigation({ key: 'ArrowLeft' })"
-              >
+              <button type="button" class="btn btn-primary btn-block square"
+                @click="onKeyDownNavigation({ key: 'ArrowLeft' })">
                 Sebelumnya
               </button>
             </div>
             <div class="col-6 mb-3">
-              <button
-                type="button"
-                class="btn btn-primary btn-block square"
-                @click="onKeyDownNavigation({ key: 'ArrowRight' })"
-              >
+              <button type="button" class="btn btn-primary btn-block square"
+                @click="onKeyDownNavigation({ key: 'ArrowRight' })">
                 Selanjutnya
               </button>
             </div>
             <div class="col-sm-6 col-12 mb-3">
-              <button
-                type="button"
-                class="btn btn-info btn-block square"
-                v-b-toggle.sidebar-board
-              >
+              <button type="button" class="btn btn-info btn-block square" v-b-toggle.sidebar-board>
                 <i class="fas fa-list"></i>
                 Nomor Soal
               </button>
             </div>
             <div class="col-sm-6 col-12 mb-3">
-              <button
-                v-if="nextSubtestAvailable()"
-                type="button"
-                class="btn btn-danger btn-block square"
-                v-b-modal.modal-next-subtest
-              >
+              <button v-if="nextSubtestAvailable()" type="button" class="btn btn-danger btn-block square"
+                v-b-modal.modal-next-subtest>
                 Ke Subtest Selanjutnya
               </button>
-              <button
-                v-else
-                type="button"
-                class="btn btn-danger btn-block square"
-                :disabled="loading"
-                v-b-modal.modal-confirm-end
-              >
+              <button v-else type="button" class="btn btn-danger btn-block square" :disabled="loading"
+                v-b-modal.modal-confirm-end>
                 <i class="fas fa-paper-plane"></i>
                 Selesai dan Serahkan
               </button>
@@ -335,14 +236,7 @@
           </div>
         </div>
       </div>
-      <b-sidebar
-        id="sidebar-board"
-        bg-variant="white"
-        text-variant="dark"
-        shadow
-        title="Nomor Soal"
-        right
-      >
+      <b-sidebar id="sidebar-board" bg-variant="white" text-variant="dark" shadow title="Nomor Soal" right>
         <div class="info-board bg-white p-4">
           <!-- <h2 class="board-timer d-flex align-items-center">
             <i class="far fa-clock fa-fw mr-1 small"></i>
@@ -350,12 +244,7 @@
           </h2>
           <hr /> -->
           <h2 class="board-title mb-3">Nomor Soal</h2>
-          <UjianNumberList
-            @update="updateNomor"
-            :jawaban="jawabanUser"
-            :list="listSoal"
-            :active="currentNomor.nomor"
-          />
+          <UjianNumberList @update="updateNomor" :jawaban="jawabanUser" :list="listSoal" :active="currentNomor.nomor" />
           <hr />
           <h2 class="board-title mb-3">Keterangan</h2>
           <ul class="list-unstyled board-legend">
@@ -372,96 +261,50 @@
         </div>
       </b-sidebar>
     </div>
-    <div
-      class="ujian-wrapper bg-white "
-      v-else-if="!loading && detail.is_task_start && detail.is_task_done"
-    >
+    <div class="ujian-wrapper bg-white " v-else-if="!loading && detail.is_task_start && detail.is_task_done">
       <div class="row align-items-center justify-content-center">
         <p v-if="detailUjian.waktu_selesai">
           Kamu sudah selesai mengerjakan Tryout ini.
           <span v-if="detail.jenis_produk == 'Masal'">
             Dan dapat melihat hasil pada
-            <b
-              >{{
-                formatTanggal(detail.tanggal_berakhir, "Do MMMM YYYY HH:mm")
-              }}
-              WIB.</b
-            >
+            <b>{{
+              formatTanggal(detail.tanggal_berakhir, "Do MMMM YYYY HH:mm")
+            }}
+              WIB.</b>
           </span>
         </p>
       </div>
-      <div
-        v-if="detail && detail.jenis_produk == 'Perorangan'"
-        class="mt-3 text-center"
-      >
-        <a
-          class="btn btn-outline-primary "
-          :href="`/user/tryout/${detail.id}/detail`"
-          >Kembali</a
-        >
-        <a
-          v-if="detail.is_result_openable === true"
-          class="btn btn-primary ml-2"
-          :href="
-            `/user/tryout/${detail.id}/result?code=${$route.query.kode}&category=${detail.kategori_produk}`
-          "
-          >Lihat Hasil</a
-        >
+      <div v-if="detail && detail.jenis_produk == 'Perorangan'" class="mt-3 text-center">
+        <a class="btn btn-outline-primary " :href="`/user/tryout/${detail.id}/detail`">Kembali</a>
+        <a v-if="detail.is_result_openable === true" class="btn btn-primary ml-2" :href="`/user/tryout/${detail.id}/result?code=${$route.query.kode}&category=${detail.kategori_produk}`
+          ">Lihat Hasil</a>
       </div>
       <div v-else class="mt-3 text-center">
-        <a
-          class="btn btn-outline-primary ml-2"
-          :href="`/user/tryout/${detail.id}/detail`"
-          >Lihat Detail Ujian</a
-        >
+        <a class="btn btn-outline-primary ml-2" :href="`/user/tryout/${detail.id}/detail`">Lihat Detail Ujian</a>
       </div>
     </div>
-    <b-modal
-      id="modal-confirm-start"
-      title="Konfirmasi Mulai Tryout"
-      hide-footer
-      centered
-      :no-close-on-backdrop="loading"
-      :no-close-on-esc="loading"
-      modal-class="admin-modal"
-      @hidden="resetModal"
-    >
+    <b-modal id="modal-confirm-start" title="Konfirmasi Mulai Tryout" hide-footer centered
+      :no-close-on-backdrop="loading" :no-close-on-esc="loading" modal-class="admin-modal" @hidden="resetModal">
       <div>
         <p class="modal-text">
           Apakah anda yakin ingin memulai tryout ini? Waktu mulai akan berjalan.
           Harap persiapkan diri kamu sebelum mulai ya!
         </p>
         <div class="modal-footer justify-content-end" style="border: 0px">
-          <button
-            class="btn btn-outline-secondary"
-            type="button"
-            @click="$bvModal.hide('modal-confirm-start')"
-            v-if="!loading"
-          >
+          <button class="btn btn-outline-secondary" type="button" @click="$bvModal.hide('modal-confirm-start')"
+            v-if="!loading">
             Batal
           </button>
-          <button
-            class="btn btn-primary tambah px-4 py-2"
-            type="button"
-            :disabled="loading"
-            @click.prevent="onConfirmStartTest"
-          >
+          <button class="btn btn-primary tambah px-4 py-2" type="button" :disabled="loading"
+            @click.prevent="onConfirmStartTest">
             <b-spinner small v-if="loading" class="mr-1"></b-spinner> Ya, Saya
             Yakin
           </button>
         </div>
       </div>
     </b-modal>
-    <b-modal
-      id="modal-confirm-end"
-      title="Konfirmasi Akhiri Tryout"
-      hide-footer
-      centered
-      :no-close-on-backdrop="loading"
-      :no-close-on-esc="loading"
-      modal-class="admin-modal"
-      @hidden="resetModal"
-    >
+    <b-modal id="modal-confirm-end" title="Konfirmasi Akhiri Tryout" hide-footer centered
+      :no-close-on-backdrop="loading" :no-close-on-esc="loading" modal-class="admin-modal" @hidden="resetModal">
       <div>
         <p class="modal-text" v-if="isAllowNext()">
           Apakah kamu yakin ingin menyelesaikan dan mengirim jawaban tryoutmu?
@@ -472,82 +315,44 @@
           Sistem akan langsung mengoreksi.
         </p>
         <div class="modal-footer justify-content-end" style="border: 0px">
-          <button
-            class="btn btn-outline-secondary"
-            type="button"
-            @click="$bvModal.hide('modal-confirm-end')"
-            v-if="!loading"
-          >
+          <button class="btn btn-outline-secondary" type="button" @click="$bvModal.hide('modal-confirm-end')"
+            v-if="!loading">
             Batal
           </button>
-          <button
-            v-if="isAllowNext()"
-            class="btn btn-primary tambah px-4 py-2"
-            type="button"
-            :disabled="loading"
-            @click.prevent="onNextTest"
-          >
+          <button v-if="isAllowNext()" class="btn btn-primary tambah px-4 py-2" type="button" :disabled="loading"
+            @click.prevent="onNextTest">
             <b-spinner small v-if="loading" class="mr-1"></b-spinner>
             <span v-else>Ya, Kirim & Lanjutkan</span>
           </button>
-          <button
-            v-else
-            class="btn btn-primary tambah px-4 py-2"
-            type="button"
-            :disabled="loading"
-            @click.prevent="onConfirmEndTest"
-          >
+          <button v-else class="btn btn-primary tambah px-4 py-2" type="button" :disabled="loading"
+            @click.prevent="onConfirmEndTest">
             <b-spinner small v-if="loading" class="mr-1"></b-spinner>
             <span v-else>Ya, Kirim Sekarang</span>
           </button>
         </div>
       </div>
     </b-modal>
-    <b-modal
-      id="modal-next-subtest"
-      title="Lanjut Subtest Selanjutnya"
-      hide-footer
-      centered
-      :no-close-on-backdrop="loading"
-      :no-close-on-esc="loading"
-      modal-class="admin-modal"
-      @hidden="resetModal"
-    >
+    <b-modal id="modal-next-subtest" title="Lanjut Subtest Selanjutnya" hide-footer centered
+      :no-close-on-backdrop="loading" :no-close-on-esc="loading" modal-class="admin-modal" @hidden="resetModal">
       <div>
         <p class="modal-text">
           Apakah kamu yakin ingin melanjutkan ke subtest selanjutnya?
         </p>
         <div class="modal-footer justify-content-end" style="border: 0px">
-          <button
-            class="btn btn-outline-secondary"
-            type="button"
-            @click="$bvModal.hide('modal-next-subtest')"
-            v-if="!loading"
-          >
+          <button class="btn btn-outline-secondary" type="button" @click="$bvModal.hide('modal-next-subtest')"
+            v-if="!loading">
             Batal
           </button>
-          <button
-            class="btn btn-primary tambah px-4 py-2"
-            type="button"
-            :disabled="loading"
-            @click.prevent="onNextSubtest"
-          >
+          <button class="btn btn-primary tambah px-4 py-2" type="button" :disabled="loading"
+            @click.prevent="onNextSubtest">
             <b-spinner small v-if="loading" class="mr-1"></b-spinner>
             <span>Ya, Lanjut</span>
           </button>
         </div>
       </div>
     </b-modal>
-    <b-modal
-      id="modal-success-end"
-      title="Kamu Berhasil Menyelesaikan"
-      hide-footer
-      centered
-      :no-close-on-backdrop="true"
-      :no-close-on-esc="true"
-      modal-class="admin-modal"
-      @hidden="resetModal"
-    >
+    <b-modal id="modal-success-end" title="Kamu Berhasil Menyelesaikan" hide-footer centered
+      :no-close-on-backdrop="true" :no-close-on-esc="true" modal-class="admin-modal" @hidden="resetModal">
       <div>
         <p class="modal-text" v-if="detail.jenis_produk != 'Masal'">
           Kamu dapat langsung melihat hasil ujian tryout dan lihat rekomendasi
@@ -556,32 +361,21 @@
         <p class="modal-text" v-else-if="detail.jenis_produk == 'Masal'">
           Kamu berhasil menyelesaikan ujian tryout akbar dan dapat melihat
           hasilnya pada
-          <b
-            >{{
-              formatTanggal(detail.tanggal_berakhir, "Do MMMM YYYY HH:mm")
-            }}
-            WIB.</b
-          >
+          <b>{{
+            formatTanggal(detail.tanggal_berakhir, "Do MMMM YYYY HH:mm")
+          }}
+            WIB.</b>
         </p>
         <div class="modal-footer justify-content-end" style="border: 0px">
-          <button
-            class="btn btn-secondary"
-            type="button"
-            @click="navGoTo(`/user/tryout/mine`)"
-          >
+          <button class="btn btn-secondary" type="button" @click="navGoTo(`/user/tryout/mine`)">
             Halaman Utama
           </button>
-          <button
-            v-if="detail.is_result_openable == true"
-            class="btn btn-primary tambah px-4 py-2"
-            type="button"
-            :disabled="loading"
-            @click.prevent="
+          <button v-if="detail.is_result_openable == true" class="btn btn-primary tambah px-4 py-2" type="button"
+            :disabled="loading" @click.prevent="
               navGoTo(
                 `/user/tryout/${productId}/result?code=${$route.query.kode}&category=${detail.kategori_produk}`
               )
-            "
-          >
+              ">
             Lihat Hasil
           </button>
         </div>
@@ -630,7 +424,7 @@ export default {
       if (this.detailUjian.waktu_selesai) {
         return this.goToNext();
       } else {
-        await this.getDetailTryout();
+        await this.getTryoutDetail();
         await this.getNomorSoal();
         document.addEventListener("keydown", this.onKeyDownNavigation);
         if (!this.$route.query.id_mapel) {
@@ -647,7 +441,7 @@ export default {
       }
     } else {
       // jika data ujian belum pernah dibuat/start
-      await this.getDetailTryout();
+      await this.getTryoutDetail();
     }
   },
   destroyed() {
@@ -696,7 +490,7 @@ export default {
     }
   },
   methods: {
-    resetModal() {},
+    resetModal() { },
     encrypt(text) {
       if (typeof text !== "string") {
         text = text.toString();
@@ -727,7 +521,7 @@ export default {
       const encryptedTryoutId = this.encrypt(tryoutID);
       const encryptedTryoutIdSafe = encodeURIComponent(encryptedTryoutId);
       var encryptedJedaWaktuSafe = null;
-      if(jedawaktu!=null){
+      if (jedawaktu != null) {
         const encryptedJedaWaktu = this.encrypt(jedawaktu);
         encryptedJedaWaktuSafe = encodeURIComponent(encryptedJedaWaktu);
       };
@@ -793,30 +587,30 @@ export default {
       } else {
         diffTime = waktuBatas - waktuMulai;
       }
-        console.log(diffTime);
+      console.log(diffTime);
       let duration = moment.duration(diffTime, "milliseconds");
       const interval = 1000;
       // const boardTimer = document.querySelector(".board-timer");
-      var countdownElement ;
+      var countdownElement;
       var countdownElement2;
       var boardTimer;
       var boardTimer2;
-      try{
-       boardTimer = document.getElementById("board-timer-1");
-      // console.log(boardTimer)
-       boardTimer2 = document.getElementById("board-timer-2");
+      try {
+        boardTimer = document.getElementById("board-timer-1");
+        // console.log(boardTimer)
+        boardTimer2 = document.getElementById("board-timer-2");
 
-      // console.log(boardTimer2)
-      // return
-      countdownElement= boardTimer.children[1];
-      countdownElement2= boardTimer2.children[1];
-      }catch(error){
-      // Tangani kesalahan di sini.
-      console.error("Kesalahan web:", error.message);
+        // console.log(boardTimer2)
+        // return
+        countdownElement = boardTimer.children[1];
+        countdownElement2 = boardTimer2.children[1];
+      } catch (error) {
+        // Tangani kesalahan di sini.
+        console.error("Kesalahan web:", error.message);
 
-      // Setelah menangani kesalahan, arahkan ulang halaman web.
-      // window.location.reload();
-    }
+        // Setelah menangani kesalahan, arahkan ulang halaman web.
+        // window.location.reload();
+      }
 
       const isNotTimeout =
         duration.hours() >= 0 &&
@@ -832,7 +626,7 @@ export default {
 
       if (isNotTimeout) {
         this.countdownTimer = setInterval(
-          function() {
+          function () {
             duration = moment.duration(duration - interval, "milliseconds");
             const hours =
               duration.hours() >= 10
@@ -935,7 +729,7 @@ export default {
           window.location.reload();
         })
         .catch(error => console.log(error))
-        .finally(() => {});
+        .finally(() => { });
     },
     async onConfirmEndTest() {
       console.log("onConfirmEndTest");
@@ -962,9 +756,9 @@ export default {
         // );
         window.localStorage.removeItem(
           "_ujiaja_temp_to_user_" +
-            this.$route.query.kode +
-            "_" +
-            this.tryout.id
+          this.$route.query.kode +
+          "_" +
+          this.tryout.id
         );
         if (this.isAllowNext()) {
           this.goToNext();
@@ -978,10 +772,10 @@ export default {
     async onNextSubtest() {
       await this.saveJawabanToServer()
       const jeda_waktu = (this.listSubtest.find(s => s.id === parseInt(this.$route.query.id_mapel, 10))).jeda_waktu * 1000
-      console.log('jedanya adalah' . jeda_waktu)
+      console.log('jedanya adalah'.jeda_waktu)
       this.toWaitingTestPage(this.detailUjian.id_produk, this.tryoutId, this.listSubtest[this.subtestIndex + 1].id, jeda_waktu)
     },
-    async onNextTest(){
+    async onNextTest() {
       await this.saveJawabanToServer()
       this.toWaitingTestPage(this.detailUjian.id_produk, this.tryoutId)
     },
@@ -1159,20 +953,15 @@ export default {
         })
         .finally(() => (this.loading = false));
     },
-    async getDetailTryout() {
+    async getTryoutDetail() {
       this.loading = true;
       await this.$axios
-        .$get(`/api/tryout/find/${this.tryoutId}/detail`)
-        .then(res => {
+        .$get(`/api/tryout/find/${this.tryoutId}`)
+        .then(async res => {
           console.log("tryout", res);
           if (res.success) {
             this.tryout = res.data;
-            this.listSubtest = res.data.soal.map((to) => ({
-              id: to.id,
-              mapel: to.mapel.nama_mapel,
-              jeda_waktu: to.jeda_waktu_antar_mapel || res.data.jeda_waktu,
-              alokasi_waktu: to.alokasi_waktu_per_mapel || res.data.alokasi_waktu
-            }));
+            await getTryoutSubtests()
           }
           return true;
         })
@@ -1181,6 +970,28 @@ export default {
           this.catchError(err);
         })
         .finally(() => (this.loading = false));
+    },
+    async getTryoutSubtests() {
+      // this.loading = true;
+      await this.$axios
+        .$get(`/api/v2/tryout/${this.tryoutId}/subtest`)
+        .then(res => {
+          console.log("tryout subtests", res);
+          if (res.success) {
+            this.listSubtest = res.data.map((tryout) => ({
+              id: tryout.id,
+              mapel: tryout.nama_mapel,
+              jeda_waktu: tryout.jeda_waktu_antar_mapel || this.tryout.jeda_waktu,
+              alokasi_waktu: tryout.alokasi_waktu_per_mapel || this.tryout.alokasi_waktu
+            }));
+          }
+          return true;
+        })
+        .catch(err => {
+          console.log(err);
+          this.catchError(err);
+        })
+        // .finally(() => (this.loading = false));
     },
     async getNomorSoal() {
       this.loading = true;
@@ -1273,15 +1084,16 @@ export default {
 .btn-light {
   background-color: #f8f9fa !important;
 }
+
 .btn-light:hover {
   background-color: #f5f5f5 !important;
   color: #baadff;
 }
+
 .btn-light:active,
 .btn-light:focus {
   background-color: #f5f5f5 !important;
   color: #baadff !important;
   border: 1px solid #f5f5f5;
 }
-
 </style>
