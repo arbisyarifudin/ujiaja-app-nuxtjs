@@ -27,7 +27,7 @@
             }}</span>
             <span v-if="dataDetail.kelompok_soal">{{
               dataDetail.kelompok_soal
-              }}</span>
+            }}</span>
             <span v-if="
               dataDetail.penjurusan &&
               dataDetail.penjurusan.kelas &&
@@ -81,7 +81,7 @@
                         Soal
                         <span v-if="dataDetail.kategori != 'ASPD'">{{
                           soal.jenis_soal
-                          }}</span>
+                        }}</span>
                         <!-- <span v-else-if="dataDetail.kategori == 'ASPD'">{{
                           soal.mapel.nama_mapel
                         }}</span> -->
@@ -426,13 +426,14 @@
                                             '-' +
                                             c + '-' + number
                                             " class="mb-0">{{ number }}</label>
-                                          <input v-if="soalp.jawaban_pertanyaan && soalp.jawaban_pertanyaan[c]" type="radio" :id="'opsi' +
-                                            soalp.id +
-                                            '-' +
-                                            b +
-                                            '-' +
-                                            c + '-' + number
-                                            " :ref="'opsi' +
+                                          <input v-if="soalp.jawaban_pertanyaan && soalp.jawaban_pertanyaan[c]"
+                                            type="radio" :id="'opsi' +
+                                              soalp.id +
+                                              '-' +
+                                              b +
+                                              '-' +
+                                              c + '-' + number
+                                              " :ref="'opsi' +
                                               soalp.id +
                                               '-' +
                                               b +
@@ -668,8 +669,8 @@
                                           'Pilihan Ganda'
                                           ? 'radio'
                                           : 'checkbox'" :id="'opsi-' + child.id + '-' + b + '-' + d
-                                                " :ref="'opsi-' + child.id + '-' + b + '-' + d
-                                              " :name="'opsi-' + child.id + '-' + b + '-' + d
+                                            " :ref="'opsi-' + child.id + '-' + b + '-' + d
+                                                  " :name="'opsi-' + child.id + '-' + b + '-' + d
                                                 " :value="opsi_child.uuid" v-model="child.jawaban_pertanyaan" @change="
                                                   onUpdatePertanyaanChild(child, d)
                                                   " />
@@ -684,12 +685,12 @@
                                           '-' +
                                           d
                                           " :ref="'opsi-text-' +
-                                              child.id +
-                                              '-' +
-                                              b +
-                                              '-' +
-                                              d
-                                              " :name="'opsi-text-' +
+                                            child.id +
+                                            '-' +
+                                            b +
+                                            '-' +
+                                            d
+                                            " :name="'opsi-text-' +
                                                 child.id +
                                                 '-' +
                                                 b +
@@ -763,13 +764,14 @@
                                             '-' +
                                             d + '-' + number
                                             " class="mb-0">{{ number }}</label>
-                                          <input v-if="child.jawaban_pertanyaan && child.jawaban_pertanyaan[d]" type="radio" :id="'opsi' +
-                                            child.id +
-                                            '-' +
-                                            b +
-                                            '-' +
-                                            d + '-' + number
-                                            " :ref="'opsi' +
+                                          <input v-if="child.jawaban_pertanyaan && child.jawaban_pertanyaan[d]"
+                                            type="radio" :id="'opsi' +
+                                              child.id +
+                                              '-' +
+                                              b +
+                                              '-' +
+                                              d + '-' + number
+                                              " :ref="'opsi' +
                                               child.id +
                                               '-' +
                                               b +
@@ -1525,6 +1527,15 @@ export default {
             this.onSubmit.pertanyaan[pertanyaan.id].submitted = true;
             this.onSubmit.pertanyaan[pertanyaan.id].success = true;
             this.onSubmit.pertanyaan[pertanyaan.id].loading = false;
+
+            this.$bvToast.toast(
+              "Berhasil tambah opsi pertanyaan.", {
+                title: "Sukses",
+                variant: "success",
+                solid: true,
+                autoHideDelay: 2000,
+              }
+            );
           }
         })
         .catch(err => {
@@ -1553,6 +1564,15 @@ export default {
             this.onSubmit.perchild[perchild.id].submitted = true;
             this.onSubmit.perchild[perchild.id].success = true;
             this.onSubmit.perchild[perchild.id].loading = false;
+
+            this.$bvToast.toast(
+              "Berhasil tambah opsi pertanyaan.", {
+                title: "Sukses",
+                variant: "success",
+                solid: true,
+                autoHideDelay: 2000,
+              }
+            );
           }
         })
         .catch(err => {
@@ -1578,6 +1598,15 @@ export default {
             this.onSubmit.pertanyaan[pertanyaan.id].success = true;
             this.onSubmit.pertanyaan[pertanyaan.id].loading = false;
             pertanyaan.opsi_pertanyaan.splice(index, 1);
+
+            this.$bvToast.toast(
+              "Berhasil hapus pertanyaan.", {
+                title: "Sukses",
+                variant: "success",
+                solid: true,
+                autoHideDelay: 2000,
+              }
+            );
           }
           return true;
         })
@@ -1644,6 +1673,15 @@ export default {
             this.onSubmit.pertanyaan[pertanyaan.id].success = true;
             this.onSubmit.pertanyaan[pertanyaan.id].loading = false;
             pertanyaan.pertanyaan_child.push({ ...dataSave, id: res.data.id });
+
+            this.$bvToast.toast(
+              "Berhasil tambah pertanyaan.", {
+                title: "Sukses",
+                variant: "success",
+                solid: true,
+                autoHideDelay: 2000,
+              }
+            );
           }
           return true;
         })
@@ -1676,6 +1714,15 @@ export default {
         .then(res => {
           if (res.success) {
             items.splice(index, 1);
+
+            this.$bvToast.toast(
+              "Berhasil hapus pertanyaan.", {
+                title: "Sukses",
+                variant: "success",
+                solid: true,
+                autoHideDelay: 2000,
+              }
+            );
           }
           return true;
         })
@@ -1736,6 +1783,15 @@ export default {
           console.log("res add data mapel", res);
           if (res.success) {
             pertanyaan_parent.push({ ...dataSave, id: res.data.id });
+
+            this.$bvToast.toast(
+              "Berhasil tambah Bab Mapel.", {
+                title: "Sukses",
+                variant: "success",
+                solid: true,
+                autoHideDelay: 2000,
+              }
+            );
           }
           return true;
         })
@@ -1762,6 +1818,15 @@ export default {
         .then(res => {
           if (res.success) {
             items.splice(index, 1);
+
+            this.$bvToast.toast(
+              "Bab Mapel berhasil dihapus.", {
+                title: "Sukses",
+                variant: "success",
+                solid: true,
+                autoHideDelay: 2000,
+              }
+            );
           }
           return true;
         })
@@ -1784,6 +1849,15 @@ export default {
           if (res.success) {
             this.onSubmit.panduan.submitted = true;
             this.onSubmit.panduan.success = true;
+
+            this.$bvToast.toast(
+              "Perubahan disimpan.", {
+                title: "Sukses",
+                variant: "success",
+                solid: true,
+                autoHideDelay: 2000,
+              }
+            );
           }
           return true;
         })
@@ -1808,6 +1882,15 @@ export default {
           if (res.success) {
             this.onSubmit.soal[soal.id].submitted = true;
             this.onSubmit.soal[soal.id].success = true;
+
+            this.$bvToast.toast(
+              "Perubahan disimpan.", {
+                title: "Sukses",
+                variant: "success",
+                solid: true,
+                autoHideDelay: 2000,
+              }
+            );
           }
           return true;
         })
@@ -1882,7 +1965,7 @@ export default {
         pertanyaan.soal = pertanyaan.soal.replace(/<span[^>]*class="ql-inputfield"[^>]*>[^<]*<\/span>/g, '').trim()
       }
 
-      console.log('pertanyaan', pertanyaan);
+      // console.log('pertanyaan', pertanyaan);
 
       if (!this.onSubmit.pertanyaan[pertanyaan.id]) {
         this.onSubmit.pertanyaan[pertanyaan.id] = {};
@@ -1895,6 +1978,15 @@ export default {
             this.onSubmit.pertanyaan[pertanyaan.id].submitted = true;
             this.onSubmit.pertanyaan[pertanyaan.id].success = true;
             this.onSubmit.pertanyaan[pertanyaan.id].loading = false;
+
+            this.$bvToast.toast(
+              "Perubahan disimpan.", {
+                title: "Sukses",
+                variant: "success",
+                solid: true,
+                autoHideDelay: 2000,
+              }
+            );
           }
           return true;
         })
@@ -1969,7 +2061,7 @@ export default {
         perchild.soal = perchild.soal.replace(/<span[^>]*class="ql-inputfield"[^>]*>[^<]*<\/span>/g, '').trim()
       }
 
-      console.log('perchild', perchild);
+      // console.log('perchild', perchild);
 
       if (!this.onSubmit.perchild[perchild.id]) {
         this.onSubmit.perchild[perchild.id] = {};
@@ -1982,6 +2074,15 @@ export default {
             this.onSubmit.perchild[perchild.id].submitted = true;
             this.onSubmit.perchild[perchild.id].success = true;
             this.onSubmit.perchild[perchild.id].loading = false;
+
+            this.$bvToast.toast(
+              "Perubahan disimpan.", {
+                title: "Sukses",
+                variant: "success",
+                solid: true,
+                autoHideDelay: 2000,
+              }
+            );
           }
           return true;
         })
@@ -2020,6 +2121,15 @@ export default {
             this.onSubmit.pertanyaan[pertanyaan.id].success = true;
             this.onSubmit.pertanyaan[pertanyaan.id].loading = false;
             // pertanyaan = { ...res.data };
+
+            this.$bvToast.toast(
+              "Perubahan disimpan.", {
+                title: "Sukses",
+                variant: "success",
+                solid: true,
+                autoHideDelay: 2000,
+              }
+            );
           }
           return true;
         })
