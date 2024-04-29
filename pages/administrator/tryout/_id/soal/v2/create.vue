@@ -405,11 +405,14 @@
                                   <div class="mb-3">
                                     <div class="mb-2">Pilihan:</div>
                                     <div class="row">
-                                      <div class="col-md-6">
-                                        <input placeholder="Pilihan 1" class="form-control" />
-                                      </div>
-                                      <div class="col-md-6">
-                                        <input placeholder="Pilihan 2" class="form-control" />
+                                      <div class="col-md-6" v-for="(ojpLabel, ojpIndex) in soalp.opsi_jawaban_pertanyaan" :key="'ojp-'+ojpIndex">
+                                        <!-- <input :placeholder="'Pilihan ' + (ojpIndex+1)" class="form-control" v-model="soalp.opsi_jawaban_pertanyaan[ojpIndex]" @change="onUpdatePertanyaan(soalp)" /> -->
+                                        <b-input-group>
+                                          <template #prepend>
+                                            <b-input-group-text>{{ ojpIndex+1 }}</b-input-group-text>
+                                          </template>
+                                          <b-form-input :placeholder="'Pilihan ' + (ojpIndex + 1)" v-model="soalp.opsi_jawaban_pertanyaan[ojpIndex]" @change="onUpdatePertanyaan(soalp)" />
+                                        </b-input-group>
                                       </div>
                                     </div>
                                   </div>
@@ -742,11 +745,14 @@
                                   <div class="mb-3">
                                     <div class="mb-2">Pilihan:</div>
                                     <div class="row">
-                                      <div class="col-md-6">
-                                        <input placeholder="Pilihan 1" class="form-control" />
-                                      </div>
-                                      <div class="col-md-6">
-                                        <input placeholder="Pilihan 2" class="form-control" />
+                                      <div class="col-md-6" v-for="(ojpLabel, ojpIndex) in child.opsi_jawaban_pertanyaan" :key="'ojp-'+ojpIndex">
+                                        <!-- <input :placeholder="'Pilihan ' + (ojpIndex+1)" class="form-control" v-model="child.opsi_jawaban_pertanyaan[ojpIndex]" @change="onUpdatePertanyaan(child)" /> -->
+                                        <b-input-group>
+                                          <template #prepend>
+                                            <b-input-group-text>{{ ojpIndex+1 }}</b-input-group-text>
+                                          </template>
+                                          <b-form-input :placeholder="'Pilihan ' + (ojpIndex + 1)" v-model="child.opsi_jawaban_pertanyaan[ojpIndex]" @change="onUpdatePertanyaanChild(child)" />
+                                        </b-input-group>
                                       </div>
                                     </div>
                                   </div>
@@ -1515,8 +1521,13 @@ export default {
       });
 
       if (pertanyaan.template_pertanyaan === 'Pilihan Ganda Kompleks (Model 2)') {
+        if (!pertanyaan.opsi_jawaban_pertanyaan || pertanyaan.opsi_jawaban_pertanyaan?.length < 2) {
+          const opsiJawabanPertanyaan = ['Pilihan 1', 'Pilihan 2']
+          pertanyaan.opsi_jawaban_pertanyaan = opsiJawabanPertanyaan
+        }
+
         const opsiPertanyaanLastIndex = pertanyaan.opsi_pertanyaan.length - 1
-        pertanyaan.jawaban_pertanyaan[opsiPertanyaanLastIndex] = pertanyaan.opsi_pertanyaan[opsiPertanyaanLastIndex].option + '___1'
+        pertanyaan.jawaban_pertanyaan[opsiPertanyaanLastIndex] = pertanyaan.opsi_pertanyaan[opsiPertanyaanLastIndex].uuid + '___1'
       }
 
       this.onSubmit.pertanyaan[pertanyaan.id].loading = true;
@@ -1557,6 +1568,17 @@ export default {
         uuid: uuidv4(),
         option: "Opsi Baru"
       });
+
+      if (perchild.template_pertanyaan === 'Pilihan Ganda Kompleks (Model 2)') {
+        if (!perchild.opsi_jawaban_pertanyaan || perchild.opsi_jawaban_pertanyaan?.length < 2) {
+          const opsiJawabanPertanyaan = ['Pilihan 1', 'Pilihan 2']
+          perchild.opsi_jawaban_pertanyaan = opsiJawabanPertanyaan
+        }
+
+        const opsiPertanyaanLastIndex = perchild.opsi_pertanyaan.length - 1
+        perchild.jawaban_pertanyaan[opsiPertanyaanLastIndex] = perchild.opsi_pertanyaan[opsiPertanyaanLastIndex].uuid + '___1'
+      }
+
       this.$axios
         .$put(`/api/soal/pertanyaan/update/${perchild.id}`, perchild)
         .then(res => {
@@ -1926,6 +1948,12 @@ export default {
           }
 
         } else if (pertanyaan.template_pertanyaan === 'Pilihan Ganda Kompleks (Model 2)') {
+          console.log('pertanyaan.opsi_jawaban_pertanyaan', pertanyaan.opsi_jawaban_pertanyaan)
+          if (!pertanyaan.opsi_jawaban_pertanyaan || pertanyaan.opsi_jawaban_pertanyaan?.length < 2) {
+            const opsiJawabanPertanyaan = ['Pilihan 1', 'Pilihan 2']
+            pertanyaan.opsi_jawaban_pertanyaan = opsiJawabanPertanyaan
+          }
+
           // pertanyaan.jawaban_pertanyaan = []
           if (Array.isArray(pertanyaan.jawaban_pertanyaan)) {
             pertanyaan.jawaban_pertanyaan = pertanyaan.jawaban_pertanyaan.filter(v => v.includes('___'))
@@ -2022,7 +2050,12 @@ export default {
           }
 
         } else if (perchild.template_pertanyaan === 'Pilihan Ganda Kompleks (Model 2)') {
-          // perchild.jawaban_pertanyaan = []
+          console.log('perchild.opsi_jawaban_pertanyaan', perchild.opsi_jawaban_pertanyaan)
+          if (!perchild.opsi_jawaban_pertanyaan || perchild.opsi_jawaban_pertanyaan?.length < 2) {
+            const opsiJawabanPertanyaan = ['Pilihan 1', 'Pilihan 2']
+            perchild.opsi_jawaban_pertanyaan = opsiJawabanPertanyaan
+          }
+
           if (Array.isArray(perchild.jawaban_pertanyaan)) {
             perchild.jawaban_pertanyaan = perchild.jawaban_pertanyaan.filter(v => v.includes('___'))
           } else {
