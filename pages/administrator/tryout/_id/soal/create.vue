@@ -1059,7 +1059,7 @@
                               id="jeda_waktu_antar_mapel"
                               placeholder="Ex: 80"
                               v-model="newMapel.alokasi_waktu_per_mapel"
-                              
+
                             />
                           </div>
                           <div class="form-group reg-siswa">
@@ -1108,7 +1108,7 @@
           </div>
         </div>
         <div class="crud-footer d-flex justify-content-end mt-4">
-          
+
           <nuxt-link
             to="/administrator/tryout"
             class="btn btn-outline-secondary mr-2"
