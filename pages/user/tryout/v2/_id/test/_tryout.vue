@@ -53,99 +53,130 @@
               <h2 class="product-name">{{ tryout.judul }}</h2>
               <!-- <hr /> -->
               <div class="row no-gutters">
-                <table class="col-sm-6 table table-borderless table-sm mb-1">
+                <table class="col-sm-6 table table-borderless table-sm mb-1" v-if="currentSubtest">
                   <tr>
                     <th width="130">Mata Pelajaran</th>
                     <td width="10">:</td>
-                    <td v-text="currentNomor.nama_mapel"></td>
+                    <td v-text="currentSubtest.mapel"></td>
                   </tr>
                   <tr>
                     <th width="130">Jumlah Soal</th>
                     <td width="10">:</td>
-                    <td>{{ currentNomor.jumlah_soal }} Soal</td>
+                    <td>{{ currentSubtest.jumlah_soal }} Soal</td>
                   </tr>
                 </table>
 
-                <table class="col-sm-6 table table-borderless table-sm mb-1">
+                <table class="col-sm-6 table table-borderless table-sm mb-1"
+                  v-if="currentSoal && currentSoal?.bab_mapel?.length">
                   <tr>
                     <th width="130">Bab Mapel</th>
                     <td width="10">:</td>
                     <td>
-                      <span v-for="(bab, b) in currentNomor.bab" :key="'bab' + b" v-text="bab"></span>
+                      <span v-for="(bab, b) in currentSoal.bab_mapel" :key="'bab' + b" v-text="bab"></span>
                     </td>
                   </tr>
-                  <tr>
+                  <tr v-if="currentSubtest">
                     <th width="130">Dimulai Nomor</th>
                     <td width="10">:</td>
-                    <td v-text="currentNomor.range_nomor"></td>
+                    <td v-text="currentSubtest.range_nomor"></td>
                   </tr>
                 </table>
               </div>
               <hr />
               <div class="question-list">
                 <div class="question-item">
-                  <div class="question-header-text mb-3" v-if="currentNomor.penjelasan_pertanyaan"
-                    v-html="currentNomor.penjelasan_pertanyaan"></div>
+                  <div class="question-header-text mb-3" v-if="currentSoal.penjelasan_pertanyaan"
+                    v-html="currentSoal.penjelasan_pertanyaan"></div>
                   <div class="question-child-item">
                     <h3 class="question-header-title" :id="'question-1'">
                       Pertanyaan
-                      <b-badge variant="primary" v-text="currentNomor.nomor"></b-badge>
+                      <b-badge variant="primary" v-text="currentSoalNomor"></b-badge>
                     </h3>
-                    <p class="question-main-text" v-html="currentNomor.soal_pertanyaan"></p>
-                    <!-- <ul class="list-unstyled option-list">
-                      <li
-                        class="option-item"
-                        v-for="(opsi, o) in currentNomor.opsi_pertanyaan"
-                        :key="'opsi' + o"
-                      >
-                        <label :for="'opsi-' + currentNomor.nomor + '-' + o"
-                         v-if="jawabanUser[currentNomor.nomor]"
-                          >
-                          <input
-                            type="radio"
-                            :name="'opsi_' + currentNomor.nomor"
-                            :id="'opsi-' + currentNomor.nomor + '-' + o"
-                            class="mr-2"
-                            :value="opsi.uuid"
-                            v-model="jawabanUser[currentNomor.nomor].jawaban_user"
-                          />
-                          <span v-html="opsi.option" class="option-text"></span>
-                        </label>
-                      </li>
-                      <li class="mt-4">
-                        <button
-                          type="button"
-                          class="btn btn-sm btn-light px-3 square"
-                          @click.prevent="
-                            jawabanUser[currentNomor.nomor].jawaban_user = ''
-                          "
-                        >
-                          <i class="fas fa-fa fa-times mr-1"></i>
-                          Batal Jawab
-                        </button>
-                      </li>
-                    </ul> -->
-                    <b-form-group v-slot="{ ariaDescribedby }" class="question-option-radio-group">
-                      <b-form-radio v-for="(opsi, o) in currentNomor.opsi_pertanyaan" :key="'opsi' + o"
-                        v-model="jawabanUser[currentNomor.nomor].jawaban_user" :aria-describedby="ariaDescribedby"
-                        :name="'opsi_' + currentNomor.nomor" :value="opsi.uuid" :class="jawabanUser[currentNomor.nomor].jawaban_user ===
+
+                    <div v-if="loadingSoal" class="mt-3 mb-4">Memuat soal...</div>
+
+                    <div>jawaban: {{ jawabanUser[currentSoalNomor]?.jawaban_user }}</div>
+
+                    <p class="question-main-text" v-html="currentSoal.soal"></p>
+
+
+                    <template v-if="currentSoal.template_pertanyaan === 'Pilihan Ganda'">
+                      <b-form-group v-if="currentSoalNomor && jawabanUser[currentSoalNomor]"
+                        v-slot="{ ariaDescribedby }" class="question-option-group">
+                        <b-form-radio v-for="(opsi, o) in currentSoal.opsi_pertanyaan" :key="'opsi' + o"
+                          class="question-option__item" v-model="jawabanUser[currentSoalNomor].jawaban_user"
+                          :aria-describedby="ariaDescribedby" :name="'opsi_' + currentSoalNomor" :value="opsi.uuid"
+                          :class="jawabanUser[currentSoalNomor].jawaban_user ===
                             opsi.uuid
                             ? 'checked'
                             : ''
-                          " @change="saveJawaban">
-                        <!-- <div class="question-option-letter mb-2">
-                          {{ letterLabel(o) }}
-                        </div> -->
-                        <span class="letter">{{ letterLabel(o) }}</span>
-                        <div v-html="opsi.option"></div>
-                      </b-form-radio>
-                    </b-form-group>
-                    <button type="button" class="btn btn-sm btn-light px-3 square" @click.prevent="
-                      jawabanUser[currentNomor.nomor].jawaban_user = ''
-                      ">
+                            " @change="saveJawaban">
+                          <span class="letter">{{ letterLabel(o) }}</span>
+                          <div v-html="opsi.option"></div>
+                        </b-form-radio>
+                      </b-form-group>
+                    </template>
+
+                    <template v-if="currentSoal.template_pertanyaan === 'Pilihan Ganda Kompleks (Model 1)'">
+                      <b-form-group v-if="currentSoalNomor && jawabanUser[currentSoalNomor]"
+                        class="question-option-group">
+                        <b-form-checkbox v-for="(opsi, o) in currentSoal.opsi_pertanyaan" :key="'opsi' + o"
+                          class="question-option__item" v-model="jawabanUser[currentSoalNomor].jawaban_user"
+                          :name="'opsi_' + currentSoalNomor" :value="opsi.uuid" :class="[
+                            jawabanUser[currentSoalNomor].jawaban_user == opsi.uuid
+                              ? 'checked'
+                              : '',
+                            jawabanUser[currentSoalNomor].jawaban_user?.length > 0 && jawabanUser[currentSoalNomor].jawaban_user.includes(opsi.uuid) ? 'checked' : ''
+                          ]" @change="saveJawaban">
+                          <span class="letter">{{ letterLabel(o) }}</span>
+                          <div v-html="opsi.option"></div>
+                        </b-form-checkbox>
+                      </b-form-group>
+                    </template>
+
+                    <template v-if="currentSoal.template_pertanyaan === 'Pilihan Ganda Kompleks (Model 2)'">
+                      <table v-if="currentSoalNomor && jawabanUser[currentSoalNomor]"
+                        class="question-option-group table">
+                        <thead>
+                          <tr>
+                            <th>Pilihan</th>
+                            <th width="15%" class="text-center">{{ currentSoal?.opsi_jawaban_pertanyaan[0] }}</th>
+                            <th width="15%" class="text-center">{{ currentSoal?.opsi_jawaban_pertanyaan[1] }}</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr v-for="(opsi, o) in currentSoal.opsi_pertanyaan" :key="'opsi' + o"
+                            class="question-option__item">
+                            <td class="td-1">
+                              <span class="letter">{{ letterLabel(o) }}</span>
+                              <div v-html="opsi.option"></div>
+                            </td>
+                            <td class="td-2" v-for="pil in 2">
+                              <label :for="'opsi_' + currentSoalNomor + '_' + o + '_' + pil"
+                                class="d-flex justify-content-center align-items-center">
+                                <input type="radio" :id="'opsi_' + currentSoalNomor + '_' + o + '_' + pil"
+                                  :name="'opsi_' + currentSoalNomor + '_' + o"
+                                  :class="jawabanUser[currentSoalNomor].jawaban_user?.length > 0 && jawabanUser[currentSoalNomor].jawaban_user.includes((opsi.uuid + '___' + pil)) ? 'checked' : ''"
+                                  class="d-inline" :value="opsi.uuid + '___' + pil"
+                                  v-model="jawabanUser[currentSoalNomor].jawaban_user[o]" @change="saveJawaban"></input>
+                              </label>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </template>
+
+                    <template v-if="currentSoal.template_pertanyaan === 'Isian Singkat'">
+                      <div class="question-option-group">
+
+                      </div>
+                    </template>
+
+                    <button type="button" class="btn btn-sm btn-light px-3 square" @click.prevent="onBatalJawab">
                       <i class="fas fa-fa fa-times mr-1"></i>
                       Batal Jawab
                     </button>
+
                   </div>
                 </div>
               </div>
@@ -166,8 +197,7 @@
             </h2>
             <hr />
             <h2 class="board-title mb-3">Nomor Soal</h2>
-            <UjianNumberList @update="updateNomor" :jawaban="jawabanUser" :list="listSoal"
-              :active="currentNomor.nomor" />
+            <UjianNumberList @update="updateNomor" :jawaban="jawabanUser" :list="listSoal" :active="currentSoalNomor" />
             <hr />
             <h2 class="board-title mb-3">Keterangan</h2>
             <ul class="list-unstyled board-legend">
@@ -244,7 +274,7 @@
           </h2>
           <hr /> -->
           <h2 class="board-title mb-3">Nomor Soal</h2>
-          <UjianNumberList @update="updateNomor" :jawaban="jawabanUser" :list="listSoal" :active="currentNomor.nomor" />
+          <UjianNumberList @update="updateNomor" :jawaban="jawabanUser" :list="listSoal" :active="currentSoalNomor" />
           <hr />
           <h2 class="board-title mb-3">Keterangan</h2>
           <ul class="list-unstyled board-legend">
@@ -256,7 +286,7 @@
           @update="updateNomor"
           :jawaban="jawabanUser"
           :list="listNomorSoal"
-          :active="currentNomor.nomor"
+          :active="currentSoalNomor"
         /> -->
         </div>
       </b-sidebar>
@@ -397,13 +427,14 @@ export default {
   data() {
     return {
       loading: true,
+      loadingSoal: false,
       detail: {},
       tryout: {},
       detailUjian: {},
       listNomorSoal: [],
       listSubtest: [],
       listSoal: [],
-      currentNomor: {},
+      currentSoal: {},
       jawabanUser: {},
       countdownTimer: null,
       isTimeout: false,
@@ -487,6 +518,21 @@ export default {
         data.push(key);
       }
       return data.length;
+    },
+    currentSubtest() {
+      const findSubtest = this.listSubtest.find(s => s.id === parseInt(this.$route.query.id_mapel, 10))
+      if (findSubtest) {
+        return findSubtest
+      }
+
+      return this.listSubtest[0]
+    },
+    currentSoalNomor() {
+      const findNomorSoal = this.listNomorSoal.find(v => v.id_soal_pertanyaan === this.currentSoal.id)
+      if (findNomorSoal) {
+        return findNomorSoal.nomor
+      }
+      return null
     }
   },
   methods: {
@@ -540,6 +586,7 @@ export default {
       if (lastSavedData) {
         lastSavedData = JSON.parse(lastSavedData);
         this.jawabanUser = lastSavedData.data;
+        this.formatJawabanSoal();
         return lastSavedData;
       } else if (!lastSavedData && this.lastSavedDataTime) {
         const moment = require("moment");
@@ -690,7 +737,7 @@ export default {
     },
     onKeyDownNavigation(event) {
       const key = event.key; // "ArrowRight", "ArrowLeft", "ArrowUp", or "ArrowDown"
-      const currNomor = this.currentNomor.nomor;
+      const currNomor = this.currentSoalNomor;
       let foundSoal, targetNomor;
       // console.log(key);
       switch (key) {
@@ -712,7 +759,10 @@ export default {
       }
       foundSoal = this.listSoal.find(item => item.nomor == targetNomor);
       if (foundSoal) {
-        this.currentNomor = foundSoal;
+        // this.currentSoal = foundSoal;
+        this.currentSoal.id = foundSoal.id_soal_pertanyaan;
+        this.currentSoal.opsi_pertanyaan = []
+        this.getSoalDetail(foundSoal.id_soal_pertanyaan)
       }
     },
     onConfirmStartTest() {
@@ -793,10 +843,13 @@ export default {
         .catch(error => console.log(error));
       return data;
     },
-    updateNomor(dataNomor) {
-      console.log(dataNomor);
-      // this.$store.commit("set", ["currentNomor", dataNomor]);
-      this.currentNomor = dataNomor;
+    async updateNomor(dataNomor) {
+      // console.log(dataNomor);
+      // this.$store.commit("set", ["currentSoal", dataNomor]);
+      // this.currentSoal = dataNomor;
+      this.currentSoal.id = dataNomor.id_soal_pertanyaan;
+      this.currentSoal.opsi_pertanyaan = []
+      await this.getSoalDetail(dataNomor.id_soal_pertanyaan)
     },
     saveJawaban() {
       const dataSave = this.jawabanUser;
@@ -820,6 +873,18 @@ export default {
         "_ujiaja_temp_to_user_" + this.$route.query.kode + "_" + this.tryout.id,
         lsSave
       );
+    },
+    onBatalJawab() {
+      const jenisSoal = this.currentSoal.template_pertanyaan
+      if (jenisSoal === 'Pilihan Ganda') {
+        jawabanUser[currentSoalNomor].jawaban_user = ''
+      } else if (jenisSoal === 'Pilihan Ganda Kompleks (Model 1)') {
+        jawabanUser[currentSoalNomor].jawaban_user = []
+      } else if (jenisSoal === 'Pilihan Ganda Kompleks (Model 2)') {
+        jawabanUser[currentSoalNomor].jawaban_user = []
+      } else if (jenisSoal === 'Isian Singkat') {
+        jawabanUser[currentSoalNomor].jawaban_user = []
+      }
     },
     saveJawabanToServer() {
       const dataSave = this.jawabanUser;
@@ -961,7 +1026,7 @@ export default {
           console.log("tryout", res);
           if (res.success) {
             this.tryout = res.data;
-            await getTryoutSubtests()
+            await this.getTryoutSubtests()
           }
           return true;
         })
@@ -974,15 +1039,17 @@ export default {
     async getTryoutSubtests() {
       // this.loading = true;
       await this.$axios
-        .$get(`/api/v2/tryout/${this.tryoutId}/subtest`)
+        .$get(`/api/v2/student/tryout/${this.tryoutId}/subtest`)
         .then(res => {
           console.log("tryout subtests", res);
           if (res.success) {
-            this.listSubtest = res.data.map((tryout) => ({
-              id: tryout.id,
-              mapel: tryout.nama_mapel,
-              jeda_waktu: tryout.jeda_waktu_antar_mapel || this.tryout.jeda_waktu,
-              alokasi_waktu: tryout.alokasi_waktu_per_mapel || this.tryout.alokasi_waktu
+            this.listSubtest = res.data.map((subtest) => ({
+              id: subtest.id,
+              mapel: subtest.nama_mapel,
+              jeda_waktu: subtest.jeda_waktu_antar_mapel || this.tryout.jeda_waktu,
+              alokasi_waktu: subtest.alokasi_waktu_per_mapel || this.tryout.alokasi_waktu,
+              jumlah_soal: subtest.jumlah_soal,
+              range_nomor: subtest.range_nomor,
             }));
           }
           return true;
@@ -991,26 +1058,73 @@ export default {
           console.log(err);
           this.catchError(err);
         })
-        // .finally(() => (this.loading = false));
+      // .finally(() => (this.loading = false));
     },
+    // async getNomorSoal() {
+    //   this.loading = true;
+    //   await this.$axios
+    //     .$get(`/api/tryout/nomor-soal/${this.tryoutId}`)
+    //     .then(res => {
+    //       console.log("list soal", res);
+    //       if (res.success) {
+    //         this.listNomorSoal = res.data.soal;
+    //         if (this.$route.query.id_mapel) {
+    //           this.currentSoal = res.data.soal.find(s => s.id_soal_tryout === parseInt(this.$route.query.id_mapel, 10))
+    //         } else {
+    //           this.currentSoal = res.data.soal[0];
+    //         }
+    //         this.jawabanUser = res.data.jawaban_placeholder;
+    //         this.lastSavedDataTime = res.data.last_saved_data_time;
+    //         // this.$store.commit("set", ["listNomorSoal", res.data.soal]);
+    //         // this.$store.commit("set", ["currentSoal", res.data.soal[0]]);
+    //       }
+    //     })
+    //     .catch(err => {
+    //       console.log(err);
+    //       this.catchError(err);
+    //     })
+    //     .finally(() => (this.loading = false));
+    // },
+
     async getNomorSoal() {
       this.loading = true;
       await this.$axios
-        .$get(`/api/tryout/nomor-soal/${this.tryoutId}`)
-        .then(res => {
-          console.log("list soal", res);
+        .$get(`/api/v2/student/tryout/${this.tryoutId}/pertanyaan-nomor`)
+        .then(async res => {
+          console.log("nomor soal", res);
           if (res.success) {
-            this.listNomorSoal = res.data.soal;
+            this.listNomorSoal = res.data;
+
+            // get current soal detail
             if (this.$route.query.id_mapel) {
-              this.currentNomor = res.data.soal.find(s => s.id_soal_tryout === parseInt(this.$route.query.id_mapel, 10))
-            } else {
-              this.currentNomor = res.data.soal[0];
+              await this.getSoalDetail(this.listNomorSoal.find(s => s.id_soal_tryout === parseInt(this.$route.query.id_mapel, 10)).id_soal_pertanyaan)
+            } else if (this.listNomorSoal.length) {
+              await this.getSoalDetail(this.listNomorSoal[0].id_soal_pertanyaan);
             }
-            this.jawabanUser = res.data.jawaban_placeholder;
-            this.lastSavedDataTime = res.data.last_saved_data_time;
-            // this.$store.commit("set", ["listNomorSoal", res.data.soal]);
-            // this.$store.commit("set", ["currentNomor", res.data.soal[0]]);
+
+            // get jawaban placeholder
+            const lastSaveData = this.checkLastSaved()
+            if (lastSaveData && lastSaveData.data) {
+              this.jawabanUser = lastSaveData.data
+            } else {
+              const jawabanTemp = this.detailUjian.temp_jawaban_user ? JSON.parse(this.detailUjian.temp_jawaban_user) : {};
+              if (jawabanTemp && Object.keys(jawabanTemp).length > 0) {
+                this.jawabanUser = jawabanTemp;
+              } else {
+                this.jawabanUser = res.data.reduce((acc, curr) => {
+                  acc[this.currentSoalNomor] = {
+                    id_soal_pertanyaan: curr.id_soal_pertanyaan,
+                    id_soal_tryout: curr.id_soal_tryout,
+                    jawaban_user: null
+                  };
+                  return acc;
+                }, {});
+              }
+            }
+
+            this.formatJawabanSoal()
           }
+
         })
         .catch(err => {
           console.log(err);
@@ -1018,6 +1132,93 @@ export default {
         })
         .finally(() => (this.loading = false));
     },
+    async getSoalDetail(id) {
+      // this.currentSoal = {}
+      this.loadingSoal = true
+      await this.$axios
+        .$get(`/api/v2/student/tryout/${this.tryoutId}/pertanyaan/${id}`)
+        .then(res => {
+          console.log('soal detail', res)
+          if (res.success) {
+            this.currentSoal = res.data
+            this.formatJawabanSoal()
+          }
+        })
+        .catch(err => {
+          console.log(err)
+          this.catchError(err)
+        })
+        .finally(() => (this.loadingSoal = false))
+    },
+
+    formatJawabanSoal() {
+      console.log('format jawaban soal')
+
+      const currentSoal = this.currentSoal
+      // if (!currentSoal) return
+      const currNomor = this.currentSoalNomor
+      const jenisSoal = currentSoal.template_pertanyaan
+
+      console.log('format jenisSoal', jenisSoal)
+
+      if (!this.jawabanUser[currNomor] || !this.jawabanUser[currNomor]?.jawaban_user) {
+        this.jawabanUser[currNomor] = {
+          id_soal_pertanyaan: currentSoal.id,
+          id_soal_tryout: currentSoal.id_soal_tryout,
+          jawaban_user: null
+        }
+      }
+
+      if (jenisSoal === 'Pilihan Ganda Kompleks (Model 1)') {
+        if (!Array.isArray(this.jawabanUser[currNomor].jawaban_user)) {
+          this.jawabanUser[currNomor].jawaban_user = []
+        }
+      } else if (jenisSoal === 'Pilihan Ganda Kompleks (Model 2)') {
+        if (!Array.isArray(this.jawabanUser[currNomor].jawaban_user)) {
+          this.jawabanUser[currNomor].jawaban_user = []
+        }
+
+        if (this.jawabanUser[currNomor].jawaban_user.length !== this.currentSoal.opsi_pertanyaan.length) {
+          for (let x = 0; x < this.currentSoal.opsi_pertanyaan.length; x++) {
+            const opsi = this.currentSoal.opsi_pertanyaan[x]
+            if (!this.jawabanUser[currNomor].jawaban_user[x]) {
+              this.jawabanUser[currNomor].jawaban_user[x] = ''
+            }
+          }
+        }
+      } else if (jenisSoal === 'Isian Singkat') {
+        this.$nextTick(() => {
+          const qlInputFields = document.querySelectorAll('.ql-inputfield input[data-soal-id="' + currentSoal.id + '"]')
+          if (qlInputFields.length) {
+            if (!this.jawabanUser[currNomor].jawaban_user) {
+              this.jawabanUser[currNomor].jawaban_user = []
+            }
+            qlInputFields.forEach((input, k) => {
+              const index = input.getAttribute('data-index')
+              if (!this.jawabanUser[currNomor].jawaban_user[index]) {
+                this.jawabanUser[currNomor].jawaban_user[index] = ''
+              } else if (this.jawabanUser[currNomor].jawaban_user[index] && input.value !== this.jawabanUser[currNomor].jawaban_user[index]) {
+                input.value = this.jawabanUser[currNomor].jawaban_user[index]
+              } else {
+                this.jawabanUser[currNomor].jawaban_user[index] = input.value
+              }
+
+              // add on change listener
+              input.addEventListener('change', (e) => {
+                console.log('change', e.target.value)
+                this.jawabanUser[currNomor].jawaban_user[index] = e.target.value
+                this.saveJawaban()
+              })
+            })
+          }
+        })
+      } else {
+        this.jawabanUser[currNomor].jawaban_user = null
+      }
+
+      // console.log('jawabanUser[currNomor]', this.jawabanUser[currNomor])
+    },
+
     navGoTo(to) {
       window.removeEventListener("beforeunload", this.onCloseWindow);
       window.location.replace(to);
