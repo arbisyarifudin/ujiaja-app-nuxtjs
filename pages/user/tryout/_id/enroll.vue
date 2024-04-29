@@ -458,11 +458,14 @@ export default {
           console.log(res);
           if (res.success) {
             this.dataDetail = res.data;
+            // console.log('dataDetail',this.dataDetail);
             if(this.dataDetail.is_enrolled && !['Dibatalkan', 'Ditolak', 'Kadaluarsa'].includes(this.dataDetail.transaksi.status)) {
-              this.$router.replace({
-                path: `/user/payment/${this.dataDetail.transaksi.id}/detail`
-              });
-              return
+              if (!this.dataDetail.is_task_done) {
+                this.$router.replace({
+                  path: `/user/payment/${this.dataDetail.transaksi.id}/detail`
+                });
+                return
+              }
             }
             this.hargaProduk = this.dataDetail.produk.harga_produk;
             this.kodeUnik = this.getRandomInt(100, 999);
