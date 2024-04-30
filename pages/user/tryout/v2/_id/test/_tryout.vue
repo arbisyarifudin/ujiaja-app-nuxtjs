@@ -95,10 +95,10 @@
 
                     <div v-if="loadingSoal" class="mt-3 mb-4">Memuat soal...</div>
 
-                    <div>jawaban: {{ jawabanUser[currentSoalNomor]?.jawaban_user }}</div>
-
                     <p class="question-main-text" v-html="currentSoal.soal"></p>
 
+                    jawaban1: {{ jawabanUser[currentSoalNomor] }} <br>
+                    jawaban2: {{ jawabanUser[currentSoalNomor]?.jawaban_user }}
 
                     <template v-if="currentSoal.template_pertanyaan === 'Pilihan Ganda'">
                       <b-form-group v-if="currentSoalNomor && jawabanUser[currentSoalNomor]"
@@ -110,7 +110,7 @@
                             opsi.uuid
                             ? 'checked'
                             : ''
-                            " @change="saveJawaban">
+                            " @input="saveJawaban">
                           <span class="letter">{{ letterLabel(o) }}</span>
                           <div v-html="opsi.option"></div>
                         </b-form-radio>
@@ -127,7 +127,7 @@
                               ? 'checked'
                               : '',
                             jawabanUser[currentSoalNomor].jawaban_user?.length > 0 && jawabanUser[currentSoalNomor].jawaban_user.includes(opsi.uuid) ? 'checked' : ''
-                          ]" @change="saveJawaban">
+                          ]" @input="saveJawaban">
                           <span class="letter">{{ letterLabel(o) }}</span>
                           <div v-html="opsi.option"></div>
                         </b-form-checkbox>
@@ -140,8 +140,8 @@
                         <thead>
                           <tr>
                             <th>Pilihan</th>
-                            <th width="15%" class="text-center">{{ currentSoal?.opsi_jawaban_pertanyaan[0] }}</th>
-                            <th width="15%" class="text-center">{{ currentSoal?.opsi_jawaban_pertanyaan[1] }}</th>
+                            <th width="15%" class="text-center">{{ currentSoal?.opsi_jawaban_pertanyaan ? currentSoal?.opsi_jawaban_pertanyaan[0] : 'Ya' }}</th>
+                            <th width="15%" class="text-center">{{ currentSoal?.opsi_jawaban_pertanyaan ? currentSoal?.opsi_jawaban_pertanyaan[1] : 'Tidak' }}</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -158,7 +158,7 @@
                                   :name="'opsi_' + currentSoalNomor + '_' + o"
                                   :class="jawabanUser[currentSoalNomor].jawaban_user?.length > 0 && jawabanUser[currentSoalNomor].jawaban_user.includes((opsi.uuid + '___' + pil)) ? 'checked' : ''"
                                   class="d-inline" :value="opsi.uuid + '___' + pil"
-                                  v-model="jawabanUser[currentSoalNomor].jawaban_user[o]" @change="saveJawaban"></input>
+                                  v-model="jawabanUser[currentSoalNomor].jawaban_user[o]" @input="saveJawaban"></input>
                               </label>
                             </td>
                           </tr>
@@ -849,6 +849,7 @@ export default {
       // this.currentSoal = dataNomor;
       this.currentSoal.id = dataNomor.id_soal_pertanyaan;
       this.currentSoal.opsi_pertanyaan = []
+      this.currentSoal.soal = null
       await this.getSoalDetail(dataNomor.id_soal_pertanyaan)
     },
     saveJawaban() {
@@ -1115,7 +1116,7 @@ export default {
                   acc[this.currentSoalNomor] = {
                     id_soal_pertanyaan: curr.id_soal_pertanyaan,
                     id_soal_tryout: curr.id_soal_tryout,
-                    jawaban_user: null
+                    jawaban_user: ''
                   };
                   return acc;
                 }, {});
@@ -1165,7 +1166,7 @@ export default {
         this.jawabanUser[currNomor] = {
           id_soal_pertanyaan: currentSoal.id,
           id_soal_tryout: currentSoal.id_soal_tryout,
-          jawaban_user: null
+          jawaban_user: ''
         }
       }
 
@@ -1204,8 +1205,8 @@ export default {
               }
 
               // add on change listener
-              input.addEventListener('change', (e) => {
-                console.log('change', e.target.value)
+              input.addEventListener('keyup', (e) => {
+                console.log('keyup', e.target.value)
                 this.jawabanUser[currNomor].jawaban_user[index] = e.target.value
                 this.saveJawaban()
               })

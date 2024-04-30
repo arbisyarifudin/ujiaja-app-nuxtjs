@@ -61,7 +61,7 @@
                  </div>
                 </li>
               </ul>
-              <div class="mt-3" v-if="soal.koreksi_jawaban == 'Salah' || soal.koreksi_jawaban == 'Kosong'">
+              <div class="mt-3" v-if="soal.koreksi_jawaban && (soal.koreksi_jawaban == 'Salah' || soal.koreksi_jawaban == 'Kosong')">
                 <div  style="font-size: 12px; font-weight: 600;">Pelajari lagi tentang Bab:</div>
                 <div
                   class="badge badge-danger px-2 mr-2"
@@ -149,7 +149,7 @@ export default {
    userDetail() {
      return this.$store.state.dataUser.detail
    }
-  }, 
+  },
   methods: {
     getDetail(type, id) {
       this.loading = true;
