@@ -97,8 +97,8 @@
 
                     <p class="question-main-text" v-html="currentSoal.soal"></p>
 
-                    jawaban1: {{ jawabanUser[currentSoalNomor] }} <br>
-                    jawaban2: {{ jawabanUser[currentSoalNomor]?.jawaban_user }}
+                    <!-- jawaban1: {{ jawabanUser[currentSoalNomor] }} <br> -->
+                    <!-- jawaban2: {{ jawabanUser[currentSoalNomor]?.jawaban_user }} -->
 
                     <template v-if="currentSoal.template_pertanyaan === 'Pilihan Ganda'">
                       <b-form-group v-if="currentSoalNomor && jawabanUser[currentSoalNomor]"
