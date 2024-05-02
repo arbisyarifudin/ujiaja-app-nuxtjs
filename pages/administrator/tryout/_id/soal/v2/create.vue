@@ -178,7 +178,7 @@
                                 /> -->
                                   <b-form-tags :input-id="'bab-' + soalp.id + '-' + b" separator="," remove-on-delete
                                     placeholder="Isi Bab Mata Pelajaran" v-model="soalp.bab_mapel"
-                                    duplicate-tag-text="Bab sudah ada" @input="onUpdatePertanyaan(soalp)"></b-form-tags>
+                                    duplicate-tag-text="Bab sudah ada" @input="onUpdatePertanyaan(soalp, b)"></b-form-tags>
                                   <UISaveStatus :data="onSubmit.pertanyaan[soalp.id]"
                                     v-if="onSubmit.pertanyaan[soalp.id]" />
                                 </div>
@@ -191,7 +191,7 @@
                               <VueEditor :id="'penjelasan_pertanyaan-' + soalp.id + '-' + b
                                 " :ref="'penjelasan_pertanyaan-' + soalp.id + '-' + b
                                   " :editorOptions="editorOptions" v-model="soalp.penjelasan_pertanyaan"
-                                @blur="onUpdatePertanyaan(soalp)" />
+                                @blur="onUpdatePertanyaan(soalp, b)" />
                               <div class="d-flex justify-content-end">
                                 <button class="btn btn-primary btn-sm square btn-add-mathjax" @click="
                                   addMathJaxToEditor(
@@ -227,7 +227,7 @@
                                   <div class="form-group reg-siswa">
                                     <label for="template_soal">Jenis Soal <code>*</code></label>
                                     <b-form-select class="form-control pl-3" id="template_soal"
-                                      v-model="soalp.template_pertanyaan" @change="onUpdatePertanyaan(soalp)" :options="[
+                                      v-model="soalp.template_pertanyaan" @change="onUpdatePertanyaan(soalp, b)" :options="[
                                         {
                                           text: 'Pilihan Ganda',
                                           value: 'Pilihan Ganda'
@@ -265,7 +265,7 @@
                                 <client-only>
                                   <VueEditor :id="'soal-' + soalp.id + '-' + b" :ref="'soal-' + soalp.id + '-' + b"
                                     v-model="soalp.soal" :editorOptions="editorOptions"
-                                    @blur="onUpdatePertanyaan(soalp)" />
+                                    @blur="onUpdatePertanyaan(soalp, b)" />
                                   <div class="d-flex justify-content-end">
                                     <button v-if="soalp.template_pertanyaan === 'Isian Singkat'"
                                       class="btn btn-primary btn-sm square btn-add-input mr-3" @click="
@@ -359,7 +359,7 @@
                                             '-' +
                                             c
                                             " v-model="opsi.option" :editorOptions="editorOptions"
-                                          @blur="onUpdatePertanyaan(soalp)" />
+                                          @blur="onUpdatePertanyaan(soalp, b)" />
                                         <div class="d-flex justify-content-end">
                                           <button class="btn btn-primary btn-sm square btn-add-mathjax" @click="
                                             addMathJaxToEditor(
@@ -406,12 +406,12 @@
                                     <div class="mb-2">Pilihan:</div>
                                     <div class="row">
                                       <div class="col-md-6" v-for="(ojpLabel, ojpIndex) in soalp.opsi_jawaban_pertanyaan" :key="'ojp-'+ojpIndex">
-                                        <!-- <input :placeholder="'Pilihan ' + (ojpIndex+1)" class="form-control" v-model="soalp.opsi_jawaban_pertanyaan[ojpIndex]" @change="onUpdatePertanyaan(soalp)" /> -->
+                                        <!-- <input :placeholder="'Pilihan ' + (ojpIndex+1)" class="form-control" v-model="soalp.opsi_jawaban_pertanyaan[ojpIndex]" @change="onUpdatePertanyaan(soalp, b)" /> -->
                                         <b-input-group>
                                           <template #prepend>
                                             <b-input-group-text>{{ ojpIndex+1 }}</b-input-group-text>
                                           </template>
-                                          <b-form-input :placeholder="'Pilihan ' + (ojpIndex + 1)" v-model="soalp.opsi_jawaban_pertanyaan[ojpIndex]" @change="onUpdatePertanyaan(soalp)" />
+                                          <b-form-input :placeholder="'Pilihan ' + (ojpIndex + 1)" v-model="soalp.opsi_jawaban_pertanyaan[ojpIndex]" @change="onUpdatePertanyaan(soalp, b)" />
                                         </b-input-group>
                                       </div>
                                     </div>
@@ -444,7 +444,7 @@
                                               c + '-' + number
                                               " :name="'opsi' + soalp.id + '-' + b + '-' + c"
                                             :value="opsi.uuid + '___' + number" v-model="soalp.jawaban_pertanyaan[c]"
-                                            @change="onUpdatePertanyaan(soalp)" />
+                                            @change="onUpdatePertanyaan(soalp, b)" />
                                         </div>
                                       </div>
                                     </div>
@@ -463,7 +463,7 @@
                                             '-' +
                                             c
                                             " v-model="opsi.option" :editorOptions="editorOptions"
-                                          @blur="onUpdatePertanyaan(soalp)" />
+                                          @blur="onUpdatePertanyaan(soalp, b)" />
                                         <div class="d-flex justify-content-end">
                                           <button class="btn btn-primary btn-sm square btn-add-mathjax" @click="
                                             addMathJaxToEditor(
@@ -491,7 +491,7 @@
                                       <button type="button" class="btn btn-danger" v-else-if="soalp.template_pertanyaan === 'Pilihan Ganda Kompleks (Model 1)' &&
                                         soalp.opsi_pertanyaan?.length > 3 &&
                                         soalp.jawaban_pertanyaan?.length > 0 && !soalp.jawaban_pertanyaan.includes(opsi.uuid)
-                                      " @click.prevent="deleteOption(soalp, c)">
+                                      " @click.prevent="deleteOption(soalp, c. b)">
                                         <i class="fa fa-times"></i>
                                       </button>
                                       <button type="button" class="btn btn-danger" v-else-if="soalp.template_pertanyaan === 'Pilihan Ganda Kompleks (Model 2)' &&
@@ -503,6 +503,30 @@
                                   </div>
                                   <UISaveStatus :data="onSubmit.pertanyaan[soalp.id]"
                                     v-if="onSubmit.pertanyaan[soalp.id]" />
+                                </div>
+
+                                <div v-if="soalp.template_pertanyaan === 'Isian Singkat'">
+                                  <div class="mb-3" v-if="soalp.jawaban_pertanyaan?.length">
+                                    <div class="mb-2">Tentukan jawaban benar:</div>
+                                  </div>
+                                  <div class="row mb-3" v-for="(opsi, c) in soalp.opsi_pertanyaan" :key="'C' + c">
+                                    <div class="col-md-2">
+                                      <div class="letter-option">
+                                        <label :for="'opsi' + soalp.id + '-' + b + '-' + c" class="mb-0">Isian {{ c+1 }}</label>
+                                      </div>
+                                    </div>
+                                    <div class="col-md-9">
+                                     <b-form-input v-if="soalp.jawaban_pertanyaan && (soalp.jawaban_pertanyaan[c] !== null || soalp.jawaban_pertanyaan[c] !== undefined)" :id="'opsi' + soalp.id + '-' + b + '-' + c" :ref="'opsi' + soalp.id + '-' + b + '-' + c" v-model="soalp.jawaban_pertanyaan[c]" @change="onUpdatePertanyaan(soalp, b)" />
+                                    </div>
+                                    <div class="col-md-1 text-left">
+                                      <button type="button" class="btn btn-danger" @click.prevent="deleteOption(soalp, c, b)">
+                                        <i class="fa fa-times"></i>
+                                      </button>
+                                    </div>
+                                  </div>
+
+                                  <UISaveStatus :data="onSubmit.pertanyaan[soalp.id]"
+                                    v-if="onSubmit.pertanyaan[soalp.id] && soalp.jawaban_pertanyaan" />
                                 </div>
 
 
@@ -518,7 +542,7 @@
                                 <client-only>
                                   <VueEditor :id="'pembahasan-' + soalp.id + '-' + b"
                                     :ref="'pembahasan-' + soalp.id + '-' + b" v-model="soalp.pembahasan_pertanyaan"
-                                    :editorOptions="editorOptions" @blur="onUpdatePertanyaan(soalp)" />
+                                    :editorOptions="editorOptions" @blur="onUpdatePertanyaan(soalp, b)" />
                                   <div class="d-flex justify-content-end">
                                     <button class="btn btn-primary btn-sm square btn-add-mathjax" @click="
                                       addMathJaxToEditor(
@@ -606,8 +630,8 @@
                                   v-model="child.soal"
                                 ></textarea> -->
                                 <client-only>
-                                  <VueEditor :id="'soal-' + child.id + '-' + b + ' - ' + d
-                                    " :ref="'soal-' + child.id + '-' + b + ' - ' + d
+                                  <VueEditor :id="'soal-' + child.id + '-' + b + '-' + d
+                                    " :ref="'soal-' + child.id + '-' + b + '-' + d
                                       " v-model="child.soal" :editorOptions="editorOptions"
                                     @blur="onUpdatePertanyaanChild(child)" />
                                   <div class="d-flex justify-content-end">
@@ -617,7 +641,7 @@
                                           child.id +
                                           '-' +
                                           b +
-                                          ' - ' +
+                                          '-' +
                                           d, child)
                                         ">
                                       <i class="fa fa-plus me-1"></i> Input Isian
@@ -628,7 +652,7 @@
                                         child.id +
                                         '-' +
                                         b +
-                                        ' - ' +
+                                        '-' +
                                         d
                                       )
                                       ">
@@ -851,6 +875,30 @@
                                   </div>
                                   <UISaveStatus :data="onSubmit.perchild[child.id]"
                                     v-if="onSubmit.perchild[child.id]" />
+                                </div>
+
+                                <div v-if="child.template_pertanyaan === 'Isian Singkat'">
+                                  <div class="mb-3" v-if="child.jawaban_pertanyaan">
+                                    <div class="mb-2">Tentukan jawaban benar:</div>
+                                  </div>
+                                  <div class="row mb-3" v-for="(opsi_child, e) in child.opsi_pertanyaan" :key="'E' + e">
+                                    <div class="col-md-2">
+                                      <div class="letter-option">
+                                        <label :for="'opsi' + child.id + '-' + b + '-' + d + '-' + e" class="mb-0">Isian {{ e+1 }}</label>
+                                      </div>
+                                    </div>
+                                    <div class="col-md-9">
+                                     <b-form-input v-if="child.jawaban_pertanyaan && (child.jawaban_pertanyaan[e] !== null || child.jawaban_pertanyaan[e] !== undefined)" :id="'opsi' + child.id + '-' + b + '-' + d + '-' + e" :ref="'opsi' + child.id + '-' + b + '-' + d + '-' + e" v-model="child.jawaban_pertanyaan[e]" @change="onUpdatePertanyaan(child)" />
+                                    </div>
+                                    <div class="col-md-1 text-left">
+                                      <button type="button" class="btn btn-danger" @click.prevent="deleteOption(child, e, b, d)">
+                                        <i class="fa fa-times"></i>
+                                      </button>
+                                    </div>
+                                  </div>
+
+                                  <UISaveStatus :data="onSubmit.pertanyaan[child.id]"
+                                    v-if="onSubmit.pertanyaan[child.id] && child.jawaban_pertanyaan" />
                                 </div>
 
 
@@ -1182,6 +1230,7 @@ export default {
         editor = refElement[0].quill;
       }
       const latex = prompt("Enter a LaTeX formula:", "e=mc^2");
+      if (!latex) return;
       const range = editor.getSelection(true);
       editor.deleteText(range.index, range.length);
       editor.insertEmbed(range.index, "mathjax", latex);
@@ -1203,12 +1252,22 @@ export default {
       }
       pertanyaan.opsi_pertanyaan.push(opsi)
 
+      pertanyaan.jawaban_pertanyaan = Array.isArray(pertanyaan.jawaban_pertanyaan) ? pertanyaan.jawaban_pertanyaan : []
+
+      for (let i = 0; i < pertanyaan.opsi_pertanyaan.length; i++) {
+        if (!pertanyaan.jawaban_pertanyaan[i]) {
+          pertanyaan.jawaban_pertanyaan[i] = ''
+        }
+      }
+
+      console.log('pertanyaan.jawaban_pertanyaan', pertanyaan.jawaban_pertanyaan)
+
       const currentIndex = pertanyaan.opsi_pertanyaan.length - 1
       const currentNumber = this.letterLabel(currentIndex)
 
       const range = editor.getSelection(true);
       editor.deleteText(range.index, range.length);
-      editor.insertEmbed(range.index, "inputfield", "<input type='text' name='" + ref + "' data-soal-id=" + pertanyaan.id + " data-index=" + currentIndex + " style='max-width:100px; margin: 0 5px' placeholder='' />");
+      editor.insertEmbed(range.index, "inputfield", "<input type='text' name='" + ref + "' data-soal-id=" + pertanyaan.id + " data-index=" + currentIndex + " placeholder='"+(currentIndex+1)+"' />");
       editor.insertText(range.index + range.length + 1, " ");
       editor.setSelection(range.index + range.length + 1);
 
@@ -1606,10 +1665,55 @@ export default {
           this.onSubmit.perchild[perchild.id].loading = false;
         });
     },
-    deleteOption(pertanyaan, index) {
+    deleteOption(pertanyaan, index, pertanyaanIndex = null, pertanyaanChildIndex = null) {
       if (!this.onSubmit.pertanyaan[pertanyaan.id]) {
         this.onSubmit.pertanyaan[pertanyaan.id] = {};
       }
+
+      if (pertanyaan.template_pertanyaan === 'Isian Singkat') {
+        pertanyaan.jawaban_pertanyaan.splice(index, 1)
+
+        // console.log('refs', this.$refs)
+
+        // delete '.ql-inputfield input[data-soal-id=pertanyaan.id]' element from pertanyaan.soal string
+        const id = pertanyaan.id
+        let editorRefName = `soal-${id}-${pertanyaanIndex}`
+        // console.log('pertanyaanChildIndex', pertanyaanChildIndex)
+        if (pertanyaanChildIndex !== null) {
+          editorRefName += '-' + pertanyaanChildIndex
+        }
+        // console.log('editorRefName', editorRefName)
+
+        // console.log('editorRefName', editorRefName)
+        const editor = this.$refs[editorRefName]?.length ? this.$refs[editorRefName][0].quill : null
+        // console.log('editor', editor)
+        if (editor) {
+          const inputElementName = `input[data-soal-id='${id}']`
+          const inputElement = editor.container.querySelector(inputElementName)
+          // const range = editor.getSelection(true)
+
+          if (inputElement) {
+            // delete input
+            // inputElement.remove()
+            // delete the range
+            // editor.deleteText(range.index, range.length)
+            // get the parent element (span)
+            const parentElement = inputElement.parentElement
+            console.log('parentElement', parentElement)
+
+            // remove it
+            parentElement.remove()
+
+            // reorder the another input's placeholder
+            const inputElements = editor.container.querySelectorAll(`input[data-soal-id]`)
+            inputElements.forEach((input, i) => {
+              input.placeholder = i + 1
+            })
+          }
+        }
+      }
+
+      pertanyaan.opsi_pertanyaan.splice(index, 1);
 
       this.onSubmit.pertanyaan[pertanyaan.id].loading = true;
       this.$axios
@@ -1619,7 +1723,6 @@ export default {
             this.onSubmit.pertanyaan[pertanyaan.id].submitted = true;
             this.onSubmit.pertanyaan[pertanyaan.id].success = true;
             this.onSubmit.pertanyaan[pertanyaan.id].loading = false;
-            pertanyaan.opsi_pertanyaan.splice(index, 1);
 
             this.$bvToast.toast(
               "Berhasil hapus pertanyaan.", {
@@ -1926,7 +2029,7 @@ export default {
           // console.log(this.onSubmit.soal[soal.id]);
         });
     },
-    onUpdatePertanyaan(pertanyaan) {
+    onUpdatePertanyaan(pertanyaan, pertanyaanIndex) {
       if (
         pertanyaan.template_pertanyaan.includes("Pilihan Ganda Kompleks")
       ) {
@@ -1969,19 +2072,63 @@ export default {
               }
             }
           }
+
         }
+      } else if (pertanyaan.template_pertanyaan === 'Isian Singkat') {
+        console.log('pertanyaan.jawaban_pertanyaan 1', JSON.stringify(pertanyaan.jawaban_pertanyaan))
+        pertanyaan.jawaban_pertanyaan = Array.isArray(pertanyaan.jawaban_pertanyaan) ? pertanyaan.jawaban_pertanyaan : []
+        if (pertanyaan.opsi_pertanyaan.filter(v => v.option === null).length < 1) {
+          pertanyaan.opsi_pertanyaan = []
+        }
+
+        console.log('pertanyaan.jawaban_pertanyaan 2', JSON.stringify(pertanyaan.jawaban_pertanyaan))
+
+        // get all input field elements
+        const inputFields = document.querySelectorAll(`.ql-inputfield input[data-soal-id="${pertanyaan.id}"]`)
+        console.log('inputFields', inputFields)
+        if (inputFields.length > 0) {
+          for (let i = 0; i < inputFields.length; i++) {
+            const inputField = inputFields[i]
+            const index = inputField.getAttribute('data-index')
+            if (!pertanyaan.jawaban_pertanyaan[index]) {
+              pertanyaan.jawaban_pertanyaan[index] = ''
+            }
+          }
+        }
+
+        let inputFieldIndexes = []
+        if (inputFields.length > 0) {
+          inputFieldIndexes = Array.from(inputFields).map(inputField => {
+            return inputField.getAttribute('data-index')
+          })
+        }
+
+        console.log('inputFieldIndexes', inputFieldIndexes)
+
+        // remove jawaban pertanyaan that not in input field indexes
+        pertanyaan.jawaban_pertanyaan = pertanyaan.jawaban_pertanyaan.filter((jawaban, i) => {
+          return inputFieldIndexes.includes(i.toString())
+        })
+
+        // remove opsi pertanyaan that not in input field indexes
+        pertanyaan.opsi_pertanyaan = pertanyaan.opsi_pertanyaan.filter((opsi, i) => {
+          return inputFieldIndexes.includes(i.toString())
+        })
+
+        console.log('pertanyaan.jawaban_pertanyaan', JSON.stringify(pertanyaan.jawaban_pertanyaan))
+
+        // reorder placeholder of all input
+        if (inputFields.length > 0) {
+          inputFields.forEach((inputField, i) => {
+            inputField.placeholder = i + 1
+          })
+        }
+
       } else {
         pertanyaan.jawaban_pertanyaan = pertanyaan.opsi_pertanyaan[0]
           ? pertanyaan.opsi_pertanyaan[0].uuid
           : pertanyaan.jawaban_pertanyaan;
-      }
 
-      if (pertanyaan.template_pertanyaan === 'Isian Singkat') {
-        pertanyaan.jawaban_pertanyaan = null
-        if (pertanyaan.opsi_pertanyaan.filter(v => v.option === null).length < 1) {
-          pertanyaan.opsi_pertanyaan = []
-        }
-      } else {
         pertanyaan.opsi_pertanyaan = pertanyaan.opsi_pertanyaan.filter(v => v.option !== null)
       }
 
@@ -2028,7 +2175,6 @@ export default {
         });
     },
     onUpdatePertanyaanChild(perchild) {
-
       if (
         perchild.template_pertanyaan.includes("Pilihan Ganda Kompleks")
       ) {
@@ -2056,6 +2202,7 @@ export default {
             perchild.opsi_jawaban_pertanyaan = opsiJawabanPertanyaan
           }
 
+          // perchild.jawaban_pertanyaan = []
           if (Array.isArray(perchild.jawaban_pertanyaan)) {
             perchild.jawaban_pertanyaan = perchild.jawaban_pertanyaan.filter(v => v.includes('___'))
           } else {
@@ -2071,18 +2218,62 @@ export default {
             }
           }
         }
+      } else if (perchild.template_pertanyaan === 'Isian Singkat') {
+        console.log('perchild.jawaban_pertanyaan 1', JSON.stringify(perchild.jawaban_pertanyaan))
+        perchild.jawaban_pertanyaan = Array.isArray(perchild.jawaban_pertanyaan) ? perchild.jawaban_pertanyaan : []
+        if (perchild.opsi_pertanyaan.filter(v => v.option === null).length < 1) {
+          perchild.opsi_pertanyaan = []
+        }
+
+        console.log('perchild.jawaban_pertanyaan 2', JSON.stringify(perchild.jawaban_pertanyaan))
+
+        // get all input field elements
+        const inputFields = document.querySelectorAll(`.ql-inputfield input[data-soal-id="${perchild.id}"]`)
+        console.log('inputFields', inputFields)
+        if (inputFields.length > 0) {
+          for (let i = 0; i < inputFields.length; i++) {
+            const inputField = inputFields[i]
+            const index = inputField.getAttribute('data-index')
+            if (!perchild.jawaban_pertanyaan[index]) {
+              perchild.jawaban_pertanyaan[index] = ''
+            }
+          }
+
+        }
+
+        let inputFieldIndexes = []
+        if (inputFields.length > 0) {
+          inputFieldIndexes = Array.from(inputFields).map(inputField => {
+            return inputField.getAttribute('data-index')
+          })
+        }
+
+        console.log('inputFieldIndexes', inputFieldIndexes)
+
+        // remove jawaban pertanyaan that not in input field indexes
+        perchild.jawaban_pertanyaan = perchild.jawaban_pertanyaan.filter((jawaban, i) => {
+          return inputFieldIndexes.includes(i.toString())
+        })
+
+        // remove opsi pertanyaan that not in input field indexes
+        perchild.opsi_pertanyaan = perchild.opsi_pertanyaan.filter((opsi, i) => {
+          return inputFieldIndexes.includes(i.toString())
+        })
+
+        console.log('perchild.jawaban_pertanyaan', JSON.stringify(perchild.jawaban_pertanyaan))
+
+        // reorder placeholder of all input
+        if (inputFields.length > 0) {
+          inputFields.forEach((inputField, i) => {
+            inputField.placeholder = i + 1
+          })
+        }
+
       } else {
         perchild.jawaban_pertanyaan = perchild.opsi_pertanyaan[0]
           ? perchild.opsi_pertanyaan[0].uuid
           : perchild.jawaban_pertanyaan;
-      }
 
-      if (perchild.template_pertanyaan === 'Isian Singkat') {
-        perchild.jawaban_pertanyaan = null
-        if (perchild.opsi_pertanyaan.filter(v => v.option === null).length < 1) {
-          perchild.opsi_pertanyaan = []
-        }
-      } else {
         perchild.opsi_pertanyaan = perchild.opsi_pertanyaan.filter(v => v.option !== null)
       }
 

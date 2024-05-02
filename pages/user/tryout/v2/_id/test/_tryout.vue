@@ -98,7 +98,7 @@
                     <p class="question-main-text" v-html="currentSoal.soal"></p>
 
                     <!-- jawaban1: {{ jawabanUser[currentSoalNomor] }} <br> -->
-                    <!-- jawaban2: {{ jawabanUser[currentSoalNomor]?.jawaban_user }} -->
+                    jawaban2: {{ jawabanUser[currentSoalNomor] }}
 
                     <template v-if="currentSoal.template_pertanyaan === 'Pilihan Ganda'">
                       <b-form-group v-if="currentSoalNomor && jawabanUser[currentSoalNomor]"
@@ -110,9 +110,12 @@
                             opsi.uuid
                             ? 'checked'
                             : ''
-                            " @input="saveJawaban">
+                            "
+                          @change="saveJawaban">
                           <span class="letter">{{ letterLabel(o) }}</span>
                           <div v-html="opsi.option"></div>
+                            <!-- {{ jawabanUser[currentSoalNomor].jawaban_user ===
+                                  opsi.uuid }} -->
                         </b-form-radio>
                       </b-form-group>
                     </template>
@@ -122,14 +125,12 @@
                         class="question-option-group">
                         <b-form-checkbox v-for="(opsi, o) in currentSoal.opsi_pertanyaan" :key="'opsi' + o"
                           class="question-option__item" v-model="jawabanUser[currentSoalNomor].jawaban_user"
-                          :name="'opsi_' + currentSoalNomor" :value="opsi.uuid" :class="[
-                            jawabanUser[currentSoalNomor].jawaban_user == opsi.uuid
-                              ? 'checked'
-                              : '',
-                            jawabanUser[currentSoalNomor].jawaban_user?.length > 0 && jawabanUser[currentSoalNomor].jawaban_user.includes(opsi.uuid) ? 'checked' : ''
-                          ]" @input="saveJawaban">
+                          :name="'opsi_' + currentSoalNomor" :value="opsi.uuid" :class="[jawabanUser[currentSoalNomor].jawaban_user?.length > 0 && jawabanUser[currentSoalNomor].jawaban_user.includes(opsi.uuid) ? 'checked' : ''
+                          ]"
+                          @change="saveJawaban">
                           <span class="letter">{{ letterLabel(o) }}</span>
                           <div v-html="opsi.option"></div>
+                          <!-- {{jawabanUser[currentSoalNomor].jawaban_user?.length > 0 && jawabanUser[currentSoalNomor].jawaban_user.includes(opsi.uuid)}} -->
                         </b-form-checkbox>
                       </b-form-group>
                     </template>
@@ -137,7 +138,7 @@
                     <template v-if="currentSoal.template_pertanyaan === 'Pilihan Ganda Kompleks (Model 2)'">
                       <table v-if="currentSoalNomor && jawabanUser[currentSoalNomor]"
                         class="question-option-group table">
-                        <thead>
+                        <thead v-if="!loading">
                           <tr>
                             <th>Pilihan</th>
                             <th width="15%" class="text-center">{{ currentSoal?.opsi_jawaban_pertanyaan ? currentSoal?.opsi_jawaban_pertanyaan[0] : 'Ya' }}</th>
@@ -158,7 +159,9 @@
                                   :name="'opsi_' + currentSoalNomor + '_' + o"
                                   :class="jawabanUser[currentSoalNomor].jawaban_user?.length > 0 && jawabanUser[currentSoalNomor].jawaban_user.includes((opsi.uuid + '___' + pil)) ? 'checked' : ''"
                                   class="d-inline" :value="opsi.uuid + '___' + pil"
-                                  v-model="jawabanUser[currentSoalNomor].jawaban_user[o]" @input="saveJawaban"></input>
+                                  v-model="jawabanUser[currentSoalNomor].jawaban_user[o]">
+                                 <!-- @input="saveJawaban" -->
+                                </input>
                               </label>
                             </td>
                           </tr>
@@ -610,7 +613,15 @@ export default {
       const waktuMulai = moment(this.detailUjian.waktu_mulai).valueOf();
       let waktuBatas
       if (this.$route.query && this.listSubtest.length) {
-        waktuBatas = waktuMulai + (this.listSubtest.find(s => s.id === parseInt(this.$route.query.id_mapel, 10))).alokasi_waktu * 1000 * 60;
+        // waktuBatas = waktuMulai + (this.listSubtest.find(s => s.id === parseInt(this.$route.query.id_mapel, 10))).alokasi_waktu * 1000 * 60;
+
+        const currentSubtest = this.listSubtest.find(s => s.id === parseInt(this.$route.query.id_mapel, 10))
+        if (currentSubtest) {
+          waktuBatas = waktuMulai + currentSubtest.alokasi_waktu * 1000 * 60;
+        } else {
+          waktuBatas = waktuMulai + this.tryout.alokasi_waktu * 1000 * 60;
+        }
+
       } else {
         waktuBatas = waktuMulai + this.tryout.alokasi_waktu * 1000 * 60;
       }
@@ -664,12 +675,12 @@ export default {
         duration.minutes() >= 0 &&
         duration.seconds() >= 0;
 
-      console.log(
-        diffTime,
-        duration.hours(),
-        duration.minutes(),
-        duration.seconds()
-      );
+      // console.log(
+      //   diffTime,
+      //   duration.hours(),
+      //   duration.minutes(),
+      //   duration.seconds()
+      // );
 
       if (isNotTimeout) {
         this.countdownTimer = setInterval(
@@ -697,10 +708,13 @@ export default {
             ) {
               console.log("time is running..");
               // console.log(countdownElement)
+              if (countdownElement) {
               countdownElement.textContent =
                 hours + ":" + minutes + ":" + seconds;
               countdownElement2.textContent =
                 hours + ":" + minutes + ":" + seconds;
+              }
+
               this.saveJawaban();
 
               const kerutinan = 10; // detik
@@ -715,11 +729,11 @@ export default {
               this.isTimeout = true;
               this.goToNext();
             }
-            console.log(
-              duration.hours(),
-              duration.minutes(),
-              duration.seconds()
-            );
+            // console.log(
+            //   duration.hours(),
+            //   duration.minutes(),
+            //   duration.seconds()
+            // );
           }.bind(this),
           interval
         );
@@ -820,6 +834,9 @@ export default {
       }
     },
     async onNextSubtest() {
+      // remove leave warning listener
+      window.removeEventListener("beforeunload", this.onCloseWindow);
+
       await this.saveJawabanToServer()
       const jeda_waktu = (this.listSubtest.find(s => s.id === parseInt(this.$route.query.id_mapel, 10))).jeda_waktu * 1000
       console.log('jedanya adalah'.jeda_waktu)
@@ -852,7 +869,30 @@ export default {
       this.currentSoal.soal = null
       await this.getSoalDetail(dataNomor.id_soal_pertanyaan)
     },
-    saveJawaban() {
+    saveJawaban(newValue = null) {
+      console.log('saveJawaban val', newValue)
+      console.log('saveJawaban user 1', JSON.stringify(this.jawabanUser[this.currentSoalNomor].jawaban_user))
+
+      if (newValue) {
+        // update jawabanUser for currentNomorSoal
+        if (this.currentSoal.template_pertanyaan !== 'Isian Singkat') {
+          if (!this.jawabanUser[this.currentSoalNomor]?.jawaban_user) {
+            this.jawabanUser[this.currentSoalNomor].jawaban_user = null
+          }
+
+          if (this.currentSoal.template_pertanyaan === 'Pilihan Ganda Kompleks (Model 2)') {
+            // check if newValue is input event
+            if (newValue.target) {
+              newValue = newValue.target.value
+            }
+          }
+
+          this.jawabanUser[this.currentSoalNomor].jawaban_user = newValue
+
+          console.log('saveJawaban user 2', JSON.stringify(this.jawabanUser[this.currentSoalNomor].jawaban_user))
+        }
+      }
+
       const dataSave = this.jawabanUser;
       // this.$cookiz.set("_ujiaja_temp_to_user_" + this.$route.query.kode + "_" + this.tryout.id, {
       //   kode: this.$route.query.kode,
@@ -874,22 +914,29 @@ export default {
         "_ujiaja_temp_to_user_" + this.$route.query.kode + "_" + this.tryout.id,
         lsSave
       );
+
+      // re render component by clear and refill opsi_pertanyaan
+      const opsiPertanyaanTempor = JSON.parse(JSON.stringify(this.currentSoal.opsi_pertanyaan))
+      this.currentSoal.opsi_pertanyaan = []
+      this.$nextTick(() => {
+        this.currentSoal.opsi_pertanyaan = opsiPertanyaanTempor
+      })
     },
     onBatalJawab() {
       const jenisSoal = this.currentSoal.template_pertanyaan
       if (jenisSoal === 'Pilihan Ganda') {
-        jawabanUser[currentSoalNomor].jawaban_user = ''
+        this.jawabanUser[currentSoalNomor].jawaban_user = ''
       } else if (jenisSoal === 'Pilihan Ganda Kompleks (Model 1)') {
-        jawabanUser[currentSoalNomor].jawaban_user = []
+        this.jawabanUser[currentSoalNomor].jawaban_user = []
       } else if (jenisSoal === 'Pilihan Ganda Kompleks (Model 2)') {
-        jawabanUser[currentSoalNomor].jawaban_user = []
+        this.jawabanUser[currentSoalNomor].jawaban_user = []
       } else if (jenisSoal === 'Isian Singkat') {
-        jawabanUser[currentSoalNomor].jawaban_user = []
+        this.jawabanUser[currentSoalNomor].jawaban_user = []
       }
     },
-    saveJawabanToServer() {
+    async saveJawabanToServer() {
       const dataSave = this.jawabanUser;
-      this.$axios
+      await this.$axios
         .$put("/api/tryout_user/update/" + this.detailUjian.id, {
           temp_jawaban_user: dataSave
         })
@@ -1096,12 +1143,7 @@ export default {
           if (res.success) {
             this.listNomorSoal = res.data;
 
-            // get current soal detail
-            if (this.$route.query.id_mapel) {
-              await this.getSoalDetail(this.listNomorSoal.find(s => s.id_soal_tryout === parseInt(this.$route.query.id_mapel, 10)).id_soal_pertanyaan)
-            } else if (this.listNomorSoal.length) {
-              await this.getSoalDetail(this.listNomorSoal[0].id_soal_pertanyaan);
-            }
+            console.log('getNomorSoal jawabanuser 1', JSON.parse(JSON.stringify(this.jawabanUser)))
 
             // get jawaban placeholder
             const lastSaveData = this.checkLastSaved()
@@ -1110,20 +1152,20 @@ export default {
             } else {
               const jawabanTemp = this.detailUjian.temp_jawaban_user ? JSON.parse(this.detailUjian.temp_jawaban_user) : {};
               if (jawabanTemp && Object.keys(jawabanTemp).length > 0) {
-                this.jawabanUser = jawabanTemp;
-              } else {
-                this.jawabanUser = res.data.reduce((acc, curr) => {
-                  acc[this.currentSoalNomor] = {
-                    id_soal_pertanyaan: curr.id_soal_pertanyaan,
-                    id_soal_tryout: curr.id_soal_tryout,
-                    jawaban_user: ''
-                  };
-                  return acc;
-                }, {});
+                this.jawabanUser = jawabanTemp
               }
             }
+            console.log('getNomorSoal jawabanuser 2', JSON.parse(JSON.stringify(this.jawabanUser)))
 
-            this.formatJawabanSoal()
+            // get current soal detail
+            if (this.$route.query.id_mapel) {
+              await this.getSoalDetail(this.listNomorSoal.find(s => s.id_soal_tryout === parseInt(this.$route.query.id_mapel, 10)).id_soal_pertanyaan)
+            } else if (this.listNomorSoal.length) {
+              await this.getSoalDetail(this.listNomorSoal[0].id_soal_pertanyaan);
+            }
+
+            console.log('getNomorSoal jawabanuser 3', JSON.parse(JSON.stringify(this.jawabanUser)))
+
           }
 
         })
@@ -1156,13 +1198,17 @@ export default {
       console.log('format jawaban soal')
 
       const currentSoal = this.currentSoal
-      // if (!currentSoal) return
+      if (!currentSoal) return
+      console.log('format jenissoal', currentSoal.template_pertanyaan)
+
       const currNomor = this.currentSoalNomor
+      if (!currNomor) return
+
       const jenisSoal = currentSoal.template_pertanyaan
 
       console.log('format jenisSoal', jenisSoal)
-
-      if (!this.jawabanUser[currNomor] || !this.jawabanUser[currNomor]?.jawaban_user) {
+      console.log('jawaban user formt', JSON.stringify(this.jawabanUser[currNomor]))
+      if (!this.jawabanUser[currNomor] || (this.jawabanUser[currNomor] && !this.jawabanUser[currNomor].jawaban_user)) {
         this.jawabanUser[currNomor] = {
           id_soal_pertanyaan: currentSoal.id,
           id_soal_tryout: currentSoal.id_soal_tryout,
@@ -1189,35 +1235,69 @@ export default {
         }
       } else if (jenisSoal === 'Isian Singkat') {
         this.$nextTick(() => {
-          const qlInputFields = document.querySelectorAll('.ql-inputfield input[data-soal-id="' + currentSoal.id + '"]')
+          const qlInputFields = document.querySelectorAll(".ql-inputfield > input[data-soal-id='" + currentSoal.id + "']")
+          console.log('qlInputFields', qlInputFields)
+
+          if (!this.jawabanUser[currNomor].jawaban_user) {
+            this.jawabanUser[currNomor].jawaban_user = []
+          }
+
+          let inputFieldIndexes = []
           if (qlInputFields.length) {
-            if (!this.jawabanUser[currNomor].jawaban_user) {
-              this.jawabanUser[currNomor].jawaban_user = []
-            }
-            qlInputFields.forEach((input, k) => {
-              const index = input.getAttribute('data-index')
-              if (!this.jawabanUser[currNomor].jawaban_user[index]) {
-                this.jawabanUser[currNomor].jawaban_user[index] = ''
-              } else if (this.jawabanUser[currNomor].jawaban_user[index] && input.value !== this.jawabanUser[currNomor].jawaban_user[index]) {
-                input.value = this.jawabanUser[currNomor].jawaban_user[index]
-              } else {
-                this.jawabanUser[currNomor].jawaban_user[index] = input.value
+
+            inputFieldIndexes = Array.from(qlInputFields).map(inputField => {
+              return inputField.getAttribute('data-index')
+            })
+
+            console.log('jawaban user 1', JSON.stringify(this.jawabanUser[currNomor].jawaban_user))
+
+            // console.log('jawaban user 2', JSON.stringify(this.jawabanUser[currNomor].jawaban_user))
+
+            for (let i = 0; i < qlInputFields.length; i++) {
+              const inputField = qlInputFields[i]
+              const index = inputField.getAttribute('data-index')
+
+              if (this.jawabanUser[currNomor].jawaban_user[index]) {
+                if (!inputField.value) {
+                  inputField.value = this.jawabanUser[currNomor].jawaban_user[index]
+                }
               }
 
+              // this.jawabanUser[currNomor].jawaban_user[index] = inputField.value
+
               // add on change listener
-              input.addEventListener('keyup', (e) => {
-                console.log('keyup', e.target.value)
+              inputField.addEventListener('keyup', (e) => {
+                console.log('keyup isian' + index, e.target.value)
                 this.jawabanUser[currNomor].jawaban_user[index] = e.target.value
-                this.saveJawaban()
+                // this.saveJawaban()
+
+                // rerender component by clear and refill opsi_pertanyaan
+                const opsiPertanyaanTempor = JSON.parse(JSON.stringify(this.currentSoal.opsi_pertanyaan))
+                this.currentSoal.opsi_pertanyaan = []
+                this.$nextTick(() => {
+                  this.currentSoal.opsi_pertanyaan = opsiPertanyaanTempor
+                })
               })
-            })
+            }
+
           }
+
+          // remove jawaban_user[] that not in qlInputFields index
+          // if (this.jawabanUser[currNomor].jawaban_user.length) {
+          //   this.jawabanUser[currNomor].jawaban_user = this.jawabanUser[currNomor].jawaban_user.filter((jawaban, index) => {
+          //     return inputFieldIndexes.includes(index.toString())
+          //   })
+          // }
+
+          console.log('jawaban user 3', JSON.stringify(this.jawabanUser[currNomor].jawaban_user))
         })
       } else {
-        this.jawabanUser[currNomor].jawaban_user = null
+        this.jawabanUser[currNomor].jawaban_user = this.jawabanUser[currNomor].jawaban_user ?? ''
       }
 
       // console.log('jawabanUser[currNomor]', this.jawabanUser[currNomor])
+
+      this.saveJawaban()
     },
 
     navGoTo(to) {
