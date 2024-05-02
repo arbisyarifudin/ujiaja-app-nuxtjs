@@ -98,7 +98,7 @@
                     <p class="question-main-text" v-html="currentSoal.soal"></p>
 
                     <!-- jawaban1: {{ jawabanUser[currentSoalNomor] }} <br> -->
-                    jawaban2: {{ jawabanUser[currentSoalNomor] }}
+                    <!-- jawaban2: {{ jawabanUser[currentSoalNomor] }} -->
 
                     <template v-if="currentSoal.template_pertanyaan === 'Pilihan Ganda'">
                       <b-form-group v-if="currentSoalNomor && jawabanUser[currentSoalNomor]"
@@ -870,8 +870,8 @@ export default {
       await this.getSoalDetail(dataNomor.id_soal_pertanyaan)
     },
     saveJawaban(newValue = null) {
-      console.log('saveJawaban val', newValue)
-      console.log('saveJawaban user 1', JSON.stringify(this.jawabanUser[this.currentSoalNomor].jawaban_user))
+      // console.log('saveJawaban val', newValue)
+      // console.log('saveJawaban user 1', JSON.stringify(this.jawabanUser[this.currentSoalNomor].jawaban_user))
 
       if (newValue) {
         // update jawabanUser for currentNomorSoal
@@ -889,7 +889,7 @@ export default {
 
           this.jawabanUser[this.currentSoalNomor].jawaban_user = newValue
 
-          console.log('saveJawaban user 2', JSON.stringify(this.jawabanUser[this.currentSoalNomor].jawaban_user))
+          // console.log('saveJawaban user 2', JSON.stringify(this.jawabanUser[this.currentSoalNomor].jawaban_user))
         }
       }
 
@@ -1143,7 +1143,7 @@ export default {
           if (res.success) {
             this.listNomorSoal = res.data;
 
-            console.log('getNomorSoal jawabanuser 1', JSON.parse(JSON.stringify(this.jawabanUser)))
+            // console.log('getNomorSoal jawabanuser 1', JSON.parse(JSON.stringify(this.jawabanUser)))
 
             // get jawaban placeholder
             const lastSaveData = this.checkLastSaved()
@@ -1155,7 +1155,7 @@ export default {
                 this.jawabanUser = jawabanTemp
               }
             }
-            console.log('getNomorSoal jawabanuser 2', JSON.parse(JSON.stringify(this.jawabanUser)))
+            // console.log('getNomorSoal jawabanuser 2', JSON.parse(JSON.stringify(this.jawabanUser)))
 
             // get current soal detail
             if (this.$route.query.id_mapel) {
@@ -1164,7 +1164,7 @@ export default {
               await this.getSoalDetail(this.listNomorSoal[0].id_soal_pertanyaan);
             }
 
-            console.log('getNomorSoal jawabanuser 3', JSON.parse(JSON.stringify(this.jawabanUser)))
+            // console.log('getSNomorSoal jawabanuser 3', JSON.parse(JSON.stringify(this.jawabanUser)))
 
           }
 
