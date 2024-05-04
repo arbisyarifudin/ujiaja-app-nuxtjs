@@ -25,9 +25,9 @@
             <!-- <div class="h4">{{tryout.judul_edit}}</div> -->
             <div class="h5">Soal dan Jawaban Kamu</div>
           </div>
-           <ol>
+           <ol class="soal-list">
             <li
-              class="pl-2 mb-4"
+              class="soal-item mb-4"
               v-for="(soal, s_index) in tryout.soal"
               :key="'s' + s_index"
             >
@@ -37,36 +37,92 @@
                   class="h6 text-dark soal-pertanyaan"
                   v-html="soal.soal_pertanyaan"
                 ></div>
-                <ul class="list-unstyled">
-                  <li
-                    v-for="(opsi, o_index) in soal.opsi_pertanyaan"
-                    :key="'o' + o_index"
-                  >
-                  <div class="question-option">
-                    <span class="question-option-letter" :class="letterColorClass(soal, opsi)" v-text="letterLabel(o_index)"></span>
-                      <span
-                        v-html="opsi.option"
-                        class="question-option-text"
-                      ></span>
-                  </div>
-                  </li>
-                </ul>
+
+                <ul class="list-unstyled" v-if="soal.template_pertanyaan === 'Pilihan Ganda' || soal.template_pertanyaan === 'Pilihan Ganda Kompleks (Model 1)'">
+                <li
+                  v-for="(opsi, o_index) in soal.opsi_pertanyaan"
+                  :key="'o' + o_index"
+                >
+                 <div class="question-option">
+                   <span class="question-option-letter" :class="letterColorClass(soal, opsi)" v-text="letterLabel(o_index)"></span>
+                    <span
+                      v-html="opsi.option"
+                      class="question-option-text"
+                    ></span>
+                 </div>
+                </li>
+              </ul>
+
+              <table class="table table-bordered" v-else-if="soal.template_pertanyaan === 'Pilihan Ganda Kompleks (Model 2)'">
+                    <thead>
+                      <tr>
+                        <th colspan="2">Pilihan</th>
+                        <th width="15%" class="text-center">{{ soal.opsi_jawaban_pertanyaan ? soal.opsi_jawaban_pertanyaan[0] : 'Ya' }}</th>
+                        <th width="15%" class="text-center">{{ soal.opsi_jawaban_pertanyaan ? soal.opsi_jawaban_pertanyaan[1] : 'Tidak' }}</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr v-for="(opsi, o) in soal.opsi_pertanyaan" :key="'opsi' + o">
+                        <td width="10px"><span class="question-option-letter">{{ letterLabel(o) }}</span></td>
+                        <td class="td-1">
+                          <div v-html="opsi.option"></div>
+                        </td>
+                        <td class="td-2" v-for="pil in 2">
+                          <div v-if="soal.jawaban_user[o] && jawabanKompleksModel2Check(soal, o, pil)" class="d-flex justify-content-center form-check">
+                            <b-form-checkbox :id="'opsi_' + s_index + '_' + o + '_' + pil"
+                                :name="'opsi_' + s_index + '_' + o + '_' + pil"
+                                class="d-inline form-check-input" disabled :value="opsi.uuid + '___' + pil" v-model="soal.jawaban_user[o]"></b-form-checkbox>
+                          </div>
+                          <div v-else class="d-flex justify-content-center form-check">
+                            <b-form-checkbox :id="'opsi_' + s_index + '_' + o + '_' + pil"
+                                :name="'opsi_' + s_index + '_' + o + '_' + pil"
+                                class="d-inline form-check-input" disabled></b-form-checkbox>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+
                 <div class="mt-3" v-if="soal.koreksi_jawaban == 'Salah' || soal.koreksi_jawaban == 'Kosong'">
+                  <hr />
                   <div  style="font-size: 12px; font-weight: 600;">Pelajari lagi tentang Bab:</div>
-                  <div
-                    class="badge badge-danger px-2 mr-2"
-                    style="border-radius: 2px; font-weight: 500; font-size: 12px"
-                    v-for="(bab, b_index) in soal.bab"
-                    :key="'b' + b_index"
-                  >
-                    {{ bab }}
-                  </div>
+                    <div
+                      class="badge badge-danger px-2 mr-2"
+                      style="border-radius: 2px; font-weight: 500; font-size: 12px"
+                      v-for="(bab, b_index) in soal.bab"
+                      :key="'b' + b_index"
+                      >
+                      {{ bab }}
+                    </div>
+                  <hr />
                 </div>
               </div>
               <div class="col-md-5">
                   <div class="h6">Pembahasan</div>
                   <div v-html="soal.pembahasan_pertanyaan"></div>
-                  <div class="h6 mt-3">Jawaban Benar: <span class="font-weight-bold text-success ml-2">{{opsiBenar(soal)}}</span></div>
+                  <div class="h6 mt-3" v-if="soal.template_pertanyaan === 'Pilihan Ganda' || soal.template_pertanyaan === 'Pilihan Ganda Kompleks (Model 1)'">Jawaban Benar: <span class="font-weight-bold text-success ml-2">{{ opsiBenar(soal) }}</span></div>
+                  <div class="mt-3" v-else-if="soal.template_pertanyaan === 'Pilihan Ganda Kompleks (Model 2)'">
+                    <div class="h6">Jawaban Benar:</div>
+                    <ul class="list-unstyled">
+                      <li v-for="(jawaban, j) in opsiBenar(soal)" :key="'jawaban' + j" class="mr-2">
+                        <div class="d-flex align-items-center">
+                          <div class="mr-2">{{ jawaban.opsi }}.</div>
+                          <div>{{ jawaban.pilihan }}</div>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="mt-3" v-else-if="soal.template_pertanyaan === 'Isian Singkat'">
+                    <div class="h6">Jawaban Benar:</div>
+                    <ul class="list-unstyled">
+                      <li v-for="(jawaban, j) in soal.jawaban_pertanyaan" :key="'jawaban' + j" class="mr-2">
+                        <div class="d-flex align-items-center">
+                          <div class="mr-2">{{ j + 1 }}.</div>
+                          <div>{{ jawaban }}</div>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
                 </div>
             </div>
             </li>
@@ -97,12 +153,58 @@
 }
 .soal {
   border-top: none!important;
+
+  &-list {
+    padding-left: 10px;
+  }
+
+  &-item {
+    border: 1px solid #f0f0f0;
+    border-radius: 5px;
+    padding: 15px 20px;
+    margin-bottom: 30px;
+    background-color: #f9f9f9;
+  }
+
   .soal-pertanyaan {
     color: #47415b!important;
      margin-bottom: 10px;
      p {
        color: #47415b!important;
      }
+  }
+
+  .ql-inputfield {
+    display: inline-block;
+    position: relative;
+    input {
+      outline: none;
+      border: none;
+      // border-bottom: 1px solid #ccc;
+      border: 1px solid #9e8df3;
+      text-align: center;
+      // padding: 0 5px;
+      padding: 5px 5px;
+      margin: 0 5px;
+      font-size: 12px;
+      // font-weight: 600;
+      // color: blue;
+      color: #47415b;
+      max-width: 120px;
+      letter-spacing: 2px;
+
+      &.correct {
+        // border: 3px solid #d4edda;
+        // background-color: #d4edda;
+        background-color: rgba(212, 237, 218, 0.4);
+      }
+
+      &.wrong {
+        // border: 3px solid #f8d7da;
+        // background-color: #f8d7da;
+        background-color: rgba(248, 215, 218, 0.4);
+      }
+    }
   }
 }
 
@@ -119,19 +221,17 @@ export default {
       detailProduk: {},
       dataResult: {
         detail: {},
-        soal: [],
-        pencocokan: [],
-        skor: {
-          skor_akhir: 0
-        }
+        tryout: []
       },
       tab: 0,
     };
   },
-  created() {
+  async created() {
     if (!this.$route.params.id) return this.$router.go(-1);
     this.getDetail("produk", this.$route.params.id);
-    this.getResult(this.$route.params.id)
+    await this.getResult(this.$route.params.id)
+
+    this.handleInputIsianSingkat();
   },
   computed: {
    user() {
@@ -140,7 +240,7 @@ export default {
    userDetail() {
      return this.$store.state.dataUser.detail
    }
-  }, 
+  },
   methods: {
     updateTab(tabIndex) {
       if(this.$route.query.tab) {
@@ -164,9 +264,9 @@ export default {
         })
         .finally(() => (this.loading = false));
     },
-    getResult(id) {
+    async getResult(id) {
       this.loading = true;
-      this.$axios
+      await this.$axios
         .$get(`/api/tryout_user/riwayat-pengerjaan?id_produk=${id}&id_user=${this.user.id}&referensi=${this.$route.query.code}`)
         .then(res => {
           console.log(res);
@@ -193,43 +293,202 @@ export default {
       //   return 'text-danger font-weight-bold';
       // }
     },
-    opsiBenar(soal) {  
+    opsiBenar(soal) {
       const opsiLetter = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
-      const foundIndex = soal.opsi_pertanyaan.findIndex(item => item.uuid == soal.jawaban_pertanyaan)
-      if(foundIndex > -1) {
-        return opsiLetter[foundIndex]
+      if (soal.template_pertanyaan === 'Pilihan Ganda') {
+        const foundIndex = soal.opsi_pertanyaan.findIndex(item => item.uuid == soal.jawaban_pertanyaan)
+        if(foundIndex > -1) {
+          return opsiLetter[foundIndex]
+        }
+      } else if (soal.template_pertanyaan === 'Pilihan Ganda Kompleks (Model 1)') {
+        const jawabanKunci = soal.jawaban_pertanyaan ?? [] // example: [0, 1]
+        if (!jawabanKunci) return '-'
+
+        // console.log('jawabanKunci', jawabanKunci)
+
+        const opsiIndexes = jawabanKunci.map(jawaban => {
+          const foundIndex = soal.opsi_pertanyaan.findIndex(item => item.uuid == jawaban)
+          return foundIndex
+        })
+
+        // console.log('opsiIndexes', opsiIndexes)
+
+        const opsiLetters = opsiIndexes.map(index => {
+          return opsiLetter[index]
+        })
+
+        // console.log('opsiLetters', opsiLetters)
+
+        return opsiLetters.join(', ')
+      } else if (soal.template_pertanyaan === 'Pilihan Ganda Kompleks (Model 2)') {
+        // expected output:
+        // array = [{opsi: 'A', pilihan: '1'}, {opsi: 'B', pilihan: '2'}]
+
+        const jawabanKunci = soal.jawaban_pertanyaan ?? [] // example: [opsi1___1, opsi2___2] <-- opsi1 is correct, opsi2 is wrong
+        let jawabanUser = soal.jawaban_user ?? [] // example: [opsi1___2, opsi2___2] <-- opsi1 is wrong, opsi2 is correct. so the answer is wrong
+
+        if (!jawabanKunci || !jawabanUser) return []
+
+        // if jawabanUser is not array, convert to array
+        if (!Array.isArray(jawabanUser)) {
+          jawabanUser = [jawabanUser]
+        }
+
+        const result = jawabanKunci.map((jawaban, index) => {
+          const jawabanSplit = jawaban.split('___')
+          const opsiUuid = jawabanSplit[0]
+          const pilihanIndex = jawabanSplit[1] ?? 0
+
+          const foundIndex = soal.opsi_pertanyaan.findIndex(item => item.uuid == opsiUuid)
+          const opsiLetter = foundIndex > -1 ? this.letterLabel(foundIndex) : '-'
+
+          const pilihanLabel = soal.opsi_jawaban_pertanyaan ? soal.opsi_jawaban_pertanyaan[pilihanIndex] : 'Ya'
+
+          return {
+            opsi: opsiLetter,
+            pilihan: pilihanLabel
+          }
+        })
+
+        // console.log('result', result)
+
+        return result
+      } else if (soal.template_pertanyaan === 'Isian Singkat') {
+        return soal.jawaban_pertanyaan && Array.isArray(soal.jawaban_pertanyaan) ? soal.jawaban_pertanyaan : []
       }
       return '-'
-      // let result;
-      // for (let i = 0; i < soal.opsi_pertanyaan.length; i++) {
-      //   const opsi = soal.opsi_pertanyaan[i];
-      //   if(opsi.uuid == soal.jawaban_pertanyaan) {
-      //     result = opsiLetter[i]
-      //     break
-      //   } 
-      // }
-      // return result;
     },
     letterLabel(index) {
       const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
       return letters[index] ?? '-';
     },
     letterColorClass(soal, opsi) {
-      if (
-        opsi.uuid == soal.jawaban_pertanyaan &&
-        opsi.uuid == soal.jawaban_user
-      ) {
-        return "correct font-weight-bold";
+      let className = ''
+
+      if (soal.template_pertanyaan === 'Pilihan Ganda') {
+        if (
+          opsi.uuid == soal.jawaban_pertanyaan &&
+          opsi.uuid == soal.jawaban_user
+        ) {
+          className = 'correct font-weight-bold';
+        }
+
+        if (
+          opsi.uuid == soal.jawaban_user &&
+          soal.jawaban_user != soal.jawaban_pertanyaan
+        ) {
+          className = 'wrong font-weight-bold';
+        }
+      } else if (soal.template_pertanyaan === 'Pilihan Ganda Kompleks (Model 1)') {
+        // multiple check answer
+        const jawabanKunci = soal.jawaban_pertanyaan ?? [] // example: [0, 1]
+        let jawabanUser = soal.jawaban_user ?? [] // example: [0, 2] <-- one is correct, one is wrong
+
+        if (!jawabanKunci || !jawabanUser) return className
+        if (!Array.isArray(jawabanKunci)) return className
+
+        // if jawabanUser is not array, convert to array
+        if (!Array.isArray(jawabanUser)) {
+          jawabanUser = [jawabanUser]
+        }
+
+        if (jawabanKunci.includes(opsi.uuid)) {
+          if (jawabanUser.includes(opsi.uuid)) {
+            className = 'correct font-weight-bold'
+          } else {
+            className = 'wrongx font-weight-bold'
+          }
+        } else {
+          if (jawabanUser.includes(opsi.uuid)) {
+            className = 'wrong font-weight-bold'
+          }
+        }
+      } else if (soal.template_pertanyaan === 'Isian Singkat') {
+        // do nothing
       }
-      if (
-        opsi.uuid == soal.jawaban_user &&
-        soal.jawaban_user != soal.jawaban_pertanyaan
-      ) {
-        return "wrong font-weight-bold";
+
+      return className
+    },
+    jawabanKompleksModel2Check(soal, opsiIndex, pilihanIndex) {
+      const jawabanUser = soal.jawaban_user[opsiIndex] ?? null
+      if (!jawabanUser) return false
+      // console.log('jawabanUser', jawabanUser)
+
+      const jawabanKunci = soal.jawaban_pertanyaan[opsiIndex] ?? null
+      // console.log('jawabanKunci', jawabanKunci)
+
+      const jawabanUserSplit = jawabanUser.split('___')
+      const jawabanUserTerpilih = jawabanUserSplit.length > 0 ? jawabanUserSplit[1] : null
+
+      if (!jawabanUserTerpilih) return false
+
+      const jawabanKunciSplit = jawabanKunci.split('___')
+      const jawabanKunciBenar = jawabanKunciSplit.length > 0 ? jawabanKunciSplit[1] : null
+
+      if (!jawabanKunciBenar) return false
+
+      return jawabanUserTerpilih === pilihanIndex.toString() && jawabanKunciBenar === pilihanIndex.toString()
+    },
+    handleInputIsianSingkat() {
+      // example of soal.soal_pertanyaan
+      /* <div class="h6 text-dark soal-pertanyaan"><p> lorem ipsum <span class="ql-inputfield" contenteditable="false"><input type="text" name="soal-2-0" data-soal-id="2" data-index="2" placeholder="1"></span> </p><p>222222  </p><p><span class="ql-inputfield" contenteditable="false"></span></p><p>33333333<span class="ql-inputfield" contenteditable="false"></span>  aw   asassas asa<span class="ql-inputfield" contenteditable="false"><input type="text" name="soal-2-0" data-soal-id="2" data-index="0" placeholder="2"></span> </p></div> */
+
+      const tabSelected = this.tab
+      // console.log('tabSelected', tabSelected)
+      if (tabSelected < 0) return
+
+      const subtestSelected = this.dataResult.tryout[tabSelected]
+      // console.log('subtestSelected', subtestSelected)
+
+      if (!subtestSelected) return
+
+      const soalIsianSingkatList = this.dataResult.tryout[tabSelected].soal.filter(v => v.template_pertanyaan === 'Isian Singkat')
+      // console.log('soalIsianSingkatList', soalIsianSingkatList)
+
+      const inputFieldElements = document.querySelectorAll('.ql-inputfield input')
+
+      if (inputFieldElements.length) {
+        Array.from(inputFieldElements).forEach((input, index) => {
+          // console.log('input', input)
+
+          // make all input readonly & disable
+          // input.setAttribute('disabled', true)
+          input.setAttribute('readonly', true)
+
+          // get data-index of each input
+          const inputIndex = input.getAttribute('data-index')
+          const inputSoalId = input.getAttribute('data-soal-id')
+
+          const soalItem = soalIsianSingkatList.find(v => v.id_soal_pertanyaan === parseInt(inputSoalId))
+          // console.log('soalItem', soalItem)
+
+          if (!soalItem) return
+
+          // fill value with soal jawaban_user[inputIndex]
+          const jawabanUser = soalItem.jawaban_user ? soalItem.jawaban_user[inputIndex] : null
+          // console.log('jawabanUser', jawabanUser)
+
+          if (!jawabanUser) return
+
+          input.value = jawabanUser
+
+          // get jawaban benar dari soalItem.jawaban_pertanyaan[inputIndex]
+          const jawabanPertanyaan = soalItem.jawaban_pertanyaan ? soalItem.jawaban_pertanyaan[inputIndex] : null
+          // console.log('jawabanPertanyaan', jawabanPertanyaan)
+
+          // add class to input based on jawabanUser & jawabanPertanyaan
+          if (jawabanUser === jawabanPertanyaan) {
+            input.classList.add('correct')
+          } else {
+            input.classList.add('wrong')
+          }
+
+        })
+
+
       }
-      return ''
     }
-  
+
   }
 };
 </script>

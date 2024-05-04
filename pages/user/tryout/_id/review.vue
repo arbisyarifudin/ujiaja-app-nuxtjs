@@ -1,5 +1,5 @@
 <template>
-  <div class="container-fluid crud px-md-4 px-0 bg-white py-4">
+  <div class="container-fluid crud px-md-4 px-0 bg-white py-4" v-if="dataResult.detail">
     <div class="dash-kelas p-0 text-left">
       <h3>
         <BackUrl
@@ -37,17 +37,24 @@
               Pembahasan</nuxt-link
             >
           </div>
-          <ol>
+
+
+          <ol class="soal-list">
             <li
-              class="pl-2 mb-4"
-              v-for="(soal, s_index) in tryout.soal"
-              :key="'s' + s_index"
+            class="soal-item"
+            v-for="(soal, s_index) in tryout.soal"
+            :key="'s' + s_index"
             >
-              <div
-                class="h6 text-dark soal-pertanyaan"
-                v-html="soal.soal_pertanyaan"
-              ></div>
-              <ul class="list-unstyled">
+            <div
+            class="h6 text-dark soal-pertanyaan"
+            v-html="soal.soal_pertanyaan"
+            ></div>
+
+            <!-- template: {{ soal.template_pertanyaan }}
+            kunci: {{soal.jawaban_pertanyaan}}
+            jawaban: {{soal.jawaban_user}} -->
+
+              <ul class="list-unstyled" v-if="soal.template_pertanyaan === 'Pilihan Ganda' || soal.template_pertanyaan === 'Pilihan Ganda Kompleks (Model 1)'">
                 <li
                   v-for="(opsi, o_index) in soal.opsi_pertanyaan"
                   :key="'o' + o_index"
@@ -61,6 +68,41 @@
                  </div>
                 </li>
               </ul>
+
+              <div class="row" v-else-if="soal.template_pertanyaan === 'Pilihan Ganda Kompleks (Model 2)'">
+                <div class="col-md-8">
+                  <table class="table table-bordered">
+                    <thead>
+                      <tr>
+                        <th colspan="2">Pilihan</th>
+                        <th width="15%" class="text-center">{{ soal.opsi_jawaban_pertanyaan ? soal.opsi_jawaban_pertanyaan[0] : 'Ya' }}</th>
+                        <th width="15%" class="text-center">{{ soal.opsi_jawaban_pertanyaan ? soal.opsi_jawaban_pertanyaan[1] : 'Tidak' }}</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr v-for="(opsi, o) in soal.opsi_pertanyaan" :key="'opsi' + o">
+                        <td width="10px"><span class="question-option-letter">{{ letterLabel(o) }}</span></td>
+                        <td class="td-1">
+                          <div v-html="opsi.option"></div>
+                        </td>
+                        <td class="td-2" v-for="pil in 2">
+                          <div v-if="soal.jawaban_user[o] && jawabanKompleksModel2Check(soal, o, pil)" class="d-flex justify-content-center form-check">
+                            <b-form-checkbox :id="'opsi_' + s_index + '_' + o + '_' + pil"
+                                :name="'opsi_' + s_index + '_' + o + '_' + pil"
+                                class="d-inline form-check-input" disabled :value="opsi.uuid + '___' + pil" v-model="soal.jawaban_user[o]"></b-form-checkbox>
+                          </div>
+                          <div v-else class="d-flex justify-content-center form-check">
+                            <b-form-checkbox :id="'opsi_' + s_index + '_' + o + '_' + pil"
+                                :name="'opsi_' + s_index + '_' + o + '_' + pil"
+                                class="d-inline form-check-input" disabled></b-form-checkbox>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
               <div class="mt-3" v-if="soal.koreksi_jawaban && (soal.koreksi_jawaban == 'Salah' || soal.koreksi_jawaban == 'Kosong')">
                 <div  style="font-size: 12px; font-weight: 600;">Pelajari lagi tentang Bab:</div>
                 <div
@@ -99,11 +141,57 @@
 }
 .soal {
   border-top: none !important;
+
+  &-list {
+    padding-left: 10px;
+  }
+
+  &-item {
+    border: 1px solid #f0f0f0;
+    border-radius: 5px;
+    padding: 15px 20px;
+    margin-bottom: 30px;
+    background-color: #f9f9f9;
+  }
+
   .soal-pertanyaan {
     color: #47415b !important;
     margin-bottom: 10px;
     p {
       color: #47415b !important;
+    }
+  }
+
+  .ql-inputfield {
+    display: inline-block;
+    position: relative;
+    input {
+      outline: none;
+      border: none;
+      // border-bottom: 1px solid #ccc;
+      border: 1px solid #9e8df3;
+      text-align: center;
+      // padding: 0 5px;
+      padding: 5px 5px;
+      margin: 0 5px;
+      font-size: 12px;
+      // font-weight: 600;
+      // color: blue;
+      color: #47415b;
+      max-width: 120px;
+      letter-spacing: 2px;
+
+      &.correct {
+        // border: 3px solid #d4edda;
+        // background-color: #d4edda;
+        background-color: rgba(212, 237, 218, 0.4);
+      }
+
+      &.wrong {
+        // border: 3px solid #f8d7da;
+        // background-color: #f8d7da;
+        background-color: rgba(248, 215, 218, 0.4);
+      }
     }
   }
 }
@@ -128,19 +216,17 @@ export default {
       detailProduk: {},
       dataResult: {
         detail: {},
-        soal: [],
-        pencocokan: [],
-        skor: {
-          skor_akhir: 0
-        }
+        tryout: []
       },
       tab: 0
     };
   },
-  created() {
+  async created() {
     if (!this.$route.params.id) return this.$router.go(-1);
     this.getDetail("produk", this.$route.params.id);
-    this.getResult(this.$route.params.id);
+    await this.getResult(this.$route.params.id);
+
+    this.handleInputIsianSingkat();
   },
   computed: {
    user() {
@@ -168,9 +254,9 @@ export default {
         })
         .finally(() => (this.loading = false));
     },
-    getResult(id) {
+    async getResult(id) {
       this.loading = true;
-      this.$axios
+      await this.$axios
         .$get(`/api/tryout_user/riwayat-pengerjaan?id_produk=${id}&id_user=${this.user.id}&referensi=${this.$route.query.code}`)
         .then(res => {
           console.log(res);
@@ -204,20 +290,131 @@ export default {
       return letters[index] ?? '-';
     },
     letterColorClass(soal, opsi) {
-      if (
-        opsi.uuid == soal.jawaban_pertanyaan &&
-        opsi.uuid == soal.jawaban_user
-      ) {
-        return "correct font-weight-bold";
+      let className = ''
+
+      if (soal.template_pertanyaan === 'Pilihan Ganda') {
+        if (
+          opsi.uuid == soal.jawaban_pertanyaan &&
+          opsi.uuid == soal.jawaban_user
+        ) {
+          className = 'correct font-weight-bold';
+        }
+
+        if (
+          opsi.uuid == soal.jawaban_user &&
+          soal.jawaban_user != soal.jawaban_pertanyaan
+        ) {
+          className = 'wrong font-weight-bold';
+        }
+      } else if (soal.template_pertanyaan === 'Pilihan Ganda Kompleks (Model 1)') {
+        // multiple check answer
+        const jawabanKunci = soal.jawaban_pertanyaan ?? [] // example: [0, 1]
+        let jawabanUser = soal.jawaban_user ?? [] // example: [0, 2] <-- one is correct, one is wrong
+
+        if (!jawabanKunci || !jawabanUser) return className
+        if (!Array.isArray(jawabanKunci)) return className
+
+        // if jawabanUser is not array, convert to array
+        if (!Array.isArray(jawabanUser)) {
+          jawabanUser = [jawabanUser]
+        }
+
+        if (jawabanKunci.includes(opsi.uuid)) {
+          if (jawabanUser.includes(opsi.uuid)) {
+            className = 'correct font-weight-bold'
+          } else {
+            className = 'wrongx font-weight-bold'
+          }
+        } else {
+          if (jawabanUser.includes(opsi.uuid)) {
+            className = 'wrong font-weight-bold'
+          }
+        }
+      } else if (soal.template_pertanyaan === 'Isian Singkat') {
+        // do nothing
       }
-      if (
-        opsi.uuid == soal.jawaban_user &&
-        soal.jawaban_user != soal.jawaban_pertanyaan
-      ) {
-        return "wrong font-weight-bold";
+
+      return className
+    },
+    jawabanKompleksModel2Check(soal, opsiIndex, pilihanIndex) {
+      const jawabanUser = soal.jawaban_user[opsiIndex] ?? null
+      if (!jawabanUser) return false
+      // console.log('jawabanUser', jawabanUser)
+
+      const jawabanKunci = soal.jawaban_pertanyaan[opsiIndex] ?? null
+      // console.log('jawabanKunci', jawabanKunci)
+
+      const jawabanUserSplit = jawabanUser.split('___')
+      const jawabanUserTerpilih = jawabanUserSplit.length > 0 ? jawabanUserSplit[1] : null
+
+      if (!jawabanUserTerpilih) return false
+
+      const jawabanKunciSplit = jawabanKunci.split('___')
+      const jawabanKunciBenar = jawabanKunciSplit.length > 0 ? jawabanKunciSplit[1] : null
+
+      if (!jawabanKunciBenar) return false
+
+      return jawabanUserTerpilih === pilihanIndex.toString() && jawabanKunciBenar === pilihanIndex.toString()
+    },
+    handleInputIsianSingkat() {
+      // example of soal.soal_pertanyaan
+      /* <div class="h6 text-dark soal-pertanyaan"><p> lorem ipsum <span class="ql-inputfield" contenteditable="false"><input type="text" name="soal-2-0" data-soal-id="2" data-index="2" placeholder="1"></span> </p><p>222222  </p><p><span class="ql-inputfield" contenteditable="false"></span></p><p>33333333<span class="ql-inputfield" contenteditable="false"></span>  aw   asassas asa<span class="ql-inputfield" contenteditable="false"><input type="text" name="soal-2-0" data-soal-id="2" data-index="0" placeholder="2"></span> </p></div> */
+
+      const tabSelected = this.tab
+      // console.log('tabSelected', tabSelected)
+      if (tabSelected < 0) return
+
+      const subtestSelected = this.dataResult.tryout[tabSelected]
+      // console.log('subtestSelected', subtestSelected)
+
+      if (!subtestSelected) return
+
+      const soalIsianSingkatList = this.dataResult.tryout[tabSelected].soal.filter(v => v.template_pertanyaan === 'Isian Singkat')
+      // console.log('soalIsianSingkatList', soalIsianSingkatList)
+
+      const inputFieldElements = document.querySelectorAll('.ql-inputfield input')
+
+      if (inputFieldElements.length) {
+        Array.from(inputFieldElements).forEach((input, index) => {
+          // console.log('input', input)
+
+          // make all input readonly & disable
+          // input.setAttribute('disabled', true)
+          input.setAttribute('readonly', true)
+
+          // get data-index of each input
+          const inputIndex = input.getAttribute('data-index')
+          const inputSoalId = input.getAttribute('data-soal-id')
+
+          const soalItem = soalIsianSingkatList.find(v => v.id_soal_pertanyaan === parseInt(inputSoalId))
+          // console.log('soalItem', soalItem)
+
+          if (!soalItem) return
+
+          // fill value with soal jawaban_user[inputIndex]
+          const jawabanUser = soalItem.jawaban_user ? soalItem.jawaban_user[inputIndex] : null
+          // console.log('jawabanUser', jawabanUser)
+
+          if (!jawabanUser) return
+
+          input.value = jawabanUser
+
+          // get jawaban benar dari soalItem.jawaban_pertanyaan[inputIndex]
+          const jawabanPertanyaan = soalItem.jawaban_pertanyaan ? soalItem.jawaban_pertanyaan[inputIndex] : null
+          // console.log('jawabanPertanyaan', jawabanPertanyaan)
+
+          // add class to input based on jawabanUser & jawabanPertanyaan
+          if (jawabanUser === jawabanPertanyaan) {
+            input.classList.add('correct')
+          } else {
+            input.classList.add('wrong')
+          }
+        })
+
+
       }
-      return ''
     }
-  }
+  },
+
 };
 </script>
