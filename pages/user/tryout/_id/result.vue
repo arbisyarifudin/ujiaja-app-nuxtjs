@@ -162,8 +162,9 @@
           </button>
           <button
             class="btn btn-outline-primary square ml-2"
-            :disabled="sending"
+            :disabled="sending || !resultAccessible"
             @click.prevent="generatePDF(true)"
+            v-b-tooltip.hover title="Kirim sertifikat ke emailmu"
           >
             <b-spinner v-if="sending" small></b-spinner>
             <i class="fas fa-envelope fa-fw mr-1" v-else></i>
@@ -178,8 +179,33 @@
           ><i class="fas fa-file-alt fa-fw mr-1"></i> Review Tryout</nuxt-link
         >
       </div>
+      <div v-if="!resultAccessible" class="mt-1 text-danger">
+        <small v-if="dataResult.detail.tipe_event === 'Perorangan'">* Sertifikat hanya dapat diunduh pada {{ resultAccessibleAt }}</small>
+        <small v-if="dataResult.detail.tipe_event === 'Masal'">* Sertifikat hanya dapat diunduh setelah Tryout berakhir pada {{resultAccessibleAt}}</small>
+      </div>
     </div>
     <UILoading v-if="loading" />
+
+    <!-- preview pdf modal -->
+    <b-modal
+      id="modal-preview"
+      title="Preview Sertifikat"
+      modal-class="admin-modal"
+      hide-footer
+      centered
+      size="xl"
+    >
+      <div>
+        <iframe
+          :src="pdfUrl + '#toolbar=0'"
+          width="100%"
+          height="600"
+          frameborder="0"
+          allowfullscreen
+        ></iframe>
+      </div>
+    </b-modal>
+
   </div>
 </template>
 
@@ -225,15 +251,16 @@ export default {
         detail: {},
         tryout: []
       },
-      
-      detailUser: {}
+
+      detailUser: {},
+      pdfUrl: ''
     };
   },
   created() {
     if (!this.$route.params.id) return this.$router.go(-1);
     this.getResult(this.$route.params.id);
     this.getProfile();
-    
+
   },
   mounted() {
     if (this.$route.query.code && this.$route.query.reset) {
@@ -246,6 +273,39 @@ export default {
     },
     userDetail() {
       return this.$store.state.dataUser.detail;
+    },
+    resultAccessible() {
+      const kategori = this.dataResult.detail.kategori_produk;
+      const tipeEvent = this.dataResult.detail.tipe_event;
+      if (kategori == "UTBK" && tipeEvent == "Masal") {
+        const eventEnd = new Date(this.dataResult.detail.berakhir_event);
+        const now = new Date();
+        return now > eventEnd;
+      } else if (kategori == "UTBK" && tipeEvent == "Perorangan") {
+        // count 3 days from tryout end
+        const tryoutEnd = new Date(this.dataResult.detail.waktu_selesai);
+        tryoutEnd.setDate(tryoutEnd.getDate() + 3);
+        const now = new Date();
+        return now > tryoutEnd;
+      } else if (kategori == "ASPD" || kategori == "PAT" || kategori == "PAS") {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    resultAccessibleAt () {
+      // output "25 Mei 2024 (-2 hari)"
+      const kategori = this.dataResult.detail.kategori_produk;
+      const tipeEvent = this.dataResult.detail.tipe_event;
+      if (kategori == "UTBK" && tipeEvent == "Masal") {
+        return this.formatTanggal(this.dataResult.detail.berakhir_event);
+      } else if (kategori == "UTBK" && tipeEvent == "Perorangan") {
+        const tryoutEnd = new Date(this.dataResult.detail.waktu_selesai);
+        tryoutEnd.setDate(tryoutEnd.getDate() + 3);
+        return this.formatTanggal(tryoutEnd);
+      } else {
+        return '';
+      }
     }
   },
   methods: {
@@ -273,7 +333,7 @@ export default {
       }else if(this.$route.query.category == "PAT"|| this.$route.query.category == "PAS"){
         kategori = "-pat-pas"
       }
-      
+
       this.loading = true;
       this.$axios
         .$get(
@@ -316,7 +376,7 @@ export default {
       }
     },
     generatePDF(is_send_to_email = false) {
-     
+
       if (is_send_to_email) {
         this.sending = true;
       } else {
@@ -324,7 +384,7 @@ export default {
       }
       this.$axios
         .$post(`/api/tryout_user/generate-certificate`, {
-          
+
           id_produk: this.dataResult.detail.id_produk,
           id_user: this.dataResult.detail.id_user,
           referensi: this.$route.query.code,
@@ -332,17 +392,21 @@ export default {
           send_to_email: is_send_to_email
         })
         .then(res => {
-         
+
           console.log(res);
           if (res.success) {
             if (is_send_to_email == false) {
-              const pdfUrl = res.data;
-              let anchor = document.createElement("a");
-              anchor.setAttribute("target", "_blank");
-              anchor.setAttribute("href", pdfUrl);
-              anchor.setAttribute("download", true);
-              // console.log(anchor);
-              anchor.click();
+              // const pdfUrl = res.data;
+              // let anchor = document.createElement("a");
+              // anchor.setAttribute("target", "_blank");
+              // anchor.setAttribute("href", pdfUrl);
+              // anchor.setAttribute("download", true);
+              // // console.log(anchor);
+              // anchor.click();
+
+              this.pdfUrl = res.data;
+              this.$bvModal.show("modal-preview");
+
             } else {
               this.showToastMessage(
                 "Sertifikat berhasil dikirim ke emailmu!",
