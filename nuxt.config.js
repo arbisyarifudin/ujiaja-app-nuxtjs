@@ -1,4 +1,5 @@
 var webpack = require('webpack')
+const packageJson = require('./package.json');
 
 export default {
 
@@ -11,6 +12,7 @@ export default {
   dev: process.env.NODE_ENV !== "production",
 
   publicRuntimeConfig: {
+    appVersion: process.env.APP_VERSION || packageJson.version,
     baseUrl: process.env.BASE_URL || "http://localhost:7000",
     apiUrl: process.env.API_URL || "http://localhost:8000",
     googleClientId: process.env.GOOGLE_CLIENT_ID,

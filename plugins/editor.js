@@ -11,19 +11,19 @@ const Delta = Quill.imports.delta;
 class Mathjax extends Parchment.Embed {
 
     // Create node
-    static create(value) 
+    static create(value)
     {
-        const node = super.create(value);    
+        const node = super.create(value);
         if (typeof value === 'string') {
             node.innerHTML = "&#65279;" + this.tex2svg(value) + "&#65279;";
             node.contentEditable = 'false';
-            node.setAttribute('data-value', value);         
+            node.setAttribute('data-value', value);
         }
         return node;
     }
 
     // Return the attribute value (probably for Delta)
-    static value(domNode) 
+    static value(domNode)
     {
         return domNode.getAttribute('data-value');
     }
@@ -41,12 +41,12 @@ class Mathjax extends Parchment.Embed {
         document.body.removeChild(MathJaxNode);
         return svg;
     }
-    
+
     // html() {
     //     const { mathjax } = this.value();
     //     return `<span>${mathjax}</span>`;
     // }
-     
+
 }
 
 // Set module properties
@@ -54,10 +54,32 @@ Mathjax.blotName = 'mathjax';
 Mathjax.className = 'ql-mathjax';
 Mathjax.tagName = 'SPAN';
 
+
+class InputField extends Parchment.Embed {
+  static create (value) {
+    const node = super.create(value);
+    node.setAttribute('contenteditable', 'false');
+    node.innerHTML = value;
+    return node;
+  }
+
+  static value (domNode) {
+    return domNode.innerHTML;
+  }
+}
+
+InputField.blotName = 'inputfield';
+InputField.className = 'ql-inputfield';
+InputField.tagName = 'SPAN';
+
 // Register the module
 Quill.register(Mathjax);
-
-Quill.register("modules/imageResize", ImageResize);
 Quill.register("modules/mathjax", Mathjax);
 
+// Register the module
+Quill.register(InputField);
+Quill.register("formats/inputField", InputField);
+
+
+Quill.register("modules/imageResize", ImageResize);
 Vue.use(Vue2Editor)

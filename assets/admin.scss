@@ -76,6 +76,11 @@ input,
         background-color: rgba(202, 202, 202, 0.25) !important;
         color: rgba(163, 163, 163, 0.726) !important;
     }
+
+    &::placeholder {
+      color: rgba($color: #5c5c5c, $alpha: 0.4);
+      font-size: 85%;
+    }
 }
 
 .question-option {
@@ -106,15 +111,16 @@ input,
         margin-right: 10px;
     }
 
-    &-radio-group {
+    &-group {
         span.letter {
             position: absolute;
             color: #333;
             font-weight: 600;
             left: -18px;
-            top: 3px;
+            // top: 3px;
+            top: 5px;
         }
-        .custom-radio {
+        .custom-radio, .custom-checkbox {
             margin-bottom: 5px;
             .custom-control-input ~ .custom-control-label::before {
                 // color: #fff;
@@ -132,7 +138,7 @@ input,
                 justify-content: center;
             }
         }
-        .custom-radio.checked {
+        .custom-radio.checked, .custom-checkbox.checked {
             .custom-control-input ~ .custom-control-label::before {
                 font-size: 14px;
                 border: 1px solid #850769;
@@ -153,6 +159,41 @@ input,
             padding-top: 3px;
             padding-left: 10px;
         }
+        .custom-control-input {
+          height: 1.5rem;
+          width: 1.5rem;
+        }
+    }
+
+    &__item {
+      &.pointer {
+        cursor: pointer;
+      }
+      &:hover {
+        background-color: rgba($color: #f1e9fe, $alpha: 0.5);
+      }
+    }
+
+    &-group.table {
+      label {
+        cursor: pointer;
+        width: 70px;
+        height: 50px;
+        border: 1px solid rgba($color: #000000, $alpha: 0.25);
+        margin: 0 auto;
+        input {
+          width: 17px;
+          height: 17px;
+          border-radius: 50%;
+          border: 1px solid #9e8df3;
+          opacity: 0.75;
+
+          &.checked {
+            background-color: #9e8df3;
+            opacity: 1;
+          }
+        }
+      }
     }
 }
 
@@ -1636,6 +1677,7 @@ input.form {
         }
     }
     label {
+        cursor: pointer;
         color: #9e8df3;
         min-width: 50%;
     }

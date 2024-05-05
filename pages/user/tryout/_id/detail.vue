@@ -476,7 +476,8 @@ export default {
       //   `/user/tryout/${encryptedProductIdSafe}/test?tryout=${encryptedTryoutIdSafe}`
       // );
 
-      window.location.href = `/user/tryout/${encryptedProductIdSafe}/test?tryout=${encryptedTryoutIdSafe}&kode=${this.dataDetail.transaksi.kode}`;
+      // window.location.href = `/user/tryout/${encryptedProductIdSafe}/test?tryout=${encryptedTryoutIdSafe}&kode=${this.dataDetail.transaksi.kode}`;
+      window.location.href = `/user/tryout/v2/${encryptedProductIdSafe}/test?tryout=${encryptedTryoutIdSafe}&kode=${this.dataDetail.transaksi.kode}`;
     },
     formatRupiah(num) {
       if (num) {

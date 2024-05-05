@@ -31,7 +31,7 @@
           </div>
         </div>
       </div>
-      <div class="col-md-4" v-if="dataResult.detail.kategori_produk == 'UTBK'">
+      <div class="col-md-4" v-if="dataResult.detail.kategori_produk == 'UTBK' && dataResult.detail.kategori_produk == 'SM'">
         <div class="text-center skor-box">
           <div class="mb-2">Skor</div>
           <div class="h3 skor-val">{{dataResult.detail.ceeb_avg}}</div>
@@ -52,7 +52,7 @@
           <tr v-for="(mapel, m_index) in tryout.mapel" :key="'m'+m_index">
             <td>{{mapel.nama_mapel}}</td>
             <td v-if="dataResult.detail.kategori_produk == 'UTBK'">{{mapel.ceeb}}</td>
-            <td v-if="dataResult.detail.kategori_produk == 'ASPD' ||dataResult.detail.kategori_produk == 'PAT' ||dataResult.detail.kategori_produk == 'PAS' ">
+            <td v-if="dataResult.detail.kategori_produk == 'ASPD' ||dataResult.detail.kategori_produk == 'PAT' ||dataResult.detail.kategori_produk == 'PAS' || dataResult.detail.kategori_produk == 'SM'">
               {{ mapel.nilai }}
             </td>
           </tr>
@@ -60,7 +60,7 @@
       </table>
 
       <!-- Peluang Masuk -->
-      <table class="table table-borderless" v-if="dataResult.detail.kategori_produk == 'UTBK' && userDetail.nama_jenjang == 'SMA'">
+      <table class="table table-borderless" v-if="(dataResult.detail.kategori_produk == 'UTBK' || dataResult.detail.kategori_produk == 'SM') && userDetail.nama_jenjang == 'SMA'">
         <thead>
           <tr>
             <th colspan="3">Peluang Masuk Program Studi Pilihan</th>
@@ -165,13 +165,13 @@ export default {
   },
   computed: {
    user() {
-    
+
      return this.$store.state.dataUser.user
    },
    userDetail() {
       return this.$store.state.dataUser.detail;
     }
-  },  
+  },
   methods: {
     getProfile() {
       this.loading = true;
@@ -217,7 +217,7 @@ export default {
           this.catchError(err);
         })
         .finally(() => (this.loading = false));
-    },    
+    },
     peluangLabel(data) {
 
       const skorAkhir = parseFloat(this.dataResult.detail.ceeb_avg);

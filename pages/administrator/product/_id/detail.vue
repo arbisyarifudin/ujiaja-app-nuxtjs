@@ -16,7 +16,7 @@
           style="display: flex; justify-content: space-between; align-items: center;"
         >
           <div v-if="dataDetail.produk && !loading">
-           
+
             <h3 class="mb-0">{{ dataDetail.produk.nama_produk }}</h3>
             <h4 class="mt-3" style="font-size: 12px; color: #555" v-if="dataDetail.produk.jenis_produk == 'Masal'"><i class="fas fa-calendar fa-fw"></i> {{dataDetail.produk.tanggal_mulai_label}} s/d {{dataDetail.produk.tanggal_berakhir_label}}</h4>
             <div class="small" style="color: #555">
@@ -47,8 +47,8 @@
             @click.prevent="generateCSV()"
           >
             <b-spinner v-if="generating" small></b-spinner>
-            
-          
+
+
            Export Hasil TO {{ dataDetail.produk.kategori_produk }}
           </button>
           </div>
@@ -175,7 +175,7 @@
             <div>
               <router-link
                 class="btn btn-primary py-1 square"
-                :to="`/administrator/tryout/${tryout.id}/soal/create`"
+                :to="`/administrator/tryout/${tryout.id}/soal/v2/create`"
                 >Lihat Soal Tryout </router-link
               >
             </div>
@@ -251,7 +251,7 @@
 
 <script>
 export default {
-  
+
   layout: "admin",
   data() {
     return {
@@ -270,9 +270,9 @@ export default {
       {
         text: "Product",
         href: "/administrator/product",
-       }, 
-      {                            
-        text: "Detail",    
+       },
+      {
+        text: "Detail",
         active: true
       }
     ]);
@@ -287,8 +287,8 @@ export default {
         .then(res => {
           console.log(res);
           if (res.success) {
-           
-            
+
+
             this.$bvModal.hide("modal-delete");
             this.$router.replace("/administrator/product");
             this.$bvToast.toast("Data " + type + " berhasil dihapus.", {
@@ -327,12 +327,12 @@ export default {
         .finally(() => (this.loading = false));
     },
     generateCSV() {
-  
-     
+
+
       this.$axios
         .$post(`/api/produk/export-csv`, {
           id_produk: this.dataDetail.produk.id,
-        
+
         })
         .then(res => {
           //console.log(res);
@@ -344,14 +344,14 @@ export default {
               anchor.setAttribute("download", true);
                console.log(anchor);
               anchor.click();
-            
+
           }
         })
         .catch(err => {
           console.log(err);
           this.catchError(err);
         });
-      
+
     },
     deleteData(type) {
       this.loading = true;

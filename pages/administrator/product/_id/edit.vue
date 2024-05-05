@@ -58,6 +58,7 @@
                   :options="[
                     { text: '-- Pilih --', value: null },
                     { text: 'UTBK', value: 'UTBK' },
+                    { text: 'SELEKSI MANDIRI', value: 'SM' },
                     { text: 'ASPD', value: 'ASPD' }
                   ]"
                 >
@@ -674,7 +675,7 @@ export default {
     validateForm() {
       // console.log(this.form);
       if (
-        this.total_pengerjaan < 1 && this.total_transaksi < 1 && 
+        this.total_pengerjaan < 1 && this.total_transaksi < 1 &&
         (!this.form.nama_produk ||
         !this.form.kategori_produk ||
         !this.form.jenis_produk ||

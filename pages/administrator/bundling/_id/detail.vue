@@ -148,7 +148,7 @@
                       <p
                         class="beda"
                         v-if="
-                          item.kategori_produk == 'UTBK' &&
+                          (item.kategori_produk == 'UTBK' || item.kategori_produk == 'SM') &&
                             item.tipe_paket == 'Bundling'
                         "
                       >
@@ -190,7 +190,7 @@
                         ><span
                           class="ml-0"
                           v-if="
-                            item.kategori_produk == 'UTBK' &&
+                            (item.kategori_produk == 'UTBK' || item.kategori_produk == 'SM') &&
                               item.kelompok_soal[0]
                           "
                         >
@@ -240,7 +240,7 @@
             >Data yang dihapus tidak dapat dikembalikan.</span
           >
         </p>
-        
+
         <div class="modal-footer justify-content-end" style="border: 0px">
           <button
             class="btn btn-outline-danger"
@@ -325,7 +325,7 @@ export default {
         .then(res => {
           console.log(res);
           if (res.success) {
-            
+
             this.$bvToast.toast("Data " + type + " berhasil dihapus.", {
               title: "Sukses",
               variant: "success",
