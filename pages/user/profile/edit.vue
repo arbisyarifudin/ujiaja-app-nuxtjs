@@ -116,12 +116,16 @@
                   </b-col>
                 </b-row>
                 <hr />
-                <!-- <h4>Pilihan Program Studi</h4> -->
+                <div v-if="
+                  akun.role_user == 'siswa' && (formSiswa.nama_jenjang == 'SMA' || ['SMA', 'SMK', 'MA'].includes(formSiswa.nama_jenjang))
+                  " class="mb-3">
+                  <h4>Target Perguruan Tinggi Tujuan</h4>
+                </div>
                 <b-row v-if="
                   akun.role_user == 'siswa' && (formSiswa.nama_jenjang == 'SMA' || ['SMA', 'SMK', 'MA'].includes(formSiswa.nama_jenjang))
-                ">
+                  ">
                   <b-col md="2">
-                    <label><i class="fas fa-fw fa-graduation-cap"></i> Pilihan Prodi
+                    <label><i class="fas fa-fw fa-graduation-cap"></i> Pilihan
                       1</label>
                   </b-col>
                   <b-col md="4">
@@ -168,7 +172,7 @@
                   akun.role_user == 'siswa' && (formSiswa.nama_jenjang == 'SMA' || ['SMA', 'SMK', 'MA'].includes(formSiswa.nama_jenjang))
                 ">
                   <b-col md="2">
-                    <label><i class="fas fa-fw fa-graduation-cap"></i> Pilihan Prodi
+                    <label><i class="fas fa-fw fa-graduation-cap"></i> Pilihan
                       2</label>
                   </b-col>
                   <b-col md="4">
