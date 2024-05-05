@@ -248,6 +248,11 @@
                   </div>
                 </div>
               </div>
+
+              <div v-if="potencyData.length == 0" class="col-12 my-4">
+                <div class="text-center">N/A</div>
+              </div>
+
             </div>
           </div>
         </div>
@@ -376,8 +381,8 @@
                 </div>
               </div>
 
-              <h3 class="h5 mt-5 mb-4">
-                Tingkat Capaian Penguasan Mata Pelajaran
+              <h3 class="h6 mt-5 mb-4">
+                Tingkat Capaian Penguasan Mata Pelajaran {{ gKey }}
               </h3>
               <ul class="list-unstyled">
                 <li
@@ -388,6 +393,9 @@
                   <span :class="circleBagdeClass(mapelLabel.persentase)"></span>
                   {{ mapelLabel.nama }}
                 </li>
+
+                <li v-if ="!mapelLabelData[gKey].length">N/A</li>
+
               </ul>
             </div>
             <div class="col-md-6 mb-3">
@@ -1130,29 +1138,33 @@ export default {
               name: "Persentase",
               // colorByPoint: true,
               data: [
+                // {
+                //   name: "Chrome",
+                //   y: 62.74
+                // },
+                // {
+                //   name: "Firefox",
+                //   y: 10.57
+                // },
+                // {
+                //   name: "Internet Explorer",
+                //   y: 7.23
+                // },
+                // {
+                //   name: "Safari",
+                //   y: 5.58
+                // },
+                // {
+                //   name: "Edge",
+                //   y: 4.02
+                // },
+                // {
+                //   name: "Opera",
+                //   y: 1.92
+                // }
                 {
-                  name: "Chrome",
-                  y: 62.74
-                },
-                {
-                  name: "Firefox",
-                  y: 10.57
-                },
-                {
-                  name: "Internet Explorer",
-                  y: 7.23
-                },
-                {
-                  name: "Safari",
-                  y: 5.58
-                },
-                {
-                  name: "Edge",
-                  y: 4.02
-                },
-                {
-                  name: "Opera",
-                  y: 1.92
+                  name: "No Data",
+                  y: 0
                 }
               ]
             }
@@ -1788,23 +1800,26 @@ export default {
         })
         .then(response => {
           if (response.success) {
+            const grafik = response.data?.grafik ?? {
+              code: [],
+              value: [],
+            };
             this.grafikNilaiPerumpunData.series = [
               {
                 name: "Nilai",
                 type: "column",
                 color: "#5D5FEF",
-                data: response.data.grafik.value
+                data: grafik.value ?? []
               }
               // {
               //   name: "Nilai",
               //   type: "spline",
               //   color: "#F7685A",
-              //   ddata: response.data.grafik.value
+              //   ddata: grafik.value
               // }
             ];
-            this.grafikNilaiPerumpunData.xAxis.categories =
-              response.data.grafik.code;
-            this.nilaiPerumpunPeringkat = response.data.rank;
+            this.grafikNilaiPerumpunData.xAxis.categories = grafik.code ?? ['N/A'];
+            this.nilaiPerumpunPeringkat = response.data.rank ?? [];
           }
         })
         .catch(error => {
