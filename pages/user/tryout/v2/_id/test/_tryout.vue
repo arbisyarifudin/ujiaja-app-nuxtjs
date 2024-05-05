@@ -128,7 +128,8 @@
                           :name="'opsi_' + currentSoalNomor" :value="opsi.uuid" :class="[jawabanUser[currentSoalNomor].jawaban_user?.length > 0 && jawabanUser[currentSoalNomor].jawaban_user.includes(opsi.uuid) ? 'checked' : ''
                           ]"
                           @change="saveJawaban">
-                          <span class="letter">{{ letterLabel(o) }}</span>
+                          <!-- <span class="letter">{{ letterLabel(o) }}</span> -->
+                          <span class="letter"><i class="fas fa-check" :style="jawabanUser[currentSoalNomor].jawaban_user?.length > 0 && jawabanUser[currentSoalNomor].jawaban_user.includes(opsi.uuid) ? 'opacity: 1': 'opacity: 0.25'"></i></span>
                           <div v-html="opsi.option"></div>
                           <!-- {{jawabanUser[currentSoalNomor].jawaban_user?.length > 0 && jawabanUser[currentSoalNomor].jawaban_user.includes(opsi.uuid)}} -->
                         </b-form-checkbox>
@@ -149,7 +150,6 @@
                           <tr v-for="(opsi, o) in currentSoal.opsi_pertanyaan" :key="'opsi' + o"
                             class="question-option__item">
                             <td class="td-1">
-                              <span class="letter">{{ letterLabel(o) }}</span>
                               <div v-html="opsi.option"></div>
                             </td>
                             <td class="td-2" v-for="pil in 2">
@@ -806,6 +806,7 @@ export default {
       }
       this.loading = true;
       this.isTimeout = true;
+
       const response = await this.submitJawabanUser();
       if (response) {
         console.log("submitJawabanUser response", response);
