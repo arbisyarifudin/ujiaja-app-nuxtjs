@@ -86,7 +86,7 @@
                           <div v-html="opsi.option"></div>
                         </td>
                         <td class="td-2" v-for="pil in 2">
-                          <div v-if="soal.jawaban_user[o] && jawabanKompleksModel2Check(soal, o, pil)" class="d-flex justify-content-center form-check">
+                          <div v-if="soal.jawaban_user[o]" class="d-flex justify-content-center form-check">
                             <b-form-checkbox :id="'opsi_' + s_index + '_' + o + '_' + pil"
                                 :name="'opsi_' + s_index + '_' + o + '_' + pil"
                                 class="d-inline form-check-input" disabled :value="opsi.uuid + '___' + pil" v-model="soal.jawaban_user[o]"></b-form-checkbox>
