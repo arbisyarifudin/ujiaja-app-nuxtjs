@@ -63,7 +63,7 @@
                     </thead>
                     <tbody>
                       <tr v-for="(opsi, o) in soal.opsi_pertanyaan" :key="'opsi' + o">
-                        <td width="10px"><span class="question-option-letter">{{ letterLabel(o) }}</span></td>
+                        <td width="10px"><span class="question-option-letter" :class="letterColorClass2(soal, o)">{{ letterLabel(o) }}</span></td>
                         <td class="td-1">
                           <div v-html="opsi.option"></div>
                         </td>
@@ -83,7 +83,7 @@
                     </tbody>
                   </table>
 
-                <div class="mt-3" v-if="soal.koreksi_jawaban == 'Salah' || soal.koreksi_jawaban == 'Kosong'">
+                <div class="mt-5" v-if="soal.koreksi_jawaban == 'Salah' || soal.koreksi_jawaban == 'Kosong'">
                   <hr />
                   <div  style="font-size: 12px; font-weight: 600;">Pelajari lagi tentang Bab:</div>
                     <div
@@ -98,8 +98,10 @@
                 </div>
               </div>
               <div class="col-md-5">
-                  <div class="h6">Pembahasan</div>
-                  <div v-html="soal.pembahasan_pertanyaan"></div>
+                  <div v-if="soal.pembahasan_pertanyaan">
+                    <div class="h6">Pembahasan</div>
+                    <div class="soal-pembahasan" v-html="soal.pembahasan_pertanyaan"></div>
+                  </div>
                   <div class="h6 mt-3" v-if="soal.template_pertanyaan === 'Pilihan Ganda' || soal.template_pertanyaan === 'Pilihan Ganda Kompleks (Model 1)'">Jawaban Benar: <span class="font-weight-bold text-success ml-2">{{ opsiBenar(soal) }}</span></div>
                   <div class="mt-3" v-else-if="soal.template_pertanyaan === 'Pilihan Ganda Kompleks (Model 2)'">
                     <div class="h6">Jawaban Benar:</div>
@@ -172,6 +174,13 @@
      p {
        color: #47415b!important;
      }
+  }
+
+  .soal-pembahasan {
+    font-size: 12px;
+    p {
+      font-size: 12px;
+    }
   }
 
   .ql-inputfield {
@@ -408,6 +417,15 @@ export default {
       }
 
       return className
+    },
+    letterColorClass2 (soal, opsiIndex) {
+      if (soal.jawaban_user) {
+        if (this.jawabanKompleksModel2Check(soal, opsiIndex, 1) || this.jawabanKompleksModel2Check(soal, opsiIndex, 2)) {
+          return 'correct font-weight-bold'
+        }
+
+        return 'wrong font-weight-bold'
+      }
     },
     jawabanKompleksModel2Check(soal, opsiIndex, pilihanIndex) {
       const jawabanUser = soal.jawaban_user[opsiIndex] ?? null

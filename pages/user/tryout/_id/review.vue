@@ -81,7 +81,7 @@
                     </thead>
                     <tbody>
                       <tr v-for="(opsi, o) in soal.opsi_pertanyaan" :key="'opsi' + o">
-                        <td width="10px"><span class="question-option-letter">{{ letterLabel(o) }}</span></td>
+                        <td width="10px"><span class="question-option-letter" :class="letterColorClass2(soal, o)">{{ letterLabel(o) }}</span></td>
                         <td class="td-1">
                           <div v-html="opsi.option"></div>
                         </td>
@@ -103,16 +103,18 @@
                 </div>
               </div>
 
-              <div class="mt-3" v-if="soal.koreksi_jawaban && (soal.koreksi_jawaban == 'Salah' || soal.koreksi_jawaban == 'Kosong')">
-                <div  style="font-size: 12px; font-weight: 600;">Pelajari lagi tentang Bab:</div>
-                <div
-                  class="badge badge-danger px-2 mr-2"
-                  style="border-radius: 2px; font-weight: 500; font-size: 12px"
-                  v-for="(bab, b_index) in soal.bab"
-                  :key="'b' + b_index"
-                >
-                  {{ bab }}
-                </div>
+              <div class="mt-5" v-if="soal.koreksi_jawaban && (soal.koreksi_jawaban == 'Salah' || soal.koreksi_jawaban == 'Kosong')">
+                <hr />
+                  <div  style="font-size: 12px; font-weight: 600;">Pelajari lagi tentang Bab:</div>
+                  <div
+                    class="badge badge-primary px-2 mr-2"
+                    style="border-radius: 2px; font-weight: 500; font-size: 12px"
+                    v-for="(bab, b_index) in soal.bab"
+                    :key="'b' + b_index"
+                    >
+                    {{ bab }}
+                  </div>
+                <hr />
               </div>
             </li>
           </ol>
@@ -335,6 +337,15 @@ export default {
       }
 
       return className
+    },
+    letterColorClass2 (soal, opsiIndex) {
+      if (soal.jawaban_user) {
+        if (this.jawabanKompleksModel2Check(soal, opsiIndex, 1) || this.jawabanKompleksModel2Check(soal, opsiIndex, 2)) {
+          return 'correct font-weight-bold'
+        }
+
+        return 'wrong font-weight-bold'
+      }
     },
     jawabanKompleksModel2Check(soal, opsiIndex, pilihanIndex) {
       const jawabanUser = soal.jawaban_user[opsiIndex] ?? null
