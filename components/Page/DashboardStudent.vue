@@ -63,7 +63,7 @@
             <b-form-select
               class="mr-1"
               style="width: 150px"
-              v-if="filter.kategori != 'UTBK'"
+              v-if="filter.kategori != 'UTBK' || filter.kategori == 'SM'"
               :options="filterList.sub_kategori"
               v-model="filter.id_jenjang"
               :disabled="loading"
@@ -71,7 +71,7 @@
             <b-form-select
               class="mr-1"
               style="width: 150px"
-              v-if="!['UTBK', 'ASPD'].includes(filter.kategori) && filter.id_jenjang != ''"
+              v-if="!['UTBK', 'ASPD', 'SM'].includes(filter.kategori) && filter.id_jenjang != ''"
               :options="filterList.kelas"
               v-model="filter.id_kelas"
               :disabled="loading"
@@ -79,7 +79,7 @@
              <b-form-select
               class="mr-1"
               style="width: 150px"
-              v-if="!['UTBK', 'ASPD'].includes(filter.kategori) && filter.id_kelas != '' && filterList.penjurusan && filterList.penjurusan.length > 0"
+              v-if="!['UTBK', 'ASPD', 'SM'].includes(filter.kategori) && filter.id_kelas != '' && filterList.penjurusan && filterList.penjurusan.length > 0"
               :options="filterList.penjurusan"
               v-model="filter.id_penjurusan"
               :disabled="loading"
@@ -93,7 +93,7 @@
 
         <div
           class="card mb-5"
-          v-if="isDisplayBatteries && prodiSatu && filter.kategori == 'UTBK'"
+          v-if="isDisplayBatteries && prodiSatu && (filter.kategori == 'UTBK' || filter.kategori == 'SM')"
         >
           <div class="card-body">
             <div class="row justify-content-around ">
@@ -196,7 +196,7 @@
 
         <div
           class="card mb-5"
-          v-if="isDisplayBatteries && prodiSatu && filter.kategori == 'UTBK'"
+          v-if="isDisplayBatteries && prodiSatu && (filter.kategori == 'UTBK' || filter.kategori == 'SM')"
         >
           <div class="card-body">
             <div class="h4">Potensi Lain</div>
@@ -358,7 +358,7 @@
         </div>
 
         <div class="row" v-if="!loading">
-          <template v-if="filter.kategori == 'UTBK'">
+          <template v-if="filter.kategori == 'UTBK' || filter.kategori == 'SM'">
             <div
               class="col-md-6 mb-4"
               v-for="(grafikData, gKey) in grafikNilaiMapel"
@@ -497,7 +497,7 @@
         </div>
 
         <div class="row" v-if="!loading">
-          <template v-if="filter.kategori == 'UTBK'">
+          <template v-if="filter.kategori == 'UTBK' || filter.kategori == 'SM'">
             <div
               class="col-md-6 mb-4"
               v-for="(grafikData, gKey) in grafikRangkingNilai"
@@ -523,7 +523,7 @@
           </template>
         </div>
 
-        <div class="row mt-4" v-if="!loading && filter.kategori == 'UTBK'">
+        <div class="row mt-4" v-if="!loading && (filter.kategori == 'UTBK' || filter.kategori == 'SM')">
           <div class="col-12 mb-4">
             <div class="card">
               <div class="card-body">
@@ -606,6 +606,43 @@
                     <h4 class="title">TRYOUT</h4>
                     <h5 class="subtitle single">
                       UTBK
+                    </h5>
+                    <img src="/icon/icon-card-bg.png" class="img-fluid image" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div
+              class="card card-karir m-3 router-push"
+              @click="$router.push('/user/tryout')"
+            >
+              <div class="card-body text-left p-0">
+                <div class="card-content px-4">
+                  <h3
+                    class="card-judul card-program mt-4 mb-2"
+                    style="overflow: hidden; height: 60px"
+                  >
+                    Tryout SELEKSI MANDIRI
+                  </h3>
+                  <p
+                    class="card-text pb-0"
+                    style="overflow: hidden; height: 60px"
+                  >
+                    Temukan tryout SELEKSI MANDIRI pilihanmu disini. Dari SAINTEK, SOSHUM,
+                    hingga CAMPURAN ada untukmu.
+                  </p>
+
+                  <a href="/user/tryout" class="karir-link"
+                    >Detail <i class="fa fa-chevron-right ml-1"></i
+                  ></a>
+                </div>
+                <div class="d-flex justify-content-end pb-4 pr-4 m-0 bordered">
+                  <div class="icon-footer">
+                    <h4 class="title">TRYOUT</h4>
+                    <h5 class="subtitle single">
+                      MANDIRI
                     </h5>
                     <img src="/icon/icon-card-bg.png" class="img-fluid image" />
                   </div>
@@ -1533,7 +1570,7 @@ export default {
               this.filter.kategori = "ASPD"
 
             }else{
-              this.filterList.kategori= ["UTBK", "ASPD", "PAS", "PAT"]
+              this.filterList.kategori= ["UTBK", 'SM', "ASPD", "PAS", "PAT"]
               this.filter.kategori = "UTBK"
 
             }
@@ -1551,7 +1588,8 @@ export default {
     async filterData() {
       await this.getHasilSatuanPengerjaan();
       await this.getHasilNilaiPerMapel();
-      if (this.filter.kategori == "UTBK") {
+      // if (this.filter.kategori == "UTBK") {
+      if (this.filter.kategori == "UTBK" || this.filter.kategori == "SM") {
         await this.getPersentaseSkor();
         this.getHasilNilaiPerumpun();
       } else {
@@ -1641,7 +1679,8 @@ export default {
         })
         .then(response => {
           if (response.success) {
-            if (this.filter.kategori == "UTBK") {
+            // if (this.filter.kategori == "UTBK") {
+            if (this.filter.kategori == "UTBK" || this.filter.kategori == "SM") {
               for (const jenisKey in response.data) {
                 if (!this.mapelLabelData[jenisKey]) {
                   this.mapelLabelData[jenisKey] = {};

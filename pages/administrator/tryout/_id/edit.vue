@@ -72,6 +72,7 @@
                     :options="[
                       { text: '-- Pilih --', value: null },
                       { text: 'UTBK', value: 'UTBK' },
+                      { text: 'SELEKSI MANDIRI', value: 'SM' },
                       { text: 'ASPD', value: 'ASPD' },
                       { text: 'PAT', value: 'PAT' },
                       { text: 'PAS', value: 'PAS' }
@@ -92,7 +93,7 @@
               </div>
               <div
                 class="col-md-6"
-                v-if="form.kategori == null || form.kategori == 'UTBK'"
+                v-if="form.kategori == null || (form.kategori == 'UTBK' || form.kategori == 'SM')"
               >
                 <div class="form-group reg-siswa">
                   <label for="select">Jenis Soal <code>*</code></label>
@@ -271,7 +272,8 @@ export default {
         return;
       }
 
-      if (this.form.kategori == "UTBK") {
+      // if (this.form.kategori == "UTBK") {
+      if (this.form.kategori == "UTBK" || this.form.kategori == "SM") {
         if (
           (this.form.jenis_soal == "TKA" && !this.form.kelompok_soal) ||
           !this.form.jenis_soal

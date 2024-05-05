@@ -77,6 +77,7 @@
                     :options="[
                       { text: '-- Pilih --', value: null },
                       { text: 'UTBK', value: 'UTBK' },
+                      { text: 'SELEKSI MANDIRI', value: 'SM' },
                       { text: 'ASPD', value: 'ASPD' },
                       { text: 'PAT', value: 'PAT' },
                       { text: 'PAS', value: 'PAS' }
@@ -99,7 +100,7 @@
               </div>
               <div
                 class="col-md-6"
-                v-if="form.kategori == null || form.kategori == 'UTBK'"
+                v-if="form.kategori == null || form.kategori == 'UTBK' || form.kategori == 'SM'"
               >
                 <div class="form-group reg-siswa">
                   <label for="jenis_soal">Jenis Soal <code>*</code></label>
@@ -112,7 +113,8 @@
                       { text: '-- Pilih --', value: null },
                       { text: 'TKA', value: 'TKA' },
                       { text: 'TPS', value: 'TPS' },
-                      { text: 'LITERASI DAN PENALARAN', value: 'LITERASI DAN PENALARAN' },
+                      { text: 'TKDU', value: 'TKDU' },
+                      { text: 'LITERASI & PENALARAN', value: 'LITERASI DAN PENALARAN' },
                     ]"
                   >
                     <!-- { text: 'Campuran', value: 'Campuran' } -->
@@ -281,7 +283,7 @@ export default {
         return;
       }
 
-      if (this.form.kategori == "UTBK") {
+      if (this.form.kategori == "UTBK" || this.form.kategori == "SM") {
         if (
           (this.form.jenis_soal == "TKA" && !this.form.kelompok_soal) ||
           !this.form.jenis_soal
@@ -350,8 +352,8 @@ export default {
             console.log("res.data", res.data);
             tryoutCreated = res.data
             let dataSoal;
-            if (this.form.kategori === "UTBK") {
-              // if (this.form.kategori === "UTBK" && this.form.jenis_soal === "TKA") {
+            if (this.form.kategori === "UTBK" || this.form.kategori === 'SM') {
+              // if ((this.form.kategori === "UTBK" || this.form.kategori === 'SM') && this.form.jenis_soal === "TKA") {
               if (this.form.jenis_soal === "Campuran") {
                 dataSoal = [
                   {

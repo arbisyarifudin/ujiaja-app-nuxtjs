@@ -684,6 +684,8 @@
                                   <div class="row mb-3" v-for="(opsi_child,
                                     d) in child.opsi_pertanyaan" :key="'D' + d">
                                     <div class="col-md-1">
+                                      <!-- opsi uuid : {{ opsi_child.uuid }} <br> -->
+                                      <!-- jawaban uuid: {{child.jawaban_pertanyaan}} -->
                                       <div class="letter-option" :class="[
                                         child.jawaban_pertanyaan == opsi_child.uuid
                                           ? 'active'
@@ -697,8 +699,7 @@
                                           ? 'radio'
                                           : 'checkbox'" :id="'opsi-' + child.id + '-' + b + '-' + d
                                             " :ref="'opsi-' + child.id + '-' + b + '-' + d
-                                                  " :name="'opsi-' + child.id + '-' + b + '-' + d
-                                                " :value="opsi_child.uuid" v-model="child.jawaban_pertanyaan" @change="
+                                                  " :name="'opsi-' + child.id + '-' + b" :value="opsi_child.uuid" v-model="child.jawaban_pertanyaan" @change="
                                                   onUpdatePertanyaanChild(child, d)
                                                   " />
                                       </div>

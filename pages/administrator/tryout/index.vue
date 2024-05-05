@@ -43,6 +43,7 @@
                     :options="[
                       { text: 'Semua Kategori', value: '' },
                       { text: 'UTBK', value: 'UTBK' },
+                      { text: 'SELEKSI MANDIRI', value: 'SM' },
                       { text: 'ASPD', value: 'ASPD' },
                       { text: 'PAT', value: 'PAT' },
                       { text: 'PAS', value: 'PAS' },
@@ -118,7 +119,7 @@
                           : item.kategori
                       }}
                     </h4>
-                    <div class="jenis" v-if="item.kategori == 'UTBK'">
+                    <div class="jenis" v-if="item.kategori == 'UTBK' || item.kategori == 'SM'">
                       <div class="badge kelompok-soal">{{ item.jenis_soal }}</div>
                       <div class="badge " v-if="item.kelompok_soal">
                         {{ item.kelompok_soal }}

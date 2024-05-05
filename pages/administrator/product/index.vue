@@ -33,6 +33,7 @@
                       { text: 'Semua Kategori', value: '' },
                       { text: 'UTBK Mandiri', value: 'UTBK Mandiri' },
                       { text: 'UTBK Akbar', value: 'UTBK Akbar' },
+                      { text: 'Seleksi Mandiri', value: 'SM' },
                       { text: 'ASPD', value: 'ASPD' },
                       { text: 'Paket / Bundling', value: 'Paket' }
                     ]" @change="getData('produk')"></b-form-select>
@@ -65,7 +66,7 @@
                 ]"></b-form-select>
             </b-input-group>
           </div>
-        
+
 
           <div class="col-md-4 d-flex align-items-center crud-tools">
             <b-input-group>
@@ -80,8 +81,8 @@
           </div>
         </div>
 
-        
-        
+
+
       </div>
       <div class="col-md-12 crud-body">
         <div class="row mt-5" v-if="totalRows > 0">
@@ -130,7 +131,7 @@
                       {{ item.penjurusan[0] }}
                     </p>
                     <p class="beda" v-if="
-                        item.kategori_produk == 'UTBK' &&
+                        (item.kategori_produk == 'UTBK' || item.kategori_produk == 'SM') &&
                           item.tipe_paket == 'Bundling'
                       ">
                       Bundling
@@ -150,7 +151,7 @@
                           item.jenis_tryout[0] && item.tipe_paket !== 'Bundling'
                         ">
                         - {{ item.jenis_tryout[0] }}</span><span class="ml-0" v-if="
-                          item.kategori_produk == 'UTBK' &&
+                          (item.kategori_produk == 'UTBK' || item.kategori_produk == 'SM') &&
                             item.kelompok_soal[0]
                         ">
                         {{ item.kelompok_soal[0] }}</span>
@@ -271,6 +272,12 @@
             filterKategori = "UTBK";
             filterPaket = "Reguler";
             filterEvent = "Masal";
+            break;
+          case "SM":
+          case "Seleksi Mandiri":
+            filterKategori = "SM";
+            filterPaket = "Reguler";
+            filterEvent = "Perorangan";
             break;
           case "ASPD":
             filterKategori = "ASPD";
