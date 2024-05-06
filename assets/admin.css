@@ -70,6 +70,15 @@ input:disabled,
   background-color: rgba(202, 202, 202, 0.25) !important;
   color: rgba(163, 163, 163, 0.726) !important;
 }
+input::-moz-placeholder, .form-control::-moz-placeholder {
+  color: rgba(92, 92, 92, 0.4);
+  font-size: 85%;
+}
+input::placeholder,
+.form-control::placeholder {
+  color: rgba(92, 92, 92, 0.4);
+  font-size: 85%;
+}
 
 .question-option {
   display: flex;
@@ -99,17 +108,17 @@ input:disabled,
   background-color: #df2424;
   color: white;
 }
-.question-option-radio-group span.letter {
+.question-option-group span.letter {
   position: absolute;
   color: #333;
   font-weight: 600;
   left: -18px;
-  top: 3px;
+  top: 5px;
 }
-.question-option-radio-group .custom-radio {
+.question-option-group .custom-radio, .question-option-group .custom-checkbox {
   margin-bottom: 5px;
 }
-.question-option-radio-group .custom-radio .custom-control-input ~ .custom-control-label::before {
+.question-option-group .custom-radio .custom-control-input ~ .custom-control-label::before, .question-option-group .custom-checkbox .custom-control-input ~ .custom-control-label::before {
   font-size: 14px;
   border: 1px solid #c5c5c5;
   border-radius: 0px;
@@ -121,23 +130,51 @@ input:disabled,
   align-items: center;
   justify-content: center;
 }
-.question-option-radio-group .custom-radio.checked .custom-control-input ~ .custom-control-label::before {
+.question-option-group .custom-radio.checked .custom-control-input ~ .custom-control-label::before, .question-option-group .custom-checkbox.checked .custom-control-input ~ .custom-control-label::before {
   font-size: 14px;
   border: 1px solid #850769;
   border-radius: 0px;
   background-color: #850769;
   color: white;
 }
-.question-option-radio-group .custom-radio.checked .custom-control-input ~ .custom-control-label::after {
+.question-option-group .custom-radio.checked .custom-control-input ~ .custom-control-label::after, .question-option-group .custom-checkbox.checked .custom-control-input ~ .custom-control-label::after {
   background-image: unset;
 }
-.question-option-radio-group .custom-radio.checked span.letter {
+.question-option-group .custom-radio.checked span.letter, .question-option-group .custom-checkbox.checked span.letter {
   color: white;
 }
-.question-option-radio-group .custom-control-label {
+.question-option-group .custom-control-label {
   width: 100%;
   padding-top: 3px;
   padding-left: 10px;
+}
+.question-option-group .custom-control-input {
+  height: 1.5rem;
+  width: 1.5rem;
+}
+.question-option__item.pointer {
+  cursor: pointer;
+}
+.question-option__item:hover {
+  background-color: rgba(241, 233, 254, 0.5);
+}
+.question-option-group.table label {
+  cursor: pointer;
+  width: 70px;
+  height: 50px;
+  border: 1px solid rgba(0, 0, 0, 0.25);
+  margin: 0 auto;
+}
+.question-option-group.table label input {
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  border: 1px solid #9e8df3;
+  opacity: 0.75;
+}
+.question-option-group.table label input.checked {
+  background-color: #9e8df3;
+  opacity: 1;
 }
 
 .b-form-tags-input {
@@ -1412,6 +1449,7 @@ input.form-control-info {
   color: #fff;
 }
 .letter-option label {
+  cursor: pointer;
   color: #9e8df3;
   min-width: 50%;
 }

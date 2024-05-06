@@ -10,9 +10,9 @@
       </div>
       <div class="col-md-12 text-right mt-4 crud-tools">
         <div class="row no-gutters justify-content-between">
-          <div class="col-md-6">
+          <div class="col-md-7">
             <div class="justify-content-start d-flex filter">
-              <div class="col-md-5">
+              <div class="col-md-4">
                 <b-input-group>
                   <template #prepend>
                     <b-input-group-text
@@ -31,7 +31,7 @@
                   ></b-form-select>
                 </b-input-group>
               </div>
-              <div class="col-md-6">
+              <div class="col-md-4">
                 <b-input-group>
                   <template #prepend>
                     <b-input-group-text
@@ -43,6 +43,7 @@
                     :options="[
                       { text: 'Semua Kategori', value: '' },
                       { text: 'UTBK', value: 'UTBK' },
+                      { text: 'SELEKSI MANDIRI', value: 'SM' },
                       { text: 'ASPD', value: 'ASPD' },
                       { text: 'PAT', value: 'PAT' },
                       { text: 'PAS', value: 'PAS' },
@@ -52,7 +53,7 @@
                       <!-- { text: 'Asesmen Nasional', value: 'Asmenas' } -->
                 </b-input-group>
               </div>
-              <div class="col-md-5">
+              <div class="col-md-4">
                 <b-input-group>
                   <template #prepend>
                     <b-input-group-text
@@ -72,7 +73,7 @@
             </div>
           </div>
 
-          <div class="col-md-5 d-flex align-items-center crud-tools">
+          <div class="col-md-4 d-flex align-items-center crud-tools">
             <b-input-group>
               <template #prepend>
                 <b-input-group-text
@@ -91,7 +92,7 @@
             >
               Tambah
             </nuxt-link>
-           
+
           </div>
         </div>
       </div>
@@ -118,7 +119,7 @@
                           : item.kategori
                       }}
                     </h4>
-                    <div class="jenis" v-if="item.kategori == 'UTBK'">
+                    <div class="jenis" v-if="item.kategori == 'UTBK' || item.kategori == 'SM'">
                       <div class="badge kelompok-soal">{{ item.jenis_soal }}</div>
                       <div class="badge " v-if="item.kelompok_soal">
                         {{ item.kelompok_soal }}
@@ -169,14 +170,14 @@
                           item.panduan_pengerjaan
                       "
                       class="btn btn-outline-success success px-3 py-1 px-4 mt-md-2"
-                      :to="`/administrator/tryout/${item.id}/soal/create`"
+                      :to="`/administrator/tryout/${item.id}/soal/v2/create`"
                     >
                       Ubah Soal
                     </nuxt-link>
                     <nuxt-link
                       v-else
                       class="btn btn-outline-primary px-3 py-1"
-                      :to="`/administrator/tryout/${item.id}/soal/create`"
+                      :to="`/administrator/tryout/${item.id}/soal/v2/create`"
                     >
                       Buat Soal
                     </nuxt-link>
@@ -215,7 +216,7 @@
                     :disabled="generating"
                       class="btn btn-outline-warning warning px-3 py-1 px-4 mt-md-2"
                       @click.prevent="exportSoal(item.id)"
-                      
+
                     > <b-spinner v-if="generating" small></b-spinner>
                       Export Soal
                   </button>
@@ -417,7 +418,7 @@ export default {
           return true;
         })
         .catch(err => {
-         
+
           this.catchError(err);
         })
         .finally(() => (this.loading = false));
@@ -522,7 +523,7 @@ export default {
           }
         })
         .then(res => {
-          
+
           if (res.success) {
             this.items.splice(this.selectedIndex, 1);
             this.$bvToast.toast("Data berhasil dimport.", {

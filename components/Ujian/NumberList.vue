@@ -52,7 +52,7 @@ export default {
     }
   },
   mounted() {
-    console.log(this.jawaban)
+    // console.log(this.jawaban)
   },
 };
 </script>

@@ -12,31 +12,19 @@
             Kamu sudah selesai mengerjakan Tryout ini.
             <span v-if="detail.jenis_produk == 'Masal'">
               Dan dapat melihat hasil pada
-              <b
-                >{{
-                  formatTanggal(detail.tanggal_berakhir, "Do MMMM YYYY HH:mm")
-                }}
-                WIB.</b
-              >
+              <b>{{
+                formatTanggal(detail.tanggal_berakhir, "Do MMMM YYYY HH:mm")
+              }}
+                WIB.</b>
             </span>
           </p>
           <p v-else>
             Mohon maaf! Waktu untuk mengerjakan Tryout Ini sudah habis.
           </p>
-          <div
-            v-if="detail && detail.jenis_produk == 'Perorangan'"
-            class="mt-3"
-          >
-            <a class="btn btn-outline-primary " :href="`/user/tryout/mine`"
-              >Kembali</a
-            >
-            <a
-              class="btn btn-primary ml-2"
-              :href="
-                `/user/tryout/${detail.id}/result?code=${$route.query.kode}&category=${detail.kategori_produk}`
-              "
-              >Lihat Hasil</a
-            >
+          <div v-if="detail && detail.jenis_produk == 'Perorangan'" class="mt-3">
+            <a class="btn btn-outline-primary " :href="`/user/tryout/mine`">Kembali</a>
+            <a class="btn btn-primary ml-2" :href="`/user/tryout/${detail.id}/result?code=${$route.query.kode}&category=${detail.kategori_produk}`
+              ">Lihat Hasil</a>
             <!-- <button
             class="btn btn-primary"
             v-if="detail && detail.jenis_produk == 'Perorangan'"
@@ -47,31 +35,17 @@
             Ulangi Tryout
           </button> -->
           </div>
-          <div
-            v-else-if="detail && detail.jenis_produk == 'Masal'"
-            class="mt-3"
-          >
-            <a class="btn btn-outline-primary " :href="`/user/tryout/mine`"
-              >Kembali</a
-            >
-            <a
-              v-if="detail.is_result_openable === true"
-              class="btn btn-primary ml-2"
-              :href="
-                `/user/tryout/${detail.id}/result?code=${$route.query.kode}&category=${detail.kategori_produk}`
-              "
-              >Lihat Hasil</a
-            >
+          <div v-else-if="detail && detail.jenis_produk == 'Masal'" class="mt-3">
+            <a class="btn btn-outline-primary " :href="`/user/tryout/mine`">Kembali</a>
+            <a v-if="detail.is_result_openable === true" class="btn btn-primary ml-2" :href="`/user/tryout/${detail.id}/result?code=${$route.query.kode}&category=${detail.kategori_produk}`
+              ">Lihat Hasil</a>
           </div>
         </div>
       </div>
     </div>
-    <div
-      class="ujian-wrapper"
-      v-else-if="
-        !loading && detailUjian.waktu_mulai && !detailUjian.waktu_selesai
-      "
-    >
+    <div class="ujian-wrapper" v-else-if="
+      !loading && detailUjian.waktu_mulai && !detailUjian.waktu_selesai
+    ">
       <div class="row">
         <div class="col-md-8">
           <div class="question-board bg-white p-4">
@@ -79,136 +53,138 @@
               <h2 class="product-name">{{ tryout.judul }}</h2>
               <!-- <hr /> -->
               <div class="row no-gutters">
-                <table class="col-sm-6 table table-borderless table-sm mb-1">
+                <table class="col-sm-6 table table-borderless table-sm mb-1" v-if="currentSubtest">
                   <tr>
                     <th width="130">Mata Pelajaran</th>
                     <td width="10">:</td>
-                    <td v-text="currentNomor.nama_mapel"></td>
+                    <td v-text="currentSubtest.mapel"></td>
                   </tr>
                   <tr>
                     <th width="130">Jumlah Soal</th>
                     <td width="10">:</td>
-                    <td>{{ currentNomor.jumlah_soal }} Soal</td>
+                    <td>{{ currentSubtest.jumlah_soal }} Soal</td>
                   </tr>
                 </table>
 
-                <table class="col-sm-6 table table-borderless table-sm mb-1">
+                <table class="col-sm-6 table table-borderless table-sm mb-1"
+                  v-if="currentSoal && currentSoal?.bab_mapel?.length">
                   <tr>
                     <th width="130">Bab Mapel</th>
                     <td width="10">:</td>
                     <td>
-                      <span
-                        v-for="(bab, b) in currentNomor.bab"
-                        :key="'bab' + b"
-                        v-text="bab"
-                      ></span>
+                      <span v-for="(bab, b) in currentSoal.bab_mapel" :key="'bab' + b" v-text="bab"></span>
                     </td>
                   </tr>
-                  <tr>
+                  <tr v-if="currentSubtest">
                     <th width="130">Dimulai Nomor</th>
                     <td width="10">:</td>
-                    <td v-text="currentNomor.range_nomor"></td>
+                    <td v-text="currentSubtest.range_nomor"></td>
                   </tr>
                 </table>
               </div>
               <hr />
               <div class="question-list">
                 <div class="question-item">
-                  <div
-                    class="question-header-text mb-3"
-                    v-if="currentNomor.penjelasan_pertanyaan"
-                    v-html="currentNomor.penjelasan_pertanyaan"
-                  ></div>
+                  <div class="question-header-text mb-3" v-if="currentSoal.penjelasan_pertanyaan"
+                    v-html="currentSoal.penjelasan_pertanyaan"></div>
                   <div class="question-child-item">
                     <h3 class="question-header-title" :id="'question-1'">
                       Pertanyaan
-                      <b-badge
-                        variant="primary"
-                        v-text="currentNomor.nomor"
-                      ></b-badge>
+                      <b-badge variant="primary" v-text="currentSoalNomor"></b-badge>
                     </h3>
-                    <p
-                      class="question-main-text"
-                      v-html="currentNomor.soal_pertanyaan"
-                    ></p>
-                    <!-- <ul class="list-unstyled option-list">
-                      <li
-                        class="option-item"
-                        v-for="(opsi, o) in currentNomor.opsi_pertanyaan"
-                        :key="'opsi' + o"
-                      >
-                        <label :for="'opsi-' + currentNomor.nomor + '-' + o"
-                         v-if="jawabanUser[currentNomor.nomor]"
-                          >
-                          <input
-                            type="radio"
-                            :name="'opsi_' + currentNomor.nomor"
-                            :id="'opsi-' + currentNomor.nomor + '-' + o"
-                            class="mr-2"
-                            :value="opsi.uuid"
-                            v-model="jawabanUser[currentNomor.nomor].jawaban_user"
-                          />
-                          <span v-html="opsi.option" class="option-text"></span>
-                        </label>
-                      </li>
-                      <li class="mt-4">
-                        <button
-                          type="button"
-                          class="btn btn-sm btn-light px-3 square"
-                          @click.prevent="
-                            jawabanUser[currentNomor.nomor].jawaban_user = ''
-                          "
-                        >
-                          <i class="fas fa-fa fa-times mr-1"></i>
-                          Batal Jawab
-                        </button>
-                      </li>
-                    </ul> -->
-                    <b-form-group
-                      v-slot="{ ariaDescribedby }"
-                      class="question-option-radio-group"
-                    >
-                      <b-form-radio
-                        v-for="(opsi, o) in currentNomor.opsi_pertanyaan"
-                        :key="'opsi' + o"
-                        v-model="jawabanUser[currentNomor.nomor].jawaban_user"
-                        :aria-describedby="ariaDescribedby"
-                        :name="'opsi_' + currentNomor.nomor"
-                        :value="opsi.uuid"
-                        :class="
-                          jawabanUser[currentNomor.nomor].jawaban_user ===
-                          opsi.uuid
+
+                    <div v-if="loadingSoal" class="mt-3 mb-4">Memuat soal...</div>
+
+                    <p class="question-main-text" v-html="currentSoal.soal"></p>
+
+                    <!-- jawaban1: {{ jawabanUser[currentSoalNomor] }} <br> -->
+                    <!-- jawaban2: {{ jawabanUser[currentSoalNomor] }} -->
+
+                    <template v-if="currentSoal.template_pertanyaan === 'Pilihan Ganda'">
+                      <b-form-group v-if="currentSoalNomor && jawabanUser[currentSoalNomor]"
+                        v-slot="{ ariaDescribedby }" class="question-option-group">
+                        <b-form-radio v-for="(opsi, o) in currentSoal.opsi_pertanyaan" :key="'opsi' + o"
+                          class="question-option__item" v-model="jawabanUser[currentSoalNomor].jawaban_user"
+                          :aria-describedby="ariaDescribedby" :name="'opsi_' + currentSoalNomor" :value="opsi.uuid"
+                          :class="jawabanUser[currentSoalNomor].jawaban_user ===
+                            opsi.uuid
                             ? 'checked'
                             : ''
-                        "
-                        @change="saveJawaban"
-                      >
-                        <!-- <div class="question-option-letter mb-2">
-                          {{ letterLabel(o) }}
-                        </div> -->
-                        <span class="letter">{{ letterLabel(o) }}</span>
-                        <div v-html="opsi.option"></div>
-                      </b-form-radio>
-                    </b-form-group>
-                    <button
-                      type="button"
-                      class="btn btn-sm btn-light px-3 square"
-                      @click.prevent="
-                        jawabanUser[currentNomor.nomor].jawaban_user = ''
-                      "
-                    >
+                            "
+                          @change="saveJawaban">
+                          <span class="letter">{{ letterLabel(o) }}</span>
+                          <div v-html="opsi.option"></div>
+                            <!-- {{ jawabanUser[currentSoalNomor].jawaban_user ===
+                                  opsi.uuid }} -->
+                        </b-form-radio>
+                      </b-form-group>
+                    </template>
+
+                    <template v-if="currentSoal.template_pertanyaan === 'Pilihan Ganda Kompleks (Model 1)'">
+                      <b-form-group v-if="currentSoalNomor && jawabanUser[currentSoalNomor]"
+                        class="question-option-group">
+                        <b-form-checkbox v-for="(opsi, o) in currentSoal.opsi_pertanyaan" :key="'opsi' + o"
+                          class="question-option__item" v-model="jawabanUser[currentSoalNomor].jawaban_user"
+                          :name="'opsi_' + currentSoalNomor" :value="opsi.uuid" :class="[jawabanUser[currentSoalNomor].jawaban_user?.length > 0 && jawabanUser[currentSoalNomor].jawaban_user.includes(opsi.uuid) ? 'checked' : ''
+                          ]"
+                          @change="saveJawaban">
+                          <!-- <span class="letter">{{ letterLabel(o) }}</span> -->
+                          <span class="letter"><i class="fas fa-check" :style="jawabanUser[currentSoalNomor].jawaban_user?.length > 0 && jawabanUser[currentSoalNomor].jawaban_user.includes(opsi.uuid) ? 'opacity: 1': 'opacity: 0.25'"></i></span>
+                          <div v-html="opsi.option"></div>
+                          <!-- {{jawabanUser[currentSoalNomor].jawaban_user?.length > 0 && jawabanUser[currentSoalNomor].jawaban_user.includes(opsi.uuid)}} -->
+                        </b-form-checkbox>
+                      </b-form-group>
+                    </template>
+
+                    <template v-if="currentSoal.template_pertanyaan === 'Pilihan Ganda Kompleks (Model 2)'">
+                      <table v-if="currentSoalNomor && jawabanUser[currentSoalNomor]"
+                        class="question-option-group table">
+                        <thead v-if="!loading">
+                          <tr>
+                            <th>Pilihan</th>
+                            <th width="15%" class="text-center">{{ currentSoal?.opsi_jawaban_pertanyaan ? currentSoal?.opsi_jawaban_pertanyaan[0] : 'Ya' }}</th>
+                            <th width="15%" class="text-center">{{ currentSoal?.opsi_jawaban_pertanyaan ? currentSoal?.opsi_jawaban_pertanyaan[1] : 'Tidak' }}</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr v-for="(opsi, o) in currentSoal.opsi_pertanyaan" :key="'opsi' + o"
+                            class="question-option__item">
+                            <td class="td-1">
+                              <div v-html="opsi.option"></div>
+                            </td>
+                            <td class="td-2" v-for="pil in 2">
+                              <label :for="'opsi_' + currentSoalNomor + '_' + o + '_' + pil"
+                                class="d-flex justify-content-center align-items-center">
+                                <input type="radio" :id="'opsi_' + currentSoalNomor + '_' + o + '_' + pil"
+                                  :name="'opsi_' + currentSoalNomor + '_' + o"
+                                  :class="jawabanUser[currentSoalNomor].jawaban_user?.length > 0 && jawabanUser[currentSoalNomor].jawaban_user.includes((opsi.uuid + '___' + pil)) ? 'checked' : ''"
+                                  class="d-inline" :value="opsi.uuid + '___' + pil"
+                                  v-model="jawabanUser[currentSoalNomor].jawaban_user[o]">
+                                 <!-- @input="saveJawaban" -->
+                                </input>
+                              </label>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </template>
+
+                    <template v-if="currentSoal.template_pertanyaan === 'Isian Singkat'">
+                      <div class="question-option-group">
+
+                      </div>
+                    </template>
+
+                    <button type="button" class="btn btn-sm btn-light px-3 square" @click.prevent="onBatalJawab">
                       <i class="fas fa-fa fa-times mr-1"></i>
                       Batal Jawab
                     </button>
+
                   </div>
                 </div>
               </div>
               <div class="d-block d-md-none">
-                <h2
-                  class="board-timer d-flex align-items-center"
-                  id="board-timer-2"
-                  style="font-size: 25px"
-                >
+                <h2 class="board-timer d-flex align-items-center" id="board-timer-2" style="font-size: 25px">
                   <i class="far fa-clock fa-fw mr-1 small"></i>
                   <span class="countdown">00:00:00</span>
                 </h2>
@@ -218,21 +194,13 @@
         </div>
         <div class="col-md-4 d-md-block d-none">
           <div class="info-board bg-white p-4">
-            <h2
-              class="board-timer d-flex align-items-center"
-              id="board-timer-1"
-            >
+            <h2 class="board-timer d-flex align-items-center" id="board-timer-1">
               <i class="far fa-clock fa-fw mr-1 small"></i>
               <span class="countdown">00:00:00</span>
             </h2>
             <hr />
             <h2 class="board-title mb-3">Nomor Soal</h2>
-            <UjianNumberList
-              @update="updateNomor"
-              :jawaban="jawabanUser"
-              :list="listSoal"
-              :active="currentNomor.nomor"
-            />
+            <UjianNumberList @update="updateNomor" :jawaban="jawabanUser" :list="listSoal" :active="currentSoalNomor" />
             <hr />
             <h2 class="board-title mb-3">Keterangan</h2>
             <ul class="list-unstyled board-legend">
@@ -243,39 +211,24 @@
             <hr />
             <div class="row">
               <div class="col-6 mb-3">
-                <button
-                  type="button"
-                  class="btn btn-primary btn-block square"
-                  @click="onKeyDownNavigation({ key: 'ArrowLeft' })"
-                >
+                <button type="button" class="btn btn-primary btn-block square"
+                  @click="onKeyDownNavigation({ key: 'ArrowLeft' })">
                   <i class="fas fa-arrow-left"></i>
                 </button>
               </div>
               <div class="col-6 mb-3">
-                <button
-                  type="button"
-                  class="btn btn-primary btn-block square"
-                  @click="onKeyDownNavigation({ key: 'ArrowRight' })"
-                >
+                <button type="button" class="btn btn-primary btn-block square"
+                  @click="onKeyDownNavigation({ key: 'ArrowRight' })">
                   <i class="fas fa-arrow-right"></i>
                 </button>
               </div>
             </div>
-            <button
-              v-if="nextSubtestAvailable()"
-              type="button"
-              class="btn btn-danger btn-block square"
-              v-b-modal.modal-next-subtest
-            >
+            <button v-if="nextSubtestAvailable()" type="button" class="btn btn-danger btn-block square"
+              v-b-modal.modal-next-subtest>
               Ke Subtest Selanjutnya
             </button>
-            <button
-              v-else
-              type="button"
-              class="btn btn-danger btn-block square"
-              v-b-modal.modal-confirm-end
-              :disabled="loading"
-            >
+            <button v-else type="button" class="btn btn-danger btn-block square" v-b-modal.modal-confirm-end
+              :disabled="loading">
               Selesai dan Serahkan
             </button>
             <!-- <h3 class="board-title mb-3">Panduan Pengerjaan:</h3>
@@ -285,49 +238,30 @@
         <div class="col-12 d-md-none mt-3">
           <div class="row">
             <div class="col-6 mb-3">
-              <button
-                type="button"
-                class="btn btn-primary btn-block square"
-                @click="onKeyDownNavigation({ key: 'ArrowLeft' })"
-              >
+              <button type="button" class="btn btn-primary btn-block square"
+                @click="onKeyDownNavigation({ key: 'ArrowLeft' })">
                 Sebelumnya
               </button>
             </div>
             <div class="col-6 mb-3">
-              <button
-                type="button"
-                class="btn btn-primary btn-block square"
-                @click="onKeyDownNavigation({ key: 'ArrowRight' })"
-              >
+              <button type="button" class="btn btn-primary btn-block square"
+                @click="onKeyDownNavigation({ key: 'ArrowRight' })">
                 Selanjutnya
               </button>
             </div>
             <div class="col-sm-6 col-12 mb-3">
-              <button
-                type="button"
-                class="btn btn-info btn-block square"
-                v-b-toggle.sidebar-board
-              >
+              <button type="button" class="btn btn-info btn-block square" v-b-toggle.sidebar-board>
                 <i class="fas fa-list"></i>
                 Nomor Soal
               </button>
             </div>
             <div class="col-sm-6 col-12 mb-3">
-              <button
-                v-if="nextSubtestAvailable()"
-                type="button"
-                class="btn btn-danger btn-block square"
-                v-b-modal.modal-next-subtest
-              >
+              <button v-if="nextSubtestAvailable()" type="button" class="btn btn-danger btn-block square"
+                v-b-modal.modal-next-subtest>
                 Ke Subtest Selanjutnya
               </button>
-              <button
-                v-else
-                type="button"
-                class="btn btn-danger btn-block square"
-                :disabled="loading"
-                v-b-modal.modal-confirm-end
-              >
+              <button v-else type="button" class="btn btn-danger btn-block square" :disabled="loading"
+                v-b-modal.modal-confirm-end>
                 <i class="fas fa-paper-plane"></i>
                 Selesai dan Serahkan
               </button>
@@ -335,14 +269,7 @@
           </div>
         </div>
       </div>
-      <b-sidebar
-        id="sidebar-board"
-        bg-variant="white"
-        text-variant="dark"
-        shadow
-        title="Nomor Soal"
-        right
-      >
+      <b-sidebar id="sidebar-board" bg-variant="white" text-variant="dark" shadow title="Nomor Soal" right>
         <div class="info-board bg-white p-4">
           <!-- <h2 class="board-timer d-flex align-items-center">
             <i class="far fa-clock fa-fw mr-1 small"></i>
@@ -350,12 +277,7 @@
           </h2>
           <hr /> -->
           <h2 class="board-title mb-3">Nomor Soal</h2>
-          <UjianNumberList
-            @update="updateNomor"
-            :jawaban="jawabanUser"
-            :list="listSoal"
-            :active="currentNomor.nomor"
-          />
+          <UjianNumberList @update="updateNomor" :jawaban="jawabanUser" :list="listSoal" :active="currentSoalNomor" />
           <hr />
           <h2 class="board-title mb-3">Keterangan</h2>
           <ul class="list-unstyled board-legend">
@@ -367,101 +289,55 @@
           @update="updateNomor"
           :jawaban="jawabanUser"
           :list="listNomorSoal"
-          :active="currentNomor.nomor"
+          :active="currentSoalNomor"
         /> -->
         </div>
       </b-sidebar>
     </div>
-    <div
-      class="ujian-wrapper bg-white "
-      v-else-if="!loading && detail.is_task_start && detail.is_task_done"
-    >
+    <div class="ujian-wrapper bg-white " v-else-if="!loading && detail.is_task_start && detail.is_task_done">
       <div class="row align-items-center justify-content-center">
         <p v-if="detailUjian.waktu_selesai">
           Kamu sudah selesai mengerjakan Tryout ini.
           <span v-if="detail.jenis_produk == 'Masal'">
             Dan dapat melihat hasil pada
-            <b
-              >{{
-                formatTanggal(detail.tanggal_berakhir, "Do MMMM YYYY HH:mm")
-              }}
-              WIB.</b
-            >
+            <b>{{
+              formatTanggal(detail.tanggal_berakhir, "Do MMMM YYYY HH:mm")
+            }}
+              WIB.</b>
           </span>
         </p>
       </div>
-      <div
-        v-if="detail && detail.jenis_produk == 'Perorangan'"
-        class="mt-3 text-center"
-      >
-        <a
-          class="btn btn-outline-primary "
-          :href="`/user/tryout/${detail.id}/detail`"
-          >Kembali</a
-        >
-        <a
-          v-if="detail.is_result_openable === true"
-          class="btn btn-primary ml-2"
-          :href="
-            `/user/tryout/${detail.id}/result?code=${$route.query.kode}&category=${detail.kategori_produk}`
-          "
-          >Lihat Hasil</a
-        >
+      <div v-if="detail && detail.jenis_produk == 'Perorangan'" class="mt-3 text-center">
+        <a class="btn btn-outline-primary " :href="`/user/tryout/${detail.id}/detail`">Kembali</a>
+        <a v-if="detail.is_result_openable === true" class="btn btn-primary ml-2" :href="`/user/tryout/${detail.id}/result?code=${$route.query.kode}&category=${detail.kategori_produk}`
+          ">Lihat Hasil</a>
       </div>
       <div v-else class="mt-3 text-center">
-        <a
-          class="btn btn-outline-primary ml-2"
-          :href="`/user/tryout/${detail.id}/detail`"
-          >Lihat Detail Ujian</a
-        >
+        <a class="btn btn-outline-primary ml-2" :href="`/user/tryout/${detail.id}/detail`">Lihat Detail Ujian</a>
       </div>
     </div>
-    <b-modal
-      id="modal-confirm-start"
-      title="Konfirmasi Mulai Tryout"
-      hide-footer
-      centered
-      :no-close-on-backdrop="loading"
-      :no-close-on-esc="loading"
-      modal-class="admin-modal"
-      @hidden="resetModal"
-    >
+    <b-modal id="modal-confirm-start" title="Konfirmasi Mulai Tryout" hide-footer centered
+      :no-close-on-backdrop="loading" :no-close-on-esc="loading" modal-class="admin-modal" @hidden="resetModal">
       <div>
         <p class="modal-text">
           Apakah anda yakin ingin memulai tryout ini? Waktu mulai akan berjalan.
           Harap persiapkan diri kamu sebelum mulai ya!
         </p>
         <div class="modal-footer justify-content-end" style="border: 0px">
-          <button
-            class="btn btn-outline-secondary"
-            type="button"
-            @click="$bvModal.hide('modal-confirm-start')"
-            v-if="!loading"
-          >
+          <button class="btn btn-outline-secondary" type="button" @click="$bvModal.hide('modal-confirm-start')"
+            v-if="!loading">
             Batal
           </button>
-          <button
-            class="btn btn-primary tambah px-4 py-2"
-            type="button"
-            :disabled="loading"
-            @click.prevent="onConfirmStartTest"
-          >
+          <button class="btn btn-primary tambah px-4 py-2" type="button" :disabled="loading"
+            @click.prevent="onConfirmStartTest">
             <b-spinner small v-if="loading" class="mr-1"></b-spinner> Ya, Saya
             Yakin
           </button>
         </div>
       </div>
     </b-modal>
-    <b-modal
-      id="modal-confirm-end"
-      title="Konfirmasi Akhiri Tryout"
-      hide-footer
-      centered
-      :no-close-on-backdrop="loading"
-      :no-close-on-esc="loading"
-      modal-class="admin-modal"
-      @hidden="resetModal"
-    >
+    <b-modal id="modal-confirm-end" title="Konfirmasi Akhiri Tryout" hide-footer centered
+      :no-close-on-backdrop="loading" :no-close-on-esc="loading" modal-class="admin-modal" @hidden="resetModal">
       <div>
         <p class="modal-text" v-if="isAllowNext()">
           Apakah kamu yakin ingin menyelesaikan dan mengirim jawaban tryoutmu?
@@ -472,82 +348,44 @@
           Sistem akan langsung mengoreksi.
         </p>
         <div class="modal-footer justify-content-end" style="border: 0px">
-          <button
-            class="btn btn-outline-secondary"
-            type="button"
-            @click="$bvModal.hide('modal-confirm-end')"
-            v-if="!loading"
-          >
+          <button class="btn btn-outline-secondary" type="button" @click="$bvModal.hide('modal-confirm-end')"
+            v-if="!loading">
             Batal
           </button>
-          <button
-            v-if="isAllowNext()"
-            class="btn btn-primary tambah px-4 py-2"
-            type="button"
-            :disabled="loading"
-            @click.prevent="onNextTest"
-          >
+          <button v-if="isAllowNext()" class="btn btn-primary tambah px-4 py-2" type="button" :disabled="loading"
+            @click.prevent="onNextTest">
             <b-spinner small v-if="loading" class="mr-1"></b-spinner>
             <span v-else>Ya, Kirim & Lanjutkan</span>
           </button>
-          <button
-            v-else
-            class="btn btn-primary tambah px-4 py-2"
-            type="button"
-            :disabled="loading"
-            @click.prevent="onConfirmEndTest"
-          >
+          <button v-else class="btn btn-primary tambah px-4 py-2" type="button" :disabled="loading"
+            @click.prevent="onConfirmEndTest">
             <b-spinner small v-if="loading" class="mr-1"></b-spinner>
             <span v-else>Ya, Kirim Sekarang</span>
           </button>
         </div>
       </div>
     </b-modal>
-    <b-modal
-      id="modal-next-subtest"
-      title="Lanjut Subtest Selanjutnya"
-      hide-footer
-      centered
-      :no-close-on-backdrop="loading"
-      :no-close-on-esc="loading"
-      modal-class="admin-modal"
-      @hidden="resetModal"
-    >
+    <b-modal id="modal-next-subtest" title="Lanjut Subtest Selanjutnya" hide-footer centered
+      :no-close-on-backdrop="loading" :no-close-on-esc="loading" modal-class="admin-modal" @hidden="resetModal">
       <div>
         <p class="modal-text">
           Apakah kamu yakin ingin melanjutkan ke subtest selanjutnya?
         </p>
         <div class="modal-footer justify-content-end" style="border: 0px">
-          <button
-            class="btn btn-outline-secondary"
-            type="button"
-            @click="$bvModal.hide('modal-next-subtest')"
-            v-if="!loading"
-          >
+          <button class="btn btn-outline-secondary" type="button" @click="$bvModal.hide('modal-next-subtest')"
+            v-if="!loading">
             Batal
           </button>
-          <button
-            class="btn btn-primary tambah px-4 py-2"
-            type="button"
-            :disabled="loading"
-            @click.prevent="onNextSubtest"
-          >
+          <button class="btn btn-primary tambah px-4 py-2" type="button" :disabled="loading"
+            @click.prevent="onNextSubtest">
             <b-spinner small v-if="loading" class="mr-1"></b-spinner>
             <span>Ya, Lanjut</span>
           </button>
         </div>
       </div>
     </b-modal>
-    <b-modal
-      id="modal-success-end"
-      title="Kamu Berhasil Menyelesaikan"
-      hide-footer
-      centered
-      :no-close-on-backdrop="true"
-      :no-close-on-esc="true"
-      modal-class="admin-modal"
-      @hidden="resetModal"
-    >
+    <b-modal id="modal-success-end" title="Kamu Berhasil Menyelesaikan" hide-footer centered
+      :no-close-on-backdrop="true" :no-close-on-esc="true" modal-class="admin-modal" @hidden="resetModal">
       <div>
         <p class="modal-text" v-if="detail.jenis_produk != 'Masal'">
           Kamu dapat langsung melihat hasil ujian tryout dan lihat rekomendasi
@@ -556,32 +394,21 @@
         <p class="modal-text" v-else-if="detail.jenis_produk == 'Masal'">
           Kamu berhasil menyelesaikan ujian tryout akbar dan dapat melihat
           hasilnya pada
-          <b
-            >{{
-              formatTanggal(detail.tanggal_berakhir, "Do MMMM YYYY HH:mm")
-            }}
-            WIB.</b
-          >
+          <b>{{
+            formatTanggal(detail.tanggal_berakhir, "Do MMMM YYYY HH:mm")
+          }}
+            WIB.</b>
         </p>
         <div class="modal-footer justify-content-end" style="border: 0px">
-          <button
-            class="btn btn-secondary"
-            type="button"
-            @click="navGoTo(`/user/tryout/mine`)"
-          >
+          <button class="btn btn-secondary" type="button" @click="navGoTo(`/user/tryout/mine`)">
             Halaman Utama
           </button>
-          <button
-            v-if="detail.is_result_openable == true"
-            class="btn btn-primary tambah px-4 py-2"
-            type="button"
-            :disabled="loading"
-            @click.prevent="
+          <button v-if="detail.is_result_openable == true" class="btn btn-primary tambah px-4 py-2" type="button"
+            :disabled="loading" @click.prevent="
               navGoTo(
                 `/user/tryout/${productId}/result?code=${$route.query.kode}&category=${detail.kategori_produk}`
               )
-            "
-          >
+              ">
             Lihat Hasil
           </button>
         </div>
@@ -603,13 +430,14 @@ export default {
   data() {
     return {
       loading: true,
+      loadingSoal: false,
       detail: {},
       tryout: {},
       detailUjian: {},
       listNomorSoal: [],
       listSubtest: [],
       listSoal: [],
-      currentNomor: {},
+      currentSoal: {},
       jawabanUser: {},
       countdownTimer: null,
       isTimeout: false,
@@ -630,7 +458,7 @@ export default {
       if (this.detailUjian.waktu_selesai) {
         return this.goToNext();
       } else {
-        await this.getDetailTryout();
+        await this.getTryoutDetail();
         await this.getNomorSoal();
         document.addEventListener("keydown", this.onKeyDownNavigation);
         if (!this.$route.query.id_mapel) {
@@ -647,7 +475,7 @@ export default {
       }
     } else {
       // jika data ujian belum pernah dibuat/start
-      await this.getDetailTryout();
+      await this.getTryoutDetail();
     }
   },
   destroyed() {
@@ -693,10 +521,25 @@ export default {
         data.push(key);
       }
       return data.length;
+    },
+    currentSubtest() {
+      const findSubtest = this.listSubtest.find(s => s.id === parseInt(this.$route.query.id_mapel, 10))
+      if (findSubtest) {
+        return findSubtest
+      }
+
+      return this.listSubtest[0]
+    },
+    currentSoalNomor() {
+      const findNomorSoal = this.listNomorSoal.find(v => v.id_soal_pertanyaan === this.currentSoal.id)
+      if (findNomorSoal) {
+        return findNomorSoal.nomor
+      }
+      return null
     }
   },
   methods: {
-    resetModal() {},
+    resetModal() { },
     encrypt(text) {
       if (typeof text !== "string") {
         text = text.toString();
@@ -718,7 +561,7 @@ export default {
       const encryptedTryoutId = this.encrypt(tryoutID);
       const encryptedTryoutIdSafe = encodeURIComponent(encryptedTryoutId);
       window.location.replace(
-        `/user/tryout/${encryptedProductIdSafe}/test/${encryptedTryoutIdSafe}?kode=${this.$route.query.kode}`
+        `/user/tryout/v2/${encryptedProductIdSafe}/test/${encryptedTryoutIdSafe}?kode=${this.$route.query.kode}`
       );
     },
     toWaitingTestPage(productID, tryoutID, mapelID = null, jedawaktu = null) {
@@ -727,12 +570,12 @@ export default {
       const encryptedTryoutId = this.encrypt(tryoutID);
       const encryptedTryoutIdSafe = encodeURIComponent(encryptedTryoutId);
       var encryptedJedaWaktuSafe = null;
-      if(jedawaktu!=null){
+      if (jedawaktu != null) {
         const encryptedJedaWaktu = this.encrypt(jedawaktu);
         encryptedJedaWaktuSafe = encodeURIComponent(encryptedJedaWaktu);
       };
       window.location.replace(
-        `/user/tryout/${encryptedProductIdSafe}/waiting/${encryptedTryoutIdSafe}?kode=${this.$route.query.kode}${mapelID ? '&id_mapel=' + mapelID : ''}${jedawaktu ? '&jedasubtes=' + encryptedJedaWaktuSafe : ''}`
+        `/user/tryout/v2/${encryptedProductIdSafe}/waiting/${encryptedTryoutIdSafe}?kode=${this.$route.query.kode}${mapelID ? '&id_mapel=' + mapelID : ''}${jedawaktu ? '&jedasubtes=' + encryptedJedaWaktuSafe : ''}`
       );
     },
     checkLastSaved() {
@@ -746,6 +589,7 @@ export default {
       if (lastSavedData) {
         lastSavedData = JSON.parse(lastSavedData);
         this.jawabanUser = lastSavedData.data;
+        this.formatJawabanSoal();
         return lastSavedData;
       } else if (!lastSavedData && this.lastSavedDataTime) {
         const moment = require("moment");
@@ -769,7 +613,15 @@ export default {
       const waktuMulai = moment(this.detailUjian.waktu_mulai).valueOf();
       let waktuBatas
       if (this.$route.query && this.listSubtest.length) {
-        waktuBatas = waktuMulai + (this.listSubtest.find(s => s.id === parseInt(this.$route.query.id_mapel, 10))).alokasi_waktu * 1000 * 60;
+        // waktuBatas = waktuMulai + (this.listSubtest.find(s => s.id === parseInt(this.$route.query.id_mapel, 10))).alokasi_waktu * 1000 * 60;
+
+        const currentSubtest = this.listSubtest.find(s => s.id === parseInt(this.$route.query.id_mapel, 10))
+        if (currentSubtest) {
+          waktuBatas = waktuMulai + currentSubtest.alokasi_waktu * 1000 * 60;
+        } else {
+          waktuBatas = waktuMulai + this.tryout.alokasi_waktu * 1000 * 60;
+        }
+
       } else {
         waktuBatas = waktuMulai + this.tryout.alokasi_waktu * 1000 * 60;
       }
@@ -793,46 +645,46 @@ export default {
       } else {
         diffTime = waktuBatas - waktuMulai;
       }
-        console.log(diffTime);
+      console.log(diffTime);
       let duration = moment.duration(diffTime, "milliseconds");
       const interval = 1000;
       // const boardTimer = document.querySelector(".board-timer");
-      var countdownElement ;
+      var countdownElement;
       var countdownElement2;
       var boardTimer;
       var boardTimer2;
-      try{
-       boardTimer = document.getElementById("board-timer-1");
-      // console.log(boardTimer)
-       boardTimer2 = document.getElementById("board-timer-2");
+      try {
+        boardTimer = document.getElementById("board-timer-1");
+        // console.log(boardTimer)
+        boardTimer2 = document.getElementById("board-timer-2");
 
-      // console.log(boardTimer2)
-      // return
-      countdownElement= boardTimer.children[1];
-      countdownElement2= boardTimer2.children[1];
-      }catch(error){
-      // Tangani kesalahan di sini.
-      console.error("Kesalahan web:", error.message);
+        // console.log(boardTimer2)
+        // return
+        countdownElement = boardTimer.children[1];
+        countdownElement2 = boardTimer2.children[1];
+      } catch (error) {
+        // Tangani kesalahan di sini.
+        console.error("Kesalahan web:", error.message);
 
-      // Setelah menangani kesalahan, arahkan ulang halaman web.
-      // window.location.reload();
-    }
+        // Setelah menangani kesalahan, arahkan ulang halaman web.
+        // window.location.reload();
+      }
 
       const isNotTimeout =
         duration.hours() >= 0 &&
         duration.minutes() >= 0 &&
         duration.seconds() >= 0;
 
-      console.log(
-        diffTime,
-        duration.hours(),
-        duration.minutes(),
-        duration.seconds()
-      );
+      // console.log(
+      //   diffTime,
+      //   duration.hours(),
+      //   duration.minutes(),
+      //   duration.seconds()
+      // );
 
       if (isNotTimeout) {
         this.countdownTimer = setInterval(
-          function() {
+          function () {
             duration = moment.duration(duration - interval, "milliseconds");
             const hours =
               duration.hours() >= 10
@@ -856,10 +708,13 @@ export default {
             ) {
               console.log("time is running..");
               // console.log(countdownElement)
+              if (countdownElement) {
               countdownElement.textContent =
                 hours + ":" + minutes + ":" + seconds;
               countdownElement2.textContent =
                 hours + ":" + minutes + ":" + seconds;
+              }
+
               this.saveJawaban();
 
               const kerutinan = 10; // detik
@@ -874,11 +729,11 @@ export default {
               this.isTimeout = true;
               this.goToNext();
             }
-            console.log(
-              duration.hours(),
-              duration.minutes(),
-              duration.seconds()
-            );
+            // console.log(
+            //   duration.hours(),
+            //   duration.minutes(),
+            //   duration.seconds()
+            // );
           }.bind(this),
           interval
         );
@@ -896,7 +751,7 @@ export default {
     },
     onKeyDownNavigation(event) {
       const key = event.key; // "ArrowRight", "ArrowLeft", "ArrowUp", or "ArrowDown"
-      const currNomor = this.currentNomor.nomor;
+      const currNomor = this.currentSoalNomor;
       let foundSoal, targetNomor;
       // console.log(key);
       switch (key) {
@@ -918,7 +773,10 @@ export default {
       }
       foundSoal = this.listSoal.find(item => item.nomor == targetNomor);
       if (foundSoal) {
-        this.currentNomor = foundSoal;
+        // this.currentSoal = foundSoal;
+        this.currentSoal.id = foundSoal.id_soal_pertanyaan;
+        this.currentSoal.opsi_pertanyaan = []
+        this.getSoalDetail(foundSoal.id_soal_pertanyaan)
       }
     },
     onConfirmStartTest() {
@@ -935,7 +793,7 @@ export default {
           window.location.reload();
         })
         .catch(error => console.log(error))
-        .finally(() => {});
+        .finally(() => { });
     },
     async onConfirmEndTest() {
       console.log("onConfirmEndTest");
@@ -948,6 +806,7 @@ export default {
       }
       this.loading = true;
       this.isTimeout = true;
+
       const response = await this.submitJawabanUser();
       if (response) {
         console.log("submitJawabanUser response", response);
@@ -962,9 +821,9 @@ export default {
         // );
         window.localStorage.removeItem(
           "_ujiaja_temp_to_user_" +
-            this.$route.query.kode +
-            "_" +
-            this.tryout.id
+          this.$route.query.kode +
+          "_" +
+          this.tryout.id
         );
         if (this.isAllowNext()) {
           this.goToNext();
@@ -976,12 +835,15 @@ export default {
       }
     },
     async onNextSubtest() {
+      // remove leave warning listener
+      window.removeEventListener("beforeunload", this.onCloseWindow);
+
       await this.saveJawabanToServer()
       const jeda_waktu = (this.listSubtest.find(s => s.id === parseInt(this.$route.query.id_mapel, 10))).jeda_waktu * 1000
-      console.log('jedanya adalah' . jeda_waktu)
+      console.log('jedanya adalah'.jeda_waktu)
       this.toWaitingTestPage(this.detailUjian.id_produk, this.tryoutId, this.listSubtest[this.subtestIndex + 1].id, jeda_waktu)
     },
-    async onNextTest(){
+    async onNextTest() {
       await this.saveJawabanToServer()
       this.toWaitingTestPage(this.detailUjian.id_produk, this.tryoutId)
     },
@@ -999,12 +861,39 @@ export default {
         .catch(error => console.log(error));
       return data;
     },
-    updateNomor(dataNomor) {
-      console.log(dataNomor);
-      // this.$store.commit("set", ["currentNomor", dataNomor]);
-      this.currentNomor = dataNomor;
+    async updateNomor(dataNomor) {
+      // console.log(dataNomor);
+      // this.$store.commit("set", ["currentSoal", dataNomor]);
+      // this.currentSoal = dataNomor;
+      this.currentSoal.id = dataNomor.id_soal_pertanyaan;
+      this.currentSoal.opsi_pertanyaan = []
+      this.currentSoal.soal = null
+      await this.getSoalDetail(dataNomor.id_soal_pertanyaan)
     },
-    saveJawaban() {
+    saveJawaban(newValue = null) {
+      // console.log('saveJawaban val', newValue)
+      // console.log('saveJawaban user 1', JSON.stringify(this.jawabanUser[this.currentSoalNomor].jawaban_user))
+
+      if (newValue) {
+        // update jawabanUser for currentNomorSoal
+        if (this.currentSoal.template_pertanyaan !== 'Isian Singkat') {
+          if (!this.jawabanUser[this.currentSoalNomor]?.jawaban_user) {
+            this.jawabanUser[this.currentSoalNomor].jawaban_user = null
+          }
+
+          if (this.currentSoal.template_pertanyaan === 'Pilihan Ganda Kompleks (Model 2)') {
+            // check if newValue is input event
+            if (newValue.target) {
+              newValue = newValue.target.value
+            }
+          }
+
+          this.jawabanUser[this.currentSoalNomor].jawaban_user = newValue
+
+          // console.log('saveJawaban user 2', JSON.stringify(this.jawabanUser[this.currentSoalNomor].jawaban_user))
+        }
+      }
+
       const dataSave = this.jawabanUser;
       // this.$cookiz.set("_ujiaja_temp_to_user_" + this.$route.query.kode + "_" + this.tryout.id, {
       //   kode: this.$route.query.kode,
@@ -1026,10 +915,29 @@ export default {
         "_ujiaja_temp_to_user_" + this.$route.query.kode + "_" + this.tryout.id,
         lsSave
       );
+
+      // re render component by clear and refill opsi_pertanyaan
+      const opsiPertanyaanTempor = JSON.parse(JSON.stringify(this.currentSoal.opsi_pertanyaan))
+      this.currentSoal.opsi_pertanyaan = []
+      this.$nextTick(() => {
+        this.currentSoal.opsi_pertanyaan = opsiPertanyaanTempor
+      })
     },
-    saveJawabanToServer() {
+    onBatalJawab() {
+      const jenisSoal = this.currentSoal.template_pertanyaan
+      if (jenisSoal === 'Pilihan Ganda') {
+        this.jawabanUser[this.currentSoalNomor].jawaban_user = ''
+      } else if (jenisSoal === 'Pilihan Ganda Kompleks (Model 1)') {
+        this.jawabanUser[this.currentSoalNomor].jawaban_user = []
+      } else if (jenisSoal === 'Pilihan Ganda Kompleks (Model 2)') {
+        this.jawabanUser[this.currentSoalNomor].jawaban_user = []
+      } else if (jenisSoal === 'Isian Singkat') {
+        this.jawabanUser[this.currentSoalNomor].jawaban_user = []
+      }
+    },
+    async saveJawabanToServer() {
       const dataSave = this.jawabanUser;
-      this.$axios
+      await this.$axios
         .$put("/api/tryout_user/update/" + this.detailUjian.id, {
           temp_jawaban_user: dataSave
         })
@@ -1159,20 +1067,15 @@ export default {
         })
         .finally(() => (this.loading = false));
     },
-    async getDetailTryout() {
+    async getTryoutDetail() {
       this.loading = true;
       await this.$axios
-        .$get(`/api/tryout/find/${this.tryoutId}/detail`)
-        .then(res => {
+        .$get(`/api/tryout/find/${this.tryoutId}`)
+        .then(async res => {
           console.log("tryout", res);
           if (res.success) {
             this.tryout = res.data;
-            this.listSubtest = res.data.soal.map((to) => ({
-              id: to.id,
-              mapel: to.mapel.nama_mapel,
-              jeda_waktu: to.jeda_waktu_antar_mapel || res.data.jeda_waktu,
-              alokasi_waktu: to.alokasi_waktu_per_mapel || res.data.alokasi_waktu
-            }));
+            await this.getTryoutSubtests()
           }
           return true;
         })
@@ -1182,24 +1085,90 @@ export default {
         })
         .finally(() => (this.loading = false));
     },
+    async getTryoutSubtests() {
+      // this.loading = true;
+      await this.$axios
+        .$get(`/api/v2/student/tryout/${this.tryoutId}/subtest`)
+        .then(res => {
+          console.log("tryout subtests", res);
+          if (res.success) {
+            this.listSubtest = res.data.map((subtest) => ({
+              id: subtest.id,
+              mapel: subtest.nama_mapel,
+              jeda_waktu: subtest.jeda_waktu_antar_mapel || this.tryout.jeda_waktu,
+              alokasi_waktu: subtest.alokasi_waktu_per_mapel || this.tryout.alokasi_waktu,
+              jumlah_soal: subtest.jumlah_soal,
+              range_nomor: subtest.range_nomor,
+            }));
+          }
+          return true;
+        })
+        .catch(err => {
+          console.log(err);
+          this.catchError(err);
+        })
+      // .finally(() => (this.loading = false));
+    },
+    // async getNomorSoal() {
+    //   this.loading = true;
+    //   await this.$axios
+    //     .$get(`/api/tryout/nomor-soal/${this.tryoutId}`)
+    //     .then(res => {
+    //       console.log("list soal", res);
+    //       if (res.success) {
+    //         this.listNomorSoal = res.data.soal;
+    //         if (this.$route.query.id_mapel) {
+    //           this.currentSoal = res.data.soal.find(s => s.id_soal_tryout === parseInt(this.$route.query.id_mapel, 10))
+    //         } else {
+    //           this.currentSoal = res.data.soal[0];
+    //         }
+    //         this.jawabanUser = res.data.jawaban_placeholder;
+    //         this.lastSavedDataTime = res.data.last_saved_data_time;
+    //         // this.$store.commit("set", ["listNomorSoal", res.data.soal]);
+    //         // this.$store.commit("set", ["currentSoal", res.data.soal[0]]);
+    //       }
+    //     })
+    //     .catch(err => {
+    //       console.log(err);
+    //       this.catchError(err);
+    //     })
+    //     .finally(() => (this.loading = false));
+    // },
+
     async getNomorSoal() {
       this.loading = true;
       await this.$axios
-        .$get(`/api/tryout/nomor-soal/${this.tryoutId}`)
-        .then(res => {
-          console.log("list soal", res);
+        .$get(`/api/v2/student/tryout/${this.tryoutId}/pertanyaan-nomor`)
+        .then(async res => {
+          console.log("nomor soal", res);
           if (res.success) {
-            this.listNomorSoal = res.data.soal;
-            if (this.$route.query.id_mapel) {
-              this.currentNomor = res.data.soal.find(s => s.id_soal_tryout === parseInt(this.$route.query.id_mapel, 10))
+            this.listNomorSoal = res.data;
+
+            // console.log('getNomorSoal jawabanuser 1', JSON.parse(JSON.stringify(this.jawabanUser)))
+
+            // get jawaban placeholder
+            const lastSaveData = this.checkLastSaved()
+            if (lastSaveData && lastSaveData.data) {
+              this.jawabanUser = lastSaveData.data
             } else {
-              this.currentNomor = res.data.soal[0];
+              const jawabanTemp = this.detailUjian.temp_jawaban_user ? JSON.parse(this.detailUjian.temp_jawaban_user) : {};
+              if (jawabanTemp && Object.keys(jawabanTemp).length > 0) {
+                this.jawabanUser = jawabanTemp
+              }
             }
-            this.jawabanUser = res.data.jawaban_placeholder;
-            this.lastSavedDataTime = res.data.last_saved_data_time;
-            // this.$store.commit("set", ["listNomorSoal", res.data.soal]);
-            // this.$store.commit("set", ["currentNomor", res.data.soal[0]]);
+            // console.log('getNomorSoal jawabanuser 2', JSON.parse(JSON.stringify(this.jawabanUser)))
+
+            // get current soal detail
+            if (this.$route.query.id_mapel) {
+              await this.getSoalDetail(this.listNomorSoal.find(s => s.id_soal_tryout === parseInt(this.$route.query.id_mapel, 10)).id_soal_pertanyaan)
+            } else if (this.listNomorSoal.length) {
+              await this.getSoalDetail(this.listNomorSoal[0].id_soal_pertanyaan);
+            }
+
+            // console.log('getSNomorSoal jawabanuser 3', JSON.parse(JSON.stringify(this.jawabanUser)))
+
           }
+
         })
         .catch(err => {
           console.log(err);
@@ -1207,6 +1176,131 @@ export default {
         })
         .finally(() => (this.loading = false));
     },
+    async getSoalDetail(id) {
+      // this.currentSoal = {}
+      this.loadingSoal = true
+      await this.$axios
+        .$get(`/api/v2/student/tryout/${this.tryoutId}/pertanyaan/${id}`)
+        .then(res => {
+          console.log('soal detail', res)
+          if (res.success) {
+            this.currentSoal = res.data
+            this.formatJawabanSoal()
+          }
+        })
+        .catch(err => {
+          console.log(err)
+          this.catchError(err)
+        })
+        .finally(() => (this.loadingSoal = false))
+    },
+
+    formatJawabanSoal() {
+      console.log('format jawaban soal')
+
+      const currentSoal = this.currentSoal
+      if (!currentSoal) return
+      console.log('format jenissoal', currentSoal.template_pertanyaan)
+
+      const currNomor = this.currentSoalNomor
+      if (!currNomor) return
+
+      const jenisSoal = currentSoal.template_pertanyaan
+
+      console.log('format jenisSoal', jenisSoal)
+      console.log('jawaban user formt', JSON.stringify(this.jawabanUser[currNomor]))
+      if (!this.jawabanUser[currNomor] || (this.jawabanUser[currNomor] && !this.jawabanUser[currNomor].jawaban_user)) {
+        this.jawabanUser[currNomor] = {
+          id_soal_pertanyaan: currentSoal.id,
+          id_soal_tryout: currentSoal.id_soal_tryout,
+          jawaban_user: ''
+        }
+      }
+
+      if (jenisSoal === 'Pilihan Ganda Kompleks (Model 1)') {
+        if (!Array.isArray(this.jawabanUser[currNomor].jawaban_user)) {
+          this.jawabanUser[currNomor].jawaban_user = []
+        }
+      } else if (jenisSoal === 'Pilihan Ganda Kompleks (Model 2)') {
+        if (!Array.isArray(this.jawabanUser[currNomor].jawaban_user)) {
+          this.jawabanUser[currNomor].jawaban_user = []
+        }
+
+        if (this.jawabanUser[currNomor].jawaban_user.length !== this.currentSoal.opsi_pertanyaan.length) {
+          for (let x = 0; x < this.currentSoal.opsi_pertanyaan.length; x++) {
+            const opsi = this.currentSoal.opsi_pertanyaan[x]
+            if (!this.jawabanUser[currNomor].jawaban_user[x]) {
+              this.jawabanUser[currNomor].jawaban_user[x] = ''
+            }
+          }
+        }
+      } else if (jenisSoal === 'Isian Singkat') {
+        this.$nextTick(() => {
+          const qlInputFields = document.querySelectorAll(".ql-inputfield > input[data-soal-id='" + currentSoal.id + "']")
+          console.log('qlInputFields', qlInputFields)
+
+          if (!this.jawabanUser[currNomor].jawaban_user) {
+            this.jawabanUser[currNomor].jawaban_user = []
+          }
+
+          let inputFieldIndexes = []
+          if (qlInputFields.length) {
+
+            inputFieldIndexes = Array.from(qlInputFields).map(inputField => {
+              return inputField.getAttribute('data-index')
+            })
+
+            console.log('jawaban user 1', JSON.stringify(this.jawabanUser[currNomor].jawaban_user))
+
+            // console.log('jawaban user 2', JSON.stringify(this.jawabanUser[currNomor].jawaban_user))
+
+            for (let i = 0; i < qlInputFields.length; i++) {
+              const inputField = qlInputFields[i]
+              const index = inputField.getAttribute('data-index')
+
+              if (this.jawabanUser[currNomor].jawaban_user[index]) {
+                if (!inputField.value) {
+                  inputField.value = this.jawabanUser[currNomor].jawaban_user[index]
+                }
+              }
+
+              // this.jawabanUser[currNomor].jawaban_user[index] = inputField.value
+
+              // add on change listener
+              inputField.addEventListener('keyup', (e) => {
+                console.log('keyup isian' + index, e.target.value)
+                this.jawabanUser[currNomor].jawaban_user[index] = e.target.value
+                // this.saveJawaban()
+
+                // rerender component by clear and refill opsi_pertanyaan
+                const opsiPertanyaanTempor = JSON.parse(JSON.stringify(this.currentSoal.opsi_pertanyaan))
+                this.currentSoal.opsi_pertanyaan = []
+                this.$nextTick(() => {
+                  this.currentSoal.opsi_pertanyaan = opsiPertanyaanTempor
+                })
+              })
+            }
+
+          }
+
+          // remove jawaban_user[] that not in qlInputFields index
+          // if (this.jawabanUser[currNomor].jawaban_user.length) {
+          //   this.jawabanUser[currNomor].jawaban_user = this.jawabanUser[currNomor].jawaban_user.filter((jawaban, index) => {
+          //     return inputFieldIndexes.includes(index.toString())
+          //   })
+          // }
+
+          console.log('jawaban user 3', JSON.stringify(this.jawabanUser[currNomor].jawaban_user))
+        })
+      } else {
+        this.jawabanUser[currNomor].jawaban_user = this.jawabanUser[currNomor].jawaban_user ?? ''
+      }
+
+      // console.log('jawabanUser[currNomor]', this.jawabanUser[currNomor])
+
+      this.saveJawaban()
+    },
+
     navGoTo(to) {
       window.removeEventListener("beforeunload", this.onCloseWindow);
       window.location.replace(to);
@@ -1217,7 +1311,7 @@ export default {
       const encryptedTryoutId = this.encrypt(this.tryoutId);
       const encryptedTryoutIdSafe = encodeURIComponent(encryptedTryoutId);
       window.location.replace(
-        `/user/tryout/${encryptedProductIdSafe}/test?tryout=${encryptedTryoutIdSafe}&kode=${this.$route.query.kode}`
+        `/user/tryout/v2/${encryptedProductIdSafe}/test?tryout=${encryptedTryoutIdSafe}&kode=${this.$route.query.kode}`
       );
     },
     nextSubtestAvailable() {
@@ -1273,15 +1367,16 @@ export default {
 .btn-light {
   background-color: #f8f9fa !important;
 }
+
 .btn-light:hover {
   background-color: #f5f5f5 !important;
   color: #baadff;
 }
+
 .btn-light:active,
 .btn-light:focus {
   background-color: #f5f5f5 !important;
   color: #baadff !important;
   border: 1px solid #f5f5f5;
 }
-
 </style>

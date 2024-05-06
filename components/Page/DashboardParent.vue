@@ -66,7 +66,7 @@
           <b-form-select
             class="mr-1"
             style="width: 150px"
-            v-if="filter.kategori != 'UTBK'"
+            v-if="filter.kategori != 'UTBK' || filter.kategori != 'SM'"
             :options="filterList.sub_kategori"
             v-model="filter.id_jenjang"
             :disabled="loading"
@@ -75,7 +75,7 @@
             class="mr-1"
             style="width: 150px"
             v-if="
-              !['UTBK', 'ASPD'].includes(filter.kategori) &&
+              !['UTBK', 'ASPD', 'SM'].includes(filter.kategori) &&
                 filter.id_jenjang != ''
             "
             :options="filterList.kelas"
@@ -86,7 +86,7 @@
             class="mr-1"
             style="width: 150px"
             v-if="
-              !['UTBK', 'ASPD'].includes(filter.kategori) &&
+              !['UTBK', 'ASPD', 'SM'].includes(filter.kategori) &&
                 filter.id_kelas != '' &&
                 filterList.penjurusan &&
                 filterList.penjurusan.length > 0
@@ -107,7 +107,7 @@
       </div>
       <div
         class="card mb-5"
-        v-if="isDisplayBatteries && prodiSatu && filter.kategori == 'UTBK'"
+        v-if="isDisplayBatteries && prodiSatu && (filter.kategori == 'UTBK' || filter.kategori == 'SM')"
       >
         <div class="card-body">
           <div class="row justify-content-around ">
@@ -208,7 +208,7 @@
 
       <div
         class="card mb-5"
-        v-if="isDisplayBatteries && prodiSatu && filter.kategori == 'UTBK'"
+        v-if="isDisplayBatteries && prodiSatu && (filter.kategori == 'UTBK' || filter.kategori == 'SM')"
       >
         <div class="card-body">
           <div class="h4">Potensi Lain</div>
@@ -365,7 +365,7 @@
       </div>
 
       <div class="row" v-if="!loading">
-        <template v-if="filter.kategori == 'UTBK'">
+        <template v-if="filter.kategori == 'UTBK' || filter.kategori == 'SM'">
           <div
             class="col-md-6 mb-4"
             v-for="(grafikData, gKey) in grafikNilaiMapel"
@@ -489,7 +489,7 @@
       </div>
 
       <div class="row" v-if="!loading">
-        <template v-if="filter.kategori == 'UTBK'">
+        <template v-if="filter.kategori == 'UTBK' || filter.kategori == 'SM'">
           <div
             class="col-md-6 mb-4"
             v-for="(grafikData, gKey) in grafikRangkingNilai"
@@ -511,7 +511,7 @@
         </template>
       </div>
 
-      <div class="row mt-4" v-if="!loading && filter.kategori == 'UTBK'">
+      <div class="row mt-4" v-if="!loading && (filter.kategori == 'UTBK' || filter.kategori == 'SM')">
         <div class="col-12 mb-4">
           <div class="card">
             <div class="card-body">

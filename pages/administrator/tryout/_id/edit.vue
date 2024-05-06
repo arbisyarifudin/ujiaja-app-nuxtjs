@@ -72,6 +72,7 @@
                     :options="[
                       { text: '-- Pilih --', value: null },
                       { text: 'UTBK', value: 'UTBK' },
+                      { text: 'SELEKSI MANDIRI', value: 'SM' },
                       { text: 'ASPD', value: 'ASPD' },
                       { text: 'PAT', value: 'PAT' },
                       { text: 'PAS', value: 'PAS' }
@@ -92,7 +93,7 @@
               </div>
               <div
                 class="col-md-6"
-                v-if="form.kategori == null || form.kategori == 'UTBK'"
+                v-if="form.kategori == null || (form.kategori == 'UTBK' || form.kategori == 'SM')"
               >
                 <div class="form-group reg-siswa">
                   <label for="select">Jenis Soal <code>*</code></label>
@@ -158,6 +159,7 @@
                     v-model="form.kelompok_soal"
                     :options="[
                       { text: '-- Pilih --', value: null },
+                      { text: 'CAMPURAN', value: 'CAMPURAN' },
                       { text: 'SAINTEK', value: 'SAINTEK' },
                       { text: 'SOSHUM', value: 'SOSHUM' }
                     ]"
@@ -167,7 +169,7 @@
                   </b-form-select>
                 </div>
               </div>
-              <div class="col-md-6">
+              <div class="col-md-6 d-none">
                 <div class="form-group reg-siswa">
                   <label for="select">Template Soal <code>*</code></label>
                   <b-form-select
@@ -239,7 +241,7 @@ export default {
     this.getData("penjurusan");
     if (!this.$route.params.id)
       return this.$router.push("/administrator/tryout");
-    
+
     this.$store.commit("modifyBreadcrumb", [
       {
         text: "Tryout",
@@ -270,7 +272,8 @@ export default {
         return;
       }
 
-      if (this.form.kategori == "UTBK") {
+      // if (this.form.kategori == "UTBK") {
+      if (this.form.kategori == "UTBK" || this.form.kategori == "SM") {
         if (
           (this.form.jenis_soal == "TKA" && !this.form.kelompok_soal) ||
           !this.form.jenis_soal
