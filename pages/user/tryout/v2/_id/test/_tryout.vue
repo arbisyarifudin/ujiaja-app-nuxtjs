@@ -926,13 +926,13 @@ export default {
     onBatalJawab() {
       const jenisSoal = this.currentSoal.template_pertanyaan
       if (jenisSoal === 'Pilihan Ganda') {
-        this.jawabanUser[currentSoalNomor].jawaban_user = ''
+        this.jawabanUser[this.currentSoalNomor].jawaban_user = ''
       } else if (jenisSoal === 'Pilihan Ganda Kompleks (Model 1)') {
-        this.jawabanUser[currentSoalNomor].jawaban_user = []
+        this.jawabanUser[this.currentSoalNomor].jawaban_user = []
       } else if (jenisSoal === 'Pilihan Ganda Kompleks (Model 2)') {
-        this.jawabanUser[currentSoalNomor].jawaban_user = []
+        this.jawabanUser[this.currentSoalNomor].jawaban_user = []
       } else if (jenisSoal === 'Isian Singkat') {
-        this.jawabanUser[currentSoalNomor].jawaban_user = []
+        this.jawabanUser[this.currentSoalNomor].jawaban_user = []
       }
     },
     async saveJawabanToServer() {
