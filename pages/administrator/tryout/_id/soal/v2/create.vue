@@ -491,7 +491,7 @@
                                       <button type="button" class="btn btn-danger" v-else-if="soalp.template_pertanyaan === 'Pilihan Ganda Kompleks (Model 1)' &&
                                         soalp.opsi_pertanyaan?.length > 3 &&
                                         soalp.jawaban_pertanyaan?.length > 0 && !soalp.jawaban_pertanyaan.includes(opsi.uuid)
-                                      " @click.prevent="deleteOption(soalp, c. b)">
+                                      " @click.prevent="deleteOption(soalp, c, b)">
                                         <i class="fa fa-times"></i>
                                       </button>
                                       <button type="button" class="btn btn-danger" v-else-if="soalp.template_pertanyaan === 'Pilihan Ganda Kompleks (Model 2)' &&
@@ -2129,7 +2129,6 @@ export default {
         pertanyaan.jawaban_pertanyaan = pertanyaan.opsi_pertanyaan[0]
           ? pertanyaan.opsi_pertanyaan[0].uuid
           : pertanyaan.jawaban_pertanyaan;
-
         pertanyaan.opsi_pertanyaan = pertanyaan.opsi_pertanyaan.filter(v => v.option !== null)
       }
 
@@ -2274,7 +2273,6 @@ export default {
         perchild.jawaban_pertanyaan = perchild.opsi_pertanyaan[0]
           ? perchild.opsi_pertanyaan[0].uuid
           : perchild.jawaban_pertanyaan;
-
         perchild.opsi_pertanyaan = perchild.opsi_pertanyaan.filter(v => v.option !== null)
       }
 
