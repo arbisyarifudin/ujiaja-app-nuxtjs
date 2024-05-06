@@ -50,7 +50,7 @@
                   :options="[
                     { text: '-- Pilih --', value: null },
                     { text: 'UTBK', value: 'UTBK' },
-                    { text: 'SM', value: 'SELEKSI MANDIRI' },
+                    { text: 'SELEKSI MANDIRI', value: 'SM' },
                     { text: 'ASPD', value: 'ASPD' },
                     { text: 'PAT', value: 'PAT' },
                     { text: 'PAS', value: 'PAS' }
