@@ -52,6 +52,27 @@
           </div>
         </div>
       </div>
+      <div class="col-md-4" v-else-if="dataResult.detail.kategori_produk == 'SM'">
+        <div class="text-center skor-box">
+          <div class="mb-2">Skor</div>
+          <div class="h3 skor-val">{{ dataResult.detail.rerata_nilai_label }}</div>
+          <div
+            class="h5 skor-val"
+            v-if="dataResult.detail.tipe_event == 'Masal'"
+          >
+            <small>Peringkat</small> {{ dataResult.detail.ranking }}
+            <small>dari</small> {{ dataResult.detail.jsp }}
+          </div>
+          <div
+            class="h5 skor-val"
+            v-else-if="dataResult.detail.tipe_event == 'Perorangan'"
+          >
+            <small>dari</small> {{ dataResult.detail.jsp }}
+            <small>orang peserta</small>
+          </div>
+        </div>
+      </div>
+
       <div class="col-md-4" v-if="dataResult.detail.kategori_produk == 'ASPD' ||dataResult.detail.kategori_produk == 'PAT' ||dataResult.detail.kategori_produk == 'PAS'  ">
         <div class="text-center skor-box">
           <div class="mb-2">Skor</div>
@@ -92,8 +113,11 @@
             <td v-if="dataResult.detail.kategori_produk == 'UTBK'">
               {{ mapel.ceeb }}
             </td>
-            <td v-if="dataResult.detail.kategori_produk == 'ASPD' ||dataResult.detail.kategori_produk == 'PAT' ||dataResult.detail.kategori_produk == 'PAS' ">
-              {{ mapel.nilai }}
+            <td v-if="dataResult.detail.kategori_produk == 'SM'">
+              {{ mapel.nilai_label }}
+            </td>
+            <td v-if="dataResult.detail.kategori_produk == 'ASPD' ||dataResult.detail.kategori_produk == 'PAT' ||dataResult.detail.kategori_produk == 'PAS'">
+              {{ mapel.nilai_label }}
             </td>
           </tr>
         </tbody>
@@ -103,7 +127,7 @@
       <table
         class="table table-borderless"
         v-if="
-          dataResult.detail.kategori_produk == 'UTBK' &&
+          (dataResult.detail.kategori_produk == 'UTBK' || dataResult.detail.kategori_produk == 'SM') &&
             userDetail.nama_jenjang == 'SMA'
         "
       >
@@ -330,8 +354,10 @@ export default {
       var kategori = "";
       if(this.$route.query.category == "ASPD"){
         kategori = "-aspd"
-      }else if(this.$route.query.category == "PAT"|| this.$route.query.category == "PAS"){
+      } else if(this.$route.query.category == "PAT"|| this.$route.query.category == "PAS"){
         kategori = "-pat-pas"
+      } else if(this.$route.query.category == "SM"){
+        kategori = "-sm"
       }
 
       this.loading = true;
