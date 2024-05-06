@@ -216,6 +216,101 @@
           v-if="!loading && list['utbk_akbar'] && list['utbk_akbar'].length < 1"
         />
       </section>
+
+      <section class="mb-3">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h5 class="info-kelas">Tryout Seleksi Mandiri</h5>
+          <router-link
+            to="/user/tryout/search?category=SM&package=Reguler&event=Perorangan"
+            class="text-primary"
+            >Lihat Semua</router-link
+          >
+        </div>
+
+        <p>
+          Ayo ikuti Tryout Seleksi Mandiri yang tersedia dari Uji Aja dan belajar
+          dari kumpulan soal serta pembahasan sebelumnya dengan membeli tryout!
+        </p>
+
+        <div class="row">
+          <div
+            class="col-xl-4 col-lg-6 col-md-6 col-sm-6"
+            v-for="(item, i) in list['sm']"
+            :key="i"
+          >
+            <div class="card card-karir m-2 router-push" @click="$router.push(`/user/tryout/${item.id}/detail`)">
+              <!-- style="width: 350px; max-width: 100%" -->
+              <div class="card-body text-left p-0">
+                <div class="card-content px-4">
+                  <h3
+                    class="card-judul card-program mb-4 mt-3"
+                    style="min-height: 50px;"
+                  >
+                    {{ item.nama_produk }}
+                  </h3>
+                  <!-- <h5>TPS</h5> -->
+                  <div class="d-flex justify-content-between mb-2">
+                    <p class="mb-2">
+                      <i class="far fa-clock fa-fw"></i> {{ item.waktu }} Menit
+                    </p>
+                    <p class="mb-2">
+                      <i class="far fa-file-alt fa-fw"></i>
+                      {{ item.jumlah_soal }} Soal
+                    </p>
+                  </div>
+                  <div class="d-flex justify-content-between mb-2">
+                    <p class="">
+                      <i class="fas fa-tags fa-fw"></i>
+                      {{ item.harga_produk > 0 ? item.harga_label : 'GRATIS' }}
+                    </p>
+                  </div>
+                </div>
+                <div
+                  class="card-bawah pb-3 px-4 m-0 bordered"
+                  style="border-bottom: 12px solid #D7D2F7; border-radius:0px 0px 12px 12px;"
+                >
+                  <nuxt-link
+                    :to="`/user/tryout/${item.id}/detail`"
+                    class="karir-link"
+                    >Detail <i class="fas fa-chevron-right ml-1"></i
+                  ></nuxt-link>
+                  <div class="icon-footer center">
+                    <h4 class="title">MANDIRI</h4>
+                    <h5 class="subtitle">
+                      <span class="mr-0">{{ item.kategori_produk }}</span
+                      ><span class="ml-0" v-if="item.jenis_tryout[0]">
+                        - {{ item.jenis_tryout[0] }}</span
+                      ><span
+                        class="ml-0"
+                        v-if="
+                          item.kategori_produk == 'SM' &&
+                            item.kelompok_soal[0]
+                        "
+                      >
+                        {{ item.kelompok_soal[0] }}</span
+                      >
+                    </h5>
+                    <!-- <div>2021</div> -->
+                    <img src="/icon/icon-card-bg.png" class="img-fluid image" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <UILoading
+          tag="div"
+          style="position: static; width: 100%;"
+          v-if="loading"
+        />
+        <UITableNotFound
+          tag="div"
+          text="Belum ada data Tryout."
+          style="position: relative; width: 100%;"
+          v-if="!loading && list['sm'] && list['sm'].length < 1"
+        />
+      </section>
+
       <section class="mb-3">
         <div class="d-flex justify-content-between align-items-center mb-3">
           <h5 class="info-kelas">Tryout ASPD</h5>
@@ -474,7 +569,7 @@
           v-if="!loading && list['pas'] && list['pas'].length < 1"
         />
       </section>
- 
+
       <section class="mb-3">
         <div class="d-flex justify-content-between align-items-center mb-3">
           <h5 class="info-kelas">Paket Tryout</h5>
@@ -600,7 +695,8 @@ export default {
         pat: [],
         pas: [],
         asmenas: [],
-        bundling: []
+        bundling: [],
+        sm: []
       }
     };
   },
@@ -613,6 +709,11 @@ export default {
     this.getProduk("utbk_akbar", {
       kategori_produk: "UTBK",
       jenis_produk: "Masal"
+      // tipe_paket: ""
+    });
+    this.getProduk("sm", {
+      kategori_produk: "SM",
+      jenis_produk: "Perorangan"
       // tipe_paket: ""
     });
     this.getProduk("aspd", {
