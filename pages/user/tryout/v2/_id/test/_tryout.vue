@@ -806,7 +806,6 @@ export default {
       }
       this.loading = true;
       this.isTimeout = true;
-
       const response = await this.submitJawabanUser();
       if (response) {
         console.log("submitJawabanUser response", response);
