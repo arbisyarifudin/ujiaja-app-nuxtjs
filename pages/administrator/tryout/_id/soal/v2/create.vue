@@ -2126,9 +2126,11 @@ export default {
         }
 
       } else {
-        pertanyaan.jawaban_pertanyaan = pertanyaan.opsi_pertanyaan[0]
-          ? pertanyaan.opsi_pertanyaan[0].uuid
-          : pertanyaan.jawaban_pertanyaan;
+        if (!pertanyaan.jawaban_pertanyaan) {
+          pertanyaan.jawaban_pertanyaan = pertanyaan.opsi_pertanyaan[0]
+            ? pertanyaan.opsi_pertanyaan[0].uuid
+            : pertanyaan.jawaban_pertanyaan;
+        }
         pertanyaan.opsi_pertanyaan = pertanyaan.opsi_pertanyaan.filter(v => v.option !== null)
       }
 
@@ -2270,10 +2272,13 @@ export default {
         }
 
       } else {
-        perchild.jawaban_pertanyaan = perchild.opsi_pertanyaan[0]
-          ? perchild.opsi_pertanyaan[0].uuid
-          : perchild.jawaban_pertanyaan;
-        perchild.opsi_pertanyaan = perchild.opsi_pertanyaan.filter(v => v.option !== null)
+        if (!perchild.jawaban_pertanyaan) {
+          perchild.jawaban_pertanyaan = perchild.opsi_pertanyaan[0]
+            ? perchild.opsi_pertanyaan[0].uuid
+            : perchild.jawaban_pertanyaan;
+        }
+
+          perchild.opsi_pertanyaan = perchild.opsi_pertanyaan.filter(v => v.option !== null)
       }
 
       if (perchild.template_pertanyaan !== 'Isian Singkat') {
