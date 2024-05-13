@@ -124,7 +124,8 @@ export default {
         this.loading = false;
 
         this.redirecting = true;
-        await this.$router.replace("/masuk");
+        // await this.$router.replace("/masuk");
+        window.location.href = window.origin + "/masuk";
       })
       .finally(() => {
         this.loading = false;
