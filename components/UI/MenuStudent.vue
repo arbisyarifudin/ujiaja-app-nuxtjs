@@ -54,7 +54,7 @@
       >
     </li>
     <li class="nav-item">
-      <a class="nav-link d-flex align-items-center" href="/cari-program-studi" target="_blank"
+      <a class="nav-link d-flex align-items-center" href="https://app.ujiaja.com/cari-program-studi" target="_blank"
         ><i class="far fa-hdd fa-2x fa-fw mr-2"></i> Cari Jurusan
         Kuliah</a
       >
