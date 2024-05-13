@@ -214,6 +214,8 @@ Vue.mixin({
       this.$cookiz.remove("_ujiaja");
       this.$store.commit("SET_IS_AUTH", false);
       // this.$store.commit("set", ["dataUser", {}]);
+
+      this.$auth.logout();
     },
     ApiUrl(param, no_separator = false) {
       if(no_separator)  {
