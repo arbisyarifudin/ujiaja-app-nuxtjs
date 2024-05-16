@@ -16,6 +16,13 @@
           >
             <b-spinner small class="mr-1"></b-spinner> Sedang memverifikasi...
           </div>
+          <div
+            v-else-if="redirecting"
+            style="min-width: 400px; max-width: 100%; min-height: 100px; background: rgba(255,255,255,0.5);  box-shadow: 0px 4px 10px 1px rgba(0, 0, 0, 0.1); border-radius: 10px;"
+            class="d-flex align-items-center justify-content-center"
+          >
+            <b-spinner small class="mr-1"></b-spinner> Sedang mengalihkan...
+          </div>
         </div>
       </b-container>
     </ContentWrapper>
@@ -65,13 +72,19 @@ export default {
   },
   data() {
     return {
-      loading: true
+      loading: true,
+      redirecting: false,
     };
   },
   mounted() {
     if (!this.$route.query.token) {
       return this.$router.replace("/masuk");
     }
+
+    this.$auth.logout();
+    this.$cookiz.remove("_ujiaja");
+    this.$store.commit("SET_IS_AUTH", false)
+
     this.loading = true;
     this.$axios
       .$get("/api/verifikasi/" + this.$route.query.token)
@@ -97,7 +110,7 @@ export default {
         }
         return
       })
-      .catch(error => {
+      .catch(async error => {
         console.log(error);
         this.$root.$bvToast.toast(
           "Token tidak valid!",
@@ -108,7 +121,11 @@ export default {
             autoHideDelay: 3000
           }
         );
-        return this.$router.replace("/masuk");
+        this.loading = false;
+
+        this.redirecting = true;
+        // await this.$router.replace("/masuk");
+        window.location.href = window.origin + "/masuk";
       })
       .finally(() => {
         this.loading = false;

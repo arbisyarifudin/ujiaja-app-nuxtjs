@@ -390,10 +390,10 @@ export default {
       }
     ]);
     this.getDetail("programStudi", this.$route.params.id);
-    this.getData("perguruanTinggi", { params: { paginate: 99 } });
+    this.getData("perguruanTinggi", { params: { paginate: 9999 } });
     this.getData("penjurusan", { params: { paginate: 99 } });
     this.getData("mapel", { params: { paginate: 99 } });
-    this.getData("rumpun", { params: { paginate: 99 } });
+    this.getData("rumpun", { params: { paginate: 999 } });
     console.log(this.form.mapels);
   },
   computed: {

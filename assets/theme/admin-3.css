@@ -420,7 +420,7 @@ input:disabled,
   font-size: 12px;
 }
 .crud .crud-body {
-  z-index: 10;
+  z-index: 3 !important;
   position: relative;
 }
 .crud .crud-body.kosong {
