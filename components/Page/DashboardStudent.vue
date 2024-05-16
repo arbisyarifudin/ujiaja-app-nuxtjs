@@ -63,7 +63,7 @@
             <b-form-select
               class="mr-1"
               style="width: 150px"
-              v-if="filter.kategori != 'UTBK' || filter.kategori == 'SM'"
+              v-if="filter.kategori != 'UTBK' && filter.kategori != 'SM'"
               :options="filterList.sub_kategori"
               v-model="filter.id_jenjang"
               :disabled="loading"
