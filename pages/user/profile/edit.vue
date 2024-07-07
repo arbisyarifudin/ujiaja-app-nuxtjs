@@ -523,7 +523,7 @@ export default {
       dataError: [],
       files: [],
       userDocs: [],
-      dataFiles: {}
+      dataFiles: {},
     };
   },
   watch: {
@@ -896,15 +896,15 @@ export default {
         : "";
       this.loading = true;
 
-      if (!id_program_studi) {
-        if (nomor == 1) {
-          this.formSiswa.id_prodi_bind_perguruan = null
-          this.dataOptionProdiBindPerguruan = []
-        } else {
-          this.formSiswa.id_prodi_bind_perguruan_2 = null
-          this.dataOptionProdiBindPerguruan_2 = []
-        }
-      }
+      // if (!id_program_studi) {
+      //   if (nomor == 1) {
+      //     this.formSiswa.id_prodi_bind_perguruan = null
+      //     this.dataOptionProdiBindPerguruan = []
+      //   } else {
+      //     this.formSiswa.id_prodi_bind_perguruan_2 = null
+      //     this.dataOptionProdiBindPerguruan_2 = []
+      //   }
+      // }
 
       console.log(
         "this.formSiswa.id_prodi_bind_perguruan",
