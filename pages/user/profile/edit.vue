@@ -896,6 +896,16 @@ export default {
         : "";
       this.loading = true;
 
+      if (!id_program_studi) {
+        if (nomor == 1) {
+          this.formSiswa.id_prodi_bind_perguruan = null
+          this.dataOptionProdiBindPerguruan = []
+        } else {
+          this.formSiswa.id_prodi_bind_perguruan_2 = null
+          this.dataOptionProdiBindPerguruan_2 = []
+        }
+      }
+
       console.log(
         "this.formSiswa.id_prodi_bind_perguruan",
         this.formSiswa.id_prodi_bind_perguruan
@@ -911,6 +921,7 @@ export default {
       this.$axios
         .$get(`/api/tranStudiPerguruan`, {
           params: {
+            // paginate: !!id_program_studi ? 999 : 20,
             paginate: 9999,
             id_program_studi: id_program_studi,
             id_prodi_bind_perguruan: id_prodi_bind_perguruan
@@ -953,7 +964,7 @@ export default {
               if (
                 this.id_program_studi_2 &&
                 this.formSiswa.id_prodi_bind_perguruan_2 &&
-                this.selectNew_2 === true
+                this.selectNew_2 === true && id_program_studi_selected
               ) {
                 const searchFound = this.dataOptionProdiBindPerguruan_2.find(
                   item => item.id_prodi == id_program_studi_selected.id
@@ -997,7 +1008,7 @@ export default {
               if (
                 this.id_program_studi &&
                 this.formSiswa.id_prodi_bind_perguruan &&
-                this.selectNew === true
+                this.selectNew === true && id_program_studi_selected
               ) {
                 const searchFound = this.dataOptionProdiBindPerguruan.find(
                   item => item.id_prodi == id_program_studi_selected.id
