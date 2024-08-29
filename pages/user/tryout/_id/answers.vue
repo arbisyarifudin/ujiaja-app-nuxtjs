@@ -4,7 +4,7 @@
       <h3>
         <BackUrl
           :title="null"
-          ::url="!$route.query.ref ? `/user/tryout/${dataResult.detail.id_produk}/review` :  $route.query.ref"
+          ::url="!$route.query.ref ? `/user/tryout/${detailProduk.id}/review` :  $route.query.ref"
           class="py-1 px-2 mr-3"
         />
         Kunci Jawaban dan Pembahasan
@@ -18,17 +18,21 @@
       </h2>
     </div>
     <UILoading v-if="loading" />
-    <b-tabs @input="updateTab">
+    <b-tabs v-model="tab" lazy>
       <b-tab :active="tab == t_index" :title="`${tryout.judul_edit} ${tryout.kelompok_soal ? `(${tryout.kelompok_soal})` : ''}`" v-for="(tryout, t_index) in dataResult.tryout" :key="'t-'+t_index" :id="'section-'+t_index">
         <div class="soal mt-4 mb-4 px-2 py-1">
           <div class="mb-4 d-flex justify-content-between">
             <!-- <div class="h4">{{tryout.judul_edit}}</div> -->
             <div class="h5">Soal dan Jawaban Kamu</div>
           </div>
-           <ol class="soal-list">
+
+          <UILoading style="margin-top: 160px;" v-if="loadingSoal && !dataResult.tryoutSoal.length" text="Memuat soal..." />
+
+          <!-- v-for="(soal, s_index) in tryout.soal" -->
+          <ol v-if="!loadingSoal && dataResult.tryoutSoal.length"class="soal-list">
             <li
               class="soal-item mb-4"
-              v-for="(soal, s_index) in tryout.soal"
+              v-for="(soal, s_index) in dataResult.tryoutSoal"
               :key="'s' + s_index"
             >
             <div class="row">
@@ -68,7 +72,7 @@
                           <div v-html="opsi.option"></div>
                         </td>
                         <td class="td-2" v-for="pil in 2">
-                          <div v-if="soal.jawaban_user[o]" class="d-flex justify-content-center form-check">
+                          <div v-if="soal.jawaban_user?.[o]" class="d-flex justify-content-center form-check">
                             <b-form-checkbox :id="'opsi_' + s_index + '_' + o + '_' + pil"
                                 :name="'opsi_' + s_index + '_' + o + '_' + pil"
                                 class="d-inline form-check-input" disabled :value="opsi.uuid + '___' + pil" v-model="soal.jawaban_user[o]"></b-form-checkbox>
@@ -226,19 +230,23 @@ export default {
   data() {
     return {
       loading: true,
+      loadingSoal: false,
       submitting: false,
       detailProduk: {},
       dataResult: {
         detail: {},
-        tryout: []
+        tryout: [],
+        tryoutSoal: []
       },
-      tab: 0,
+      tab: -1,
     };
   },
   async created() {
     if (!this.$route.params.id) return this.$router.go(-1);
     this.getDetail("produk", this.$route.params.id);
-    await this.getResult(this.$route.params.id)
+    await this.getResult()
+
+    // this.tab = this.$route.query?.tab ? parseInt(this.$route.query?.tab) : 0
 
     this.handleInputIsianSingkat();
   },
@@ -249,6 +257,20 @@ export default {
    userDetail() {
      return this.$store.state.dataUser.detail
    }
+  },
+  watch: {
+    async tab(newValue) {
+      console.log('tab', newValue)
+      if (newValue >= 0) {
+        this.dataResult.tryoutSoal = []
+        this.loadingSoal = true
+        const res = await this.getRiwayatPengerjaan()
+        if (!!res) {
+          this.dataResult.tryoutSoal = res.soal
+        }
+        this.loadingSoal = false
+      }
+    }
   },
   methods: {
     updateTab(tabIndex) {
@@ -273,23 +295,92 @@ export default {
         })
         .finally(() => (this.loading = false));
     },
-    async getResult(id) {
-      this.loading = true;
-      await this.$axios
-        .$get(`/api/tryout_user/riwayat-pengerjaan?id_produk=${id}&id_user=${this.user.id}&referensi=${this.$route.query.code}`)
+
+    async getResult () {
+      this.loading = true
+      // const produk = await this.getProduk()
+      // if (!!produk) {
+      //   this.dataResult.detail = produk
+      // }
+      const tryouts = await this.getListTryout()
+      if (!!tryouts) {
+        this.dataResult.tryout = tryouts
+      }
+      this.loading = false
+    },
+
+    async getProduk () {
+      const id = this.$route.params.id
+      return await this.$axios
+        .$get(`/api/v2/student/tryout-user/produk-detail/${id}`)
         .then(res => {
           console.log(res);
           if (res.success) {
-            this.dataResult = res.data;
+            // this.dataResult = res.data;
+            return res.data
           }
-          return true;
+          return false;
         })
         .catch(err => {
           console.log(err);
           this.catchError(err);
+          return false
         })
-        .finally(() => (this.loading = false));
     },
+
+    async getListTryout () {
+      const id = this.$route.params.id
+      return await this.$axios
+        .$get('/api/v2/student/tryout-user/list-tryout', {
+          params: {
+            id_produk: id,
+            id_user: this.user.id,
+            referensi: this.$route.query.code,
+            id_tryout: this.tabSelected
+          }
+        })
+        .then(res => {
+          console.log(res);
+          if (res.success) {
+            // this.dataResult = res.data;
+            return res.data
+          }
+          return false;
+        })
+        .catch(err => {
+          console.log(err);
+          this.catchError(err);
+          return false
+        })
+    },
+
+    async getRiwayatPengerjaan () {
+      const id = this.$route.params.id
+      const tryout = this.dataResult.tryout[this.tab]
+      return await this.$axios
+        .$get('/api/v2/student/tryout-user/riwayat-pengerjaan', {
+          params: {
+            id_produk: id,
+            id_user: this.user.id,
+            referensi: this.$route.query.code,
+            id_tryout: tryout.id
+          }
+        })
+        .then(res => {
+          console.log(res);
+          if (res.success) {
+            // this.dataResult.tryoutSoal = res.data.soal;
+            return res.data
+          }
+          return false;
+        })
+        .catch(err => {
+          console.log(err);
+          this.catchError(err);
+          return false
+        })
+    },
+
     optionColor(soal, opsi) {
       if(opsi.uuid == soal.jawaban_pertanyaan && soal.koreksi_jawaban == 'Benar') {
           return 'text-success font-weight-bold'
@@ -458,12 +549,13 @@ export default {
       // console.log('tabSelected', tabSelected)
       if (tabSelected < 0) return
 
-      const subtestSelected = this.dataResult.tryout[tabSelected]
+      // const subtestSelected = this.dataResult.tryout[tabSelected]
       // console.log('subtestSelected', subtestSelected)
 
-      if (!subtestSelected) return
+      // if (!subtestSelected) return
 
-      const soalIsianSingkatList = this.dataResult.tryout[tabSelected].soal.filter(v => v.template_pertanyaan === 'Isian Singkat')
+      // const soalIsianSingkatList = this.dataResult.tryout[tabSelected].soal.filter(v => v.template_pertanyaan === 'Isian Singkat')
+      const soalIsianSingkatList = this.dataResult.tryoutSoal.filter(v => v.template_pertanyaan === 'Isian Singkat')
       // console.log('soalIsianSingkatList', soalIsianSingkatList)
 
       const inputFieldElements = document.querySelectorAll('.ql-inputfield input')
