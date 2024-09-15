@@ -8,6 +8,9 @@
           <div class="mt-4 mb-5">
             <b-tabs pills nav-wrapper-class="mb-4" v-model="tabProfile">
               <b-tab title="Identitas Diri" active>
+                <div class="d-flex justify-content-end">
+                  <div class="text-danger mb-2" style="font-size: 12px">*) wajib diisi</div>
+                </div>
                 <b-row>
                   <b-col>
                     <div class="form-group reg-siswa">
@@ -203,6 +206,9 @@
                 </b-row>
               </b-tab>
               <b-tab title="Dokumen Pendukung" v-if="akun.role_user == 'teacher'">
+                <div class="d-flex justify-content-end">
+                  <div class="text-danger mb-2" style="font-size: 12px">*) wajib diisi</div>
+                </div>
                 <b-row>
                   <b-col md="6">
                     <div class="form-group reg-siswa" v-for="(doc, index) in userDocs" :key="'docIn' + index">
@@ -218,7 +224,7 @@
                   <b-col md="6">
                     <b-row v-if="apiUrl && userDocs.length > 0">
                       <b-col md="4" v-for="(doc, index) in userDocs" :key="'docIm' + index">
-                        <b-img fluid :id="doc.doc_type + '_preview'" :src="apiUrl(doc.doc_file)"></b-img>
+                        <b-img v-if="doc.doc_file" fluid :id="doc.doc_type + '_preview'" :src="apiUrl(doc.doc_file)"></b-img>
                         <!-- <div class="text-center" v-if="doc.doc_file || (dataFiles[doc.doc_type] && dataFiles[doc.doc_type].file)">
                           Status Approval :
                           <span :class="badgeStatus(doc.doc_status)" v-text="doc.doc_status"></span>
@@ -229,6 +235,9 @@
                 </b-row>
               </b-tab>
               <b-tab title="Alamat" v-if="akun.role_user != 'parent'">
+                <div class="d-flex justify-content-end">
+                  <div class="text-danger mb-2" style="font-size: 12px">*) wajib diisi</div>
+                </div>
                 <b-row>
                   <b-col>
                     <div class="form-group reg-siswa">
@@ -276,6 +285,9 @@
                 </b-row>
               </b-tab>
               <b-tab title="Akun">
+                <div class="d-flex justify-content-end">
+                  <div class="text-danger mb-2" style="font-size: 12px">*) wajib diisi</div>
+                </div>
                 <div class="mb-3 alert alert-danger">
                   <i class="fas fa-exclamation fa-fw mr-1"></i> Kosongkan form
                   jika tidak diubah.
@@ -339,6 +351,9 @@
                 </div>
               </b-tab>
               <b-tab title="Data Orangtua" v-if="profil && profil.parent && akun.role_user == 'siswa'">
+                <div class="d-flex justify-content-end">
+                  <div class="text-danger mb-2" style="font-size: 12px">*) wajib diisi</div>
+                </div>
                 <b-row>
                   <b-col>
                     <div class="form-group reg-siswa">
@@ -724,29 +739,37 @@ export default {
         nomor_telephone: this.profil.parent.nomor_telephone
       };
     }
+
+    this.userDocs = [
+      {
+        doc_label: "KTP/Passport/SIM",
+        doc_type: "idcard",
+        doc_file: null,
+        doc_status: "Pending"
+      },
+      {
+        doc_label: "Ijazah Terakhir",
+        doc_type: "ijazah",
+        doc_file: null,
+        doc_status: "Pending"
+      },
+      {
+        doc_label: "NPWP",
+        doc_type: "npwp",
+        doc_file: null,
+        doc_status: "Pending"
+      },
+    ];
+
     if (this.profil && this.profil.user_doc && this.profil.user_doc.length) {
-      this.userDocs = this.profil.user_doc;
-    } else {
-      this.userDocs = [
-        {
-          doc_label: "KTP/Passport/SIM",
-          doc_type: "idcard",
-          doc_file: null,
-          doc_status: "Pending"
-        },
-        {
-          doc_label: "NPWP",
-          doc_type: "npwp",
-          doc_file: null,
-          doc_status: "Pending"
-        },
-        {
-          doc_label: "Ijazah Terakhir",
-          doc_type: "ijazah",
-          doc_file: null,
-          doc_status: "Pending"
+      // this.userDocs = this.profil.user_doc;
+
+      this.profil.user_doc.forEach(doc => {
+        const index = this.userDocs.findIndex(item => item.doc_type == doc.doc_type);
+        if (index > -1) {
+          this.userDocs[index] = doc;
         }
-      ];
+      });
     }
     // this.getMaster("penjurusan");
     // if (this.$cookiz.get("provinsi")) {
