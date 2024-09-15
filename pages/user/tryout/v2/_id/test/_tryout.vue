@@ -175,7 +175,7 @@
                       </div>
                     </template>
 
-                    <button type="button" class="btn btn-sm btn-light px-3 square" @click.prevent="onBatalJawab">
+                    <button v-if="currentSoal" type="button" class="btn btn-sm btn-light px-3 square" @click.prevent="onBatalJawab">
                       <i class="fas fa-fa fa-times mr-1"></i>
                       Batal Jawab
                     </button>

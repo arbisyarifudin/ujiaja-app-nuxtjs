@@ -191,6 +191,7 @@
                       </b-form-radio>
                     </b-form-group>
                     <button
+                      v-if="currentSoal"
                       type="button"
                       class="btn btn-sm btn-light px-3 square"
                       @click.prevent="

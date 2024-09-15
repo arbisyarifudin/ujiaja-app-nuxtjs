@@ -186,7 +186,7 @@
           </button>
           <button
             class="btn btn-outline-primary square ml-2"
-            :disabled="sending || !resultAccessible"
+            :disabled="sending || (!resultAccessible && !!resultAccessibleAt)"
             @click.prevent="generatePDF(true)"
             v-b-tooltip.hover title="Kirim sertifikat ke emailmu"
           >
@@ -203,7 +203,7 @@
           ><i class="fas fa-file-alt fa-fw mr-1"></i> Review Tryout</nuxt-link
         >
       </div>
-      <div v-if="!resultAccessible" class="mt-1 text-danger">
+      <div v-if="!resultAccessible && !!resultAccessibleAt" class="mt-1 text-danger">
         <small v-if="dataResult.detail.tipe_event === 'Perorangan'">* Sertifikat hanya dapat diunduh pada {{ resultAccessibleAt }}</small>
         <small v-if="dataResult.detail.tipe_event === 'Masal'">* Sertifikat hanya dapat diunduh setelah Tryout berakhir pada {{resultAccessibleAt}}</small>
       </div>

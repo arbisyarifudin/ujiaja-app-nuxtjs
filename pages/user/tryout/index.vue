@@ -221,7 +221,7 @@
         <div class="d-flex justify-content-between align-items-center mb-3">
           <h5 class="info-kelas">Tryout Seleksi Mandiri</h5>
           <router-link
-            to="/user/tryout/search?category=SM&package=Reguler&event=Perorangan"
+            to="/user/tryout/search?category=SM&event=Perorangan"
             class="text-primary"
             >Lihat Semua</router-link
           >
