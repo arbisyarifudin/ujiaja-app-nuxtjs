@@ -54,7 +54,8 @@
                 "
               >
                 <img
-                  :src="iconBank(dataDetail.nama_bank)"
+                  v-if="dataDetail.bank"
+                  :src="iconBank(dataDetail.bank.nama_bank)"
                   alt="icon bank"
                   class="mb-3"
                 />
