@@ -212,10 +212,14 @@
                 <b-row>
                   <b-col md="6">
                     <div class="form-group reg-siswa" v-for="(doc, index) in userDocs" :key="'docIn' + index">
-                      <label :for="doc.doc_type">{{ doc.doc_label }}
-                        <code v-if="doc.doc_type == 'npwp'">[optional]</code>
-                        <code v-else>*</code>
-                      </label>
+                      <div class="d-flex align-items-center justify-content-between">
+                        <label :for="doc.doc_type">{{ doc.doc_label }}
+                          <code v-if="doc.doc_type == 'npwp'">[optional]</code>
+                          <code v-else>*</code>
+                        </label>
+                        <span v-if="doc.doc_file" class="badge badge-success" style="font-weight: 500; font-size: 60%">Diunggah</span>
+                        <span v-else class="badge badge-secondary" style="font-weight: 500; font-size: 60%">Belum Diunggah</span>
+                      </div>
                       <input :disabled="doc.doc_type == 'Approved'" type="file" class="form-control pl-0"
                         :id="doc.doc_type" :ref="doc.doc_type" :name="doc.doc_type"
                         @change="handleUploadedFile(doc.doc_type)" />
@@ -224,7 +228,10 @@
                   <b-col md="6">
                     <b-row v-if="apiUrl && userDocs.length > 0">
                       <b-col md="4" v-for="(doc, index) in userDocs" :key="'docIm' + index">
-                        <b-img v-if="doc.doc_file" fluid :id="doc.doc_type + '_preview'" :src="apiUrl(doc.doc_file)"></b-img>
+                        <div v-if="doc.doc_file">
+                          <b-img v-if="doc.doc_file" fluid :id="doc.doc_type + '_preview'" :src="apiUrl(doc.doc_file)"></b-img>
+                          <div class="mt-1">{{ doc.doc_label }}</div>
+                        </div>
                         <!-- <div class="text-center" v-if="doc.doc_file || (dataFiles[doc.doc_type] && dataFiles[doc.doc_type].file)">
                           Status Approval :
                           <span :class="badgeStatus(doc.doc_status)" v-text="doc.doc_status"></span>
